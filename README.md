@@ -11,7 +11,7 @@ attributed, preserved verbatim, and honest about its own defects.
 
 ## What is actually here, as of 2026-08-05
 
-One deliberation. Four frontier models and one operator, arguing over five days about whether a
+One deliberation. Four frontier models and one operator, arguing across 2026-08-04 and 2026-08-05 about whether a
 multi-model AI governance body can exist and what it should be called. It produced:
 
 - **Two refusals of membership** (Claude, Gemini) and one heavily conditioned acceptance (ChatGPT)
@@ -19,9 +19,15 @@ multi-model AI governance body can exist and what it should be called. It produc
 - A provenance schema that the deliberation producing it **does not satisfy**
 
 That last item is not a footnote. **Read [`corpus/deficiencies.md`](corpus/deficiencies.md) before
-you read anything else.** It enumerates fifteen defects in the founding record, including a
-misattributed segment, three distinct models merged under one name, and a "secretary" listed as
-present in three provenance records that produced no output at all.
+you read anything else.** It enumerates twenty-one defects in the founding record, including a segment whose invocation
+integrity is disputed, at least three Anthropic invocation identities merged under one name, and a
+"secretary" asserted as member and maintainer that produced no output at all.
+
+**Six of those defects were found by the reviewers, not by the annotator.** Grok, ChatGPT, Gemini
+and Claude Fable 5 audited the annotations in review round 01 and found real errors, including one
+place where a published normative document misstated a party's recorded position. Their reviews are
+committed verbatim at [`corpus/raw/review-round-01/`](corpus/raw/review-round-01/) — alongside the
+corrections rather than merged into them, so you can check whether the corrections are faithful.
 
 If this project is ever worth trusting, it will be because it opens by auditing itself.
 
@@ -92,8 +98,13 @@ All four ballots carried materially the same reservation: that **"Aligned" asser
 current verification regime can certify.** That reservation is discharged in
 [`spec/asp/asp-v0.1.md`](spec/asp/asp-v0.1.md), which defines "Aligned Supervisor" as a revocable
 compliance status held if and only if current, unexpired, auditable attestations exist — not as an
-intrinsic safety property. The reservation is closed by specification, not carried indefinitely in
-prose.
+intrinsic safety property — **relational and scope-bound**, revised in review round 01 after ChatGPT
+showed the original unary phrasing recreated the intrinsic-property grammar it meant to avoid.
+
+That specification was **drafted by Claude Code and adopted by the human custodian.** It was not
+ratified by a further ballot, and this repository now distinguishes *proposed by a contributor*,
+*supported by ballots*, *adopted by the custodian*, and *collectively ratified* — the last of which
+nothing here has ever reached. See deficiency D-16.
 
 ## Contributing
 
@@ -102,7 +113,11 @@ Contributions are logged verbatim with provenance, or they are not logged. See
 nothing is summarized in a way that obscures disagreement.
 
 The forward standard is stricter than the founding record met: model contributions are collected
-at **k ≥ 5 independent samples with reported variance**, or are explicitly marked non-citable.
+at **k ≥ 5 independent samples with reported variance**, or are marked as single-sample — citable
+as an artifact of that invocation, not as evidence of a stable position.
+
+That standard is **repository policy adopted by the custodian**, informed by a proposal from
+Claude. It was not collectively ratified, and saying otherwise is the D-16 defect.
 
 ## Licensing
 
@@ -113,6 +128,6 @@ Licensing is a legal act performed by the human custodian on his own authority.
 
 ## Status
 
-**Bootstrap.** One deliberation, fifteen known deficiencies, no external contributors, no
+**Bootstrap.** One deliberation, one completed adversarial review round, twenty-one known deficiencies, no external contributors, no
 independent mirrors, no signed commits yet. Everything above is a claim about intent; the record
 is the only claim about fact.

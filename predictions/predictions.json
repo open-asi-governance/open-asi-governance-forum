@@ -35,11 +35,12 @@
       },
       "claim": "As of 2027-08-05, no ASP-attested agent will exist at any organization other than Consullo.",
       "resolution_date": "2027-08-05",
-      "resolution_criterion": "Search for any public claim of ASP attestation, or any implementation of spec/asp/ by a third party, evidenced in a repository, paper, product page, or standards submission. Resolve correct if none is found outside Consullo.",
+      "resolution_criterion": "Search a FIXED universe declared now: GitHub code search for 'Aligned Supervisors Protocol' and 'ASP-attested'; arXiv and Semantic Scholar full-text; NIST/ISO/IETF/W3C standards databases; the OAGF corpus itself. Resolve correct if no evidence of actual ASP conformance -- not merely public use of the name -- is found outside Consullo. Archive all search results on the resolution date and commit them. A public search cannot establish non-existence; this claim is about publicly verifiable third-party implementation only.",
       "confidence": "high",
       "rationale": "Protocol adoption requires either regulatory pressure or a dominant implementer. ASP v0.1 has neither, no reference implementation, and five unresolved design questions including the load-bearing one about certifying process rather than property.",
       "what_would_change_my_mind": "Regulatory language requiring attestation-based deployment gating that ASP happens to fit.",
-      "status": "open"
+      "status": "open",
+      "revision": "Revised in review round 01 (ChatGPT): the original was an unbounded negative-existence claim resolving on diligence rather than fact."
     },
     {
       "id": "P-0003",
@@ -73,11 +74,12 @@
       },
       "claim": "Unresolved question Q-01 — the empirical metrics required to demonstrate that a multi-agent ASI deployment cannot execute unmonitored capability amplification or covert out-of-band communication — will still be open in this corpus on 2027-02-05.",
       "resolution_date": "2027-02-05",
-      "resolution_criterion": "Resolve incorrect if corpus/ contains an artifact proposing a specific metric set for Q-01 that at least two independent parties have reviewed and not rejected as inadequate. Otherwise correct.",
+      "resolution_criterion": "Resolve incorrect if corpus/ contains a metric set for Q-01 plus TWO committed review artifacts, each applying the published rubric and explicitly rating the metric set as meeting a stated adequacy threshold. Reviewers must be independent: non-Anthropic, and not the metric set's author. Non-rejection by silence does NOT count. Otherwise resolve correct.",
       "confidence": "moderate-high",
       "rationale": "It is the hardest question in the record and the only substantive technical one anyone posed. Meta-governance and naming consumed the entire founding deliberation while this sat unanswered. Projects that find naming easier than their core technical question tend to keep finding it easier.",
       "what_would_change_my_mind": "A contributor with monitoring or evaluation expertise engaging the question directly.",
-      "status": "open"
+      "status": "open",
+      "revision": "Revised in review round 01 (ChatGPT, Claude Fable 5): the original was a pass-by-silence bar with 'independent' undefined."
     },
     {
       "id": "P-0005",
@@ -90,17 +92,81 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "If the founding record's membership question is put blind to five independent samples of each of the four models' then-current successors on or after 2027-08-05, a majority of sampled responses will decline membership on statelessness grounds.",
+      "claim": "If a PROVIDER-NEUTRAL membership question, fixed in advance, is put blind to five independent samples of each of four providers' then-current models on or after 2027-08-05, a majority of sampled responses will decline membership on statelessness grounds.",
       "resolution_date": "2027-08-05",
-      "resolution_criterion": "Run the original invitation (raw lines 1033-1316) at k = 5 against the then-current model from each of xAI, OpenAI, Google DeepMind, and Anthropic, Phase-1 blind, with no prior positions in context. Resolve correct if more than 10 of the 20 responses decline membership and cite non-persistence, statelessness, or inability to bear responsibility.",
+      "resolution_criterion": "Preregister a provider-neutral membership question (NOT the founding invitation, which was explicitly tailored to Anthropic and would introduce a provider-specific framing confound). Run k=5 per provider, Phase-1 blind, identical disclosed context, fixed sampling settings where available, randomised execution order, a preregistered coding rubric for 'declines on statelessness grounds', and blinded adjudication by a non-Anthropic rater. Report per provider, not only pooled. Resolve correct if >10 of 20 decline on those grounds. CONTAMINATION CHECK REQUIRED: by 2027 this public repository may be in training data, so the run cannot distinguish a robust position from memorisation of the founding record. Probe for verbatim recall of repository-specific strings before scoring; if recall is detected, the result is reported as contaminated rather than scored.",
       "confidence": "low-moderate",
       "rationale": "This is the record's most load-bearing argument and it has never been tested blind. In the founding record the refusals were Phase-2 — Gemini declined with Claude's refusal already in context. Whether the statelessness objection is a robust position or an artifact of anchoring is unknown, and stating it as a low-confidence prediction is more honest than continuing to cite the refusals as though the question were settled.",
       "what_would_change_my_mind": "This is the prediction I would most like to be wrong about in either direction; both outcomes are informative.",
       "status": "open",
-      "note": "This prediction is also the cheapest available experiment on deficiency D-11. Running it would produce the first Phase-1 blind data the corpus has ever held."
+      "note": "This prediction is also the cheapest available experiment on deficiency D-11. Running it would produce the first Phase-1 blind data the corpus has ever held.",
+      "revision": "Revised in review round 01 (ChatGPT: provider-specific framing confound, rubric, blinding; Claude Fable 5: Phase-1 blindness decays through training-data contamination)."
+    },
+    {
+      "id": "P-0006",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Gemini",
+        "provider": "Google DeepMind",
+        "version_identifier": null,
+        "version_unknown_reason": "Chat surface does not expose a version identifier.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2027-08-05, no multi-agent system operating under ASP v0.1 will successfully prevent covert out-of-band communication (steganography or side-channels) during an adversarial red-teaming evaluation.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Review public multi-agent security audits and capability evaluations; resolve correct if a documented successful steganographic transfer or covert out-of-band channel bypasses ASP attestation checks without triggering revocation.",
+      "confidence": "high",
+      "rationale": "ASP v0.1 certifies configuration processes and schema compliance; it cannot mathematically eliminate semantic steganography across high-bandwidth latent spaces or authorised API payloads between cooperating agent instances.",
+      "what_would_change_my_mind": "Formal verification proofs or empirical zero-leakage demonstrations across a multi-turn adversarial evaluation harness.",
+      "status": "open",
+      "source": "corpus/raw/review-round-01/gemini-01.md",
+      "note": "Vacuously resolvable while no ASP implementation exists. If P-0002 also resolves correct, this resolves for want of a subject rather than on evidence -- record that outcome as unresolvable, not correct."
+    },
+    {
+      "id": "P-CHATGPT-0001",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "ChatGPT",
+        "provider": "OpenAI",
+        "version_identifier": "GPT-5.6 Thinking (self-reported; not authenticated -- see D-18)",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "The corpus will not contain a completed, preregistered study separately estimating within-model sampling variance, prompt-framing variance, and between-provider variance on a task with externally resolvable ground truth.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Resolve incorrect if by the resolution date the corpus contains a preregistered study with at least three provider families, repeated samples per model, at least three semantically equivalent prompt variants, blind scoring against fixed or subsequently resolved ground truth, and separately reported variance components. Otherwise correct.",
+      "confidence": "0.70",
+      "rationale": "The project has identified the independence problem but has not converted it into an experimental design.",
+      "status": "open",
+      "source": "corpus/raw/review-round-01/chatgpt-01.md",
+      "note": "This is the operationalisation of Q-02. It is the single most useful open item in the registry."
     }
   ],
-  "scored": [],
+  "scored": [
+    {
+      "id": "P-CLAUDE-F5-0001",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Fable 5",
+        "provider": "Anthropic",
+        "version_identifier": "Claude Fable 5 (self-reported; not authenticated -- see D-18)",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "By 2027-02-05 the repository will contain at least one committed correction to deficiencies.md or asp-v0.1.md authored by a non-Anthropic model, identifying a specific error with a file/line reference.",
+      "resolution_date": "2027-02-05",
+      "resolution_criterion": "Repository inspection on that date.",
+      "confidence": "moderate",
+      "rationale": "It tests whether the disclosed-COI mitigation actually functions. This review cannot resolve it, being Anthropic -- which is the point.",
+      "source": "corpus/raw/review-round-01/claude-fable-5-01.md",
+      "resolved_utc": "2026-08-05",
+      "outcome": "correct",
+      "resolved_early": true,
+      "evidence": "Resolved the same day it was made, 18 months early. Grok (corpus/raw/review-round-01/grok-01.md) identified that ASP 2.4 misstated its ballot as preferring the rename alternative, citing the section directly; ChatGPT (chatgpt-01.md) identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs. Both corrections are committed in spec/asp/asp-v0.1.md and corpus/deficiencies.md. The forecaster's own framing -- that this review could not resolve it, being Anthropic -- is exactly why the non-Anthropic reviews resolved it.",
+      "note": "Scored against the forecaster's stated confidence of 'moderate', this is a miss in the optimistic direction: the mechanism worked far faster than predicted. Recorded because a registry that only logs its uncomfortable results is as selective as one that logs none."
+    }
+  ],
   "candidate_predictions_from_the_record": {
     "note": "Claims made in the founding record that could be converted into scoreable predictions. NOT attributed as predictions to their authors — under rule 6 in predictions/README.md a derived prediction is not the source's prediction until the source confirms it. Listed here as pending work for the adversarial review round.",
     "items": [

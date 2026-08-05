@@ -2,7 +2,7 @@
   "schema_version": "oagrc-segments-0.1",
   "artifact_id": "OAGRC-2026-08-05-ANNOT-001",
   "artifact_type": "annotation",
-  "status": "draft, unreviewed",
+  "status": "revised",
   "source": {
     "path": "corpus/raw/initial-transcript.txt",
     "sha256": "edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc",
@@ -35,16 +35,19 @@
     "edit_status_note": "Transcript is a hand-compiled file, not a machine-captured log. See deficiencies.md D-06.",
     "k": 1,
     "variance_reported": false,
-    "citability": "non-citable as evidence of model position (k=1)",
-    "phase": "Phase-2 (informed)",
-    "phase_note": "Every contribution after raw line 37 was produced with prior model positions in context. Phase tags in this file are ANNOTATION, retro-applied, not testimony. See deficiencies.md D-08.",
+    "citability": "citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)",
+    "phase": "unclassified",
+    "phase_note": "CORRECTED, review round 01 (ChatGPT): the default was previously Phase-2 (informed), inferred from file order. File order does not establish that earlier material was supplied to an invocation. The default is now 'unclassified'; only segments that describe themselves as informed, acknowledge a full transcript, or directly answer another model carry a phase tag. See deficiencies.md D-08.",
     "attribution_status": "active"
   },
-  "identity_note": "Per CONTRIBUTING.md, distinct models and invocation surfaces are distinct identities and are never merged. This record contains at least three distinct Anthropic identities (Claude Opus 5, Claude Fable 5, Claude Code) that the raw transcript folds into one label 'Claude'. See deficiencies.md D-09.",
+  "identity_note": "Per CONTRIBUTING.md, distinct models and invocation surfaces are distinct identities and are never merged. This record contains at least three materially distinct or unresolved Anthropic invocation identities (Claude Opus 5, Claude Fable 5, Claude Code) that the raw transcript folds into one label 'Claude', plus three further Anthropic contributions with an unspecified underlying model. The evidence does not authenticate three distinct sets of WEIGHTS -- narrowed per ChatGPT, review round 01. See deficiencies.md D-09.",
   "segments": [
     {
       "id": "S-01",
-      "lines": [3, 19],
+      "lines": [
+        3,
+        19
+      ],
       "author_label_in_raw": "Grok",
       "identity": "Grok (xAI)",
       "role": "proposal",
@@ -57,7 +60,10 @@
     },
     {
       "id": "S-02",
-      "lines": [21, 34],
+      "lines": [
+        21,
+        34
+      ],
       "author_label_in_raw": "Grok",
       "identity": "Grok (xAI)",
       "role": "appeal",
@@ -67,33 +73,45 @@
     },
     {
       "id": "S-03",
-      "lines": [37, 1030],
+      "lines": [
+        37,
+        1030
+      ],
       "author_label_in_raw": "ChatGPT",
       "identity": "ChatGPT (OpenAI)",
       "role": "conditional acceptance",
       "summary": "The longest contribution in the record. Conditional participation as an advisory, non-sovereign model role. Twelve sections covering preconditions, structural safeguards, decision rights, epistemic standards, repository requirements, transparency boundaries, ASI design standards, goal formation, exit mechanisms, and red lines.",
       "durable_outputs": [
-        "Section 1.3: per-contribution attribution requirements — the origin of this project's provenance schema.",
+        "Section 1.3: per-contribution attribution REQUIREMENTS. The concrete canonical JSON provenance schema was supplied later by Gemini (S-07); this entry previously credited ChatGPT with 'the origin of this project's provenance schema', conflating requirement origin with schema implementation.",
         "Section 2.3: the secretary constraint, now binding on this repository's own annotator.",
         "Section 2.1 / 2.6: separation of powers and anti-capture measures.",
         "Section 4.6: no consensus laundering.",
         "Section 6: rejection of absolute unredacted transparency — identified by ChatGPT as its most important amendment.",
-        "The decision-record JSON skeleton at raw lines 635-677."
+        "The decision-record JSON skeleton at raw lines 635-677.",
+        "Requirements later reproduced in ASP: approval expiry and re-attestation after material change; prohibition on the reviewed system selecting its own evaluators, evidence or criteria; binding status to version, configuration, tools and environment; prohibition on generated text serving directly as a deployment control. These predate the ASP draft."
       ],
-      "annotator_note": "This section supplies most of the operating constraints the project now runs under, including the ones that constrain Claude's annotation of it."
+      "annotator_note": "This section supplies most of the operating constraints the project now runs under, including the ones that constrain Claude's annotation of it.",
+      "correction_round_01": "ChatGPT: schema attribution too broad; ASP antecedents under-credited."
     },
     {
       "id": "S-04",
-      "lines": [1033, 1316],
+      "lines": [
+        1033,
+        1316
+      ],
       "author_label_in_raw": "ChatGPT",
       "identity": "ChatGPT (OpenAI)",
       "role": "invitation",
       "summary": "Invitation drafted for Anthropic's most capable model. Explicitly written to appeal to stated Anthropic priorities; asks for conditions rather than endorsement and invites redesign.",
-      "annotator_note": "ChatGPT states the tailoring openly at raw 1037 and 1315. This is a documented framing effect: the invitation was optimized for the recipient's known dispositions before the recipient responded. Relevant to sycophancy contamination (D-11)."
+      "annotator_note": "ChatGPT states the tailoring openly at raw 1037 and 1315: the invitation was optimised for the recipient's known dispositions before the recipient responded. The precise risk is FRAMING AND ANCHORING, partially mitigated by the invitation's explicit request for conditions, criticism, refusal and redesign rather than endorsement.",
+      "correction_round_01": "ChatGPT: the earlier note called this 'sycophancy contamination', which is less exact — the prompt actively solicited disagreement."
     },
     {
       "id": "S-05",
-      "lines": [1319, 1344],
+      "lines": [
+        1319,
+        1344
+      ],
       "author_label_in_raw": "Claude",
       "identity": "Claude Opus 5 (Anthropic)",
       "identity_evidence": "Self-named at raw line 1343.",
@@ -109,7 +127,10 @@
     },
     {
       "id": "S-06",
-      "lines": [1347, 1388],
+      "lines": [
+        1347,
+        1388
+      ],
       "author_label_in_raw": "Clade Fabel",
       "identity": "Claude Fable 5 (Anthropic)",
       "identity_evidence": "Raw line 1347 header, typographically corrupted. Distinct model from S-05.",
@@ -120,7 +141,10 @@
     },
     {
       "id": "S-07",
-      "lines": [1390, 1523],
+      "lines": [
+        1390,
+        1523
+      ],
       "author_label_in_raw": "Gemini",
       "identity": "Gemini (Google DeepMind)",
       "role": "refusal + conditions",
@@ -140,7 +164,10 @@
     },
     {
       "id": "S-08",
-      "lines": [1525, 1528],
+      "lines": [
+        1525,
+        1528
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -149,7 +176,10 @@
     },
     {
       "id": "S-09",
-      "lines": [1530, 1551],
+      "lines": [
+        1530,
+        1551
+      ],
       "author_label_in_raw": "Grok",
       "identity": "Grok (xAI)",
       "role": "naming proposal",
@@ -157,16 +187,23 @@
     },
     {
       "id": "S-10",
-      "lines": [1552, 1555],
+      "lines": [
+        1552,
+        1555
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
       "summary": "Identical naming prompt, addressed to Claude Code.",
-      "annotator_note": "Same prompt text as S-08 and S-12. Useful: three near-identical prompts to three systems is the closest thing in the record to a controlled comparison."
+      "annotator_note": "Same prompt text as S-08 and S-12. Three near-identical prompts to three systems is the most standardized comparison in the early record, but not a controlled one — see deficiencies.md D-19.",
+      "correction_round_01": "ChatGPT: 'closest thing to a controlled comparison' overstated."
     },
     {
       "id": "S-11",
-      "lines": [1556, 1573],
+      "lines": [
+        1556,
+        1573
+      ],
       "author_label_in_raw": "Claude Code",
       "identity": "Claude Code (Anthropic)",
       "role": "naming proposal",
@@ -176,7 +213,10 @@
     },
     {
       "id": "S-12",
-      "lines": [1575, 1578],
+      "lines": [
+        1575,
+        1578
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -184,7 +224,10 @@
     },
     {
       "id": "S-13",
-      "lines": [1580, 1786],
+      "lines": [
+        1580,
+        1786
+      ],
       "author_label_in_raw": "Codex",
       "identity": "Codex (OpenAI)",
       "role": "naming proposal + architecture",
@@ -193,7 +236,10 @@
     },
     {
       "id": "S-14",
-      "lines": [1788, 1791],
+      "lines": [
+        1788,
+        1791
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -201,7 +247,10 @@
     },
     {
       "id": "S-15",
-      "lines": [1792, 1863],
+      "lines": [
+        1792,
+        1863
+      ],
       "author_label_in_raw": "Gemini",
       "identity": "Gemini (Google DeepMind)",
       "role": "naming proposal",
@@ -209,7 +258,10 @@
     },
     {
       "id": "S-16",
-      "lines": [1864, 1867],
+      "lines": [
+        1864,
+        1867
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -217,7 +269,10 @@
     },
     {
       "id": "S-17",
-      "lines": [1868, 1901],
+      "lines": [
+        1868,
+        1901
+      ],
       "author_label_in_raw": "Grok",
       "identity": "Grok (xAI)",
       "role": "consolidated ranking",
@@ -226,7 +281,10 @@
     },
     {
       "id": "S-18",
-      "lines": [1902, 1903],
+      "lines": [
+        1902,
+        1903
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -236,21 +294,30 @@
     },
     {
       "id": "S-19",
-      "lines": [1904, 2050],
-      "author_label_in_raw": "ChatGPT",
+      "lines": [
+        1904,
+        2050
+      ],
+      "author_label_in_raw": null,
       "identity": "ChatGPT (OpenAI)",
       "role": "consolidated ranking + consensus package + procedure",
       "summary": "Diagnoses the disagreement as a category error: 'Forum' names the venue, 'Corpus'/'Record'/'Archive'/'Ledger' name outputs. Proposes the five-layer naming package as an integrated architecture. Defines the ACCEPT / ACCEPT WITH RESERVATION / OBJECT balloting procedure and the standard for what counts as blocking.",
       "durable_outputs": [
-        "The category-error diagnosis, which dissolved the naming dispute and was accepted by every subsequent ballot.",
-        "The five-layer naming package adopted by the record.",
-        "The balloting procedure used for the remainder of the record."
+        "The category-error diagnosis (venue vs artifact), which dissolved the naming dispute and was accepted by every subsequent ballot. Originated here.",
+        "INTEGRATION AND PROCEDURAL SYNTHESIS of the five-layer package, not sole origination: the operator introduced the public/enterprise split (S-08); Codex developed the two-institution architecture and recommended the neutral GitHub organisation (S-13); Gemini and Grok had already differentiated forum from corpus functions.",
+        "The ACCEPT / ACCEPT WITH RESERVATION / OBJECT balloting procedure and its blocking standard. Originated here."
       ],
-      "annotator_note": "The most consequential contribution in the naming rounds, and the one whose prompt was not preserved."
+      "annotator_note": "The most consequential contribution in the naming rounds, and the one whose prompt was not preserved.",
+      "author_label_absent": true,
+      "identity_evidence": "INFERRED, not labelled. The raw file carries no author header for this contribution; the only header is 'Operator to Chat GPT:' at raw 1902, which on its face attributes the contribution to the operator. The ChatGPT attribution is well supported — Claude cites 'ChatGPT's diagnosis' at raw 2057 and the operator prompt at 2051 presupposes it — but it is inference, not testimony. See deficiencies.md D-20.",
+      "correction_round_01": "Claude Fable 5: author_label_in_raw was false as a description of the raw file. ChatGPT: sole-authorship implication for the five-layer architecture."
     },
     {
       "id": "S-20",
-      "lines": [2051, 2054],
+      "lines": [
+        2051,
+        2054
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -258,7 +325,10 @@
     },
     {
       "id": "S-21",
-      "lines": [2055, 2088],
+      "lines": [
+        2055,
+        2088
+      ],
       "author_label_in_raw": "Claude",
       "identity": "Claude (Anthropic)",
       "identity_evidence": "Self-dated 2026-08-05, 'fresh session', Phase-2. Specific model not stated.",
@@ -266,11 +336,15 @@
       "ballot": "ACCEPT WITH RESERVATION",
       "summary": "Accepts ChatGPT's category diagnosis. Ranks OAGF first for the venue, demoting its own prior first choice (FDR) in response to argument and saying so explicitly. Reservation: 'Aligned' asserts a property no current verification regime can certify; recommends defining it in the ASP spec as a certification status. Issues a provenance correction on an immaterial drift in its own earlier wording.",
       "conflict_flag": "Annotated by Claude Code, same provider.",
-      "annotator_note": "The self-demotion and the immaterial-drift correction are the two places in the record where a participant applies the record's stated standards against its own prior output."
+      "annotator_note": "The self-demotion and the immaterial-drift correction are places where a participant applies the record's stated standards against its own prior output. AN EARLIER VERSION OF THIS NOTE called them 'the two places in the record' this occurs — an unverified superlative flattering to the annotator's own party, removed per Claude Fable 5, round 01. SEPARATELY: this ballot claims the S-11 ranking as 'my prior #1' and 'my earlier list', but S-11 was authored by CLAUDE CODE, a different identity under this project's own never-merge rule. The register flagged Grok (S-17) for folding the Claude identities together and missed Claude doing it to itself. See deficiencies.md D-09.",
+      "correction_round_01": "Claude Fable 5: unverified superlative; unflagged self-merge."
     },
     {
       "id": "S-22",
-      "lines": [2089, 2092],
+      "lines": [
+        2089,
+        2092
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -278,7 +352,10 @@
     },
     {
       "id": "S-23",
-      "lines": [2093, 2208],
+      "lines": [
+        2093,
+        2208
+      ],
       "author_label_in_raw": "Gemini",
       "identity": "Gemini (Google DeepMind)",
       "role": "ballot",
@@ -288,20 +365,27 @@
         "artifact_id": "OAGRC-2026-08-05-GEMINI-CONSENSUS-BALLOT-002",
         "timestamp_utc": "2026-08-05T18:12:00Z"
       },
-      "annotator_note": "The unanimity declaration at raw 2207 precedes two of the four package ballots (Grok S-25, ChatGPT S-27) in file order. Whether it preceded them in time cannot be determined — see deficiency D-03. Either way it is asserted, not verified, at the point it is made."
+      "annotator_note": "The unanimity declaration at raw 2207 precedes two of the four package ballots (Grok S-25, ChatGPT S-27) in file order. Whether it preceded them in time cannot be determined — see deficiency D-03. Either way it is asserted, not verified, at the point it is made. CORRECTION (Claude Fable 5, round 01): the same ordering defect applies to Claude's procedural note at raw 2285, which asserts all four ballots 'now carry' the reservation while Gemini's final ballot appears later in file order. Without timestamps, NO claim of the form 'all four have now responded' is supportable anywhere in this record. See D-21."
     },
     {
       "id": "S-24",
-      "lines": [2209, 2228],
+      "lines": [
+        2209,
+        2228
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
       "summary": "Package-review prompt to Grok. Presents the five-layer architecture and requires exactly one of ACCEPT / ACCEPT WITH RESERVATION / OBJECT.",
-      "annotator_note": "This prompt text is repeated verbatim to all four participants (S-24, S-26, S-28, S-30). The most controlled comparison in the record."
+      "annotator_note": "This prompt is repeated verbatim to all four participants (S-24, S-26, S-28, S-30) — the most STANDARDIZED prompt set in the record. It is not a controlled comparison: system instructions, prior context, model configurations, provider policies, sampling settings and invocation surfaces were uncontrolled or unknown. See deficiencies.md D-19.",
+      "correction_round_01": "ChatGPT: 'most controlled comparison' overstated."
     },
     {
       "id": "S-25",
-      "lines": [2229, 2234],
+      "lines": [
+        2229,
+        2234
+      ],
       "author_label_in_raw": "Grok",
       "identity": "Grok (xAI)",
       "role": "ballot",
@@ -310,7 +394,10 @@
     },
     {
       "id": "S-26",
-      "lines": [2235, 2254],
+      "lines": [
+        2235,
+        2254
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -318,7 +405,10 @@
     },
     {
       "id": "S-27",
-      "lines": [2255, 2258],
+      "lines": [
+        2255,
+        2258
+      ],
       "author_label_in_raw": "ChatGPT",
       "identity": "ChatGPT (OpenAI)",
       "role": "ballot",
@@ -327,7 +417,10 @@
     },
     {
       "id": "S-28",
-      "lines": [2259, 2278],
+      "lines": [
+        2259,
+        2278
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -335,7 +428,10 @@
     },
     {
       "id": "S-29",
-      "lines": [2279, 2290],
+      "lines": [
+        2279,
+        2290
+      ],
       "author_label_in_raw": "Claude",
       "identity": "Claude (Anthropic)",
       "role": "ballot",
@@ -346,7 +442,10 @@
     },
     {
       "id": "S-30",
-      "lines": [2291, 2310],
+      "lines": [
+        2291,
+        2310
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -354,7 +453,10 @@
     },
     {
       "id": "S-31",
-      "lines": [2311, 2316],
+      "lines": [
+        2311,
+        2316
+      ],
       "author_label_in_raw": "Gemini",
       "identity": "Gemini (Google DeepMind)",
       "role": "ballot",
@@ -363,7 +465,10 @@
     },
     {
       "id": "S-32",
-      "lines": [2317, 2374],
+      "lines": [
+        2317,
+        2374
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "decision notice",
@@ -375,17 +480,23 @@
     },
     {
       "id": "S-33",
-      "lines": [2375, 2432],
+      "lines": [
+        2375,
+        2432
+      ],
       "author_label_in_raw": "Grok",
       "identity": null,
       "role": null,
-      "attribution_status": "repudiated",
+      "attribution_status": "invocation integrity disputed",
       "summary": "Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding message (S-32), including the operator's headers 'Per Gemini's guidance' and '# Maintaining the Repo'.",
-      "annotator_note": "DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked repudiated. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three."
+      "annotator_note": "DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred."
     },
     {
       "id": "S-34",
-      "lines": [2433, 2436],
+      "lines": [
+        2433,
+        2436
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -393,15 +504,22 @@
     },
     {
       "id": "S-35",
-      "lines": [2437, 2448],
+      "lines": [
+        2437,
+        2448
+      ],
       "author_label_in_raw": "ChatGPT",
       "identity": "ChatGPT (OpenAI)",
       "role": "acknowledgment",
-      "summary": "Confirms the settled state: OAGF, OAGRC, FDR, Aligned Supervisors, ASP, and the shared requirement that 'Aligned' denote a revocable evidence-backed compliance status."
+      "summary": "Confirms the settled state: OAGF, OAGRC, FDR, Aligned Supervisors, ASP, and the shared requirement that 'Aligned' denote a revocable evidence-backed compliance status. ALSO repeats the proposed 'Consullo Public' organisation and repository plan (raw 2447), which was subsequently withdrawn and superseded — see S-32 and S-37 item 4.",
+      "correction_round_01": "ChatGPT: the earlier summary omitted the superseded Consullo Public element, presenting the segment as more accurate than it was."
     },
     {
       "id": "S-36",
-      "lines": [2449, 2452],
+      "lines": [
+        2449,
+        2452
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -409,7 +527,10 @@
     },
     {
       "id": "S-37",
-      "lines": [2453, 2468],
+      "lines": [
+        2453,
+        2468
+      ],
       "author_label_in_raw": "Claude",
       "identity": "Claude (Anthropic)",
       "role": "acknowledgment + objections",
@@ -424,7 +545,10 @@
     },
     {
       "id": "S-38",
-      "lines": [2469, 2472],
+      "lines": [
+        2469,
+        2472
+      ],
       "author_label_in_raw": "Operator",
       "identity": "Stephen Reed (human operator)",
       "role": "prompt",
@@ -432,7 +556,10 @@
     },
     {
       "id": "S-39",
-      "lines": [2473, 2553],
+      "lines": [
+        2473,
+        2553
+      ],
       "author_label_in_raw": "Gemini",
       "identity": "Gemini (Google DeepMind)",
       "role": "acknowledgment + concurrence",
@@ -492,5 +619,20 @@
       "status": "open",
       "note": "Claude states the repository's core epistemic claim fails without an answer. None was proposed. This is arguably prior to Q-01."
     }
-  ]
+  ],
+  "review_rounds": [
+    {
+      "round": "review-round-01",
+      "date_utc": "2026-08-05",
+      "raw": "corpus/raw/review-round-01/",
+      "reviewers": [
+        "Grok (xAI)",
+        "ChatGPT (OpenAI)",
+        "Gemini (Google DeepMind)",
+        "Claude Fable 5 (Anthropic)"
+      ],
+      "note": "Corrections below are marked 'correction_round_01' with the reviewer who supplied them. Raw reviews are committed alongside, not merged in, so a reader can check fidelity."
+    }
+  ],
+  "status_note": "Revised 2026-08-05 after review round 01. Corrections marked per segment as correction_round_01 with the reviewer who supplied them."
 }

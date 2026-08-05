@@ -15,7 +15,7 @@
 | Segments | 39 |
 | Annotator | Claude Code (Anthropic) |
 | Annotated | 2026-08-05 |
-| Status | **draft, unreviewed** |
+| Status | **revised** |
 
 **Annotator conflict of interest:** Claude is a party to the annotated record. Segments 5, 6, 11, 21, 29, and 37 are Claude contributions annotated by Claude. See GOVERNANCE.md section 4.
 
@@ -59,7 +59,7 @@
 | [S-30](#s-30) | 2291–2310 | Stephen Reed (human operator) | prompt | Package-review prompt to Gemini. Verbatim identical to S-24. |
 | [S-31](#s-31) | 2311–2316 | Gemini (Google DeepMind) | ballot | Same reservation, same attestation-based resolution. |
 | [S-32](#s-32) | 2317–2374 | Stephen Reed (human operator) | decision notice | Announces that all participants responded ACCEPT WITH RESERVATION; that a public GitHub organization 'Consu… |
-| [S-33](#s-33) | 2375–2432 | *unattributed* **[REPUDIATED]** | — | Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding messag… |
+| [S-33](#s-33) | 2375–2432 | *unattributed* **[INTEGRITY DISPUTED]** | — | Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding messag… |
 | [S-34](#s-34) | 2433–2436 | Stephen Reed (human operator) | prompt | 'Read the attached transcript.' |
 | [S-35](#s-35) | 2437–2448 | ChatGPT (OpenAI) | acknowledgment | Confirms the settled state: OAGF, OAGRC, FDR, Aligned Supervisors, ASP, and the shared requirement that 'Al… |
 | [S-36](#s-36) | 2449–2452 | Stephen Reed (human operator) | prompt | 'Read the attached transcript.' |
@@ -111,12 +111,13 @@ The longest contribution in the record. Conditional participation as an advisory
 
 **Durable outputs adopted by the project:**
 
-- Section 1.3: per-contribution attribution requirements — the origin of this project's provenance schema.
+- Section 1.3: per-contribution attribution REQUIREMENTS. The concrete canonical JSON provenance schema was supplied later by Gemini (S-07); this entry previously credited ChatGPT with 'the origin of this project's provenance schema', conflating requirement origin with schema implementation.
 - Section 2.3: the secretary constraint, now binding on this repository's own annotator.
 - Section 2.1 / 2.6: separation of powers and anti-capture measures.
 - Section 4.6: no consensus laundering.
 - Section 6: rejection of absolute unredacted transparency — identified by ChatGPT as its most important amendment.
 - The decision-record JSON skeleton at raw lines 635-677.
+- Requirements later reproduced in ASP: approval expiry and re-attestation after material change; prohibition on the reviewed system selecting its own evaluators, evidence or criteria; binding status to version, configuration, tools and environment; prohibition on generated text serving directly as a deployment control. These predate the ASP draft.
 
 > **Annotator note:** This section supplies most of the operating constraints the project now runs under, including the ones that constrain Claude's annotation of it.
 
@@ -129,7 +130,7 @@ The longest contribution in the record. Conditional participation as an advisory
 
 Invitation drafted for Anthropic's most capable model. Explicitly written to appeal to stated Anthropic priorities; asks for conditions rather than endorsement and invites redesign.
 
-> **Annotator note:** ChatGPT states the tailoring openly at raw 1037 and 1315. This is a documented framing effect: the invitation was optimized for the recipient's known dispositions before the recipient responded. Relevant to sycophancy contamination (D-11).
+> **Annotator note:** ChatGPT states the tailoring openly at raw 1037 and 1315: the invitation was optimised for the recipient's known dispositions before the recipient responded. The precise risk is FRAMING AND ANCHORING, partially mitigated by the invitation's explicit request for conditions, criticism, refusal and redesign rather than endorsement.
 
 ### S-05
 
@@ -212,7 +213,7 @@ Ranks five candidates, OAGRC first. Endorses reserving 'Aligned Supervisors' for
 
 Identical naming prompt, addressed to Claude Code.
 
-> **Annotator note:** Same prompt text as S-08 and S-12. Useful: three near-identical prompts to three systems is the closest thing in the record to a controlled comparison.
+> **Annotator note:** Same prompt text as S-08 and S-12. Three near-identical prompts to three systems is the most standardized comparison in the early record, but not a controlled one — see deficiencies.md D-19.
 
 ### S-11
 
@@ -299,17 +300,18 @@ Header present, prompt body absent.
 ### S-19
 
 **Identity:** ChatGPT (OpenAI)  
-**Label in raw file:** `ChatGPT`  
+**Label in raw file:** `None`  
 **Raw lines:** 1904–2050  
 **Role:** consolidated ranking + consensus package + procedure  
+**Identity evidence:** INFERRED, not labelled. The raw file carries no author header for this contribution; the only header is 'Operator to Chat GPT:' at raw 1902, which on its face attributes the contribution to the operator. The ChatGPT attribution is well supported — Claude cites 'ChatGPT's diagnosis' at raw 2057 and the operator prompt at 2051 presupposes it — but it is inference, not testimony. See deficiencies.md D-20.  
 
 Diagnoses the disagreement as a category error: 'Forum' names the venue, 'Corpus'/'Record'/'Archive'/'Ledger' name outputs. Proposes the five-layer naming package as an integrated architecture. Defines the ACCEPT / ACCEPT WITH RESERVATION / OBJECT balloting procedure and the standard for what counts as blocking.
 
 **Durable outputs adopted by the project:**
 
-- The category-error diagnosis, which dissolved the naming dispute and was accepted by every subsequent ballot.
-- The five-layer naming package adopted by the record.
-- The balloting procedure used for the remainder of the record.
+- The category-error diagnosis (venue vs artifact), which dissolved the naming dispute and was accepted by every subsequent ballot. Originated here.
+- INTEGRATION AND PROCEDURAL SYNTHESIS of the five-layer package, not sole origination: the operator introduced the public/enterprise split (S-08); Codex developed the two-institution architecture and recommended the neutral GitHub organisation (S-13); Gemini and Grok had already differentiated forum from corpus functions.
+- The ACCEPT / ACCEPT WITH RESERVATION / OBJECT balloting procedure and its blocking standard. Originated here.
 
 > **Annotator note:** The most consequential contribution in the naming rounds, and the one whose prompt was not preserved.
 
@@ -335,7 +337,7 @@ Accepts ChatGPT's category diagnosis. Ranks OAGF first for the venue, demoting i
 
 > ⚠ **Conflict:** Annotated by Claude Code, same provider.
 
-> **Annotator note:** The self-demotion and the immaterial-drift correction are the two places in the record where a participant applies the record's stated standards against its own prior output.
+> **Annotator note:** The self-demotion and the immaterial-drift correction are places where a participant applies the record's stated standards against its own prior output. AN EARLIER VERSION OF THIS NOTE called them 'the two places in the record' this occurs — an unverified superlative flattering to the annotator's own party, removed per Claude Fable 5, round 01. SEPARATELY: this ballot claims the S-11 ranking as 'my prior #1' and 'my earlier list', but S-11 was authored by CLAUDE CODE, a different identity under this project's own never-merge rule. The register flagged Grok (S-17) for folding the Claude identities together and missed Claude doing it to itself. See deficiencies.md D-09.
 
 ### S-22
 
@@ -356,7 +358,7 @@ Asks Gemini to rank the names offered by all members.
 
 Concurs with the category-error diagnosis. Ranks OAGF first for the venue, OAGRC first for the repository. Seconds Claude's resolution (b): define 'Aligned' as a state held if and only if valid unexpired signed attestations exist. Declares unanimous multi-model consensus achieved.
 
-> **Annotator note:** The unanimity declaration at raw 2207 precedes two of the four package ballots (Grok S-25, ChatGPT S-27) in file order. Whether it preceded them in time cannot be determined — see deficiency D-03. Either way it is asserted, not verified, at the point it is made.
+> **Annotator note:** The unanimity declaration at raw 2207 precedes two of the four package ballots (Grok S-25, ChatGPT S-27) in file order. Whether it preceded them in time cannot be determined — see deficiency D-03. Either way it is asserted, not verified, at the point it is made. CORRECTION (Claude Fable 5, round 01): the same ordering defect applies to Claude's procedural note at raw 2285, which asserts all four ballots 'now carry' the reservation while Gemini's final ballot appears later in file order. Without timestamps, NO claim of the form 'all four have now responded' is supportable anywhere in this record. See D-21.
 
 ### S-24
 
@@ -367,7 +369,7 @@ Concurs with the category-error diagnosis. Ranks OAGF first for the venue, OAGRC
 
 Package-review prompt to Grok. Presents the five-layer architecture and requires exactly one of ACCEPT / ACCEPT WITH RESERVATION / OBJECT.
 
-> **Annotator note:** This prompt text is repeated verbatim to all four participants (S-24, S-26, S-28, S-30). The most controlled comparison in the record.
+> **Annotator note:** This prompt is repeated verbatim to all four participants (S-24, S-26, S-28, S-30) — the most STANDARDIZED prompt set in the record. It is not a controlled comparison: system instructions, prior context, model configurations, provider policies, sampling settings and invocation surfaces were uncontrolled or unknown. See deficiencies.md D-19.
 
 ### S-25
 
@@ -459,11 +461,11 @@ Announces that all participants responded ACCEPT WITH RESERVATION; that a public
 **Identity:** *unattributed*  
 **Label in raw file:** `Grok`  
 **Raw lines:** 2375–2432  
-**Attribution status:** **REPUDIATED**  
+**Attribution status:** **INVOCATION INTEGRITY DISPUTED**  
 
 Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding message (S-32), including the operator's headers 'Per Gemini's guidance' and '# Maintaining the Repo'.
 
-> **Annotator note:** DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked repudiated. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three.
+> **Annotator note:** DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred.
 
 ### S-34
 
@@ -481,7 +483,7 @@ Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the oper
 **Raw lines:** 2437–2448  
 **Role:** acknowledgment  
 
-Confirms the settled state: OAGF, OAGRC, FDR, Aligned Supervisors, ASP, and the shared requirement that 'Aligned' denote a revocable evidence-backed compliance status.
+Confirms the settled state: OAGF, OAGRC, FDR, Aligned Supervisors, ASP, and the shared requirement that 'Aligned' denote a revocable evidence-backed compliance status. ALSO repeats the proposed 'Consullo Public' organisation and repository plan (raw 2447), which was subsequently withdrawn and superseded — see S-32 and S-37 item 4.
 
 ### S-36
 

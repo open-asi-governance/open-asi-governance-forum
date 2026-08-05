@@ -77,8 +77,14 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
+SCHEMA_FOR_TYPE = {
+    "annotation": "segments.schema.json",
+    "contribution": "contribution.schema.json",
+}
+
+
 def check_schema(document: dict, report: Report) -> None:
-    """Validate against JSON Schema when jsonschema is installed."""
+    """Validate against the schema for this artifact_type, when jsonschema is installed."""
     try:
         import jsonschema
     except ImportError:
@@ -89,7 +95,13 @@ def check_schema(document: dict, report: Report) -> None:
         )
         return
 
-    schema_path = SCHEMA_DIR / "segments.schema.json"
+    artifact_type = document.get("artifact_type")
+    schema_name = SCHEMA_FOR_TYPE.get(artifact_type)
+    if schema_name is None:
+        report.error("SCHEMA", f"unknown artifact_type {artifact_type!r}; expected one of {sorted(SCHEMA_FOR_TYPE)}")
+        return
+
+    schema_path = SCHEMA_DIR / schema_name
     if not schema_path.exists():
         report.error("SCHEMA", f"schema not found: {schema_path}")
         return
@@ -102,20 +114,48 @@ def check_schema(document: dict, report: Report) -> None:
 
 
 def check_source_hash(document: dict, report: Report) -> None:
-    """P1 — the annotation must be anchored to a byte-identical source."""
-    source = document.get("source", {})
-    raw_path = REPO_ROOT / source.get("path", "")
+    """P1 — every artifact must be anchored to a byte-identical source.
+
+    Annotations anchor a `source`; contributions anchor `raw` and `prompt`. All
+    of them are checked, because an anchor that is never verified is decoration.
+    """
+    anchors = []
+    if "source" in document:
+        anchors.append(("source", document["source"]))
+    for key in ("raw", "prompt"):
+        if key in document:
+            anchors.append((key, document[key]))
+
+    if not anchors:
+        report.error("P1", "no anchored source: expected 'source', or 'raw' and 'prompt'")
+        return
+
+    for label, anchor in anchors:
+        check_one_anchor(label, anchor, report)
+
+
+def check_one_anchor(label: str, source: dict, report: Report) -> None:
+    relative = source.get("path", "")
+    if not relative:
+        report.error("P1", f"{label}: no path recorded")
+        return
+
+    raw_path = REPO_ROOT / relative
     recorded = source.get("sha256", "")
 
+    if raw_path.is_dir():
+        report.error("P1", f"{label}: path {relative!r} is a directory, not a file")
+        return
+
     if not raw_path.exists():
-        report.error("P1", f"annotated source file missing: {source.get('path')}")
+        report.error("P1", f"{label}: anchored file missing: {relative}")
         return
 
     actual = sha256_of(raw_path)
     if actual != recorded:
         report.error(
             "P1",
-            f"source hash mismatch for {source.get('path')}\n"
+            f"{label}: hash mismatch for {relative}\n"
             f"        recorded: {recorded}\n"
             f"        actual:   {actual}\n"
             f"        The raw record must never be edited after commit. If this file "
@@ -287,11 +327,13 @@ def validate_file(path: Path) -> Report:
 
     check_schema(document, report)
     check_source_hash(document, report)
-    check_segments(document, report)
     check_placeholders(document, report)
     check_null_reasons(document, report)
-    check_annotator(document, report)
-    check_identity_counts(document, report)
+
+    if document.get("artifact_type") == "annotation":
+        check_segments(document, report)
+        check_annotator(document, report)
+        check_identity_counts(document, report)
     return report
 
 
