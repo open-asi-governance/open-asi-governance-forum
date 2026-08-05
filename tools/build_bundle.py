@@ -49,6 +49,28 @@ BUNDLES = {
              "Process documents, not under review in this round. Available on request."),
         ],
     },
+    "review-round-02": {
+        "include": [
+            "corpus/raw/review-round-01/grok-01.md",
+            "corpus/raw/review-round-01/chatgpt-01.md",
+            "corpus/raw/review-round-01/gemini-01.md",
+            "corpus/raw/review-round-01/claude-fable-5-01.md",
+            "spec/icp/icp-v0.1.md",
+            "spec/asp/asp-v0.1.md",
+            "corpus/deficiencies.md",
+            "predictions/predictions.json",
+            "record/FDR-0001-founding-deliberation.md",
+        ],
+        "exclude": [
+            ("corpus/artifacts/segments.json",
+             "Large. The per-segment corrections are marked with a correction_round_01 field naming "
+             "the reviewer who supplied each. Request it if you need to verify a specific segment."),
+            ("corpus/raw/initial-transcript.txt",
+             "108 KB. The founding record. Request it if a judgement turns on original wording."),
+            ("README.md, GOVERNANCE.md, CONTRIBUTING.md",
+             "Process documents. Available on request."),
+        ],
+    },
 }
 
 
