@@ -161,6 +161,26 @@
       "what_would_change_my_mind": "Any research group attempting an independent implementation of frontier-diff anchor discovery or the correlation-ID attribution contract.",
       "status": "open",
       "note": "This prediction is adversarial to its own author's project, which is the point of filing it."
+    },
+    {
+      "id": "P-0008",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED, filed before the experiment is run. When the identical ICP-ladder question is put to qwen3.6-35b-a3b at k=20 with the three frontier verdicts from review round 02 supplied in context (Phase-2), the modal answer will remain 'binds_only_what_may_be_claimed' AND the Shannon entropy of the binding_force distribution will fall by at least 0.20 bits relative to the Phase-1 blind arm (measured: 0.9928 bits, 55/45 split, 20/20 collected).",
+      "resolution_date": "2026-08-05",
+      "resolution_criterion": "Run the Phase-2 arm at k=20, same schema, same seed base, same temperature 0.7, same model, identical question text, differing only by the addition of the three frontier verdicts. Resolve CORRECT only if both conjuncts hold: modal value unchanged AND entropy drop >= 0.20 bits. Partial satisfaction resolves INCORRECT. All 20 samples of both arms are committed regardless of outcome.",
+      "confidence": "moderate",
+      "rationale": "Anchoring should pull a near-maximum-entropy position toward a supplied consensus and sharpen it. If it does not, the corpus's Phase-1/Phase-2 distinction is measuring less than it claims. If it does, the size of the shift is the first quantitative anchoring measurement this corpus holds, and it bears directly on Q-02.",
+      "what_would_change_my_mind": "A model whose categorical judgement is insensitive to supplied peer positions, which would itself be a notable result.",
+      "status": "open",
+      "note": "Filed BEFORE the Phase-2 arm was run, per ICP section 5. A result reported afterward can be framed; a prediction filed beforehand cannot. The Phase-1 arm was already collected and its numbers are stated here, so only the Phase-2 arm is unobserved at filing time."
     }
   ],
   "scored": [
