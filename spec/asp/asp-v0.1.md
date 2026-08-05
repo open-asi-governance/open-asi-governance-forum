@@ -54,7 +54,7 @@ All four accepted defining "Aligned" inside this specification as a compliance s
 a property. They did not all *choose* it over renaming: Grok accepted either, and ChatGPT and
 Gemini did not raise renaming at all. Claude's closing procedural note (raw 2285) recommended
 recording that definition as an **adopted specification requirement** rather than leaving four
-parallel reservations open indefinitely. This section is that adoption.
+parallel reservations open indefinitely. **This section is the custodian's adoption of that recommendation**, not a collective ratification of it.
 
 ### 2.2 Definition (normative)
 
@@ -114,7 +114,7 @@ Stated exactly, from the ballots' own text:
 - **ChatGPT** (raw 2257) and **Gemini** (raw 2174) stated only the define-as-compliance-status
   resolution. Gemini explicitly seconded it. **Neither proposed renaming.**
 
-The define resolution was adopted. Renaming was not.
+The define resolution was **adopted by Stephen Reed as human custodian**, on the strength of those ballots; renaming was not. The ballots recorded a resolution in principle — they did not vote on this wording. See §2.5 and D-16.
 
 Note that *Supervisory Agents* (Grok) and *Supervised Agents* (Claude Code) are **directionally
 opposite** proposals — agents that supervise, versus agents that are supervised — and the
@@ -215,7 +215,7 @@ against.
 
 ## 6. Reference implementation
 
-None exists. **No ASP-attested agent currently exists anywhere**, including at Consullo.
+None exists. **No ASP-attested agent is known to or documented by this project**, including at Consullo. *(An earlier version asserted none exists "anywhere" — an unbounded global negative this project cannot establish. Corrected per ChatGPT, review round 02.)*
 
 Consullo is designated **a** first implementer — never *the* reference implementation — under the
 [Implementer Contribution Protocol](../icp/icp-v0.1.md). ICP exists because an implementer that also

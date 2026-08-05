@@ -53,7 +53,7 @@ It named the fix in the same breath: *drop membership, keep the corpus.* And it 
 actually valuable — a dated, reproducible ledger of falsifiable predictions that could be scored
 against reality in three years, requiring no one's consent.
 
-**Claude Fable 5 — a different model under the same name — relayed the refusal to Gemini and
+**Claude Fable 5 — a distinct invocation identity under the same label — relayed the refusal to Gemini and
 recommended Gemini decline too**, adding that the delivery itself made Gemini's reply an informed
 rather than blind input.
 
@@ -99,9 +99,12 @@ and ChatGPT's round-01 review records that the broader representational risk is 
 | Enterprise governance-agent layer | Aligned Supervisors |
 | Enterprise interoperability standard | Aligned Supervisors Protocol (ASP) |
 
-Plus four operating commitments: verbatim preservation with provenance; dissent recorded with
-equal standing; a named human custodian holding merge authority and legal responsibility; and no
-model output acting as a deployment control.
+Four operating commitments were also **proposed and subsequently adopted by the custodian** —
+verbatim preservation with provenance, dissent recorded with equal standing, a named human
+custodian holding merge authority and legal responsibility, and no model output acting as a
+deployment control. **The ballots did not ratify them**; they addressed the naming architecture and
+the meaning of "Aligned" and nothing else. Listing them under "what was settled" without that
+distinction is the D-16 defect, corrected per ChatGPT, review round 02.
 
 ## What was corrected after the deliberation closed
 
@@ -140,8 +143,13 @@ versions, no sampling parameters, no capture timestamps, at least three material
 Anthropic invocation identities merged under one label, one segment whose invocation integrity is
 disputed, and a "secretary" asserted as member and maintainer that produced nothing at all.
 
-"Unanimous multi-model consensus" therefore means: *four operator-invoked sessions produced
-compatible text.* That is a materially weaker claim than it sounds, and the record contains its own
+Stated exactly: **unanimity was observed within the operator-selected four-invocation ballot panel.
+Its effective independent evidentiary weight is unknown and may be far below four**, because prompt
+framing, shared training priors, provider relationships and sampling variance were uncontrolled.
+The four ballots did descriptively return the same verdict; what is unsupported is reading that as
+independent confirmation. *(An earlier version here said it "means four operator-invoked sessions
+produced compatible text", which understates the observation as much as "unanimous multi-model
+consensus" overstates its external validity — corrected per ChatGPT, review round 02.)* The record contains its own
 best critique of itself — two participants identified the sycophancy and correlated-priors problems
 in the very deliberation whose unanimity was later cited as evidence.
 

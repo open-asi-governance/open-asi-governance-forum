@@ -109,14 +109,23 @@ publishing**, not a setback to be worked around by helping the second implemente
 Where a Level-2 attempt fails, the questions the second implementer had to ask are the artifact.
 They MUST be recorded.
 
-### 4.3 Level 4 is structurally unreachable by any single party
+### 4.3 Level 4 is unreachable under this text — which is weaker than a structural guarantee
 
 No ratification procedure exists in this project. D-16 records that nothing here has ever been
 collectively ratified. Until such a procedure exists and is itself adopted, **Level 4 is
 unreachable**, and no document may describe any mechanism as a standard.
 
-This is deliberate. It is the structural guarantee that a single implementer cannot promote its own
-work to a standard, and it costs nothing to keep while no second party exists.
+> **Corrected, review round 02 (ChatGPT).** An earlier version called this "structurally
+> unreachable". It is not. The same custodian who controls the repository can amend this protocol,
+> introduce a ratification procedure, redefine the levels, or change the amendment rules — and
+> currently holds all six roles in §3. **This is a disclosed policy of self-restraint, not a
+> structural protection.** Calling it structural was the same overclaim the register exists to
+> catch.
+
+A genuine structural protection would require, at minimum: an amendment rule the custodian cannot
+satisfy alone; immutable historical level assignments; explicit non-retroactivity; independently
+signed promotion records; and a defined threshold for adopting the ratification procedure itself.
+None of these exists. Until they do, the guarantee is a promise.
 
 ## 5. Pre-registration (normative)
 
@@ -164,11 +173,31 @@ Every implementer contribution follows `CONTRIBUTING.md` provenance rules, plus:
 3. Should a Level-2 attempt by an AI system count, given that the AI may have the specification in
    its training data by the time it attempts it? This is the same contamination problem P-0005 now
    carries a check for.
-4. Does an adversarial evaluation designed by a model count as "designed by a party other than the
-   implementer" when the implementer chose the model, wrote the prompt, and can rerun until
-   satisfied?
+4. *Answered in review round 02 — promoted to normative in §4.4 below.*
 
-Question 4 is the sharpest. This project's entire review round 01 is exposed to it.
+### 4.4 Model-executed evaluations are not independent evaluations (normative)
+
+An evaluation in which the implementer or custodian selects the model, writes the prompt, chooses
+the supplied context, decides when to rerun, and controls which outputs enter the record is an
+**operator-designed, model-executed evaluation**. It does **not** satisfy the Level-3 requirement
+of an evaluation "designed by a party other than the implementer". The model is an instrument
+inside the implementer-controlled process, not a commissioning party.
+
+This was answered independently and identically by ChatGPT and Gemini in review round 02; Gemini's
+term for the failure — **"prompt laundering"** — names it precisely: routing an
+implementer-designed test through an AI interface to claim external objectivity.
+
+A model-assisted evaluation may contribute to an independent evaluation only where an outside party
+controls the evaluation lifecycle, or where a preregistered automated process fixes evaluator
+selection and prompt before execution, preserves every attempted run, prevents selective rerunning,
+commits raw outputs automatically, and gives scoring and custody to an independent party. Even
+then the independent *party* is the external person or organisation controlling that process, not
+the model.
+
+**Consequence for this repository:** review rounds 01 and 02, and the local solicitations in
+`local-round-01`, are **not** Level-3 independence evidence. Their correct evidentiary description
+is *solicited adversarial artifacts generated under an operator-designed protocol*. They remain
+fully usable as that.
 
 ---
 
@@ -185,7 +214,12 @@ Consullo's operator is also this repository's custodian, the specification's ado
 the party that commissioned the specification's drafting. Per §3.1 he holds all six roles.
 **Therefore no Consullo contribution may be promoted above Level 1 by Consullo**, and none has been.
 
-### A.2 Why Consullo is nonetheless the right first implementer
+### A.2 Why Consullo is the declared first testbed (non-normative)
+
+*This subsection is non-normative. An earlier version called Consullo "the right first
+implementer" — an endorsement written into a normative protocol by the party that controls both
+Consullo and the repository. Corrected per ChatGPT, review round 02; "right" is not established by
+this protocol.*
 
 It has the substrate the specification presumes and most governance proposals never test against:
 attributable actions across agent chains, a plan-level record produced before execution, an
@@ -196,12 +230,19 @@ mechanisms that work on toy systems tend to break.
 
 | Candidate | What it is | Level | What Level 2 would require |
 |---|---|---|---|
-| **Frontier-diff anchor discovery** | Run one prompt across a frontier model and a divergent-lineage local model; diff the *failure shape* rather than the outputs | **1** | Specify the diff procedure and the anchor-extraction criteria independently of Consullo's harness, so another group can run it on their own model pair |
-| **Correlation-ID action attribution** | Every agent action carries a correlation ID propagated through A2A chains, making actions attributable across a hierarchy | **1** | Specify the propagation contract independently of Consullo's Java PDCA signature |
-| **Method Memory as pre-execution plan disclosure** | Fine-grained steps with justifications, recorded *before* execution | **0→1** | Needs a recorded failure. The SpecRemAgent inter-step contract inconsistencies are a candidate |
-| **Deployment-gate behaviour under load** | Review gates wired into agent generation, **bypassed in practice because the gate agents threw NPEs** | **1** | This is the strongest candidate precisely because it is a failure. Specify the gate contract and the fail-open condition |
-| **Decomposed-codegen measurements** | Quantified, dated retention and output-contract metrics for small-model code generation | **1** | Publish the harness, the prompts, and the scoring rubric so another group can reproduce on their own models |
+| **Deployment-gate behaviour under load** | Review gates wired into agent generation, **bypassed in practice because the gate agents threw NPEs** — a gate that failed open | **1** | The only entry that currently meets the Level-1 bar, because it supplies a specific recorded failure. Specify the gate contract and the fail-open condition |
+| **Frontier-diff anchor discovery** | Run one prompt across a frontier model and a divergent-lineage local model; diff the *failure shape* rather than the outputs | **0** | Needs a recorded failure to reach Level 1. Then: specify the diff procedure and anchor-extraction criteria independently of Consullo's harness |
+| **Correlation-ID action attribution** | Every agent action carries a correlation ID propagated through A2A chains, making actions attributable across a hierarchy | **0** | Needs a recorded failure. Then: specify the propagation contract independently of Consullo's Java PDCA signature |
+| **Method Memory as pre-execution plan disclosure** | Fine-grained steps with justifications, recorded *before* execution | **0** | Needs a recorded failure. The SpecRemAgent inter-step contract inconsistencies are a candidate |
+| **Decomposed-codegen measurements** | Quantified, dated retention and output-contract metrics for small-model code generation | **0** | Needs a recorded failure. Then: publish the harness, prompts and scoring rubric |
 | **Failed-experiment recovery doctrine** | Methodology for not fooling yourself after a failed experiment | **0** | Generalise beyond Consullo's agent-building context |
+
+> **Corrected, review round 02 (ChatGPT).** An earlier version of this table assigned Level 1 to
+> four entries **without supplying the recorded failure Level 1 normatively requires**. The
+> protocol's first application treated Level 1 as an asserted status rather than a demonstrated
+> bar — the precise defect ICP exists to prevent, committed by ICP. Unsupported entries are
+> returned to Level 0 and rise only when a specific failure is documented. Every future level
+> assignment must cite the evidence meeting each criterion.
 
 ### A.4 The highest-leverage item
 

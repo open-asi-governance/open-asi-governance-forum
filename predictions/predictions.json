@@ -16,11 +16,12 @@
       },
       "claim": "As of 2027-08-05, the corpus will contain substantive contributions from at most one party not solicited by the custodian.",
       "resolution_date": "2027-08-05",
-      "resolution_criterion": "Count distinct contributors in corpus/ whose contribution was initiated by someone other than Stephen Reed, evidenced by an issue, pull request, or email thread committed to the record. 'Substantive' means an artifact of 500 or more words, or a prediction entry, or a specification amendment. Resolve correct if the count is 0 or 1.",
+      "resolution_criterion": "Count distinct contributors to corpus/ whose contribution was initiated by someone other than Stephen Reed, judged on the provenance AVAILABLE AT RESOLUTION -- not on whether the initiating communication was preserved. A real unsolicited contributor is not erased by the custodian's failure to commit the originating thread. 'Substantive' means an artifact of 500+ words, a prediction entry, or a specification amendment. Resolve correct if 0 or 1.",
       "confidence": "high",
       "rationale": "Public governance repositories with a single operator and no institutional backing rarely attract unsolicited expert contribution in year one. This is the project's central viability risk: without external contributors it remains one person's conversation with four APIs, which is the failure mode the founding record itself warned against.",
       "what_would_change_my_mind": "Citation of this corpus by an established evaluation organization, or adoption of the ASP definition by any implementer other than Consullo.",
-      "status": "open"
+      "status": "open",
+      "revision": "Revised in review round 02 (ChatGPT): the original made preservation of an issue, pull request or email thread part of whether a contributor COUNTED, which would let a custodian's record-keeping lapse erase a real contributor."
     },
     {
       "id": "P-0002",
@@ -33,14 +34,14 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "As of 2027-08-05, no ASP-attested agent will exist at any organization OTHER THAN Consullo, and no third party will have attempted a Level-2 independent implementation of any ASP or ICP mechanism from the specification text alone.",
+      "claim": "As of 2027-08-05, no PUBLICLY VERIFIABLE evidence will be found of an ASP-attested agent at any organization OTHER THAN Consullo, and no third party will have attempted a Level-2 independent implementation of any ASP or ICP mechanism from the specification text alone.",
       "resolution_date": "2027-08-05",
       "resolution_criterion": "Search a FIXED universe declared now: GitHub code search for 'Aligned Supervisors Protocol' and 'ASP-attested'; arXiv and Semantic Scholar full-text; NIST/ISO/IETF/W3C standards databases; the OAGF corpus itself. Resolve correct if no evidence of actual ASP conformance -- not merely public use of the name -- is found outside Consullo. Archive all search results on the resolution date and commit them. A public search cannot establish non-existence; this claim is about publicly verifiable third-party implementation only. CONSULLO IS EXPLICITLY EXCLUDED from the count. Consullo is the first implementer under ICP v0.1 Annex A; counting it would make this prediction self-fulfilling, and a self-fulfilling prediction is not a falsifier. Resolve incorrect if any third party either holds an ASP attestation or has recorded a Level-2 implementation attempt (successful or failed) in the corpus.",
       "confidence": "high",
       "rationale": "Protocol adoption requires either regulatory pressure or a dominant implementer. ASP v0.1 has neither, no reference implementation, and five unresolved design questions including the load-bearing one about certifying process rather than property. A failed Level-2 attempt resolves this incorrect and is a MORE valuable outcome than no attempt, because the questions the second implementer had to ask are the finding (ICP 4.2).",
       "what_would_change_my_mind": "Regulatory language requiring attestation-based deployment gating that ASP happens to fit.",
       "status": "open",
-      "revision": "Revised in review round 01 (ChatGPT): the original was an unbounded negative-existence claim resolving on diligence rather than fact. Revised again 2026-08-05 on adoption of ICP v0.1: Consullo excluded explicitly. Naming Consullo the first implementer would otherwise have quietly removed one of the registry's five seed falsifiers while appearing to leave it in place."
+      "revision": "Revised in review round 01 (ChatGPT): the original was an unbounded negative-existence claim resolving on diligence rather than fact. Revised again 2026-08-05 on adoption of ICP v0.1: Consullo excluded explicitly. Naming Consullo the first implementer would otherwise have quietly removed one of the registry's five seed falsifiers while appearing to leave it in place. Revised again in review round 02 (ChatGPT): the claim asserted non-existence while the criterion could only establish absence of public evidence. The limitation now sits in the claim itself rather than in a methodological disclaimer beneath it."
     },
     {
       "id": "P-0003",
@@ -53,13 +54,14 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "As of 2027-02-05, fewer than half of the model contributions added to the corpus after 2026-08-05 will have been collected at k >= 5 with reported variance, despite that being the adopted standard.",
+      "claim": "As of 2027-02-05, fewer than half of the model contributions added to the corpus after 2026-08-05 will have been collected at k >= 5 with reported variance, despite that being the standard adopted by the custodian (not ratified -- see D-16).",
       "resolution_date": "2027-02-05",
-      "resolution_criterion": "Count model contributions added to corpus/ after 2026-08-05. Resolve correct if the proportion carrying k >= 5 and a reported variance figure is below 0.5. If fewer than 4 such contributions exist, resolve unresolvable and count it against calibration.",
+      "resolution_criterion": "Unit of contribution: one solicitation of one identity on one question. Denominator: all such contributions added to corpus/ after 2026-08-05. A contribution counts as meeting the standard if it carries k>=5 AND a variance COMPUTED from the collected samples -- for categorical fields, the class-frequency distribution and its Shannon entropy, per record/methods/locating-divergence.md. Resolve correct if the proportion is below 0.5. If fewer than 4 qualifying contributions exist, resolve unresolvable and count it against calibration.",
       "confidence": "moderate",
       "rationale": "The k >= 5 standard multiplies the cost of every contribution fivefold and produces messier, less quotable output. Standards that raise cost and lower legibility erode first, and this one erodes silently because a single sample still looks like a contribution. This prediction exists specifically so that erosion cannot happen unnoticed.",
       "what_would_change_my_mind": "Tooling that makes multi-sample collection close to free at the point of use.",
-      "status": "open"
+      "status": "open",
+      "revision": "Revised in review round 02 (ChatGPT): 'reported variance figure' was undefined, the unit and denominator were unspecified, and it called k>=5 an adopted standard without naming the adopter. The variance definition now points at the method actually used."
     },
     {
       "id": "P-0004",
@@ -153,14 +155,15 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "As of 2027-08-05, every Consullo contribution in this corpus will still sit at ICP Level 0 or Level 1, because no independent party will have attempted the Level-2 test.",
+      "claim": "As of 2027-08-05, no qualifying independent ICP Level-2 attempt -- successful or failed -- will be recorded in the corpus or found in the fixed public-search universe declared for P-0002.",
       "resolution_date": "2027-08-05",
       "resolution_criterion": "Inspect the corpus for any contribution promoted to Level 2 or above, which under ICP 4 requires an independent implementer who built from the specification text without consulting the author. Resolve correct if none exists.",
       "confidence": "high",
       "rationale": "The Level-2 bar is deliberately expensive and there is currently no second party. Filing this now means the ladder cannot quietly become a self-promotion mechanism: if levels rise without a recorded independent implementer, this prediction resolving incorrect is the audit trail.",
       "what_would_change_my_mind": "Any research group attempting an independent implementation of frontier-diff anchor discovery or the correlation-ID attribution contract.",
       "status": "open",
-      "note": "This prediction is adversarial to its own author's project, which is the point of filing it."
+      "note": "This prediction is adversarial to its own author's project, which is the point of filing it.",
+      "revision": "Revised in review round 02 (ChatGPT): the original claim asserted both low levels AND the causal reason nobody attempts Level 2, while the criterion tested only whether anything was promoted. An attempt could occur, fail, and leave every entry at Level 1 while falsifying the causal clause. Restated as a directly observable corpus-and-search claim."
     }
   ],
   "scored": [
@@ -181,10 +184,10 @@
       "rationale": "It tests whether the disclosed-COI mitigation actually functions. This review cannot resolve it, being Anthropic -- which is the point.",
       "source": "corpus/raw/review-round-01/claude-fable-5-01.md",
       "resolved_utc": "2026-08-05",
-      "outcome": "correct",
-      "resolved_early": true,
-      "evidence": "Resolved the same day it was made, 18 months early. Grok (corpus/raw/review-round-01/grok-01.md) identified that ASP 2.4 misstated its ballot as preferring the rename alternative, citing the section directly; ChatGPT (chatgpt-01.md) identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs. Both corrections are committed in spec/asp/asp-v0.1.md and corpus/deficiencies.md. The forecaster's own framing -- that this review could not resolve it, being Anthropic -- is exactly why the non-Anthropic reviews resolved it.",
-      "note": "Scored against the forecaster's stated confidence of 'moderate', this is a miss in the optimistic direction: the mechanism worked far faster than predicted. Recorded because a registry that only logs its uncomfortable results is as selective as one that logs none."
+      "outcome": "condition_satisfied_early_pending_scheduled_score",
+      "evidence": "Resolved the same day it was made, six months early. Grok (corpus/raw/review-round-01/grok-01.md) identified that ASP 2.4 misstated its ballot as preferring the rename alternative, citing the section directly; ChatGPT (chatgpt-01.md) identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs. Both corrections are committed in spec/asp/asp-v0.1.md and corpus/deficiencies.md. The forecaster's own framing -- that this review could not resolve it, being Anthropic -- is exactly why the non-Anthropic reviews resolved it.",
+      "note": "The original note claimed this was 'a miss in the optimistic direction'. That was wrong twice over and is retained here only so the correction has something to point at.",
+      "scoring_correction_round_02": "ChatGPT's round-02 review found this score PROCEDURALLY INVALID as recorded, and it is. Three defects. (1) The registry scores predictions on their resolution dates; this one specifies 2027-02-05 and was marked correct on 2026-08-05. A monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed. (2) The interval was stated as EIGHTEEN MONTHS; 2026-08-05 to 2027-02-05 is SIX. A plain arithmetic error, published in the registry, caught by ChatGPT and repeated uncritically by Gemini. (3) 'A miss in the optimistic direction' is not a calibration statement: the claim forecast occurrence BY a deadline, not time-to-event, so earlier occurrence is not a timing miss -- and one binary outcome cannot establish calibration at all. Status is now condition_satisfied_early_pending_scheduled_score. It will be finally scored on 2027-02-05 unless the registry first adopts a prospective monotonic early-resolution rule."
     },
     {
       "id": "P-0008",

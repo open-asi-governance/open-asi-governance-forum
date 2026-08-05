@@ -299,7 +299,7 @@ def check_identity_counts(document: dict, report: Report) -> None:
     for segment in document.get("segments", []):
         identity = segment.get("identity")
         if identity is None:
-            actual["repudiated / unattributed"] += 1
+            actual["invocation integrity disputed / unattributed"] += 1
         else:
             actual[identity] += 1
 

@@ -133,7 +133,7 @@
       ],
       "author_label_in_raw": "Clade Fabel",
       "identity": "Claude Fable 5 (Anthropic)",
-      "identity_evidence": "Raw line 1347 header, typographically corrupted. Distinct model from S-05.",
+      "identity_evidence": "Raw line 1347 header, typographically corrupted ('Clade Fabel'). A DISTINCT invocation identity from S-05 -- the evidence does not authenticate a different set of weights. Narrowed per ChatGPT, review round 02.",
       "role": "conditioned relay + recommendation to refuse",
       "summary": "Letter addressed to Gemini, written for the record, recommending Gemini also decline membership and instead contribute as a critic. Adds an operator note that this delivery makes Gemini's reply a Phase-2 (informed) input and that blind positions must be collected first if wanted.",
       "conflict_flag": "Annotated by Claude Code, same provider, different model.",
@@ -489,7 +489,7 @@
       "role": null,
       "attribution_status": "invocation integrity disputed",
       "summary": "Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding message (S-32), including the operator's headers 'Per Gemini's guidance' and '# Maintaining the Repo'.",
-      "annotator_note": "DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred."
+      "annotator_note": "DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text whose provenance cannot be established. It does not follow that Grok could not have echoed the message verbatim -- narrowed per ChatGPT, review round 02. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred. Aggregate counts require an explicit exclusion rule: raw_segment_count is 39, while any analytically-included response count for that round is rule-dependent and must state its rule."
     },
     {
       "id": "S-34",
@@ -582,11 +582,11 @@
     "Claude Fable 5 (Anthropic)": 1,
     "Claude Code (Anthropic)": 1,
     "Claude (Anthropic)": 3,
-    "repudiated / unattributed": 1,
-    "Qwen3 35B A3B": 0
+    "Qwen3 35B A3B": 0,
+    "invocation integrity disputed / unattributed": 1
   },
   "counts_by_identity_note": "The three 'Claude (Anthropic)' segments are model-unspecified: the raw record does not name which Anthropic model produced them. They are NOT merged with Claude Opus 5, Claude Fable 5, or Claude Code, per the identity rule. Anthropic contributions total 6 across four distinct or undetermined identities — a fact the raw record obscures by labelling all of them 'Claude'.",
-  "counts_note": "Qwen3 35B A3B is listed with zero contributions deliberately. It is described in the raw record as a member, secretary, and repository maintainer, and is named in three context_models_present fields, having produced no output. See deficiencies.md D-14.",
+  "counts_note": "Qwen3 35B A3B is listed with zero contributions deliberately. It is described in the raw record as a member, secretary, and repository maintainer, and is named in three context_models_present fields, having produced no output. See deficiencies.md D-14. The unattributed segment is counted under 'invocation integrity disputed', not 'repudiated' -- repudiation is the party's right, not the annotator's classification (GOVERNANCE.md 5.1, corrected round 02).",
   "ballots": {
     "package_review_round": {
       "prompt_identical_across_participants": true,

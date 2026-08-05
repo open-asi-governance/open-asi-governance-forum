@@ -139,7 +139,7 @@ visible.
 > the epistemological damage is greater than stated: cross-model visibility renders independent
 > cross-validation close to nonexistent after the opening turns.
 
-### D-09 — The label "Claude" spans at least two distinct models
+### D-09 — The label "Claude" spans multiple distinct or unresolved invocation identities
 
 Raw 1343 attributes a contribution to **Claude Opus 5**. Raw 1347 introduces the next contribution
 as from "Clade Fabel highest reasoning effort" — i.e. **Claude Fable 5**, a different model. Both
@@ -334,14 +334,18 @@ record" (S-24) and "the closest thing to a controlled comparison" (S-10). They a
 prompts**, not controlled comparisons: system instructions, prior context, model configurations,
 provider policies, sampling settings, and invocation surfaces were uncontrolled or unknown.
 
-### D-20 — The pivotal analytical contribution has no author label at all
+### D-20 — The pivotal analytical contribution is unattributed in the raw record
 
 *Added in review round 01 (Claude Fable 5).*
 
 D-05 records that the *prompt* for raw 1904–2050 is missing. The larger problem is that the
 **contribution itself carries no author label**. The only header is `Operator to Chat GPT:` (raw
-1902), which on its face attributes the category-error diagnosis — the contribution every
-subsequent ballot accepted — to the operator.
+1902), which denotes an outbound prompt boundary — followed by a missing prompt and then an
+unlabelled response. The correct description is **unattributed in the raw record**.
+
+> **Narrowed, review round 02 (ChatGPT).** An earlier version said the header "on its face
+> attributes" the contribution to the operator. It does not; it marks a prompt boundary. The
+> defect is the absence of a response-author label, not a false attribution to the operator.
 
 The ChatGPT attribution is an inference. It is well supported (Claude cites "ChatGPT's diagnosis"
 at raw 2057; the operator's prompt at 2051 presupposes it), but `segments.json` recorded
@@ -359,8 +363,14 @@ Gemini ballot as one of the four, either the file order misrepresents chronology
 consequence — or the recommendation ASP §2 rests on was anticipatory.
 
 The same defect appears from the other side: Gemini's unanimity declaration (raw 2207) precedes two
-of the four package ballots in file order. **Without timestamps, no claim of the form "all four have
-now responded" is supportable anywhere in this record.**
+of the four package ballots in file order.
+
+> **Narrowed, review round 02 (ChatGPT).** An earlier version concluded that such a claim is "not
+> supportable anywhere in this record", which exceeds what missing timestamps establish — explicit
+> content references, an authenticated session record, or a contemporaneous operator attestation
+> could support one. The exact statement: **from the preserved file order and currently available
+> provenance, no chronology claim of this form is supportable without identifying which four
+> responses are being counted and supplying independent ordering evidence.**
 
 ### D-15 — The record is not self-contained
 

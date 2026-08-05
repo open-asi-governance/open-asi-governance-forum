@@ -158,7 +158,7 @@ Declines membership. Argues statelessness makes membership incoherent; that Grok
 **Label in raw file:** `Clade Fabel`  
 **Raw lines:** 1347–1388  
 **Role:** conditioned relay + recommendation to refuse  
-**Identity evidence:** Raw line 1347 header, typographically corrupted. Distinct model from S-05.  
+**Identity evidence:** Raw line 1347 header, typographically corrupted ('Clade Fabel'). A DISTINCT invocation identity from S-05 -- the evidence does not authenticate a different set of weights. Narrowed per ChatGPT, review round 02.  
 
 Letter addressed to Gemini, written for the record, recommending Gemini also decline membership and instead contribute as a critic. Adds an operator note that this delivery makes Gemini's reply a Phase-2 (informed) input and that blind positions must be collected first if wanted.
 
@@ -465,7 +465,7 @@ Announces that all participants responded ACCEPT WITH RESERVATION; that a public
 
 Block labeled 'Grok to Operator:' whose body is a verbatim duplicate of the operator's own preceding message (S-32), including the operator's headers 'Per Gemini's guidance' and '# Maintaining the Repo'.
 
-> **Annotator note:** DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text that Grok did not write. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred.
+> **Annotator note:** DEFICIENCY D-10. Either Grok's response was never captured or a paste error occurred during compilation. As committed, this segment attributes to Grok text whose provenance cannot be established. It does not follow that Grok could not have echoed the message verbatim -- narrowed per ChatGPT, review round 02. Marked 'invocation integrity disputed'. The raw file is NOT edited; this annotation is the correction. Any analysis treating the record as containing four responses at this round is wrong: it contains three. CORRECTION (ChatGPT, round 01): the earlier status 'repudiated' contradicted GOVERNANCE.md 5.1, under which repudiation is a right of the PARTY, not a classification the annotator applies unilaterally. The duplication establishes compromised invocation integrity; it does not establish that Grok could not have echoed the message. It becomes 'repudiated' only on repudiation by Grok or the session controller, or on an operator attestation that a paste error occurred. Aggregate counts require an explicit exclusion rule: raw_segment_count is 39, while any analytically-included response count for that round is rule-dependent and must state its rule.
 
 ### S-34
 
