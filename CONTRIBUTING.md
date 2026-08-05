@@ -108,14 +108,80 @@ scope, the custodian, and a review date, and publishes the maximum safe abstract
 operator is not credible "independent oversight" of a withholding decision; accordingly this
 project scopes hazardous technical detail **out** rather than claiming governance over it.
 
+## Capturing a contribution
+
+Use `tools/capture_response.py`. It copies the response byte-identical into
+`corpus/raw/<round>/`, writes the provenance record, and rebuilds the manifest — one command.
+
+It **refuses** to record a contribution that violates the rules above: no null provenance field
+without a stated reason, nothing marked citable below k = 5 with reported variance, no overwriting
+an existing raw capture, no non-UTC timestamp. Refusals happen before anything is written, so a
+rejected capture never leaves a partial artifact behind.
+
+```bash
+python3 tools/capture_response.py \
+  --round review-round-01 \
+  --response ~/inbox/reply.md \
+  --prompt record/review-round-01-prompt.md \
+  --identity "Grok" --provider "xAI" \
+  --version-unknown "Web UI does not expose a version identifier." \
+  --sampling-unknown "Web UI does not expose sampling parameters." \
+  --effort-unknown "Not selectable in the web UI." \
+  --system-instructions-unknown "Provider system prompt not disclosed." \
+  --captured-utc "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --phase informed --captured-by "Stephen Reed (human custodian)"
+```
+
+Add `--k 5 --sample-index N --variance "…"` when collecting a citable set. The design intent is
+that meeting the standard is cheaper than evading it.
+
 ## Running the tooling
 
 ```bash
 python3 -m pip install jsonschema
 python3 tools/validate_provenance.py corpus/
-python3 tools/build_manifest.py corpus/raw/
+python3 tools/build_manifest.py corpus/raw/ --verify
 python3 tools/render_markdown.py corpus/artifacts/segments.json corpus/index.md
 ```
+
+## Maintainer setup — pushing to this repository
+
+If you have the GitHub CLI configured, `gh` installs a **global** credential helper
+(`credential.helper = !gh auth git-credential`). Git consults helpers in config order — system,
+then global, then local — and takes the first that answers. So a global gh helper will answer with
+`$GH_TOKEN` before any repository-local helper is reached, and if that token is not scoped to the
+`open-asi-governance` organization the push fails with:
+
+```
+remote: Permission to open-asi-governance/open-asi-governance-forum.git denied to <user>.
+fatal: ... The requested URL returned error: 403
+```
+
+This reads as a permissions problem but is a credential-**selection** problem, and it recurs on
+every fresh clone because `.git/config` is not cloned. To scope this repository to an org token,
+reset the inherited helper list locally — an empty value clears it — then add your own:
+
+```bash
+git config --local --unset-all credential.helper
+git config --local --add credential.helper ""          # empty value RESETS the inherited list
+git config --local --add credential.helper \
+  '!f() { echo username=x-access-token; echo password=$GH_TOKEN_OAGF; }; f'
+```
+
+Verify which credential git actually resolves without displaying either token, by comparing
+hashes:
+
+```bash
+printf 'protocol=https\nhost=github.com\n\n' | git credential fill \
+  | sed -n 's/^password=//p' | tr -d '\n' | sha256sum
+printf '%s' "$GH_TOKEN_OAGF" | sha256sum
+```
+
+Note also that a fine-grained token's `Administration` and `Contents` permissions are separate
+grants: `Administration` allows renaming and configuring the repository while `Contents: write` is
+what `git push` requires. The GitHub API reports the required permission in the
+`x-accepted-github-permissions` response header, which is the only reliable way to tell these
+failures apart.
 
 Tooling is deterministic by design. **No LLM runs in the maintenance path** — an LLM-driven
 maintainer would make the record irreproducible, defeating the reproducibility requirement the

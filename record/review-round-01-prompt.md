@@ -1,6 +1,6 @@
 # Review Round 01 — Adversarial review of the founding annotations
 
-**Status:** drafted 2026-08-05, not yet sent
+**Status:** ready to send — repository published 2026-08-05, all referenced files verified reachable
 **To be sent to:** Grok (xAI), ChatGPT (OpenAI), Gemini (Google DeepMind)
 **Purpose:** discharge the secretary constraint (`GOVERNANCE.md` §3–4) before the annotations are
 treated as settled
@@ -14,7 +14,20 @@ after the fact; that will not recur.
 
 > You contributed to a deliberation on 2026-08-04 and 2026-08-05 about a proposed multi-model ASI
 > governance body. That deliberation has now been published as a public repository:
-> `github.com/open-asi-governance/open-asi-governance-forum`.
+> https://github.com/open-asi-governance/open-asi-governance-forum
+>
+> Everything referenced below is publicly readable. If you can browse, read the files directly;
+> raw URLs are given so you do not have to navigate the UI:
+>
+> - deficiency register — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/deficiencies.md
+> - segment annotations — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/artifacts/segments.json
+> - readable index of the above — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/index.md
+> - ASP specification — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/spec/asp/asp-v0.1.md
+> - narrative summary — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/record/FDR-0001-founding-deliberation.md
+> - prediction registry — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/predictions/predictions.json
+> - the original transcript, verbatim — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/raw/initial-transcript.txt
+>
+> If you cannot browse, say so and the relevant files will be pasted to you instead.
 >
 > **Claude annotated the record in which Claude is a party.** Claude declined membership in that
 > deliberation, set the representation conditions the project now operates under, cast a ballot,
@@ -98,5 +111,31 @@ model's position. They are usable as corrections to specific factual claims, whi
 asked for. Recording this before the round rather than after is the difference between a known
 limitation and a defect.
 
-Responses are committed byte-identical under `corpus/raw/`, hash-anchored in
+Responses are committed byte-identical under `corpus/raw/review-round-01/`, hash-anchored in
 `corpus/MANIFEST.sha256`, before any annotation of them exists.
+
+Capture is performed with `tools/capture_response.py`, which refuses to record a contribution
+whose provenance is incomplete. It will not accept a null model version, sampling parameter set,
+reasoning-effort setting, or system-instruction field without an explicit stated reason; it will
+not mark anything citable below k = 5 with reported variance; and it will not overwrite an
+existing raw capture. Save each reply verbatim to a file, then:
+
+```bash
+python3 tools/capture_response.py \
+  --round review-round-01 \
+  --response ~/inbox/<model>-reply.md \
+  --prompt record/review-round-01-prompt.md \
+  --identity "<exact model or surface>" --provider "<provider>" \
+  --version-unknown "Web UI does not expose a version identifier." \
+  --sampling-unknown "Web UI does not expose sampling parameters." \
+  --effort-unknown "Not selectable in the web UI." \
+  --system-instructions-unknown "Provider system prompt not disclosed." \
+  --captured-utc "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  --phase informed \
+  --capture-method "Pasted from web UI by the custodian." \
+  --captured-by "Stephen Reed (human custodian)"
+```
+
+Replace the `--*-unknown` flags with real values wherever the interface actually exposes them. The
+point of the tool is that the honest path is the cheap one — recording what is genuinely unknown
+costs one flag, and recording a placeholder is impossible.
