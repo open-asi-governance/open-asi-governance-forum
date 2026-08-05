@@ -60,15 +60,17 @@ BUNDLES = {
             "corpus/deficiencies.md",
             "predictions/predictions.json",
             "record/FDR-0001-founding-deliberation.md",
+            "corpus/artifacts/segments.json",
+            "CONTRIBUTING.md",
+            "corpus/raw/initial-transcript.txt",
         ],
         "exclude": [
-            ("corpus/artifacts/segments.json",
-             "Large. The per-segment corrections are marked with a correction_round_01 field naming "
-             "the reviewer who supplied each. Request it if you need to verify a specific segment."),
-            ("corpus/raw/initial-transcript.txt",
-             "108 KB. The founding record. Request it if a judgement turns on original wording."),
-            ("README.md, GOVERNANCE.md, CONTRIBUTING.md",
-             "Process documents. Available on request."),
+            ("README.md, GOVERNANCE.md",
+             "Process documents not under review in this round. Available on request."),
+            ("tools/",
+             "Maintenance code. ChatGPT's round-02 review raises defects in capture_response.py, "
+             "validate_provenance.py and contribution.schema.json; request them to assess those "
+             "directly rather than through its report."),
         ],
     },
 }
