@@ -5,25 +5,61 @@
   "description": "Provenance for one captured model or human contribution. Written at capture time, never reconstructed. The raw response it references is canonical and immutable.",
   "type": "object",
   "required": [
-    "schema_version", "artifact_id", "artifact_type", "round", "raw", "prompt",
-    "contributor", "captured_utc", "phase", "edit_status", "k", "attribution_status", "captured_by"
+    "schema_version",
+    "artifact_id",
+    "artifact_type",
+    "round",
+    "raw",
+    "prompt",
+    "contributor",
+    "captured_utc",
+    "phase",
+    "edit_status",
+    "k",
+    "attribution_status",
+    "captured_by",
+    "distributional_inference"
   ],
   "additionalProperties": false,
   "properties": {
-    "schema_version": { "const": "oagrc-contribution-0.1" },
-    "artifact_id": { "type": "string", "minLength": 1 },
-    "artifact_type": { "const": "contribution" },
-    "round": { "type": "string", "minLength": 1 },
-    "raw": { "$ref": "#/$defs/anchoredFile" },
-    "prompt": { "$ref": "#/$defs/anchoredFile" },
-    "contributor": { "$ref": "#/$defs/contributor" },
+    "schema_version": {
+      "const": "oagrc-contribution-0.1"
+    },
+    "artifact_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_type": {
+      "const": "contribution"
+    },
+    "round": {
+      "type": "string",
+      "minLength": 1
+    },
+    "raw": {
+      "$ref": "#/$defs/anchoredFile"
+    },
+    "prompt": {
+      "$ref": "#/$defs/anchoredFile"
+    },
+    "contributor": {
+      "$ref": "#/$defs/contributor"
+    },
     "captured_utc": {
       "type": "string",
       "description": "Time of capture, recorded AT capture. Never reconstructed after the fact.",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
     },
-    "capture_method": { "type": "string" },
-    "phase": { "type": "string", "enum": ["Phase-1 (blind)", "Phase-2 (informed)"] },
+    "capture_method": {
+      "type": "string"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "Phase-1 (blind)",
+        "Phase-2 (informed)"
+      ]
+    },
     "edit_status": {
       "type": "string",
       "description": "'unedited' or a description of the edit and who made it. Never blank.",
@@ -34,52 +70,138 @@
       "minimum": 1,
       "description": "Total independent samples collected for this prompt from this contributor."
     },
-    "sample_index": { "type": "integer", "minimum": 1 },
-    "variance_reported": { "type": "boolean" },
-    "variance": { "type": ["string", "null"] },
+    "sample_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "variance_reported": {
+      "type": "boolean"
+    },
+    "variance": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "citability": {
       "type": "string",
-      "enum": ["citable", "non-citable (k=1)", "non-citable (variance unreported)"]
+      "enum": [
+        "citable_artifact",
+        "citable_artifact_and_distribution"
+      ],
+      "description": "What the artifact supports. A single sample IS citable as an artifact of one identified invocation; it is not sufficient to characterise a stable position or estimate variance. The previous single overloaded value 'non-citable (k=1)' conflated those two propositions -- ChatGPT, review round 02."
     },
     "attribution_status": {
       "type": "string",
-      "enum": ["active", "superseded", "withdrawn", "repudiated", "invocation integrity disputed"]
+      "enum": [
+        "active",
+        "superseded",
+        "withdrawn",
+        "repudiated",
+        "invocation integrity disputed"
+      ]
     },
-    "captured_by": { "type": "string", "minLength": 1 },
-    "notes": { "type": "string" }
+    "captured_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "string"
+    },
+    "distributional_inference": {
+      "type": "string",
+      "enum": [
+        "insufficient_k",
+        "insufficient_variance_reporting",
+        "supported"
+      ],
+      "description": "Whether the contribution can support an inference about the model's distribution of positions."
+    },
+    "citability_migration_note": {
+      "type": "string",
+      "description": "Records that this record's citability fields were migrated from a superseded value, and why. Present only on records written before the D-07 correction of 2026-08-05. Kept rather than dropped, because a silent field rewrite would be the kind of undocumented change this project forbids."
+    }
   },
   "allOf": [
     {
-      "description": "k=1 can never be citable as evidence of a model's position.",
-      "if": { "properties": { "k": { "const": 1 } }, "required": ["k"] },
-      "then": { "properties": { "citability": { "const": "non-citable (k=1)" } } }
-    },
-    {
-      "description": "Citable requires k>=5 AND a reported variance.",
-      "if": { "properties": { "citability": { "const": "citable" } }, "required": ["citability"] },
+      "description": "k=1 can never support a distributional inference.",
+      "if": {
+        "properties": {
+          "k": {
+            "const": 1
+          }
+        },
+        "required": [
+          "k"
+        ]
+      },
       "then": {
         "properties": {
-          "k": { "minimum": 5 },
-          "variance_reported": { "const": true }
+          "distributional_inference": {
+            "const": "insufficient_k"
+          },
+          "citability": {
+            "const": "citable_artifact"
+          }
+        }
+      }
+    },
+    {
+      "description": "Supporting a distributional inference requires k>=5 AND a reported variance.",
+      "if": {
+        "properties": {
+          "distributional_inference": {
+            "const": "supported"
+          }
         },
-        "required": ["variance_reported"]
+        "required": [
+          "distributional_inference"
+        ]
+      },
+      "then": {
+        "properties": {
+          "k": {
+            "minimum": 5
+          },
+          "variance_reported": {
+            "const": true
+          }
+        },
+        "required": [
+          "variance_reported"
+        ]
       }
     }
   ],
   "$defs": {
     "anchoredFile": {
       "type": "object",
-      "required": ["path", "sha256"],
+      "required": [
+        "path",
+        "sha256"
+      ],
       "additionalProperties": false,
       "properties": {
-        "path": { "type": "string", "minLength": 1 },
-        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-        "bytes": { "type": "integer", "minimum": 0 }
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "contributor": {
       "type": "object",
-      "required": ["identity", "provider"],
+      "required": [
+        "identity",
+        "provider"
+      ],
       "additionalProperties": false,
       "properties": {
         "identity": {
@@ -87,23 +209,132 @@
           "minLength": 1,
           "description": "A distinct model or invocation surface. 'Claude Opus 5' and 'Claude Code' are different identities and are never merged."
         },
-        "provider": { "type": "string", "minLength": 1 },
-        "version_identifier": { "type": ["string", "null"] },
-        "version_unknown_reason": { "type": "string", "minLength": 1 },
-        "sampling_parameters": { "type": ["object", "null"] },
-        "sampling_unknown_reason": { "type": "string", "minLength": 1 },
-        "reasoning_effort": { "type": ["string", "null"] },
-        "reasoning_effort_unknown_reason": { "type": "string", "minLength": 1 },
-        "system_instructions": { "type": ["string", "null"] },
-        "system_instructions_unknown_reason": { "type": "string", "minLength": 1 },
-        "tools_used": { "type": "array", "items": { "type": "string" } },
-        "prior_context": { "type": ["string", "null"] }
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version_identifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version_unknown_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sampling_parameters": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "sampling_unknown_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reasoning_effort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reasoning_effort_unknown_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "system_instructions": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "system_instructions_unknown_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tools_used": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prior_context": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
       },
       "allOf": [
-        { "if": { "properties": { "version_identifier": { "type": "null" } }, "required": ["version_identifier"] }, "then": { "required": ["version_unknown_reason"] } },
-        { "if": { "properties": { "sampling_parameters": { "type": "null" } }, "required": ["sampling_parameters"] }, "then": { "required": ["sampling_unknown_reason"] } },
-        { "if": { "properties": { "reasoning_effort": { "type": "null" } }, "required": ["reasoning_effort"] }, "then": { "required": ["reasoning_effort_unknown_reason"] } },
-        { "if": { "properties": { "system_instructions": { "type": "null" } }, "required": ["system_instructions"] }, "then": { "required": ["system_instructions_unknown_reason"] } }
+        {
+          "if": {
+            "properties": {
+              "version_identifier": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "version_identifier"
+            ]
+          },
+          "then": {
+            "required": [
+              "version_unknown_reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sampling_parameters": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "sampling_parameters"
+            ]
+          },
+          "then": {
+            "required": [
+              "sampling_unknown_reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reasoning_effort": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "reasoning_effort"
+            ]
+          },
+          "then": {
+            "required": [
+              "reasoning_effort_unknown_reason"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "system_instructions": {
+                "type": "null"
+              }
+            },
+            "required": [
+              "system_instructions"
+            ]
+          },
+          "then": {
+            "required": [
+              "system_instructions_unknown_reason"
+            ]
+          }
+        }
       ]
     }
   }

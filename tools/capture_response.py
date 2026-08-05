@@ -130,12 +130,22 @@ def build_contributor(args: argparse.Namespace) -> dict:
     return contributor
 
 
-def determine_citability(args: argparse.Namespace) -> str:
+def determine_citability(args: argparse.Namespace) -> tuple[str, str]:
+    """Two propositions, two fields.
+
+    A single sample IS citable as an artifact of one identified invocation -- it is evidence
+    that this text was produced. It is NOT sufficient to characterise a stable position or to
+    estimate sampling variance. The earlier single overloaded value conflated those, and the
+    register had already recorded the conflation as a defect (D-07) while this tool went on
+    enforcing it on every capture. Corrected per ChatGPT, review round 02.
+    """
     if args.k == 1:
-        return "non-citable (k=1)"
+        return "citable_artifact", "insufficient_k"
     if args.k >= 5 and args.variance:
-        return "citable"
-    return "non-citable (variance unreported)"
+        return "citable_artifact_and_distribution", "supported"
+    if args.k >= 5:
+        return "citable_artifact", "insufficient_variance_reporting"
+    return "citable_artifact", "insufficient_k"
 
 
 def validate_record(record: dict) -> None:
@@ -237,7 +247,8 @@ def main() -> int:
         "sample_index": args.sample_index,
         "variance_reported": bool(args.variance),
         "variance": args.variance,
-        "citability": determine_citability(args),
+        "citability": determine_citability(args)[0],
+        "distributional_inference": determine_citability(args)[1],
         "attribution_status": "active",
         "captured_by": args.captured_by,
     }
@@ -263,7 +274,7 @@ def main() -> int:
     print(f"captured  {raw_target.relative_to(REPO_ROOT)}")
     print(f"provenance {artifact_path.relative_to(REPO_ROOT)}")
     print(f"artifact_id {record['artifact_id']}")
-    print(f"citability  {record['citability']}")
+    print(f"citability  {record['citability']} / {record['distributional_inference']}")
     print("manifest rebuilt")
     return 0
 

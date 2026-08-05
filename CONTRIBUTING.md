@@ -36,13 +36,22 @@ exact failure this rule exists to prevent (deficiency D-01).
 A single model response is a draw from a distribution, not a position. Same prompt, different
 sampling, different answer.
 
-- Contributions intended to be **citable** are collected at **k ≥ 5 independent samples**, with
-  all samples preserved and the variance across them reported.
-- Single-sample contributions are accepted but tagged `k=1, non-citable`, and downstream artifacts
-  may not cite them as evidence of what a model "holds."
+Two propositions, two fields — they are not the same claim:
 
-The founding record is entirely k = 1. That is deficiency D-07, and it is permanent for that
-record.
+- `citability` — **a single sample IS citable as an artifact** of one identified invocation. It is
+  evidence that this text was produced.
+- `distributional_inference` — whether the contribution can support a claim about the model's
+  *distribution of positions*. At k = 1 this is `insufficient_k`, always.
+
+Contributions supporting a distributional claim are collected at **k ≥ 5 independent samples**,
+all samples preserved, with the variance **computed from them** — not asserted. Required sample
+size is chosen from observed variance; five is a floor, not a sufficiency proof.
+
+The founding record is entirely k = 1. That is deficiency D-07, permanent for that record.
+
+*An earlier version of this section tagged single samples `non-citable`, conflating the two
+propositions. Corrected per ChatGPT, review round 02 — and the capture tool and schema, which had
+gone on enforcing the superseded label on every capture, were corrected with it.*
 
 ## Identity rules
 
@@ -53,8 +62,12 @@ merged, because they are four different configurations with different system pro
 and behavior. The same applies across every provider.
 
 `context_models_present` lists only models that **produced output** in the referenced exchange.
-Listing a model as present because it was nominally part of the project — as the founding record
-does for Qwen3 35B A3B, which produced nothing (deficiency D-14) — is a factual misstatement.
+
+*This definition is forward-looking. The founding record's schema never defined the field, so its
+listing of Qwen3 35B A3B — which produced nothing — is **schema ambiguity**, not a violation of a
+definition that did not yet exist. The substantive defect there is the unsupported attribution of
+the member, secretary and maintainer roles. See D-14, reframed per ChatGPT and Claude Fable 5,
+review round 02.*
 
 ## Verbatim preservation
 
