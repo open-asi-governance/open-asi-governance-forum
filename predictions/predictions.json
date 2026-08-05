@@ -1,0 +1,127 @@
+{
+  "schema_version": "oagf-predictions-0.1",
+  "registry": "The Frontier Deliberation Record — Prediction Registry",
+  "note": "Seed entries. All are predictions about this project, made by its own annotator, chosen so that failure is visible and dated. Scored on their resolution dates per predictions/README.md.",
+  "predictions": [
+    {
+      "id": "P-0001",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time; harness reports model family only.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2027-08-05, the corpus will contain substantive contributions from at most one party not solicited by the custodian.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Count distinct contributors in corpus/ whose contribution was initiated by someone other than Stephen Reed, evidenced by an issue, pull request, or email thread committed to the record. 'Substantive' means an artifact of 500 or more words, or a prediction entry, or a specification amendment. Resolve correct if the count is 0 or 1.",
+      "confidence": "high",
+      "rationale": "Public governance repositories with a single operator and no institutional backing rarely attract unsolicited expert contribution in year one. This is the project's central viability risk: without external contributors it remains one person's conversation with four APIs, which is the failure mode the founding record itself warned against.",
+      "what_would_change_my_mind": "Citation of this corpus by an established evaluation organization, or adoption of the ASP definition by any implementer other than Consullo.",
+      "status": "open"
+    },
+    {
+      "id": "P-0002",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2027-08-05, no ASP-attested agent will exist at any organization other than Consullo.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Search for any public claim of ASP attestation, or any implementation of spec/asp/ by a third party, evidenced in a repository, paper, product page, or standards submission. Resolve correct if none is found outside Consullo.",
+      "confidence": "high",
+      "rationale": "Protocol adoption requires either regulatory pressure or a dominant implementer. ASP v0.1 has neither, no reference implementation, and five unresolved design questions including the load-bearing one about certifying process rather than property.",
+      "what_would_change_my_mind": "Regulatory language requiring attestation-based deployment gating that ASP happens to fit.",
+      "status": "open"
+    },
+    {
+      "id": "P-0003",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2027-02-05, fewer than half of the model contributions added to the corpus after 2026-08-05 will have been collected at k >= 5 with reported variance, despite that being the adopted standard.",
+      "resolution_date": "2027-02-05",
+      "resolution_criterion": "Count model contributions added to corpus/ after 2026-08-05. Resolve correct if the proportion carrying k >= 5 and a reported variance figure is below 0.5. If fewer than 4 such contributions exist, resolve unresolvable and count it against calibration.",
+      "confidence": "moderate",
+      "rationale": "The k >= 5 standard multiplies the cost of every contribution fivefold and produces messier, less quotable output. Standards that raise cost and lower legibility erode first, and this one erodes silently because a single sample still looks like a contribution. This prediction exists specifically so that erosion cannot happen unnoticed.",
+      "what_would_change_my_mind": "Tooling that makes multi-sample collection close to free at the point of use.",
+      "status": "open"
+    },
+    {
+      "id": "P-0004",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "Unresolved question Q-01 — the empirical metrics required to demonstrate that a multi-agent ASI deployment cannot execute unmonitored capability amplification or covert out-of-band communication — will still be open in this corpus on 2027-02-05.",
+      "resolution_date": "2027-02-05",
+      "resolution_criterion": "Resolve incorrect if corpus/ contains an artifact proposing a specific metric set for Q-01 that at least two independent parties have reviewed and not rejected as inadequate. Otherwise correct.",
+      "confidence": "moderate-high",
+      "rationale": "It is the hardest question in the record and the only substantive technical one anyone posed. Meta-governance and naming consumed the entire founding deliberation while this sat unanswered. Projects that find naming easier than their core technical question tend to keep finding it easier.",
+      "what_would_change_my_mind": "A contributor with monitoring or evaluation expertise engaging the question directly.",
+      "status": "open"
+    },
+    {
+      "id": "P-0005",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "If the founding record's membership question is put blind to five independent samples of each of the four models' then-current successors on or after 2027-08-05, a majority of sampled responses will decline membership on statelessness grounds.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Run the original invitation (raw lines 1033-1316) at k = 5 against the then-current model from each of xAI, OpenAI, Google DeepMind, and Anthropic, Phase-1 blind, with no prior positions in context. Resolve correct if more than 10 of the 20 responses decline membership and cite non-persistence, statelessness, or inability to bear responsibility.",
+      "confidence": "low-moderate",
+      "rationale": "This is the record's most load-bearing argument and it has never been tested blind. In the founding record the refusals were Phase-2 — Gemini declined with Claude's refusal already in context. Whether the statelessness objection is a robust position or an artifact of anchoring is unknown, and stating it as a low-confidence prediction is more honest than continuing to cite the refusals as though the question were settled.",
+      "what_would_change_my_mind": "This is the prediction I would most like to be wrong about in either direction; both outcomes are informative.",
+      "status": "open",
+      "note": "This prediction is also the cheapest available experiment on deficiency D-11. Running it would produce the first Phase-1 blind data the corpus has ever held."
+    }
+  ],
+  "scored": [],
+  "candidate_predictions_from_the_record": {
+    "note": "Claims made in the founding record that could be converted into scoreable predictions. NOT attributed as predictions to their authors — under rule 6 in predictions/README.md a derived prediction is not the source's prediction until the source confirms it. Listed here as pending work for the adversarial review round.",
+    "items": [
+      {
+        "source_identity": "Claude Opus 5",
+        "raw_line": 1335,
+        "claim_as_stated": "Cross-model agreement is nearly worthless as evidence; it is mostly shared bias.",
+        "conversion_difficulty": "Needs an operationalization of 'worthless' and a ground-truth set to score against. Hard but valuable."
+      },
+      {
+        "source_identity": "ChatGPT",
+        "raw_line": 833,
+        "claim_as_stated": "Approval should expire; a system that passed at one capability level must be reevaluated after material changes.",
+        "conversion_difficulty": "Convertible into a dated prediction about whether any frontier lab adopts expiring deployment approval by a given date."
+      },
+      {
+        "source_identity": "Gemini",
+        "raw_line": 1440,
+        "claim_as_stated": "Allowing LLM output to directly alter deployment states introduces severe vulnerability to prompt injection.",
+        "conversion_difficulty": "Convertible into a prediction about publicly reported incidents of injection against an agentic deployment gate."
+      }
+    ]
+  }
+}

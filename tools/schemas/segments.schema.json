@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/segments.schema.json",
+  "title": "OAGRC segment annotation file",
+  "description": "Annotation of a raw corpus artifact, segmented into attributed contributions. This file is a SECONDARY interpretation artifact; the raw file it references is canonical.",
+  "type": "object",
+  "required": ["schema_version", "artifact_id", "artifact_type", "status", "source", "annotator", "provenance_defaults", "segments"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "type": "string" },
+    "artifact_id": { "type": "string", "minLength": 1 },
+    "artifact_type": { "const": "annotation" },
+    "status": {
+      "type": "string",
+      "enum": ["draft, unreviewed", "reviewed", "superseded", "withdrawn"]
+    },
+    "source": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "lines": { "type": "integer", "minimum": 1 },
+        "bytes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "annotator": {
+      "type": "object",
+      "description": "Who produced this interpretation, and what conflicts they carry.",
+      "required": ["identity", "date_utc", "conflict_of_interest"],
+      "properties": {
+        "identity": { "type": "string" },
+        "provider": { "type": "string" },
+        "version_identifier": { "type": ["string", "null"] },
+        "version_unknown_reason": { "type": "string" },
+        "date_utc": { "type": "string" },
+        "conflict_of_interest": { "type": "string", "minLength": 1 },
+        "authority": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "description": "An unknown version identifier requires a stated reason. Placeholders are prohibited.",
+          "if": { "properties": { "version_identifier": { "type": "null" } }, "required": ["version_identifier"] },
+          "then": { "required": ["version_unknown_reason"] }
+        }
+      ]
+    },
+    "provenance_defaults": {
+      "type": "object",
+      "description": "Defaults applied to every segment, stated once. Null values REQUIRE a sibling *_unknown_reason.",
+      "required": ["k", "phase", "attribution_status"],
+      "properties": {
+        "k": { "type": "integer", "minimum": 1 },
+        "variance_reported": { "type": "boolean" },
+        "phase": { "type": "string", "enum": ["Phase-1 (blind)", "Phase-2 (informed)", "unclassified"] },
+        "attribution_status": { "$ref": "#/$defs/attributionStatus" }
+      },
+      "allOf": [
+        { "if": { "properties": { "version_identifier": { "type": "null" } }, "required": ["version_identifier"] }, "then": { "required": ["version_unknown_reason"] } },
+        { "if": { "properties": { "sampling_parameters": { "type": "null" } }, "required": ["sampling_parameters"] }, "then": { "required": ["sampling_unknown_reason"] } },
+        { "if": { "properties": { "timestamp_utc": { "type": "null" } }, "required": ["timestamp_utc"] }, "then": { "required": ["timestamp_unknown_reason"] } },
+        { "if": { "properties": { "system_instructions": { "type": "null" } }, "required": ["system_instructions"] }, "then": { "required": ["system_instructions_unknown_reason"] } }
+      ]
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/segment" }
+    },
+    "segment_count": { "type": "integer", "minimum": 1 },
+    "counts_by_identity": { "type": "object" },
+    "ballots": { "type": "object" },
+    "unresolved_questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "raised_by", "question", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "raised_by": { "type": "string" },
+          "raw_line": { "type": "integer", "minimum": 1 },
+          "question": { "type": "string" },
+          "status": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "attributionStatus": {
+      "type": "string",
+      "enum": ["active", "superseded", "withdrawn", "repudiated", "invocation integrity disputed"]
+    },
+    "segment": {
+      "type": "object",
+      "required": ["id", "lines", "author_label_in_raw", "summary"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^S-[0-9]{2,}$" },
+        "lines": {
+          "type": "array",
+          "description": "Inclusive [start, end] line range in the raw source file.",
+          "items": { "type": "integer", "minimum": 1 },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "author_label_in_raw": {
+          "type": "string",
+          "description": "The label as it literally appears in the raw file, however corrupted. Never normalized."
+        },
+        "identity": {
+          "type": ["string", "null"],
+          "description": "The resolved distinct identity. Null only where attribution is repudiated or undetermined."
+        },
+        "identity_evidence": { "type": "string" },
+        "role": { "type": ["string", "null"] },
+        "summary": { "type": "string", "minLength": 1 },
+        "key_claims": { "type": "array", "items": { "type": "string" } },
+        "durable_outputs": { "type": "array", "items": { "type": "string" } },
+        "annotator_note": { "type": "string" },
+        "conflict_flag": { "type": "string" },
+        "claim_typing_flag": { "type": "string" },
+        "attribution_status": { "$ref": "#/$defs/attributionStatus" },
+        "ballot": {
+          "type": "string",
+          "enum": ["ACCEPT", "ACCEPT WITH RESERVATION", "OBJECT"]
+        },
+        "prompt_text_preserved": { "type": "boolean" },
+        "self_reported_provenance": { "type": "object" },
+        "superseded_by": { "type": "array", "items": { "type": "string" } },
+        "disposition": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "description": "A segment with no resolved identity must be explicitly repudiated or disputed.",
+          "if": { "properties": { "identity": { "type": "null" } }, "required": ["identity"] },
+          "then": {
+            "required": ["attribution_status"],
+            "properties": {
+              "attribution_status": { "enum": ["repudiated", "invocation integrity disputed"] }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
