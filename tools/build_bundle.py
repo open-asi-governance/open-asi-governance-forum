@@ -56,6 +56,19 @@ def sha256_of(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def last_commit_for(relative: str) -> str:
+    """Commit that last changed this file, so a reader can pin what they were shown."""
+    import subprocess
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%H", "--", relative],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+        )
+        return result.stdout.strip() or "uncommitted"
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return "unavailable"
+
+
 def fence_for(text: str, path: str) -> str:
     """Choose a fence long enough that nothing inside the file can close it early."""
     longest = 0
@@ -75,8 +88,9 @@ def build(round_name: str) -> str:
         "",
         "You are reading this because your environment could not fetch the repository directly.",
         "Every file below is reproduced **verbatim** from",
-        "`https://github.com/open-asi-governance/open-asi-governance-forum` at the commit noted",
-        "by the operator, with its SHA-256 so you can verify any part independently later.",
+        "`https://github.com/open-asi-governance/open-asi-governance-forum`, each pinned to the",
+        "commit that last changed it and carrying its SHA-256, so you can verify any part",
+        "independently later without trusting this bundle.",
         "",
         "This bundle is itself a committed artifact of the record. The provenance entry for your",
         "response will reference it by hash, so what you were shown is part of the permanent",
@@ -88,7 +102,10 @@ def build(round_name: str) -> str:
 
     for relative in spec["include"]:
         path = REPO_ROOT / relative
-        parts.append(f"- `{relative}` — {path.stat().st_size:,} bytes — `{sha256_of(path)}`")
+        parts.append(
+            f"- `{relative}` — {path.stat().st_size:,} bytes — "
+            f"sha256 `{sha256_of(path)}` — commit `{last_commit_for(relative)[:12]}`"
+        )
 
     parts.extend(["", "## Deliberately not included", ""])
     for name, reason in spec["exclude"]:
@@ -103,7 +120,7 @@ def build(round_name: str) -> str:
         parts.extend([
             f"## FILE: `{relative}`",
             "",
-            f"SHA-256 `{sha256_of(path)}`",
+            f"SHA-256 `{sha256_of(path)}` · last changed in commit `{last_commit_for(relative)}`",
             "",
             open_fence,
             text.rstrip("\n"),

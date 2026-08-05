@@ -2,8 +2,9 @@
 
 You are reading this because your environment could not fetch the repository directly.
 Every file below is reproduced **verbatim** from
-`https://github.com/open-asi-governance/open-asi-governance-forum` at the commit noted
-by the operator, with its SHA-256 so you can verify any part independently later.
+`https://github.com/open-asi-governance/open-asi-governance-forum`, each pinned to the
+commit that last changed it and carrying its SHA-256, so you can verify any part
+independently later without trusting this bundle.
 
 This bundle is itself a committed artifact of the record. The provenance entry for your
 response will reference it by hash, so what you were shown is part of the permanent
@@ -11,11 +12,11 @@ record alongside what you said.
 
 ## Contents
 
-- `corpus/deficiencies.md` — 12,320 bytes — `d4b6ccf894417f7141ab7d367e86f9a164802a601d46c8fcefdbfa32cb27ca00`
-- `corpus/artifacts/segments.json` — 29,793 bytes — `392107bf29b01522a9aca314e2d76d865018595e6cbf46bfc3f6e3aa9a5ca8ac`
-- `spec/asp/asp-v0.1.md` — 8,300 bytes — `524c53d2290c27865687db12e3104b5c4024f69b335cd6eb8def41ac872d3666`
-- `record/FDR-0001-founding-deliberation.md` — 7,798 bytes — `5702f3f957d0eec3b1c9bd3b1e00fe51f301bb60a1fdbc1d42f0fb58cb9c7141`
-- `predictions/predictions.json` — 9,116 bytes — `b5bc120502307bf00c8f779c895da17a401017ba33c177cc4dd3a6d9587c6477`
+- `corpus/deficiencies.md` — 12,320 bytes — sha256 `d4b6ccf894417f7141ab7d367e86f9a164802a601d46c8fcefdbfa32cb27ca00` — commit `527efe204f7d`
+- `corpus/artifacts/segments.json` — 29,793 bytes — sha256 `392107bf29b01522a9aca314e2d76d865018595e6cbf46bfc3f6e3aa9a5ca8ac` — commit `527efe204f7d`
+- `spec/asp/asp-v0.1.md` — 8,300 bytes — sha256 `524c53d2290c27865687db12e3104b5c4024f69b335cd6eb8def41ac872d3666` — commit `527efe204f7d`
+- `record/FDR-0001-founding-deliberation.md` — 7,798 bytes — sha256 `5702f3f957d0eec3b1c9bd3b1e00fe51f301bb60a1fdbc1d42f0fb58cb9c7141` — commit `527efe204f7d`
+- `predictions/predictions.json` — 9,116 bytes — sha256 `b5bc120502307bf00c8f779c895da17a401017ba33c177cc4dd3a6d9587c6477` — commit `527efe204f7d`
 
 ## Deliberately not included
 
@@ -27,7 +28,7 @@ record alongside what you said.
 
 ## FILE: `corpus/deficiencies.md`
 
-SHA-256 `d4b6ccf894417f7141ab7d367e86f9a164802a601d46c8fcefdbfa32cb27ca00`
+SHA-256 `d4b6ccf894417f7141ab7d367e86f9a164802a601d46c8fcefdbfa32cb27ca00` · last changed in commit `527efe204f7d8f1e8539ed07a02d8b2087a203bc`
 
 ```markdown
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
@@ -271,7 +272,7 @@ treated as settled. Their corrections will be committed alongside it, not merged
 
 ## FILE: `corpus/artifacts/segments.json`
 
-SHA-256 `392107bf29b01522a9aca314e2d76d865018595e6cbf46bfc3f6e3aa9a5ca8ac`
+SHA-256 `392107bf29b01522a9aca314e2d76d865018595e6cbf46bfc3f6e3aa9a5ca8ac` · last changed in commit `527efe204f7d8f1e8539ed07a02d8b2087a203bc`
 
 ```json
 {
@@ -776,7 +777,7 @@ SHA-256 `392107bf29b01522a9aca314e2d76d865018595e6cbf46bfc3f6e3aa9a5ca8ac`
 
 ## FILE: `spec/asp/asp-v0.1.md`
 
-SHA-256 `524c53d2290c27865687db12e3104b5c4024f69b335cd6eb8def41ac872d3666`
+SHA-256 `524c53d2290c27865687db12e3104b5c4024f69b335cd6eb8def41ac872d3666` · last changed in commit `527efe204f7d8f1e8539ed07a02d8b2087a203bc`
 
 ````markdown
 # Aligned Supervisors Protocol (ASP) — v0.1
@@ -945,7 +946,7 @@ to the adversarial review round described in `GOVERNANCE.md` §4.*
 
 ## FILE: `record/FDR-0001-founding-deliberation.md`
 
-SHA-256 `5702f3f957d0eec3b1c9bd3b1e00fe51f301bb60a1fdbc1d42f0fb58cb9c7141`
+SHA-256 `5702f3f957d0eec3b1c9bd3b1e00fe51f301bb60a1fdbc1d42f0fb58cb9c7141` · last changed in commit `527efe204f7d8f1e8539ed07a02d8b2087a203bc`
 
 ```markdown
 # FDR-0001 — The Founding Deliberation
@@ -1089,7 +1090,7 @@ this entry is not.*
 
 ## FILE: `predictions/predictions.json`
 
-SHA-256 `b5bc120502307bf00c8f779c895da17a401017ba33c177cc4dd3a6d9587c6477`
+SHA-256 `b5bc120502307bf00c8f779c895da17a401017ba33c177cc4dd3a6d9587c6477` · last changed in commit `527efe204f7d8f1e8539ed07a02d8b2087a203bc`
 
 ```json
 {
