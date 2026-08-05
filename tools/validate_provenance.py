@@ -80,6 +80,7 @@ def sha256_of(path: Path) -> str:
 SCHEMA_FOR_TYPE = {
     "annotation": "segments.schema.json",
     "contribution": "contribution.schema.json",
+    "solicitation_summary": "solicitation.schema.json",
 }
 
 
@@ -125,6 +126,12 @@ def check_source_hash(document: dict, report: Report) -> None:
     for key in ("raw", "prompt"):
         if key in document:
             anchors.append((key, document[key]))
+
+    if document.get("artifact_type") == "solicitation_summary":
+        raw = REPO_ROOT / document.get("raw_samples", "")
+        if not document.get("raw_samples") or not raw.is_file():
+            report.error("P1", f"raw_samples not found: {document.get('raw_samples')!r}")
+        return
 
     if not anchors:
         report.error("P1", "no anchored source: expected 'source', or 'raw' and 'prompt'")
@@ -342,7 +349,10 @@ def collect_targets(argument: str) -> list[Path]:
     if not target.is_absolute():
         target = REPO_ROOT / target
     if target.is_dir():
-        return sorted(target.rglob("*.json"))
+        # corpus/raw/ holds RAW MATERIAL. It is anchored by corpus/MANIFEST.sha256 and is
+        # never schema-validated -- raw material is whatever a party actually emitted, and
+        # imposing a schema on it would be the project asserting a shape the source never had.
+        return sorted(p for p in target.rglob("*.json") if "corpus/raw/" not in p.as_posix())
     return [target]
 
 

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/solicitation.schema.json",
+  "title": "OAGRC local solicitation summary",
+  "description": "Summary of a k-sample solicitation from a locally served model. Variance is COMPUTED from the samples collected, never asserted. The raw samples it references are canonical.",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "round", "slug", "phase", "k_requested", "k_collected", "variance", "citability", "contributor", "serve_configuration", "prompt_sha256", "raw_samples"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "const": "oagrc-local-solicitation-0.1" },
+    "artifact_type": { "const": "solicitation_summary" },
+    "round": { "type": "string", "minLength": 1 },
+    "slug": { "type": "string", "minLength": 1 },
+    "question": { "type": "string" },
+    "phase": { "type": "string", "enum": ["Phase-1 (blind)", "Phase-2 (informed)"] },
+    "k_requested": { "type": "integer", "minimum": 1 },
+    "k_collected": { "type": "integer", "minimum": 1 },
+    "failures": { "type": "array" },
+    "variance": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "Per-field distribution computed from the collected samples.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["distribution", "n", "distinct_values", "modal_value", "modal_fraction", "shannon_entropy_bits"],
+        "properties": {
+          "distribution": { "type": "object" },
+          "n": { "type": "integer", "minimum": 1 },
+          "distinct_values": { "type": "integer", "minimum": 1 },
+          "modal_fraction": { "type": "number", "minimum": 0, "maximum": 1 },
+          "shannon_entropy_bits": { "type": "number", "minimum": 0 },
+          "unanimous": { "type": "boolean" }
+        }
+      }
+    },
+    "citability": { "type": "string", "enum": ["citable", "non-citable (k<5)"] },
+    "contributor": {
+      "type": "object",
+      "required": ["identity", "version_identifier", "sampling_parameters"],
+      "properties": {
+        "identity": { "type": "string", "minLength": 1 },
+        "version_identifier": { "type": "string", "minLength": 1 },
+        "sampling_parameters": { "type": "object" }
+      }
+    },
+    "serve_configuration": { "type": "object", "required": ["captured"] },
+    "prompt_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "spec_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "raw_samples": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "description": "Citable requires k>=5 actually collected. The bar is samples in hand, not samples requested.",
+      "if": { "properties": { "citability": { "const": "citable" } }, "required": ["citability"] },
+      "then": { "properties": { "k_collected": { "minimum": 5 } } }
+    }
+  ]
+}
