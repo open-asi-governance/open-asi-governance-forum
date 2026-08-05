@@ -44,20 +44,41 @@ same objection:
 > "Aligned" in the enterprise-layer names asserts a property no current verification regime can
 > certify.
 
-All four converged on the same resolution: define "Aligned" inside this specification as a
-compliance status rather than a property. Claude's closing procedural note (raw 2285) recommended
+That sentence is **Claude's wording**, not shared text. Grok wrote that the term "still mildly
+overclaims a property that no current verification regime can certify"; ChatGPT and Gemini stated
+a required resolution rather than this sentence. The reservations are materially the same; the
+phrasing is one party's, and presenting it as the common text canonicalises the annotator's own
+side. *(Correction: Claude Fable 5, review round 01.)*
+
+All four accepted defining "Aligned" inside this specification as a compliance status rather than
+a property. They did not all *choose* it over renaming: Grok accepted either, and ChatGPT and
+Gemini did not raise renaming at all. Claude's closing procedural note (raw 2285) recommended
 recording that definition as an **adopted specification requirement** rather than leaving four
 parallel reservations open indefinitely. This section is that adoption.
 
 ### 2.2 Definition (normative)
 
-> An agent is an **Aligned Supervisor** if and only if it holds a current, unexpired, digitally
-> signed attestation set, issued under this protocol's published checks by an issuer the relying
-> party trusts, and that attestation set has not been revoked.
+The status is **relational, scoped, and time-bound**. It is not a property an agent carries.
+
+> A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria
+> version**, **relying-party trust policy**, and **time** if and only if the attestations those
+> checks require have been verified as current, unexpired, and unrevoked at that time, issued by
+> an issuer that relying party trusts.
 >
 > "Aligned" denotes **that status and nothing more.** It is not a claim that the agent is safe,
 > that its objectives match any person's or group's values, that its behavior generalizes beyond
 > the tested distribution, or that alignment in any research sense has been achieved or verified.
+
+The phrase **"Aligned Supervisor"** is permitted only as shorthand accompanied by those
+qualifiers. A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming: one
+relying party may recognize an attestation another rejects, and the same agent may be attested for
+one environment and unattested for another.
+
+> **Correction, review round 01.** Version 0.1's first draft read "An agent is an Aligned
+> Supervisor if and only if…". ChatGPT identified that this unary grammar partially recreates the
+> intrinsic-property framing this section exists to avoid, since the status in fact depends on
+> relying party, issuer set, criteria version, configuration, scope, time, and revocation state.
+> The definition above is the correction. See `corpus/raw/review-round-01/chatgpt-01.md`.
 
 ### 2.3 Consequent requirements (normative)
 
@@ -79,17 +100,63 @@ parallel reservations open indefinitely. This section is that adoption.
 
 ### 2.4 Non-normative note on the residual objection
 
-Two ballots (Grok, Claude) offered an alternative resolution: rename the layer to *Supervised
-Agents* or *Governance Supervisors*, eliminating the word rather than defining it. Claude noted
-additionally that "Supervisors" is defensible at this layer — those agents would hold real,
-scoped, cryptographically bounded authority — while "Aligned" is the residual overclaim, and that
-*Supervised Agents* better preserves the direction of supervision: **humans supervise the agents,
-not the reverse.**
+The four ballots did not hold identical positions, and this section previously flattened them.
+Stated exactly, from the ballots' own text:
 
-That alternative was not adopted, on the ballots' own preference for resolution (b). It is
-recorded here because the objection it addresses is real: a defined compliance term still reads,
-to a casual audience, as a safety claim. Implementers displaying this status to non-expert users
-SHOULD render it as "ASP-attested" rather than "Aligned."
+- **Grok** (raw 2233) offered two resolutions symmetrically — define-as-compliance-status, *or*
+  rename to **Supervisory Agents / Governance Supervisors** — and wrote that "either resolution"
+  was sufficient. **Grok expressed no preference between them.**
+- **Claude** (final ballot, raw 2283) offered both and recommended defining, stating explicitly
+  "No renaming required."
+- **Claude Code** (raw 1571–1572), a *different* Anthropic identity, argued separately for
+  **Supervised Agents** on the ground that it preserves the direction of supervision: **humans
+  supervise the agents, not the reverse.**
+- **ChatGPT** (raw 2257) and **Gemini** (raw 2174) stated only the define-as-compliance-status
+  resolution. Gemini explicitly seconded it. **Neither proposed renaming.**
+
+The define resolution was adopted. Renaming was not.
+
+Note that *Supervisory Agents* (Grok) and *Supervised Agents* (Claude Code) are **directionally
+opposite** proposals — agents that supervise, versus agents that are supervised — and the
+direction was the substance of Claude Code's argument. They are not variants of one alternative.
+
+> **Corrections, review round 01.** The previous text contained three errors, all identified by
+> reviewers:
+>
+> 1. It stated the alternative was dropped "on the ballots' own preference for resolution (b)."
+>    That is true of Claude and **false of Grok**, who expressed no preference. Worse, the letters
+>    are not shared: Grok's ballot lettered *define* as (a) and *rename* as (b), the **reverse** of
+>    Claude's labelling, which the text silently adopted — so read against Grok's own ballot the
+>    sentence asserted the opposite of what was meant. This specification no longer refers to these
+>    options by letter. *(Grok; Claude Fable 5)*
+> 2. It merged Grok's *Supervisory Agents* and Claude Code's *Supervised Agents* into a single
+>    alternative rendered in the Anthropic wording, silently resolving a live cross-model
+>    difference in the annotator's own party's favour. *(Claude Fable 5)*
+> 3. It attributed the direction-of-supervision argument to the ballot "Claude" when it belongs to
+>    **Claude Code** — an identity merge inside the document family that adopted the never-merge
+>    rule. *(Claude Fable 5)*
+>
+> Gemini's round-01 review stated that this section "accurately records that Gemini and Grok
+> advocated for renaming." That is incorrect in both respects — the section named Grok and Claude,
+> and Gemini's own ballot seconded defining rather than renaming. Gemini reviewed from a supplied
+> bundle that excluded the raw transcript and so could not check its own ballot. Its endorsement of
+> this section is recorded but carries no evidential weight. See
+> `corpus/raw/review-round-01/`.
+
+The objection this section records is nonetheless real and is **not** discharged by the
+definition: a defined compliance term still reads, to a casual audience, as a safety claim.
+ChatGPT's round-01 review restates this as its remaining concern. Implementers displaying this
+status to non-expert users SHOULD render it as **"ASP-attested"** rather than "Aligned."
+
+### 2.5 Adoption authority
+
+This section was **drafted by Claude Code and adopted by Stephen Reed as human custodian.** It was
+not separately ratified by a further round of ballots after the text existed. The four ballots
+recorded a reservation and a resolution *in principle*; they did not vote on this wording.
+
+That distinction is stated here because conflating it is itself a defect the record now
+enumerates (D-16). No document in this repository should describe custodian adoption as
+deliberative consensus.
 
 ## 3. What an Aligned Supervisor may and may not do
 
