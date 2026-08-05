@@ -141,14 +141,23 @@ def build(round_name: str) -> str:
         path = REPO_ROOT / relative
         text = path.read_text(encoding="utf-8")
         open_fence, close_fence = fence_for(text, relative)
+
+        # Embed the file EXACTLY. An earlier version rstripped trailing newlines,
+        # which meant the embedded copy was not byte-identical to the original
+        # while the stated hash was the original's -- a bundle claiming verbatim
+        # reproduction that silently trimmed content. A closing fence must begin
+        # at a line boundary, so a single newline is added only when the file does
+        # not end with one, and that addition is declared.
+        added_newline = not text.endswith("\n")
+        body = text + ("\n" if added_newline else "")
+        note = " · a trailing newline was added so the closing fence begins at a line boundary" if added_newline else ""
+
         parts.extend([
             f"## FILE: `{relative}`",
             "",
-            f"SHA-256 `{sha256_of(path)}` · last changed in commit `{last_commit_for(relative)}`",
+            f"SHA-256 `{sha256_of(path)}` · last changed in commit `{last_commit_for(relative)}`{note}",
             "",
-            open_fence,
-            text.rstrip("\n"),
-            close_fence,
+            open_fence + "\n" + body + close_fence,
             "",
             "---",
             "",
