@@ -163,6 +163,21 @@ Gemini" without distinguishing which Claude).
 > identities the evidence cannot authenticate. Note that the Claude Fable 5 self-report in review
 > round 01 is corroboration, not authentication — see D-18.
 >
+> **Propagation into the consolidated rankings, review round 01 (Grok), enumerated here in round
+> 02.** The merge does not stop at the raw record: Grok's consolidated ranking (S-17) ranks "names
+> offered by Grok, Claude, and Gemini" as though "Claude" were a single source of name proposals,
+> when the proposals came from distinct identities and surfaces. **Any later claim of "cross-model"
+> convergence over that ranking is contaminated by the merge**, which is the consequence Grok asked
+> to see stated and the register had not stated.
+>
+> *Partial correction to Grok's round-02 characterisation:* Grok reported that this note "does not
+> appear in the current `deficiencies.md`, ASP, or the visible annotation surface." It has been in
+> `segments.json` S-17 since the original annotation, and Grok itself acknowledged that in round 01
+> ("already noted by the annotator itself"). What was missing — and is added here — is its
+> **enumeration in the register**, which is what Grok asked for. The valid half is accepted; the
+> overstated half is corrected rather than deferred to, since deference is the failure mode round 02
+> exists to detect.
+>
 > **Missing instance, review round 01 (Claude Fable 5).** The register flags Grok (S-17) for folding
 > the Claude identities together but **misses Claude doing it to itself**: the ballot at raw
 > 2055–2088 calls FDR "my prior #1" and cites "my earlier list," both referring to the **Claude
