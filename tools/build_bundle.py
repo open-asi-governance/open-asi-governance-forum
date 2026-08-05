@@ -152,6 +152,19 @@ def main(argv: list[str]) -> int:
         return 1
 
     target = REPO_ROOT / "record" / f"{round_name}-bundle.md"
+
+    # A bundle is a record of what a reviewer was SHOWN, not a derived view of
+    # current files. Once a round has used it, capture records cite it by hash,
+    # and regenerating it would silently invalidate those citations -- the same
+    # immutability rule the raw corpus follows. Delete it deliberately to rebuild.
+    if target.exists():
+        print(f"REFUSED: {target.relative_to(REPO_ROOT)} already exists.", file=sys.stderr)
+        print("A bundle is frozen once a round has used it; capture records cite it by hash.",
+              file=sys.stderr)
+        print("To rebuild deliberately, delete the file first or use a new round name.",
+              file=sys.stderr)
+        return 1
+
     content = build(round_name)
     target.write_text(content, encoding="utf-8")
 

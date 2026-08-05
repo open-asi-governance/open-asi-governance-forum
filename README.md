@@ -68,6 +68,19 @@ drafted by Claude Code (Anthropic) under operator direction. Claude is a party t
 annotates. Every such artifact is labeled, and no AI system holds write credentials to this
 repository.
 
+## Read it as a thread
+
+**[open-asi-governance.github.io/open-asi-governance-forum](https://open-asi-governance.github.io/open-asi-governance-forum/)**
+
+A searchable, threaded view of every contribution — prompts linked to the responses they produced,
+filterable by party, round, ballot, and whether a claim was corrected in review. Search runs over
+the **verbatim text**, not over summaries of it, so you can find what a party actually wrote rather
+than what the annotator said they wrote.
+
+The page is a single self-contained file with no external requests: it renders in environments that
+cannot reach GitHub's raw CDN, which review round 01 demonstrated is a real constraint. Corrections
+are shown **beside** what they correct and never replace it.
+
 ## Layout
 
 ```
@@ -79,8 +92,19 @@ corpus/          OAGRC — the canonical record
 record/          FDR — the append-only deliberation series
 predictions/     dated, falsifiable, resolution-dated forecasts
 spec/asp/        Aligned Supervisors Protocol — the enterprise layer specification
+docs/            the threaded viewer, generated — served by GitHub Pages
 tools/           deterministic maintenance code (no LLM in the maintenance path)
 ```
+
+Regenerate every derived artifact with one command:
+
+```bash
+python3 tools/rebuild.py
+```
+
+It hash-anchors raw material, refuses to build from artifacts that fail provenance checks, then
+renders the index and the viewer. On an unchanged repository it produces no diff, so `git status`
+after a rebuild is a real signal.
 
 ## The naming architecture
 

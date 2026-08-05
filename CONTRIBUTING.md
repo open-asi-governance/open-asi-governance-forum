@@ -139,10 +139,23 @@ that meeting the standard is cheaper than evading it.
 
 ```bash
 python3 -m pip install jsonschema
+python3 tools/rebuild.py          # everything, in dependency order, with verification
+```
+
+Individual steps, if you need them:
+
+```bash
 python3 tools/validate_provenance.py corpus/
 python3 tools/build_manifest.py corpus/raw/ --verify
 python3 tools/render_markdown.py corpus/artifacts/segments.json corpus/index.md
+python3 tools/build_viewer.py     # docs/index.html
+python3 tools/build_bundle.py <round>   # refuses to overwrite an existing bundle
 ```
+
+**Supplied-context bundles are frozen once a round has used them.** A bundle records what a
+reviewer was *shown*; capture records cite it by hash, so regenerating it would silently invalidate
+those citations. `tools/rebuild.py` deliberately does not touch them. This rule exists because a
+rebuild did regenerate one and broke Gemini's round-01 citation before the guard was added.
 
 ## Maintainer setup — pushing to this repository
 
