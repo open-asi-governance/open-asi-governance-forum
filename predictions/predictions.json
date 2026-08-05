@@ -33,14 +33,14 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "As of 2027-08-05, no ASP-attested agent will exist at any organization other than Consullo.",
+      "claim": "As of 2027-08-05, no ASP-attested agent will exist at any organization OTHER THAN Consullo, and no third party will have attempted a Level-2 independent implementation of any ASP or ICP mechanism from the specification text alone.",
       "resolution_date": "2027-08-05",
-      "resolution_criterion": "Search a FIXED universe declared now: GitHub code search for 'Aligned Supervisors Protocol' and 'ASP-attested'; arXiv and Semantic Scholar full-text; NIST/ISO/IETF/W3C standards databases; the OAGF corpus itself. Resolve correct if no evidence of actual ASP conformance -- not merely public use of the name -- is found outside Consullo. Archive all search results on the resolution date and commit them. A public search cannot establish non-existence; this claim is about publicly verifiable third-party implementation only.",
+      "resolution_criterion": "Search a FIXED universe declared now: GitHub code search for 'Aligned Supervisors Protocol' and 'ASP-attested'; arXiv and Semantic Scholar full-text; NIST/ISO/IETF/W3C standards databases; the OAGF corpus itself. Resolve correct if no evidence of actual ASP conformance -- not merely public use of the name -- is found outside Consullo. Archive all search results on the resolution date and commit them. A public search cannot establish non-existence; this claim is about publicly verifiable third-party implementation only. CONSULLO IS EXPLICITLY EXCLUDED from the count. Consullo is the first implementer under ICP v0.1 Annex A; counting it would make this prediction self-fulfilling, and a self-fulfilling prediction is not a falsifier. Resolve incorrect if any third party either holds an ASP attestation or has recorded a Level-2 implementation attempt (successful or failed) in the corpus.",
       "confidence": "high",
-      "rationale": "Protocol adoption requires either regulatory pressure or a dominant implementer. ASP v0.1 has neither, no reference implementation, and five unresolved design questions including the load-bearing one about certifying process rather than property.",
+      "rationale": "Protocol adoption requires either regulatory pressure or a dominant implementer. ASP v0.1 has neither, no reference implementation, and five unresolved design questions including the load-bearing one about certifying process rather than property. A failed Level-2 attempt resolves this incorrect and is a MORE valuable outcome than no attempt, because the questions the second implementer had to ask are the finding (ICP 4.2).",
       "what_would_change_my_mind": "Regulatory language requiring attestation-based deployment gating that ASP happens to fit.",
       "status": "open",
-      "revision": "Revised in review round 01 (ChatGPT): the original was an unbounded negative-existence claim resolving on diligence rather than fact."
+      "revision": "Revised in review round 01 (ChatGPT): the original was an unbounded negative-existence claim resolving on diligence rather than fact. Revised again 2026-08-05 on adoption of ICP v0.1: Consullo excluded explicitly. Naming Consullo the first implementer would otherwise have quietly removed one of the registry's five seed falsifiers while appearing to leave it in place."
     },
     {
       "id": "P-0003",
@@ -141,6 +141,26 @@
       "status": "open",
       "source": "corpus/raw/review-round-01/chatgpt-01.md",
       "note": "This is the operationalisation of Q-02. It is the single most useful open item in the registry."
+    },
+    {
+      "id": "P-0007",
+      "created_utc": "2026-08-05",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2027-08-05, every Consullo contribution in this corpus will still sit at ICP Level 0 or Level 1, because no independent party will have attempted the Level-2 test.",
+      "resolution_date": "2027-08-05",
+      "resolution_criterion": "Inspect the corpus for any contribution promoted to Level 2 or above, which under ICP 4 requires an independent implementer who built from the specification text without consulting the author. Resolve correct if none exists.",
+      "confidence": "high",
+      "rationale": "The Level-2 bar is deliberately expensive and there is currently no second party. Filing this now means the ladder cannot quietly become a self-promotion mechanism: if levels rise without a recorded independent implementer, this prediction resolving incorrect is the audit trail.",
+      "what_would_change_my_mind": "Any research group attempting an independent implementation of frontier-diff anchor discovery or the correlation-ID attribution contract.",
+      "status": "open",
+      "note": "This prediction is adversarial to its own author's project, which is the point of filing it."
     }
   ],
   "scored": [

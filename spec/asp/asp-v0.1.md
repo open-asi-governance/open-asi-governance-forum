@@ -215,10 +215,19 @@ against.
 
 ## 6. Reference implementation
 
-None exists. The Consullo Seed AI platform is a candidate first implementer — it operates a large
-generated-agent hierarchy that requires deployment gating — which would make ASP evidence-backed
-rather than aspirational. That is an intention, not a commitment, and no ASP-attested agent
-currently exists anywhere.
+None exists. **No ASP-attested agent currently exists anywhere**, including at Consullo.
+
+Consullo is designated **a** first implementer — never *the* reference implementation — under the
+[Implementer Contribution Protocol](../icp/icp-v0.1.md). ICP exists because an implementer that also
+authors the specification, produces the evidence, designs the evaluation and holds repository
+custody cannot supply independent confirmation of anything, and all six of those roles are currently
+held by one person (ICP §3.1, disclosed as a defect).
+
+Under ICP, Consullo may contribute evidence at Levels 0 and 1 and **may not promote its own work
+above Level 1**. Advancing any mechanism to Level 2 requires an independent party to implement it
+from this specification's text alone, without consulting the author. If nobody can, that is evidence
+this specification encodes Consullo's architecture rather than a general mechanism — a finding worth
+publishing, not a setback to work around.
 
 ---
 

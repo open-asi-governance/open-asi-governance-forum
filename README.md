@@ -92,6 +92,8 @@ corpus/          OAGRC — the canonical record
 record/          FDR — the append-only deliberation series
 predictions/     dated, falsifiable, resolution-dated forecasts
 spec/asp/        Aligned Supervisors Protocol — the enterprise layer specification
+spec/icp/        Implementer Contribution Protocol — how an implementer supplies
+                 evidence without capturing the standard
 docs/            the threaded viewer, generated — served by GitHub Pages
 tools/           deterministic maintenance code (no LLM in the maintenance path)
 ```
@@ -129,6 +131,25 @@ That specification was **drafted by Claude Code and adopted by the human custodi
 ratified by a further ballot, and this repository now distinguishes *proposed by a contributor*,
 *supported by ballots*, *adopted by the custodian*, and *collectively ratified* — the last of which
 nothing here has ever reached. See deficiency D-16.
+
+## Implementers
+
+No ASP-attested agent exists anywhere. A specification with no implementation is aspirational — but
+an implementer that also authors the specification, produces the evidence, designs the evaluation
+and holds repository custody supplies no independent confirmation of anything.
+
+[`spec/icp/icp-v0.1.md`](spec/icp/icp-v0.1.md) is the protocol for resolving that. Its core is a
+five-level promotion ladder in which **Level 2 requires an independent party to implement a
+mechanism from the specification text alone, without asking the author what it meant**, and in which
+**Level 4 is structurally unreachable** because no ratification procedure exists. An implementer may
+never promote its own contribution above Level 1, declare its own implementation conformant, or
+design the adversarial evaluation applied to its own mechanism.
+
+Consullo is designated **a** first implementer — never *the* reference implementation. All six
+separable roles are currently held by one person, which ICP §3.1 records as a defect rather than a
+design. Implementers must also **pre-register predictions before running the experiments that bear
+on them**, and negative results carry equal standing: a deployment gate that fails open under load
+tells a reader more than one that passes a test written by its author.
 
 ## Contributing
 
