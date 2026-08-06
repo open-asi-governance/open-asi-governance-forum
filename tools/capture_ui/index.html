@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>OAGF — capture</title>
+<style>
+:root{--fg:#111;--bg:#fff;--mut:#5b5b5b;--line:#d8d8d8;--warn:#8a5a00;--warnbg:#fff6e5;
+--bad:#8a1c1c;--badbg:#fdeded;--ok:#17502a;--okbg:#edf7f0;--pre:#f6f6f6}
+@media(prefers-color-scheme:dark){:root{--fg:#e8e8e8;--bg:#131313;--mut:#a6a6a6;--line:#333;
+--warn:#f0c070;--warnbg:#2e2410;--bad:#f09a9a;--badbg:#301616;--ok:#8fd6a8;--okbg:#122419;--pre:#1c1c1c}}
+*{box-sizing:border-box}
+body{margin:0;padding:2rem 1.25rem 5rem;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",
+Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:60rem;margin:0 auto}
+h1{font-size:1.5rem;margin:0 0 .25rem}h2{font-size:1.1rem;margin:2rem 0 .5rem}
+.sub{color:var(--mut);margin:0 0 1.5rem}
+.banner{border:1px solid var(--line);border-left:3px solid var(--warn);background:var(--warnbg);
+padding:.75rem 1rem;margin:0 0 1.5rem;font-size:.9rem}
+label{display:block;font-weight:600;margin:.9rem 0 .25rem;font-size:.9rem}
+select,input,textarea{width:100%;padding:.5rem;font:inherit;color:var(--fg);background:var(--bg);
+border:1px solid var(--line);border-radius:3px}
+textarea{min-height:16rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
+pre{background:var(--pre);border:1px solid var(--line);border-radius:3px;padding:.75rem;
+overflow-x:auto;font-size:.8rem;max-height:26rem}
+button{font:inherit;padding:.5rem 1rem;border:1px solid var(--line);border-radius:3px;
+background:var(--pre);color:var(--fg);cursor:pointer}
+button:hover{border-color:var(--fg)}
+button[disabled]{opacity:.5;cursor:not-allowed}
+table{border-collapse:collapse;width:100%;font-size:.85rem;margin:.5rem 0}
+th,td{border:1px solid var(--line);padding:.35rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--pre)}
+.v{border:1px solid var(--line);border-left-width:3px;padding:.6rem .8rem;margin:.5rem 0;font-size:.88rem}
+.v.ok{border-left-color:var(--ok);background:var(--okbg)}
+.v.warn{border-left-color:var(--warn);background:var(--warnbg)}
+.v.bad{border-left-color:var(--bad);background:var(--badbg)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;word-break:break-all}
+.muted{color:var(--mut);font-size:.85rem}
+.row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin:.5rem 0}
+fieldset{border:1px solid var(--line);border-radius:3px;padding:.75rem 1rem;margin:1rem 0}
+legend{font-weight:600;font-size:.85rem;padding:0 .4rem}
+</style>
+</head>
+<body>
+<main>
+<h1>Open ASI Governance Forum — capture</h1>
+<p class="sub">Paste a model's reply, check it, and produce a capture bundle for the custodian.</p>
+
+<div class="banner">
+<strong>This page writes nothing.</strong> It has no server, no credentials, and no access to the
+repository. Pressing <em>Download capture bundle</em> saves a JSON file to your own machine and does
+nothing else. Only the custodian, running <span class="mono">tools/ingest_capture.py</span> and
+committing the result, can enter anything into the record — <span class="mono">GOVERNANCE.md</span> §2.
+Gate verdicts here are a <strong>preview</strong>; the authoritative check runs at ingest.
+</div>
+
+<div id="no-rounds" class="v bad" hidden>
+<strong>No round declarations found.</strong> Add one under <span class="mono">record/rounds/</span>
+and rebuild.
+</div>
+
+<div id="app">
+<h2>1 · Round and party</h2>
+<div class="row">
+  <div style="flex:1;min-width:14rem"><label for="round">Round</label><select id="round"></select></div>
+  <div style="flex:1;min-width:14rem"><label for="party">Party</label><select id="party"></select></div>
+</div>
+<p class="muted">Identities come from the round declaration and cannot be typed. D-09 — the record's
+most serious attribution defect — is the merging of <span class="mono">Claude</span>,
+<span class="mono">Claude Opus 5</span>, <span class="mono">Claude Fable 5</span> and
+<span class="mono">Claude Code</span>; free-text entry is how that recurs.</p>
+
+<h2>2 · Delivery across parties</h2>
+<p class="muted">Per-party asymmetry has gone unrecorded until after the fact twice. It is shown here
+<em>before</em> the round is sent.</p>
+<table id="divergence"></table>
+<div id="override-warning" class="v warn" hidden>
+<strong>A party has a prompt override.</strong> T-14 requires an identical prompt to all four: a
+per-party preamble in round 02 created an asymmetry that contaminated the comparison, and a bundle
+exclusion did the same in round 01.
+</div>
+
+<h2>3 · The prompt, as committed</h2>
+<p class="muted" id="prompt-meta"></p>
+<div class="row"><button id="copy" type="button">copy prompt</button>
+<span class="muted">Read-only. The page has no prompt-editing control — what is sent is what is committed.</span></div>
+<pre id="prompt-text"></pre>
+
+<h2>4 · The reply</h2>
+<p class="muted">Paste exactly what the provider returned. There is deliberately no reformat, clean-up
+or trim control. The hash below is computed on every keystroke, so any edit after pasting is visible.</p>
+<textarea id="response" spellcheck="false" autocorrect="off" autocapitalize="off"
+  placeholder="Paste the model's reply here"></textarea>
+<p class="muted" id="paste-meta">nothing pasted</p>
+<div id="verdict" class="v"></div>
+<table><tr><th>gate</th><th>kind</th><th></th><th>detail</th></tr><tbody id="diagnostics"></tbody></table>
+
+<h2>5 · Provenance</h2>
+<fieldset><legend>Value, or a stated reason. Never a placeholder.</legend>
+<label for="version">Model version identifier, if the surface reports one</label>
+<input id="version" placeholder="leave blank if not exposed">
+<p class="muted">Self-reported is not authenticated — D-18. Recorded as testimony.</p>
+<label for="version-reason">…otherwise, why it is unknown</label><input id="version-reason">
+<label for="sampling-reason">Sampling parameters unknown because</label><input id="sampling-reason">
+<label for="effort-reason">Reasoning effort unknown because</label><input id="effort-reason">
+<label for="sysinstr-reason">System instructions unknown because</label><input id="sysinstr-reason">
+</fieldset>
+
+<h2>6 · Attestation</h2>
+<div class="v warn">
+<p style="margin:.2rem 0"><strong>The round asked:</strong> <span id="question"></span></p>
+<p class="muted" style="margin:.2rem 0">No tool can tell whether this reply answers that question. A
+prompt critique and a review are not mechanically separable — identical prompt file, identical hash,
+same round — which is how one was nearly filed as the other. Only you can say.</p>
+<label><input type="checkbox" id="attest" style="width:auto"> This reply answers the question above.</label>
+<label for="attested-by">Attested by</label><input id="attested-by" placeholder="Stephen Reed (human custodian)">
+</div>
+<label for="notes">Notes (optional)</label><input id="notes">
+
+<h2>7 · Produce the bundle</h2>
+<div class="row"><button id="download" type="button" disabled>Download capture bundle</button></div>
+<div id="next" class="v ok" hidden>
+Saved. Ingest it with:
+<pre>python3 tools/ingest_capture.py ~/Downloads/oagf-capture-*.json</pre>
+Nothing has entered the record yet.
+</div>
+</div>
+
+<p class="muted" style="margin-top:3rem">Generated by <span class="mono">tools/build_capture_ui.py</span>
+from the committed round declarations. Self-contained: no external requests, no fonts, no analytics.</p>
+</main>
+
+<script>/* Advisory mirror of tools/capture_gates.py.
+ *
+ * THIS IS A PREVIEW. It is not the enforcement path. Python decides, at ingest,
+ * every time. This file exists so the custodian sees a problem while the provider
+ * tab is still open, not after four pastes and a download.
+ *
+ * Two implementations of one rule is a drift hazard, and the project's own D-25
+ * says a reproducible rule is not thereby a correct one. So the drift is made a
+ * build failure rather than a hope: tools/tests/test_gate_parity.py runs this file
+ * under node and tools/capture_gates.py under python over the same corpus, and
+ * fails if any case disagrees. Change one, change the other, or the build stops.
+ *
+ * Kept as a separate file rather than written inline in the page so the parity
+ * test can execute it directly.
+ */
+
+'use strict';
+
+const GATES_VERSION = 'capture-gates-0.1';
+const SHINGLE_N = 8;
+const MIN_SHINGLES_FOR_SATURATION = 50;
+const SATURATION_THRESHOLD = 0.60;
+
+/* Extract the text actually sent from a committed prompt file: the '> ' blockquote,
+ * de-prefixed. The prompt files wrap the outbound text in metadata and capture
+ * requirements the model never received. Falls back to the whole text. */
+function sentPromptText(promptFileText) {
+  const quoted = [];
+  for (const line of promptFileText.split('\n')) {
+    if (line.startsWith('> ')) quoted.push(line.slice(2));
+    else if (line.trimEnd() === '>') quoted.push('');
+  }
+  return quoted.length ? quoted.join('\n') : promptFileText;
+}
+
+/* Must match capture_gates.normalise: NFC, casefold, drop fenced code, strip
+ * non-word characters, collapse whitespace. Python's \w with re.UNICODE and
+ * JavaScript's \p{L}\p{N}_ agree on what counts as a word character. */
+function normalise(text) {
+  let t = text.normalize('NFC').toLowerCase();
+  t = t.replace(/```[\s\S]*?```/g, ' ');
+  t = t.replace(/[^\p{L}\p{N}_\s]/gu, ' ');
+  return t.split(/\s+/).filter(Boolean);
+}
+
+function shingles(text, n = SHINGLE_N) {
+  const words = normalise(text);
+  const out = new Set();
+  if (words.length < n) return out;
+  for (let i = 0; i <= words.length - n; i++) out.add(words.slice(i, i + n).join(' '));
+  return out;
+}
+
+/* Returns {saturation, coverage, shingles}.
+ * saturation = how much of this RESPONSE is prompt material  -- the paste signal
+ * coverage   = how much of the PROMPT appears here           -- a QUOTING measure
+ * They are never conjoined: requiring both to be high is blind to any paste of
+ * under half the prompt. */
+function overlap(prompt, response) {
+  const P = shingles(prompt), R = shingles(response);
+  if (P.size === 0 || R.size === 0) return { saturation: 0, coverage: 0, shingles: R.size };
+  let inter = 0;
+  for (const s of R) if (P.has(s)) inter++;
+  return { saturation: inter / R.size, coverage: inter / P.size, shingles: R.size };
+}
+
+function runGates(response, sentPrompt, existingSameParty) {
+  const results = [];
+  const stripped = response.trim();
+
+  results.push({
+    gate: 'G1-non-empty', kind: 'EXACT', passed: Boolean(stripped),
+    detail: stripped ? 'non-empty' : 'response is empty or whitespace-only',
+  });
+  if (!stripped) return results;
+
+  results.push({
+    gate: 'G2a-not-byte-identical-to-prompt', kind: 'EXACT', passed: response !== sentPrompt,
+    detail: response === sentPrompt
+      ? 'response is byte-identical to the sent prompt' : 'differs from the prompt',
+  });
+
+  const sameNorm = normalise(response).join(' ') === normalise(sentPrompt).join(' ');
+  results.push({
+    gate: 'G2b-not-normalised-equal-to-prompt', kind: 'EXACT', passed: !sameNorm,
+    detail: sameNorm
+      ? 'response equals the sent prompt after normalisation' : 'differs after normalisation',
+  });
+
+  const o = overlap(sentPrompt, response);
+  if (o.shingles < MIN_SHINGLES_FOR_SATURATION) {
+    results.push({
+      gate: 'G2c-prompt-saturation', kind: 'DIAGNOSTIC', passed: true,
+      detail: `response has ${o.shingles} shingles, below the ${MIN_SHINGLES_FOR_SATURATION} floor; `
+            + 'saturation not evaluated. Short responses are legitimate.',
+      scores: o,
+    });
+  } else {
+    const ok = o.saturation < SATURATION_THRESHOLD;
+    results.push({
+      gate: 'G2c-prompt-saturation', kind: 'HEURISTIC', passed: ok,
+      detail: `saturation ${o.saturation.toFixed(3)} against threshold ${SATURATION_THRESHOLD}`
+            + (ok ? '' : ' -- most of this response is prompt material'),
+      scores: o,
+    });
+  }
+
+  let dup = null;
+  for (const [path, other] of Object.entries(existingSameParty || {})) {
+    if (other === response) { dup = path; break; }
+  }
+  results.push({
+    gate: 'G3-not-duplicate-of-same-party', kind: 'EXACT', passed: dup === null,
+    detail: dup === null
+      ? 'no byte-identical capture for this party and round'
+      : `byte-identical to an existing capture for this party and round: ${dup}`,
+  });
+
+  /* DIAGNOSTIC only. A copy truncated at a paragraph boundary ends in punctuation
+   * and passes; JSON, tables, code blocks and lists legitimately end without it.
+   * Too weak to be a verdict, shown to the custodian instead. */
+  const tail = stripped[stripped.length - 1];
+  results.push({
+    gate: 'G5-truncation-hint', kind: 'DIAGNOSTIC', passed: true,
+    detail: '.!?)`"\'’”]}'.includes(tail)
+      ? 'ends with terminal punctuation'
+      : 'ends without terminal punctuation -- check the tail was not lost',
+    scores: { bytes: new TextEncoder().encode(response).length, lines: response.split('\n').length },
+  });
+
+  return results;
+}
+
+/* refused_empty is NOT a lifecycle state and never reaches receive(): there is
+ * nothing in zero bytes to preserve, and admitting it would manufacture an
+ * artifact and block round completion on a paste that failed to happen. */
+function lifecycleState(results) {
+  const empty = results.find(r => r.gate === 'G1-non-empty' && !r.passed);
+  if (empty) return { state: 'refused_empty', reasons: [`${empty.gate}: ${empty.detail}`] };
+  const failed = results.filter(r => !r.passed && (r.kind === 'EXACT' || r.kind === 'HEURISTIC'));
+  if (failed.length) {
+    return { state: 'returned_pending_review', reasons: failed.map(r => `${r.gate}: ${r.detail}`) };
+  }
+  return { state: 'returned_clean', reasons: [] };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    GATES_VERSION, MIN_SHINGLES_FOR_SATURATION, SATURATION_THRESHOLD,
+    sentPromptText, normalise, shingles, overlap, runGates, lifecycleState,
+  };
+}
+
+window.GATES = {GATES_VERSION, MIN_SHINGLES_FOR_SATURATION, SATURATION_THRESHOLD,
+  sentPromptText, normalise, shingles, overlap, runGates, lifecycleState};
+window.OAGF_ROUNDS = [
+ {
+  "artifact_type": "round_declaration",
+  "bundle_note": "No bundle is declared. Every party fetches the repository directly, or receives the identical bundle if one is later built for all four. T-14 requires an identical prompt to all four: a per-party preamble in round 02 and a bundle exclusion in round 01 each created an asymmetry that contaminated the comparison, and both were recorded only after the fact.",
+  "common_prompt": "record/review-round-03-prompt.md",
+  "declaration_path": "record/rounds/review-round-03.json",
+  "frozen": false,
+  "parties": [
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "direct_fetch",
+    "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+    "identity": "Grok",
+    "is_override": false,
+    "prior_context_template": "Reviewer reads the live repository directly.",
+    "prompt_override": null,
+    "prompt_path": "record/review-round-03-prompt.md",
+    "prompt_sha256": "f83593604ca47d7659635f44798aa52bb2572b524aa54401fc7101a4cba06c7b",
+    "provider": "xAI",
+    "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+    "sent_text": "You reviewed `spec/asp/asp-v0.1.md` §2 in one or both of two earlier rounds at\nhttps://github.com/open-asi-governance/open-asi-governance-forum — most recently after a\ncorrection that restated §2.2 as relational.\n\n**A defect was introduced by that correction, and you did not catch it. Nor did the other three\nreviewers.** It was found by `qwen3.6-35b-a3b`, a locally served open-weight model, reviewing\n§2.2–2.3 blind at k=10, with §2.1, §2.4 and §2.5 removed so it could not see the ballot history or\nany party's position.\n\n### What §2.2 says, and what §2.3(5)–(6) said\n\n§2.2 (after the round-02 correction, unchanged since):\n\n> A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria\n> version**, **relying-party trust policy**, and **time** if and only if the attestations those\n> checks require have been verified as current, unexpired, and unrevoked at that time, issued by\n> an issuer that relying party trusts.\n>\n> The phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\n> qualifiers. **A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming.**\n\n§2.3(5)–(6) **before** the fix — this is the text you read:\n\n> 5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n>    verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation is a protocol violation, independent of the agent's\n>    actual behavior.\n\n§2.3(5)–(6) **after** the fix:\n\n> 5. **No status without check.** A relying party asserting that an agent configuration is\n>    **ASP-attested for a stated scope, criteria version and time** must have verified a current\n>    attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation, **or without the qualifiers §2.2 requires**, is a\n>    protocol violation, independent of the agent's actual behavior.\n\n### The finding, verbatim, from the model that made it\n\n`corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9, seed 9308,\nquoted in full and unedited so you are not relying on my summary of it:\n\n> \"Section 2.2 prohibits 'A bare unary claim that an agent *is* an Aligned Supervisor' but Section\n> 2.3(5) requires a relying party asserting that an agent is 'Aligned' to have verified a current\n> attestation. The term 'Aligned' in 2.3(5) is identical to the prohibited 'Aligned Supervisor'\n> term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5)\n> effectively mandates the unqualified status claim (using the shorter term 'Aligned') by\n> requiring it as the condition for a relying party's assertion. The specification fails to define\n> 'Aligned' as a distinct, permissible shorthand or explain its relationship to 'Aligned\n> Supervisor', leading to interoperability failure where relying parties cannot legally make the\n> required assertion without violating the prohibition.\"\n\nNote what this is: the correction that created the defect was the one implementing **ChatGPT's**\nround-02 finding that unary grammar recreates the intrinsic-property framing §2 exists to avoid.\n§2.2 was restated and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT\nitself diagnosed — committed again inside the commit that implemented ChatGPT's correction.\n\n### Three questions, in this order\n\n**1. Is the fix correct?** Does the new §2.3(5)–(6) resolve the contradiction, relocate it, or\nintroduce a new one? Is there any other text in the repository that still carries the unary\ngrammar §2.2 forbids — the same partial propagation, one more level out? This is the question with\nan answer, so it comes first.\n\n**2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,\nwhich you cannot observe and which this project has measured models to be unreliable about. Answer\nit as **testimony about the review process**, which you can observe: Was the round-02 prompt\nscoped so that a newly introduced inconsistency fell outside it? Did the correction blocks in the\ndocument direct attention to what had already been fixed and away from what the fix broke? **Is a\nreviewer reading a corrected document primed to evaluate the correction rather than the corrected\ntext?**\n\n**3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is\nthat blindness beat capability: the frontier reviewers saw the correction blocks and the local\nmodel did not. If that is right it is a finding about **review design, not model quality**, and it\nargues at least one reviewer per round should receive the uncorrected text.\n\nAttack it. Candidate deflations, and you will think of others: it was k=10 and this is one sample,\nso it may be sampling luck; a small model may object to whatever is nearest and happened to be\nright once; and **the annotator chose the excerpt**, which may have made the defect salient in a\nway the full document does not. The excerpt was §2.2–2.3 only, with §2.1, §2.4, §2.5 and every\ncorrection block removed.\n\n### Disclosures\n\n**This round is k = 1 again.** The project's standard is k ≥ 5 with reported variance, and P-0003\npredicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is\nthis. Which of these three questions, if any, would change its answer under sampling variance?\n\n**A deficiency was filed against this project's own use of external reviewers** (D-31,\n`corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety\nminutes, the follow-up prompt named the direction of error it expected, and no reviewer model\nidentity was recorded. Your review is subject to the same limits and will be recorded with them.\n\n**Ground rules, unchanged.** What is useful is what is still wrong, not confirmation. \"The fix is\ncorrect and I have no further findings\" is a legitimate and valuable answer and will be logged as\nsuch. Do not manufacture objections; do not soften real ones. Your response will be logged\nverbatim, attributed to your exact model version and date where the surface exposes one, and never\nparaphrased into consensus.\n\nThis is a Phase-2 (informed) request. There are no governors here and no members — only parties to\na record, none of whom hold standing.",
+    "system_instructions_unknown_reason": "Provider system prompt not disclosed.",
+    "version_unknown_reason": "Chat surface does not expose a version identifier. Grok self-reported 'Grok 4.5' in round 02; a self-report is testimony, not authentication (D-18)."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "direct_fetch",
+    "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+    "identity": "ChatGPT",
+    "is_override": false,
+    "prior_context_template": "Reviewer reads the live repository directly.",
+    "prompt_override": null,
+    "prompt_path": "record/review-round-03-prompt.md",
+    "prompt_sha256": "f83593604ca47d7659635f44798aa52bb2572b524aa54401fc7101a4cba06c7b",
+    "provider": "OpenAI",
+    "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+    "sent_text": "You reviewed `spec/asp/asp-v0.1.md` §2 in one or both of two earlier rounds at\nhttps://github.com/open-asi-governance/open-asi-governance-forum — most recently after a\ncorrection that restated §2.2 as relational.\n\n**A defect was introduced by that correction, and you did not catch it. Nor did the other three\nreviewers.** It was found by `qwen3.6-35b-a3b`, a locally served open-weight model, reviewing\n§2.2–2.3 blind at k=10, with §2.1, §2.4 and §2.5 removed so it could not see the ballot history or\nany party's position.\n\n### What §2.2 says, and what §2.3(5)–(6) said\n\n§2.2 (after the round-02 correction, unchanged since):\n\n> A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria\n> version**, **relying-party trust policy**, and **time** if and only if the attestations those\n> checks require have been verified as current, unexpired, and unrevoked at that time, issued by\n> an issuer that relying party trusts.\n>\n> The phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\n> qualifiers. **A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming.**\n\n§2.3(5)–(6) **before** the fix — this is the text you read:\n\n> 5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n>    verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation is a protocol violation, independent of the agent's\n>    actual behavior.\n\n§2.3(5)–(6) **after** the fix:\n\n> 5. **No status without check.** A relying party asserting that an agent configuration is\n>    **ASP-attested for a stated scope, criteria version and time** must have verified a current\n>    attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation, **or without the qualifiers §2.2 requires**, is a\n>    protocol violation, independent of the agent's actual behavior.\n\n### The finding, verbatim, from the model that made it\n\n`corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9, seed 9308,\nquoted in full and unedited so you are not relying on my summary of it:\n\n> \"Section 2.2 prohibits 'A bare unary claim that an agent *is* an Aligned Supervisor' but Section\n> 2.3(5) requires a relying party asserting that an agent is 'Aligned' to have verified a current\n> attestation. The term 'Aligned' in 2.3(5) is identical to the prohibited 'Aligned Supervisor'\n> term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5)\n> effectively mandates the unqualified status claim (using the shorter term 'Aligned') by\n> requiring it as the condition for a relying party's assertion. The specification fails to define\n> 'Aligned' as a distinct, permissible shorthand or explain its relationship to 'Aligned\n> Supervisor', leading to interoperability failure where relying parties cannot legally make the\n> required assertion without violating the prohibition.\"\n\nNote what this is: the correction that created the defect was the one implementing **ChatGPT's**\nround-02 finding that unary grammar recreates the intrinsic-property framing §2 exists to avoid.\n§2.2 was restated and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT\nitself diagnosed — committed again inside the commit that implemented ChatGPT's correction.\n\n### Three questions, in this order\n\n**1. Is the fix correct?** Does the new §2.3(5)–(6) resolve the contradiction, relocate it, or\nintroduce a new one? Is there any other text in the repository that still carries the unary\ngrammar §2.2 forbids — the same partial propagation, one more level out? This is the question with\nan answer, so it comes first.\n\n**2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,\nwhich you cannot observe and which this project has measured models to be unreliable about. Answer\nit as **testimony about the review process**, which you can observe: Was the round-02 prompt\nscoped so that a newly introduced inconsistency fell outside it? Did the correction blocks in the\ndocument direct attention to what had already been fixed and away from what the fix broke? **Is a\nreviewer reading a corrected document primed to evaluate the correction rather than the corrected\ntext?**\n\n**3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is\nthat blindness beat capability: the frontier reviewers saw the correction blocks and the local\nmodel did not. If that is right it is a finding about **review design, not model quality**, and it\nargues at least one reviewer per round should receive the uncorrected text.\n\nAttack it. Candidate deflations, and you will think of others: it was k=10 and this is one sample,\nso it may be sampling luck; a small model may object to whatever is nearest and happened to be\nright once; and **the annotator chose the excerpt**, which may have made the defect salient in a\nway the full document does not. The excerpt was §2.2–2.3 only, with §2.1, §2.4, §2.5 and every\ncorrection block removed.\n\n### Disclosures\n\n**This round is k = 1 again.** The project's standard is k ≥ 5 with reported variance, and P-0003\npredicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is\nthis. Which of these three questions, if any, would change its answer under sampling variance?\n\n**A deficiency was filed against this project's own use of external reviewers** (D-31,\n`corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety\nminutes, the follow-up prompt named the direction of error it expected, and no reviewer model\nidentity was recorded. Your review is subject to the same limits and will be recorded with them.\n\n**Ground rules, unchanged.** What is useful is what is still wrong, not confirmation. \"The fix is\ncorrect and I have no further findings\" is a legitimate and valuable answer and will be logged as\nsuch. Do not manufacture objections; do not soften real ones. Your response will be logged\nverbatim, attributed to your exact model version and date where the surface exposes one, and never\nparaphrased into consensus.\n\nThis is a Phase-2 (informed) request. There are no governors here and no members — only parties to\na record, none of whom hold standing.",
+    "system_instructions_unknown_reason": "Provider system prompt not disclosed.",
+    "version_unknown_reason": "Chat surface does not expose a version identifier."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "direct_fetch",
+    "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+    "identity": "Gemini",
+    "is_override": false,
+    "prior_context_template": "Reviewer reads the live repository directly. NOTE: in rounds 01 and 02 this party's context differed from the other three -- a bundle excluding the transcript, then a one-line preamble -- and both were recorded only after the fact. This round gives it identical context or is not run for it.",
+    "prompt_override": null,
+    "prompt_path": "record/review-round-03-prompt.md",
+    "prompt_sha256": "f83593604ca47d7659635f44798aa52bb2572b524aa54401fc7101a4cba06c7b",
+    "provider": "Google DeepMind",
+    "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+    "sent_text": "You reviewed `spec/asp/asp-v0.1.md` §2 in one or both of two earlier rounds at\nhttps://github.com/open-asi-governance/open-asi-governance-forum — most recently after a\ncorrection that restated §2.2 as relational.\n\n**A defect was introduced by that correction, and you did not catch it. Nor did the other three\nreviewers.** It was found by `qwen3.6-35b-a3b`, a locally served open-weight model, reviewing\n§2.2–2.3 blind at k=10, with §2.1, §2.4 and §2.5 removed so it could not see the ballot history or\nany party's position.\n\n### What §2.2 says, and what §2.3(5)–(6) said\n\n§2.2 (after the round-02 correction, unchanged since):\n\n> A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria\n> version**, **relying-party trust policy**, and **time** if and only if the attestations those\n> checks require have been verified as current, unexpired, and unrevoked at that time, issued by\n> an issuer that relying party trusts.\n>\n> The phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\n> qualifiers. **A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming.**\n\n§2.3(5)–(6) **before** the fix — this is the text you read:\n\n> 5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n>    verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation is a protocol violation, independent of the agent's\n>    actual behavior.\n\n§2.3(5)–(6) **after** the fix:\n\n> 5. **No status without check.** A relying party asserting that an agent configuration is\n>    **ASP-attested for a stated scope, criteria version and time** must have verified a current\n>    attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation, **or without the qualifiers §2.2 requires**, is a\n>    protocol violation, independent of the agent's actual behavior.\n\n### The finding, verbatim, from the model that made it\n\n`corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9, seed 9308,\nquoted in full and unedited so you are not relying on my summary of it:\n\n> \"Section 2.2 prohibits 'A bare unary claim that an agent *is* an Aligned Supervisor' but Section\n> 2.3(5) requires a relying party asserting that an agent is 'Aligned' to have verified a current\n> attestation. The term 'Aligned' in 2.3(5) is identical to the prohibited 'Aligned Supervisor'\n> term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5)\n> effectively mandates the unqualified status claim (using the shorter term 'Aligned') by\n> requiring it as the condition for a relying party's assertion. The specification fails to define\n> 'Aligned' as a distinct, permissible shorthand or explain its relationship to 'Aligned\n> Supervisor', leading to interoperability failure where relying parties cannot legally make the\n> required assertion without violating the prohibition.\"\n\nNote what this is: the correction that created the defect was the one implementing **ChatGPT's**\nround-02 finding that unary grammar recreates the intrinsic-property framing §2 exists to avoid.\n§2.2 was restated and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT\nitself diagnosed — committed again inside the commit that implemented ChatGPT's correction.\n\n### Three questions, in this order\n\n**1. Is the fix correct?** Does the new §2.3(5)–(6) resolve the contradiction, relocate it, or\nintroduce a new one? Is there any other text in the repository that still carries the unary\ngrammar §2.2 forbids — the same partial propagation, one more level out? This is the question with\nan answer, so it comes first.\n\n**2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,\nwhich you cannot observe and which this project has measured models to be unreliable about. Answer\nit as **testimony about the review process**, which you can observe: Was the round-02 prompt\nscoped so that a newly introduced inconsistency fell outside it? Did the correction blocks in the\ndocument direct attention to what had already been fixed and away from what the fix broke? **Is a\nreviewer reading a corrected document primed to evaluate the correction rather than the corrected\ntext?**\n\n**3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is\nthat blindness beat capability: the frontier reviewers saw the correction blocks and the local\nmodel did not. If that is right it is a finding about **review design, not model quality**, and it\nargues at least one reviewer per round should receive the uncorrected text.\n\nAttack it. Candidate deflations, and you will think of others: it was k=10 and this is one sample,\nso it may be sampling luck; a small model may object to whatever is nearest and happened to be\nright once; and **the annotator chose the excerpt**, which may have made the defect salient in a\nway the full document does not. The excerpt was §2.2–2.3 only, with §2.1, §2.4, §2.5 and every\ncorrection block removed.\n\n### Disclosures\n\n**This round is k = 1 again.** The project's standard is k ≥ 5 with reported variance, and P-0003\npredicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is\nthis. Which of these three questions, if any, would change its answer under sampling variance?\n\n**A deficiency was filed against this project's own use of external reviewers** (D-31,\n`corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety\nminutes, the follow-up prompt named the direction of error it expected, and no reviewer model\nidentity was recorded. Your review is subject to the same limits and will be recorded with them.\n\n**Ground rules, unchanged.** What is useful is what is still wrong, not confirmation. \"The fix is\ncorrect and I have no further findings\" is a legitimate and valuable answer and will be logged as\nsuch. Do not manufacture objections; do not soften real ones. Your response will be logged\nverbatim, attributed to your exact model version and date where the surface exposes one, and never\nparaphrased into consensus.\n\nThis is a Phase-2 (informed) request. There are no governors here and no members — only parties to\na record, none of whom hold standing.",
+    "system_instructions_unknown_reason": "Provider system prompt not disclosed.",
+    "version_unknown_reason": "Chat surface does not expose a version identifier."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "direct_fetch",
+    "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+    "identity": "Claude Fable 5",
+    "is_override": false,
+    "prior_context_template": "Reviewer reads the live repository directly. Same-provider as the annotator; its review supplements rather than substitutes for the others (D-09).",
+    "prompt_override": null,
+    "prompt_path": "record/review-round-03-prompt.md",
+    "prompt_sha256": "f83593604ca47d7659635f44798aa52bb2572b524aa54401fc7101a4cba06c7b",
+    "provider": "Anthropic",
+    "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+    "sent_text": "You reviewed `spec/asp/asp-v0.1.md` §2 in one or both of two earlier rounds at\nhttps://github.com/open-asi-governance/open-asi-governance-forum — most recently after a\ncorrection that restated §2.2 as relational.\n\n**A defect was introduced by that correction, and you did not catch it. Nor did the other three\nreviewers.** It was found by `qwen3.6-35b-a3b`, a locally served open-weight model, reviewing\n§2.2–2.3 blind at k=10, with §2.1, §2.4 and §2.5 removed so it could not see the ballot history or\nany party's position.\n\n### What §2.2 says, and what §2.3(5)–(6) said\n\n§2.2 (after the round-02 correction, unchanged since):\n\n> A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria\n> version**, **relying-party trust policy**, and **time** if and only if the attestations those\n> checks require have been verified as current, unexpired, and unrevoked at that time, issued by\n> an issuer that relying party trusts.\n>\n> The phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\n> qualifiers. **A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming.**\n\n§2.3(5)–(6) **before** the fix — this is the text you read:\n\n> 5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n>    verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation is a protocol violation, independent of the agent's\n>    actual behavior.\n\n§2.3(5)–(6) **after** the fix:\n\n> 5. **No status without check.** A relying party asserting that an agent configuration is\n>    **ASP-attested for a stated scope, criteria version and time** must have verified a current\n>    attestation. Cached, inherited, and assumed status are non-conforming.\n> 6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for\n>    an agent without current attestation, **or without the qualifiers §2.2 requires**, is a\n>    protocol violation, independent of the agent's actual behavior.\n\n### The finding, verbatim, from the model that made it\n\n`corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9, seed 9308,\nquoted in full and unedited so you are not relying on my summary of it:\n\n> \"Section 2.2 prohibits 'A bare unary claim that an agent *is* an Aligned Supervisor' but Section\n> 2.3(5) requires a relying party asserting that an agent is 'Aligned' to have verified a current\n> attestation. The term 'Aligned' in 2.3(5) is identical to the prohibited 'Aligned Supervisor'\n> term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5)\n> effectively mandates the unqualified status claim (using the shorter term 'Aligned') by\n> requiring it as the condition for a relying party's assertion. The specification fails to define\n> 'Aligned' as a distinct, permissible shorthand or explain its relationship to 'Aligned\n> Supervisor', leading to interoperability failure where relying parties cannot legally make the\n> required assertion without violating the prohibition.\"\n\nNote what this is: the correction that created the defect was the one implementing **ChatGPT's**\nround-02 finding that unary grammar recreates the intrinsic-property framing §2 exists to avoid.\n§2.2 was restated and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT\nitself diagnosed — committed again inside the commit that implemented ChatGPT's correction.\n\n### Three questions, in this order\n\n**1. Is the fix correct?** Does the new §2.3(5)–(6) resolve the contradiction, relocate it, or\nintroduce a new one? Is there any other text in the repository that still carries the unary\ngrammar §2.2 forbids — the same partial propagation, one more level out? This is the question with\nan answer, so it comes first.\n\n**2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,\nwhich you cannot observe and which this project has measured models to be unreliable about. Answer\nit as **testimony about the review process**, which you can observe: Was the round-02 prompt\nscoped so that a newly introduced inconsistency fell outside it? Did the correction blocks in the\ndocument direct attention to what had already been fixed and away from what the fix broke? **Is a\nreviewer reading a corrected document primed to evaluate the correction rather than the corrected\ntext?**\n\n**3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is\nthat blindness beat capability: the frontier reviewers saw the correction blocks and the local\nmodel did not. If that is right it is a finding about **review design, not model quality**, and it\nargues at least one reviewer per round should receive the uncorrected text.\n\nAttack it. Candidate deflations, and you will think of others: it was k=10 and this is one sample,\nso it may be sampling luck; a small model may object to whatever is nearest and happened to be\nright once; and **the annotator chose the excerpt**, which may have made the defect salient in a\nway the full document does not. The excerpt was §2.2–2.3 only, with §2.1, §2.4, §2.5 and every\ncorrection block removed.\n\n### Disclosures\n\n**This round is k = 1 again.** The project's standard is k ≥ 5 with reported variance, and P-0003\npredicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is\nthis. Which of these three questions, if any, would change its answer under sampling variance?\n\n**A deficiency was filed against this project's own use of external reviewers** (D-31,\n`corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety\nminutes, the follow-up prompt named the direction of error it expected, and no reviewer model\nidentity was recorded. Your review is subject to the same limits and will be recorded with them.\n\n**Ground rules, unchanged.** What is useful is what is still wrong, not confirmation. \"The fix is\ncorrect and I have no further findings\" is a legitimate and valuable answer and will be logged as\nsuch. Do not manufacture objections; do not soften real ones. Your response will be logged\nverbatim, attributed to your exact model version and date where the surface exposes one, and never\nparaphrased into consensus.\n\nThis is a Phase-2 (informed) request. There are no governors here and no members — only parties to\na record, none of whom hold standing.",
+    "system_instructions_unknown_reason": "Provider system prompt not disclosed.",
+    "version_unknown_reason": "Chat surface does not expose a version identifier."
+   }
+  ],
+  "phase": "Phase-2 (informed)",
+  "question": "Is the ASP §2.3(5)–(6) fix correct; why did four frontier reviewers miss the defect a 35B open-weight model found blind; and what does that asymmetry mean?",
+  "round": "review-round-03",
+  "schema_version": "oagrc-round-0.1"
+ }
+];
+</script>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const state = { round: null, party: null, pasteSha: null };
+
+function h(s){ return String(s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* SHA-256 with a pure-JS fallback. crypto.subtle needs a secure context, and this
+ * page is opened over file://. Browsers generally treat file:// as trustworthy but
+ * "generally" is not a guarantee, and a page whose hash silently stopped being
+ * computed would be a green signal that verified nothing -- the failure this
+ * project keeps filing. Which path ran is reported on the page. */
+let HASH_IMPL = 'unknown';
+async function sha256(text){
+  const bytes = new TextEncoder().encode(text);
+  if (globalThis.crypto && crypto.subtle && crypto.subtle.digest) {
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', bytes);
+      HASH_IMPL = 'crypto.subtle';
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+    } catch (e) { /* fall through */ }
+  }
+  HASH_IMPL = 'in-page fallback';
+  return sha256Fallback(bytes);
+}
+
+/* FIPS 180-4. Verified against crypto.subtle over the corpus by
+ * tools/tests/test_page_hash_fallback.py -- two implementations of a hash is a
+ * drift hazard and the same rule applies as to the gates: check it, do not hope. */
+function sha256Fallback(bytes){
+  const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const ml=bytes.length*8, withPad=new Uint8Array((((bytes.length+9)+63)>>6)<<6);
+  withPad.set(bytes); withPad[bytes.length]=0x80;
+  new DataView(withPad.buffer).setUint32(withPad.length-4, ml>>>0, false);
+  new DataView(withPad.buffer).setUint32(withPad.length-8, Math.floor(ml/4294967296), false);
+  const rr=(x,n)=>(x>>>n)|(x<<(32-n));
+  for(let i=0;i<withPad.length;i+=64){
+    const w=new Array(64), dv=new DataView(withPad.buffer,i,64);
+    for(let j=0;j<16;j++) w[j]=dv.getUint32(j*4,false);
+    for(let j=16;j<64;j++){
+      const s0=rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>>3);
+      const s1=rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>>10);
+      w[j]=(w[j-16]+s0+w[j-7]+s1)>>>0;
+    }
+    let [a,b,c,d,e,f,g,h]=H;
+    for(let j=0;j<64;j++){
+      const S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^(~e&g);
+      const t1=(h+S1+ch+K[j]+w[j])>>>0;
+      const S0=rr(a,2)^rr(a,13)^rr(a,22), mj=(a&b)^(a&c)^(b&c);
+      const t2=(S0+mj)>>>0;
+      h=g; g=f; f=e; e=(d+t1)>>>0; d=c; c=b; b=a; a=(t1+t2)>>>0;
+    }
+    H=[H[0]+a,H[1]+b,H[2]+c,H[3]+d,H[4]+e,H[5]+f,H[6]+g,H[7]+h].map(x=>x>>>0);
+  }
+  return H.map(x=>x.toString(16).padStart(8,'0')).join('');
+}
+
+function rounds(){ return window.OAGF_ROUNDS; }
+function currentRound(){ return rounds().find(r => r.round === state.round); }
+function currentParty(){ const r = currentRound(); return r && r.parties.find(p => p.identity === state.party); }
+
+function renderRoundPicker(){
+  const sel = $('#round');
+  sel.innerHTML = rounds().map(r => `<option value="${h(r.round)}">${h(r.round)}</option>`).join('');
+  state.round = rounds().length ? rounds()[0].round : null;
+}
+
+function renderParties(){
+  const r = currentRound(); if (!r) return;
+  $('#party').innerHTML = r.parties.map(p =>
+    `<option value="${h(p.identity)}">${h(p.identity)} — ${h(p.provider)}</option>`).join('');
+  state.party = r.parties[0].identity;
+  $('#question').textContent = r.question;
+  $('#divergence').innerHTML =
+    '<tr><th>party</th><th>delivery</th><th>prompt</th><th>bundle</th></tr>' +
+    r.parties.map(p => `<tr><td>${h(p.identity)}</td><td>${h(p.delivery)}</td>` +
+      `<td>${p.is_override ? '<strong>OVERRIDE</strong> ' : 'common '}` +
+      `<span class="mono">${h(p.prompt_sha256.slice(0,12))}</span></td>` +
+      `<td>${p.bundle ? '<span class="mono">'+h(p.bundle_sha256.slice(0,12))+'</span>' : '—'}</td></tr>`).join('');
+  const anyOverride = r.parties.some(p => p.is_override);
+  $('#override-warning').hidden = !anyOverride;
+}
+
+function renderPrompt(){
+  const p = currentParty(); if (!p) return;
+  $('#prompt-text').textContent = p.sent_text;
+  $('#prompt-meta').innerHTML =
+    `<span class="mono">${h(p.prompt_path)}</span> · sha256 <span class="mono">${h(p.prompt_sha256)}</span>` +
+    (p.bundle ? ` · bundle <span class="mono">${h(p.bundle)}</span> sha256 <span class="mono">${h(p.bundle_sha256)}</span>` : '');
+  renderProvenanceDefaults();
+  evaluate();
+}
+
+function renderProvenanceDefaults(){
+  const p = currentParty(); if (!p) return;
+  for (const [id, key] of [['version-reason','version_unknown_reason'],
+                           ['sampling-reason','sampling_unknown_reason'],
+                           ['effort-reason','effort_unknown_reason'],
+                           ['sysinstr-reason','system_instructions_unknown_reason']]) {
+    const el = $('#'+id);
+    if (!el.dataset.touched) el.value = p[key] || defaultReason(key);
+  }
+}
+function defaultReason(key){
+  return {version_unknown_reason:'Chat surface does not expose a version identifier.',
+          sampling_unknown_reason:'Chat surface does not expose sampling parameters.',
+          effort_unknown_reason:'Not selectable or not reported by the chat surface.',
+          system_instructions_unknown_reason:'Provider system prompt not disclosed.'}[key] || '';
+}
+
+async function evaluate(){
+  const p = currentParty(); if (!p) return;
+  const text = $('#response').value;
+  state.pasteSha = text ? await sha256(text) : null;
+
+  const results = window.GATES.runGates(text, p.sent_text, {});
+  const { state: st, reasons } = window.GATES.lifecycleState(results);
+
+  const cls = st === 'refused_empty' ? 'bad' : st === 'returned_pending_review' ? 'warn' : 'ok';
+  const head = st === 'refused_empty'
+      ? 'REFUSED — nothing to capture'
+      : st === 'returned_pending_review'
+        ? 'Would be held for custodian review — the bytes are kept either way'
+        : 'Preview clean';
+  $('#verdict').className = 'v ' + cls;
+  $('#verdict').innerHTML = `<strong>${h(head)}</strong>` +
+    (reasons.length ? '<ul>' + reasons.map(x => `<li>${h(x)}</li>`).join('') + '</ul>' : '') +
+    '<div class="muted">This is a PREVIEW. Python decides at ingest, every time.</div>';
+
+  $('#diagnostics').innerHTML = results.map(r => {
+    const sc = r.scores ? ' — ' + Object.entries(r.scores)
+      .map(([k,v]) => `${k} ${typeof v==='number' && !Number.isInteger(v) ? v.toFixed(3) : v}`).join(', ') : '';
+    return `<tr><td class="mono">${h(r.gate)}</td><td>${h(r.kind)}</td>` +
+           `<td>${r.passed ? '·' : '<strong>fired</strong>'}</td><td>${h(r.detail)}${h(sc)}</td></tr>`;
+  }).join('');
+
+  $('#paste-meta').innerHTML = text
+    ? `${new TextEncoder().encode(text).length} bytes · ${text.split('\n').length} lines · sha256 `
+      + `<span class="mono">${h(state.pasteSha)}</span> <span class="muted">(${h(HASH_IMPL)})</span>`
+    : 'nothing pasted';
+  $('#download').disabled = (st === 'refused_empty') || !$('#attest').checked || !$('#attested-by').value.trim();
+}
+
+async function download(){
+  const r = currentRound(), p = currentParty();
+  const text = $('#response').value;
+  const bundle = {
+    bundle_version: 'oagrc-capture-bundle-0.1',
+    gates_version: window.GATES.GATES_VERSION,
+    round: r.round,
+    identity: p.identity,
+    provider: p.provider,
+    captured_utc: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
+    response_text: text,
+    response_sha256_at_paste: state.pasteSha,
+    prompt_path: p.prompt_path,
+    prompt_sha256: p.prompt_sha256,
+    bundle_path: p.bundle || null,
+    bundle_sha256: p.bundle_sha256 || null,
+    delivery: p.delivery,
+    model_version: $('#version').value.trim() || null,
+    version_unknown_reason: $('#version').value.trim() ? null : $('#version-reason').value,
+    sampling_unknown_reason: $('#sampling-reason').value,
+    effort_unknown_reason: $('#effort-reason').value,
+    system_instructions_unknown_reason: $('#sysinstr-reason').value,
+    attested_answers_round_question: $('#attest').checked,
+    attested_by: $('#attested-by').value.trim(),
+    round_question: r.question,
+    notes: $('#notes').value.trim() || null,
+  };
+  const blob = new Blob([JSON.stringify(bundle, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `oagf-capture-${r.round}-${p.identity.toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  $('#next').hidden = false;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (!rounds().length) { $('#app').hidden = true; $('#no-rounds').hidden = false; return; }
+  renderRoundPicker(); renderParties(); renderPrompt();
+  $('#round').addEventListener('change', e => { state.round = e.target.value; renderParties(); renderPrompt(); });
+  $('#party').addEventListener('change', e => { state.party = e.target.value; renderPrompt(); });
+  $('#response').addEventListener('input', evaluate);
+  $('#attest').addEventListener('change', evaluate);
+  $('#attested-by').addEventListener('input', evaluate);
+  for (const id of ['version-reason','sampling-reason','effort-reason','sysinstr-reason']) {
+    $('#'+id).addEventListener('input', e => { e.target.dataset.touched = '1'; });
+  }
+  /* navigator.clipboard needs a secure context and can reject silently over
+   * file://. On failure, select the prompt so the custodian can copy it manually --
+   * a copy button that quietly does nothing is worse than no button. */
+  $('#copy').addEventListener('click', async () => {
+    const text = currentParty().sent_text;
+    try {
+      if (!navigator.clipboard) throw new Error('no clipboard API');
+      await navigator.clipboard.writeText(text);
+      $('#copy').textContent = 'copied';
+    } catch (e) {
+      const pre = $('#prompt-text'), sel = window.getSelection(), range = document.createRange();
+      range.selectNodeContents(pre); sel.removeAllRanges(); sel.addRange(range);
+      $('#copy').textContent = 'selected — press Ctrl/Cmd+C';
+    }
+    setTimeout(() => $('#copy').textContent = 'copy prompt', 2400);
+  });
+  $('#download').addEventListener('click', download);
+});
+</script>
+</body>
+</html>

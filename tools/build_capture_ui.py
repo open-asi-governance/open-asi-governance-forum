@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate docs/capture/index.html — the capture UI. Deterministic, self-contained.
+"""Generate tools/capture_ui/index.html — the capture UI. Deterministic, self-contained.
 
     python3 tools/build_capture_ui.py
 
@@ -30,10 +30,29 @@ generated file must be byte-identical on an unchanged repository. tools/rebuild.
 stamps build-time HEAD into docs/index.html and thereby dirties the tree after
 every commit; that defect is Track A's and is not reproduced here.
 
+OPENED OVER file://, NOT SERVED
+------------------------------
+The page is generated into tools/capture_ui/ and opened directly from disk. It is
+public for examination -- the source is in a public repository, readable and
+diffable -- and it is not served, so there is nothing to gate and no access control
+to assert falsely.
+
+file:// costs two browser APIs, and both are handled rather than assumed:
+
+  crypto.subtle       requires a secure context. Browsers generally treat file://
+                      as trustworthy, but "generally" is not a guarantee, and the
+                      paste-time hash is the page's central integrity claim. A
+                      pure-JS SHA-256 fallback runs when subtle crypto is absent.
+  navigator.clipboard also requires a secure context, and silently rejects rather
+                      than throwing in some configurations. Falls back to selecting
+                      the prompt text so the custodian can copy it manually.
+
+A page whose hash silently stopped being computed would be exactly the failure this
+project keeps filing: a green signal that verified nothing.
+
 TERRITORY
 ---------
-docs/ is Track A's. This writes only docs/capture/ and never touches
-docs/index.html or the Pages workflow.
+docs/ is Track A's and this no longer writes there at all.
 """
 
 from __future__ import annotations
@@ -49,7 +68,11 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 
 from capture_gates import sent_prompt_text                      # noqa: E402
 
-OUT = REPO_ROOT / "docs" / "capture" / "index.html"
+#  NOT under docs/. docs/ is the published GitHub Pages surface; the custodian
+#  directed 2026-08-06 that the page ship as source in the repository and be opened
+#  locally over file://, so it is never served. That makes "public for examination,
+#  not public for use" true by construction rather than asserted by a control.
+OUT = REPO_ROOT / "tools" / "capture_ui" / "index.html"
 ROUNDS_DIR = REPO_ROOT / "record" / "rounds"
 GATES_JS = REPO_ROOT / "tools" / "capture_ui" / "gates.js"
 
@@ -146,9 +169,62 @@ const state = { round: null, party: null, pasteSha: null };
 function h(s){ return String(s).replace(/[&<>"']/g, c =>
   ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+/* SHA-256 with a pure-JS fallback. crypto.subtle needs a secure context, and this
+ * page is opened over file://. Browsers generally treat file:// as trustworthy but
+ * "generally" is not a guarantee, and a page whose hash silently stopped being
+ * computed would be a green signal that verified nothing -- the failure this
+ * project keeps filing. Which path ran is reported on the page. */
+let HASH_IMPL = 'unknown';
 async function sha256(text){
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+  const bytes = new TextEncoder().encode(text);
+  if (globalThis.crypto && crypto.subtle && crypto.subtle.digest) {
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', bytes);
+      HASH_IMPL = 'crypto.subtle';
+      return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+    } catch (e) { /* fall through */ }
+  }
+  HASH_IMPL = 'in-page fallback';
+  return sha256Fallback(bytes);
+}
+
+/* FIPS 180-4. Verified against crypto.subtle over the corpus by
+ * tools/tests/test_page_hash_fallback.py -- two implementations of a hash is a
+ * drift hazard and the same rule applies as to the gates: check it, do not hope. */
+function sha256Fallback(bytes){
+  const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+  0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+  0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+  0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+  0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+  0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+  0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+  0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  let H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const ml=bytes.length*8, withPad=new Uint8Array((((bytes.length+9)+63)>>6)<<6);
+  withPad.set(bytes); withPad[bytes.length]=0x80;
+  new DataView(withPad.buffer).setUint32(withPad.length-4, ml>>>0, false);
+  new DataView(withPad.buffer).setUint32(withPad.length-8, Math.floor(ml/4294967296), false);
+  const rr=(x,n)=>(x>>>n)|(x<<(32-n));
+  for(let i=0;i<withPad.length;i+=64){
+    const w=new Array(64), dv=new DataView(withPad.buffer,i,64);
+    for(let j=0;j<16;j++) w[j]=dv.getUint32(j*4,false);
+    for(let j=16;j<64;j++){
+      const s0=rr(w[j-15],7)^rr(w[j-15],18)^(w[j-15]>>>3);
+      const s1=rr(w[j-2],17)^rr(w[j-2],19)^(w[j-2]>>>10);
+      w[j]=(w[j-16]+s0+w[j-7]+s1)>>>0;
+    }
+    let [a,b,c,d,e,f,g,h]=H;
+    for(let j=0;j<64;j++){
+      const S1=rr(e,6)^rr(e,11)^rr(e,25), ch=(e&f)^(~e&g);
+      const t1=(h+S1+ch+K[j]+w[j])>>>0;
+      const S0=rr(a,2)^rr(a,13)^rr(a,22), mj=(a&b)^(a&c)^(b&c);
+      const t2=(S0+mj)>>>0;
+      h=g; g=f; f=e; e=(d+t1)>>>0; d=c; c=b; b=a; a=(t1+t2)>>>0;
+    }
+    H=[H[0]+a,H[1]+b,H[2]+c,H[3]+d,H[4]+e,H[5]+f,H[6]+g,H[7]+h].map(x=>x>>>0);
+  }
+  return H.map(x=>x.toString(16).padStart(8,'0')).join('');
 }
 
 function rounds(){ return window.OAGF_ROUNDS; }
@@ -231,7 +307,8 @@ async function evaluate(){
   }).join('');
 
   $('#paste-meta').innerHTML = text
-    ? `${new TextEncoder().encode(text).length} bytes · ${text.split('\n').length} lines · sha256 <span class="mono">${h(state.pasteSha)}</span>`
+    ? `${new TextEncoder().encode(text).length} bytes · ${text.split('\n').length} lines · sha256 `
+      + `<span class="mono">${h(state.pasteSha)}</span> <span class="muted">(${h(HASH_IMPL)})</span>`
     : 'nothing pasted';
   $('#download').disabled = (st === 'refused_empty') || !$('#attest').checked || !$('#attested-by').value.trim();
 }
@@ -283,9 +360,21 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const id of ['version-reason','sampling-reason','effort-reason','sysinstr-reason']) {
     $('#'+id).addEventListener('input', e => { e.target.dataset.touched = '1'; });
   }
+  /* navigator.clipboard needs a secure context and can reject silently over
+   * file://. On failure, select the prompt so the custodian can copy it manually --
+   * a copy button that quietly does nothing is worse than no button. */
   $('#copy').addEventListener('click', async () => {
-    await navigator.clipboard.writeText(currentParty().sent_text);
-    $('#copy').textContent = 'copied'; setTimeout(() => $('#copy').textContent = 'copy prompt', 1200);
+    const text = currentParty().sent_text;
+    try {
+      if (!navigator.clipboard) throw new Error('no clipboard API');
+      await navigator.clipboard.writeText(text);
+      $('#copy').textContent = 'copied';
+    } catch (e) {
+      const pre = $('#prompt-text'), sel = window.getSelection(), range = document.createRange();
+      range.selectNodeContents(pre); sel.removeAllRanges(); sel.addRange(range);
+      $('#copy').textContent = 'selected — press Ctrl/Cmd+C';
+    }
+    setTimeout(() => $('#copy').textContent = 'copy prompt', 2400);
   });
   $('#download').addEventListener('click', download);
 });
