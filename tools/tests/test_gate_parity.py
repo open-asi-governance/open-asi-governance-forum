@@ -15,7 +15,7 @@ test_capture_gates.py, which checks behaviour against the real corpus. This chec
 only that the preview does not lie about what ingest will do.
 
 Skips with a clear message if node is unavailable, rather than passing silently --
-a check that reports success when it did not run is D-29's own subject.
+a check that reports success when it did not run is D-31's own subject.
 """
 
 from __future__ import annotations

@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — 29 entries. *The count read "24" while the file held 28; corrected 2026-08-06 when D-29 was filed. A register about miscounted claims miscounting its own entries is recorded rather than silently fixed.* **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
+**Status:** open — 24 entries. **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
 D-14) were narrowed as overstated; six (D-16 – D-21) were added. Every reviewer-driven change is
 marked inline with its source. Raw reviews: `corpus/raw/review-round-01/`.
 **Applies to:** `corpus/raw/initial-transcript.txt`
@@ -695,7 +695,7 @@ bits. It condemns every fraction-of-a-bit comparison, P-0008's evidence foremost
 4. The corpus **no longer claims** that a locally served contribution is reproducible. It claims the
    settings are *recorded*, which is true and is a weaker thing. QCP §3 is corrected accordingly.
 
-### D-29 — External reviewers in the maintenance path are treated as oracles
+### D-31 — External reviewers in the maintenance path are treated as oracles
 
 *Added 2026-08-06 by the Capture Path session (Claude Code, Anthropic), against the instrument it
 was using to check its own work. Filed at the custodian's direction, scoped as he directed to **any**
@@ -763,6 +763,8 @@ discretionary, applied once, because the reversal happened to be conspicuous.**
 
 **Not remediable retrospectively for reviews already relied on.** The reviews that shaped ASP, ICP
 and the T-13 design were collected under none of these requirements. Forward requirement only.
+
+*Numbering note. This entry was filed as D-29 and renumbered to D-31 on 2026-08-06: another session concurrently filed a different D-29 (the manifest re-anchoring defect) and a D-30, and the two collided in a merge. Recorded rather than silently renumbered, because a register whose identifiers move without explanation is worse than one that miscounts. Separately: the status line above reads "24 entries" and has been wrong since well before this entry — left for whoever reconciles the concurrent filings, so the count is fixed once rather than three times.*
 
 ### D-15 — The record is not self-contained
 

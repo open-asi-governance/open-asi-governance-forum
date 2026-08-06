@@ -670,7 +670,7 @@ in this repository, and they are committed verbatim for the same reason.
 **Candidate register entry, for the custodian rather than filed unilaterally** — filing it myself
 would be the D-16 move this session was already caught making:
 
-> **D-29 (proposed)** — The external design reviewer is treated as an oracle. Codex reviews gate
+> **D-31 (proposed)** — The external design reviewer is treated as an oracle. Codex reviews gate
 > implementation under a standing rule, are k = 1, are prompted by the party whose work is under
 > review, expose no version identifier in the record, and have been observed to reverse a
 > load-bearing finding within ninety minutes. No review in this project has been collected at

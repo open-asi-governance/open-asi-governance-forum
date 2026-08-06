@@ -108,7 +108,7 @@ or the round is not run for that party.
 > predicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is
 > this. Which of these three questions, if any, would change its answer under sampling variance?
 >
-> **A deficiency was filed against this project's own use of external reviewers** (D-29,
+> **A deficiency was filed against this project's own use of external reviewers** (D-31,
 > `corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety
 > minutes, the follow-up prompt named the direction of error it expected, and no reviewer model
 > identity was recorded. Your review is subject to the same limits and will be recorded with them.
