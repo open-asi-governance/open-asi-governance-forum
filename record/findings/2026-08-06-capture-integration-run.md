@@ -154,11 +154,63 @@ updated when the detector was deliberately demoted from a gate to a diagnostic.
 
 Items 1 and 3 are prerequisites for T-14. Item 2 is what makes this document unnecessary next time.
 
+## Addendum — the page itself, driven headless
+
+Added after the first version, which recorded the page as untested. `tools/capture_ui/index.html`
+as built on `main` was loaded in Node under a DOM shim, its own `download()` called, and the bundle
+it emitted fed **unmodified** into `ingest_capture.py`.
+
+**Page -> bundle -> ingest -> corpus is intact.** 22 fields emitted, every entry in ingest's
+`REQUIRED` tuple present, and the page's own output ACCEPTED without editing. This is the seam
+nothing had exercised.
+
+Also confirmed:
+
+- **No free-text identity input.** Identities resolve from `window.OAGF_ROUNDS` through
+  `r.parties.find(p => p.identity === state.party)` — selection, not typing, so D-09 identity
+  merging cannot recur through the capture path.
+- **Self-contained.** Two inline script blocks, zero `src=` attributes; `check_self_contained()`
+  refuses to emit a page that would make a request.
+- Page JavaScript syntax-checks clean.
+
+**The advisory/authoritative split behaves as designed.** Pasting the prompt back as the response,
+through the page:
+
+```
+G1-non-empty                          pass
+G2a-not-byte-identical-to-prompt      FAIL
+G2b-not-normalised-equal-to-prompt    FAIL
+G2c-prompt-saturation                 FAIL  saturation 1.000 against threshold 0.6
+G3-not-duplicate-of-same-party        pass
+G5-truncation-hint                    pass
+```
+
+The page **still emits a bundle** — correct, the preview is advisory — and ingest then **held** it:
+`Grok returned_pending_review, awaiting disposition`. Preview warns, ingest decides, nothing enters
+the corpus.
+
+That held capture then demonstrates **Defect 1** live: it cannot be cleared, and the round can never
+report complete.
+
+## Cosmetic — `build_capture_ui.py` reports characters as bytes
+
+`print(f"... ({len(page):,} bytes)")` counts characters; the file is 58,533 bytes against 58,285
+reported, because of UTF-8 multi-byte content. The `unchanged` determination is correct.
+**Track A has the identical bug** in `build_viewer.py`, `build_local_rounds.py` and
+`build_session_log.py`, and will fix its own.
+
 ## What this run did not test
 
-- The browser page itself. Bundles were hand-constructed, so the UI's own gate preview, identity
-  selection from the round manifest, and clipboard handling are **unexercised**.
+- **The page in a real browser.** Everything above ran under a DOM shim. Untested in a real engine:
+  `crypto.subtle` versus the pure-JS `sha256Fallback` (the reason `test_page_hash_fallback.py`
+  exists), `navigator.clipboard` behaviour, the actual file download, and whether the round picker
+  and party list render at all. **A shim proves the logic composes; it does not prove the page
+  works.**
 - Any real party. Every response was fabricated.
+- **Fixture contamination bit this author three times**, each time by re-running against state left
+  by a previous run and briefly misreading the result as a gate outcome. Three occurrences in one
+  session is no longer an anecdote; it is the strongest argument here for making `--dry-run`
+  genuinely side-effect free.
 - `--dry-run`, beyond confirming previously that it is **not side-effect free**: it writes quarantine
   files and advances lifecycle state, which contaminated this author's first test sequence and made
   two later cases silently unreachable. There is currently no safe rehearsal against a real round.
