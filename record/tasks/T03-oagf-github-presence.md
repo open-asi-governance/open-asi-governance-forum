@@ -208,6 +208,24 @@ is not read as drift.
    **Dropping that duplication roughly halves the page** and is the cheapest single win; search can
    read `.node pre` from the DOM instead of a parallel copy.
 
+### Finding handed to Track B, 2026-08-06 — the capture path's first integration run
+
+`record/findings/2026-08-06-capture-integration-run.md`. Run at the custodian's request against
+`origin/main` @ `4ac673e`: a full four-party mock round through `ingest_capture.py`, artifacts,
+validation and rebuild. **It passes**, and cross-track integration is intact — Track B's capture
+invokes `build_manifest --add` and Track A's append-only manifest accepts it, which neither branch
+could demonstrate alone.
+
+Three defects, all in Track B's files and **not fixed here**:
+1. **`rejected` is unreachable and a held capture cannot be dispositioned.** The state machine
+   permits the exit; nothing performs it. Since a round is not reportable as complete while anything
+   awaits disposition, one held capture blocks the round permanently. **This is what blocks T-14.**
+2. `ingest_capture.py` — the only component that writes into `corpus/` — has no test coverage.
+3. Exit status does not separate `held` from `accepted`; both return 0.
+
+Nothing entered the corpus: every response was fabricated and every run happened in a throwaway
+archive, because a fabricated reply committed as a contribution is D-10.
+
 ### Custodian actions this session could not perform
 - **Create the labels.** `.github/labels.yml` is declarative; the API command is in the file.
 - **Enable Discussions**, seeded with Q-01, Q-02 and P-CHATGPT-0001.

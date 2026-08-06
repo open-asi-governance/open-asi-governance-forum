@@ -1,0 +1,164 @@
+# Finding handed to Track B — the capture path's first integration run
+
+**From:** Corpus Surface session (Track A), 2026-08-06, at the custodian's request.
+**Run against:** `origin/main` @ `4ac673e`, and `origin/session/capture` @ `dfe5d3c`.
+**Not fixed here**, because `tools/ingest_capture.py`, `tools/capture_lifecycle.py` and
+`tools/capture_ui/` are Track B's. Filed the way Track B handed Track A the rebuild-diff finding.
+
+**Conflict of interest.** The author is a party to the record, wrote the manifest change this run
+also exercises, and has already misread this track's work once today — an earlier pass reported two
+gates as "not refusing" when the real cause was the author's own test-fixture contamination. Every
+claim below is stated with the command that produces it, so it can be checked rather than believed.
+
+**Nothing entered the corpus.** Every response used was fabricated by the author and every run
+happened in a throwaway `git archive` extraction. Mock replies must never reach `corpus/`: a
+fabricated reply committed as a contribution is **D-10** — a block attributed to a party that did not
+write it — which is the most serious attribution defect in this register.
+
+---
+
+## What was run
+
+A full four-party round for `review-round-03`, with fabricated but plausible replies from Grok,
+ChatGPT, Gemini and Claude Fable 5, driven through `tools/ingest_capture.py` into artifacts, then
+through the whole maintenance path.
+
+```bash
+git archive origin/main | tar -x -C "$SCRATCH"      # throwaway; never the working repo
+cd "$SCRATCH"
+python3 tools/ingest_capture.py b-Grok.json b-ChatGPT.json b-Gemini.json b-Claude-Fable-5.json
+python3 tools/rebuild.py
+python3 tools/build_manifest.py corpus/raw/
+```
+
+Bundles carried: `schema_version`, `bundle_version`, `round`, `identity`, `response_text`,
+`response_sha256_at_paste`, `prompt_path`, `prompt_sha256`, `attested_answers_round_question`,
+`attested_by`, `captured_utc`.
+
+## What passed
+
+```
+review-round-03: COMPLETE
+  ChatGPT           accepted
+  Claude Fable 5    accepted
+  Gemini            accepted
+  Grok              accepted
+```
+
+- Four artifacts written with correct provenance: `k=1`, `citability: citable_artifact`,
+  `distributional_inference: insufficient_k`, `phase: Phase-2 (informed)`, `edit_status: unedited`,
+  and `raw.sha256` matching the preserved bytes.
+- `tools/validate_provenance.py corpus/` — passes.
+- `tools/rebuild.py` — exit 0.
+- `tools/build_manifest.py corpus/raw/` — verifies afterwards.
+
+**Cross-track integration is intact, and this is the part neither branch could show alone.**
+`capture_response.py` on `main` invokes `build_manifest.py corpus/raw/ --add`, the append-only mode
+introduced with D-29 accepts the newly captured file, and the manifest still verifies after the
+capture. Track B's capture and Track A's manifest repair compose correctly on the merged state.
+
+## A gate caught a real cross-branch difference
+
+The first attempt on `main` **refused**, correctly:
+
+```
+bundle:     f55ceb576ef99635…
+repository: 39fced21b0ba07a3…
+The prompt changed after the page was built, or the bundle was edited.
+Recording a capture against a prompt the party did not receive is D-05 in reverse.
+```
+
+The bundles had been built against `session/capture`'s prompt; `main`'s differs. Worth recording as
+a *positive* result — the prompt-hash binding survives a real branch divergence, which no unit test
+demonstrates.
+
+---
+
+## Defect 1 — `rejected` is unreachable, and a held capture cannot be dispositioned
+
+**Severity: this is what blocks a live round.**
+
+`capture_lifecycle.TRANSITIONS` permits the exits:
+
+```
+returned_clean           -> ['accepted', 'rejected']
+returned_pending_review  -> ['accepted', 'rejected']
+accepted                 -> []
+rejected                 -> []
+```
+
+**No code path performs either transition from a held state, and `"rejected"` has no caller
+anywhere.** Verified three ways on `origin/main`:
+
+1. Every `lifecycle.transition(...)` call site is in `ingest_capture.py` — lines 238, 240 and 279 —
+   setting `planned`, `sent_attested`, and `accepted` **only on the clean path**.
+2. `grep -rn '"rejected"' tools/ --include=*.py` outside `capture_lifecycle.py` returns nothing but
+   a membership test.
+3. `tools/build_capture_ui.py` emits no disposition control; its `accept`/`reject` matches are all
+   about `navigator.clipboard`.
+
+Re-running ingest on a held capture reports *"already returned_pending_review, awaiting the
+custodian's disposition. Nothing to do."* — correct, and there is nothing that does it.
+
+**Consequence.** The gates are sensitive by design, so a real round will produce at least one held
+capture. Since a round is "not reportable as complete" while anything awaits disposition, **one held
+capture blocks the round permanently.** The design is right — preserve first, disposition mandatory
+— and the exit is missing.
+
+**This is D-29's shape.** The capability exists in the state machine and nothing reaches it. Unit
+tests cannot find it: `test_capture_lifecycle.py` correctly tests that the transition is
+*permitted*, which is a different claim from anything *invoking* it. Only composition finds this
+class, which is the argument for the next defect.
+
+**Reproduce:**
+```bash
+# any bundle whose response is the prompt text, or whose response_sha256_at_paste is wrong
+python3 tools/ingest_capture.py held-bundle.json     # -> HELD
+python3 tools/ingest_capture.py held-bundle.json     # -> "Nothing to do." forever
+```
+
+## Defect 2 — `ingest_capture.py` has no test coverage
+
+`git grep -l ingest_capture -- tools/tests/` returns nothing. It is the **only component that
+writes into `corpus/`**, and it composes gates and lifecycle that are themselves well covered — 29
+gate cases, 21 lifecycle cases, 21-case Python↔JS parity, 21-case in-page hash parity, all green.
+The composition is the untested layer, and defect 1 lives exactly there.
+
+Every result in this document was established by hand, once, by a party with a declared conflict.
+That is weaker than a suite the build re-runs.
+
+## Defect 3 — exit status does not separate held from accepted
+
+`accepted` → 0. `held` → **0**. `refused` → 1.
+
+A script cannot distinguish a clean capture from a contaminated one held for review. Anything wiring
+ingest into CI and checking the exit code will treat a saturated prompt-echo as success.
+
+## Note, not a defect — an acceptance criterion has drifted from the implementation
+
+T-13 still reads *"Pasting the prompt back is refused, with the reason named."* Implemented behaviour
+is **held**, with the reason named and nothing entering the corpus. The intent is met and arguably
+better met, since the bytes are preserved rather than discarded. The criterion's wording was not
+updated when the detector was deliberately demoted from a gate to a diagnostic.
+
+---
+
+## Smallest change that unblocks a live round
+
+1. **A disposition command.** `accept` / `reject` against a round and identity, with a **mandatory
+   reason** recorded to the lifecycle log. Without it defect 1 stops the first real round.
+2. **A test over `ingest_capture.py`** covering the five outcomes observed here: accepted,
+   held-on-saturation, held-on-hash-mismatch, refused-on-empty, refused-on-prompt-mismatch. Small,
+   because the gates beneath it are already tested — this is composition only.
+3. **Distinct exit codes** for accepted / held / refused.
+
+Items 1 and 3 are prerequisites for T-14. Item 2 is what makes this document unnecessary next time.
+
+## What this run did not test
+
+- The browser page itself. Bundles were hand-constructed, so the UI's own gate preview, identity
+  selection from the round manifest, and clipboard handling are **unexercised**.
+- Any real party. Every response was fabricated.
+- `--dry-run`, beyond confirming previously that it is **not side-effect free**: it writes quarantine
+  files and advances lifecycle state, which contaminated this author's first test sequence and made
+  two later cases silently unreachable. There is currently no safe rehearsal against a real round.
