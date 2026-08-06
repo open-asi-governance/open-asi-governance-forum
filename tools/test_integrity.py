@@ -33,6 +33,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 RAW_LOCAL = "corpus/raw/local-round-02/level-4-guarantee-crosslineage-probe-samples.json"
 RAW_CONTRIB = "corpus/raw/review-round-02/chatgpt-01.md"
 
+# Generated, and NOT under docs/ since 97e852d moved it off the published surface.
+# Named once here so the next relocation breaks one line rather than four.
+CAPTURE_PAGE = "tools/capture_ui/index.html"
+
 PASSED: list[str] = []
 FAILED: list[str] = []
 
@@ -274,9 +278,15 @@ def main() -> int:
         case("an all-zero base on a root commit says so and passes",
              r.returncode == 0 and "Root commit" in r.stdout)
 
-        print("\nD-33 — every generator that writes under docs/ must be in the build")
+        print("\nD-33 — every generated file must be derived by the build")
         c = nxt()
-        cap = c / "docs/capture/index.html"
+        # The capture page moved from docs/capture/ to tools/capture_ui/ in 97e852d,
+        # off the published surface: it is an operator instrument, not a public
+        # artifact. The D-33 defect is UNCHANGED by the move -- the page still
+        # embeds prompt digests, and a stale one still misstates what it anchors.
+        # The move did remove it from CI's docs/-scoped byte-equality gate, so that
+        # gate now covers generated files outside docs/ too.
+        cap = c / CAPTURE_PAGE
         cap.write_text(cap.read_text() + "<!-- hand edit -->")
         # COMMIT the edit. That is the scenario CI actually faces: it checks out a
         # commit and asks whether the committed page equals a regeneration. An
@@ -286,8 +296,9 @@ def main() -> int:
         subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
                         "commit","-qam","hand edit"], cwd=c, capture_output=True)
         run(c, "tools/rebuild.py")
-        case("a committed hand-edited capture page is caught by the CI diff gate",
-             subprocess.run(["git","diff","--quiet","--","docs/"], cwd=c).returncode == 1)
+        case("a committed hand-edited capture page is caught by the diff gate",
+             subprocess.run(["git","diff","--quiet","--",CAPTURE_PAGE],
+                            cwd=c).returncode == 1)
 
         c = nxt()
         # The real 2026-08-06 failure: edit a prompt the capture page embeds, and the
@@ -298,11 +309,11 @@ def main() -> int:
         prompt.write_text(prompt.read_text() + "\nAn edit that changes the digest.\n")
         run(c, "tools/rebuild.py")
         case("editing an embedded prompt leaves a diff in the capture page",
-             subprocess.run(["git","diff","--quiet","--","docs/capture/"],
+             subprocess.run(["git","diff","--quiet","--",CAPTURE_PAGE],
                             cwd=c).returncode == 1)
         digest = hashlib.sha256(prompt.read_bytes()).hexdigest()
         case("the regenerated page carries the prompt's real digest",
-             digest in (c / "docs/capture/index.html").read_text())
+             digest in (c / CAPTURE_PAGE).read_text())
 
         print("\nD-32 — colliding identifiers must fail the build")
         c = nxt()

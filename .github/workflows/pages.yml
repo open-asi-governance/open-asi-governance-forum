@@ -99,17 +99,26 @@ jobs:
         #
         # Deleting first also catches a committed file no generator produces at all,
         # which a diff can never see.
+        #
+        # THE SCOPE IS EVERY GENERATED FILE, NOT EVERY PUBLISHED ONE, and the
+        # difference is not academic. 97e852d moved the capture page from
+        # docs/capture/ to tools/capture_ui/, off the published surface, which was
+        # the right call -- it is an operator instrument, not a public artifact.
+        # But a docs/-scoped gate would have stopped covering it at that moment,
+        # silently reopening D-33 in the same file D-33 was filed about. A gate
+        # scoped to a DIRECTORY breaks whenever a file moves out of it; a gate
+        # scoped to the GENERATOR SET does not.
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf docs/
+          rm -rf docs/ tools/capture_ui/index.html
           python3 tools/rebuild.py
-          if [[ -n "$(git status --porcelain -- docs/ corpus/index.md)" ]]; then
+          if [[ -n "$(git status --porcelain -- docs/ corpus/index.md tools/capture_ui/index.html)" ]]; then
             echo "::error::Committed artifacts differ from a clean regeneration."
             echo "Either they were hand-edited, or built from inputs that differ from"
             echo "what is committed. Run: python3 tools/rebuild.py"
-            git status --short -- docs/ corpus/index.md
-            git diff -- docs/ corpus/index.md | head -60
+            git status --short -- docs/ corpus/index.md tools/capture_ui/index.html
+            git diff -- docs/ corpus/index.md tools/capture_ui/index.html | head -60
             exit 1
           fi
           test -f docs/.nojekyll || { echo "::error::docs/.nojekyll missing"; exit 1; }
