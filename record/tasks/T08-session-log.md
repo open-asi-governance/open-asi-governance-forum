@@ -53,3 +53,55 @@ predictions are not non-public information and stay at the same prominence as su
 Scheduled run (cron/loop) or session-triggered? Automatic is more reliable and less selective; it
 also produces logs nobody reads. **Recommend session-triggered** until there is evidence anyone
 reads them.
+
+---
+
+## Session state — Corpus Surface, 2026-08-06. **T-08 is DONE, with the brief amended.**
+
+### Done
+- `tools/build_session_log.py` — **7786f1c**
+- `record/sessions/2026-08-06-A.manifest.json` + generated `record/sessions/2026-08-06-A.md` — **7786f1c**
+
+### The brief was amended, not merely implemented
+Codex reviewed the design before it was written and rejected **both** of the brief's central asks.
+The custodian was asked and adopted the rescope.
+
+1. **Sanitisation is not implemented, and should not be.** The brief specifies deterministic
+   withholding of secrets and non-public information. `tools/` runs no LLM, and "is this an internal
+   hostname / a non-public result" is a judgement. A regex denylist is D-25 in its purest form — an
+   unvalidated classifier published as authoritative — and its errors are **asymmetric**: a false
+   negative leaks into public git history permanently, a false positive silently erases adverse
+   evidence. Worse, "withholding must itself be recorded" **cannot be mechanically enforced at all**,
+   because no tool can distinguish "nothing was withheld" from "something was withheld silently."
+   The renderer therefore emits only typed values and quoted commit subjects, redacts nothing, and
+   says so in its own header. **The trust boundary is custodian review of the outgoing commit.**
+2. **It is not an audit log.** Derivation proves lineage, not truth. The party that writes the log
+   controls session boundaries, commit granularity, commit messages, and what reaches git at all.
+   The honest claim is: *"a deterministic renderer transformed a declared set of repository objects
+   into this document."* Not that the set is complete or its contents true.
+
+### Design decisions worth not re-deriving
+- **The window is declared, not inferred.** Git holds commits and reachability, not sessions. Four
+  concurrent branches cannot be expressed as one `A..B` range, and a single `tips --not bases`
+  erases commits belonging to one lane but ancestral to another lane's later base. A manifest names
+  an exclusive base and inclusive tip **per lane**, each range computed separately. Declaring tips
+  also means the log can never fall inside its own window.
+- **Trust classes are printed on every fact**: `[1]` observed git objects, `[2]` declared by the
+  session about itself, `[3]` independently witnessed. **`[3]` is always empty** — this project has
+  no such control, and the emptiness is the point rather than an oversight.
+- **Commit subjects are kept, labelled `[2]`.** Codex argued for omitting them as untrusted author
+  metadata. Overruled: a log the custodian will not read protects nothing, and labelling is the
+  mechanism this repository already uses everywhere else.
+- **Derived sections are recomputed, never copied.** Predictions are diffed between committed
+  endpoints. Declared `k_collected` is checked against samples actually present in the committed raw
+  file — 25 solicitations, 0 disagreements, two rounds that collected 19 of 20 and say so.
+- Content is read from commit trees via `git show`, **never the working tree**, so a later edit
+  cannot change a rendered window. Verified.
+
+### Remaining
+- **Open question from the brief is still open:** scheduled vs session-triggered. Still recommend
+  session-triggered until there is evidence anyone reads them. No cron has been set up.
+- Commit ordering is git's topological order, which is stable for fixed endpoints but is not a
+  canonical cross-implementation guarantee. Mitigated by also emitting a digest over the sorted
+  commit set, so the **set** is the claim and the order is for the reader. If that is not enough,
+  switch to lexical full-hash ordering and accept the loss of chronology.

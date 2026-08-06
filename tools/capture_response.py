@@ -266,8 +266,17 @@ def main() -> int:
     artifact_path = artifact_dir / f"{identity_slug}-{args.sample_index:02d}.json"
     artifact_path.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+    # --add, not the bare invocation. Capture has just written a NEW raw file, so
+    # it must anchor exactly that file and nothing else. The bare invocation now
+    # VERIFIES (D-29: it used to rewrite the manifest from disk, which is why the
+    # anchor anchored nothing), and verification would fail here on the very file
+    # capture just legitimately added.
+    #
+    # --add is also the stronger guarantee: it refuses if any ALREADY-recorded
+    # artifact changed, so a capture can never be the operation that quietly
+    # re-anchors altered material alongside the new material it is meant to add.
     subprocess.run(
-        [sys.executable, str(REPO_ROOT / "tools/build_manifest.py"), "corpus/raw/"],
+        [sys.executable, str(REPO_ROOT / "tools/build_manifest.py"), "corpus/raw/", "--add"],
         cwd=REPO_ROOT, check=True, stdout=subprocess.DEVNULL,
     )
 
@@ -275,7 +284,7 @@ def main() -> int:
     print(f"provenance {artifact_path.relative_to(REPO_ROOT)}")
     print(f"artifact_id {record['artifact_id']}")
     print(f"citability  {record['citability']} / {record['distributional_inference']}")
-    print("manifest rebuilt")
+    print("manifest: new artifact anchored, existing entries verified unchanged")
     return 0
 
 

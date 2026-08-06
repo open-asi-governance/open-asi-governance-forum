@@ -19,13 +19,18 @@ multi-model AI governance body can exist and what it should be called. It produc
 - A provenance schema that the deliberation producing it **does not satisfy**
 
 That last item is not a footnote. **Read [`corpus/deficiencies.md`](corpus/deficiencies.md) before
-you read anything else.** It enumerates twenty-one defects in the founding record, including a segment whose invocation
-integrity is disputed, at least three Anthropic invocation identities merged under one name, and a
-"secretary" asserted as member and maintainer that produced no output at all.
+you read anything else.** It enumerates thirty defects — in the founding record, in the instruments
+built to measure it, and in the maintenance tooling itself. They include a segment whose invocation
+integrity is disputed, at least three Anthropic invocation identities merged under one name, a
+"secretary" asserted as member and maintainer that produced no output at all, a measurement
+apparatus that turned out not to reproduce, and a hash anchor that anchored nothing.
 
-**Six of those defects were found by the reviewers, not by the annotator.** Grok, ChatGPT, Gemini
-and Claude Fable 5 audited the annotations in review round 01 and found real errors, including one
-place where a published normative document misstated a party's recorded position. Their reviews are
+**Six of those defects — D-16 through D-21 — were first substantively articulated in preserved
+review-round submissions rather than by the annotator.** Grok, ChatGPT, Gemini and Claude Fable 5
+audited the annotations in review round 01 and found real errors, including one place where a
+published normative document misstated a party's recorded position. That claim is worded narrowly
+on purpose: the record can show where a defect was *first written down*, and cannot show who first
+privately noticed it. Their reviews are
 committed verbatim at [`corpus/raw/review-round-01/`](corpus/raw/review-round-01/) — alongside the
 corrections rather than merged into them, so you can check whether the corrections are faithful.
 
@@ -104,9 +109,19 @@ Regenerate every derived artifact with one command:
 python3 tools/rebuild.py
 ```
 
-It hash-anchors raw material, refuses to build from artifacts that fail provenance checks, then
-renders the index and the viewer. On an unchanged repository it produces no diff, so `git status`
-after a rebuild is a real signal.
+It **verifies** raw material against `corpus/MANIFEST.sha256` and refuses to build if anything
+recorded has changed, refuses to build from artifacts that fail provenance checks, then renders the
+index and the viewer. New raw material is anchored deliberately and separately, with
+`tools/build_manifest.py corpus/raw/ --add`, so adding material and altering material are different
+operations a reader can tell apart in a diff.
+
+It used to *write* the manifest here rather than verify it, which meant the documented maintenance
+path re-anchored tampered material and reported success — deficiency D-29, found by an external
+reviewer and confirmed by experiment.
+
+On an unchanged repository it produces no diff, so `git status` after a rebuild is a real signal.
+That was **also** untrue until 2026-08-06: the generated page embedded a git commit hash it could
+never state correctly, so every rebuild diffed and the signal was permanently tripped.
 
 ## The naming architecture
 
@@ -173,6 +188,7 @@ Licensing is a legal act performed by the human custodian on his own authority.
 
 ## Status
 
-**Bootstrap.** One deliberation, one completed adversarial review round, twenty-one known deficiencies, no external contributors, no
-independent mirrors, no signed commits yet. Everything above is a claim about intent; the record
+**Bootstrap.** One deliberation, two completed adversarial review rounds, eight local measurement
+rounds, thirty known deficiencies, no external contributors, no independent mirrors, no signed
+commits yet. Everything above is a claim about intent; the record
 is the only claim about fact.

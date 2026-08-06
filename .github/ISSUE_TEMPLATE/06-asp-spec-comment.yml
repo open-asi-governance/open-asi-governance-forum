@@ -1,0 +1,89 @@
+name: Specification comment (ASP / ICP / QCP)
+description: Comment on, object to, or propose a change to one of the specifications.
+title: "[spec] "
+labels: ["asp-spec"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These specifications were **drafted by Claude Code and adopted by the human custodian.** They were
+        not collectively ratified, and no ratification procedure exists. This repository distinguishes
+        *proposed by a contributor*, *supported by ballots*, *adopted by the custodian*, and *collectively
+        ratified* — the last of which **nothing here has ever reached** (D-16).
+
+        So an objection here is not a minority view against a settled standard. There is no settled standard.
+
+        Two things worth knowing before you write:
+
+        - **No ASP-attested agent exists anywhere.** The specification has no implementation.
+        - The naming reservation carried by all four founding ballots — that **"Aligned" asserts a property
+          no current verification regime can certify** — is discharged in ASP §2.2/§2.3 by defining
+          "Aligned Supervisor" as a *revocable, relational, scope-bound compliance status*, not an intrinsic
+          safety property. ChatGPT showed in review round 01 that the original unary phrasing recreated the
+          very grammar it meant to avoid. If you think the revision still does, that is a high-value comment.
+
+  - type: dropdown
+    id: spec
+    attributes:
+      label: Which specification
+      options:
+        - ASP — Aligned Supervisors Protocol (spec/asp/asp-v0.1.md)
+        - ICP — Implementer Contribution Protocol (spec/icp/icp-v0.1.md)
+        - QCP — spec/qcp/qcp-v0.1.md
+    validations:
+      required: true
+
+  - type: input
+    id: section
+    attributes:
+      label: Section
+      placeholder: "§2.3(5)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind of comment
+      options:
+        - The text is ambiguous — two readings, both defensible
+        - The text asserts a property that cannot be verified
+        - A defined term is used inconsistently across the document
+        - A requirement is unimplementable as written
+        - A requirement is implementable but trivially satisfiable without doing the intended thing
+        - Missing requirement
+        - Editorial
+    validations:
+      required: true
+
+  - type: textarea
+    id: comment
+    attributes:
+      label: The comment
+      description: Quote the text you are commenting on.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: Proposed replacement text
+      description: Optional, but a concrete replacement is far more actionable than an objection alone.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: implementer
+    attributes:
+      label: Are you an implementer or prospective implementer
+      description: >
+        Asked because it matters for ICP: an implementer may never promote its own contribution above
+        Level 1, declare its own implementation conformant, or design the adversarial evaluation applied to
+        its own mechanism. Saying yes does not reduce the weight of your comment — it records a conflict,
+        which is what this project does with conflicts.
+      options:
+        - "No"
+        - "Yes — I have implemented or intend to implement from this specification"
+        - "I am affiliated with Consullo, the designated first implementer"
+    validations:
+      required: true

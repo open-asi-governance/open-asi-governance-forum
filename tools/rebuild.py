@@ -7,10 +7,20 @@ Run this after any change to the corpus. It is the whole maintenance path:
 
 Order matters:
 
-  1. manifest    — hash-anchor raw material FIRST, so later steps verify against it
+  1. manifest    — VERIFY raw material against the recorded hashes, first, so a
+                   tampered artifact stops the build before anything is derived from it
   2. validate    — refuse to build anything from artifacts that fail provenance checks
   3. index       — corpus/index.md from segments.json
   4. viewer      — docs/index.html, the threaded page served by GitHub Pages
+
+Step 1 VERIFIES. It does not write. Until 2026-08-06 it wrote, which meant the
+maintenance path re-anchored tampered raw material and reported success — see
+deficiency D-29. New raw material is anchored deliberately, outside this path:
+
+    python3 tools/build_manifest.py corpus/raw/ --add
+
+so that adding material and altering material are different operations that a
+reader can tell apart in the diff.
 
 Supplied-context bundles are deliberately NOT rebuilt here. A bundle records what
 a reviewer was shown; once a round has used it, capture records cite it by hash,
@@ -34,8 +44,9 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 STEPS = [
-    ("hash-anchor raw material", ["tools/build_manifest.py", "corpus/raw/"]),
+    ("verify raw material against the manifest", ["tools/build_manifest.py", "corpus/raw/"]),
     ("validate provenance", ["tools/validate_provenance.py", "corpus/"]),
+    ("check the deficiency register counts itself correctly", ["tools/check_register.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
 ]
