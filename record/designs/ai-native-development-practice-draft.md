@@ -133,12 +133,55 @@ truth and are generated *into* markdown. The partition is **per unit of content*
    generated from; the build fails when inputs move and it has not been regenerated.
 
 **Fenced or sidecar is a choice with consequences.** Fenced JSON is right when the document is the
-delivery vehicle — one file cannot desynchronize from itself. But fenced JSON is **not directly
-consumable**: an agent must parse markdown to reach it, and so must the validator, which makes the
-extractor a new instrument that can itself be wrong. `validate_provenance.py` validates the register
-artifact against its schema directly; fenced, that would need an extraction step. **Fenced when the
-document is the product; sidecar when the build validates it; and any extraction step carries its own
-tests.**
+delivery vehicle — one file cannot desynchronize from itself.
+
+> **Corrected 2026-08-06, on the custodian's objection.** An earlier version of this section said the
+> extraction step "makes the extractor a new instrument that can itself be wrong", implying it sits
+> in the same class as D-25's unvalidated coder. **It does not, and the difference is
+> load-bearing.** An extractor is an *invertible* transformation: its output can be re-serialized
+> and compared against the source region, so its **fidelity is mechanically checkable**. D-25's
+> coder had no such property — a classification cannot be re-serialized into the prose it came from,
+> which is exactly why nothing could have caught it automatically. Fenced JSON can therefore reach
+> **L3**, and the objection is correct.
+
+What round-trip verification establishes is **fidelity to the block it found**. It establishes
+nothing about **which** block that was, or whether one was found at all. Two failure modes survive,
+and the first is D-25's shape after all — a syntactically valid match on the wrong referent:
+
+**Selection.** A document may hold several fenced blocks: the authoritative one, an illustrative
+example, a "what not to do" counter-example. Demonstrated on a two-block document where both blocks
+are valid JSON and schema-valid, and they disagree on every value:
+
+```
+naive: first block  -> {"files": 4, "assurance_level": "L3"}   round-trip PASSES
+naive: last block   -> {"files": 9, "assurance_level": "L0"}   round-trip PASSES
+```
+
+Both round-trip perfectly. Nothing mechanical says which is the source of truth. Note that the wrong
+one was a *"what not to do"* example — which is precisely the content a practice-standard document
+contains, so this is the ordinary case rather than a contrived one.
+
+**Absence.** A missing block, a malformed fence, or a renamed info string yields *no* facts, and "no
+facts found" must fail loudly rather than read as "this document asserts nothing." That is the D-29
+fail-open class.
+
+**So fenced JSON is safe under four conditions, not one:**
+
+1. **Authoritative blocks are marked**, and unmarked blocks are never eligible —
+   ```` ```json oagf-data ````. CommonMark takes the first word of the info string as the language,
+   so syntax highlighting still works and the marker rides along.
+2. **Exactly one** authoritative block per document. Zero fails; two fail.
+3. **Round-trip and schema** validation of what was extracted.
+4. **An L3 test** that corrupts the block, duplicates the marker, and removes it, asserting the
+   invoked path fails in each case.
+
+Verified: with those four, the two-block document above is refused for having no marked block, the
+marked version extracts the correct object, and marking both blocks is refused for ambiguity.
+
+**Revised guidance.** Fenced is fine wherever the document is the product, *provided the four
+conditions hold*. Sidecar remains simpler where the build is the only consumer —
+`validate_provenance.py` validates the register artifact against its schema directly, with no
+extraction step to get right. The choice is now about consumer and convenience, not about safety.
 
 **None of this is self-executing.** Single-source-of-truth was already the *intent* here on the
 morning of 2026-08-06, and the count still stood at 21, 24 and 28 simultaneously. The rule becomes
