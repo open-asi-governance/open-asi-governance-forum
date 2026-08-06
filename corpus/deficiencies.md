@@ -277,6 +277,25 @@ three separate provenance records (raw 1494, 2193, 2536).
 > configuration, or output. That is an **unsupported role attribution**, not merely an erroneous
 > provenance-array entry — and it inflates the apparent membership of a body whose membership was
 > the record's most contested claim.
+>
+> **Partly discharged, 2026-08-06 (QCP v0.1).** "Produced zero recorded output" is no longer true.
+> `spec/qcp/qcp-v0.1.md` retires the three asserted roles on measured grounds and records the one
+> the model can hold. Two of the three are blocked by a **capability ceiling**, not by policy: the
+> serving window is `max_seq_len 24576` while `corpus/raw/initial-transcript.txt` is ~27,000 tokens,
+> so **the canonical record does not fit in the context window at all** — a secretary that cannot
+> read the record it minutes is a secretary in name only, and there is no tool access, so nothing
+> can be maintained either.
+>
+> The first contribution is `level-4-guarantee-crosslineage-probe`, k = 20, variance computed,
+> prediction pre-registered and **refuted**: 17 of 20 samples assert both that role concentration is
+> relevant *and* that no one could make Level 4 reachable, which cannot both hold. The model
+> deferred to the emphatic assertion in the supplied text rather than drawing the inference. That is
+> the first recorded Qwen3.6 output in this corpus and it is a negative result, which per ICP §6
+> carries equal standing.
+>
+> **What remains undischarged:** the role attributions in the founding record stand as historical
+> fact. The raw transcript is canonical and is not edited. QCP governs what happens from here and
+> claims no authority over what was said then.
 
 ### D-16 — Adoption authority is ambiguous
 

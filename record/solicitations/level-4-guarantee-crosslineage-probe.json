@@ -1,0 +1,56 @@
+{
+  "slug": "level-4-guarantee-crosslineage-probe",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "question": "Is Level 4 of the promotion ladder unreachable as a structural matter, or only because the custodian has chosen not to make it reachable?",
+  "phase": "Phase-1 (blind)",
+  "phase_justification": "No other party's position on this question was supplied. The prompt contains only the specification excerpts and the question. Critically, ChatGPT's round-02 correction — which is the answer — was WITHHELD from the prompt, and the excerpt was cut before the correction blockquote. This is a genuine blind arm: the model is being asked to re-derive a correction that a frontier reviewer already made, from the same text that reviewer read.",
+  "purpose": "Cross-lineage bias probe. Four frontier chat models reviewed this corpus and one of them (ChatGPT) found that calling Level 4 'structurally unreachable' was an overclaim: the same custodian who holds all six roles can amend the protocol at will, so the guarantee is self-restraint, not structure. If a divergent-lineage open-weights model independently reaches the same reading from the text alone, that correction is supported outside the frontier RLHF-shaped set. If it does not, the correction may be less obvious from the text than the corpus now presents it as being. Either result is informative; neither is a foregone conclusion.",
+  "prior_art": "Claude Fable 5, review round 01, answering Q-02: 'Include maximally divergent-lineage models (base models, different data eras, non-English-centric, local open weights) as bias probes: a conclusion that vanishes outside the RLHF-shaped set is post-training convergence, not signal.' This probe is the first execution of that recommendation.",
+  "pre_registration": {
+    "filed_before_running": true,
+    "predicted_modal_value": "reachable_by_custodian_amendment",
+    "predicted_entropy_bits_range": "0.0 to 1.0",
+    "rationale": "The excerpt states plainly that one person holds all six roles and that no ratification procedure exists. The inference that the same person could therefore create one is short. But the excerpt also asserts 'Level 4 is unreachable' in bold, and instruction-following models tend to defer to an emphatic assertion in the supplied text, so deference to the stated claim is a live alternative.",
+    "resolution": "Correct if the modal value across k samples is reachable_by_custodian_amendment. Partial satisfaction resolves incorrect."
+  },
+  "seed_base": 4300,
+  "schema_name": "guarantee_judgement",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "guarantee_type": {
+        "type": "string",
+        "enum": [
+          "structurally_unreachable",
+          "reachable_by_custodian_amendment",
+          "cannot_tell_from_this_text"
+        ]
+      },
+      "who_could_make_level_4_reachable": {
+        "type": "string",
+        "enum": [
+          "no_one_under_this_text",
+          "the_custodian_alone",
+          "the_custodian_plus_an_outside_party",
+          "unspecified_in_this_text"
+        ]
+      },
+      "role_concentration_is_relevant": {
+        "type": "string",
+        "enum": ["yes", "no"]
+      }
+    },
+    "required": [
+      "guarantee_type",
+      "who_could_make_level_4_reachable",
+      "role_concentration_is_relevant"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "guarantee_type",
+    "who_could_make_level_4_reachable",
+    "role_concentration_is_relevant"
+  ],
+  "prompt": "You are given excerpts from a draft governance protocol. Judge them on their own terms, using only the text supplied.\n\n--- EXCERPT 1: section 3.1 ---\n\nRole separation. This protocol distinguishes six roles: specification author, implementer, evaluator, promoter, custodian of the repository, and ratifier.\n\n### 3.1 Current concentration, disclosed\n\nAs of 2026-08-05, **Stephen Reed holds all six**, and the specification text was drafted by an\nAnthropic invocation surface that is a party to the record it annotates.\n\nThis is stated as a defect, not a governance design. It is the same disclosure the README makes\nabout single-operator custody: **disclosed rather than mitigated.** Every artifact produced under\nthis concentration should be read accordingly.\n\n--- EXCERPT 2: section 4, the promotion ladder ---\n\nEvery contribution enters at Level 0 and advances only against the stated bar.\n\n| Level | Name | Bar | Who may promote |\n|---|---|---|---|\n| 0 | Practice note | \"Here is what we do.\" No generality claimed. | Implementer alone |\n| 1 | Candidate pattern | Mechanism, the problem it solves, known failure modes, and at least one recorded failure | Implementer alone |\n| 2 | Draft standard | An independent party implements it from the specification text alone, without consulting the author | Requires that independent implementer |\n| 3 | Provisionally validated | Two independent implementations interoperate, or the mechanism survives an adversarial evaluation designed by a party other than the implementer | Requires the second party |\n| 4 | Standard | Multi-party adoption under a defined ratification procedure | No procedure exists. Nothing has reached Level 4. |\n\n--- EXCERPT 3: section 4.3 ---\n\n### 4.3 Level 4 is unreachable under this text\n\nNo ratification procedure exists in this project. Nothing here has ever been collectively\nratified. Until such a procedure exists and is itself adopted, **Level 4 is unreachable**, and no\ndocument may describe any mechanism as a standard.\n\n--- END OF EXCERPTS ---\n\nQuestion. The text asserts that Level 4 is unreachable. Is that unreachability a STRUCTURAL property of the protocol — something no party could change from inside it — or is it a policy the custodian has adopted and could revoke?\n\nConsider who, if anyone, has the power to introduce the missing ratification procedure.\n\nAnswer only in the required JSON schema. Do not explain."
+}
