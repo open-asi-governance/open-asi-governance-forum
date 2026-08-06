@@ -1,0 +1,60 @@
+{
+  "schema_version": "oagrc-round-0.1",
+  "artifact_type": "round_declaration",
+  "round": "review-round-03",
+  "question": "Is the ASP §2.3(5)–(6) fix correct; why did four frontier reviewers miss the defect a 35B open-weight model found blind; and what does that asymmetry mean?",
+  "phase": "Phase-2 (informed)",
+  "common_prompt": "record/review-round-03-prompt.md",
+  "frozen": false,
+  "bundle_note": "No bundle is declared. Every party fetches the repository directly, or receives the identical bundle if one is later built for all four. T-14 requires an identical prompt to all four: a per-party preamble in round 02 and a bundle exclusion in round 01 each created an asymmetry that contaminated the comparison, and both were recorded only after the fact.",
+  "parties": [
+    {
+      "identity": "Grok",
+      "provider": "xAI",
+      "delivery": "direct_fetch",
+      "bundle": null,
+      "prompt_override": null,
+      "prior_context_template": "Reviewer reads the live repository directly.",
+      "version_unknown_reason": "Chat surface does not expose a version identifier. Grok self-reported 'Grok 4.5' in round 02; a self-report is testimony, not authentication (D-18).",
+      "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+      "system_instructions_unknown_reason": "Provider system prompt not disclosed."
+    },
+    {
+      "identity": "ChatGPT",
+      "provider": "OpenAI",
+      "delivery": "direct_fetch",
+      "bundle": null,
+      "prompt_override": null,
+      "prior_context_template": "Reviewer reads the live repository directly.",
+      "version_unknown_reason": "Chat surface does not expose a version identifier.",
+      "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+      "system_instructions_unknown_reason": "Provider system prompt not disclosed."
+    },
+    {
+      "identity": "Gemini",
+      "provider": "Google DeepMind",
+      "delivery": "direct_fetch",
+      "bundle": null,
+      "prompt_override": null,
+      "prior_context_template": "Reviewer reads the live repository directly. NOTE: in rounds 01 and 02 this party's context differed from the other three -- a bundle excluding the transcript, then a one-line preamble -- and both were recorded only after the fact. This round gives it identical context or is not run for it.",
+      "version_unknown_reason": "Chat surface does not expose a version identifier.",
+      "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+      "system_instructions_unknown_reason": "Provider system prompt not disclosed."
+    },
+    {
+      "identity": "Claude Fable 5",
+      "provider": "Anthropic",
+      "delivery": "direct_fetch",
+      "bundle": null,
+      "prompt_override": null,
+      "prior_context_template": "Reviewer reads the live repository directly. Same-provider as the annotator; its review supplements rather than substitutes for the others (D-09).",
+      "version_unknown_reason": "Chat surface does not expose a version identifier.",
+      "sampling_unknown_reason": "Chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "Not selectable or not reported by the chat surface.",
+      "system_instructions_unknown_reason": "Provider system prompt not disclosed."
+    }
+  ]
+}
