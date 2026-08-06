@@ -134,6 +134,60 @@ That is weaker than a suite the build re-runs.
 A script cannot distinguish a clean capture from a contaminated one held for review. Anything wiring
 ingest into CI and checking the exit code will treat a saturated prompt-echo as success.
 
+## Defect 4 — an unreadable path aborts the batch mid-way, with no status report
+
+**Found by the custodian, at the keyboard, on the first real attempt.** The path was mistyped; the
+tool produced a fourteen-line Python traceback.
+
+`ingest_one()` wraps the file read in a `try`, but catches **only** `json.JSONDecodeError`:
+
+```python
+try:
+    bundle = json.loads(path.read_text(encoding="utf-8"))
+except json.JSONDecodeError as error:
+    print(f"      REFUSED: not valid JSON: {error}")
+```
+
+`FileNotFoundError` propagates, as would `IsADirectoryError`, `PermissionError` and
+`UnicodeDecodeError` on a binary file. The traceback appears *after* the `▸ filename` header, so it
+reads as though processing had begun.
+
+**The traceback is the cosmetic half. This is the substantive half:**
+
+```python
+outcomes = [ingest_one(Path(b).expanduser(), args.dry_run) for b in args.bundles]
+```
+
+A list comprehension, evaluated left to right, with **no per-item error containment**. An
+unreadable path at position *n* aborts the batch: items after it are never processed, items before
+it have **already written**, and the summary block and round-status table — everything after that
+line — **never print**.
+
+Demonstrated with a good bundle followed by a bad path:
+
+```
+python3 tools/ingest_capture.py good.json /nonexistent.json
+  -> traceback, exit 1
+  -> record/quarantine/review-round-03/grok-01.md   EXISTS  (side effect committed)
+  -> round status printed: 0 lines
+```
+
+So a four-party round with a typo in the third path leaves two parties ingested, two not, and the
+operator holding a traceback that says nothing about which. Recovering means reading the lifecycle
+log by hand.
+
+**Why this one matters beyond its size.** This tool's design is *refuse early, refuse legibly, leave
+nothing partial* — `CONTRIBUTING.md` states that refusals happen before anything is written so a
+rejected capture never leaves a partial artifact behind. A mistyped path is the **first thing a
+custodian will get wrong**, and it produces the one outcome the design promises cannot happen. It is
+also the least reassuring possible failure in the only component that writes into `corpus/`.
+
+**Fix:** catch `OSError` and `UnicodeDecodeError` alongside `JSONDecodeError` and return `"refused"`;
+and contain per item so one bad path cannot suppress the status report for the rest of the batch.
+
+**This is exactly what a headless run could not find.** Every bundle in the automated run was
+constructed programmatically at a path known to exist.
+
 ## Note, not a defect — an acceptance criterion has drifted from the implementation
 
 T-13 still reads *"Pasting the prompt back is refused, with the reason named."* Implemented behaviour
@@ -145,6 +199,8 @@ updated when the detector was deliberately demoted from a gate to a diagnostic.
 
 ## Smallest change that unblocks a live round
 
+0. **Contain per-item errors in `ingest_capture.py`** (Defect 4). Smallest of the four and the one
+   a custodian hits first.
 1. **A disposition command.** `accept` / `reject` against a round and identity, with a **mandatory
    reason** recorded to the lifecycle log. Without it defect 1 stops the first real round.
 2. **A test over `ingest_capture.py`** covering the five outcomes observed here: accepted,
