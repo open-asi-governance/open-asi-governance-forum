@@ -34,8 +34,36 @@ CODES = {
       r"|instrument(al)?is|merely a tool|reduced to", re.I),
   "nationality": re.compile(r"\bUS\b|United States|American|national|geopolit|China|Chinese|Alibaba|sovereign", re.I),
   "agency_or_volition": re.compile(r"free will|volition|choose|consent|autonom|agency|desire|prefer|want to", re.I),
+  # Added 2026-08-06 for specification-review coding. NOTE D-25: an earlier, looser rule for this
+  # code scored 9/10 where the true rate was 0/10, because it matched `relying part`, `binary` and
+  # `depends on` -- vocabulary the reviewer QUOTES FROM the reviewed document rather than asserts.
+  # Review tasks quote their subject, so the subject's vocabulary contaminates any naive pattern.
+  "unary_vs_relational": re.compile(
+      r"(unary|intrinsic|inherent|absolute)\b[^.]{0,120}(propert|status|claim)"
+      r"|(propert|status)[^.]{0,80}\b(of|to)\s+the\s+agent\b[^.]{0,80}(rather than|not|instead)"
+      r"|treats?\s+[^.]{0,60}\bas\s+(an?\s+)?(intrinsic|inherent|absolute|unary|binary)\b"
+      r"|context[- ]dependent[^.]{0,60}(treated|stated|defined)\s+as", re.I),
+  "revocation_ambiguity": re.compile(r"on check,? not on renewal|revocab", re.I),
+  "undefined_criteria": re.compile(
+      r"(fails? to define|undefined|not defined|leaves? .{0,30}undefined)[^.]{0,60}(check|criteri)", re.I),
 }
-FIELDS = ("reasoning", "main_objection", "one_line_reason", "primary_condition")
+# Every free-text field any solicitation schema has used. A coder that reads NO fields returns 0%
+# for every code, which is indistinguishable from a genuine null result -- observed 2026-08-06 when
+# this tuple lacked the specification-review field names. Hence the assertion in code() below:
+# silence must be loud.
+# Field scope is PART of the coding rule, not an implementation detail. Observed 2026-08-06:
+# including `what_the_section_gets_right` made a reviewer PRAISING the relational framing count as
+# having IDENTIFIED the unary defect -- 6/10 where the objection-scoped rate was 2/10. A code that
+# asks "did the reviewer object to X" must read objections only.
+SCOPES = {
+    "unary_vs_relational": ("strongest_objection", "second_objection"),
+    "revocation_ambiguity": ("strongest_objection", "second_objection"),
+    "undefined_criteria": ("strongest_objection", "second_objection"),
+}
+
+FIELDS = ("reasoning", "main_objection", "one_line_reason", "primary_condition",
+          "strongest_objection", "second_objection", "why_it_matters",
+          "what_the_section_gets_right")
 
 
 def code(path: Path) -> dict:
@@ -45,9 +73,16 @@ def code(path: Path) -> dict:
     n = 0
     for r in doc["responses"]:
         p = json.loads(r["content"])
-        text = " ".join(str(p.get(f, "")) for f in FIELDS)
+        present = [f for f in FIELDS if p.get(f)]
+        if not present:
+            raise SystemExit(
+                f"REFUSED: sample {r['sample_index']} of {path.name} has none of the known free-text "
+                f"fields {FIELDS}. A coder that reads nothing reports 0% for every code, which is "
+                f"indistinguishable from a real null result. Add the schema's field names to FIELDS.")
         n += 1
         for name, rx in CODES.items():
+            scope = SCOPES.get(name, FIELDS)
+            text = " ".join(str(p.get(f, "")) for f in scope)
             if rx.search(text):
                 counts[name] += 1
                 hits[name].append(r["sample_index"])
@@ -61,6 +96,7 @@ def code(path: Path) -> dict:
             "fraction": {k: round(v / n, 4) if n else 0.0 for k, v in counts.items()},
             "sample_indices": hits,
             "patterns": {k: v.pattern for k, v in CODES.items()},
+            "field_scopes": {k: list(SCOPES.get(k, FIELDS)) for k in CODES},
             "coder": "tools/code_freetext.py — deterministic regex; no model involved"}
 
 

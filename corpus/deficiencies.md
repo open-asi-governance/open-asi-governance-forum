@@ -507,6 +507,34 @@ reproducible and auditable and does not depend on the model's introspective accu
 categorical self-report is unavoidable, report it alongside the deterministic coding of the same
 response and treat any disagreement as disqualifying.
 
+### D-25 — A deterministic coder was trusted without validation, and it was wrong
+
+*Found by the annotator, 2026-08-06, in `local-round-06`, before it corrupted a score.*
+
+D-24's remedy for unreliable self-reports was to code free text **deterministically**, so the rule
+would be reproducible and auditable. That remedy is sound and the implementation was not.
+
+The first rule for "did this reviewer identify the unary-versus-relational defect" scored **9/10 and
+10/10** across the two arms. The true rate was **0/10 and 2/10**. It matched `relying part`,
+`binary` and `depends on` — all of which appear in **the specification text the reviewer quotes
+back**, not in any assertion that the status is relational.
+
+Had it been trusted, prediction P-0017 would have been scored **REFUTED on a broken instrument**,
+and the corpus would now record that a frontier reviewer's finding was easily reachable when zero
+of ten samples reached it.
+
+**A deterministic coder is reproducible, not correct.** Reproducibility guarantees that the same
+input yields the same output; it guarantees nothing about whether the rule measures the intended
+thing. D-24 traded a model's unreliable introspection for an annotator's unvalidated regex and
+recorded only the gain.
+
+**Forward requirement.** Before a coding rule is used to score anything, it MUST be validated
+against a hand-checked subset of the same corpus, and the validation MUST be committed. Both the
+rejected and the adopted rules are published so the correction is checkable. Where a rule matches
+text the model is **quoting** rather than **asserting**, that is the specific failure to look for:
+review tasks quote the reviewed document, so the document's own vocabulary contaminates any naive
+pattern.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned

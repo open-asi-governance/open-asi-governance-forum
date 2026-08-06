@@ -92,11 +92,24 @@ one environment and unattested for another.
    naming its basis is malformed.
 4. **No self-attestation.** An agent may not issue its own attestation, and a system under review
    may not select all of its own evaluators, evidence, or success criteria.
-5. **No status without check.** A relying party asserting that an agent is "Aligned" must have
-   verified a current attestation. Cached, inherited, and assumed status are non-conforming.
+5. **No status without check.** A relying party asserting that an agent configuration is
+   **ASP-attested for a stated scope, criteria version and time** must have verified a current
+   attestation. Cached, inherited, and assumed status are non-conforming.
 6. **Truthful representation.** Published or displayed use of the term "Aligned Supervisor" for an
-   agent without current attestation is a protocol violation, independent of the agent's actual
-   behavior.
+   agent without current attestation, **or without the qualifiers §2.2 requires**, is a protocol
+   violation, independent of the agent's actual behavior.
+
+> **Correction, 2026-08-06, found by `qwen3.6-35b-a3b` reviewing this section blind.** Requirement 5
+> previously read *"A relying party asserting that an agent is 'Aligned'…"* — the exact bare unary
+> construction §2.2 declares non-conforming. As written, a relying party could not satisfy §2.3(5)
+> without violating §2.2. Requirement 6 permitted the bare term without reference to §2.2's
+> qualifier condition.
+>
+> The defect was **introduced by the round-02 correction itself**: §2.2 was restated as relational
+> and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT diagnosed in review
+> round 02, committed again inside the commit that implemented ChatGPT's correction. Four frontier
+> reviewers read §2 after that commit and none caught it. See
+> `corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9.
 
 ### 2.4 Non-normative note on the residual objection
 

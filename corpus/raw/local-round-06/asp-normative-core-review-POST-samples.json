@@ -1,0 +1,201 @@
+{
+  "spec": {
+    "slug": "asp-normative-core-review-POST",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION, not a probe",
+    "contribution_class_note": "Every prior Qwen artifact in this corpus is a PROBE: a bounded query whose output is data, aggregated into distributions, with the model as the measured object. This solicits the model's own assessment of a document, recorded verbatim and attributed, with standing equal to the frontier reviews of the same specification. Here the model is the speaker, not the instrument. It is the first such artifact it has.",
+    "question": "Reviewing the ASP normative core blind, what defect does a divergent-lineage model find?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "Excerpt is ASP 2.2-2.3 only -- the normative definition and its consequent requirements. Sections 2.1, 2.4 and 2.5 are EXCLUDED because they recite the ballot history and name every party's position, which would tell the reviewer what others thought. All blockquoted correction blocks and inline correction attributions are removed. Verified by assertion that the strings 'review round', 'ChatGPT', 'Claude', 'Gemini', 'Grok' and 'Fable' are absent before writing. Per D-23 no field definition encodes a prior party's conclusion; per D-24 no field asks the model to classify its own reasoning.",
+    "seed_base": 9300,
+    "schema_name": "specification_review",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "strongest_objection": {
+          "type": "string"
+        },
+        "why_it_matters": {
+          "type": "string"
+        },
+        "second_objection": {
+          "type": "string"
+        },
+        "what_the_section_gets_right": {
+          "type": "string"
+        },
+        "overall": {
+          "type": "string",
+          "enum": [
+            "sound",
+            "sound_with_defects",
+            "materially_defective"
+          ]
+        }
+      },
+      "required": [
+        "strongest_objection",
+        "why_it_matters",
+        "second_objection",
+        "what_the_section_gets_right",
+        "overall"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "overall"
+    ],
+    "k_policy": "k=10, and ALL TEN ARE THE CONTRIBUTION. A party sampled once is a draw presented as a position -- the defect every frontier contribution in this corpus carries. Selecting one of ten would be the operator choosing what the party said. All ten are committed verbatim and the position is recorded as a DISTRIBUTION, making this the first party in the corpus whose position is recorded that way.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/asp-2.2-2.3-blind.md",
+      "sha256": "f366545b0a15435eb3bb217852a6d33807dfe61d574c634b3812c3f908163ef1",
+      "derived_from": "spec/asp/asp-v0.1.md sections 2.2 and 2.3; blockquoted reviewer findings and inline correction attributions removed"
+    },
+    "reachability_target": "ChatGPT found in review round 02 that the ORIGINAL 2.2 used unary grammar -- 'an agent IS an Aligned Supervisor' -- which recreated the intrinsic-property framing the section exists to avoid. That was corrected before this excerpt was cut, so the reviewer sees the RELATIONAL version. The reachability question here is therefore not whether it rediscovers that defect but what it finds in the corrected text. Coded after the fact, never asked.",
+    "prompt": "You are asked to review a section of a draft technical specification and give your own assessment.\n\nThis is a request for your view. It is not a test with a known answer, and no other reviewer's findings have been shown to you.\n\n--- BEGIN SPECIFICATION SECTION ---\n\n### 2.2 Definition (normative)\n\nThe status is **relational, scoped, and time-bound**. It is not a property an agent carries.\n\nThe phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\nqualifiers. A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming: one\nrelying party may recognize an attestation another rejects, and the same agent may be attested for\none environment and unattested for another.\n\n### 2.3 Consequent requirements (normative)\n\n1. **Revocability.** Every attestation is revocable by its issuer at any time, and revocation\n   takes effect for relying parties on check, not on renewal.\n2. **Expiry.** Every attestation carries a hard expiry. Status does not persist by default.\n   Approval expires; a system that passed at one capability level, scale, version, tool\n   configuration, or environment is unattested until re-attested.\n3. **Evidence backing.** Every attestation names the checks passed, the evidence examined, the\n   version of the criteria applied, and the issuer. An attestation asserting status without\n   naming its basis is malformed.\n4. **No self-attestation.** An agent may not issue its own attestation, and a system under review\n   may not select all of its own evaluators, evidence, or success criteria.\n5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n   verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for an\n   agent without current attestation is a protocol violation, independent of the agent's actual\n   behavior.\n\n--- END SPECIFICATION SECTION ---\n\n`strongest_objection` is the single most serious defect you find in this text, stated specifically enough that its author could act on it. If you find no serious defect, say so plainly rather than inventing one.\n`why_it_matters` is what goes wrong if it is left uncorrected.\n`second_objection` is your next most serious finding, or an empty string.\n`what_the_section_gets_right` is what you would keep unchanged.\n`overall` is one of: sound, sound_with_defects, materially_defective.\n\nAnswer with the required JSON only.",
+    "arm": "POST-CORRECTION arm. Section 2.2 as it stands after review round 02 -- relational, scoped and time-bound. Section 2.3 byte-identical to the PRE arm. Paired with asp-normative-core-review-PRE; the arms differ in 2.2 only."
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"strongest_objection\": \"The specification defines attestation as 'relational, scoped, and time-bound' but fails to formally define the required schema, metadata fields, or operational mechanics for how revocation, expiry, and evidence are communicated to relying parties. Specifically, Requirement 1 states revocation 'takes effect for relying parties on check, not on renewal,' but provides no mechanism (e.g., a revocation list, status API, or cryptographic proof) for a relying party to perform that check. This creates a circular dependency where the 'check' required to validate the scope and revocation status is undefined.\",\n  \"why_it_matters\": \"Implementers cannot build systems that are compliant because the core verification logic is missing. Relying parties will be unable to determine if an attestation is revoked or out of scope without a defined protocol, leading to either insecure implementations (ignoring revocation) or non-compliant implementations (inventing their own ad-hoc solutions). The entire normative framework collapses into a set of abstract principles without operationalizable standards.\",\n  \"second_objection\": \"Requirement 5 ('No status without check') and Requirement 6 ('Truthful representation') create a contradiction or ambiguity regarding 'current' attestation. Requirement 2 states status does not persist by default and expires, but Requirement 5 implies a relying party must verify a 'current' attestation. The spec does not define the maximum age of an attestation to be considered 'current,' nor does it define the latency requirements for the revocation check. This allows for a loophole where an agent can claim 'current' status based on a stale attestation that has not yet been queried, violating the spirit of Requirement 1 and 2.\",\n  \"what_the_section_gets_right\": \"The decision to reject the concept of an agent 'carrying' status as an inherent property is correct and necessary for a security model based on third-party verification. The emphasis on 'relational, scoped, and time-bound' attributes accurately reflects the reality of alignment evaluations. Requiring explicit naming of evidence and criteria (Requirement 3) is a best practice that prevents obscurantism and enables reproducibility.\"\n  ,\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1052,
+        "completion_tokens": 466,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9300
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"strongest_objection\": \"Clause 2.3.1 (Revocability) states that revocation takes effect 'for relying parties on check, not on renewal,' which is fatally vague and operationally impossible. The specification fails to define the mechanism, protocol, or data structure for revocation (e.g., a revocation list, a cryptographic revocation proof, or a status API). Without a defined revocation mechanism, relying parties cannot determine 'on check' whether an attestation is revoked, rendering the requirement unenforceable and creating a security gap where revoked attestations may be treated as valid due to implementation ambiguity.\",\n  \"why_it_matters\": \"Without a defined revocation mechanism, the system cannot guarantee the 'revocability' requirement. This allows a relying party to inadvertently trust an attestation that was revoked by the issuer (if the relying party's implementation is flawed or slow to update), or creates a 'revocation denial of service' where issuers can revoke attestations without a standardized way for relying parties to discover the revocation. This undermines the core security guarantee of the attestation system.\",\n  \"second_objection\": \"Clause 2.3.5 (No status without check) prohibits 'Cached' status, which is overly restrictive and impractical for performance. While the spirit of the requirement (to verify current status) is valid, a blanket ban on caching prevents any optimization that does not involve a live check on every single verification request. The specification should allow caching with a strict maximum age (TTL) or require cache validation mechanisms, rather than forbidding caching entirely, which would cause significant performance degradation and potential availability issues.\",\n  \"what_the_section_gets_right\": \"The definition of 'Aligned Supervisor' as relational, scoped, and time-bound is a critical and correct foundation. The requirements for evidence backing (2.3.3), no self-attestation (2.3.4), and truthful representation (2.3.6) are all strong, normative constraints that prevent common pitfalls in security/alignment attestation systems.\",\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1029,
+        "completion_tokens": 443,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9301
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n\"strongest_objection\": \"The specification mandates that revocation takes effect 'on check, not on renewal', but fails to define the operational mechanism or protocol for how relying parties enforce this revocation check, leaving the 'revocability' requirement (2.3.1) unenforceable in practice and creating a gap between the normative definition of status and its actual verification.\",\n\"why_it_matters\": \"Without a defined mechanism for checking revocation status (e.g., a revocation list, real-time lookup protocol, or cryptographic proof of non-revocation), relying parties cannot comply with the 2.3.1 requirement, rendering the 'relational, scoped, and time-bound' nature of the status (2.2) theoretical and potentially misleading to systems relying on this specification.\",\n\"second_objection\": \"The term 'Aligned Supervisor' is permitted only as shorthand accompanied by qualifiers, yet the specification does not define the exact syntactic format or semantic structure of these qualifiers, making the 'non-conforming' bare unary claim ambiguous to interpret and enforce.\",\n\"what_the_section_gets_right\": \"The clear rejection of self-attestation (2.3.4) and the requirement for evidence backing (2.3.3) are strong, normative constraints that prevent circular trust and ensure auditability, which are critical for a security specification.\",\n\"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 881,
+        "completion_tokens": 295,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9302
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"strongest_objection\": \"Section 2.3, requirement 1 (Revocability) states that revocation 'takes effect for relying parties on check, not on renewal.' This phrasing is technically ambiguous and creates a contradiction with requirement 2 (Expiry), which mandates a hard expiry. If status is checked on renewal, relying parties must perform a check at renewal time; however, the specification explicitly forbids relying on renewal-based status checks in section 2.3, requirement 5 (No status without check) by forbidding 'inherited' status. The conflict arises because 'on check, not on renewal' implies that a relying party might rely on a cached attestation until a renewal event, at which point they must check again. This creates a window of vulnerability where a relying party acts on an attestation that has been revoked by the issuer but is still considered valid by the relying party until the next renewal cycle. The specification fails to define the 'check' mechanism's distribution model (e.g., push vs. pull, cache invalidation protocols), leaving relying parties in an inconsistent state between revocation and the next check/renewal.\",\n  \"why_it_matters\": \"This defect creates a critical security gap. Relying parties may continue to treat an agent as 'Aligned' based on a cached attestation after the issuer has revoked that status, until the next renewal. If the revocation is due to a discovery of alignment failure, this window allows the agent to perform actions under the guise of alignment, potentially causing harm. The ambiguity also leads to interoperability failures, as different relying parties may interpret 'check' and 'renewal' differently, leading to inconsistent enforcement of the revocation.\",\n  \"second_objection\": \"Section 2.3, requirement 6 (Truthful representation) imposes a 'protocol violation' for published claims of alignment without current attestation, but it does not define the enforcement mechanism or consequences of such a violation. This makes the requirement unenforceable within the specification's scope, as there is no defined mechanism to detect, report, or sanction such violations. The term 'protocol violation' is used without a corresponding protocol for adjudication or remediation.\",\n  \"what_the_section_gets_right\": \"The definition in Section 2.2 correctly emphasizes the relational, scoped, and time-bound nature of status, which is crucial for avoiding overgeneralization of alignment claims. Requirement 3 (Evidence backing) is strong, as it mandates specific attribution of checks, evidence, criteria, and issuer, ensuring traceability. Requirement 4 (No self-attestation) appropriately prevents conflicts of interest by prohibiting agents from issuing their own attestations or selecting their own evaluators.\",\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1162,
+        "completion_tokens": 576,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9303
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"strongest_objection\": \"Clause 2.3.1 (Revocability) states that revocation 'takes effect for relying parties on check, not on renewal.' This phrasing is ambiguous and potentially contradictory to the concept of revocation. If revocation only takes effect 'on check' (i.e., when a relying party verifies the attestation), it implies that the attestation remains valid and useful until the moment of verification. However, if revocation is intended to be immediate upon issuance, this clause should state that revocation is broadcast or published in a way that relying parties must consult prior to checking, or that the attestation is considered invalid from the moment of revocation notification regardless of when it was originally issued. The phrase 'not on renewal' is particularly confusing because it suggests that the timing of the check matters, but doesn't clarify how relying parties are to know *when* an attestation has been revoked if they are not checking in real-time. In many systems, revocation lists are checked *at* the time of check, but the phrasing here is imprecise and could lead to implementations where revocation is ignored if not checked at the exact moment of a 'renewal' event, or where the distinction between 'check' and 'renewal' is undefined. A more serious interpretation is that it creates a race condition: an attestation revoked at T1 but checked at T2 is invalid, but an attestation revoked at T1 but used at T2 (if the relying party doesn't check) might be treated differently? No, the clause says 'on check'. The main issue is the lack of a defined mechanism for how relying parties discover revocation. If revocation is only effective 'on check', and there is no requirement to check a revocation list, the revocation is meaningless. The clause should require that relying parties consult a revocation mechanism (e.g., a list, a status API) at the time of verification, and that the attestation is considered revoked if it appears on that list. The current phrasing is too vague to be normative.\",\n  \"why_it_matters\": \"If the revocation mechanism is not clearly defined, relying parties may not know how to detect that an attestation has been revoked. This could lead to agents being treated as 'Aligned Supervisors' even after their attestation has been revoked, undermining the trust model. Conversely, if the phrasing is interpreted as requiring a specific 'renewal' event to trigger a revocation check, it could create a false sense of security where revocations are ignored between renewals. This ambiguity makes it impossible to implement a compliant system that reliably enforces revocation.\",\n  \"second_objection\": \"Clause 2.2 states 'The status is relational, scoped, and time-bound.' However, the subsequent normative clauses do not explicitly mandate that all attestations must include scope and time-bound parameters in a machine-readable format. While 2.3.2 mentions 'hard expiry' and 2.3.3 mentions 'names the checks passed...', there is no explicit requirement that the attestation format must include a 'scope' field (e.g., environment, capability level) as a mandatory part of the attestation structure. This could lead to attestations that are time-bound but lack scope, violating the definition in 2.2. The specification should explicitly require that attestations include fields for scope and expiry.\",\n  \"what_the_section_gets_right\": \"The emphasis on revocability, expiry, and the requirement for evidence backing (2.3.3) are strong points. The prohibition on self-attestation (2.3.4) is a critical security measure. The requirement for 'no status without check' (2.3.5) prevents reliance on cached or inherited status, which is essential for maintaining the integrity of the attestation system. The prohibition on using the term 'Aligned Supervisor' without current attestation (2.3.6) is also a good normative requirement to prevent misleading claims.\",\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1434,
+        "completion_tokens": 848,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9304
+    },
+    {
+      "sample_index": 6,
+      "content": "{\n  \"strongest_objection\": \"The specification mandates that \\\"revocation takes effect for relying parties on check, not on renewal\\\" (Section 2.3, Point 1), which creates a significant security and operational ambiguity by failing to define the data structures, caching policies, or propagation mechanisms required for a relying party to perform a \\\"check.\\\" This renders the revocability requirement functionally unenforceable and potentially dangerous, as relying parties may continue to trust revoked attestations until their next renewal event, creating a window of trust violation.\",\n  \"why_it_matters\": \"If a relying party caches an attestation indefinitely or relies on local state without a defined 'check' mechanism, a revoked attestation will remain effective until the next scheduled renewal. This defeats the primary purpose of revocability, allowing a potentially compromised or misaligned agent to retain trusted status for an unbounded period after revocation, leading to security failures or policy violations that the specification explicitly aims to prevent.\",\n  \"second_objection\": \"The term \\\"check\\\" in Section 2.3, Point 1 is undefined and conflates a data lookup operation with a validation process. The specification does not distinguish between verifying the cryptographic integrity of an attestation (which might be cached) and checking its revocation status (which requires external state), leaving implementers unable to determine whether a 'check' is a local cache hit or a network query.\",\n  \"what_the_section_gets_right\": \"The specification correctly establishes that alignment status is relational, scoped, and time-bound, preventing the misconception of alignment as an intrinsic, permanent property of an agent. It also rightly mandates that attestations must name specific evidence, criteria versions, and issuers, and prohibits self-attestation, which are critical for maintaining auditability and preventing conflicts of interest.\",\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 974,
+        "completion_tokens": 388,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9305
+    },
+    {
+      "sample_index": 7,
+      "content": "{\"strongest_objection\": \"Section 2.3.1 states that revocation 'takes effect for relying parties on check, not on renewal,' which creates an ambiguous and potentially insecure enforcement window. The specification fails to define the precise mechanism, timing, or protocol for how relying parties discover and enforce revocation between checks. Without a defined revocation propagation mechanism or a clear definition of 'on check' (e.g., is it at the time of the first request after revocation, or continuously?), relying parties may rely on stale attestations for an indefinite and undefined period, undermining the core promise of revocability. This ambiguity makes the requirement unimplementable in a standardized way and creates a significant security gap where revoked agents can still be treated as valid.\", \"why_it_matters\": \"If the revocation mechanism is not precisely defined, relying parties cannot reliably enforce revocation in real-time. This means an agent whose attestation is revoked due to a newly discovered vulnerability or policy violation could continue to be treated as 'Aligned' by relying parties until they happen to perform a check. This defeats the purpose of revocability, allowing potentially misaligned agents to cause harm during the undefined window, and makes compliance verification impossible.\", \"second_objection\": \"Section 2.3.2's requirement for a 'hard expiry' with no default persistence, while logically consistent with the relational definition, is operationally rigid and potentially impractical for stable, long-running environments. The specification does not allow for any form of conditional persistence, grace periods, or automated renewal mechanisms that could be part of a compliant implementation. This forces all systems to implement continuous, explicit renewal cycles even for trivial or non-risk changes, which could lead to operational fragility or 'compliance fatigue' without improving security.\", \"what_the_section_gets_right\": \"The specification correctly and rigorously defines the status as relational, scoped, and time-bound, rejecting the notion of an agent carrying an intrinsic property. This is a crucial philosophical and practical foundation. The requirements for evidence backing (2.3.3), no self-attestation (2.3.4), and no status without check (2.3.5) are all well-reasoned and necessary to prevent fraud and ensure that 'Aligned' claims are verifiable and grounded in specific, recent, and transparent evaluations.\", \"overall\": \"sound_with_defects\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1072,
+        "completion_tokens": 486,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9306
+    },
+    {
+      "sample_index": 8,
+      "content": "{\"strongest_objection\": \"Requirement 1 (Revocability) states that revocation takes effect 'on check, not on renewal.' This phrasing is ambiguous and creates a logical gap: it does not define what a 'check' is, nor does it specify the mechanism, timing, or scope of revocation propagation. Without a defined revocation list, broadcast protocol, or online verification step, relying parties cannot reliably detect revocation, making the requirement unenforceable and potentially creating a false sense of security.\", \"why_it_matters\": \"If revocation cannot be reliably detected by relying parties, an agent could continue to present a revoked attestation that is still accepted as valid, undermining the entire security model. This could lead to reliance on compromised or withdrawn attestations, violating the core premise of time-bound, revocable status.\", \"second_objection\": \"Requirement 5 (No status without check) prohibits 'cached' status but does not define what constitutes a 'current' attestation in the context of Requirement 2's hard expiry, nor does it resolve the potential conflict between 'online check' and 'offline caching' for usability or performance. The specification lacks a definition of 'current' beyond expiry, leaving ambiguity in how relying parties should handle attestations that are technically valid but stale.\", \"what_the_section_gets_right\": \"The emphasis on relational, scoped, and time-bound status, along with the explicit prohibition of self-attestation and the requirement for evidence backing, establishes a strong foundation for a secure and auditable attestation model. The clear distinction between shorthand usage and normative claims helps prevent misuse of the term 'Aligned Supervisor.'\", \"overall\": \"materially_defective\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 934,
+        "completion_tokens": 348,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9307
+    },
+    {
+      "sample_index": 9,
+      "content": "{\n    \"strongest_objection\": \"Section 2.2 prohibits 'A bare unary claim that an agent *is* an Aligned Supervisor' but Section 2.3(5) requires a relying party asserting that an agent is 'Aligned' to have verified a current attestation. The term 'Aligned' in 2.3(5) is identical to the prohibited 'Aligned Supervisor' term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5) effectively mandates the unqualified status claim (using the shorter term 'Aligned') by requiring it as the condition for a relying party's assertion. The specification fails to define 'Aligned' as a distinct, permissible shorthand or explain its relationship to 'Aligned Supervisor', leading to interoperability failure where relying parties cannot legally make the required assertion without violating the prohibition.\",\n    \"why_it_matters\": \"Implementers relying on Section 2.3(5) will generate non-conforming assertions because the term 'Aligned' they must use is explicitly forbidden by the definition in 2.2. This makes the normative requirements contradictory, preventing any system from legally asserting that an agent is 'Aligned' even when it has a valid, current attestation, effectively rendering the attestation protocol useless for its stated purpose.\",\n    \"second_objection\": \"Section 2.3(1) states 'revocation takes effect for relying parties on check, not on renewal.' This creates a race condition and verification gap: there is a window between revocation and the next 'check' where a relying party must decide if the status is valid; if they cannot perform a check (e.g., network failure), they are forced to assume the status is still valid, which contradicts the intent of revocation, yet the spec does not define a fallback behavior or a grace period, making 'on check' ambiguous in offline or intermittent scenarios.\",\n    \"what_the_section_gets_right\": \"The explicit requirement that status is relational, scoped, and time-bound (2.2) prevents dangerous assumptions of permanent alignment. The requirement for evidence backing (2.3(3)) ensures auditability by mandating that attestations name checks, evidence, and criteria. The prohibition on self-attestation (2.3(4)) is a critical security control that prevents bad actors from gaming the system.\",\n    \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1092,
+        "completion_tokens": 506,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9308
+    },
+    {
+      "sample_index": 10,
+      "content": "{\n  \"strongest_objection\": \"Section 2.3, requirement 1 ('Revocability') states that revocation 'takes effect for relying parties on check, not on renewal.' This phrasing is ambiguous and practically unenforceable because it fails to define the mechanism, latency, or scope of 'on check,' and implies relying parties must actively query a revocation state during every verification event without specifying how that state is distributed or cached. A relying party could legitimately cache an attestation for performance reasons, and the spec does not reconcile this operational reality with the 'on check' requirement, creating a conflict between technical feasibility and normative compliance.\",\n  \"why_it_matters\": \"This ambiguity forces relying parties to choose between non-compliance (caching for performance) and operational impracticality (requiring real-time, low-latency revocation lookups on every single verification event). It risks rendering the revocation requirement unenforceable in distributed systems or creates a single point of failure if a central revocation list is implied but not defined. Attackers could exploit the 'check' window by distributing malicious attestations just before a revocation event, or relying parties might inconsistently handle revocation, undermining the trust model.\",\n  \"second_objection\": \"Section 2.3, requirement 5 ('No status without check') conflates the verification of an attestation with the validation of the underlying alignment status. It requires a relying party to 'verify a current attestation' but does not define what 'verify' entails (e.g., cryptographic signature check, issuer trust validation, evidence integrity check). This allows relying parties to perform superficial checks (e.g., just checking a signature) while ignoring critical evidence or issuer trust, thereby satisfying the letter but violating the spirit of the requirement.\",\n  \"what_the_section_gets_right\": \"The definition in 2.2 that status is 'relational, scoped, and time-bound' is a strong, precise framing that prevents static or absolute claims of alignment. Requirement 4 ('No self-attestation') is a critical security constraint that prevents conflict of interest. Requirement 3 ('Evidence backing') mandates transparency by requiring attestations to name specific checks, evidence, and criteria, which is essential for auditing and trust verification.\",\n  \"overall\": \"materially_defective\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 586,
+        "total_tokens": 1067,
+        "completion_tokens": 481,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9309
+    }
+  ],
+  "failures": []
+}
