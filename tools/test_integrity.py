@@ -240,6 +240,10 @@ def main() -> int:
              '"text":' not in page.split("const DATA=")[1].split("};")[0])
         case("no page loads an external resource",
              not re.search(r'(?:src|href)="https?://(?!github\.com)', page))
+        case("the entry point links forward to the register and the local rounds",
+             'href="deficiencies.html"' in page and 'href="local/index.html"' in page)
+        case("no generated link points at a /blob/ URL",
+             not re.search(r'<a href="https://github\.com/[^"]*/blob/', page))
 
     print()
     total = len(PASSED) + len(FAILED)
