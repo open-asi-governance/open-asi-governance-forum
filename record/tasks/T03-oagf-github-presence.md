@@ -166,21 +166,24 @@ is not read as drift.
    - **No deterministic check can validate that the metadata agrees with the prose.** That is human
      review and must be labelled as such. `tools/check_register.py` is deliberately named and scoped
      structurally for this reason.
-5. **The viewer renders only `founding` and `review-round-01`.** Absent from the public page:
-   `review-round-02` (four frontier reviews), `review-round-02-prompt-critique`, and
-   **`local-round-01` … `08`** — the entire local measurement programme, and the source of D-23…D-28.
+5. **PARTLY DONE — 587fe16.** `review-round-02` and `review-round-02-prompt-critique` now render;
+   rounds are declared as data so adding one is an entry, not a function. Gemini's round-02
+   verification note is attached beside the response it concerns. 51 contributions, up from 44.
+   **Still absent: `local-round-01` … `08`** — the entire local measurement programme, and the
+   source of D-23…D-28.
    Custodian decision on record: **publish them, with D-28's noise-floor finding attached per round**,
    void rounds at equal prominence. Withholding the failed rounds is the curated-log antipattern.
-   - Generalising `build_review_nodes()` is easy — round-02 artifacts are the same
-     `artifact_type: contribution` schema. `local-round-*` is a **different** shape
+   - The contribution-round generalisation is done. `local-round-*` is a **different** shape
      (`solicitation_summary`, aggregate + variance table, k=20/100) and needs its own renderer.
    - **The footer line "Every contribution here is a single sample (k=1)" becomes FALSE the moment
      local rounds are rendered.** It is true today only because they are excluded.
 6. **The agent-readability amendment** (above) is entirely unimplemented: `/llms.txt`, plain-text
    mirrors on the Pages origin, ~20k-token page budget, link-back without scrolling, no substantive
    content behind `display:none`, `rel="alternate"`, sitemap, hashes shown beside served artifacts.
-   My own measurement agrees with the amendment's: raw corpus is 774 KB, and the current page
-   duplicates every contribution's text — once in the HTML body and again in the inlined `DATA` JSON.
+   My own measurement agrees with the amendment's, and the page has since grown to **606,812 bytes**
+   (from 435,339) by publishing the two hidden rounds — further from the ~20k-token target, which is
+   the right trade but raises the priority of chunking. The page still duplicates every
+   contribution's text — once in the HTML body and again in the inlined `DATA` JSON.
    **Dropping that duplication roughly halves the page** and is the cheapest single win; search can
    read `.node pre` from the DOM instead of a parallel copy.
 
