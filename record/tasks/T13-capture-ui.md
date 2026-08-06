@@ -140,3 +140,88 @@ Added with the amendment:
 - Per-party delivery differences (bundle, preamble, direct fetch) are written to `prior_context`
   automatically and shown as a divergence table **before** the round is sent, not discovered after.
 - `tools/rebuild.py` regenerates the page and produces no diff on an unchanged repository.
+
+---
+
+## Session state, 2026-08-06 — *Capture Path* (Track B)
+
+Written per HANDOFF §5, which requires this in the task file rather than in a chat message no one
+else can read.
+
+### Status
+
+**T-13 is code-complete and unexercised.** Every component is built, tested and merged into local
+`main`; none of it has been run by a human on a real round. **T-14 is prepared and blocked on the
+custodian**, which is where its brief always said it would stop.
+
+### Done, with hashes
+
+| Commit | What |
+|---|---|
+| `b3bfb74` | Claimed T-13; recorded the static-hosting amendment and the conflict it creates |
+| `be4298d` | **Validated the paste rule before building it** — two rules measured and rejected |
+| `de974e1` | Handed Track A the `rebuild`-produces-no-diff finding (**since fixed by them**) |
+| `131c88c` `d9b1f5a` | Both Codex reviews, verbatim |
+| `8cbe398` | **Fail-closed fix** — a live defect in the single capture path |
+| `6055915` `41dd123` | Paste detector demoted to a diagnostic; the reviewer oscillation established on the merits |
+| `52b8aac` | Capture lifecycle: preserve first, validate second, disposition mandatory |
+| `cc6f33c` `9797cc0` | Gates + JS mirror, with drift made a build failure |
+| `83dd799` | Custodian adoption of §11; fixed an **A3 violation** found while writing the walkthrough |
+| `35154a4` `7dedb4b` | D-29, renumbered to **D-31** after a concurrent collision |
+| `614bce2` `97e852d` | The page, `ingest_capture.py`, and the move off the published surface |
+| `dfe5d3c` | **P-0020 – P-0022 pre-registered**; round-03 Q2 de-leaded |
+| `404b84f` | Merge into local `main` — **4 ahead of `origin/main`, NOT pushed** |
+
+Four test suites, 90+ cases, all green: gates against the real corpus, lifecycle state machine,
+JS/Python parity under node, and the in-page SHA-256 fallback against `hashlib`.
+
+### What remains
+
+1. **Nobody has opened the page in a browser.** `file:///home/reed/git/open-asi-governance-forum/tools/capture_ui/index.html`.
+   Layout, the clipboard fallback and which hash path runs are unverified. The page reports the hash
+   path on its face.
+2. **`main` is 4 ahead of `origin/main` and unpushed.** The custodian's write gate.
+3. **T-14 needs the custodian's own provider sessions.** Everything else for it is committed.
+4. **A10 can come off withdrawal** — Track A fixed the viewer's commit stamp, so `git status` after
+   a rebuild is a real signal again.
+5. `capture_response.py` does not yet import `capture_gates`. Ingest enforces them; the bare CLI
+   still does not, so the bypass §3 warns about is open until it does.
+
+### Tried and abandoned — the part that is always lost
+
+- **Two paste-detection rules, measured and rejected.** Requiring coverage *and* saturation is blind
+  to any paste under half the prompt. Saturation alone refuses *"the corrections to my items are
+  faithful, no further findings"* — 3 shingles, all from the prompt's own wording — which
+  `review-round-02-prompt.md` names as a valid outcome. Both published in
+  `record/designs/T13-g2-rule-validation.md`. **Do not re-derive these.**
+- **Hard heuristic refusal, abandoned twice over.** First on a governance argument the reviewer then
+  retracted, then kept out on the real ground: the false-positive rate is unmeasured.
+- **The File System Access API**, which would satisfy A1 exactly: it puts a second writer in
+  JavaScript and duplicates a validated rule where it can drift.
+- **A browser-hosted page on Pages**, built and then withdrawn on the custodian's direction. Serving
+  it required either a decorative access control or none; shipping as source and opening over
+  `file://` makes "public for examination, not public for use" true by construction.
+- **A crude self-containment guard** that failed the build on its own payload, rejecting the
+  round-03 prompt for citing the repository by URL.
+
+### Resources
+
+None held. No inference host, no exclusive claim. A **separate worktree at
+`/home/reed/git/oagf-track-b`** was created after the shared tree was found checked out to `main`
+under another session — two sessions in one working directory is how one silently becomes the other,
+and HANDOFF §3 names the hazard only for Codex.
+
+### Predictions filed and unresolved
+
+**P-0020, P-0021, P-0022**, all resolving 2026-12-31, all count-based per D-28, each carrying the
+**resolution limit** P-0010 lacked. P-0021 is filed at low confidence in the direction that would
+embarrass the custodian's own fix. P-0022 bets on this session's own instrument against held-out
+data. None is scorable until ≥3 round-03 captures exist.
+
+### Two findings other tracks should carry
+
+- **D-31** binds every track: external reviews are k=1, prompted by the party under review, record
+  no reviewer model identity, and one reversed a load-bearing finding in ninety minutes.
+- **Hunk-wise conflict resolution.** `git checkout --ours` on a partly auto-merged file silently
+  discards the auto-merged half. It would have dropped the D-31 repair from a prompt about to go to
+  four labs.
