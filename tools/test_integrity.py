@@ -19,6 +19,7 @@ Exit status is 0 when every case passes and 1 otherwise.
 
 from __future__ import annotations
 
+import json
 import shutil
 import subprocess
 import sys
@@ -195,6 +196,30 @@ def main() -> int:
         reg.write_text(reg.read_text().replace("**30 entries**", "**29 entries**"))
         case("a wrong declared count fails the build",
              run(c, "tools/rebuild.py").returncode == 1)
+
+        print("\nthe classification must not describe prose it no longer matches")
+        c = nxt()
+        reg = c / "corpus/deficiencies.md"
+        reg.write_text(reg.read_text().replace(
+            "### D-25 — A deterministic coder was trusted without validation, and it was wrong\n",
+            "### D-25 — A deterministic coder was trusted without validation, and it was wrong\n\nInserted.\n", 1))
+        r = run(c, "tools/check_register.py")
+        case("editing an entry's prose fails until it is re-stamped", r.returncode == 1)
+        case("names the drifted entry", "D-25" in r.stdout and "R8" in r.stdout)
+        r = run(c, "tools/check_register.py", "--restamp", "D-25")
+        case("--restamp clears the drift", r.returncode == 0)
+        case("re-stamp resets human review rather than asserting approval",
+             json.loads((c / "corpus/artifacts/deficiency-register.json").read_text())
+             ["entries"][24]["human_review"]["status"] == "not_reviewed")
+
+        c = nxt()
+        art = c / "corpus/artifacts/deficiency-register.json"
+        doc = json.loads(art.read_text())
+        doc["entries"] = [e for e in doc["entries"] if e["id"] != "D-17"]
+        art.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+        r = run(c, "tools/check_register.py")
+        case("an unclassified deficiency fails the build", r.returncode == 1)
+        case("names the unclassified entry", "D-17" in r.stdout)
 
     print()
     total = len(PASSED) + len(FAILED)

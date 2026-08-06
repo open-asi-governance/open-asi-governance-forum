@@ -83,6 +83,7 @@ SCHEMA_FOR_TYPE = {
     "solicitation_summary": "solicitation.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
+    "deficiency_register": "deficiency-register.schema.json",
 }
 
 
