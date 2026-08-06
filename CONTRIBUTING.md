@@ -170,6 +170,12 @@ reviewer was *shown*; capture records cite it by hash, so regenerating it would 
 those citations. `tools/rebuild.py` deliberately does not touch them. This rule exists because a
 rebuild did regenerate one and broke Gemini's round-01 citation before the guard was added.
 
+## Concurrent sessions
+
+Work is divided between sessions by track and by branch. See [`HANDOFF.md`](HANDOFF.md) before
+starting, and read `corpus/deficiencies.md` D-23 through D-28 before building any measurement — they
+record six ways an instrument in this project was silently wrong, all found late.
+
 ## Maintainer setup — pushing to this repository
 
 If you have the GitHub CLI configured, `gh` installs a **global** credential helper
