@@ -85,11 +85,20 @@ or the round is not run for that party.
 >
 > **2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,
 > which you cannot observe and which this project has measured models to be unreliable about. Answer
-> it as **testimony about the review process**, which you can observe: Was the round-02 prompt
-> scoped so that a newly introduced inconsistency fell outside it? Did the correction blocks in the
-> document direct attention to what had already been fixed and away from what the fix broke? **Is a
-> reviewer reading a corrected document primed to evaluate the correction rather than the corrected
-> text?**
+> it as **testimony about the review process**, which you can observe.
+>
+> Answer that in your own terms first. Only then, if it is useful, read the three hypotheses the
+> annotator happens to hold — **listed second and deliberately, because a prompt that names the
+> answer it expects manufactures agreement with it, and this project has just filed a deficiency
+> against itself for doing precisely that (D-31).** Reject any or all of them:
+>
+> > (a) the round-02 prompt was scoped so that a newly *introduced* inconsistency fell outside it;
+> > (b) the correction blocks in the document directed attention to what had already been fixed and
+> > away from what the fix broke; (c) a reviewer reading a corrected document is primed to evaluate
+> > the correction rather than the corrected text.
+>
+> If your own answer differs from all three, that is the more useful result and it is what this
+> question is for.
 >
 > **3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is
 > that blindness beat capability: the frontier reviewers saw the correction blocks and the local
