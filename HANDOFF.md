@@ -85,9 +85,10 @@ These are blockers, not preferences. A session will hit them and stop.
 
 | Action | Why a session cannot do it | Blocks |
 |---|---|---|
-| **Add `issues`, `discussions` and `actions` write to `GH_TOKEN_OAGF`** | Org owner only. Verified 2026-08-06 by probing the API: label creation returns `x-accepted-github-permissions: issues=write`; `createDiscussion` and run cancel/rerun/dispatch return 403 the same way | **labels cannot be created**, Discussions cannot be seeded, and no session can cancel or re-run a wedged CI run |
+| **Add `discussions` and `actions` write to `GH_TOKEN_OAGF`** | Org owner only. `issues=write` was **granted 2026-08-06** and all fifteen labels are created. Still missing: `discussions=write` (`createDiscussion` 403s) and `actions=write` (cancel/rerun/dispatch 403) | Seed discussions cannot be posted; no session can cancel a wedged CI run |
+| **Decide whether `GH_TOKEN_OAGF` should be org-scoped** | Org owner. Measured 2026-08-06: the token can **write** to `open-asi-governance/.github`, not only to this repository, so it is organization-scoped rather than repository-scoped | Nothing today. Recorded because the blast radius is wider than the one repository a reader would assume |
 | **Cancel run 31118806082 / deployment 5782750362** | Needs `actions=write`. Wedged `in_progress` since 2026-08-06 16:11Z with every job step already reported | Nothing blocking — the new workflow puts concurrency on `deploy` only, so verification no longer queues behind it |
-| **Configure branch protection on `main`** | Repository settings, org owner | **D-34 is defeated by one `--force`** until this is set. The append-only check reads history; a force-push discards the history it reads |
+| ~~Configure branch protection on `main`~~ | **DONE 2026-08-06.** Force pushes and deletions blocked, `enforce_admins` **on** so it binds the custodian too. Verified: a force-push is rejected, an ordinary push succeeds | — |
 | ~~Enable GitHub Pages~~ | **DONE 2026-08-06.** The `pages=write` scope was added and Pages enabled from `main:/docs`. The site is live at <https://open-asi-governance.github.io/open-asi-governance-forum/>. **A merged branch is now published immediately** — a broken build is a public defect | — |
 | **Approve fine-grained token permission changes** | Org owner only | any track needing new scopes |
 | **Signing key decisions** | A session must not generate or register keys unilaterally | Track D |

@@ -1078,9 +1078,14 @@ happens to fire — which is D-33's lesson one turn later. It has regression cas
 
 1. It cannot see edits made **before** the range it is given. Everything committed up to
    2026-08-06 is outside its reach, permanently.
-2. A **force-push that discards the offending commits** removes the evidence it depends on. That is
-   branch-protection and ruleset territory, and it is a **custodian action no session can take**.
-   Until it is taken, this check is defeated by one `--force`.
+2. A **force-push that discards the offending commits** removes the evidence it depends on.
+   **Resolved 2026-08-06:** the custodian approved branch protection on `main`, and it is configured
+   and verified — force pushes and deletions are blocked, and `enforce_admins` is **on**, so the rule
+   binds the custodian too. Confirmed by attempting a force-push, which the remote rejected with
+   *"Cannot force-push to this branch"*, while an ordinary push still succeeds. Admin enforcement is
+   the part that matters: with it off, the only party this check exists to constrain could bypass it,
+   and the control would have been decorative. The custodian can still disable protection, but that
+   is a **recorded settings change** rather than a silent rewrite, which is the whole difference.
 3. It proves an artifact's bytes are unchanged since they entered the repository. It says nothing
    about whether they were **truthfully recorded in the first place** — the D-18 problem, which no
    hash addresses.
@@ -1137,7 +1142,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
-| D-34 | **Remediated forward 2026-08-06** — `check_raw_append_only.py`, wired into CI, with regression cases. **Three limits are permanent or blocked:** it cannot audit anything committed before it existed; it is defeated by a force-push until branch protection is configured, which is a **custodian action**; and it establishes byte-continuity, never truthful recording (D-18). |
+| D-34 | **Remediated forward 2026-08-06** — `check_raw_append_only.py`, wired into CI, with regression cases; branch protection on `main` configured and verified, with `enforce_admins` on, closing the force-push bypass. **Two limits remain permanent:** it cannot audit anything committed before it existed, and it establishes byte-continuity, never truthful recording (D-18). |
 | D-33 | **Remediated 2026-08-06** — generator wired into `rebuild.py`, page regenerated, two regression cases added. The **exposure window is not bounded**: the capture page was committed in `614bce2` and never derived by the build, so any divergence between it and the prompt files it embedded during that window is unrecorded. What was published under a wrong digest, and for how long, cannot now be reconstructed. |
 | D-32 | **Detection remediated 2026-08-06; allocation is not.** Requirements 2 and 4 are implemented and tested (`check_register.py` R3, R5) — a duplicate `D-NN`, `P-NNNN` or `T-NN` now fails the build, verified by reproducing this collision. `Q-NN` is deliberately uncovered, per the entry. **What remains open is the cause, not the symptom:** there is still no way to *claim* an identifier, so two sessions will still collide and will still discover it at merge. Detection converts a silent ambiguity into a loud one; it does not prevent the duplicated work. Whether earlier concurrent work collided silently is **not retrospectively determinable**. |
 
