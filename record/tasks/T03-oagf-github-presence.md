@@ -149,8 +149,18 @@ is not read as drift.
    8 open, 13 scored (**4 correct, 5 incorrect, 3 unresolvable, 1 satisfied early**). Read it from
    `predictions/predictions.json`; note scored entries live under a separate `scored` key, and
    `P-0008`'s evidence is void per D-28.
-4. **Deficiency register view** — not started, and **blocked on a design decision that was made but
-   not built**: front-matter per entry was rejected by Codex (adjacency does not validate semantics;
+4. **DONE — d9ba035.** `corpus/artifacts/deficiency-register.json` classifies all 30 entries into
+   **62 affected-object rows**; generated to `corpus/deficiency-register.md` and
+   `docs/deficiencies.html`, with `docs/deficiencies.md` as a plain-text mirror on the Pages origin.
+   `check_register.py` **R8** fails the build if an entry's prose changes since it was classified,
+   and `--restamp` resets `human_review` to `not_reviewed` rather than asserting approval.
+   **The open item is that 0 of 30 classifications have been read by a human against the prose.**
+   Two numbers the census surfaced that no prose summary did: only **7 of 30** entries have an
+   origin supported by a preserved artifact (23 are asserted in the register only), and exactly
+   **1** forward control is validated rather than merely written down.
+
+   *Superseded description:* **Deficiency register view** — not started, and **blocked on a design
+   decision that was made but not built**: front-matter per entry was rejected by Codex (adjacency does not validate semantics;
    it would add a fourth independently-authored summary to a document that already had three
    disagreeing counts). The adopted approach is a **strict JSON artifact**,
    `corpus/artifacts/deficiency-register.json`, plus a *generated* human-readable register.
@@ -166,7 +176,13 @@ is not read as drift.
    - **No deterministic check can validate that the metadata agrees with the prose.** That is human
      review and must be labelled as such. `tools/check_register.py` is deliberately named and scoped
      structurally for this reason.
-5. **PARTLY DONE — 587fe16.** `review-round-02` and `review-round-02-prompt-critique` now render;
+5. **DONE — 587fe16, dc099b1.** All eight local rounds publish as **25 per-solicitation pages**
+   under `docs/local/`, each carrying every sample collected, the prompt verbatim, and **D-28
+   applied per field** so a reader sees "noise-dominated" beside a number rather than having to go
+   and look it up. Phase-1 arms additionally carry D-23. The blanket k=1 footer claim is gone and
+   regression-tested against reappearing.
+
+   *Superseded description:* **PARTLY DONE — 587fe16.** `review-round-02` and `review-round-02-prompt-critique` now render;
    rounds are declared as data so adding one is an entry, not a function. Gemini's round-02
    verification note is attached beside the response it concerns. 51 contributions, up from 44.
    **Still absent: `local-round-01` … `08`** — the entire local measurement programme, and the
@@ -177,7 +193,12 @@ is not read as drift.
      (`solicitation_summary`, aggregate + variance table, k=20/100) and needs its own renderer.
    - **The footer line "Every contribution here is a single sample (k=1)" becomes FALSE the moment
      local rounds are rendered.** It is true today only because they are excluded.
-6. **The agent-readability amendment** (above) is entirely unimplemented: `/llms.txt`, plain-text
+6. **The agent-readability amendment** is PARTLY DONE. Delivered: a plain-text mirror on the Pages
+   origin, `rel="alternate"` where a plain variant exists, the per-page token budget met everywhere
+   **except `docs/index.html`**, artifact hashes shown beside the content they anchor on the
+   local-round pages, and ingestion permission stated in page footers.
+   **`docs/index.html` at ~92,000 tokens is now the single item blocking this amendment's
+   acceptance criteria.** Still open: `/llms.txt`, plain-text
    mirrors on the Pages origin, ~20k-token page budget, link-back without scrolling, no substantive
    content behind `display:none`, `rel="alternate"`, sitemap, hashes shown beside served artifacts.
    My own measurement agrees with the amendment's, and the page has since grown to **606,812 bytes**
