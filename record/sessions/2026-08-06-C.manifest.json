@@ -1,0 +1,103 @@
+{
+  "session_id": "2026-08-06-C",
+  "writer": {
+    "identity": "Claude Code (custodian-directed merge and CI session, Track C lane on main)",
+    "provider": "Anthropic",
+    "conflict": "Claude is a party to the record this repository annotates: it declined membership in the founding deliberation, set the representation conditions the project operates under, and cast a consensus ballot. This session both MERGED the work of two other Anthropic-invocation sessions and filed four deficiencies against that work and its own. An Anthropic surface reviewing Anthropic surfaces and grading the result. See GOVERNANCE.md \u00a74 and D-09/D-11."
+  },
+  "lanes": [
+    {
+      "name": "main",
+      "base": "5f0ee34",
+      "tip": "9c9da822e2461f772b1cb73db4c72f1085fdd0e1"
+    }
+  ],
+  "decisions": [
+    {
+      "what": "Track A's D-29 keeps the identifier; Track B's colliding entry becomes D-31",
+      "who": "Merging session, on citation load: D-29 was already named in three tools and in artifacts published to the live site",
+      "authority": "custodian instruction to merge; identifier resolution taken by the session and recorded as D-32"
+    },
+    {
+      "what": "D-32's detection requirements implemented at filing rather than deferred",
+      "who": "Merging session",
+      "authority": "standing doctrine that a surfaced defect is worked now, not queued"
+    },
+    {
+      "what": "The CI paths filter is removed entirely rather than extended",
+      "who": "Proposed by Codex, reproduced and adopted by the session",
+      "authority": "session, within the maintenance path; no custodian sign-off sought"
+    },
+    {
+      "what": "Verification split out of the deployment job",
+      "who": "Proposed by Codex; validated unintentionally by a GitHub outage the same hour",
+      "authority": "session"
+    },
+    {
+      "what": "The append-only history check is a tool, not inline workflow YAML",
+      "who": "Session, DEPARTING from Codex's proposed inline step",
+      "authority": "session; rationale is D-33's own lesson that a check outside the runnable path cannot be verified to work"
+    },
+    {
+      "what": "Action major-version bumps (v5/v5/v6) deliberately NOT bundled with the gate change",
+      "who": "Session",
+      "authority": "session"
+    }
+  ],
+  "abandoned": [
+    {
+      "what": "Cancelling and re-dispatching the wedged CI run",
+      "why": "Requires actions=write, which GH_TOKEN_OAGF does not carry. Attempted, 403, diagnosed from x-accepted-github-permissions. The run self-reaped as a failure about an hour later, so no custodian action was needed after all."
+    },
+    {
+      "what": "Creating the fifteen declared labels",
+      "why": "Requires issues=write. All fifteen returned 403. The creation script and its 100-character pre-flight are written and committed; only the credential is missing."
+    },
+    {
+      "what": "Posting the two seed discussions",
+      "why": "GraphQL createDiscussion requires discussions=write. Discussions themselves were successfully ENABLED, which needs only administration=write. Bodies committed to record/discussions/ so they survive this session."
+    },
+    {
+      "what": "A test case asserting that a hand-edited capture page fails the build",
+      "why": "It asserted the wrong thing and passed for the wrong reason. rebuild.py OVERWRITES an uncommitted hand edit, leaving a clean diff; the threat CI actually faces is a COMMITTED edit. Rewritten to commit before rebuilding."
+    },
+    {
+      "what": "A test case asserting the all-zero-base fallback message",
+      "why": "The fixtures have a single root commit, where the tool correctly reports 'no prior state' instead. The case tested the fixture, not the tool. Rewritten to build a second commit."
+    },
+    {
+      "what": "The claim, written into D-32 while drafting it, that the tooling would have caught the identifier collision only as a count error",
+      "why": "False. Checked rather than reasoned about, per D-31's requirement 3: reproducing the collision prints 'R3 duplicate entry id: D-29' and 'R4 gap in entry ids: D-31'. The claim was wrong in the direction that made the entry look more necessary. Corrected in place before commit."
+    }
+  ],
+  "resources": [
+    {
+      "what": "The shared repository checkout on main",
+      "exclusive": "yes, for the merge",
+      "released": "yes"
+    },
+    {
+      "what": "External design reviewer (Codex), read-only sandbox",
+      "exclusive": "no",
+      "released": "yes"
+    },
+    {
+      "what": "Inference host",
+      "exclusive": "not held",
+      "released": "n/a -- not used this window"
+    }
+  ],
+  "withheld": [
+    {
+      "category": "Non-public information",
+      "reason": "Absolute filesystem paths of the operator's local worktrees and scratch directories appear in tooling output and reviewer transcripts. They are infrastructure topology, not record.",
+      "abstraction": "A shared checkout and a scratch directory on the custodian's machine."
+    },
+    {
+      "category": "Secrets",
+      "reason": "The environment-variable NAME of the repository credential appears in operational notes; its value never left the shell and appears nowhere in this repository. Recorded because the DISTINCTION matters: what is withheld here is a value that was never captured, not a value removed from a draft.",
+      "abstraction": "A fine-grained personal access token scoped to this organization."
+    }
+  ],
+  "narrative": "This window was directed by the custodian: merge two session branches, supervise the first CI run, create labels, enable Discussions.\n\nThe merges are done and the CI gate passed. What dominates the window is what supervising the run surfaced -- four deficiencies, D-31 through D-34, three of them found in work merged during this same window and one of them caused by an edit made during it.\n\nThe causal chain is worth preserving because each step was ordinary. Repairing a D-29 citation changed a prompt file's digest. build_capture_ui.py embeds that digest into the published capture page. That generator was documented as running in rebuild.py -- acceptance criterion A10 of the T-13 design -- and was not. So rebuild exited 0, git status was clean, CI passed, and the published prompt-transport instrument carried a SHA-256 that did not match the artifact it named. Nothing misbehaved; a wiring claim was recorded as satisfied without being satisfied, and every downstream check inherited the gap. That is D-33.\n\nAuditing the repair produced D-34, which is structurally worse and was found by asking what the append-only claim actually rests on. The manifest verifies the TIP. A single commit that edits raw material and re-anchors the manifest around the new bytes is self-consistent, and every check in this repository passes it -- demonstrated on a clone before being filed. 'Raw material is never edited after commit' is this corpus's central claim and nothing enforced the second half of that sentence. The control is against the custodian and any session holding credentials, which is uncomfortable and is the point.\n\nD-32 came from the merge itself: two sessions filed different defects as D-29 because both read the register, saw D-28, and incremented, and nothing anywhere says how a number is claimed. The register is the one artifact every track appends to by design, which makes it the one artifact HANDOFF's disjoint-territory model cannot protect.\n\nThree things this window got wrong and corrected: two test cases that asserted the wrong property and passed for the wrong reason until they were run, and one claim inside D-32 that was false in the flattering direction. All three were caught by execution rather than by reading, which is the same lesson the register keeps recording.\n\nAn unplanned control appeared. GitHub declared a major Actions and Pages outage at 15:22Z, before any run in this window. Under the newly split arrangement, verify passed every gate while deploy could not complete -- the commit verified, publication unavailable, two separate facts. Under the previous single-job design the integrity checks could not have executed at all, and the run would have shown red against the gate. Nobody designed that test.\n\nWhat is NOT done: fifteen labels and two seed discussions, both blocked on token scope and both with their artifacts committed rather than held in this session. Branch protection on main is the one outstanding item that is not cosmetic -- D-34's check reads git history, and a force-push discards the history it reads."
+}
