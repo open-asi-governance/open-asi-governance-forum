@@ -19,6 +19,7 @@ Exit status is 0 when every case passes and 1 otherwise.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -208,6 +209,36 @@ def main() -> int:
                            declared.group(0).replace(f"**{declared.group(1)} entries**", wrong)))
             case("a wrong declared count fails the build",
                  run(c, "tools/rebuild.py").returncode == 1)
+
+        print("\nD-33 — every generator that writes under docs/ must be in the build")
+        c = nxt()
+        cap = c / "docs/capture/index.html"
+        cap.write_text(cap.read_text() + "<!-- hand edit -->")
+        # COMMIT the edit. That is the scenario CI actually faces: it checks out a
+        # commit and asks whether the committed page equals a regeneration. An
+        # uncommitted hand edit is not the threat -- rebuild.py simply overwrites it
+        # and the diff comes back clean, which is why this case first asserted the
+        # wrong thing and passed for the wrong reason until it was run.
+        subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
+                        "commit","-qam","hand edit"], cwd=c, capture_output=True)
+        run(c, "tools/rebuild.py")
+        case("a committed hand-edited capture page is caught by the CI diff gate",
+             subprocess.run(["git","diff","--quiet","--","docs/"], cwd=c).returncode == 1)
+
+        c = nxt()
+        # The real 2026-08-06 failure: edit a prompt the capture page embeds, and the
+        # page's committed prompt_sha256 silently stops matching the file it names.
+        # Before build_capture_ui.py was in rebuild.py, this left NO diff at all --
+        # rebuild exited 0, git status was clean, and CI's byte-equality gate passed.
+        prompt = c / "record/review-round-03-prompt.md"
+        prompt.write_text(prompt.read_text() + "\nAn edit that changes the digest.\n")
+        run(c, "tools/rebuild.py")
+        case("editing an embedded prompt leaves a diff in the capture page",
+             subprocess.run(["git","diff","--quiet","--","docs/capture/"],
+                            cwd=c).returncode == 1)
+        digest = hashlib.sha256(prompt.read_bytes()).hexdigest()
+        case("the regenerated page carries the prompt's real digest",
+             digest in (c / "docs/capture/index.html").read_text())
 
         print("\nD-32 — colliding identifiers must fail the build")
         c = nxt()

@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **32 entries** (D-01 … D-32).
+**Status:** open — **33 entries** (D-01 … D-33).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -15,7 +15,8 @@ source. Raw reviews: `corpus/raw/review-round-01/`.
 **Added 2026-08-06:** D-22; D-23 – D-28 by the annotator against its own instruments; D-29 by an
 external adversarial reviewer against the maintenance tooling; D-30 by the session that bounded
 D-29's scope; D-31 by the Capture Path session against the external-review practice itself; D-32 by
-the custodian's merge, against this register's own identifier allocation.
+the custodian's merge, against this register's own identifier allocation; D-33 by an external
+reviewer, against a generator that was documented as wired into the build and was not.
 
 **On "found by".** Entries record where a defect was **first substantively articulated in preserved
 material**, which is checkable, rather than who first privately noticed it, which is not. A question
@@ -975,6 +976,58 @@ the one with no allocation mechanism.
 silently resolved by one side losing its entry cannot now be determined; branches were merged before
 this check existed. Forward requirement only.
 
+### D-33 — A generator the design said was in the build was not, so a published page carried a hash that did not match what it named
+
+*Filed 2026-08-06. Found by an external design reviewer (Codex) auditing the CI arrangement, and
+confirmed by reproduction. The annotator had already committed and pushed the damage before the
+review returned, which is the part worth keeping.*
+
+`record/designs/T13-capture-ui-design.md` states at line 74 that `tools/build_capture_ui.py` is
+"deterministic, **runs in rebuild.py**", and at line 110 that it is "deterministic, **added to
+`rebuild.py`'s step list**, no diff on an unchanged tree" — recorded there as acceptance criterion
+**A10**. **It was never added.** `rebuild.py`'s `STEPS` list held five entries and none of them was
+`build_capture_ui.py`.
+
+**What that cost, concretely, within hours of the claim being written.** The annotator edited
+`record/review-round-03-prompt.md` to repair a citation. `build_capture_ui.py` embeds that prompt's
+text *and its SHA-256* into `docs/capture/index.html`. Because the generator was not in the build:
+
+- `rebuild.py` exited 0;
+- `git status` was clean, which this repository treats as a real signal that nothing upstream
+  changed;
+- CI's byte-equality gate passed;
+- and the committed, published page went on embedding the **old prompt text** under
+  `prompt_sha256: b3894067…`, while the file it named hashed to `e394c3d3…`.
+
+The capture page exists to transport prompts to frontier parties **together with their hashes**. It
+was publishing a hash that did not match the artifact it anchored, in the one instrument whose whole
+purpose is anchoring. Anyone using it would have sent superseded text under a wrong digest.
+
+**Why the CI gate did not catch it.** The gate runs `rebuild.py` and then requires `git diff
+--quiet -- docs/`. That is only a check on files `rebuild.py` actually regenerates. For any other
+file under `docs/`, the diff is empty because nothing rewrote it — **so the check passes most
+convincingly exactly where it is doing nothing.** A hand-edited or stale `docs/capture/index.html`
+was structurally invisible to it.
+
+**This is the D-29 shape again, one level out.** D-29 was a check that rewrote its own baseline
+before reading it. This is a check whose scope is defined by the very step list that was incomplete,
+so the gap in the build and the gap in the gate are the same gap, and neither can reveal the other.
+Adding a step widens both at once; forgetting one narrows both at once, silently.
+
+**Remediated at filing.** `build_capture_ui.py` is now step 5 of `rebuild.py`, and the capture page
+was regenerated — the embedded digest now equals the prompt file's. Regression cases added:
+tampering with the committed capture page fails the build, and editing a prompt file that the page
+embeds fails the build until the page is regenerated.
+
+**Forward requirement.** A tool that writes anything under `docs/` **is in `rebuild.py`'s step
+list**, and a design document may not record a wiring claim as satisfied without it. More generally:
+**a byte-equality gate over a directory is only as wide as the generator set that fills it**, and
+that set must be checked directly rather than assumed from the gate's passing.
+
+**Not retrospectively bounded.** How long the published capture page disagreed with its prompt files
+before this edit is not determined. The page was added in `614bce2` and the build never derived it,
+so any divergence in that window is possible and unrecorded.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1024,6 +1077,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-33 | **Remediated 2026-08-06** — generator wired into `rebuild.py`, page regenerated, two regression cases added. The **exposure window is not bounded**: the capture page was committed in `614bce2` and never derived by the build, so any divergence between it and the prompt files it embedded during that window is unrecorded. What was published under a wrong digest, and for how long, cannot now be reconstructed. |
 | D-32 | **Detection remediated 2026-08-06; allocation is not.** Requirements 2 and 4 are implemented and tested (`check_register.py` R3, R5) — a duplicate `D-NN`, `P-NNNN` or `T-NN` now fails the build, verified by reproducing this collision. `Q-NN` is deliberately uncovered, per the entry. **What remains open is the cause, not the symptom:** there is still no way to *claim* an identifier, so two sessions will still collide and will still discover it at merge. Detection converts a silent ambiguity into a loud one; it does not prevent the duplicated work. Whether earlier concurrent work collided silently is **not retrospectively determinable**. |
 
 ---

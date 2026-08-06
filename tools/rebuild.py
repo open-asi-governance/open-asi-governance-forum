@@ -12,6 +12,7 @@ Order matters:
   2. validate    — refuse to build anything from artifacts that fail provenance checks
   3. index       — corpus/index.md from segments.json
   4. viewer      — docs/index.html, the threaded page served by GitHub Pages
+  5. capture     — docs/capture/index.html, the prompt-transport page
 
 Step 1 VERIFIES. It does not write. Until 2026-08-06 it wrote, which meant the
 maintenance path re-anchored tampered raw material and reported success — see
@@ -49,6 +50,19 @@ STEPS = [
     ("check the deficiency register counts itself correctly", ["tools/check_register.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
+    # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added
+    # to rebuild.py's step list, no diff on an unchanged tree (A10)". It was not in
+    # the list, so docs/capture/index.html was published without ever being derived
+    # by the maintenance path -- and the CI byte-equality check passed vacuously for
+    # it, because nothing regenerated it to compare against.
+    #
+    # Caught when it fired for real: editing record/review-round-03-prompt.md left
+    # the committed capture page embedding the OLD prompt text under a prompt_sha256
+    # of b3894067..., while the file it names hashed to e394c3d3.... rebuild.py
+    # exited 0 and CI passed. A published instrument carried a hash that did not
+    # match the artifact it anchored -- in the page whose entire job is to transport
+    # prompts to frontier parties with their hashes. See D-33.
+    ("build capture page", ["tools/build_capture_ui.py"]),
 ]
 
 
