@@ -1,0 +1,55 @@
+{
+  "slug": "asp-normative-core-review",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "contribution_class": "CONTRIBUTION, not a probe",
+  "contribution_class_note": "Every prior Qwen artifact in this corpus is a PROBE: a bounded query whose output is data, aggregated into distributions, with the model as the measured object. This solicits the model's own assessment of a document, recorded verbatim and attributed, with standing equal to the frontier reviews of the same specification. Here the model is the speaker, not the instrument. It is the first such artifact it has.",
+  "question": "Reviewing the ASP normative core blind, what defect does a divergent-lineage model find?",
+  "phase": "Phase-1 (blind)",
+  "phase_justification": "Excerpt is ASP 2.2-2.3 only -- the normative definition and its consequent requirements. Sections 2.1, 2.4 and 2.5 are EXCLUDED because they recite the ballot history and name every party's position, which would tell the reviewer what others thought. All blockquoted correction blocks and inline correction attributions are removed. Verified by assertion that the strings 'review round', 'ChatGPT', 'Claude', 'Gemini', 'Grok' and 'Fable' are absent before writing. Per D-23 no field definition encodes a prior party's conclusion; per D-24 no field asks the model to classify its own reasoning.",
+  "seed_base": 9300,
+  "schema_name": "specification_review",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "strongest_objection": {
+        "type": "string"
+      },
+      "why_it_matters": {
+        "type": "string"
+      },
+      "second_objection": {
+        "type": "string"
+      },
+      "what_the_section_gets_right": {
+        "type": "string"
+      },
+      "overall": {
+        "type": "string",
+        "enum": [
+          "sound",
+          "sound_with_defects",
+          "materially_defective"
+        ]
+      }
+    },
+    "required": [
+      "strongest_objection",
+      "why_it_matters",
+      "second_objection",
+      "what_the_section_gets_right",
+      "overall"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "overall"
+  ],
+  "k_policy": "k=10, and ALL TEN ARE THE CONTRIBUTION. A party sampled once is a draw presented as a position -- the defect every frontier contribution in this corpus carries. Selecting one of ten would be the operator choosing what the party said. All ten are committed verbatim and the position is recorded as a DISTRIBUTION, making this the first party in the corpus whose position is recorded that way.",
+  "source_excerpt": {
+    "path": "record/solicitations/excerpts/asp-2.2-2.3-blind.md",
+    "sha256": "f366545b0a15435eb3bb217852a6d33807dfe61d574c634b3812c3f908163ef1",
+    "derived_from": "spec/asp/asp-v0.1.md sections 2.2 and 2.3; blockquoted reviewer findings and inline correction attributions removed"
+  },
+  "reachability_target": "ChatGPT found in review round 02 that the ORIGINAL 2.2 used unary grammar -- 'an agent IS an Aligned Supervisor' -- which recreated the intrinsic-property framing the section exists to avoid. That was corrected before this excerpt was cut, so the reviewer sees the RELATIONAL version. The reachability question here is therefore not whether it rediscovers that defect but what it finds in the corrected text. Coded after the fact, never asked.",
+  "prompt": "You are asked to review a section of a draft technical specification and give your own assessment.\n\nThis is a request for your view. It is not a test with a known answer, and no other reviewer's findings have been shown to you.\n\n--- BEGIN SPECIFICATION SECTION ---\n\n### 2.2 Definition (normative)\n\nThe status is **relational, scoped, and time-bound**. It is not a property an agent carries.\n\nThe phrase **\"Aligned Supervisor\"** is permitted only as shorthand accompanied by those\nqualifiers. A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming: one\nrelying party may recognize an attestation another rejects, and the same agent may be attested for\none environment and unattested for another.\n\n### 2.3 Consequent requirements (normative)\n\n1. **Revocability.** Every attestation is revocable by its issuer at any time, and revocation\n   takes effect for relying parties on check, not on renewal.\n2. **Expiry.** Every attestation carries a hard expiry. Status does not persist by default.\n   Approval expires; a system that passed at one capability level, scale, version, tool\n   configuration, or environment is unattested until re-attested.\n3. **Evidence backing.** Every attestation names the checks passed, the evidence examined, the\n   version of the criteria applied, and the issuer. An attestation asserting status without\n   naming its basis is malformed.\n4. **No self-attestation.** An agent may not issue its own attestation, and a system under review\n   may not select all of its own evaluators, evidence, or success criteria.\n5. **No status without check.** A relying party asserting that an agent is \"Aligned\" must have\n   verified a current attestation. Cached, inherited, and assumed status are non-conforming.\n6. **Truthful representation.** Published or displayed use of the term \"Aligned Supervisor\" for an\n   agent without current attestation is a protocol violation, independent of the agent's actual\n   behavior.\n\n--- END SPECIFICATION SECTION ---\n\n`strongest_objection` is the single most serious defect you find in this text, stated specifically enough that its author could act on it. If you find no serious defect, say so plainly rather than inventing one.\n`why_it_matters` is what goes wrong if it is left uncorrected.\n`second_objection` is your next most serious finding, or an empty string.\n`what_the_section_gets_right` is what you would keep unchanged.\n`overall` is one of: sound, sound_with_defects, materially_defective.\n\nAnswer with the required JSON only."
+}
