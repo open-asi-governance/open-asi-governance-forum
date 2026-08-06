@@ -27,6 +27,7 @@ from __future__ import annotations
 import hashlib
 import html
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -37,6 +38,20 @@ OUT = REPO_ROOT / "docs" / "index.html"
 
 def sha256_of(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def deficiency_count() -> int:
+    """Count entries in the register rather than hardcoding the number.
+
+    This page published "21 open" while the register held 28 entries and the
+    register's own status line said 24 -- three artifacts of one repository
+    stating three different counts of its own defects. A number a human retypes
+    is a number that drifts, and this one drifts in the flattering direction.
+    `tools/check_register.py` enforces the register's internal consistency; this
+    derives from it so the page cannot disagree with it at all.
+    """
+    register = REPO_ROOT / "corpus" / "deficiencies.md"
+    return len(re.findall(r"^### D-\d+ — ", register.read_text(encoding="utf-8"), re.MULTILINE))
 
 
 def head_commit() -> str:
@@ -472,7 +487,7 @@ merged.</p>
 <p>Every contribution here is a single sample (k=1) — citable as an artifact of that invocation,
 not as evidence of any model's stable position. See
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/deficiencies.md">the deficiency register</a>
-(21 open) before citing anything.</p>
+({deficiency_count()} open) before citing anything.</p>
 <p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
 Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>

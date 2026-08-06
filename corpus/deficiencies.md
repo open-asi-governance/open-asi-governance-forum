@@ -1,8 +1,25 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — 24 entries. **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
-D-14) were narrowed as overstated; six (D-16 – D-21) were added. Every reviewer-driven change is
-marked inline with its source. Raw reviews: `corpus/raw/review-round-01/`.
+**Status:** open — **30 entries** (D-01 … D-30).
+
+*This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
+and `README.md` and the published site said 21. Three artifacts of this repository stated three
+different counts of its own defects. The count is now checked mechanically by `tools/rebuild.py`,
+which fails the build if this number and the number of `### D-NN` headings disagree — because a
+register that miscounts itself is evidence about how carefully it is maintained.*
+
+**Revised after review round 01.** Six entries (D-07, D-08, D-09, D-10, D-11, D-14) were narrowed as
+overstated; six (D-16 – D-21) were added. Every reviewer-driven change is marked inline with its
+source. Raw reviews: `corpus/raw/review-round-01/`.
+
+**Added 2026-08-06:** D-22; D-23 – D-28 by the annotator against its own instruments; D-29 by an
+external adversarial reviewer against the maintenance tooling; D-30 by the session that bounded
+D-29's scope.
+
+**On "found by".** Entries record where a defect was **first substantively articulated in preserved
+material**, which is checkable, rather than who first privately noticed it, which is not. A question
+that prompted an investigation is recorded as a trigger, not as the finding — see D-26 and D-28,
+where the operator's question prompted work whose first preserved articulation was the annotator's.
 **Applies to:** `corpus/raw/initial-transcript.txt`
 **SHA-256:** `edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc`
 **Compiled:** 2026-08-05 by Claude Code (Anthropic), under operator direction. See [Authorship and conflict of interest](#authorship-and-conflict-of-interest).
@@ -695,6 +712,112 @@ bits. It condemns every fraction-of-a-bit comparison, P-0008's evidence foremost
 4. The corpus **no longer claims** that a locally served contribution is reproducible. It claims the
    settings are *recorded*, which is true and is a weaker thing. QCP §3 is corrected accordingly.
 
+### D-29 — The manifest did not anchor anything, because the maintenance path rewrote it first
+
+*Found 2026-08-06 by Codex (OpenAI), invoked as an adversarial design reviewer by the Corpus Surface
+session, while reviewing an unrelated change to the page generator. Confirmed by experiment before
+being filed. **Not found by the annotator, and not found by a designated review round.***
+
+`corpus/MANIFEST.sha256` is described in `README.md` as the hash anchor for every raw artifact, and
+in `GOVERNANCE.md` §3.1 as the mechanism by which raw material is committed byte-identical "before
+any annotation of it exists." `build_manifest.py`'s own docstring claimed that "any later edit to a
+raw file changes its hash and fails verification."
+
+It did not. `tools/rebuild.py` invoked `build_manifest.py corpus/raw/` **without `--verify`**, and
+that tool's default action was to **write**. So the documented maintenance path regenerated the
+manifest from whatever was on disk, before any step read it.
+
+**The experiment.** One byte was appended to an immutable raw artifact and the documented path was
+run:
+
+| | |
+|---|---|
+| `corpus/raw/local-round-02/…-samples.json` before | `4fbc2fc2…` |
+| after appending one newline | `d7b5f0f7…` |
+| `python3 tools/rebuild.py` exit status | **0** |
+| `corpus/MANIFEST.sha256` | `cc0c816e…` → **`e51a4a94…`** — silently re-anchored |
+| what the build printed | **"All provenance checks passed."** |
+
+**A hash anchor that is rewritten before it is read records the state of the disk. It does not
+anchor anything.** The verification code was correct and complete — it detects `MODIFIED`, `MISSING`
+and `UNANCHORED` — and it was simply never reached by the path anyone runs.
+
+**Scope, which is not uniform.** A second experiment tampered with a *contribution* raw file and the
+build **did** fail, because `validate_provenance.py` checks the `raw.sha256` recorded in each
+contribution artifact. That artifact-level hash — not the manifest — was the only thing actually
+protecting the corpus. It does not exist for every artifact family; see D-30.
+
+**Consequence.** For the period this defect existed, the manifest supplied **no evidence** that raw
+material was unmodified, while three documents asserted that it did. No tampering is alleged or
+detected; the defect is that the corpus could not have detected it. This is the same class as D-01's
+placeholder version identifier and D-28's decorative `seed`: **a field asserting a property the
+system does not have.**
+
+**A second fail-open found in the same review.** `validate_provenance.py` skipped structural
+validation with a *warning* when `jsonschema` was not installed, after which the build still printed
+"All provenance checks passed." A validator that reports success when it did not validate converts an
+absent check into a positive assurance.
+
+**REMEDIED 2026-08-06** on branch `session/site`, Codex-reviewed before and after implementation:
+
+1. **Verification is the default.** `build_manifest.py` with no mode verifies and never writes.
+2. **`--add` is append-only.** It verifies every recorded entry first, refuses on any `MODIFIED` or
+   `MISSING`, and then anchors only previously-unanchored paths — so adding new material can never
+   be the motion that quietly re-anchors old material.
+3. **`--force-rewrite`** is the only operation that can change or drop a recorded hash. It prints
+   what it is destroying first, is never invoked by `rebuild.py`, and is a custodian governance
+   action requiring a recorded reason.
+4. **`rebuild.py` step 1 verifies.** A tampered artifact now stops the build before anything is
+   derived from it.
+5. **Missing `jsonschema` is now an error**, not a warning.
+
+Verified by re-running the original experiment: the tamper that previously exited 0 now exits 1 and
+names the modified file. Ten acceptance cases pass, including `--add` refusing a modified artifact.
+
+**Forward requirement.** A check that is *available* is not a check that *runs*. Every integrity
+mechanism this repository claims must be exercised by the path that is actually invoked, and the
+claim must name the invocation — "verified by `tools/rebuild.py`", not "verifiable". **The test for
+any such claim is to violate the property and confirm the documented path fails**, which is the
+same discipline D-28 established for measurement and which had never been applied to the tooling.
+
+### D-30 — Local-round artifacts reference raw material by path, with no hash
+
+*Found 2026-08-06 by the Corpus Surface session while bounding D-29's scope. Filed separately
+because it has a different cause, a different owner, and survives D-29's repair.*
+
+Contribution artifacts record their raw material as `{path, sha256, bytes}`, and
+`validate_provenance.py` checks that hash. The `solicitation_summary` and `freetext_coding` families
+— which cover **all eight local rounds**, the largest part of the corpus by volume and the source of
+D-23 through D-28 — record only a bare path:
+
+```json
+"raw_samples": "corpus/raw/local-round-02/level-4-guarantee-crosslineage-probe-samples.json"
+```
+
+So there is **no artifact-level binding between a local-round result and the samples it was computed
+from.** Before D-29 was repaired this meant the family had no integrity check at all, in either
+mechanism.
+
+**What D-29's repair does and does not fix.** The manifest walks all of `corpus/raw/` by tree, so
+those files are now covered by manifest verification and a lone tamper is caught — confirmed by
+experiment. What remains unprotected is the **binding**: nothing ties a summary's reported entropy
+to the specific bytes it was derived from, so a coordinated change to both a raw file and the
+manifest is not detectable at the artifact level the way it is for contributions, and a summary
+silently recomputed against different samples leaves no trace.
+
+**Not remediated.** `tools/schemas/` is Track D's territory, and the repair changes the schema and
+every existing local-round artifact. Specified here so it is not re-derived:
+
+1. `solicitation_summary` and `freetext_coding` record raw material as `{path, sha256, bytes}`,
+   matching the contribution family.
+2. `validate_provenance.py` checks that hash for those types, as it already does for contributions.
+3. Existing local-round artifacts are backfilled from the current manifest, and the backfill is
+   recorded as annotation — it certifies the bytes **as of the backfill date**, not as of capture,
+   and must not be presented as capture-time provenance.
+
+Point 3 is the honest limit: this repair cannot retroactively prove what those files contained when
+the measurements were run.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -707,6 +830,20 @@ unpreserved.
 ---
 
 ## Deficiencies that are permanent vs. remediable
+
+*This table stopped at D-22 until 2026-08-06, omitting eight entries — including every instrument
+defect. It is extended below rather than regenerated, because the omission is itself a fact about
+how the register was maintained.*
+
+**Read the single column with care: it collapses dimensions that are not the same question.**
+"Is the historical evidence repairable", "has an annotation been corrected", "can the measurement
+be re-run", "is a forward control in place", and "at what cost" are five independent axes, and a
+one-column verdict necessarily misstates at least one of them for any entry with more than one
+affected object. **D-09 is the clearest case:** the raw transcript's merged identities are *not*
+repairable, while the `segments.json` annotation *was* corrected — a single "yes" or "no" is false
+for one half of it whichever way it is written. The column below reads as *"the most consequential
+remaining limit"*, and the entry text governs. Splitting these into per-affected-object rows is
+specified as remaining work for the structured register artifact.
 
 | ID | Remediable for the founding record? |
 |---|---|
@@ -721,6 +858,14 @@ unpreserved.
 | D-18, D-21 | **No** for the founding record. Forward: capture provider-signed evidence and capture-time stamps. |
 | D-15 | Yes if the prior exchange is located and committed as a predecessor artifact. |
 | D-22 | **Yes, cheaply** — one placebo arm on the existing harness. Until then `phase_susceptibility` is an upper bound, not a measurement. |
+| D-23 | **No** for the affected run — the contaminated instruction was the instrument. Re-run on a clean prompt is a new measurement, not a repair; `local-round-04` is that re-run. Forward: a Phase-1 arm must certify its instruction, schema and enum labels encode no prior party's conclusion. |
+| D-24 | **No** — the self-report cannot be made reliable after the fact. P-0010 is unscorable on its merits. Forward: never ask a model to classify its own reasoning; code free text deterministically and validate the coder. |
+| D-25 | **Yes, and it was** — caught before it scored anything. Both the rejected and adopted rules are published so the correction is checkable. Forward control in place; **not** independently validated. |
+| D-26 | **Open.** Temperature is fixed by policy at 0.7 and entropies are now reported conditionally, but the owed temperature-sensitivity check (0.3 / 0.7 / 1.0) **has not been run.** Stays open until it is. |
+| D-27 | **No** for the affected round — accurate answers landed on opposite labels and cannot be recovered from the categorical field. The free text survives and could be re-coded. Forward: every enum value names its referent. |
+| D-28 | **No, and it voids prior results.** Root-caused to a documented MoE kernel fusion (`disable_finalize_fusion`, top-k 8 > 2). The reproducibility claim is **withdrawn rather than repaired**. Effects below ~0.5 bits are not measurable by this apparatus; P-0008's evidence is void. Remedy is a serving-config change, under review — Track C. |
+| D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
+| D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 
 ---
 

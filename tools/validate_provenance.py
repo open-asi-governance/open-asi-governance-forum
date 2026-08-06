@@ -87,13 +87,22 @@ SCHEMA_FOR_TYPE = {
 
 
 def check_schema(document: dict, report: Report) -> None:
-    """Validate against the schema for this artifact_type, when jsonschema is installed."""
+    """Validate against the schema for this artifact_type. Missing jsonschema FAILS.
+
+    This used to warn and continue, so a machine without `jsonschema` installed
+    skipped structural validation entirely and the build still announced "All
+    provenance checks passed." A validator that reports success when it did not
+    validate is worse than no validator: it converts an absent check into a
+    positive assurance. Filed with D-29 as the same class of fail-open defect.
+    """
     try:
         import jsonschema
     except ImportError:
-        report.warn(
+        report.error(
             "SCHEMA",
-            "jsonschema not installed; structural validation skipped. "
+            "jsonschema not installed, so structural validation CANNOT run. "
+            "This is a failure, not a skip -- the build must not claim artifacts "
+            "were validated when they were not. "
             "Install with: python3 -m pip install jsonschema",
         )
         return
