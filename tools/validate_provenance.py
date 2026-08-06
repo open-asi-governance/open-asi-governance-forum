@@ -91,9 +91,16 @@ def check_schema(document: dict, report: Report) -> None:
     try:
         import jsonschema
     except ImportError:
-        report.warn(
+        # ERROR, not warn. This previously warned and returned, so a run on a machine
+        # without jsonschema printed "All provenance checks passed" having performed no
+        # structural validation whatsoever -- and exited 0, which rebuild.py reads as
+        # success and the standing `rebuild && commit` chain reads as permission to
+        # commit. A check that reports PASS when it did not run is worse than absent.
+        # Found by Codex reviewing the T-13 design, 2026-08-06.
+        report.error(
             "SCHEMA",
-            "jsonschema not installed; structural validation skipped. "
+            "jsonschema is not installed, so structural validation did NOT run. "
+            "Refusing to report a pass that was never checked. "
             "Install with: python3 -m pip install jsonschema",
         )
         return
