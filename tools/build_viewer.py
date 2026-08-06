@@ -158,57 +158,122 @@ def build_founding_nodes() -> list[dict]:
     return nodes
 
 
-def build_review_nodes() -> list[dict]:
-    art_dir = REPO_ROOT / "corpus/artifacts/review-round-01"
-    if not art_dir.is_dir():
-        return []
+# Rounds whose artifacts are `artifact_type: contribution`. This was hardcoded to
+# review-round-01, so review round 02 -- four frontier reviews, committed and
+# validating -- and Gemini's round-02 prompt critique were absent from the
+# PUBLISHED page while being present in the corpus. The site understated the
+# record, in the flattering direction, on the one axis the project claims to care
+# about.
+#
+# Declared as data so adding a round is one entry rather than a new function.
+# local-round-* is deliberately NOT here: those are `solicitation_summary`
+# aggregates over k=20/k=100 samples, a different shape needing a different
+# renderer, and rendering them makes the footer's "every contribution here is a
+# single sample" claim false. Both are recorded in T-03's brief.
+CONTRIBUTION_ROUNDS = [
+    {
+        "round": "review-round-01",
+        "prompt": "record/review-round-01-prompt.md",
+        "prompt_id": "RR01-PROMPT",
+        "title": "Review round 01 — adversarial audit of the annotations, 2026-08-05",
+        "prompt_summary": "Adversarial review request sent verbatim to Grok, ChatGPT, Gemini and "
+                          "Claude Fable 5: Claude annotated a record in which Claude is a party — "
+                          "find what that produced.",
+        "role": "adversarial review",
+    },
+    {
+        "round": "review-round-02",
+        "prompt": "record/review-round-02-prompt.md",
+        "prompt_id": "RR02-PROMPT",
+        "title": "Review round 02 — audit of the corrections made after round 01, 2026-08-05",
+        "prompt_summary": "Second adversarial round: the round-01 corrections are themselves the "
+                          "subject. Whether a correction over-corrected, and whether the register "
+                          "still overstates or understates what the record supports.",
+        "role": "adversarial review",
+    },
+    {
+        "round": "review-round-02-prompt-critique",
+        "prompt": "record/review-round-02-prompt.md",
+        "prompt_id": "RR02PC-PROMPT",
+        "title": "Review round 02 — critique of the prompt, before dispatch",
+        "prompt_summary": "Filed under its own round label so it is never counted as one of the "
+                          "four round-02 reviews. It critiques the round-02 PROMPT and recommends "
+                          "refinements; it is not a review of the record.",
+        "role": "prompt critique — NOT a review",
+    },
+]
 
-    prompt_path = REPO_ROOT / "record/review-round-01-prompt.md"
-    nodes = [{
-        "id": "RR01-PROMPT", "round": "review-round-01",
-        "identity": "Stephen Reed (human custodian)",
-        "label_in_raw": None, "label_absent": False,
-        "role": "prompt",
-        "summary": "Adversarial review request sent verbatim to Grok, ChatGPT, Gemini and Claude Fable 5: "
-                   "Claude annotated a record in which Claude is a party — find what that produced.",
-        "text": read_input(prompt_path),
-        "lines": None, "note": "", "correction": "", "ballot": "", "status": "active",
-        "durable": [], "claims": [], "evidence": "", "conflict": "", "superseded": [],
-        "k": 1, "phase": "Phase-2 (informed)", "citability": "",
-        "parent": None, "is_prompt": True,
-    }]
 
-    for path in sorted(art_dir.glob("*.json")):
-        rec = json.loads(read_input(path))
-        raw = REPO_ROOT / rec["raw"]["path"]
-        c = rec["contributor"]
+def verification_note(art_dir: Path, artifact_path: Path) -> str:
+    """A committed note that checks a reviewer's claims against the repository.
+
+    Shown BESIDE the response it concerns and never merged into it, which is the
+    same rule the corpus follows for every other correction. Gemini's round-02
+    review contains material factual errors about the documents it reviews while
+    independently agreeing with other reviewers on several conclusions; hiding
+    either half would misrepresent it.
+    """
+    slug = artifact_path.stem.rsplit("-", 1)[0]
+    note = art_dir / f"{slug}-verification-note.md"
+    return read_input(note) if note.is_file() else ""
+
+
+def build_contribution_nodes() -> list[dict]:
+    nodes: list[dict] = []
+    for spec in CONTRIBUTION_ROUNDS:
+        art_dir = REPO_ROOT / "corpus/artifacts" / spec["round"]
+        if not art_dir.is_dir():
+            continue
+        artifacts = sorted(p for p in art_dir.glob("*.json"))
+        if not artifacts:
+            continue
+
         nodes.append({
-            "id": rec["artifact_id"],
-            "round": "review-round-01",
-            "identity": c["identity"],
+            "id": spec["prompt_id"], "round": spec["round"],
+            "identity": "Stephen Reed (human custodian)",
             "label_in_raw": None, "label_absent": False,
-            "role": "adversarial review",
-            "summary": "",
-            "text": read_input(raw),
-            "lines": None,
-            "note": rec.get("notes", ""),
-            "correction": "",
-            "ballot": "",
-            "status": rec.get("attribution_status", "active"),
-            "durable": [], "claims": [],
-            "evidence": c.get("version_identifier") or c.get("version_unknown_reason", ""),
-            "conflict": rec.get("notes", ""),
-            "superseded": [],
-            "k": rec.get("k", 1),
-            "phase": rec.get("phase", ""),
-            "citability": rec.get("citability", ""),
-            "prior_context": c.get("prior_context", ""),
-            "captured": rec.get("captured_utc", ""),
-            "provider": c.get("provider", ""),
-            "sha256": rec["raw"]["sha256"],
-            "parent": "RR01-PROMPT",
-            "is_prompt": False,
+            "role": "prompt",
+            "summary": spec["prompt_summary"],
+            "text": read_input(REPO_ROOT / spec["prompt"]),
+            "lines": None, "note": "", "correction": "", "ballot": "", "status": "active",
+            "durable": [], "claims": [], "evidence": "", "conflict": "", "superseded": [],
+            "k": 1, "phase": "Phase-2 (informed)", "citability": "",
+            "parent": None, "is_prompt": True,
         })
+
+        for path in artifacts:
+            rec = json.loads(read_input(path))
+            if rec.get("artifact_type") != "contribution":
+                continue
+            raw = REPO_ROOT / rec["raw"]["path"]
+            c = rec["contributor"]
+            nodes.append({
+                "id": rec["artifact_id"],
+                "round": spec["round"],
+                "identity": c["identity"],
+                "label_in_raw": None, "label_absent": False,
+                "role": spec["role"],
+                "summary": "",
+                "text": read_input(raw),
+                "lines": None,
+                "note": rec.get("notes", ""),
+                "correction": verification_note(art_dir, path),
+                "ballot": "",
+                "status": rec.get("attribution_status", "active"),
+                "durable": [], "claims": [],
+                "evidence": c.get("version_identifier") or c.get("version_unknown_reason", ""),
+                "conflict": rec.get("notes", ""),
+                "superseded": [],
+                "k": rec.get("k", 1),
+                "phase": rec.get("phase", ""),
+                "citability": rec.get("citability", ""),
+                "prior_context": c.get("prior_context", ""),
+                "captured": rec.get("captured_utc", ""),
+                "provider": c.get("provider", ""),
+                "sha256": rec["raw"]["sha256"],
+                "parent": spec["prompt_id"],
+                "is_prompt": False,
+            })
     return nodes
 
 
@@ -384,7 +449,7 @@ def node_html(n: dict) -> str:
     if n["status"] != "active":
         tags.append(f'<span class="tag d">{e(n["status"])}</span>')
     if n["correction"]:
-        tags.append('<span class="tag w">corrected in round 01</span>')
+        tags.append('<span class="tag w">verification note attached</span>')
     if n.get("phase") and n["phase"] != "unclassified":
         tags.append(f'<span class="tag">{e(n["phase"])}</span>')
     if not n["is_prompt"]:
@@ -421,7 +486,7 @@ def node_html(n: dict) -> str:
     if n["note"]:
         parts.append(f'<div class="box note"><b>annotator note — interpretation, not testimony</b>{e(n["note"])}</div>')
     if n["correction"]:
-        parts.append(f'<div class="box corr"><b>correction, review round 01</b>{e(n["correction"])}</div>')
+        parts.append(f'<div class="box corr"><b>correction / verification note — shown beside the response, never merged into it</b><pre>{e(n["correction"])}</pre></div>')
     if n["conflict"] and n["conflict"] != n["note"]:
         parts.append(f'<div class="box conf"><b>conflict of interest</b>{e(n["conflict"])}</div>')
     if n.get("prior_context"):
@@ -441,7 +506,7 @@ def node_html(n: dict) -> str:
 
 
 def build() -> str:
-    nodes = build_founding_nodes() + build_review_nodes()
+    nodes = build_founding_nodes() + build_contribution_nodes()
     for n in nodes:
         n["facet"] = facet_identity(n["identity"])
     identities = sorted({n["facet"] for n in nodes})
@@ -456,11 +521,12 @@ def build() -> str:
         return (f'<button data-facet="{kind}" data-val="{html.escape(val)}" '
                 f'aria-pressed="false">{html.escape(label or val)}</button>')
 
-    round_titles = {"founding": "Founding deliberation — 2026-08-04 / 2026-08-05",
-                    "review-round-01": "Review round 01 — adversarial audit of the annotations, 2026-08-05"}
+    round_titles = {"founding": "Founding deliberation — 2026-08-04 / 2026-08-05"}
+    round_titles.update({spec["round"]: spec["title"] for spec in CONTRIBUTION_ROUNDS})
+    round_order = ["founding"] + [spec["round"] for spec in CONTRIBUTION_ROUNDS]
 
     body = []
-    for rnd in ("founding", "review-round-01"):
+    for rnd in round_order:
         group = [n for n in nodes if n["round"] == rnd]
         if not group:
             continue
@@ -495,6 +561,8 @@ def build() -> str:
 <div class="bar"><span class="lbl">round</span>
 {facet_btn("round", "founding", "founding")}
 {facet_btn("round", "review-round-01", "review 01")}
+{facet_btn("round", "review-round-02", "review 02")}
+{facet_btn("round", "review-round-02-prompt-critique", "round-02 prompt critique")}
 </div>
 <div class="bar"><span class="lbl">who</span>
 {"".join(facet_btn("identity", i) for i in identities)}
