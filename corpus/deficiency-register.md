@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 37** classifications have been read by a human against the prose.
+**0 of 38** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -28,6 +28,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | a designated review round | 8 |
 | an external reviewer | 2 |
 | human operator | 2 |
+| another contributor | 1 |
 
 **8 entries — D-16 through D-36 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
 
@@ -37,11 +38,11 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|
 | required, not implemented | 12 |
 | implemented, not validated | 21 |
-| validated | 4 |
+| validated | 5 |
 
 ### Affected objects
 
-**82 affected-object rows across 37 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**87 affected-object rows across 38 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -603,4 +604,22 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | The corpus's attribution guarantee (D-10) <br><sub>The wrong text stood in corpus/raw/ under a real party's name while every signal said the correction worked. Misattribution manufactured by the subsystem built to prevent it.</sub> | repairable by supersession | verified |
 | Retraction of an already-published attribution <br><sub>Preserving corrected bytes does not retract what is already attributed. Deliberately manual: a tool that rewrites text attributed to a real party is the failure this path exists to stop.</sub> | partly repairable | not started |
 | Receipt-level identity in the lifecycle <br><sub>The lifecycle is keyed by party; this defect shows receipts need their own IDs. The conflict path is containment, not the durable repair.</sub> | partly repairable | not started |
+
+### D-38 — A held capture had a legal exit and no operational one, so one hold froze a round forever
+
+[Full entry](deficiencies.md#d-38--a-held-capture-had-a-legal-exit-and-no-operational-one-so-one-hold-froze-a-round-forever)
+
+- **First articulated:** another contributor, 2026-08-06 · evidence: *preserved artifact*
+  - where: `Corpus Surface session, capture-integration Defect 1, during the first real end-to-end run`
+- **Prospective control:** validated — Completion is derived from verified output artifacts, not from terminal state labels. Acceptance verifies preserved bytes, promotes, verifies the corpus holds them, and only then records. 24 regression cases drive the CLI entry points, because a unit test of a state machine cannot detect that nothing invokes it.
+- **Effort:** medium — The transition is one call. The work was that acceptance must publish and verify, that rejection must not complete, and that the fix surfaced two further defects in the same subsystem.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| The returned_pending_review state's exit <br><sub>Permitted by TRANSITIONS, performed by nothing. 'rejected' appeared only in membership tests, so one held capture blocked a round permanently.</sub> | repairable by supersession | verified |
+| round_status conflating closure with completion <br><sub>A rejected party is terminal but has no corpus material. Reporting COMPLETE asserted a contribution that does not exist. The old test suite asserted this too, and is corrected rather than deleted.</sub> | repairable by supersession | verified |
+| tools/resolve_conflict.py's supersede decision <br><sub>Recorded the decision, cleared the block, left the disowned text published. My own defect from hours earlier, found by external review and reproduced. Conflicts now clear from the corpus, not the label.</sub> | repairable by supersession | verified |
+| The paste-hash mismatch path in ingest_capture.py <br><sub>Printed 'Held for review' while recording returned_clean, because the reassignment came after receive() had written the event.</sub> | repairable by supersession | verified |
+| Replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines <br><sub>A round with a rejection stays honestly incomplete because neither a replacement nor a withdrawal mechanism exists. Named rather than faked.</sub> | partly repairable | not started |
 

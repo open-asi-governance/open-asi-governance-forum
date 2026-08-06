@@ -308,6 +308,12 @@ def ingest_one(path: Path, dry_run: bool) -> str:
             response_sha256_at_paste=bundle.get("response_sha256_at_paste"),
             attested_answers_round_question=True,
             round_question=declaration["question"],
+            # Recorded so a HELD capture can still be promoted later without anyone
+            # having to guess. The event's ts_utc is when ingest ran, not when the
+            # reply was pasted; a disposition tool that substituted one for the other
+            # would write a value into the provenance record that looks like a
+            # capture time and is not. Captures held before this stays required-by-flag.
+            captured_utc=bundle.get("captured_utc"),
         )
     except ValueError as error:
         print(f"      REFUSED: {error}")
@@ -318,9 +324,24 @@ def ingest_one(path: Path, dry_run: bool) -> str:
 
     claimed = bundle.get("response_sha256_at_paste")
     if claimed and claimed != event["response_sha256"]:
+        # The state must be RECORDED, not just printed. This block used to reassign
+        # the local `state` variable AFTER receive() had already written the event,
+        # so the log said `returned_clean` while the operator was told "Held for
+        # review." The lifecycle -- which is what every later tool and the round's
+        # completeness read -- disagreed with the message on screen, and the message
+        # was the one nobody could act on. Found by external review of the D-37 work.
         print(f"      NOTE: paste-time hash {claimed[:12]} != ingested {event['response_sha256'][:12]}. "
               f"The bundle is internally inconsistent. Held for review.")
-        state, reasons = "returned_pending_review", reasons + ["bundle hash inconsistent"]
+        reasons = reasons + ["bundle hash inconsistent"]
+        if state != "returned_pending_review":
+            state = "returned_pending_review"
+            lifecycle.transition(
+                bundle["round"], identity, state, bundle["attested_by"],
+                reason="bundle hash inconsistent: response_sha256_at_paste does not match "
+                       "the ingested bytes, so the bundle is internally inconsistent",
+                response_sha256=event["response_sha256"],
+                preserved_at=event["preserved_at"],
+            )
 
     if state == "returned_pending_review":
         print("      HELD for custodian review — the bytes are preserved and the round is not complete:")

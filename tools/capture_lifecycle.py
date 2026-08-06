@@ -246,18 +246,63 @@ def conflict_status(round_id: str, identity: str, conflicting_sha256: str) -> st
     return status
 
 
+def corpus_holds(round_id: str, digest: str) -> bool:
+    """Does corpus/raw/<round>/ actually contain a file with these bytes?
+
+    Derived from the artifact, never from a label. This is the rule the whole
+    module now follows after a false completion was found in the first version of
+    the conflict resolver: a decision RECORDING that material should be published
+    is not the material being published.
+    """
+    directory = REPO_ROOT / "corpus" / "raw" / round_id
+    if not directory.is_dir():
+        return False
+    return any(sha256_of_text(path.read_text(encoding="utf-8")) == digest
+               for path in directory.rglob("*") if path.is_file())
+
+
 def unresolved_conflicts(round_id: str) -> list[dict]:
-    """Conflicting receipts with no later resolution event.
+    """Conflicting receipts that are not yet settled IN THE CORPUS.
 
     A resolution names the conflicting hash it settles, so resolving one dispute
     does not clear another for the same party.
+
+    THE TWO DECISIONS CLEAR DIFFERENTLY, and getting this wrong produced a false
+    completion in the first version of `resolve_conflict.py`, written earlier the
+    same day and caught by external review:
+
+      confirm_recorded            clears immediately. The recorded response stands,
+                                  the corpus is already correct, nothing is owed.
+
+      supersede_with_conflicting  DOES NOT clear on the decision alone. It clears
+                                  only once corpus/raw/<round>/ actually holds the
+                                  conflicting bytes. Otherwise the custodian says
+                                  "the correction is right", the block lifts, the
+                                  round reports COMPLETE -- and the text the
+                                  custodian just disowned is still what is
+                                  published. The decision was recorded and the
+                                  corpus was not changed, and only the label moved.
+
+    So the supersede path is derived from the corpus, not from the event. A
+    superseding artifact has to exist before the round can call itself finished.
     """
     conflicts: dict[str, dict] = {}
     for event in read_events(round_id):
         if event.get("event") == "conflicting_receipt":
             conflicts[event["conflicting_sha256"]] = event
         elif event.get("event") == "conflict_resolved":
-            conflicts.pop(event.get("conflicting_sha256"), None)
+            digest = event.get("conflicting_sha256")
+            if event.get("decision") == "supersede_with_conflicting":
+                if corpus_holds(round_id, digest):
+                    conflicts.pop(digest, None)
+                elif digest in conflicts:
+                    conflicts[digest] = {
+                        **conflicts[digest],
+                        "awaiting": "superseding artifact",
+                        "decision_recorded": event.get("decision"),
+                    }
+            else:
+                conflicts.pop(digest, None)
     return list(conflicts.values())
 
 
@@ -326,12 +371,28 @@ def round_status(round_id: str, expected_parties: list[str]) -> dict:
     would move Defect 7 from "the correction is lost" to "the correction is on disk
     and the round still says COMPLETE", which is not obviously better -- the
     custodian's signal is still that everything is fine.
+
+    CLOSED IS NOT COMPLETE, and conflating them was a real defect. A REJECTED party
+    is terminal -- nothing further is awaited from the custodian -- but its material
+    is deliberately NOT in the corpus. Reporting that round as "complete" says every
+    declared party contributed, when one did not. The register's own subject is
+    claims that overstate what happened.
+
+      closed    every party is terminal and no conflict is outstanding.
+                Nothing is waiting on the custodian.
+      complete  every party is ACCEPTED. The round has the material it declared.
+
+    A round with a rejection is CLOSED and INCOMPLETE until either a replacement
+    capture is accepted, or the roster is amended to withdraw the party. Neither
+    replacement nor withdrawal exists yet, so such a round stays honestly
+    incomplete rather than being rounded up.
     """
     states = {p: current_state(round_id, p) or "planned" for p in expected_parties}
     pending = sorted(p for p, s in states.items() if s in NEEDS_DISPOSITION)
     outstanding = sorted(p for p, s in states.items() if s in OPEN_STATES)
     conflicts = unresolved_conflicts(round_id)
     disputed = sorted({c["identity"] for c in conflicts})
+    rejected = sorted(p for p, s in states.items() if s == "rejected")
     return {
         "round": round_id,
         "states": states,
@@ -339,10 +400,13 @@ def round_status(round_id: str, expected_parties: list[str]) -> dict:
         "awaiting_disposition": pending,
         "disputed": disputed,
         "unresolved_conflicts": conflicts,
-        "complete": not outstanding and not conflicts,
-        "complete_blocked_by": sorted(set(pending) | set(disputed)),
+        "closed": not outstanding and not conflicts,
+        "complete": all(s == "accepted" for s in states.values()) and not conflicts,
+        "replacement_required": rejected,
+        "complete_blocked_by": sorted({p for p, s in states.items() if s != "accepted"}
+                                      | set(disputed)),
         "accepted": sorted(p for p, s in states.items() if s == "accepted"),
-        "rejected": sorted(p for p, s in states.items() if s == "rejected"),
+        "rejected": rejected,
     }
 
 

@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "b6168331311cb67859fb7de02749be87047c7ffe6d452d51eaf4e981317bd27b"
+    "sha256": "bb00fc4b26e1cb2df57577f0d5dc0c77a1ef5414496f48584ce36d8bceafcec0"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1488,6 +1488,62 @@
       "remediation_effort": {
         "estimate": "remediation_effort_medium",
         "basis": "The comparison is small. The cost was that preserving alone left the round COMPLETE, and that shipping a new blocking state without a disposition would have repeated capture Defect 1."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-38",
+      "title": "A held capture had a legal exit and no operational one, so one hold froze a round forever",
+      "section_sha256": "6bcc37d76898e24c8f68048bbf37eb869d2d073e6bf2f6c73461fa2e3f18ef28",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_other_contributor_invocation",
+        "date_utc": "2026-08-06",
+        "where": "Corpus Surface session, capture-integration Defect 1, during the first real end-to-end run",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "The returned_pending_review state's exit",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Permitted by TRANSITIONS, performed by nothing. 'rejected' appeared only in membership tests, so one held capture blocked a round permanently."
+        },
+        {
+          "object": "round_status conflating closure with completion",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "A rejected party is terminal but has no corpus material. Reporting COMPLETE asserted a contribution that does not exist. The old test suite asserted this too, and is corrected rather than deleted."
+        },
+        {
+          "object": "tools/resolve_conflict.py's supersede decision",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Recorded the decision, cleared the block, left the disowned text published. My own defect from hours earlier, found by external review and reproduced. Conflicts now clear from the corpus, not the label."
+        },
+        {
+          "object": "The paste-hash mismatch path in ingest_capture.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Printed 'Held for review' while recording returned_clean, because the reassignment came after receive() had written the event."
+        },
+        {
+          "object": "Replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "A round with a rejection stays honestly incomplete because neither a replacement nor a withdrawal mechanism exists. Named rather than faked."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "Completion is derived from verified output artifacts, not from terminal state labels. Acceptance verifies preserved bytes, promotes, verifies the corpus holds them, and only then records. 24 regression cases drive the CLI entry points, because a unit test of a state machine cannot detect that nothing invokes it."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "The transition is one call. The work was that acceptance must publish and verify, that rejection must not complete, and that the fix surfaced two further defects in the same subsystem."
       },
       "human_review": {
         "status": "not_reviewed",

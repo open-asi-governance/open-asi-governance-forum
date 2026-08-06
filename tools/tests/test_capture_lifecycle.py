@@ -89,7 +89,15 @@ L.transition(R2, "Grok", "rejected", "custodian", reason="Prompt critique, not a
 check("a REJECTED capture keeps its bytes",
       (tmp / "record/quarantine/test-round-02/grok-01.md").exists())
 st = L.round_status(R2, ["Grok"])
-check("round completes once every party is terminal", st["complete"] is True)
+# CORRECTED 2026-08-06. This asserted complete is True after a rejection, encoding
+# "every party terminal" as completion. That is wrong, and it was the assertion that
+# made the wrongness look intentional: a rejected party's material is deliberately
+# NOT in the corpus, so calling the round complete asserts a contribution that does
+# not exist. Closure and completion are now distinct, and the test says which is which.
+check("rejection CLOSES the round -- nothing is awaited", st["closed"] is True)
+check("rejection does NOT complete it -- the party has no corpus material",
+      st["complete"] is False)
+check("the round names what it is still owed", st["replacement_required"] == ["Grok"])
 check("rejection is recorded, not erased", st["rejected"] == ["Grok"])
 
 # --------------------------------------------------------- log replay checks --

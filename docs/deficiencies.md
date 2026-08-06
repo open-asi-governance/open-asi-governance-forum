@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **37 entries** (D-01 … D-37).
+**Status:** open — **38 entries** (D-01 … D-38).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1232,6 +1232,74 @@ this whole path exists to stop.
 their own identity. The conflict path is containment; receipt-level lifecycle records are the
 durable repair, and are not built.
 
+### D-38 — A held capture had a legal exit and no operational one, so one hold froze a round forever
+
+*Filed 2026-08-06 as capture-integration Defect 1, found by the Corpus Surface session during the
+first real end-to-end run. Reproduced before fixing: a held capture, a round reporting INCOMPLETE,
+and nothing anywhere able to move it.*
+
+`capture_lifecycle.TRANSITIONS` permits `returned_pending_review -> {accepted, rejected}`, and
+`check_transition(..., 'rejected')` returns **True**. **Nothing in `tools/` ever performed either
+transition.** `"rejected"` appeared only inside membership tests. The gates are sensitive by
+design, so a real round produces holds; a round is not complete while one awaits disposition;
+therefore **one held capture blocked a round permanently.** The design was right and the exit was
+missing.
+
+**Why the test suite could not find it, which is the transferable part.** `test_capture_lifecycle.py`
+correctly tested that the transition is **permitted**. That is a different claim from anything
+**invoking** it, and no unit test of a state machine can tell the difference. Only driving the
+command-line entry points against a round on disk shows that nothing calls the thing. The new suite
+does that.
+
+**Three things the repair had to get right, none of them obvious.**
+
+**1. Accept must PUBLISH, not relabel.** A state-only transition would let the round report
+`COMPLETE` for a party whose material sits in `record/quarantine/` and never entered the corpus —
+a false completion. So acceptance runs the full promotion through `capture_response.py`, and the
+**order is the safety property**: verify the preserved bytes still hash to what was recorded →
+promote → **verify the corpus actually holds those bytes** → only then append `accepted`. Appending
+first would mark a party accepted with nothing published. Corpus-first can leave published material
+with a pending event, which is recoverable and reports INCOMPLETE meanwhile — the conservative
+direction. Observed for real during testing: a promotion partially succeeded, verification failed,
+and the capture correctly stayed held.
+
+**2. Reject does not mean complete.** Rejected bytes are kept forever; rejection is a recorded
+state, never a deletion. But a rejected party has **no material in the corpus**, so the round is
+**CLOSED, not COMPLETE** — nothing is awaited from the custodian, and one declared party did not
+contribute. `round_status` now reports both, and names `replacement_required`. **The old test suite
+asserted the opposite**, encoding "every party terminal" as completion; that assertion is corrected
+rather than deleted, because it is what made the wrongness look intentional.
+
+**3. `--captured-utc` is required and never guessed.** `capture_response.py` records when a
+response was captured. The receiving event stored `ts_utc` — when *ingest* ran — and not the paste
+time. Substituting one for the other would put a value in the provenance record that looks like a
+capture time and is not: **D-01 exactly**. So it is asked for and refused if absent. Ingest now
+records `captured_utc` going forward; captures held before that change still require the flag,
+because nothing recovers a time nobody wrote down.
+
+**Two defects found in the same subsystem while fixing this, both mine, both from hours earlier.**
+
+- **`resolve_conflict.py --supersede-with-conflicting` produced a false completion.** It recorded
+  the decision, cleared the block, and left the text the custodian had just disowned published —
+  `complete: True` with the wrong response in the corpus. Verified by reproduction. Conflicts are
+  now cleared **from the corpus, not from the label**: `confirm_recorded` clears immediately, while
+  `supersede_with_conflicting` stays blocking until `corpus/raw/` actually contains the new bytes.
+- **The paste-hash mismatch path printed "Held for review" and recorded `returned_clean`.** The
+  reassignment happened after `receive()` had already written the event, so the lifecycle — which
+  every later tool reads — disagreed with the message on screen, and the message was the one nobody
+  could act on.
+
+**The rule these three share, and it is the one worth keeping:** *completion must be derived from
+verified output artifacts, not from terminal state labels.* Every failure here was a label that
+said something the artifacts did not.
+
+**Not addressed.** Replacement-capture lifecycle and naming after a rejection; explicit roster
+withdrawal or waiver, so a legitimately-absent party can complete a round honestly; transactional
+multi-file corpus writes (`capture_response.py` writes raw, artifact and manifest sequentially, so a
+crash between them leaves a partial promotion that a retry must recognise); locking against
+concurrent lifecycle appends; deadlines or escalation for holds nobody returns to; and tamper-evident
+logs, which are Track D's.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1281,6 +1349,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-38 | **Remediated 2026-08-06** — `resolve_held_capture.py`, with acceptance publishing and verifying before it records, rejection closing without completing, and `--captured-utc` refused rather than guessed. 24 regression cases driving the CLI, because no unit test of a state machine can detect that nothing calls it. **Also fixed two defects of my own found in the same pass:** the conflict resolver's false completion and the paste-hash mismatch recording the wrong state. **Not addressed:** replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines. |
 | D-37 | **Remediated 2026-08-06**, with the disposition path in the same commit so the new blocking state cannot become permanent the way capture Defect 1's did. Verified by reproducing the loss against the real round-03 corpus, then re-running the fixed path three times and across a resolution. **Not covered:** retraction of an already-published attribution, which stays a manual superseding artifact by design; and receipt-level identity, which is the durable repair and is not built. |
 | D-36 | **Not remediable where it acted.** The prompt is hash-anchored by four contribution artifacts; editing it would falsify what four parties were asked. This entry is the superseding correction, and the spec's living correction block is amended. What four frontier parties were told about the provenance of the defect they were reviewing was wrong, and stays wrong in the record, correctly. |
 | D-35 | **Remediated 2026-08-06** structurally rather than by re-reading: §2.3(5) now references §2.2's qualifier list instead of restating it, so it cannot drift again. `T14` corrected; the round-03 prompt cannot be. **Open for the rest of the document:** §2.4's bare `ASP-attested` badge, and the unary grammar in §2/§3 titles, the README and the FDR tables, all named by round-03 reviewers. |
