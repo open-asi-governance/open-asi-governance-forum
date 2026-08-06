@@ -80,7 +80,7 @@ These are blockers, not preferences. A session will hit them and stop.
 
 | Action | Why a session cannot do it | Blocks |
 |---|---|---|
-| **Enable GitHub Pages** — Settings → Pages → Deploy from a branch → `main` → `/docs` | The org token holds `administration=write` but not `pages=write`; the API returns **403**. `docs/index.html` is built and committed, and the site is **404** until this is done | Track A |
+| ~~Enable GitHub Pages~~ | **DONE 2026-08-06.** The `pages=write` scope was added and Pages enabled from `main:/docs`. The site is live at <https://open-asi-governance.github.io/open-asi-governance-forum/>. **A merged branch is now published immediately** — a broken build is a public defect | — |
 | **Approve fine-grained token permission changes** | Org owner only | any track needing new scopes |
 | **Signing key decisions** | A session must not generate or register keys unilaterally | Track D |
 | **Send prompts to frontier parties** | The parties are reached through the custodian's own authenticated sessions | Track B, task #14 |

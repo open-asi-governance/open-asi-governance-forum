@@ -47,8 +47,12 @@ Nothing added here may imply standing, membership, authority or endorsement the 
 have. Every prior naming decision in this record was made to avoid exactly that, and **a polished
 site is the easiest place to lose it.**
 
-## Blocked at the end
-The site cannot be served until the custodian enables Pages (`administration=write` is held,
-`pages=write` is not; the API returns 403). `docs/index.html` is built and committed; the site is
-404. Build locally, check over `file://`, and record "Pages enabled" as an outstanding acceptance
-criterion rather than one this session can satisfy.
+## Pages — UNBLOCKED 2026-08-06
+The custodian added the `pages=write` scope and enabled Pages via the API:
+`gh api -X POST repos/.../pages -f 'source[branch]=main' -f 'source[path]=/docs'`.
+The site serves from `main:/docs` at
+<https://open-asi-governance.github.io/open-asi-governance-forum/>, HTTPS enforced.
+
+**Consequence for this track:** every `tools/rebuild.py` run now changes what the public sees the
+moment the branch is merged. Check the generated page before pushing, and treat a broken build as a
+public defect rather than a local one.
