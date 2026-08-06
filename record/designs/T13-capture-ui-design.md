@@ -307,3 +307,151 @@ Stated so a later reader does not infer more than was built:
 4. Does `capture_review` belong on the contribution record, or is it maintenance metadata that
    pollutes an artifact meant to describe a model's output?
 5. What failure mode is missing from §6 entirely?
+
+---
+
+## 10. Disposition of the Codex review, 2026-08-06
+
+Review committed verbatim at [`reviews/codex-T13-design-review.md`](reviews/codex-T13-design-review.md).
+Every finding is dispositioned here. Two are accepted as decisive and change the architecture; one
+is accepted in part with the reason for the partial stated; none is deferred to without checking,
+because over-correction by deference is the failure review round 02 was designed to detect.
+
+| # | Finding | Disposition |
+|---|---|---|
+| B1 | Any n-gram rule dies to token insertion — one token every 7th word destroys every 8-shingle while preserving the whole pasted prompt | **Accepted, out of threat model.** See §10.1 |
+| B2 | A model that echoes the prompt then answers scores ≈1.0 and is falsely refused | **Accepted, decisive** |
+| E1 | Hard heuristic refusal gives an AI-authored instrument control over which evidence is preserved | **Accepted, decisive.** Architecture change, §10.2 |
+| C | Nine negatives used to both choose and check the threshold is training on the test set | **Accepted.** Moot once refusal no longer rides on the score |
+| A1 | `capture_review` mixes fact with interpretation | **Accepted.** Split, §10.3 |
+| E2 | `oagrc-contribution-0.1` cannot gain a property under `additionalProperties: false` | **Accepted.** Version bumps to 0.2 |
+| A2 | G3 refuses a response identical to *any* capture; two parties can legitimately produce the same short answer | **Accepted.** Scoped to same party + round |
+| A3 | The bundle is editable, so the paste-time hash proves bundle self-consistency, not paste-time state | **Accepted.** §10.4 |
+| A4 | G4 validates intention, not delivery; auto-`prior_context` would be polished but false | **Accepted.** §10.5 |
+| A5 | The round view has no durable state source | **Accepted.** §10.5 |
+| A6 | G5's truncation heuristic both misses paragraph-boundary truncation and falsely warns on JSON, tables and lists | **Accepted.** Demoted to a displayed diagnostic, not a gate |
+| A7 | JS/Python agreement is differential consistency, not ground truth | **Accepted.** A7 retained as an anti-drift check, no longer described as validation |
+| A8 | Schema validation is fail-open in both tools | **Accepted and already fixed** — commit `8cbe398`, with the missing-import case tested both ways |
+| E3 | A10 relies on the clean-rebuild signal this session documented as broken | **Accepted.** A10 withdrawn until Track A fixes the stamp |
+| E4 | Batch ingest is not transactional | **Accepted.** §10.6 |
+| E5 | §7's P9 changes `validate_provenance.py`, which acceptance says must be unchanged | **Accepted in part.** §10.7 |
+
+### 10.1 Why B1 is accepted but does not drive the design
+
+The interleaved-token attack defeats any n-gram metric and the finding is correct. It is
+nonetheless **outside the threat model**: the failure this gate exists to prevent is an
+*accidental* paste by the custodian — observed twice, at D-10 and live in round 01 — and a
+custodian pasting the wrong clipboard contents does not interleave a token every seventh word.
+
+Stating the limit rather than defending against it: **G2 does not resist a party who wants to
+defeat it.** Against that threat the answer is not a better string metric, it is the invocation
+ledger and signing that Track D is building, and neither is in scope here.
+
+### 10.2 G2 is demoted from a gate to a diagnostic — the decisive change
+
+E1 is the finding that matters, and it lands on a constraint older than this task. The secretary
+constraint adopted in the founding record (ChatGPT §2.3, raw 219–235) makes an AI-authored
+instrument a *secondary interpretation artifact* with no authority over the canonical record. A
+heuristic that silently refuses a non-empty response is exactly such an instrument deciding what
+evidence exists. D-14 is the register's entry for a role attributed to a model beyond what it can
+hold; this design had quietly attributed one to itself.
+
+**Revised G2:**
+
+| Condition | Action | Needs a threshold? |
+|---|---|---|
+| Response empty or whitespace-only | **refuse** | no |
+| Response byte-identical to the sent prompt | **refuse** | no |
+| Response equal to the sent prompt after normalisation | **refuse** | no |
+| Saturation ≥ 0.6 above the 50-shingle floor | **quarantine + warn**, score recorded | yes, and nothing irreversible rides on it |
+| otherwise | pass, saturation and coverage recorded as diagnostics | — |
+
+The three refusals are exact predicates. They cannot produce a false positive, need no validation
+corpus, and catch every instance of the failure actually observed — D-10 is byte-identical, and so
+is a mis-paste of the clipboard.
+
+Everything heuristic **quarantines**: the capture is written to `record/quarantine/<round>/` with
+its scores and the gate that fired, and enters the corpus only on the custodian's disposition. No
+evidence is destroyed, no model decides what the record contains, and the score is preserved for
+exactly the held-out corpus C says is needed.
+
+This is why the R1/R2/R3 work in [`T13-g2-rule-validation.md`](T13-g2-rule-validation.md) is not
+wasted although its conclusion is demoted: it establishes that the score separates cleanly enough
+to be worth *recording*, and the two rejected rules establish why it is not safe to *refuse* on.
+
+### 10.3 `capture_review` splits along the testimony/annotation line
+
+The project already distinguishes testimony from annotation and this design had collapsed them.
+Split:
+
+- **On the contribution record** (fact, observed at capture): `response_sha256`, `gates_version`,
+  `gate_results` with their numeric scores, `capture_tool_version`. Schema version → **0.2**.
+- **In a separate hash-linked audit artifact** (`corpus/artifacts/<round>/<party>-capture-audit.json`):
+  the custodian's topicality attestation, every override with **author and timestamp**, and the
+  conflict-of-interest declaration the annotator already owes under P7.
+
+Codex's specific objection that the proposed object permitted
+`attested_answers_round_question: false` to pass is met: a `false` attestation is a **refusal to
+capture**, not a recordable state.
+
+### 10.4 The bundle is untrusted at ingest
+
+Accepted without qualification. The downloaded JSON is editable, so a paste-time hash inside it
+proves only that the bundle is self-consistent.
+
+Ingest therefore derives `round`, `party`, `provider`, `prompt` path and hash, and the
+`prior_context` template **from the frozen round manifest in the repository**, never from the
+bundle. The bundle contributes exactly two things: the response text and the custodian's form
+entries. What the paste-time hash actually establishes is stated in the tool's documentation
+rather than overclaimed: *the response was not altered between paste and ingest, assuming the
+bundle was not edited.*
+
+### 10.5 A send receipt supplies the durable state, and records delivery rather than intent
+
+A4 and A5 are the same gap seen from two sides: the manifest records what was *planned*, a static
+page cannot persist what was *done*, and auto-generated `prior_context` derived from a plan is
+polished prose asserting an unobserved fact — which is the D-20 defect, an inference recorded as
+provenance.
+
+`record/rounds/<round>-receipts.jsonl`, append-only, one line per send, written by the custodian
+at the moment of sending: party, UTC, which prompt file and hash was actually pasted, which bundle
+if any, any preamble verbatim. `prior_context` is composed from the **receipt**, not the manifest.
+Where no receipt exists, `prior_context` records that the delivery was not observed rather than
+describing it.
+
+This is also what makes sent / returned / outstanding durable, and what makes the public process
+history of §12 truthful rather than survivorship-biased.
+
+### 10.6 Ingest is transactional per capture, and resumable per round
+
+`capture_response.py` writes raw, then the artifact, then rebuilds the manifest; a failure midway
+through a four-bundle round leaves a partial round that immutability makes awkward to retry.
+Ingest processes bundles one at a time, and a failed bundle leaves that party uncaptured while the
+others stand. Re-running ingest over an already-captured bundle is a no-op that reports the
+existing artifact, rather than an immutability refusal the custodian has to reason about.
+
+### 10.7 P9 splits, and the acceptance criterion is read honestly
+
+E5 is right that adding P9 changes `validate_provenance.py`, which acceptance says artifacts must
+validate under *unchanged*. The literal reading forbids strengthening the validator, which cannot
+be the intent — but the criterion should not be reinterpreted to match what was built, so:
+
+- **P9a** — anchored `raw` is non-empty, and is not byte-identical or normalised-equal to its
+  anchored `prompt`. Exact predicates, hard check, no threshold.
+- **P9b** — the saturation score, computed and **reported only**, versioned, never failing a build.
+
+Every existing artifact is expected to pass P9a. Backfilling `gates_version` or `gate_results`
+onto historical captures is refused outright: it would assert a capture-time execution that never
+happened, which is precisely D-08's retro-application defect.
+
+## 11. Revised acceptance criteria
+
+A10 is withdrawn: it rested on the clean-rebuild signal this session measured as broken and handed
+to Track A. It returns when the stamp is fixed.
+
+A6 is restated. The similarity rule is no longer validated *for refusal*, because it no longer
+refuses. What is committed is the score's behaviour on the corpus and the two rejected rules, so a
+later session inherits the finding rather than re-deriving it.
+
+New: **A11** — every gate that can withhold a non-empty response writes it to `record/quarantine/`
+with the reason. No path exists by which a captured response is discarded rather than quarantined.
