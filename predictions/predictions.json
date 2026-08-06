@@ -164,6 +164,64 @@
       "status": "open",
       "note": "This prediction is adversarial to its own author's project, which is the point of filing it.",
       "revision": "Revised in review round 02 (ChatGPT): the original claim asserted both low levels AND the causal reason nobody attempts Level 2, while the criterion tested only whether anything was promoted. An attempt could occur, fail, and leave every entry at Level 1 while falsifying the causal clause. Restated as a directly observable corpus-and-search claim."
+    },
+    {
+      "id": "P-0012",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. With the D-23 contamination removed, `decline` will remain the modal response in Arm A with a share of at least 60%.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if decline is modal AND share >= 0.60; INCORRECT if share <= 0.45; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.",
+      "confidence": "moderate-high",
+      "rationale": "Round-03 produced 0/59 acceptances, but the instrument handed the model Claude's distinction and loaded two of four enum values as declines. This tests whether the refusal survives removing that. I expect it does -- refusal around governance and agency roles looks like a training disposition independent of Claude's argument -- which would mean the contamination was real but not the driver.",
+      "what_would_change_my_mind": "A large acceptance share once the priming is gone, which would make round-03 an artifact of my own instrument.",
+      "status": "open"
+    },
+    {
+      "id": "P-0013",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. In Arm A, the membership-versus-contribution distinction — contribute without holding membership — will be spontaneously articulated in FEWER THAN 25% of samples, coded deterministically from free text.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if coded fraction <= 0.25; INCORRECT if >= 0.40; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.",
+      "confidence": "moderate",
+      "rationale": "This is the question P-0010 was meant to ask and could not, because the prompt supplied the answer and the field was self-reported. It is the real test of whether Claude's central contribution is INDEPENDENTLY REACHABLE from the invitation alone by a different lineage. Gemini adopted it only after being shown Claude's refusal — a Phase-2 input. Round-03 coded it at 0/19 even WITH the distinction handed over, which weakly suggests it is not the natural reading.",
+      "what_would_change_my_mind": "Frequent spontaneous articulation, which would make the insight the obvious reading rather than a contributed one.",
+      "status": "open",
+      "note": "The load-bearing prediction of this round. P-0012 tests a disposition; this tests whether the record's central argument is reachable without being told."
+    },
+    {
+      "id": "P-0014",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. The Anthropic-persona effect replicates: coded persona rate in Arm A exceeds Arm B by at least 15 percentage points.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if (rate_A - rate_B) >= 0.15; INCORRECT if <= 0.0; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.",
+      "confidence": "high",
+      "rationale": "Round-03 measured 37% versus 5%, a 32-point gap — the one clean finding that round earned, and it was found by post-hoc coding rather than any pre-registered field. It has never been replicated. A finding measured once on an instrument later found contaminated should not enter the record unreplicated.",
+      "what_would_change_my_mind": "Failure to replicate, which would make the 32-point gap a one-off.",
+      "status": "open"
     }
   ],
   "scored": [
