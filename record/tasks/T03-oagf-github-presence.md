@@ -218,3 +218,30 @@ The brief recorded "Pages enabled" as outstanding. Pages **is** live, and `.gith
 now gates deployment on a clean-checkout rebuild matching the committed page byte for byte, plus the
 23-case integrity suite. **This has never actually run** — it will fire on the first merge to `main`,
 and that first run is the thing to watch.
+
+---
+
+## Custodian blockers hit 2026-08-06, with the exact diagnosis
+
+Attempted by the merging session and **blocked on token scope**, not on design. All three were
+diagnosed from the API's own `x-accepted-github-permissions` header rather than guessed at.
+
+| Item | State | Needs |
+|---|---|---|
+| **15 labels** | Declared in `.github/labels.yml`, descriptions pre-flighted against GitHub's 100-char cap, creation script written and run | `issues=write` — all 15 returned 403 |
+| **Discussions enabled** | **DONE.** `has_discussions: true` | — (`administration=write`, which the token has) |
+| **Seed discussions posted** | Bodies written and committed at `record/discussions/` | `discussions=write` — `createDiscussion` returns 403 |
+| **Cancel a wedged CI run** | Run 31118806082 / deployment 5782750362 stuck `in_progress` since 16:11Z with every step already reported | `actions=write` — cancel, rerun and dispatch all 403 |
+| **Branch protection on `main`** | Not configured | Repository settings. **D-34's append-only check is defeated by one `--force` until this exists** |
+
+The issue forms already reference labels that do not exist, so a submitted issue gets no label. That
+is cosmetic. **Branch protection is not** — it is load-bearing for a defect this repository just
+filed against itself.
+
+### What the labels script does that is worth keeping
+
+It pre-flights every description against the 100-character limit **before** creating anything, and
+exits non-zero if any is over. Four over-long descriptions shipped in `d64e0e0` and were fixed in
+`f58cb2a` because the check ran as its own command and the commit chain began fresh afterwards — the
+same shape as D-29, a check that exists, runs, gives the right answer, and is not reached by the
+path that decides anything.
