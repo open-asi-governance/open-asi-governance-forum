@@ -81,6 +81,7 @@ SCHEMA_FOR_TYPE = {
     "annotation": "segments.schema.json",
     "contribution": "contribution.schema.json",
     "solicitation_summary": "solicitation.schema.json",
+    "finding_coding": "finding-coding.schema.json",
 }
 
 
@@ -131,6 +132,17 @@ def check_source_hash(document: dict, report: Report) -> None:
         raw = REPO_ROOT / document.get("raw_samples", "")
         if not document.get("raw_samples") or not raw.is_file():
             report.error("P1", f"raw_samples not found: {document.get('raw_samples')!r}")
+        return
+
+    if document.get("artifact_type") == "finding_coding":
+        # A coding anchors EVERY response it codes, not one source. Checking only the
+        # first would let a coding drift from the responses it claims to summarise.
+        sources = document.get("sources") or []
+        if not sources:
+            report.error("P1", "finding_coding declares no sources to anchor")
+            return
+        for index, source in enumerate(sources):
+            check_one_anchor(f"sources[{index}]", source, report)
         return
 
     if not anchors:

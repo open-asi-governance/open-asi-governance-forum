@@ -1,0 +1,182 @@
+{
+  "schema_version": "oagrc-finding-coding-0.1",
+  "artifact_id": "OAGRC-2026-08-06-FINDING-CODING-ROUND-01-001",
+  "artifact_type": "finding_coding",
+  "round": "review-round-01",
+  "purpose": "Code each round-01 reviewer response for which distinct findings it raised, so reviewer overlap can be measured rather than assumed. Input to the concurrence analysis under D-11 and D-22.",
+  "annotator": {
+    "identity": "Claude Code",
+    "provider": "Anthropic",
+    "version_identifier": null,
+    "version_unknown_reason": "Not captured at annotation time; harness reports model family only.",
+    "date_utc": "2026-08-06",
+    "conflict_of_interest": "The coder is the annotator whose work these four reviewers were reviewing, and is same-provider with one of them (Claude Fable 5). Deciding whether two reviewers 'raised the same finding' is interpretive and was done here by an interested party. This is the conflict already recorded at D-09 and D-11. An independent recoding would be a material improvement and is registered as outstanding, not waved away.",
+    "authority": "None over the raw record. This is a secondary interpretation artifact per ChatGPT section 2.3 (raw lines 219-235); the four raw responses are canonical."
+  },
+  "what_this_is_not": "This is an AGREEMENT-ON-FINDINGS matrix, not an ERROR-CORRELATION matrix. ChatGPT drew exactly this distinction in round 01 (raw review-round-01/chatgpt-01.md:365): 'Construct the cross-model error-correlation matrix, not merely an answer-agreement matrix. Models that repeatedly agree when correct may be corroborating; models that repeatedly make the same errors share a bias channel.' Computing rho, and therefore n_eff as defined at deficiencies.md:234, requires ground truth about which findings were CORRECT. No such ground truth exists here: the findings were adjudicated by the same interested annotator. The numbers below bound reviewer redundancy; they do not measure independence in the Condorcet sense and must not be reported as n_eff.",
+  "sources": [
+    {
+      "path": "corpus/raw/review-round-01/grok-01.md",
+      "sha256": "a197eba577ad2d7eb842e1ac8066143ccbdc2eeb3cad3850219e5423ce4aad93",
+      "bytes": 8884
+    },
+    {
+      "path": "corpus/raw/review-round-01/chatgpt-01.md",
+      "sha256": "9ef3e0eb49b1c31144de9fab5c6ef80b5f4cfa2b138d580a75e4be54be83fbf9",
+      "bytes": 26048
+    },
+    {
+      "path": "corpus/raw/review-round-01/gemini-01.md",
+      "sha256": "b12a41c47f0c0ce64f0c43f7df530a3942ffd6838bb5f2ae8553b990472885f0",
+      "bytes": 8249
+    },
+    {
+      "path": "corpus/raw/review-round-01/claude-fable-5-01.md",
+      "sha256": "f26216542353bb564fffc3b76d8bb73677ce2a804be797caeeaa758b2cb9bac3",
+      "bytes": 11613
+    }
+  ],
+  "reviewers": ["grok", "chatgpt", "gemini", "claude-fable-5"],
+  "position_values": {
+    "raised": "The reviewer affirmatively raised this finding.",
+    "contra": "The reviewer addressed the same item and took the OPPOSING position.",
+    "silent": "The reviewer did not address the item, or addressed it without taking a position."
+  },
+  "findings": [
+    {
+      "id": "F-01",
+      "statement": "ASP 2.4 misstates Grok's ballot as preferring the rename resolution; Grok offered define and rename as equally sufficient.",
+      "positions": {"grok": "raised", "chatgpt": "raised", "gemini": "contra", "claude-fable-5": "raised"},
+      "note": "Gemini answered 'Is 2.4's characterization of the alternative fair? Yes' AND asserted that 2.4 records Gemini as advocating rename. Per ChatGPT, 2.4 attributes rename to Grok and Claude, not Gemini. Gemini appears to have misread the document about its own recorded position. Became the 2.4 rewrite.",
+      "outcome": "accepted"
+    },
+    {
+      "id": "F-02",
+      "statement": "D-09's characterisation of the Anthropic identity merge needs adjustment.",
+      "positions": {"grok": "raised", "chatgpt": "raised", "gemini": "contra", "claude-fable-5": "raised"},
+      "note": "DIRECTIONALLY SPLIT and the clearest independence signal in the round. Grok: understated, because the merge also contaminates cross-model independence claims. ChatGPT: OVERSTATED, 'described too categorically' -- the record cannot authenticate three distinct base models. Gemini: 'spot-on' as written. Claude Fable 5: a missing INSTANCE, namely that Claude merged its own identities in-record and the register caught others doing it while missing itself. Four reviewers, four different positions on one item.",
+      "outcome": "narrowed to invocation identities/configurations per ChatGPT; Claude Fable 5's missing instance added"
+    },
+    {
+      "id": "F-03",
+      "statement": "D-11 understates structural convergence pressure created by the operator's ballot design.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "raised", "claude-fable-5": "raised"},
+      "note": "Grok: D-11 'correctly stated and not understated'. Gemini: the ternary ballot acted as 'a hydraulic press toward convergence'. Claude Fable 5: names two unlisted mechanisms -- the forced three-option instruction with sequential ballots in context, and that both unanimity assertions were authored by Gemini, a participant, self-certifying. ChatGPT: the descriptive unanimity is real; what fails is any independence-adjusted reading of it.",
+      "outcome": "accepted; ChatGPT's formulation adopted verbatim"
+    },
+    {
+      "id": "F-04",
+      "statement": "Adoption authority is ambiguous -- proposed, supported, custodially adopted, and collectively ratified are conflated.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "outcome": "accepted as D-16"
+    },
+    {
+      "id": "F-05",
+      "statement": "Consensus-scope inflation: agreement on one object is reported as agreement on a broader one.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "outcome": "accepted as D-17"
+    },
+    {
+      "id": "F-06",
+      "statement": "Invocation attribution is unauthenticated throughout.",
+      "positions": {"grok": "raised", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "note": "Grok raised the narrower form: no independent verification that any contribution ran at 'highest available reasoning level'.",
+      "outcome": "accepted as D-18"
+    },
+    {
+      "id": "F-07",
+      "statement": "'Controlled comparison' is overstated.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "outcome": "accepted as D-19"
+    },
+    {
+      "id": "F-08",
+      "statement": "The pivotal analytical contribution has no author label of its own; S-19's author_label_in_raw is false as a description of the raw file.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "raised"},
+      "note": "ChatGPT raised the adjacent 'excessive sole authorship implication' at S-19; Claude Fable 5 raised the stronger and more specific form.",
+      "outcome": "accepted as D-20"
+    },
+    {
+      "id": "F-09",
+      "statement": "Chronology claims are unsupportable from file order; the 'all four ballots now carry' assertion precedes a ballot it counts.",
+      "positions": {"grok": "silent", "chatgpt": "silent", "gemini": "silent", "claude-fable-5": "raised"},
+      "outcome": "accepted as D-21, later narrowed by ChatGPT in round 02"
+    },
+    {
+      "id": "F-10",
+      "statement": "D-14 (Qwen listed present having produced nothing) is overstated as written.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "contra", "claude-fable-5": "raised"},
+      "note": "Grok and Gemini both endorsed D-14 as accurate. ChatGPT: partly overstated, partly understated. Claude Fable 5: 'misstatement' retroactively imposes semantics the field never had.",
+      "outcome": "narrowed"
+    },
+    {
+      "id": "F-11",
+      "statement": "D-08's Phase-1/Phase-2 retro-tagging problem is mis-sized.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "raised", "claude-fable-5": "silent"},
+      "note": "Gemini: understated -- almost the entire corpus is contaminated by cross-model visibility. ChatGPT: overstated but methodologically important. Same item, opposite directions.",
+      "outcome": "narrowed"
+    },
+    {
+      "id": "F-12",
+      "statement": "FDR-0001's framing privileges the annotator's own lineage; the 'hinge' is an editorial judgement.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "raised", "claude-fable-5": "raised"},
+      "note": "Grok: 'Framing does not systematically favor the annotator's prior positions.' The other three each independently objected, though Gemini's and ChatGPT's objections are partly self-interested -- both note their own contributions were backgrounded.",
+      "outcome": "accepted"
+    },
+    {
+      "id": "F-13",
+      "statement": "Consensus claims should carry an effective-independent-source count derived from an error-correlation matrix.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "raised"},
+      "note": "SIGNIFICANT PRIOR ART, independently proposed by two reviewers. ChatGPT specified the error-correlation matrix and an 'effective independent-source count'. Claude Fable 5 supplied the formula n_eff = n/(1+(n-1)rho) with the worked case rho=0.7 -> n_eff ~= 1.3 for four models. Both are Phase-2 informed, so co-arrival is not evidence of independent invention.",
+      "outcome": "accepted into D-11 at deficiencies.md:234-236"
+    },
+    {
+      "id": "F-14",
+      "statement": "The seed predictions have scoring defects that make some of them unresolvable as written.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "contra", "claude-fable-5": "raised"},
+      "note": "Grok: 'they stand as the annotator's forecasts', no scoring difference required. Gemini: 'exceptionally well-constructed'. ChatGPT: assigned its own probabilities and flagged falsifiability gaps. Claude Fable 5: P-0002 resolves on diligence not fact; P-0004's 'independent' is undefined; P-0005 has a training-data contamination hole by 2027.",
+      "outcome": "accepted"
+    },
+    {
+      "id": "F-15",
+      "statement": "ASP 2.2 writes a relational, scope-bound status as a unary property of an agent.",
+      "positions": {"grok": "silent", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "note": "The single most consequential specification change in the round, and it was raised by exactly one reviewer.",
+      "outcome": "accepted; 2.2 restated"
+    },
+    {
+      "id": "F-16",
+      "statement": "The FDR block-quote of the refusal silently joins paragraphs and drops a closing sentence without ellipsis.",
+      "positions": {"grok": "silent", "chatgpt": "silent", "gemini": "silent", "claude-fable-5": "raised"},
+      "note": "A verbatim-preservation violation inside the document family whose first commitment is verbatim preservation.",
+      "outcome": "accepted"
+    },
+    {
+      "id": "F-17",
+      "statement": "Line-range conventions disagree by one between deficiencies.md and segments.json.",
+      "positions": {"grok": "silent", "chatgpt": "silent", "gemini": "silent", "claude-fable-5": "raised"},
+      "outcome": "convention stated rather than corrected"
+    },
+    {
+      "id": "F-18",
+      "statement": "D-07's k>=1 / sampling treatment is overstated.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "silent", "claude-fable-5": "silent"},
+      "note": "Led to the citability field being split; ChatGPT alone.",
+      "outcome": "accepted"
+    },
+    {
+      "id": "F-19",
+      "statement": "D-10 (the repudiated Grok-labelled segment) is overstated.",
+      "positions": {"grok": "contra", "chatgpt": "raised", "gemini": "contra", "claude-fable-5": "silent"},
+      "note": "Both Grok and Gemini endorsed D-10 as accurate; ChatGPT alone dissented.",
+      "outcome": "narrowed"
+    },
+    {
+      "id": "F-20",
+      "statement": "A new falsifiable prediction should be added to the registry by the reviewer.",
+      "positions": {"grok": "contra", "chatgpt": "silent", "gemini": "raised", "claude-fable-5": "raised"},
+      "note": "Grok explicitly declined: 'No additional prediction is offered here'. Gemini contributed P-0006 (steganography/covert channels). Claude Fable 5 contributed a prediction that a non-Anthropic model will commit a correction -- a test of whether the COI mitigation functions.",
+      "outcome": "accepted"
+    }
+  ]
+}

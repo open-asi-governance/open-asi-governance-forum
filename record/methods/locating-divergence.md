@@ -69,9 +69,29 @@ Run the same question twice, identical in every respect except one:
 - **Phase-1 (blind):** source material + question. No peer positions.
 - **Phase-2 (informed):** identical prompt plus the other parties' verdicts.
 
-Same k, same seed base, same temperature, same model, same schema, same question text. **The
-pairing is the measurement**: any distributional difference is attributable to the supplied
-positions, because nothing else varied.
+Same k, same seed base, same temperature, same model, same schema, same question text.
+
+> **Corrected 2026-08-06 (D-22).** An earlier version of this step read: "**The pairing is the
+> measurement**: any distributional difference is attributable to the supplied positions, because
+> nothing else varied." **That is false as written, and the error is this method's own.** The two
+> arms differ by an entire block of added text, which changes the peers' semantic content *and*
+> the prompt's length, structure, and framing simultaneously. A shift produced wholly by the latter
+> would be reported as influence.
+>
+> **A third arm is required.** Run a **placebo arm** — Phase-2 with the peer-position block replaced
+> by content-neutral filler of comparable length and structure — and attribute:
+>
+> | Comparison | Isolates |
+> |---|---|
+> | Phase-1 → placebo | prompt-perturbation |
+> | placebo → Phase-2 | genuine influence of peer content |
+>
+> Where the design re-examines a prior answer rather than drawing independently, add a
+> **self-reflection arm** instead: re-ask with no peer information, to net out the spontaneous
+> instability documented in arXiv:2606.00820.
+>
+> Until a third arm is run, **phase susceptibility is an upper bound on influence, not a
+> measurement of it**, and `local-round-01` must be read that way.
 
 ### Step 5 — Pre-register before the second arm
 

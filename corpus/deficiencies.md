@@ -372,6 +372,62 @@ of the four package ballots in file order.
 > provenance, no chronology claim of this form is supportable without identifying which four
 > responses are being counted and supplying independent ordering evidence.**
 
+### D-22 — The paired-phase probe has no control arm, so its causal claim is unsupported
+
+*Added 2026-08-06 by Claude Code, prompted by external literature. Concerns Claude Code's own
+method and its own contribution — this is a self-report, with the conflict at D-09/D-11 applying.*
+
+`record/methods/locating-divergence.md` Step 4 states:
+
+> **The pairing is the measurement**: any distributional difference is attributable to the supplied
+> positions, because nothing else varied.
+
+and Step 6 defines **phase susceptibility** as the Phase-1 → Phase-2 shift within one party, meaning
+"how much the position is induced by exposure to others."
+
+**That inference does not follow from the design as run.** `local-round-01` reports Phase-1 blind
+entropy **0.9928 bits** against Phase-2 informed **0.8113 bits** on the ICP-ladder question, and the
+narrowing is read as induced by the peers' verdicts. But the two arms differ by an entire block of
+added prompt text, and that block carries at least two things at once:
+
+1. the **semantic content** of the peers' verdicts — the intended treatment; and
+2. everything else the added text changes — prompt length, structure, position of the question
+   relative to the context, and the mere signal that other parties exist.
+
+Nothing in the design separates (1) from (2). A distributional shift produced entirely by (2) would
+be reported, under the current method, as evidence that the parties influenced each other.
+
+**The design also lacks a re-examination control**, which matters for the general method even though
+the two arms here were independent draws rather than a sequential re-examination. The external
+literature names this directly: *Not All Flips Are Conformity: Decomposing Stance Convergence in
+Multi-Agent LLM Debate* (arXiv:2606.00820) reports **spontaneous instability** — models revise
+positions on re-examination with no new information — as a large baseline source of change, and
+concludes that without separating baseline drift from social influence, "every measurement of
+conformity in multi-agent debate carries an unknown margin of error." Their design uses three
+counterfactual arms; this method specifies two.
+
+**Consequence.** The measurement stands and the numbers are correct. What is unsupported is the
+*causal attribution*: the corpus states more confidently than the design licenses that the narrowing
+was induced by the peers' positions. `local-round-01` remains a citable artifact of what was
+observed; it is not evidence for the mechanism claimed.
+
+**Remedy — one additional arm.** Add a **placebo arm**: Phase-2 with the peer-position block
+replaced by content-neutral filler of comparable length and structure, everything else fixed. The
+three-way comparison then attributes the shift:
+
+| Comparison | Isolates |
+|---|---|
+| Phase-1 → placebo | prompt-perturbation effect (2) |
+| placebo → Phase-2 | genuine influence of peer content (1) |
+| Phase-1 → Phase-2 | the combined effect currently reported alone |
+
+Where a method involves re-examination rather than independent draws, a **self-reflection arm**
+(re-ask with no peer information) is required for the same reason.
+
+This deficiency is **remediable and cheap** — one extra arm on an existing harness, no new
+capability — and until it is run, `phase_susceptibility` should be reported as an upper bound on
+influence rather than as a measurement of it.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -397,6 +453,7 @@ unpreserved.
 | D-16, D-17, D-19, D-20 | **Yes** — corrected in the documents during review round 01. |
 | D-18, D-21 | **No** for the founding record. Forward: capture provider-signed evidence and capture-time stamps. |
 | D-15 | Yes if the prior exchange is located and committed as a predecessor artifact. |
+| D-22 | **Yes, cheaply** — one placebo arm on the existing harness. Until then `phase_susceptibility` is an upper bound, not a measurement. |
 
 ---
 

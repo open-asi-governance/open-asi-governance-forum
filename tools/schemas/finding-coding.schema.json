@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-asi-governance.github.io/schemas/finding-coding.schema.json",
+  "title": "OAGRC finding coding",
+  "description": "Codes a set of reviewer responses for which distinct findings each raised, so reviewer overlap can be measured rather than assumed. A secondary interpretation artifact: the raw responses it anchors are canonical.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_id",
+    "artifact_type",
+    "round",
+    "purpose",
+    "annotator",
+    "what_this_is_not",
+    "sources",
+    "reviewers",
+    "position_values",
+    "findings"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "type": "string" },
+    "artifact_id": { "type": "string" },
+    "artifact_type": { "const": "finding_coding" },
+    "round": { "type": "string" },
+    "purpose": { "type": "string", "minLength": 1 },
+    "what_this_is_not": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required. A coding of which findings were RAISED is not a coding of which were CORRECT, so it cannot yield an error correlation or n_eff. Stating the limit is mandatory because the two are easily confused and the confusion inflates the corpus's apparent evidential weight."
+    },
+    "annotator": {
+      "type": "object",
+      "required": ["identity", "provider", "date_utc", "conflict_of_interest", "authority"],
+      "properties": {
+        "identity": { "type": "string" },
+        "provider": { "type": "string" },
+        "version_identifier": { "type": ["string", "null"] },
+        "version_unknown_reason": { "type": ["string", "null"] },
+        "date_utc": { "type": "string" },
+        "conflict_of_interest": { "type": "string", "minLength": 1 },
+        "authority": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Every response coded, hash-anchored. A coding whose inputs are not anchored cannot be checked against what was actually said.",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "bytes"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "bytes": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "reviewers": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "type": "string" }
+    },
+    "position_values": { "type": "object" },
+    "findings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "statement", "positions"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string" },
+          "statement": { "type": "string", "minLength": 1 },
+          "positions": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": { "enum": ["raised", "contra", "silent"] }
+          },
+          "note": { "type": "string" },
+          "outcome": { "type": "string" }
+        }
+      }
+    }
+  }
+}
