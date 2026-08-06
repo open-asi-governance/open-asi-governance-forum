@@ -451,14 +451,18 @@ Every existing artifact is expected to pass P9a. Backfilling `gates_version` or 
 onto historical captures is refused outright: it would assert a capture-time execution that never
 happened, which is precisely D-08's retro-application defect.
 
-## 11. Acceptance criteria — **PROPOSED, awaiting custodian adoption**
+## 11. Acceptance criteria — **ADOPTED by the custodian, 2026-08-06**
 
-> **Relabelled per §12.2.** These were written as though revised. They are **proposed by this
-> session** and carry no adoption. The brief's criteria in `record/tasks/T13-capture-ui.md` stand
-> as written, and until the custodian adopts these, **this design does not meet them** — recorded
-> as an open shortfall rather than resolved by restating the target. Collapsing *proposed* into
-> *adopted* is D-16, the register's sharpest entry, and the Pages amendment shows what custodian
-> direction looks like when it exists.
+> **Adoption:** Stephen Reed, human custodian, 2026-08-06 — *"11. Acceptance criteria is approved."*
+>
+> These reached (3) **adopted by the human custodian** in D-16's four-way distinction. They did not
+> reach (4) collectively ratified, which nothing in this project has ever reached.
+>
+> *History, kept because the correction is the point.* They were first written as though already
+> revised, when nothing had adopted them — the D-16 defect, committed in a document by the party
+> that benefits from the looser criterion, and caught by the second Codex pass. They were relabelled
+> `PROPOSED`, then adopted. The sequence stands rather than being tidied into a single approved
+> version.
 
 A10 is withdrawn: it rested on the clean-rebuild signal this session measured as broken and handed
 to Track A. It returns when the stamp is fixed.

@@ -70,16 +70,21 @@ state, reasons = lifecycle_state(run_gates(d10_response, d10_prompt))
 check("POS-real D-10 duplicate is held for review", state == "returned_pending_review", "; ".join(reasons))
 
 # POS-syn: the exact observed failures, constructed.
-for name, resp, prompt, gate in [
-    ("empty response",           "",            P2, "G1-non-empty"),
-    ("whitespace-only response", "   \n\t  \n", P2, "G1-non-empty"),
-    ("prompt pasted verbatim",   P2,            P2, "G2a-not-byte-identical-to-prompt"),
-]:
-    results = run_gates(resp, prompt)
+# Empty is REFUSED, not quarantined -- the brief's adopted criterion A3. There is
+# nothing in zero bytes to preserve, and admitting it would manufacture an artifact
+# and block round completion on a paste that failed to happen.
+for name, resp in [("empty response", ""), ("whitespace-only response", "   \n\t  \n")]:
+    results = run_gates(resp, P2)
     state, _ = lifecycle_state(results)
-    fired = [r.gate for r in results if not r.passed]
-    check(f"POS-syn {name} is held for review", state == "returned_pending_review")
-    check(f"POS-syn {name} fires {gate}", gate in fired, f"fired: {fired}")
+    check(f"POS-syn {name} is REFUSED, not quarantined", state == "refused_empty", state)
+    check(f"POS-syn {name} fires G1", "G1-non-empty" in [r.gate for r in results if not r.passed])
+
+results = run_gates(P2, P2)
+state, _ = lifecycle_state(results)
+fired = [r.gate for r in results if not r.passed]
+check("POS-syn prompt pasted verbatim is held for review", state == "returned_pending_review")
+check("POS-syn prompt pasted verbatim fires G2a",
+      "G2a-not-byte-identical-to-prompt" in fired, f"fired: {fired}")
 
 # POS-syn: partial paste. The rule this replaced was blind to these -- it required
 # coverage AND saturation to be high, and a 30% paste has coverage 0.306.
@@ -122,8 +127,11 @@ state, _ = lifecycle_state(run_gates(other[1], other[2], existing_same_party={"p
 check("a DIFFERENT response for the same party still passes", state == "returned_clean")
 
 # ---------------------------------------------------------------- invariants --
-check("no gate can discard: lifecycle only ever returns two states",
+check("no NON-EMPTY response can be discarded: only preserving states are reachable",
       {lifecycle_state(run_gates(r, p))[0] for _, r, p in CAPTURES} <= {"returned_clean", "returned_pending_review"})
+check("refused_empty is reachable ONLY for empty content",
+      lifecycle_state(run_gates("", P2))[0] == "refused_empty"
+      and lifecycle_state(run_gates("a" * 5000, P2))[0] != "refused_empty")
 check("sent_prompt_text strips the blockquote",
       "> " not in sent_prompt_text((ROOT / "record/review-round-02-prompt.md").read_text(encoding="utf-8"))[:400])
 check("sent_prompt_text falls back when there is no blockquote",

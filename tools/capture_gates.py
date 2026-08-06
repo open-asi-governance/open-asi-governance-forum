@@ -234,12 +234,30 @@ def run_gates(response: str, sent_prompt: str, existing_same_party: dict[str, st
 def lifecycle_state(results: list[GateResult]) -> tuple[str, list[str]]:
     """Map gate results onto the capture lifecycle.
 
-    Returns ('returned_pending_review' | 'returned_clean', [reasons]).
+    Returns one of:
 
-    Note what is NOT returned: there is no 'rejected' and no 'discarded'. Only the
-    custodian dispositions a capture, and the bytes are preserved under every
-    outcome.
+      'refused_empty'            do NOT admit to the lifecycle; nothing to preserve
+      'returned_pending_review'  preserve the bytes, await custodian disposition
+      'returned_clean'           preserve the bytes, gates found nothing
+
+    `refused_empty` is not a lifecycle state and never reaches `receive()`. The
+    preserve-first rule exists so a refusal cannot destroy a paste that exists
+    nowhere else -- and there is nothing in zero bytes to destroy. Quarantining an
+    empty response would manufacture an artifact, put the round into
+    `returned_pending_review`, and block completion on a paste that failed to
+    happen.
+
+    This is a correction. The first implementation routed everything through
+    quarantine including the empty case, which over-applied the principle and
+    silently violated the brief's adopted criterion "Empty paste is refused."
+
+    Note what is still NOT returned for any non-empty response: there is no
+    'rejected' and no 'discarded'. Only the custodian dispositions a capture, and
+    the bytes are preserved under every outcome.
     """
+    empty = next((r for r in results if r.gate == "G1-non-empty" and not r.passed), None)
+    if empty is not None:
+        return "refused_empty", [f"{empty.gate}: {empty.detail}"]
     failed = [r for r in results if not r.passed and r.kind in ("EXACT", "HEURISTIC")]
     if failed:
         return "returned_pending_review", [f"{r.gate}: {r.detail}" for r in failed]
