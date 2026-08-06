@@ -245,3 +245,46 @@ exits non-zero if any is over. Four over-long descriptions shipped in `d64e0e0` 
 `f58cb2a` because the check ran as its own command and the commit chain began fresh afterwards — the
 same shape as D-29, a check that exists, runs, gives the right answer, and is not reached by the
 path that decides anything.
+
+---
+
+## Read this before concluding the CI gate is broken — 2026-08-06
+
+**The run list shows six consecutive `failure` runs. None of them is a gate failure.**
+`verify` has **never failed in this repository.** Every run that actually executed passed.
+
+| Run | Commit | `verify` | Steps executed | `deploy` |
+|---|---|---|---|---|
+| 31122120691 | `a74ec36` | cancelled | **0** | skipped |
+| 31122087212 | `ef1edf0` | cancelled | **0** | skipped |
+| 31120813961 | `fb5b400` | **success** | 13 | failure at `deploy-pages` |
+| 31120601995 | `9c9da82` | cancelled | **0** | skipped |
+| 31120549100 | `3a561d0` | cancelled | **0** | skipped |
+| 31120260946 | `a13271c` | cancelled | **0** | skipped |
+
+Five runs were cancelled **before executing a single step** — queued roughly fifteen minutes, then
+killed. The sixth ran all thirteen verification steps, passed, and failed only at `deploy-pages`.
+
+**Cause, corroborated externally rather than inferred.** GitHub declared a major outage of Actions
+and Pages at 2026-08-06T15:22Z, before any run in this window. Its own incident update at 17:02Z
+reads: *"Workflow runs are still failing or delayed in starting, and some queued jobs may time
+out."* That is this table, described by GitHub.
+
+**Why the distinction is recoverable at all.** Because `verify` and `deploy` are separate jobs. A
+job that ran zero steps cannot have rejected anything, so "infrastructure" and "the corpus failed
+verification" are distinguishable at a glance. Under the previous single-job design every one of
+these six would have been one red mark against the gate, and telling them apart would have required
+reading logs that, for five of them, do not exist.
+
+That is the second time in one afternoon this outage validated the split, neither time by design.
+
+**What is actually unverified.** `ef1edf0` and `a74ec36` — the gate-widening and branch-protection
+commits — have **not been exercised by CI**, because both runs were cancelled before starting. They
+were verified locally instead: 41/41 integrity cases, 4/4 capture suites, append-only clean, and the
+clean-regeneration gate simulated against a fresh clone. That is not the same as a CI run and is
+recorded as such. **Re-run them once Actions recovers** — no session can dispatch a run without
+`actions=write`, so this is a custodian action or it happens on the next push.
+
+**The site is behind** (`651e819` live against the committed page) purely because deploys cannot
+complete. The committed page is already proven to be a clean regeneration, so nothing incorrect is
+waiting to publish.
