@@ -226,6 +226,16 @@ question.*
 
 ### 6.1 G2's rule, and the D-25 obligation on it
 
+> **SUPERSEDED 2026-08-06, before implementation and before this document's review returned.**
+> The rule stated below — *"Refuse when **both** exceed threshold"* — was measured against the
+> corpus and **rejected**: it passes any paste of less than half the prompt, which is the
+> scroll-and-copy failure it was written to catch. A second rule was also tried and rejected.
+> The adopted rule and the full validation are in
+> [`T13-g2-rule-validation.md`](T13-g2-rule-validation.md).
+>
+> The text below is left unedited so the review of this document remains legible against what was
+> actually reviewed, per the project's superseding-artifact rule.
+
 D-25's specific warning applies directly: *"review tasks quote the reviewed document, so the
 document's own vocabulary contaminates any naive pattern."* A review legitimately quotes its
 prompt. So the metric is **two-sided** over normalised word n-grams (n = 8, case-folded, whitespace
