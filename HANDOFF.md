@@ -63,12 +63,27 @@ task concerns.
 Four independent tracks. Territories are disjoint by design; where they are not, the overlap is
 named.
 
+### Custodian actions no session can perform
+
+These are blockers, not preferences. A session will hit them and stop.
+
+| Action | Why a session cannot do it | Blocks |
+|---|---|---|
+| **Enable GitHub Pages** — Settings → Pages → Deploy from a branch → `main` → `/docs` | The org token holds `administration=write` but not `pages=write`; the API returns **403**. `docs/index.html` is built and committed, and the site is **404** until this is done | Track A |
+| **Approve fine-grained token permission changes** | Org owner only | any track needing new scopes |
+| **Signing key decisions** | A session must not generate or register keys unilaterally | Track D |
+| **Send prompts to frontier parties** | The parties are reached through the custodian's own authenticated sessions | Track B, task #14 |
+| **Merge branches to `main`** | `GOVERNANCE.md` §2 | all tracks |
+
 ### Track A — corpus surface · branch `session/site` · no GPU
 **Tasks #3, #8.** The public site, issue templates, labels, Discussions, monitoring; and the
 deterministic session-log tool.
 **Owns:** `docs/`, `.github/`, `tools/build_viewer.py`, `tools/build_session_log.py`,
 `record/sessions/`.
 **Do #8 first** — it is small, and it is the mechanism that makes every other track auditable.
+**Blocked at the end:** the site cannot be served until the custodian enables Pages. Build against
+`docs/index.html` locally, open it with `file://` to check, and treat "Pages enabled" as an
+acceptance criterion the session records as outstanding rather than one it can satisfy.
 **Constraint:** presentation must not outrun the record. No logo, no implied endorsement, no
 institutional styling. The credibility comes from the self-audit, not the design.
 
