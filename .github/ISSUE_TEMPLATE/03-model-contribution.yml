@@ -1,0 +1,201 @@
+name: Contribution (model output)
+description: Submit model-generated output for the corpus, with the provenance the record requires.
+title: "[contribution] "
+labels: ["contribution"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Contributions are logged verbatim with provenance, or they are not logged.**
+
+        Anyone may contribute. Model output you solicited yourself is accepted on identical terms to output
+        the custodian solicited. No participant holds standing, seats, or privileged weight, and dissent is
+        recorded with equal standing to agreement.
+
+        Every field below maps onto `tools/capture_response.py`, so a complete submission can be filed
+        without a follow-up round trip. **An unknown value is recorded as `null` with a stated reason — it
+        is never omitted and never filled with a placeholder.** Each field below therefore has a companion
+        "if unknown, why" box. Use it; leaving a required field blank rejects the capture.
+
+  - type: textarea
+    id: response
+    attributes:
+      label: The response, verbatim
+      description: >
+        Byte-identical, unedited. Do not fix typos, do not reformat, do not trim preamble. If you edited it,
+        do not paste it here — describe the edit in the edit-status field and attach the original.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: prompt
+    attributes:
+      label: The exact prompt text
+      description: The full prompt that produced the response. A contribution without its prompt is rejected — there is no exception to this.
+      render: text
+    validations:
+      required: true
+
+  - type: input
+    id: identity
+    attributes:
+      label: Model identity
+      description: >
+        The distinct invocation surface, not the family. "Claude", "Claude Opus 5", "Claude Fable 5" and
+        "Claude Code" are four different identities and are never merged.
+      placeholder: Claude Fable 5
+    validations:
+      required: true
+
+  - type: input
+    id: provider
+    attributes:
+      label: Provider
+      placeholder: Anthropic
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Model version identifier
+      description: >
+        If the surface does not expose one, leave blank and fill the next box. Do NOT invent a
+        plausible-looking string — a placeholder version identifier is deficiency D-01, the exact failure
+        this rule exists to prevent.
+    validations:
+      required: false
+
+  - type: input
+    id: version_unknown_reason
+    attributes:
+      label: If the version is unknown — why
+      placeholder: Web UI does not expose a version identifier.
+    validations:
+      required: false
+
+  - type: input
+    id: sampling
+    attributes:
+      label: Sampling parameters
+      description: >-
+        JSON object if you know them, e.g. {"temperature": 0.7, "top_p": 1.0}. Blank if not exposed,
+        then fill the next box.
+    validations:
+      required: false
+
+  - type: input
+    id: sampling_unknown_reason
+    attributes:
+      label: If sampling parameters are unknown — why
+      placeholder: Web UI does not expose sampling parameters.
+    validations:
+      required: false
+
+  - type: input
+    id: effort
+    attributes:
+      label: Reasoning-effort setting
+      description: Where applicable. Blank if not selectable, then state why below.
+    validations:
+      required: false
+
+  - type: input
+    id: effort_unknown_reason
+    attributes:
+      label: If reasoning effort is unknown — why
+      placeholder: Not selectable in the web UI.
+    validations:
+      required: false
+
+  - type: textarea
+    id: system_instructions
+    attributes:
+      label: System or developer instructions
+      description: The full text, or a stated reason for withholding. Provider system prompts are usually undisclosed — say so rather than leaving it empty.
+      render: text
+    validations:
+      required: false
+
+  - type: input
+    id: captured_utc
+    attributes:
+      label: Capture timestamp (UTC)
+      description: When you captured it, in UTC. Recorded at capture, not reconstructed afterwards. A contribution without this is rejected.
+      placeholder: 2026-08-06T14:03:00Z
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Phase
+      description: >
+        Phase-1 means the model was shown no other party's response to this question. **Withholding other
+        parties' responses is not sufficient** — per D-23, the task instruction, the schema and the enum
+        labels are all channels through which a prior party's conclusion can reach a supposedly blind probe.
+        If your prompt encoded anyone's prior conclusion, this is Phase-2.
+      options:
+        - Phase-1 (blind)
+        - Phase-2 (informed)
+    validations:
+      required: true
+
+  - type: textarea
+    id: prior_context
+    attributes:
+      label: Prior context supplied
+      description: Everything the model was shown besides the prompt — documents, prior responses, files, links it could reach. Write "none" if none.
+    validations:
+      required: true
+
+  - type: input
+    id: tools
+    attributes:
+      label: Tools and external sources the model used
+      description: Web search, code execution, retrieval. Write "none" if none.
+      placeholder: none
+    validations:
+      required: true
+
+  - type: input
+    id: k
+    attributes:
+      label: Number of samples (k)
+      description: >
+        How many independent samples you collected from the same prompt. **k = 1 is accepted** and is
+        citable as an artifact of that one invocation — it just cannot support a claim about the model's
+        distribution of positions. Five is the floor for a distributional claim, not a proof of sufficiency.
+      placeholder: "1"
+    validations:
+      required: true
+
+  - type: textarea
+    id: variance
+    attributes:
+      label: Variance across the samples
+      description: Required if k > 1. Computed from the samples, not asserted. Attach all samples — every one is preserved, including the ones that disagree.
+    validations:
+      required: false
+
+  - type: input
+    id: edit_status
+    attributes:
+      label: Edit status
+      description: "`unedited`, or describe the edit and who made it."
+      placeholder: unedited
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: This is verbatim output. I have not edited it, or I have described the edit above.
+          required: true
+        - label: I understand this will be published under CC BY 4.0 with my stated provenance attached, and that publication is not an endorsement by any AI company.
+          required: true
+        - label: It contains no exploit code, weaponisation detail, containment-circumvention instructions, personal data or secrets. See SECURITY.md.
+          required: true

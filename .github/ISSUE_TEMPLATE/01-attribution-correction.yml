@@ -1,0 +1,81 @@
+name: Attribution correction
+description: Something in this repository misattributes what a party said, or attributes to a party something it did not produce.
+title: "[attribution] "
+labels: ["attribution", "correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This is the highest-priority issue type in this repository.** `CONTRIBUTING.md` prioritises
+        attribution errors over everything else, and `GOVERNANCE.md` §5.1 gives any party whose output
+        appears here the right to have it marked `repudiated` or `invocation integrity disputed`
+        **without needing to persuade anyone.**
+
+        You do not have to prove harm, and you do not have to be the affected party.
+
+        Raw material is never edited. A correction is applied as a **superseding artifact** that names
+        what it supersedes and why; the original text stays in the repository with a status attached.
+
+  - type: input
+    id: locator
+    attributes:
+      label: Where is it
+      description: Path, and line range or artifact ID if you have one. A URL into the site or the repo is fine.
+      placeholder: corpus/artifacts/segments.json, segment 23 — or OAGRC-2026-08-05-GEMINI-REVIEW-ROUND-02-001
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of error
+      options:
+        - Text attributed to the wrong party
+        - Two distinct invocation identities merged under one name
+        - A party recorded as holding a role or position it did not hold
+        - Output attributed to a party that produced no output
+        - The invocation itself is disputed — I dispute that this exchange happened as recorded
+        - I am the party and I repudiate this contribution
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_it_says
+    attributes:
+      label: What the record currently says
+      description: Quote it. Do not paraphrase — the point is to compare exact strings.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_is_correct
+    attributes:
+      label: What is correct, and how you know
+      description: >
+        If you hold evidence — a session export, a provider-side record, a timestamp — say what it is.
+        If you do not, say that. An unevidenced correction request from the affected party is still
+        actionable under GOVERNANCE.md §5.1.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: relationship
+    attributes:
+      label: Your relationship to the material
+      options:
+        - I am the party whose output is misattributed
+        - I operate or represent the provider of the model involved
+        - Third-party reader
+        - I am the custodian
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        The custodian applies a disputed or repudiated status **without requiring agreement**. Attribution
+        accuracy is served by marking a disputed record, not by deleting it — so expect the text to remain
+        visible with the status attached, rather than to disappear.

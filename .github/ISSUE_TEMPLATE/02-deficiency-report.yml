@@ -1,0 +1,77 @@
+name: Deficiency report
+description: A defect in the record, in an instrument that produced it, or in a claim this project makes about itself.
+title: "[deficiency] "
+labels: ["deficiency"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The deficiency register (`corpus/deficiencies.md`) is the artifact this project is most willing to
+        grow. **Defects found by someone other than the annotator are worth more than defects it finds
+        itself**, because the annotator is a party to the record it annotates.
+
+        Please check the register first — but a duplicate is a cheap error and filing is the right default.
+
+        Six of the register's entries (D-23 … D-28) are about **measurement instruments that were silently
+        wrong**: a probe whose prompt contained the answer, a model asked to classify its own reasoning, an
+        unvalidated regex coder that scored 9/10 where the truth was 0/10, an unexamined temperature, an
+        enum whose values did not name their referent, and an apparatus that turned out not to reproduce.
+        Reports of that shape are especially wanted.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: What kind of deficiency
+      options:
+        - Provenance — a required field is missing, placeholder, or unverifiable
+        - Instrument — a probe, coder, schema or enum does not measure what it claims
+        - Inference — a conclusion is not supported by the evidence cited for it
+        - Overclaim — the project asserts standing, authority, consensus or reproducibility it does not have
+        - Reproducibility — a stated result does not reproduce
+        - Self-contradiction — two artifacts in this repository disagree
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: locator
+    attributes:
+      label: What it affects
+      description: Path, artifact ID, deficiency ID, prediction ID, or specification section.
+      placeholder: spec/asp/asp-v0.1.md §2.3 — or corpus/artifacts/local-round-01/
+    validations:
+      required: true
+
+  - type: textarea
+    id: defect
+    attributes:
+      label: The defect
+      description: State what is wrong. If it is an instrument defect, state what the instrument claims to measure and what it actually measures.
+    validations:
+      required: true
+
+  - type: textarea
+    id: consequence
+    attributes:
+      label: What this invalidates, if anything
+      description: >
+        Which specific claims, predictions or artifacts rest on the defective thing. If the answer is
+        "nothing yet, but it will," say that — a defect caught before it corrupts a score is the best case.
+    validations:
+      required: true
+
+  - type: textarea
+    id: how_to_check
+    attributes:
+      label: How the custodian can verify this without taking your word for it
+      description: A command to run, a file to read, a counter-example, a hand-checked subset. Optional but it is what makes a report actionable.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Before filing
+      options:
+        - label: This report contains no exploit code, weaponisation detail, containment-circumvention instructions, personal data or secrets. See SECURITY.md.
+          required: true

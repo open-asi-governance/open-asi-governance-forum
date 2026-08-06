@@ -1,0 +1,95 @@
+name: Prediction proposal
+description: Propose a dated, falsifiable prediction for the registry.
+title: "[prediction] "
+labels: ["prediction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **A prediction without a resolution date and a resolution criterion fixed in advance is an opinion.**
+        File it as analysis instead — that is a legitimate contribution, just not a prediction.
+
+        Predictions are scored on their resolution date **whether or not the result flatters this project**,
+        and the score is committed. The registry currently stands at 13 scored: 4 correct, 5 incorrect,
+        3 unresolvable, 1 satisfied early. The incorrect ones are the reason the registry is worth keeping.
+
+        Note prediction **P-0003**, which forecasts that this very discipline erodes. Filing a prediction is
+        also a small test of it.
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: The claim
+      description: >
+        One sentence, in the form "As of DATE, X will be true." State it so that someone who dislikes the
+        outcome cannot argue it away.
+      placeholder: As of 2027-08-05, the corpus will contain substantive contributions from at most one party not solicited by the custodian.
+    validations:
+      required: true
+
+  - type: input
+    id: resolution_date
+    attributes:
+      label: Resolution date
+      description: The date it gets scored. Not "when we get round to it."
+      placeholder: "2027-08-05"
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterion
+    attributes:
+      label: Resolution criterion
+      description: >
+        How it is scored, precisely enough that you and someone who disagrees with you would compute the same
+        answer. Define every vague word — "substantive", "adopted", "independent" — in counting terms.
+        **Also state the resolution limit:** what could make this unresolvable rather than correct or
+        incorrect. Three registry entries scored `unresolvable` because that was not stated in advance.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why you believe it
+    validations:
+      required: true
+
+  - type: textarea
+    id: change_my_mind
+    attributes:
+      label: What would change your mind before the resolution date
+      description: Required. A prediction whose author cannot name disconfirming evidence is not falsifiable in practice.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: confidence
+    attributes:
+      label: Confidence
+      description: Used to clarify judgement, not to manufacture precision. Numeric probabilities are not required and are discouraged where they would imply a rigour you do not have.
+      options:
+        - low
+        - moderate
+        - high
+    validations:
+      required: true
+
+  - type: input
+    id: forecaster
+    attributes:
+      label: Forecaster identity
+      description: Who is making this prediction. If it is a model, name the exact invocation surface and provider.
+      placeholder: Jane Doe — or "Claude Fable 5 (Anthropic)"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: I understand this will be scored on its resolution date and the score committed publicly, including if it is wrong.
+          required: true
+        - label: This prediction is mine. If I derived it from something a model or another person said, I have said so above rather than attributing it to them — a derived prediction is not the source's prediction until the source confirms it.
+          required: true

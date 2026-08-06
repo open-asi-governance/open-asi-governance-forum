@@ -1,0 +1,76 @@
+name: Prediction resolution challenge
+description: A prediction was scored wrongly, scored on a broken instrument, or is overdue and unscored.
+title: "[prediction-challenge] "
+labels: ["prediction", "correction"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This template exists because the registry's failure modes are known and specific.
+
+        - **P-0017 was nearly scored REFUTED on a coding rule that was wrong three separate ways** — it
+          scored 9/10 where the truth was 0/10, because it matched vocabulary appearing in the specification
+          text the reviewer was quoting back. It was caught by hand before it corrupted the score. See D-25.
+        - **P-0008's evidence was voided** after the apparatus that produced it turned out not to reproduce:
+          the effect was 0.1815 bits against a measured noise floor of 0.4649 bits. See D-28.
+        - **P-0003 forecasts that resolution discipline in this registry erodes.** An overdue, unscored
+          prediction is evidence bearing on P-0003, so filing this is not a nuisance — it is a measurement.
+
+        A registry that quietly misses its own resolution dates is worse than no registry.
+
+  - type: input
+    id: prediction_id
+    attributes:
+      label: Which prediction
+      placeholder: P-0017
+    validations:
+      required: true
+
+  - type: dropdown
+    id: challenge_type
+    attributes:
+      label: What is wrong with it
+      options:
+        - Overdue — the resolution date has passed and it is still unscored
+        - Scored incorrectly — the evidence does not support the outcome recorded
+        - Scored on a defective instrument — the coder, probe or measurement is unsound
+        - The resolution criterion is ambiguous and permits either outcome to be argued
+        - Marked unresolvable when it is in fact resolvable
+        - Marked resolved when its stated resolution limit was hit
+    validations:
+      required: true
+
+  - type: textarea
+    id: argument
+    attributes:
+      label: The argument
+      description: >
+        What the record says, what you think it should say, and why. If you are challenging an instrument,
+        state what it claims to measure and what it actually measures.
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: >
+        A hand-checked subset, a counter-example, a command that demonstrates it. **Per D-25, a rule that is
+        reproducible is not thereby correct** — if you are defending or attacking a coding rule, validation
+        against hand-checked cases is what settles it.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Does your challenge flatter or embarrass this project
+      description: >
+        Asked deliberately. The registry is only worth anything if challenges in both directions are handled
+        the same way, and stating the direction makes selective responsiveness visible.
+      options:
+        - It would make the project's record look worse
+        - It would make the project's record look better
+        - Neither
+    validations:
+      required: true
