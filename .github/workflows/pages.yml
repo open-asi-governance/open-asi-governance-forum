@@ -1,0 +1,45 @@
+# Publish docs/ to GitHub Pages.
+#
+# The legacy Jekyll builder failed opaquely on the first build of this site
+# ("Page build failed", no log, duration 0) despite docs/ containing only a
+# .nojekyll marker and a self-contained index.html with no Liquid syntax. This
+# workflow replaces it: a static upload with a visible log, so a failure is
+# diagnosable rather than merely reported.
+name: pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Verify the artifact is what we think it is
+        run: |
+          test -f docs/index.html || { echo "docs/index.html missing"; exit 1; }
+          test -f docs/.nojekyll || { echo "docs/.nojekyll missing"; exit 1; }
+          echo "index.html bytes: $(wc -c < docs/index.html)"
+          grep -q 'Open ASI Governance Forum' docs/index.html \
+            || { echo "index.html does not contain the expected title"; exit 1; }
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
