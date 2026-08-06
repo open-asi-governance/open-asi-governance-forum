@@ -64,3 +64,63 @@ Worth an issue regardless: TRT-LLM **accepts a `seed` on a MoE model with top-k 
 honour it, silently.** The caveat lives in a `MoeConfig` field description a user would never read.
 Minimal reproducer: same prompt, same seed, temperature 0, `top_k=1`, sequential → distinct outputs.
 Same class as D-01 — a field asserting a guarantee the system does not provide.
+
+
+---
+
+## Lead recorded 2026-08-06 — the top-2 logprob margin may replace k-sampling for this problem
+
+Found while waiting on the Codex review; **measured, not speculated**, but not developed. Recorded
+here because it would otherwise be lost with the session that found it, which is the category
+HANDOFF.md names as always lost.
+
+### What was measured
+
+The server returns `logprobs` with `top_logprobs`. The **top-2 logprob margin** is directly
+observable per call:
+
+| Probe regime | mean margin | min |
+|---|---|---|
+| Low-entropy task — *"count from 1 to 12"*, previously **6/6 identical** under non-determinism | **8.146 nats** | 6.875 |
+| Near-tie judgement — the Level-4 structural-vs-self-restraint question | **0.417 nats** | **0.000** |
+
+A ~20× separation, and one sample returned an **exact 0.000 tie**.
+
+### Why this matters for D-28
+
+D-28's finding is that numeric noise flips an output **only where the top-two logits are close
+enough that rounding changes the argmax**. The margin *is that quantity*, and it is observable
+directly rather than inferred from a distribution.
+
+Three consequences, none of which requires the determinism remedy:
+
+1. **A probe can be screened before it is run.** One call reveals whether the question sits in the
+   noise-dominated regime. At present a probe costs 20 calls and the corpus discovers afterward that
+   it measured a coin flip — which is what `local-round-01` did.
+2. **It separates "genuinely torn" from "noise-flipped" at the level of a single answer**, which
+   k-sampling cannot: a 55/45 split is consistent with both a real internal near-tie and pure
+   numeric jitter, and D-28 is precisely the discovery that the corpus could not tell them apart.
+3. **It is cheaper by a factor of twenty**, which matters because P-0003 forecasts the k≥5 standard
+   eroding under exactly that cost.
+
+### What is NOT established
+
+- Whether the margin predicts the *observed* k=20 dispersion quantitatively — the obvious test is to
+  correlate first-token margin against measured entropy across the seven local rounds already
+  committed. **That test has not been run.**
+- The margin itself varies run-to-run (spread 3.125 nats on the low-entropy case, 0.625 on the
+  near-tie case), being subject to the same numerics. The *scale separation* is robust; a precise
+  margin value is not.
+- Only the **first token** was measured. A judgement may hinge on a later token, and the enum's
+  discriminating token is not always first.
+- Nothing here has been reviewed by anyone.
+
+### Why it may make the determinism remedy unnecessary
+
+If the margin reliably identifies noise-dominated questions, the corpus does not need reproducible
+runs — it needs to know **which results to disbelieve**, and it can learn that for one call instead
+of twenty. That is the same conclusion Codex was asked to argue for in question 5, reached from a
+different direction and with a measurement behind it.
+
+**Run the correlation test before building anything on this.** The seven committed local rounds
+supply the data at no additional inference cost.
