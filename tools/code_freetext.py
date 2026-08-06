@@ -45,7 +45,13 @@ def code(path: Path) -> dict:
             if rx.search(text):
                 counts[name] += 1
                 hits[name].append(r["sample_index"])
-    return {"file": str(path.relative_to(REPO_ROOT)), "n": n, "counts": counts,
+    import hashlib
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    return {"schema_version": "oagrc-freetext-coding-0.1",
+            "artifact_type": "freetext_coding",
+            "coded_source": {"path": str(path.relative_to(REPO_ROOT)), "sha256": digest,
+                             "bytes": path.stat().st_size},
+            "file": str(path.relative_to(REPO_ROOT)), "n": n, "counts": counts,
             "fraction": {k: round(v / n, 4) if n else 0.0 for k, v in counts.items()},
             "sample_indices": hits,
             "patterns": {k: v.pattern for k, v in CODES.items()},

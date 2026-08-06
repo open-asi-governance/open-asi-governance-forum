@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OAGRC deterministic free-text coding",
+  "description": "Codes of model free text produced by a deterministic coder, never by a model. Exists because of D-24: self-reported categorical fields disagreed with their own free text in a quarter to a third of samples. Patterns are stored with the counts so the coding is reproducible and its bluntness is visible.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "coded_source",
+    "n",
+    "counts",
+    "fraction",
+    "patterns",
+    "coder"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "oagrc-freetext-coding-0.1"
+    },
+    "artifact_type": {
+      "const": "freetext_coding"
+    },
+    "coded_source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "n": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "fraction": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      }
+    },
+    "sample_indices": {
+      "type": "object"
+    },
+    "patterns": {
+      "type": "object",
+      "minProperties": 1,
+      "description": "The exact regex used for each code. Required: a coding whose rule is not published is not reproducible."
+    },
+    "coder": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

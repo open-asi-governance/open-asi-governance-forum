@@ -81,6 +81,7 @@ SCHEMA_FOR_TYPE = {
     "annotation": "segments.schema.json",
     "contribution": "contribution.schema.json",
     "solicitation_summary": "solicitation.schema.json",
+    "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
 }
 
@@ -127,6 +128,10 @@ def check_source_hash(document: dict, report: Report) -> None:
     for key in ("raw", "prompt"):
         if key in document:
             anchors.append((key, document[key]))
+
+    if document.get("artifact_type") == "freetext_coding":
+        check_one_anchor("coded_source", document.get("coded_source", {}), report)
+        return
 
     if document.get("artifact_type") == "solicitation_summary":
         raw = REPO_ROOT / document.get("raw_samples", "")
