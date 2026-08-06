@@ -3,29 +3,77 @@
   "writer": {
     "identity": "Claude Code (Corpus Surface session, Track A)",
     "provider": "Anthropic",
-    "conflict": "Claude is a party to the record this repository annotates: it declined membership in the founding deliberation, set the representation conditions the project operates under, and cast a consensus ballot. This log describes work by an Anthropic invocation surface, indexed by another Anthropic invocation surface. See GOVERNANCE.md \u00a74."
+    "conflict": "Claude is a party to the record this repository annotates: it declined membership in the founding deliberation, set the representation conditions the project operates under, and cast a consensus ballot. This log describes work by an Anthropic invocation surface, indexed by another Anthropic invocation surface. See GOVERNANCE.md §4."
   },
   "lanes": [
-    { "name": "session/site", "base": "b42a28f24adb42be732bb8d3ff3b976301cd6351", "tip": "cb2752a2c5876d391a03ba092543b6afe7457535" }
+    {
+      "name": "session/site",
+      "base": "b42a28f24adb42be732bb8d3ff3b976301cd6351",
+      "tip": "f58cb2abc97345e3da9dec69dad6e3c26d4eed3f"
+    }
   ],
   "decisions": [
-    { "what": "Verification becomes the default in build_manifest.py; writing requires an explicit named mode", "who": "Corpus Surface session, designed with Codex, adopted by the custodian", "authority": "adopted by the custodian" },
-    { "what": "The page's provenance line becomes a digest of its inputs rather than a git commit hash", "who": "Corpus Surface session; first design rejected by Codex, second adopted", "authority": "adopted by the custodian" },
-    { "what": "T-08 rescoped: not a sanitiser and not an audit log, but a reproducible index of declared evidence", "who": "Proposed by Codex, put to the custodian, adopted", "authority": "adopted by the custodian" },
-    { "what": "Discovery attribution narrowed to first preserved substantive articulation", "who": "Proposed by Codex, put to the custodian, adopted", "authority": "adopted by the custodian" }
+    {
+      "what": "Verification becomes the default in build_manifest.py; writing requires an explicit named mode",
+      "who": "Corpus Surface session, designed with Codex, adopted by the custodian",
+      "authority": "adopted by the custodian"
+    },
+    {
+      "what": "The page's provenance line becomes a digest of its inputs rather than a git commit hash",
+      "who": "Corpus Surface session; first design rejected by Codex, second adopted",
+      "authority": "adopted by the custodian"
+    },
+    {
+      "what": "T-08 rescoped: not a sanitiser and not an audit log, but a reproducible index of declared evidence",
+      "who": "Proposed by Codex, put to the custodian, adopted",
+      "authority": "adopted by the custodian"
+    },
+    {
+      "what": "Discovery attribution narrowed to first preserved substantive articulation",
+      "who": "Proposed by Codex, put to the custodian, adopted",
+      "authority": "adopted by the custodian"
+    }
   ],
   "abandoned": [
-    { "what": "Provenance line stamping the last commit touching corpus/, record/, spec/", "why": "Codex showed it is broken for the mandated rebuild-then-commit workflow: at generation time the corpus change is still uncommitted, so the page names a stale record commit and the next rebuild diffs again. Track B independently proposed the same fix; it was rejected for the same reason. Replaced by a content digest over the generator's actual inputs." },
-    { "what": "Machine-readable front-matter under each deficiency heading", "why": "Codex: adjacency does not validate semantics, and it would add a fourth independently-authored summary to a document that already had three disagreeing counts. Superseded by a structured register artifact, still to be built." },
-    { "what": "Deterministic sanitisation of session-log free text, as T-08's brief specified", "why": "Not coherent as a security guarantee. A regex denylist is an unvalidated classifier (D-25) whose errors are asymmetric -- a false negative leaks permanently, a false positive erases adverse evidence -- and no tool can distinguish 'nothing withheld' from 'silently omitted'. The renderer emits only typed values instead, and the trust boundary moves to custodian review before push." },
-    { "what": "Running tools/rebuild.py inside the shared main checkout", "why": "It rewrote docs/index.html underneath Track B, which was live in that working tree. No work was lost -- their checkout restored it -- but branch checkout is global state, so HANDOFF section 3's 'shared, but by branch' is unachievable with one worktree. Moved to an isolated git worktree." }
+    {
+      "what": "Provenance line stamping the last commit touching corpus/, record/, spec/",
+      "why": "Codex showed it is broken for the mandated rebuild-then-commit workflow: at generation time the corpus change is still uncommitted, so the page names a stale record commit and the next rebuild diffs again. Track B independently proposed the same fix; it was rejected for the same reason. Replaced by a content digest over the generator's actual inputs."
+    },
+    {
+      "what": "Machine-readable front-matter under each deficiency heading",
+      "why": "Codex: adjacency does not validate semantics, and it would add a fourth independently-authored summary to a document that already had three disagreeing counts. Superseded by a structured register artifact, still to be built."
+    },
+    {
+      "what": "Deterministic sanitisation of session-log free text, as T-08's brief specified",
+      "why": "Not coherent as a security guarantee. A regex denylist is an unvalidated classifier (D-25) whose errors are asymmetric -- a false negative leaks permanently, a false positive erases adverse evidence -- and no tool can distinguish 'nothing withheld' from 'silently omitted'. The renderer emits only typed values instead, and the trust boundary moves to custodian review before push."
+    },
+    {
+      "what": "Running tools/rebuild.py inside the shared main checkout",
+      "why": "It rewrote docs/index.html underneath Track B, which was live in that working tree. No work was lost -- their checkout restored it -- but branch checkout is global state, so HANDOFF section 3's 'shared, but by branch' is unachievable with one worktree. Moved to an isolated git worktree."
+    },
+    {
+      "what": "Committing without gating on the validator I had just run",
+      "why": "The label-length check ran as its own command and the commit chain began fresh afterwards, so an assertion failure printed a traceback and the commit proceeded. Four label descriptions over GitHub's 100-character limit shipped in d64e0e0, fixed in f58cb2a. Same shape as D-29 -- a check that exists, runs, gives the right answer, and is not reached by the path that decides anything."
+    }
   ],
   "resources": [
-    { "what": "Isolated git worktree at a path outside the shared checkout", "exclusive": "no", "released": "no, still in use" },
-    { "what": "Inference host", "exclusive": "not held", "released": "n/a -- Track C holds it exclusively" }
+    {
+      "what": "Isolated git worktree at a path outside the shared checkout",
+      "exclusive": "no",
+      "released": "no, still in use"
+    },
+    {
+      "what": "Inference host",
+      "exclusive": "not held",
+      "released": "n/a -- Track C holds it exclusively"
+    }
   ],
   "withheld": [
-    { "category": "Non-public information", "reason": "Absolute filesystem paths of the operator's local worktrees and scratch directories appear in tooling output and reviewer transcripts. They are infrastructure topology, not record.", "abstraction": "An isolated git worktree on the custodian's machine, on branch session/site, based on main." }
+    {
+      "category": "Non-public information",
+      "reason": "Absolute filesystem paths of the operator's local worktrees and scratch directories appear in tooling output and reviewer transcripts. They are infrastructure topology, not record.",
+      "abstraction": "An isolated git worktree on the custodian's machine, on branch session/site, based on main."
+    }
   ],
   "narrative": "This window is dominated by two defects found in Track A's own territory before any of Track A's assigned work began, and by a third found in the maintenance path by an external reviewer.\n\nThe order of work departs from HANDOFF's instruction to do T-08 first. That departure is deliberate and is recorded here rather than left to be inferred: D-29 made every integrity claim in the repository unenforced, and the provenance defect broke the rebuild-then-commit gate that every track is told to rely on. Both were live and public. T-08 followed immediately and is in this same window.\n\nWhat is NOT done is stated in record/tasks/T03-oagf-github-presence.md rather than here."
 }
