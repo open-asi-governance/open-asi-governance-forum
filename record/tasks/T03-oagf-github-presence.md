@@ -250,8 +250,24 @@ path that decides anything.
 
 ## Read this before concluding the CI gate is broken — 2026-08-06
 
-**The run list shows six consecutive `failure` runs. None of them is a gate failure.**
+**The run list shows a long series of consecutive `failure` runs. None of them is a gate failure.**
 `verify` has **never failed in this repository.** Every run that actually executed passed.
+
+**Check this yourself rather than trusting the snapshot below**, which was true at 17:10Z and grew
+afterwards — the outage kept producing cancellations for hours. The invariant, not the count, is the
+claim:
+
+```
+gh api repos/OWNER/REPO/actions/runs/<id>/jobs \
+  --jq '.jobs[] | "\(.name): \(.conclusion)  steps=\([.steps[]?|select(.conclusion!=null)]|length)"'
+```
+
+**A job reporting `cancelled` with `steps=0` never executed anything and therefore rejected
+nothing.** That is the whole test. A genuine gate failure shows `verify: failure` with a non-zero
+step count and a named failing step.
+
+Snapshot at 17:10Z — later runs continued the same pattern (`ef1edf0`, `a74ec36`, `4ac673e`,
+`1ebeb4b` all cancelled at 0 steps):
 
 | Run | Commit | `verify` | Steps executed | `deploy` |
 |---|---|---|---|---|
@@ -278,8 +294,9 @@ reading logs that, for five of them, do not exist.
 
 That is the second time in one afternoon this outage validated the split, neither time by design.
 
-**What is actually unverified.** `ef1edf0` and `a74ec36` — the gate-widening and branch-protection
-commits — have **not been exercised by CI**, because both runs were cancelled before starting. They
+**What is actually unverified.** Every commit after `fb5b400` — the gate widening, the
+branch-protection record, this note, and T-18 — has **not been exercised by CI**, because every run
+since was cancelled before starting. They
 were verified locally instead: 41/41 integrity cases, 4/4 capture suites, append-only clean, and the
 clean-regeneration gate simulated against a fresh clone. That is not the same as a CI run and is
 recorded as such. **Re-run them once Actions recovers** — no session can dispatch a run without
