@@ -94,17 +94,55 @@ drift generator, and this repository has the receipt: on the morning of 2026-08-
 21 deficiencies, the register's own header said 24, and the file contained 28. Three artifacts, three
 numbers, nobody noticed until an external reviewer counted.
 
-**The rule: every fact has exactly one authored location, and every other appearance of it is
-generated or checked.**
+**The rule, in the custodian's formulation:** *each piece of content is realized in prose or in
+fenced JSON, but **not both as source of truth**.*
 
-- **JSON is canonical for facts** — counts, paths, hashes, dependencies, status, ownership.
-- **Prose is canonical for reasoning** — why the thing exists, what it refuses to do, what it costs.
-- **The prose document embeds generated regions** for any fact, or the build recomputes and compares.
-  No number is ever retyped. `tools/build_register_view.py` and `tools/build_viewer.py` both do this
-  now; the viewer's deficiency count is derived from the register rather than repeated, precisely
-  because the retyped one drifted in the flattering direction.
-- **"Up-to-date" is mechanical, not promised.** The description records the input digest it was
-  generated from; the build fails when inputs move and the description has not been regenerated.
+That qualifier is the whole rule. The shorter slogan — "prose or JSON, not both" — is **wrong**, and
+adopting it would undo §10: a delivered document should often carry a fact in *both* forms, because
+humans read the prose and agents parse the JSON. What must never be duplicated is **authorship**.
+Every other appearance is generated from the authoritative one, or compared against it by the build.
+
+An earlier draft of this section partitioned by *form* — "JSON for facts, prose for reasoning". That
+was wrong at the edges, because JSON routinely holds authoritative prose:
+`corpus/artifacts/deficiency-register.json` carries multi-sentence judgements that are the source of
+truth and are generated *into* markdown. The partition is **per unit of content**, not per form.
+
+**Four clauses.**
+
+1. **One authoritative realization per unit of content.** No number is ever retyped.
+   `tools/build_viewer.py` derives the deficiency count from the register rather than repeating it,
+   precisely because the retyped one had drifted in the flattering direction.
+
+2. **Where two artifacts describe one subject, the boundary between what each owns is explicit, and
+   the binding is mechanical.** Not every duplication can be resolved by generation.
+   `corpus/deficiencies.md` is canonical for *what each defect is*;
+   `corpus/artifacts/deficiency-register.json` is canonical for its *classification*. Neither is
+   derived from the other and **neither could be** — generating classification from prose is D-25
+   exactly, a reproducible coder mistaken for a correct one. They are bound instead by a per-entry
+   `section_sha256`, so editing the prose fails the build until a human re-reads and re-stamps.
+
+3. **"Never two sources of truth" is wrong as stated. "Never two *unchecked* sources of truth" is
+   right.** Deliberate redundancy is sometimes the better design. Track B implements the capture
+   gates **twice**, in Python and JavaScript, and `test_gate_parity.py` runs 21 cases through both
+   and makes any disagreement a build failure — buying fast in-browser feedback while converting the
+   drift risk into a detector. The same session then *rejected* a third duplication, a JavaScript
+   writer, precisely because that one would have had no parity check. The line is whether
+   disagreement is mechanically detectable.
+
+4. **"Up-to-date" is mechanical, not promised.** The description records the input digest it was
+   generated from; the build fails when inputs move and it has not been regenerated.
+
+**Fenced or sidecar is a choice with consequences.** Fenced JSON is right when the document is the
+delivery vehicle — one file cannot desynchronize from itself. But fenced JSON is **not directly
+consumable**: an agent must parse markdown to reach it, and so must the validator, which makes the
+extractor a new instrument that can itself be wrong. `validate_provenance.py` validates the register
+artifact against its schema directly; fenced, that would need an extraction step. **Fenced when the
+document is the product; sidecar when the build validates it; and any extraction step carries its own
+tests.**
+
+**None of this is self-executing.** Single-source-of-truth was already the *intent* here on the
+morning of 2026-08-06, and the count still stood at 21, 24 and 28 simultaneously. The rule becomes
+real only at **L2** — a check the invoked path runs — which is §1 again.
 
 ---
 
