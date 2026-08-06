@@ -212,15 +212,70 @@ def ingest_one(path: Path, dry_run: bool) -> str:
 
     identity = bundle["identity"]
     existing = lifecycle.current_state(bundle["round"], identity)
-    if existing in ("accepted", "rejected"):
-        print(f"      already {existing}; nothing to do. Re-running ingest is a no-op.")
-        return "skipped"
-    if existing in lifecycle.NEEDS_DISPOSITION:
-        #  Without this, a re-run fell through to receive() and reported an immutability
-        #  refusal -- correct, and a confusing way to say "you already ingested this."
-        print(f"      already {existing}, awaiting the custodian's disposition. Nothing to do.")
-        print(f"      The bytes are preserved. Disposition is accept or reject, with a reason;")
-        print(f"      until then {bundle['round']} is not reportable as complete.")
+    if existing in ("accepted", "rejected") or existing in lifecycle.NEEDS_DISPOSITION:
+        # DEFECT 7. Both of these branches used to return "skipped" unconditionally,
+        # so a DIFFERING capture for a party whose slot was taken vanished: exit 0,
+        # "nothing to do", bytes not even preserved. A custodian who re-captures to
+        # correct a mispaste gets silence, and the wrong text stands in corpus/raw/
+        # attributed to a real party. That is D-10 -- text attributed to a party that
+        # did not write it -- manufactured by the tooling.
+        #
+        # The hash compared is computed HERE from the bundle's own response_text.
+        # NOT bundle["response_sha256_at_paste"], which the browser supplies and this
+        # program does not trust; using it would let a bundle claim equality with the
+        # recorded response and be skipped on its own say-so.
+        incoming = lifecycle.sha256_of_text(bundle["response_text"])
+        prior = lifecycle.latest_response_event(bundle["round"], identity)
+        recorded = (prior or {}).get("response_sha256")
+
+        if recorded is not None and incoming != recorded:
+            # Re-running an ingest must be safe, including here. Without this, a
+            # repeated command appended a duplicate conflicting_receipt each time,
+            # and -- worse -- a repeat AFTER the custodian resolved the dispute
+            # silently re-opened it. Both found by running the command three times.
+            prior_status = lifecycle.conflict_status(bundle["round"], identity, incoming)
+            if prior_status.startswith("resolved:"):
+                decision = prior_status.split(":", 1)[1]
+                print(f"      These bytes were already offered for {identity} and the custodian")
+                print(f"      RESOLVED that dispute as {decision!r}. Not re-opening it, and not")
+                print(f"      re-recording it. If this is a new dispute, it needs a new decision;")
+                print(f"      say so explicitly rather than by re-running the ingest.")
+                return "skipped"
+            if prior_status == "unresolved":
+                print(f"      Already recorded as a conflicting receipt for {identity}, still")
+                print(f"      unresolved. Nothing further recorded; the bytes are preserved.")
+                return "conflict"
+
+            event = lifecycle.record_conflict(
+                bundle["round"], identity, actor=bundle.get("attested_by") or "unknown",
+                response_text=bundle["response_text"], recorded_sha256=recorded)
+            print(f"      CONFLICTING RECEIPT. {identity} is already {existing}, and these are")
+            print(f"      NOT the same bytes. Nothing was overwritten and nothing was discarded.")
+            print(f"        recorded    {recorded[:16]}")
+            print(f"        offered     {incoming[:16]}")
+            print(f"      Preserved at {event['preserved_at']}")
+            print(f"      {bundle['round']} is now INCOMPLETE until a custodian resolves this:")
+            print(f"        python3 tools/resolve_conflict.py {bundle['round']} {identity!r} \\")
+            print(f"          --{{confirm-recorded|supersede-with-conflicting}} --reason '...'")
+            return "conflict"
+
+        if recorded is None:
+            # No receiving event carries a hash, so equality cannot be established.
+            # Refusing beats skipping: "I cannot tell whether this is the same
+            # material" must not print as "nothing to do".
+            print(f"      REFUSED: {identity} is {existing}, but no recorded response hash was")
+            print(f"      found in the lifecycle log, so this capture cannot be compared against")
+            print(f"      what is already recorded. Resolve by hand rather than by re-ingesting.")
+            return "refused"
+
+        if existing in ("accepted", "rejected"):
+            print(f"      already {existing}, and byte-identical. Re-running ingest is a no-op.")
+        else:
+            #  Without this, a re-run fell through to receive() and reported an immutability
+            #  refusal -- correct, and a confusing way to say "you already ingested this."
+            print(f"      already {existing}, awaiting the custodian's disposition, and")
+            print(f"      byte-identical. The bytes are preserved. Disposition is accept or")
+            print(f"      reject, with a reason; until then {bundle['round']} is not complete.")
         return "skipped"
 
     response = bundle["response_text"]
@@ -298,7 +353,7 @@ def main() -> int:
     outcomes = [ingest_one(Path(b).expanduser(), args.dry_run) for b in args.bundles]
 
     print("\n" + "─" * 60)
-    for label in ("accepted", "held", "refused", "skipped"):
+    for label in ("accepted", "held", "conflict", "refused", "skipped"):
         n = outcomes.count(label)
         if n:
             print(f"  {label:9} {n}")
@@ -320,9 +375,22 @@ def main() -> int:
             print(f"    {party:22} {state}")
         if status["awaiting_disposition"]:
             print(f"    awaiting disposition: {', '.join(status['awaiting_disposition'])}")
+        for conflict in status["unresolved_conflicts"]:
+            print(f"    DISPUTED  {conflict['identity']}: a differing capture is preserved at")
+            print(f"              {conflict['preserved_at']}")
 
     if "accepted" in outcomes:
         print("\n  Nothing is committed. Review the diff, run `python3 tools/rebuild.py`, then commit.")
+
+    # Distinct statuses, because these need distinct responses and a single non-zero
+    # exit would collapse "your correction is being held" into "a bundle was bad".
+    #   3  a conflicting receipt was preserved -- a custodian must resolve it
+    #   2  something is held awaiting disposition
+    #   1  a bundle was refused
+    if "conflict" in outcomes:
+        return 3
+    if "held" in outcomes:
+        return 2
     return 1 if "refused" in outcomes else 0
 
 

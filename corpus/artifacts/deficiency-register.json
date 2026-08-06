@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "a2af61d16f04d28f8dc2b6864b7f85e8aaa16dab90e7a94e6bf9f39c0676c8b6"
+    "sha256": "b6168331311cb67859fb7de02749be87047c7ffe6d452d51eaf4e981317bd27b"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1438,6 +1438,56 @@
       "remediation_effort": {
         "estimate": "remediation_effort_low",
         "basis": "The correction is a citation. The cost already fell: four parties reasoned from a false premise about their own review history."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-37",
+      "title": "A corrected capture was silently discarded, so the tooling manufactured misattribution",
+      "section_sha256": "e95c1c63245664c261c9de33323cfe3e9d085e5f321df6f4636ede663bde2376",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_human_operator",
+        "date_utc": "2026-08-06",
+        "where": "the custodian at a keyboard, during the first real end-to-end run of the capture UI; filed by the Corpus Surface session as capture-integration Defect 7",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/ingest_capture.py's two early-return branches",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Both returned 'skipped' unconditionally, so a differing capture for a party whose slot was taken vanished: exit 0, bytes not preserved, round COMPLETE."
+        },
+        {
+          "object": "The corpus's attribution guarantee (D-10)",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The wrong text stood in corpus/raw/ under a real party's name while every signal said the correction worked. Misattribution manufactured by the subsystem built to prevent it."
+        },
+        {
+          "object": "Retraction of an already-published attribution",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Preserving corrected bytes does not retract what is already attributed. Deliberately manual: a tool that rewrites text attributed to a real party is the failure this path exists to stop."
+        },
+        {
+          "object": "Receipt-level identity in the lifecycle",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "The lifecycle is keyed by party; this defect shows receipts need their own IDs. The conflict path is containment, not the durable repair."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "A differing capture records a conflicting_receipt, preserves bytes content-addressed under record/quarantine/, blocks the round from COMPLETE, and exits 3. Idempotent across re-runs and across a resolution. Fifteen regression cases, including one asserting that the terminal disposition event carries no response hash -- the fact that breaks the obvious fix."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "The comparison is small. The cost was that preserving alone left the round COMPLETE, and that shipping a new blocking state without a disposition would have repeated capture Defect 1."
       },
       "human_review": {
         "status": "not_reviewed",

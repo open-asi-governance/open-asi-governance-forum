@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **36 entries** (D-01 … D-36).
+**Status:** open — **37 entries** (D-01 … D-37).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1174,6 +1174,64 @@ commit — **cites the artifact by path** so the recipient can check it. This pr
 §2.3 and the qwen finding verbatim, precisely so no party relied on the annotator's summary, and
 then asserted an unverifiable provenance claim in prose between them.
 
+### D-37 — A corrected capture was silently discarded, so the tooling manufactured misattribution
+
+*Filed 2026-08-06. Found by the **custodian at a keyboard** during the first real end-to-end run of
+the capture UI, and filed by the Corpus Surface session as capture-integration Defect 7. It was
+structurally unreachable by the headless test runs that preceded it. Reproduced against the real
+committed round-03 corpus before any fix was written.*
+
+Capture a reply; it is accepted. Notice the paste included the model's preamble. Re-capture
+correctly. **The correction was silently discarded** — exit 0, *"already accepted; nothing to do"*,
+the round still reporting `COMPLETE`, and the bytes not even preserved.
+
+The wrong text then stands in `corpus/raw/` attributed to a real party, and **every signal the
+custodian has says the correction worked.** That is **D-10 — a segment attributed to a party that
+did not write it — manufactured by the tooling**, in the one subsystem built to prevent it.
+
+**Why the obvious fix does not work, which is the transferable part.** The proposal was to compare
+the incoming hash against the recorded one before skipping. Correct in direction, and it breaks:
+`accepted` and `rejected` are *dispositions* and carry **no** `response_sha256` — only the receiving
+event does. So a check reading "the recorded hash for this party" off the current state finds
+`None` on every accepted party, which is exactly the population a re-capture collides with. A
+regression case now asserts the terminal event carries no hash, so nobody re-derives this.
+
+**Preserving the bytes is not sufficient either.** A conflict is not a state change: the party stays
+`accepted`, so it is not "outstanding", so `round_status` still returns `complete`. Preserving
+without blocking would have moved the defect from *"the correction is lost"* to *"the correction is
+on disk and the round says COMPLETE"* — which is not obviously better, because the custodian's
+signal is still that everything is fine.
+
+**Remediated.** A differing capture now records a `conflicting_receipt`, preserves the bytes under
+`record/quarantine/<round>/<party>-conflict-<sha256>.md`, blocks the round from reporting complete,
+and exits **3** — distinct from held (2) and refused (1), because those need different responses.
+The path is **content-addressed rather than `<party>-02.md`**: `capture_response.py` reads numeric
+suffixes as *sample indices*, so that name would file a disputed correction as "sample 2 of k", a
+claim about sampling nobody is making.
+
+**The disposition operation shipped in the same commit, deliberately.** `D-38`-adjacent: this
+repository already has capture Defect 1, where a *held* capture cannot be dispositioned because
+nothing calls `rejected`, so a state designed to be temporary became permanent. Adding a second
+blocking state with no exit would have repeated that within a week, in the same subsystem. There is
+deliberately **no** `--discard-conflicting`: deleting preserved bytes is the behaviour just removed.
+
+**Two further defects, found by running the fix three times rather than reading it.** Every re-run
+appended a duplicate `conflicting_receipt` for the same bytes; and a re-run *after* a custodian
+resolved the dispute **silently re-opened it**. The second is the serious one — an accidentally
+repeated shell command would have reverted a recorded human decision with nothing saying so.
+
+**What it still does not catch**, from the external review and recorded rather than glossed: the
+same text under changed provenance metadata; wrong-party attribution where the bytes happen to match
+(hash equality proves sameness, not authorship); crash between writing quarantine bytes and
+appending the event; and — most importantly — **preserving the corrected bytes does not retract the
+already-published attribution.** That remains a manual superseding artifact, and the tool says so
+rather than doing it, because a tool that rewrites text attributed to a real party is the failure
+this whole path exists to stop.
+
+**Structural note.** The lifecycle is keyed by *party*, while this defect shows that *receipts* need
+their own identity. The conflict path is containment; receipt-level lifecycle records are the
+durable repair, and are not built.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1223,6 +1281,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-37 | **Remediated 2026-08-06**, with the disposition path in the same commit so the new blocking state cannot become permanent the way capture Defect 1's did. Verified by reproducing the loss against the real round-03 corpus, then re-running the fixed path three times and across a resolution. **Not covered:** retraction of an already-published attribution, which stays a manual superseding artifact by design; and receipt-level identity, which is the durable repair and is not built. |
 | D-36 | **Not remediable where it acted.** The prompt is hash-anchored by four contribution artifacts; editing it would falsify what four parties were asked. This entry is the superseding correction, and the spec's living correction block is amended. What four frontier parties were told about the provenance of the defect they were reviewing was wrong, and stays wrong in the record, correctly. |
 | D-35 | **Remediated 2026-08-06** structurally rather than by re-reading: §2.3(5) now references §2.2's qualifier list instead of restating it, so it cannot drift again. `T14` corrected; the round-03 prompt cannot be. **Open for the rest of the document:** §2.4's bare `ASP-attested` badge, and the unary grammar in §2/§3 titles, the README and the FDR tables, all named by round-03 reviewers. |
 | D-34 | **Remediated forward 2026-08-06** — `check_raw_append_only.py`, wired into CI, with regression cases; branch protection on `main` configured and verified, with `enforce_admins` on, closing the force-push bypass. **Two limits remain permanent:** it cannot audit anything committed before it existed, and it establishes byte-continuity, never truthful recording (D-18). |

@@ -128,6 +128,139 @@ def current_state(round_id: str, identity: str) -> str | None:
     return state
 
 
+def latest_response_event(round_id: str, identity: str) -> dict | None:
+    """The most recent event for a party that actually recorded a response hash.
+
+    NOT the party's current state event. `accepted` and `rejected` are dispositions
+    and carry no `response_sha256` -- only the receiving event (`returned_clean` or
+    `returned_pending_review`) does. Verified against
+    record/rounds/review-round-03-lifecycle.jsonl, where Grok's four events record
+    the hash on `returned_clean` and not on `accepted`.
+
+    This distinction is the whole reason Defect 7's obvious fix does not work. A
+    check that reads "the recorded hash for this party" off the current state finds
+    None on every accepted party -- which is every party a re-capture would collide
+    with -- and then either crashes or, worse, treats absent as equal and skips.
+    """
+    for event in reversed(read_events(round_id)):
+        if event.get("identity") == identity and event.get("response_sha256"):
+            return event
+    return None
+
+
+def preserve_conflict(round_id: str, identity: str, response_text: str) -> Path:
+    """Preserve bytes that collide with an already-recorded response.
+
+    CONTENT-ADDRESSED, and not `<party>-02.md`. `capture_response.py` builds names
+    as f"{slug}-{sample_index:02d}", so a numeric suffix is a claim that this is
+    sample 2 of k -- a statement about sampling that a correction is not making.
+    Naming a disputed receipt that way would file a contradiction as a data point.
+
+    Lives under record/quarantine/, NOT corpus/raw/. Nothing here is corpus
+    material: it is disputed bytes awaiting a custodian, and the corpus must not
+    grow a second attributed response for a party while the dispute is open.
+
+    Idempotent by construction. The same bytes hash to the same path, so an
+    interrupted-and-retried ingest converges instead of accumulating duplicates.
+    """
+    digest = sha256_of_text(response_text)
+    target = (REPO_ROOT / "record" / "quarantine" / round_id
+              / f"{slug_identity(identity)}-conflict-{digest}.md")
+    target.parent.mkdir(parents=True, exist_ok=True)
+
+    if target.exists():
+        if sha256_of_text(target.read_text(encoding="utf-8")) != digest:
+            raise ValueError(
+                f"hash-addressed conflict file does not match its own name: {target}. "
+                f"Its bytes were changed after it was written."
+            )
+        return target
+
+    # "x" fails if it appeared between the check and the write, rather than
+    # silently truncating whatever is there.
+    with target.open("x", encoding="utf-8") as handle:
+        handle.write(response_text)
+    return target
+
+
+def slug_identity(text: str) -> str:
+    return "".join(c if c.isalnum() else "-" for c in text.lower()).strip("-")
+
+
+def record_conflict(round_id: str, identity: str, actor: str,
+                    response_text: str, recorded_sha256: str) -> dict:
+    """Append a NON-STATE conflict event and preserve the bytes.
+
+    Deliberately does not transition the party. The recorded response keeps its
+    disposition; what is recorded is that a DIFFERENT set of bytes was offered for
+    a slot that is already taken. Inventing a state transition here would let an
+    ingest silently un-accept material a custodian already accepted.
+
+    Because it is not a state change, `round_status` must consult conflicts
+    separately -- see `unresolved_conflicts`. Without that the round still reports
+    COMPLETE and the defect becomes "preserved but invisible" instead of "lost".
+    """
+    preserved = preserve_conflict(round_id, identity, response_text)
+    event = {
+        "event": "conflicting_receipt",
+        "round": round_id,
+        "identity": identity,
+        "actor": actor,
+        "recorded_sha256": recorded_sha256,
+        "conflicting_sha256": sha256_of_text(response_text),
+        "conflicting_bytes": len(response_text.encode("utf-8")),
+        "preserved_at": str(preserved.relative_to(REPO_ROOT)),
+        "resolved": False,
+    }
+    path = log_path(round_id)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(event, ensure_ascii=False, sort_keys=True) + "\n")
+    return event
+
+
+def conflict_status(round_id: str, identity: str, conflicting_sha256: str) -> str:
+    """"none", "unresolved", or "resolved:<decision>" for one specific set of bytes.
+
+    Keyed by the CONFLICTING HASH, not by party. A party can have more than one
+    dispute, and resolving one must not appear to settle another.
+
+    This exists because re-running an ingest is supposed to be safe, and the first
+    version of the conflict path made it unsafe in two ways at once, both caught by
+    running it three times rather than by reading it: every re-run appended another
+    `conflicting_receipt` for the same bytes (three events, one dispute), and a
+    re-run after a custodian resolved the dispute silently re-opened it. The second
+    is the serious one -- an accidental repeat of a shell command would have
+    reverted a recorded human decision with no message saying so.
+    """
+    status = "none"
+    for event in read_events(round_id):
+        if event.get("identity") != identity:
+            continue
+        if event.get("conflicting_sha256") != conflicting_sha256:
+            continue
+        if event.get("event") == "conflicting_receipt":
+            status = "unresolved"
+        elif event.get("event") == "conflict_resolved":
+            status = f"resolved:{event.get('decision')}"
+    return status
+
+
+def unresolved_conflicts(round_id: str) -> list[dict]:
+    """Conflicting receipts with no later resolution event.
+
+    A resolution names the conflicting hash it settles, so resolving one dispute
+    does not clear another for the same party.
+    """
+    conflicts: dict[str, dict] = {}
+    for event in read_events(round_id):
+        if event.get("event") == "conflicting_receipt":
+            conflicts[event["conflicting_sha256"]] = event
+        elif event.get("event") == "conflict_resolved":
+            conflicts.pop(event.get("conflicting_sha256"), None)
+    return list(conflicts.values())
+
+
 def check_transition(round_id: str, identity: str, new_state: str) -> tuple[bool, str]:
     """Validate a transition without performing it."""
     if new_state not in TRANSITIONS:
@@ -186,17 +319,28 @@ def round_status(round_id: str, expected_parties: list[str]) -> dict:
     A round is complete only when every expected party has reached a terminal
     state. Anything pending review keeps the round open and visible -- that is what
     stops quarantine from becoming a silent refusal.
+
+    AN UNRESOLVED CONFLICTING RECEIPT ALSO BLOCKS COMPLETE, and it has to be checked
+    separately because a conflict is not a state change: the party stays `accepted`
+    and would otherwise not be "outstanding". Preserving disputed bytes without this
+    would move Defect 7 from "the correction is lost" to "the correction is on disk
+    and the round still says COMPLETE", which is not obviously better -- the
+    custodian's signal is still that everything is fine.
     """
     states = {p: current_state(round_id, p) or "planned" for p in expected_parties}
     pending = sorted(p for p, s in states.items() if s in NEEDS_DISPOSITION)
     outstanding = sorted(p for p, s in states.items() if s in OPEN_STATES)
+    conflicts = unresolved_conflicts(round_id)
+    disputed = sorted({c["identity"] for c in conflicts})
     return {
         "round": round_id,
         "states": states,
         "outstanding": outstanding,
         "awaiting_disposition": pending,
-        "complete": not outstanding,
-        "complete_blocked_by": pending,
+        "disputed": disputed,
+        "unresolved_conflicts": conflicts,
+        "complete": not outstanding and not conflicts,
+        "complete_blocked_by": sorted(set(pending) | set(disputed)),
         "accepted": sorted(p for p, s in states.items() if s == "accepted"),
         "rejected": sorted(p for p, s in states.items() if s == "rejected"),
     }

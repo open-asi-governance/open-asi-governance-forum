@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 36** classifications have been read by a human against the prose.
+**0 of 37** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -27,7 +27,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | the annotator | 25 |
 | a designated review round | 8 |
 | an external reviewer | 2 |
-| human operator | 1 |
+| human operator | 2 |
 
 **8 entries — D-16 through D-36 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
 
@@ -37,11 +37,11 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|
 | required, not implemented | 12 |
 | implemented, not validated | 21 |
-| validated | 3 |
+| validated | 4 |
 
 ### Affected objects
 
-**78 affected-object rows across 36 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**82 affected-object rows across 37 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -586,4 +586,21 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | record/review-round-03-prompt.md, as sent to four parties <br><sub>Told four frontier parties the defect was introduced by a round-02 ChatGPT finding. It was round 01. Hash-anchored by four contribution artifacts; correcting it would falsify the record of what was asked. The register entry is the superseding correction.</sub> | not repairable | impossible |
 | The correction block in spec/asp/asp-v0.1.md §2.3 <br><sub>Living text, so amended in place with the correction attributed to Claude Fable 5 and the true sequence stated.</sub> | repairable by supersession | verified |
 | The project's account of its own failure sequence <br><sub>The true sequence is worse than the one asserted: the defect was committed BEFORE the partial-propagation diagnosis existed, then survived the round whose headline diagnosis it was. The version the project told itself was the more flattering one.</sub> | repairable by supersession | verified |
+
+### D-37 — A corrected capture was silently discarded, so the tooling manufactured misattribution
+
+[Full entry](deficiencies.md#d-37--a-corrected-capture-was-silently-discarded-so-the-tooling-manufactured-misattribution)
+
+- **First articulated:** human operator, 2026-08-06 · evidence: *preserved artifact*
+  - where: `the custodian at a keyboard, during the first real end-to-end run of the capture UI; filed by the Corpus Surface session as capture-integration Defect 7`
+- **Prospective control:** validated — A differing capture records a conflicting_receipt, preserves bytes content-addressed under record/quarantine/, blocks the round from COMPLETE, and exits 3. Idempotent across re-runs and across a resolution. Fifteen regression cases, including one asserting that the terminal disposition event carries no response hash -- the fact that breaks the obvious fix.
+- **Effort:** medium — The comparison is small. The cost was that preserving alone left the round COMPLETE, and that shipping a new blocking state without a disposition would have repeated capture Defect 1.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/ingest_capture.py's two early-return branches <br><sub>Both returned 'skipped' unconditionally, so a differing capture for a party whose slot was taken vanished: exit 0, bytes not preserved, round COMPLETE.</sub> | repairable by supersession | verified |
+| The corpus's attribution guarantee (D-10) <br><sub>The wrong text stood in corpus/raw/ under a real party's name while every signal said the correction worked. Misattribution manufactured by the subsystem built to prevent it.</sub> | repairable by supersession | verified |
+| Retraction of an already-published attribution <br><sub>Preserving corrected bytes does not retract what is already attributed. Deliberately manual: a tool that rewrites text attributed to a real party is the failure this path exists to stop.</sub> | partly repairable | not started |
+| Receipt-level identity in the lifecycle <br><sub>The lifecycle is keyed by party; this defect shows receipts need their own IDs. The conflict path is containment, not the durable repair.</sub> | partly repairable | not started |
 

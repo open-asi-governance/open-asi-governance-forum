@@ -11,6 +11,7 @@ in any of them silently reintroduces a failure this project has already had.
 from __future__ import annotations
 
 import pathlib
+import json
 import shutil
 import sys
 import tempfile
@@ -109,6 +110,69 @@ L.transition("test-round-03", "X", "planned", "custodian")
 check("appending to one round does not touch another", path.read_text().splitlines() == before)
 check("every event carries a unique id",
       len({e["event_id"] for e in L.read_events(R2)}) == len(L.read_events(R2)))
+
+
+# ------------------------------------- Defect 7: conflicting receipts (D-37) --
+# A differing capture for a party whose slot is already taken used to be DISCARDED:
+# exit 0, "nothing to do", bytes not preserved. A custodian re-capturing to correct
+# a mispaste got silence while the wrong text stood in the corpus under a real
+# party's name. Every case here failed before the fix.
+R4 = "test-round-04"
+L.transition(R4, "Grok", "planned", "custodian")
+L.transition(R4, "Grok", "sent_attested", "custodian")
+L.receive(R4, "Grok", "grok", "ORIGINAL response text.", "custodian", [], "returned_clean")
+L.transition(R4, "Grok", "accepted", "custodian", reason="looks right")
+
+check("the terminal disposition carries no response hash",
+      L.current_state(R4, "Grok") == "accepted"
+      and not [e for e in L.read_events(R4)
+               if e.get("state") == "accepted" and e.get("response_sha256")])
+check("latest_response_event finds the hash anyway",
+      (L.latest_response_event(R4, "Grok") or {}).get("response_sha256")
+      == L.sha256_of_text("ORIGINAL response text."))
+
+st = L.round_status(R4, ["Grok"])
+check("round is complete before any conflict", st["complete"] is True)
+
+conflict = L.record_conflict(R4, "Grok", "custodian", "CORRECTED response text.",
+                             L.sha256_of_text("ORIGINAL response text."))
+preserved = tmp / conflict["preserved_at"]
+check("conflicting bytes are preserved", preserved.read_text() == "CORRECTED response text.")
+check("preserved under record/quarantine, not corpus/",
+      conflict["preserved_at"].startswith("record/quarantine/"))
+check("named by content hash, not a sample index",
+      "-conflict-" in preserved.name and "-02." not in preserved.name)
+
+st = L.round_status(R4, ["Grok"])
+check("an unresolved conflict blocks COMPLETE", st["complete"] is False)
+check("the disputed party is named", st["disputed"] == ["Grok"])
+check("the party keeps its disposition", st["states"]["Grok"] == "accepted")
+
+again = L.record_conflict(R4, "Grok", "custodian", "CORRECTED response text.",
+                          L.sha256_of_text("ORIGINAL response text."))
+check("re-preserving identical bytes is idempotent",
+      again["preserved_at"] == conflict["preserved_at"])
+check("still one unresolved conflict", len(L.unresolved_conflicts(R4)) == 1)
+
+check("conflict_status reports unresolved",
+      L.conflict_status(R4, "Grok", conflict["conflicting_sha256"]) == "unresolved")
+check("conflict_status is keyed by bytes, not party",
+      L.conflict_status(R4, "Grok", "0" * 64) == "none")
+
+# Resolution, appended the way resolve_conflict.py appends it.
+with L.log_path(R4).open("a", encoding="utf-8") as handle:
+    handle.write(json.dumps({
+        "event": "conflict_resolved", "round": R4, "identity": "Grok",
+        "actor": "custodian", "decision": "confirm_recorded", "reason": "wrong window",
+        "recorded_sha256": conflict["recorded_sha256"],
+        "conflicting_sha256": conflict["conflicting_sha256"],
+        "preserved_at": conflict["preserved_at"],
+    }, sort_keys=True) + "\n")
+
+check("resolution clears the block", L.round_status(R4, ["Grok"])["complete"] is True)
+check("conflict_status reports the decision",
+      L.conflict_status(R4, "Grok", conflict["conflicting_sha256"]) == "resolved:confirm_recorded")
+check("resolved bytes are KEPT, never deleted", preserved.exists())
 
 shutil.rmtree(tmp, ignore_errors=True)
 
