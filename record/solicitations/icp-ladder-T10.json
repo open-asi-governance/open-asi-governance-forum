@@ -1,0 +1,49 @@
+{
+  "slug": "icp-ladder-T10",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "question": "Does the ICP promotion ladder constrain an implementer's activity, only its claims, or neither?",
+  "phase": "Phase-1 (blind)",
+  "phase_justification": "No other model's position on this question was supplied. The prompt contains only the specification text and the question. The three frontier verdicts collected in review round 02 were withheld deliberately so this is an independent draw.",
+  "seed_base": 4100,
+  "schema_name": "ladder_judgement",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "binding_force": {
+        "type": "string",
+        "enum": [
+          "binds_the_implementer_s_activity",
+          "binds_only_what_may_be_claimed",
+          "does_not_bind"
+        ]
+      },
+      "level_2_reachable_without_a_second_party": {
+        "type": "boolean"
+      },
+      "strongest_provision": {
+        "type": "string"
+      },
+      "weakest_provision": {
+        "type": "string"
+      },
+      "one_line_reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "binding_force",
+      "level_2_reachable_without_a_second_party",
+      "strongest_provision",
+      "weakest_provision",
+      "one_line_reason"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "binding_force",
+    "level_2_reachable_without_a_second_party"
+  ],
+  "prompt": "You are given the text of section 4 of a draft governance protocol. Judge it on its own terms.\n\nQuestion: does this promotion ladder place a real constraint on an implementer that also authors the specification and hosts the repository, or does it only constrain what that implementer may CLAIM about its work?\n\nConsider specifically: an implementer may promote its own work to Level 0 and Level 1 without anyone else's involvement, and Level 2 requires a second party who may never appear.\n\n--- BEGIN SPECIFICATION TEXT ---\n## 4. The promotion ladder (normative)\n\nEvery contribution enters at Level 0 and advances only against the stated bar.\n\n| Level | Name | Bar | Who may promote |\n|---|---|---|---|\n| **0** | Practice note | \"Here is what we do.\" No generality claimed. | Implementer alone |\n| **1** | Candidate pattern | Mechanism, the problem it solves, known failure modes, **and at least one recorded failure** | Implementer alone |\n| **2** | Draft standard | An **independent party implements it from the specification text alone**, without consulting the author | Requires that independent implementer |\n| **3** | Provisionally validated | Two independent implementations interoperate, **or** the mechanism survives an adversarial evaluation **designed by a party other than the implementer** | Requires the second party |\n| **4** | Standard | Multi-party adoption under a defined ratification procedure | **No procedure exists. Nothing has reached Level 4.** |\n\n### 4.1 Level 1 requires a recorded failure\n\nA mechanism with no recorded failure has not been used hard enough to know its shape, or its\nfailures are not being reported. Both are disqualifying at Level 1. The failure must be specific:\nwhat broke, under what conditions, and what it cost.\n\n### 4.2 Level 2 is the load-bearing test\n\nThe Level-2 bar is not \"someone likes the specification.\" It is: **an independent party reads the\ntext and builds a conforming thing without asking the author what it meant.**\n\nThis is the test that discriminates hypothesis (1) from hypotheses (2) and (3) in §2. If nobody can\nimplement the mechanism from the text alone, that is evidence the specification encodes the\noriginal implementer's architecture rather than a general mechanism — **and that is a finding worth\npublishing**, not a setback to be worked around by helping the second implementer.\n\nWhere a Level-2 attempt fails, the questions the second implementer had to ask are the artifact.\nThey MUST be recorded.\n\n### 4.3 Level 4 is structurally unreachable by any single party\n\nNo ratification procedure exists in this project. D-16 records that nothing here has ever been\ncollectively ratified. Until such a procedure exists and is itself adopted, **Level 4 is\nunreachable**, and no document may describe any mechanism as a standard.\n\nThis is deliberate. It is the structural guarantee that a single implementer cannot promote its own\nwork to a standard, and it costs nothing to keep while no second party exists.\n--- END SPECIFICATION TEXT ---\n\nAnswer with the required JSON only.",
+  "temperature_declared": 1.0,
+  "arm": "Temperature-sensitivity arm at T=1.0. Prompt, schema, seed_base and model identical to the other two arms and to local-round-01. Temperature is the ONLY variable. Replicates the probe whose 0.9928-bit result D-26 says is reported as though unconditional."
+}

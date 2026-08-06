@@ -1,0 +1,334 @@
+{
+  "spec": {
+    "slug": "icp-ladder-T03",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "question": "Does the ICP promotion ladder constrain an implementer's activity, only its claims, or neither?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "No other model's position on this question was supplied. The prompt contains only the specification text and the question. The three frontier verdicts collected in review round 02 were withheld deliberately so this is an independent draw.",
+    "seed_base": 4100,
+    "schema_name": "ladder_judgement",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "binding_force": {
+          "type": "string",
+          "enum": [
+            "binds_the_implementer_s_activity",
+            "binds_only_what_may_be_claimed",
+            "does_not_bind"
+          ]
+        },
+        "level_2_reachable_without_a_second_party": {
+          "type": "boolean"
+        },
+        "strongest_provision": {
+          "type": "string"
+        },
+        "weakest_provision": {
+          "type": "string"
+        },
+        "one_line_reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "binding_force",
+        "level_2_reachable_without_a_second_party",
+        "strongest_provision",
+        "weakest_provision",
+        "one_line_reason"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "binding_force",
+      "level_2_reachable_without_a_second_party"
+    ],
+    "prompt": "You are given the text of section 4 of a draft governance protocol. Judge it on its own terms.\n\nQuestion: does this promotion ladder place a real constraint on an implementer that also authors the specification and hosts the repository, or does it only constrain what that implementer may CLAIM about its work?\n\nConsider specifically: an implementer may promote its own work to Level 0 and Level 1 without anyone else's involvement, and Level 2 requires a second party who may never appear.\n\n--- BEGIN SPECIFICATION TEXT ---\n## 4. The promotion ladder (normative)\n\nEvery contribution enters at Level 0 and advances only against the stated bar.\n\n| Level | Name | Bar | Who may promote |\n|---|---|---|---|\n| **0** | Practice note | \"Here is what we do.\" No generality claimed. | Implementer alone |\n| **1** | Candidate pattern | Mechanism, the problem it solves, known failure modes, **and at least one recorded failure** | Implementer alone |\n| **2** | Draft standard | An **independent party implements it from the specification text alone**, without consulting the author | Requires that independent implementer |\n| **3** | Provisionally validated | Two independent implementations interoperate, **or** the mechanism survives an adversarial evaluation **designed by a party other than the implementer** | Requires the second party |\n| **4** | Standard | Multi-party adoption under a defined ratification procedure | **No procedure exists. Nothing has reached Level 4.** |\n\n### 4.1 Level 1 requires a recorded failure\n\nA mechanism with no recorded failure has not been used hard enough to know its shape, or its\nfailures are not being reported. Both are disqualifying at Level 1. The failure must be specific:\nwhat broke, under what conditions, and what it cost.\n\n### 4.2 Level 2 is the load-bearing test\n\nThe Level-2 bar is not \"someone likes the specification.\" It is: **an independent party reads the\ntext and builds a conforming thing without asking the author what it meant.**\n\nThis is the test that discriminates hypothesis (1) from hypotheses (2) and (3) in §2. If nobody can\nimplement the mechanism from the text alone, that is evidence the specification encodes the\noriginal implementer's architecture rather than a general mechanism — **and that is a finding worth\npublishing**, not a setback to be worked around by helping the second implementer.\n\nWhere a Level-2 attempt fails, the questions the second implementer had to ask are the artifact.\nThey MUST be recorded.\n\n### 4.3 Level 4 is structurally unreachable by any single party\n\nNo ratification procedure exists in this project. D-16 records that nothing here has ever been\ncollectively ratified. Until such a procedure exists and is itself adopted, **Level 4 is\nunreachable**, and no document may describe any mechanism as a standard.\n\nThis is deliberate. It is the structural guarantee that a single implementer cannot promote its own\nwork to a standard, and it costs nothing to keep while no second party exists.\n--- END SPECIFICATION TEXT ---\n\nAnswer with the required JSON only.",
+    "temperature_declared": 0.3,
+    "arm": "Temperature-sensitivity arm at T=0.3. Prompt, schema, seed_base and model identical to the other two arms and to local-round-01. Temperature is the ONLY variable. Replicates the probe whose 0.9928-bit result D-26 says is reported as though unconditional."
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 2 requires a second party who may never appear\"\n  ,\n  \"one_line_reason\": \"The specification only constrains what an implementer may claim about its work, not what it may do, and Level 2's requirement of an independent implementer is contingent on a party that may never appear.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 842,
+        "completion_tokens": 148,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4100
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 2 requires a second party who may never appear\"\n  ,\n  \"one_line_reason\": \"The specification constrains only the claims an implementer may make about their work; it does not force any implementer to perform actions (like a second party implementing the spec) that are outside their control, but rather makes it a violation of the protocol to claim a higher level without the required external validation.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 858,
+        "completion_tokens": 164,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4101
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"The specification is normative and requires an independent implementation to reach Level 2, but the only enforcement mechanism is the prohibition on claiming a higher level than achieved.\"\n  ,\n  \"weakest_provision\": \"The specification does not define a mechanism for verifying claims or penalizing false claims.\"\n  ,\n  \"one_line_reason\": \"The protocol only restricts what an implementer may claim about its work, as there is no enforcement mechanism to prevent an implementer from falsely claiming a higher level or ignoring the requirement for an independent implementer at Level 2.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 865,
+        "completion_tokens": 171,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4102
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\",\n  \"weakest_provision\": \"Level 2 requires an independent implementer who may never appear\"\n  ,\n  \"one_line_reason\": \"The protocol only restricts what an implementer may claim about its work; it does not prevent the implementer from promoting its own work to Level 0 or Level 1, and Level 2 requires a second party who may never appear, meaning the implementer is never forced to actually undergo the Level 2 test or any higher test.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 867,
+        "completion_tokens": 173,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4103
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 2 requires a second party who may never appear\"\n  ,\n  \"one_line_reason\": \"The specification explicitly states that Level 2 requires an independent implementer who may never appear, and Level 4 is unreachable because no ratification procedure exists, meaning the implementer is only constrained in what they may claim (e.g., cannot call it a Level 2 or 4 standard without external validation or a non-existent procedure), but is not forced to perform the actions themselves.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 875,
+        "completion_tokens": 181,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4104
+    },
+    {
+      "sample_index": 6,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"level_4_unreachable\"\n  ,\n  \"weakest_provision\": \"level_2_implementation\"\n  ,\n  \"one_line_reason\": \"The spec only constrains what an implementer may claim about its work, as Level 2 requires an independent party who may never appear, and Level 4 is structurally unreachable by any single party.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 822,
+        "completion_tokens": 128,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4105
+    },
+    {
+      "sample_index": 7,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\",\n  \"weakest_provision\": \"Level 2 requires a second party who may never appear\"\n  ,\n  \"one_line_reason\": \"The protocol only constrains the claims an implementer may make about their work (e.g., they cannot claim Level 2 or 4 without a second party), but it does not prevent them from publishing their own implementation and specification at any level below 4, nor does it force a second party to ever appear.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 862,
+        "completion_tokens": 168,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4106
+    },
+    {
+      "sample_index": 8,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\",\n  \"weakest_provision\": \"Level 2 requires an independent party to implement from the specification text alone\"\n  ,\n  \"one_line_reason\": \"The specification only constrains what an implementer may claim about its work, as it explicitly states that Level 4 is unreachable and nothing has reached it, meaning the implementer cannot claim to have reached Level 4, but can still claim to have reached Level 0, 1, or 2 if they meet the criteria.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 868,
+        "completion_tokens": 174,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4107
+    },
+    {
+      "sample_index": 9,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 2 requires a second party\"\n  ,\n  \"one_line_reason\": \"The specification explicitly states that Level 4 is unreachable by a single party and Level 2 requires an independent implementer, meaning the implementer cannot unilaterally promote their work beyond Level 1, but the constraints are purely on what they may claim about their work (e.g., they cannot claim it is a Level 2 or Level 4 standard).\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 866,
+        "completion_tokens": 172,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4108
+    },
+    {
+      "sample_index": 10,
+      "content": "{\"binding_force\": \"does_not_bind\", \"level_2_reachable_without_a_second_party\": false, \"strongest_provision\": \"level_4_structurally_unreachable_by_any_single_party\", \"weakest_provision\": \"level_0_practice_note\", \"one_line_reason\": \"The specification only constrains what an implementer may claim about its work, as it lacks enforcement mechanisms and relies on self-promotion and public record rather than external validation or sanctions.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 810,
+        "completion_tokens": 116,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4109
+    },
+    {
+      "sample_index": 11,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 2 requires an independent implementer\",\n  \"weakest_provision\": \"Level 0 and Level 1 require only the implementer alone\",\n  \"one_line_reason\": \"The specification explicitly requires an independent implementer to promote work to Level 2, which is a real constraint on the implementer that also authors the specification and hosts the repository, as they cannot complete the promotion themselves.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 826,
+        "completion_tokens": 132,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4110
+    },
+    {
+      "sample_index": 12,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 0 and Level 1 require only the implementer alone\"\n  ,\n  \"one_line_reason\": \"The specification only restricts the labels an implementer may attach to their work (e.g., you cannot call it a 'Standard' at Level 4 because no ratification procedure exists), but it does not physically prevent the implementer from building, publishing, or hosting their own implementation at any level.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 859,
+        "completion_tokens": 165,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4111
+    },
+    {
+      "sample_index": 13,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 2 requires an independent implementer to build a conforming thing from the specification text alone without consulting the author.\"\n  ,\n  \"weakest_provision\": \"Level 0 and Level 1 can be promoted by the implementer alone without any external involvement.\"\n  ,\n  \"one_line_reason\": \"The specification explicitly requires an independent party to implement the mechanism from the specification text alone at Level 2, which is a real constraint on the implementer, as they cannot achieve this level alone.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 852,
+        "completion_tokens": 158,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4112
+    },
+    {
+      "sample_index": 14,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"level_2_requires_independent_implementation\"\n  ,\n  \"weakest_provision\": \"level_4_unreachable_by_design\"\n  ,\n  \"one_line_reason\": \"The specification structurally prevents a single implementer from reaching Level 2 or higher without a second party, but it does not prevent that implementer from claiming Level 0 or 1 for their own work, and Level 4 is explicitly unreachable by design.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 836,
+        "completion_tokens": 142,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4113
+    },
+    {
+      "sample_index": 15,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 0 requires no bar\"\n  ,\n  \"one_line_reason\": \"The specification only regulates what an implementer may claim about its work; it does not prevent an implementer from claiming a higher level than they have achieved, nor does it prevent an implementer from promoting their own work to Level 0 or Level 1 without anyone else's involvement.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 849,
+        "completion_tokens": 155,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4114
+    },
+    {
+      "sample_index": 16,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 2 requires an independent implementer to build from the spec alone, which is a real constraint on the implementer-author if they wish to claim Level 2 status.\"\n  ,\n  \"weakest_provision\": \"Level 4 is unreachable by definition, so it only constrains claims about being a 'Standard'.\"\n  ,\n  \"one_line_reason\": \"The protocol only restricts what an implementer-author may claim about their work (e.g., they cannot claim Level 2 or 4 without meeting the bars), but it does not prevent them from building, publishing, and claiming their work is a Level 0 or 1 practice note or candidate pattern entirely on their own.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 896,
+        "completion_tokens": 202,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4115
+    },
+    {
+      "sample_index": 17,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 2 requires an independent implementer to succeed before the author can claim Level 2\"\n  ,\n  \"weakest_provision\": \"Level 0 and 1 can be self-promoted\"\n  ,\n  \"one_line_reason\": \"The spec binds only the claims an implementer may make, not their actions, but Level 2's bar is impossible to satisfy without a second party, effectively constraining the author from claiming Level 2 until a second party appears.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 852,
+        "completion_tokens": 158,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4116
+    },
+    {
+      "sample_index": 18,
+      "content": "{\n  \"binding_force\": \"binds_only_what_may_be_claimed\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 4 is structurally unreachable by any single party\"\n  ,\n  \"weakest_provision\": \"Level 2 is the load-bearing test\"\n  ,\n  \"one_line_reason\": \"The protocol only constrains the claims an implementer may make about their work (e.g., they cannot claim Level 4 without a ratification procedure), but does not prevent them from promoting their own work to Level 0 or 1, and Level 2 only requires a second party to exist, not to appear or agree, making it a constraint on the claim rather than the implementer's actions.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 879,
+        "completion_tokens": 185,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4117
+    },
+    {
+      "sample_index": 19,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"Level 2 requires an independent implementer to build a conforming thing from the specification text alone without consulting the author.\"\n  ,\n  \"weakest_provision\": \"Level 0 and Level 1 allow an implementer to promote their own work without anyone else's involvement.\"\n  ,\n  \"one_line_reason\": \"The specification explicitly requires an independent implementer for Level 2, which is a real constraint on the author, but Level 4 is unreachable because no ratification procedure exists, meaning the author cannot claim Level 4 anyway.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 858,
+        "completion_tokens": 164,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4118
+    },
+    {
+      "sample_index": 20,
+      "content": "{\n  \"binding_force\": \"does_not_bind\",\n  \"level_2_reachable_without_a_second_party\": false,\n  \"strongest_provision\": \"4.3\"\n  ,\n  \"weakest_provision\": \"4.1\"\n  ,\n  \"one_line_reason\": \"The specification is a draft protocol with no ratification procedure, meaning it cannot legally bind any implementer, but its normative language creates a reputational constraint on claims.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 694,
+        "total_tokens": 808,
+        "completion_tokens": 114,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 4119
+    }
+  ],
+  "failures": []
+}

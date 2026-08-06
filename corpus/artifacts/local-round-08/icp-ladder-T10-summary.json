@@ -1,0 +1,78 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "local-round-08",
+  "slug": "icp-ladder-T10",
+  "question": "Does the ICP promotion ladder constrain an implementer's activity, only its claims, or neither?",
+  "phase": "Phase-1 (blind)",
+  "k_requested": 20,
+  "k_collected": 19,
+  "failures": [
+    {
+      "sample_index": 10,
+      "error": "Unterminated string starting at: line 5 column 26 (char 136)"
+    }
+  ],
+  "variance": {
+    "binding_force": {
+      "distribution": {
+        "binds_only_what_may_be_claimed": 13,
+        "does_not_bind": 6
+      },
+      "n": 19,
+      "distinct_values": 2,
+      "modal_value": "binds_only_what_may_be_claimed",
+      "modal_fraction": 0.6842,
+      "shannon_entropy_bits": 0.8997,
+      "unanimous": false
+    },
+    "level_2_reachable_without_a_second_party": {
+      "distribution": {
+        "False": 17,
+        "True": 2
+      },
+      "n": 19,
+      "distinct_values": 2,
+      "modal_value": false,
+      "modal_fraction": 0.8947,
+      "shannon_entropy_bits": 0.4855,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 1.0,
+      "max_tokens": 700,
+      "seed_base": 4100,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "334a5ea669edb1922ca8c51fee56b762d42effdadd9fd53274f4627501b39f17",
+  "spec_sha256": "8d845bb02792b7d4ae12788400b043a615cc8266d3b80ad26daec6de0630eaf9",
+  "raw_samples": "corpus/raw/local-round-08/icp-ladder-T10-samples.json"
+}

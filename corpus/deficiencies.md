@@ -587,6 +587,54 @@ on a referent stated only in prose MUST be validated against free text on a subs
 categorical result is used. The subset check here took one pass and would have caught it before the
 run rather than after.
 
+### D-28 — The apparatus was never tested for repeatability, and it is not repeatable
+
+*Found by the annotator, 2026-08-06, on the operator asking for a temperature-sensitivity check. The
+check found something larger than the thing it was sent to look for.*
+
+`local-round-08` replicated the `local-round-01` Phase-1 probe at **identical prompt, identical
+seeds (4100–4119), identical temperature 0.7, identical model**. It should have reproduced exactly.
+
+| | |
+|---|---|
+| Same seed → same answer | **8 / 20** |
+| Original run | H = 0.9928 bits, modal 55%, 2 distinct values |
+| Replication | H = 1.4577 bits, modal 45%, 3 distinct values |
+| **Run-to-run entropy gap at fixed settings** | **0.4649 bits** |
+
+**Two consequences, the second worse than the first.**
+
+**1. Recorded seeds are decorative.** Every provenance artifact this corpus holds records a `seed`
+per sample, presented as part of what makes a locally-served contribution reproducible where a
+chat-surface one is not. It does not reproduce. Whatever the cause — batching, scheduling
+non-determinism, the seed not being threaded — the field asserts a property the system does not
+have, which is the same class of defect as D-01's placeholder version identifier.
+
+**2. Effects smaller than ~0.5 bits are not measurable by this apparatus.** The phase effect
+reported in `local-round-01` is **0.1815 bits** — **2.6× smaller than the noise floor just
+measured**. That measurement is void, and P-0008's evidence is annotated accordingly. The modal
+share is no safer: it moved 55% → 45% between two identical runs.
+
+**What survives.** Only effects far above the floor: `local-round-03` → `local-round-04` (0.000 →
+1.353 bits, a 1.35-bit gap produced by removing prompt contamination), and count-based results on
+rare events where the count is 0 or near it — P-0013's 1/40, P-0017's 0/10, P-0019's 3/100. Anything
+resting on a fraction-of-a-bit difference does not.
+
+**The failure behind the failure.** An entire measurement apparatus was built, and deficiencies were
+filed against contaminated instruments (D-23), unreliable self-reports (D-24) and unvalidated coders
+(D-25) — while **the most basic reliability check in experimental practice, running the same thing
+twice, was never performed.** It took an operator's question about a second-order parameter to
+surface a first-order defect. D-26's concern about temperature is real but secondary: temperature
+cannot be assessed until repeatability is.
+
+**Forward requirements.**
+1. Every measurement round includes a **test-retest arm** — one condition replicated at identical
+   settings — and the run-to-run gap is reported alongside the effect.
+2. **No effect smaller than the measured noise floor may be reported as an effect.** Where an effect
+   is inside the floor, that is the result.
+3. The `seed` field is marked **non-reproducing** in the schema until the cause is found and fixed,
+   rather than continuing to imply a guarantee that does not hold.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
