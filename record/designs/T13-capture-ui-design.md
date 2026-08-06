@@ -444,7 +444,14 @@ Every existing artifact is expected to pass P9a. Backfilling `gates_version` or 
 onto historical captures is refused outright: it would assert a capture-time execution that never
 happened, which is precisely D-08's retro-application defect.
 
-## 11. Revised acceptance criteria
+## 11. Acceptance criteria — **PROPOSED, awaiting custodian adoption**
+
+> **Relabelled per §12.2.** These were written as though revised. They are **proposed by this
+> session** and carry no adoption. The brief's criteria in `record/tasks/T13-capture-ui.md` stand
+> as written, and until the custodian adopts these, **this design does not meet them** — recorded
+> as an open shortfall rather than resolved by restating the target. Collapsing *proposed* into
+> *adopted* is D-16, the register's sharpest entry, and the Pages amendment shows what custodian
+> direction looks like when it exists.
 
 A10 is withdrawn: it rested on the clean-rebuild signal this session measured as broken and handed
 to Track A. It returns when the stamp is fixed.
@@ -455,3 +462,127 @@ later session inherits the finding rather than re-deriving it.
 
 New: **A11** — every gate that can withhold a non-empty response writes it to `record/quarantine/`
 with the reason. No path exists by which a captured response is discarded rather than quarantined.
+
+---
+
+## 12. Disposition of the second Codex pass — including a correction to §10
+
+Review at [`reviews/codex-T13-design-review-pass2.md`](reviews/codex-T13-design-review-pass2.md).
+It was asked one question first: **where did the revision over-correct?** It answered by retracting
+its own first-pass finding, and the retraction is correct.
+
+### 12.1 §10.2's rationale was wrong. Its conclusion survives.
+
+First-pass E1 said a hard heuristic refusal gives an AI-authored instrument control over which
+evidence is preserved. §10.2 accepted that as decisive and rebuilt the architecture on it. The
+second pass withdraws it:
+
+> "'AI-authored instrument' does not mean 'AI holds decision authority.' The custodian adopts,
+> runs, inspects, and commits tooling; that is human policy implemented in code. GOVERNANCE §2–3
+> prohibits unilateral model control, not deterministic gates adopted by the custodian. … My
+> first-pass E1 overstated that point."
+
+**Checked against the text rather than deferred to.** `GOVERNANCE.md` §3 forbids the secretary
+holding **unilateral** control over what evidence is preserved, and requires that "its
+transformations must be reproducible and reviewable, and original outputs must remain available
+alongside any summary." A deterministic gate the custodian adopts, runs, and can re-run is not
+unilateral, is reproducible, and is reviewable. §3 permits it. The retraction holds.
+
+**So the demotion of G2 stands on a different and weaker footing than §10.2 claims.** The real
+reason is B2 — a model that echoes the prompt before answering scores ≈1.0 and would be refused,
+and the false-positive rate is unmeasured. That is sufficient to demote a gate. It is not the
+governance prohibition §10.2 asserted, and §10.2 is corrected here rather than rewritten.
+
+**This is over-correction by deference, in this session's own work.** Review round 02 was designed
+to detect exactly it: a reviewer's critique accepted past what it supported, damaging the record as
+much as ignoring it would. It was caught only because the second pass was asked where the first had
+been over-accepted rather than asked to review again. That question is the instrument; without it
+the wrong rationale would have shipped, load-bearing.
+
+### 12.2 §11's amended criteria are PROPOSED, not adopted — D-16
+
+The second pass is right that §11 restated A6 and added A11 with no custodian direction, while the
+brief still requires threshold refusal and an unchanged validator. The Pages amendment in
+`record/tasks/T13-capture-ui.md` carries explicit custodian direction; §11 carries none.
+
+D-16 is the register's sharpest entry precisely because this repository collapsed *proposed by a
+contributor* into *adopted by the custodian*. §11 committed it again, in a document written by the
+party that benefits from the looser criterion.
+
+**Every criterion in §11 is relabelled `PROPOSED — awaiting custodian adoption`.** Until adopted,
+the brief's criteria stand as written and this design does not meet them. That is recorded as an
+open shortfall rather than resolved by restatement.
+
+### 12.3 Quarantine relocates the objection — accepted, and it was the right worry
+
+> "Indefinite quarantine is de facto exclusion. … A private side directory is insufficient."
+
+Accepted without qualification. A11 guaranteed a write to a directory and nothing else — not
+custodian acknowledgement, not disposition, not escalation, not inclusion in completeness
+accounting. A custodian who never opens the directory gets the same outcome as a silent refusal,
+which is what the demotion was supposed to prevent.
+
+### 12.4 Adopted architecture — one capture lifecycle, replacing three loose records
+
+The second pass proposes replacing the round manifest, the send receipt and the split audit
+artifact with a single durable lifecycle. Adopted, because it removes the failure §12.5 identifies
+rather than managing it:
+
+```
+planned → sent_attested → returned_pending_review → accepted | rejected
+```
+
+- One artifact per `(round, party)`, carrying an **append-only event log** with event ids.
+- Response bytes are immutable from first receipt, whatever the disposition. A rejected capture
+  keeps its bytes; rejection is a recorded state, never a deletion.
+- `returned_pending_review` is a **first-class visible state** — in the round view, in the round's
+  completeness accounting, and in the public process history. A round with anything pending is
+  **not reportable as complete**.
+- Disposition is **mandatory**: accepted or rejected, with author, timestamp and reason. Staleness
+  is surfaced, not silent.
+- The validator enforces the state machine and the referential links, so the states cannot drift.
+
+### 12.5 The artifact split was creating an orphan failure, and one claim in it was false
+
+A hash link proves association and immutability, not semantic agreement. As specified, a
+contribution could exist with no audit artifact, an audit could cite the wrong digest, and an
+override could contradict the contribution's own `gate_results` with nothing detecting it.
+
+**And §10.3's claim that the audit artifact "already owes" P7 is false.** `validate_provenance.py`
+calls `check_annotator` only when `artifact_type == "annotation"` (line 364). Verified directly;
+the claim was written from memory of the check's intent rather than its code. A design document
+asserting a validation that does not run is the same defect class this project catalogues, in the
+document proposing to fix that class.
+
+The single lifecycle artifact of §12.4 dissolves this: one artifact, one write, no pair to disagree.
+
+### 12.6 Five claims softened to what the evidence supports
+
+| Claim as written | Corrected |
+|---|---|
+| Exact predicates "cannot produce a false positive" | Cannot produce a false *string* match. A party could in principle emit text identical to its prompt; that is vanishingly unlikely, not impossible, so even the hard refusals route to `returned_pending_review`, not to discard |
+| "No model decides what the record contains" | True only while disposition is mandatory and enforced — which §12.4 now makes it |
+| "The score separates cleanly enough" | On the measured, **non-held-out** cases. The threshold remains underdetermined and most positives synthetic, as the validation record itself states |
+| "Transactional per capture" | Aspirational. The current write sequence is raw → provenance → manifest; a manifest failure leaves the first two written and unanchored. Real transactionality is work, not an adjective |
+| "Cannot be the intent" (§10.7, on the unchanged-validator criterion) | Withdrawn. Inferring authority over an explicit acceptance criterion is the D-16 move again. P9 is **proposed** to the custodian, not justified by reinterpretation |
+
+### 12.7 Send receipts record testimony, not delivery
+
+> "It is not independent delivery evidence."
+
+Accepted. §10.5's "records delivery rather than intent" is corrected to **"records the custodian's
+contemporaneous delivery attestation."** That is a real gain over a plan — it is dated, specific,
+and written at the moment — and it is testimony by an interested party, which is D-18's whole
+subject. The named failure modes are recorded rather than defended against: a receipt copied from
+manifest defaults, a wrong conversation or account, provider-side truncation, an unbindable retry,
+or later reconstruction.
+
+It also still hashes a prompt **file** containing material never sent, per the validation record
+§5. The receipt therefore does not hash the delivered bytes, and says so.
+
+### 12.8 Where the second pass is not followed
+
+Its remark that invocation ledgers and signatures "do not solve B1" is correct and does not change
+§10.1: that paragraph offers them as the answer to a *deliberate evasion* threat, which is
+authentication of who emitted the bytes — not as a better string metric. The two are answering
+different questions and the text is clarified rather than withdrawn.
