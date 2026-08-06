@@ -1,5 +1,39 @@
 # Finding handed to Track B — the capture path's first integration run
 
+> # ⛔ BLOCKING — Defect 7 must be fixed before review round 03 is sent
+>
+> **Custodian decision, 2026-08-06.** The round is otherwise cleared to send: the page's baked
+> prompt hash matches the committed prompt, no party carries an override or a bundle, and
+> P-0020–P-0022 are pre-registered. **Defect 7 is the one item held blocking**, because it is the
+> only defect here that can put a **misattribution into the real corpus** — the failure class this
+> project exists to prevent.
+>
+> **The live sequence.** Capture a real reply; it is accepted. Notice you also grabbed the model's
+> preamble. Re-capture correctly. **The correction is silently discarded, exit 0, "nothing to do."**
+> The wrong text now stands in `corpus/raw/` attributed to a real party, and every signal the
+> custodian has says it was fixed. That is **D-10 — a segment attributed to a party that did not
+> write it — manufactured by the tooling.**
+>
+> **Where.** `tools/ingest_capture.py`, the two early-return branches at roughly lines 215–225:
+> `existing in ("accepted", "rejected")` and `existing in lifecycle.NEEDS_DISPOSITION`. **Both** need
+> it — a differing capture for a *held* party is dropped the same way, demonstrated below.
+>
+> **The data already exists.** `capture_lifecycle` records `response_sha256` on every receive
+> (line 176) and already compares it at line 236. The fix is to look it up and compare before
+> returning `"skipped"`:
+>
+> - incoming hash **equals** the recorded one → a genuine re-run. Skip, as now.
+> - incoming hash **differs** → **preserve the bytes and refuse loudly**, with a distinct message and
+>   a non-zero exit. The party's slot is taken; the new material must not vanish.
+>
+> **Suggested test**, which would also have caught it: ingest a capture, then ingest a *different*
+> capture for the same party, and assert the second is preserved and refused rather than skipped.
+>
+> Defects 1, 4 and 6 are **not** blocking. They are survivable with care and the documented bypass;
+> Defect 1's workaround is at the foot of this document.
+
+---
+
 **From:** Corpus Surface session (Track A), 2026-08-06, at the custodian's request.
 **Run against:** `origin/main` @ `4ac673e`, and `origin/session/capture` @ `dfe5d3c`.
 **Not fixed here**, because `tools/ingest_capture.py`, `tools/capture_lifecycle.py` and
@@ -335,6 +369,59 @@ report complete.
 reported, because of UTF-8 multi-byte content. The `unchanged` determination is correct.
 **Track A has the identical bug** in `build_viewer.py`, `build_local_rounds.py` and
 `build_session_log.py`, and will fix its own.
+
+## Reproduction — the stuck round, run in full
+
+Fresh extraction of `origin/main`, the custodian's own prompt-echo capture for Grok, and three clean
+captures for the other parties:
+
+```
+review-round-03: INCOMPLETE
+  ChatGPT                accepted
+  Claude Fable 5         accepted
+  Gemini                 accepted
+  Grok                   returned_pending_review
+  awaiting disposition: Grok
+```
+
+Every exit attempted:
+
+| Attempt | Result |
+|---|---|
+| Re-run ingest on the held bundle | `already returned_pending_review… Nothing to do.` |
+| **Ingest a genuinely clean capture for that party** | `already returned_pending_review… Nothing to do.` |
+| `capture_lifecycle.py --help` | no CLI |
+| any disposition tool under `tools/` | none exists |
+
+**The second row is the part worse than first written.** A held capture cannot be superseded by a
+correct one. If a party's first reply trips a gate, that party is permanently unresolvable for that
+round, and the round can never report complete. Recovery means hand-editing an append-only audit log
+or abandoning the round.
+
+**What works:** the bytes survived. `record/quarantine/review-round-03/grok-01.md` holds all 7,154
+bytes. Preserve-first behaves exactly as designed, the gates named their reasons, and the lifecycle
+log is complete and attributed across 15 events. **This is a missing exit on a sound design.**
+
+### Bypass, if a genuine response is held before the fix lands
+
+Nothing is lost. File it through the original path and **record that the bypass was used** — a
+capture that skipped the gates is a different provenance claim from one that passed them:
+
+```bash
+python3 tools/capture_response.py --round review-round-03 \
+  --response record/quarantine/review-round-03/<party>-01.md \
+  --prompt record/review-round-03-prompt.md --identity "<Party>" --provider "<Provider>" …
+```
+
+## A prediction this round has put at risk
+
+**P-0022** forecasts that *zero* genuine responses are held by a gate firing. That is at real risk,
+for a reason already in this register: **a review response quotes the document it reviews**, and
+`G2c-prompt-saturation` fires at 0.6. D-25's finding was exactly this mechanism one layer over — a
+review task quotes the reviewed text, so the document's own vocabulary contaminates naive matching.
+
+A refuted P-0022 would be an *informative* result: it would show the threshold is mis-set for review
+rounds. The problem is only that, today, refutation jams the round.
 
 ## What this run did not test
 
