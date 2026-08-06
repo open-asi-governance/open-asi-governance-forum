@@ -78,6 +78,7 @@ those files, not references to an external tool.
 | **Capture Path** | B | `session/capture` | [T-13](record/tasks/T13-capture-ui.md) → [T-14](record/tasks/T14-asp-fix-to-frontier.md) | none |
 | **Determinism** | C | `session/determinism` | [T-15](record/tasks/T15-seed-nonreproducibility.md) → [T-17](record/tasks/T17-determinism-window.md) | **exclusive inference host** |
 | **Provenance Hardening** | D | `session/signing` | [T-16](record/tasks/T16-tamper-evidence.md) | custodian for keys |
+| **Innovation Record** | E | `session/innovations` | [T-18](record/tasks/T18-innovation-register.md) | none; forum surface needs `discussions=write` |
 
 ### Custodian actions no session can perform
 
