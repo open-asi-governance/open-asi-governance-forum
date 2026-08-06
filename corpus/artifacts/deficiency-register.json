@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "bd66cc564c85d62ddfae9dfc638633affd4d6f71a838d501feec88c73183a454"
+    "sha256": "a2af61d16f04d28f8dc2b6864b7f85e8aaa16dab90e7a94e6bf9f39c0676c8b6"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1348,6 +1348,100 @@
       "human_review": {
         "status": "not_reviewed",
         "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-35",
+      "title": "The repair of the unary defect dropped a qualifier, inside the commit announcing the repair",
+      "section_sha256": "63978399467c2c2f5158e96d49fdbc73377ce5815191e291348aed9ea4ba84d4",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-06",
+        "where": "review round 03 — found independently and unanimously by all four parties (Grok, ChatGPT, Gemini, Claude Fable 5), none prompted for it",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "ASP v0.1 §2.3(5)",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Enumerated three of §2.2's four qualifiers, dropping relying-party trust policy — the parameter §2.2's own rationale sentence exists for. Now references §2.2's list instead of restating it, so it cannot drift again."
+        },
+        {
+          "object": "record/tasks/T14-asp-fix-to-frontier.md",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Carried the truncated three-qualifier form. Corrected."
+        },
+        {
+          "object": "record/review-round-03-prompt.md",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Hash-anchored by all four round-03 contribution artifacts. Editing it would falsify what four parties were asked. Stands as sent."
+        },
+        {
+          "object": "ASP v0.1 §2.4's recommended badge, and unary grammar in §2/§3 titles, README and FDR tables",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Named by Grok and Claude Fable 5 in round 03. §2.4's bare 'ASP-attested' badge was flagged in a committed round-02 review and has no recorded declination. Open."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Duplicate the qualifier list BY REFERENCE rather than by value. A list stated once cannot drift from itself. Adopted from Claude Fable 5's structural diagnosis: every by-value copy had already drifted independently (zero, three, zero qualifiers). Not validated — no check yet detects a future by-value restatement."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "A one-sentence change to §2.3(5). The expensive part was that two consecutive careful corrections to the same six sentences each introduced a defect of the class being corrected."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-36",
+      "title": "A prompt sent to four parties misattributed the round its own subject came from",
+      "section_sha256": "ebb248a5c90aa4d0bffa06654e84263f14d195e7a6f0fa8380752bc699298326",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-06",
+        "where": "review round 03, first paragraph of Claude Fable 5's reply; verified against committed files before filing",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/review-round-03-prompt.md, as sent to four parties",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Told four frontier parties the defect was introduced by a round-02 ChatGPT finding. It was round 01. Hash-anchored by four contribution artifacts; correcting it would falsify the record of what was asked. The register entry is the superseding correction."
+        },
+        {
+          "object": "The correction block in spec/asp/asp-v0.1.md §2.3",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Living text, so amended in place with the correction attributed to Claude Fable 5 and the true sequence stated."
+        },
+        {
+          "object": "The project's account of its own failure sequence",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The true sequence is worse than the one asserted: the defect was committed BEFORE the partial-propagation diagnosis existed, then survived the round whose headline diagnosis it was. The version the project told itself was the more flattering one."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A prompt asserting a provenance claim — which round, which party, which commit — must cite the artifact by path so the recipient can check it. The round-03 prompt quoted §2.2, §2.3 and the qwen finding verbatim precisely so no party relied on the annotator's summary, then asserted an unverifiable provenance claim in prose between them."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "The correction is a citation. The cost already fell: four parties reasoned from a false premise about their own review history."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
       }
     }
   ]

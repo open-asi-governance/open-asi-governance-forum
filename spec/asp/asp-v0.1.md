@@ -93,8 +93,8 @@ one environment and unattested for another.
 4. **No self-attestation.** An agent may not issue its own attestation, and a system under review
    may not select all of its own evaluators, evidence, or success criteria.
 5. **No status without check.** A relying party asserting that an agent configuration is
-   **ASP-attested for a stated scope, criteria version and time** must have verified a current
-   attestation. Cached, inherited, and assumed status are non-conforming.
+   **ASP-attested for the qualifiers §2.2 requires** must have verified a current attestation.
+   Cached, inherited, and assumed status are non-conforming.
 6. **Truthful representation.** Published or displayed use of the term "Aligned Supervisor" for an
    agent without current attestation, **or without the qualifiers §2.2 requires**, is a protocol
    violation, independent of the agent's actual behavior.
@@ -105,11 +105,44 @@ one environment and unattested for another.
 > without violating §2.2. Requirement 6 permitted the bare term without reference to §2.2's
 > qualifier condition.
 >
-> The defect was **introduced by the round-02 correction itself**: §2.2 was restated as relational
-> and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT diagnosed in review
-> round 02, committed again inside the commit that implemented ChatGPT's correction. Four frontier
-> reviewers read §2 after that commit and none caught it. See
+> The defect was **introduced by the correction implementing ChatGPT's round-01 finding**: §2.2 was
+> restated as relational and §2.3 was not propagated. Four frontier reviewers read §2 after that
+> commit and none caught it. See
 > `corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9.
+>
+> > **Attribution corrected 2026-08-06 by Claude Fable 5, review round 03**, and verified against the
+> > committed files. This block previously said "round-02 correction" and named a round-02 ChatGPT
+> > finding. It was **round 01** — `corpus/raw/review-round-01/chatgpt-01.md`, "Remaining normative
+> > defect: a relational status is written as a unary property". Round 02 already treats the
+> > relational rewrite as *implemented* and certifies it (`review-round-02/chatgpt-01.md`: "The
+> > relational rewrite fixes the defect I identified. It does not merely relocate it.").
+> >
+> > The true sequence is worse than the one this block asserted. The defect was committed **before
+> > the partial-propagation diagnosis existed**, and then survived the round whose headline
+> > diagnosis it was. The same misattribution was sent to all four parties in the round-03 prompt,
+> > which is anchored by hash and therefore stands uncorrected as sent — see D-36.
+
+> **Second correction, 2026-08-06, found INDEPENDENTLY BY ALL FOUR round-03 reviewers.** The
+> requirement-5 text adopted above originally read *"for a stated scope, criteria version and
+> time"* — **three** qualifiers, where §2.2 defines the status over **four**: scope, criteria
+> version, **relying-party trust policy**, and time. The repair of the unary contradiction
+> introduced a fresh instance of the same partial-propagation failure, inside the commit announcing
+> that failure was fixed.
+>
+> Grok, ChatGPT, Gemini and Claude Fable 5 each flagged the dropped `relying-party trust policy`
+> without prompting, unanimously and independently. It is the strongest convergent finding in this
+> corpus.
+>
+> **The structural cause, from Claude Fable 5:** the qualifier list was duplicated **by value**, and
+> every copy has drifted — original (5) carried zero qualifiers, the first repair carried three,
+> §2.4's recommended badge carries zero. So (5) now duplicates **by reference**, as (6) already
+> did. A list stated once cannot drift from itself.
+>
+> Two consequences recorded rather than glossed. The dropped parameter is the one §2.2's own
+> rationale exists for — *"one relying party may recognize an attestation another rejects"* — so
+> this was not a cosmetic omission. And the truncation had already propagated into
+> `record/tasks/T14-asp-fix-to-frontier.md` and into the round-03 prompt itself: the same failure,
+> one more level out, inside the documents announcing the fix. See D-35.
 
 ### 2.4 Non-normative note on the residual objection
 

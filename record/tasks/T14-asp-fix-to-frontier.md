@@ -19,7 +19,7 @@ committed again inside the commit implementing ChatGPT's correction.
 
 ## What to ask — three questions, in this order
 1. **Is the fix correct?** §2.3(5) now reads *"asserting that an agent configuration is ASP-attested
-   for a stated scope, criteria version and time"*; §2.3(6) now requires the §2.2 qualifiers. Does
+   for the qualifiers §2.2 requires"*; §2.3(6) likewise. Does
    that resolve the contradiction, relocate it, or introduce a new one? This is the question with an
    answer, so it comes first.
 2. **Why was it missed?** Not rhetorically. Was the round-02 prompt scoped so a newly introduced

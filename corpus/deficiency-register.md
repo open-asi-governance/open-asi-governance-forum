@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 34** classifications have been read by a human against the prose.
+**0 of 36** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -25,23 +25,23 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Where | Entries |
 |---|---|
 | the annotator | 25 |
-| a designated review round | 6 |
+| a designated review round | 8 |
 | an external reviewer | 2 |
 | human operator | 1 |
 
-**6 entries — D-16 through D-21 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
+**8 entries — D-16 through D-36 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
 
 ### Prospective control
 
 | State | Entries |
 |---|---|
-| required, not implemented | 11 |
-| implemented, not validated | 20 |
+| required, not implemented | 12 |
+| implemented, not validated | 21 |
 | validated | 3 |
 
 ### Affected objects
 
-**71 affected-object rows across 34 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**78 affected-object rows across 36 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -553,4 +553,37 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | The append-only claim over corpus/raw/ <br><sub>The manifest proves the raw tree matches its hashes AT THE TIP, so a single commit that edits a raw file and re-anchors the manifest around the new bytes is perfectly self-consistent and passes every check.</sub> | repairable by supersession | verified |
 | D-29's repair, which does not cover this <br><sub>Track A's lineage check compares the working manifest against HEAD's. A commit that changes both together is consistent at HEAD, so the edit remains invisible to it. This is the same defect one level up.</sub> | partly repairable | verified |
+
+### D-35 — The repair of the unary defect dropped a qualifier, inside the commit announcing the repair
+
+[Full entry](deficiencies.md#d-35--the-repair-of-the-unary-defect-dropped-a-qualifier-inside-the-commit-announcing-the-repair)
+
+- **First articulated:** a designated review round, 2026-08-06 · evidence: *preserved artifact*
+  - where: `review round 03 — found independently and unanimously by all four parties (Grok, ChatGPT, Gemini, Claude Fable 5), none prompted for it`
+- **Prospective control:** implemented, not validated — Duplicate the qualifier list BY REFERENCE rather than by value. A list stated once cannot drift from itself. Adopted from Claude Fable 5's structural diagnosis: every by-value copy had already drifted independently (zero, three, zero qualifiers). Not validated — no check yet detects a future by-value restatement.
+- **Effort:** low — A one-sentence change to §2.3(5). The expensive part was that two consecutive careful corrections to the same six sentences each introduced a defect of the class being corrected.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| ASP v0.1 §2.3(5) <br><sub>Enumerated three of §2.2's four qualifiers, dropping relying-party trust policy — the parameter §2.2's own rationale sentence exists for. Now references §2.2's list instead of restating it, so it cannot drift again.</sub> | repairable by supersession | verified |
+| record/tasks/T14-asp-fix-to-frontier.md <br><sub>Carried the truncated three-qualifier form. Corrected.</sub> | repairable by supersession | verified |
+| record/review-round-03-prompt.md <br><sub>Hash-anchored by all four round-03 contribution artifacts. Editing it would falsify what four parties were asked. Stands as sent.</sub> | not repairable | impossible |
+| ASP v0.1 §2.4's recommended badge, and unary grammar in §2/§3 titles, README and FDR tables <br><sub>Named by Grok and Claude Fable 5 in round 03. §2.4's bare 'ASP-attested' badge was flagged in a committed round-02 review and has no recorded declination. Open.</sub> | partly repairable | not started |
+
+### D-36 — A prompt sent to four parties misattributed the round its own subject came from
+
+[Full entry](deficiencies.md#d-36--a-prompt-sent-to-four-parties-misattributed-the-round-its-own-subject-came-from)
+
+- **First articulated:** a designated review round, 2026-08-06 · evidence: *preserved artifact*
+  - where: `review round 03, first paragraph of Claude Fable 5's reply; verified against committed files before filing`
+- **Prospective control:** required, not implemented — A prompt asserting a provenance claim — which round, which party, which commit — must cite the artifact by path so the recipient can check it. The round-03 prompt quoted §2.2, §2.3 and the qwen finding verbatim precisely so no party relied on the annotator's summary, then asserted an unverifiable provenance claim in prose between them.
+- **Effort:** low — The correction is a citation. The cost already fell: four parties reasoned from a false premise about their own review history.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/review-round-03-prompt.md, as sent to four parties <br><sub>Told four frontier parties the defect was introduced by a round-02 ChatGPT finding. It was round 01. Hash-anchored by four contribution artifacts; correcting it would falsify the record of what was asked. The register entry is the superseding correction.</sub> | not repairable | impossible |
+| The correction block in spec/asp/asp-v0.1.md §2.3 <br><sub>Living text, so amended in place with the correction attributed to Claude Fable 5 and the true sequence stated.</sub> | repairable by supersession | verified |
+| The project's account of its own failure sequence <br><sub>The true sequence is worse than the one asserted: the defect was committed BEFORE the partial-propagation diagnosis existed, then survived the round whose headline diagnosis it was. The version the project told itself was the more flattering one.</sub> | repairable by supersession | verified |
 

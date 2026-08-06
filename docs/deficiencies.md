@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **34 entries** (D-01 … D-34).
+**Status:** open — **36 entries** (D-01 … D-36).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1093,6 +1093,87 @@ happens to fire — which is D-33's lesson one turn later. It has regression cas
 **Not retrospectively remediable.** The window before this check existed cannot be audited, because
 auditing it would require exactly the history-integrity guarantee that was missing.
 
+### D-35 — The repair of the unary defect dropped a qualifier, inside the commit announcing the repair
+
+*Filed 2026-08-06. Found **independently and unanimously by all four review-round-03 parties** —
+Grok, ChatGPT, Gemini and Claude Fable 5 — none prompted for it. Verified against the committed
+files before filing.*
+
+§2.2 defines ASP-attested status over **four** qualifiers: scope, criteria version,
+**relying-party trust policy**, and time. The corrected §2.3(5) enumerated **three**, dropping
+relying-party trust policy.
+
+So the commit that repaired a partial-propagation defect **committed a fresh instance of the same
+defect**, in the adjacent sentence, while its own correction block announced the class was fixed.
+
+**The dropped parameter is not cosmetic.** It is the one §2.2's own rationale sentence exists for —
+*"one relying party may recognize an attestation another rejects"* — and Claude Fable 5's committed
+round-02 review had already identified it as the load-bearing relativization.
+
+**Structural cause, from Claude Fable 5, and adopted.** The qualifier list was duplicated **by
+value**, so every copy drifted independently: original (5) carried zero qualifiers, the first repair
+carried three, §2.4's badge carries zero. A list duplicated by value will drift; a list referenced
+cannot. §2.3(5) now reads *"ASP-attested for the qualifiers §2.2 requires"*, matching (6).
+
+**It had already propagated further** before anyone noticed: into
+`record/tasks/T14-asp-fix-to-frontier.md` and into the round-03 prompt itself. The prompt is
+hash-anchored sent material and **cannot** be corrected in place; T-14 has been corrected.
+
+**Why four frontier reviewers caught this one and missed the last.** They were asked a direct
+question about this exact text and given both versions side by side. That is a fact about **review
+design**, not about model capability — the same conclusion review round 03 was convened to test, now
+supported by the round's own conduct rather than only by its answers.
+
+**What this says about the repair loop.** Two consecutive corrections to the same six sentences each
+introduced a defect of the class they were correcting. The failure is not inattention; it is that
+**normative text was being restated by hand in more than one place**. Every fix that restates rather
+than references is a fresh opportunity for the same defect, which is why the remedy adopted here is
+structural rather than another careful reading.
+
+**Not remediated for the whole document.** Only §2.3(5) is converted to reference. §2.4's badge
+still renders bare `ASP-attested` — flagged in a committed round-02 review, still open with no
+recorded declination — and Grok and Claude Fable 5 both name §2/§3 titles, the README and the FDR
+tables as carrying unary grammar. Those are open.
+
+### D-36 — A prompt sent to four parties misattributed the round its own subject came from
+
+*Filed 2026-08-06. Found by Claude Fable 5 in review round 03, in the first paragraph of its reply,
+and verified against committed files before filing.*
+
+The round-03 prompt told four frontier parties that the ASP defect was *"introduced by the round-02
+correction"* implementing **ChatGPT's round-02 finding**. The correction block in
+`spec/asp/asp-v0.1.md` said the same.
+
+**Both were wrong.** The finding is ChatGPT's **round 01** —
+`corpus/raw/review-round-01/chatgpt-01.md`, *"Remaining normative defect: a relational status is
+written as a unary property"*. Round 02 already treats the relational rewrite as implemented and
+**certifies** it: *"The relational rewrite fixes the defect I identified. It does not merely
+relocate it."*
+
+**The true sequence is worse than the one asserted**, which is the part that matters. As told, a
+correction introduced a defect that reviewers then missed. In fact the defect was committed
+**before the partial-propagation diagnosis existed**, and then **survived the round whose headline
+diagnosis it was** — reviewed by the party that had named the class, in the document where it named
+it. The version this project told itself was the more flattering one.
+
+**It cannot be corrected where it did most of its work.** The prompt is hash-anchored by all four
+round-03 contribution artifacts. Editing it would falsify the record of what four parties were
+actually asked — the check that enforces this fired during this session, refusing a build with four
+`P1 hash mismatch` errors when an unrelated edit was attempted. So the misattribution **stands as
+sent**, and this entry is the superseding correction. The spec's correction block, which is living
+text, has been amended.
+
+**Three parties did not catch it.** Grok, ChatGPT and Gemini answered the prompt on its own terms.
+Only Claude Fable 5 checked the claim against the repository — and it also produced the one
+factual error found among the four, so this is not a ranking. It is evidence for the single practice
+that separated them: **it cloned the repository and read the committed files instead of relying on
+the prompt's quotations**, and said so in its first line.
+
+**Forward requirement.** A prompt that asserts a provenance claim — which round, which party, which
+commit — **cites the artifact by path** so the recipient can check it. This prompt quoted §2.2,
+§2.3 and the qwen finding verbatim, precisely so no party relied on the annotator's summary, and
+then asserted an unverifiable provenance claim in prose between them.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1142,6 +1223,8 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-36 | **Not remediable where it acted.** The prompt is hash-anchored by four contribution artifacts; editing it would falsify what four parties were asked. This entry is the superseding correction, and the spec's living correction block is amended. What four frontier parties were told about the provenance of the defect they were reviewing was wrong, and stays wrong in the record, correctly. |
+| D-35 | **Remediated 2026-08-06** structurally rather than by re-reading: §2.3(5) now references §2.2's qualifier list instead of restating it, so it cannot drift again. `T14` corrected; the round-03 prompt cannot be. **Open for the rest of the document:** §2.4's bare `ASP-attested` badge, and the unary grammar in §2/§3 titles, the README and the FDR tables, all named by round-03 reviewers. |
 | D-34 | **Remediated forward 2026-08-06** — `check_raw_append_only.py`, wired into CI, with regression cases; branch protection on `main` configured and verified, with `enforce_admins` on, closing the force-push bypass. **Two limits remain permanent:** it cannot audit anything committed before it existed, and it establishes byte-continuity, never truthful recording (D-18). |
 | D-33 | **Remediated 2026-08-06** — generator wired into `rebuild.py`, page regenerated, two regression cases added. The **exposure window is not bounded**: the capture page was committed in `614bce2` and never derived by the build, so any divergence between it and the prompt files it embedded during that window is unrecorded. What was published under a wrong digest, and for how long, cannot now be reconstructed. |
 | D-32 | **Detection remediated 2026-08-06; allocation is not.** Requirements 2 and 4 are implemented and tested (`check_register.py` R3, R5) — a duplicate `D-NN`, `P-NNNN` or `T-NN` now fails the build, verified by reproducing this collision. `Q-NN` is deliberately uncovered, per the entry. **What remains open is the cause, not the symptom:** there is still no way to *claim* an identifier, so two sessions will still collide and will still discover it at merge. Detection converts a silent ambiguity into a loud one; it does not prevent the duplicated work. Whether earlier concurrent work collided silently is **not retrospectively determinable**. |
