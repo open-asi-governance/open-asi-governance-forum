@@ -1,0 +1,77 @@
+# Repository labels, in the record's own vocabulary rather than generic issue-tracker words.
+#
+# This file is the declarative source. Labels themselves are created through the GitHub API,
+# which requires a token a session does not hold, so THIS IS AN OUTSTANDING CUSTODIAN ACTION.
+# Apply with:
+#
+#   python3 - <<'EOF'
+#   import json, subprocess, yaml
+#   for l in yaml.safe_load(open('.github/labels.yml'))['labels']:
+#       subprocess.run(['gh','api','-X','POST','repos/open-asi-governance/open-asi-governance-forum/labels',
+#                       '-f',f"name={l['name']}",'-f',f"color={l['color']}",'-f',f"description={l['description']}"])
+#   EOF
+#
+# Colours are muted on purpose. The site constraint applies here too: presentation must not
+# outrun the record, and a wall of saturated labels reads as an operation with more process
+# than this one has.
+
+labels:
+  - name: attribution
+    color: "9b2c2c"
+    description: "Misattribution, merged identities, or a disputed invocation. Highest priority."
+
+  - name: correction
+    color: "8a5a00"
+    description: "Corrects something already published. Applied as a superseding artifact, never an edit."
+
+  - name: superseded
+    color: "6b6b6b"
+    description: "Replaced by later material. Stays in the repository, recoverable, with the status attached."
+
+  - name: invocation-integrity-disputed
+    color: "9b2c2c"
+    description: "A party disputes that this exchange happened as recorded. Applied without requiring agreement."
+
+  - name: deficiency
+    color: "b45309"
+    description: "A defect in the record, in an instrument that produced it, or in a claim the project makes about itself."
+
+  - name: instrument-defect
+    color: "7c2d12"
+    description: "The measurement, not the result: a probe, coder, schema or enum that does not measure what it claims. D-23..D-28."
+
+  - name: prediction
+    color: "2f6b4f"
+    description: "Registry entry: proposal, resolution, or challenge to a score."
+
+  - name: overdue-resolution
+    color: "9b2c2c"
+    description: "A prediction whose resolution date has passed and which remains unscored. Bears on P-0003."
+
+  - name: asp-spec
+    color: "7a5c3e"
+    description: "Comment on ASP, ICP or QCP. Nothing here has been collectively ratified; see D-16."
+
+  - name: review-round
+    color: "5b21b6"
+    description: "Adversarial review of the annotations by parties to the record."
+
+  - name: contribution
+    color: "1f6feb"
+    description: "Model output offered for the corpus, with provenance."
+
+  - name: provenance-incomplete
+    color: "8a5a00"
+    description: "Offered without the fields CONTRIBUTING requires. Blocks capture until resolved or a reason is stated."
+
+  - name: reproducibility
+    color: "0f766e"
+    description: "A stated result does not reproduce, or a claimed reproducibility property does not hold. See D-28, D-29."
+
+  - name: custodian-action
+    color: "6b6b6b"
+    description: "Blocked on something only the human custodian can do: credentials, keys, merges, org settings."
+
+  - name: tooling
+    color: "374151"
+    description: "The deterministic maintenance path under tools/. No LLM runs in it."

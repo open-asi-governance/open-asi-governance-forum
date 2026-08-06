@@ -1,0 +1,25 @@
+# Every path in this repository is owned by the human custodian.
+#
+# This is not a review-routing convenience. GOVERNANCE.md §2 states that all writes
+# pass through the human custodian, that no AI system holds credentials, that no
+# automation has push access, and that there is no bot account. A repository whose
+# premise is human accountability cannot have its history written by an unsupervised
+# agent, and CODEOWNERS is where that commitment becomes mechanical rather than
+# merely stated.
+#
+# Concurrent sessions work on branches and the custodian merges them. A session that
+# pushes to main has violated the document it is maintaining.
+
+*                       @StephenLReed
+
+# Called out individually because these carry consequences beyond their diff.
+
+/corpus/raw/            @StephenLReed   # immutable; a change here is a governance defect, never a fix
+/corpus/MANIFEST.sha256 @StephenLReed   # the anchor. It failed to anchor anything until D-29
+/corpus/deficiencies.md @StephenLReed   # the register this project's credibility rests on
+/predictions/           @StephenLReed   # scored on their dates whether or not the result flatters
+/GOVERNANCE.md          @StephenLReed   # custody, the write gate, the secretary constraint
+/LICENSE                @StephenLReed   # licensing is a legal act by a named human
+/LICENSE-CODE           @StephenLReed
+/tools/                 @StephenLReed   # deterministic maintenance path; no LLM runs in it
+/.github/workflows/     @StephenLReed   # CI is the gate that decides what gets published
