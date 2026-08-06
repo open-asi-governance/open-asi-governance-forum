@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — 24 entries. **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
+**Status:** open — 29 entries. *The count read "24" while the file held 28; corrected 2026-08-06 when D-29 was filed. A register about miscounted claims miscounting its own entries is recorded rather than silently fixed.* **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
 D-14) were narrowed as overstated; six (D-16 – D-21) were added. Every reviewer-driven change is
 marked inline with its source. Raw reviews: `corpus/raw/review-round-01/`.
 **Applies to:** `corpus/raw/initial-transcript.txt`
@@ -694,6 +694,75 @@ bits. It condemns every fraction-of-a-bit comparison, P-0008's evidence foremost
    a guarantee that it reproduces.
 4. The corpus **no longer claims** that a locally served contribution is reproducible. It claims the
    settings are *recorded*, which is true and is a weaker thing. QCP §3 is corrected accordingly.
+
+### D-29 — External reviewers in the maintenance path are treated as oracles
+
+*Added 2026-08-06 by the Capture Path session (Claude Code, Anthropic), against the instrument it
+was using to check its own work. Filed at the custodian's direction, scoped as he directed to **any**
+external reviewer rather than to one vendor. The annotator is the party this deficiency
+inconveniences, which is the conflict at D-09 and D-11 operating on the quality gate rather than on
+the corpus.*
+
+A standing operator rule requires that fixes be designed with an external reviewer before they are
+written, after two deployed unreviewed fixes proved actively harmful. The rule is sound. **The
+reviews it produces are treated as findings rather than as what they are: single samples from an
+unauthenticated party, prompted by the party under review.**
+
+Four observations, all from one day's use.
+
+**1. A reviewer reversed a load-bearing finding within ninety minutes.** Reviewing the T-13 capture
+design, it first held that a hard heuristic refusal gives an AI-authored instrument control over
+which evidence is preserved, contrary to the secretary constraint. The architecture was rebuilt on
+that. Ninety minutes later the same reviewer withdrew it, on the ground that custodian-adopted
+deterministic tooling is human policy implemented in code and `GOVERNANCE.md` §3 forbids only
+*unilateral* control. Both reviews are committed at `record/designs/reviews/`.
+
+**2. The second review was contaminated by the prompt that solicited it.** That prompt opened
+*"Where did the revision **OVER-correct**?"* — naming the direction of the error it expected. This
+is **D-23 in the review path**: the task instruction encoding the annotator's own hypothesis and the
+result then read as independent. It was committed by the same annotator, in the instrument built to
+catch its own errors, **one day after D-23 was filed.**
+
+**3. No reviewer model identity is recorded anywhere.** The review artifacts name `codex-cli
+0.146.0` — a *harness* version, not a model. Which model produced the findings is not in the record.
+That is **D-01** (a value that looks like a version identifier and resolves to nothing) and **D-18**
+(attribution that is operator testimony rather than authentication), in artifacts that changed a
+normative design.
+
+**4. Every review is k = 1.** No review in this project — external design review or frontier corpus
+review — has been collected at k ≥ 5. `CONTRIBUTING.md` requires that of contributions; the
+maintenance path exempted itself without ever saying so.
+
+**Why this is the register's own subject and not a note about tooling.** D-25 was filed against a
+*coding rule* — a tool, not a contributor — so tools that produce judgments are already in scope.
+And these reviews are not advisory: one overturned a rule that had been measured, validated and
+committed an hour earlier, and the corpus now records that reversal as the reason a design changed.
+
+**What rescued the one instance that was checked.** The retraction in (1) was accepted only after
+being verified against `GOVERNANCE.md` §3's actual text, which says "unilateral" and separately
+requires that "original outputs must remain available." That is the mechanism established in
+`corpus/artifacts/review-round-02/gemini-verification-note.md` §3: an agreeing conclusion whose
+stated reasoning misdescribes the document carries no independent evidential weight, and where the
+object is a checkable artifact the reasoning can be checked directly. **It worked. It was also
+discretionary, applied once, because the reversal happened to be conspicuous.**
+
+**Forward requirements.**
+
+1. A review solicited by this project records the **reviewer's model identity**, or `null` with a
+   stated reason. A harness or CLI version is not a model identifier.
+2. A review prompt **must not name the direction of the error it expects.** Ask what is now wrong in
+   either direction and let the reviewer choose.
+3. Before a review's finding changes a design or a document, its **factual claims about the artifact
+   are checked against that artifact**, and the check is recorded. Routine, not discretionary.
+4. A finding that reverses a previously committed result is **not adopted on recency**. Which
+   position is correct is established against the governing text, and the reversal is recorded as an
+   observation about the reviewer.
+5. External reviews are k = 1 unless stated otherwise, and are **citable as artifacts of one
+   invocation, not as evidence of a stable reviewer position** — the same standing every model
+   contribution in this corpus carries.
+
+**Not remediable retrospectively for reviews already relied on.** The reviews that shaped ASP, ICP
+and the T-13 design were collected under none of these requirements. Forward requirement only.
 
 ### D-15 — The record is not self-contained
 
