@@ -1,7 +1,14 @@
 # T-13 design — static capture UI, prepare-and-ingest
 
-**Status:** draft for adversarial review, 2026-08-06 · session *Capture Path* (Track B) ·
-branch `session/capture` · **no code written yet**
+**Status:** reviewed twice by Codex (§10, §12), implementation begun 2026-08-06 · session
+*Capture Path* (Track B) · branch `session/capture`
+
+**Built so far:** `tools/capture_gates.py` and `tools/tests/test_capture_gates.py` (28 cases, green,
+commit `cc6f33c`); the fail-closed fix at `8cbe398`. **Not yet built:** the lifecycle artifacts, the
+round manifest, `ingest_capture.py`, `build_capture_ui.py` and the page itself.
+
+*The line this replaced read "no code written yet" and stayed there after code was written. A
+status line that is false is the defect class this document is about.*
 
 Written before implementation per the standing rule that fixes are designed with an external
 reviewer first. Two deployed unreviewed fixes were actively harmful; this document exists to be

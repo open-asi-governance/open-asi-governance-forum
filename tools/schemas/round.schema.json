@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/round.schema.json",
+  "title": "OAGRC round declaration",
+  "description": "Declares a solicitation round BEFORE it is sent: which parties, which prompt, and how each party is to be reached. Frozen once the first capture lands, reusing the bundle-freeze rule that exists because regenerating a round-01 bundle silently invalidated the SHA-256 Gemini's capture record cited. This declares INTENT. What was actually sent is testimony, recorded per-send in the lifecycle log -- the two are deliberately separate artifacts because conflating them records a plan as though it were an observation, which is D-20.",
+  "type": "object",
+  "required": ["schema_version", "artifact_type", "round", "question", "phase", "common_prompt", "frozen", "parties"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "oagrc-round-0.1" },
+    "artifact_type": { "const": "round_declaration" },
+    "round": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9-]+$" },
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The round's question in one sentence. Displayed beside the response at capture so the custodian can attest that this response answers THIS question. The prompt-critique near-miss is not mechanically separable from a review -- identical prompt file, identical hash, same round -- so this exists to support a human attestation, not an automated classification."
+    },
+    "phase": { "type": "string", "enum": ["Phase-1 (blind)", "Phase-2 (informed)"] },
+    "common_prompt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Repo-relative path to the committed prompt. Never composed in the UI."
+    },
+    "frozen": {
+      "type": "boolean",
+      "description": "Set true when the first capture lands. A frozen round refuses edits to parties or prompts."
+    },
+    "bundle_note": { "type": "string" },
+    "parties": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/party" }
+    }
+  },
+  "$defs": {
+    "party": {
+      "type": "object",
+      "required": ["identity", "provider", "delivery"],
+      "additionalProperties": false,
+      "properties": {
+        "identity": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The exact distinct identity string. Selected in the UI, never typed. D-09 -- the record's most serious attribution defect -- is the merging of 'Claude', 'Claude Opus 5', 'Claude Fable 5' and 'Claude Code'; free-text entry is how it recurs through the capture path."
+        },
+        "provider": { "type": "string", "minLength": 1 },
+        "delivery": {
+          "type": "string",
+          "enum": ["direct_fetch", "bundle", "paste_only"],
+          "description": "How this party receives the material. Named so per-party asymmetry is visible BEFORE the round is sent: it has gone unrecorded until after the fact twice -- round-01 Gemini got a bundle excluding the transcript, round-02 Gemini got a preamble the other three did not."
+        },
+        "bundle": { "type": ["string", "null"] },
+        "prompt_override": {
+          "type": ["string", "null"],
+          "description": "A party-specific prompt. Supported, and T-14 forbids using it ('Identical prompt to all four'). The UI warns at point of use and names the two prior instances."
+        },
+        "prior_context_template": { "type": "string" },
+        "version_unknown_reason": { "type": "string", "minLength": 1 },
+        "sampling_unknown_reason": { "type": "string", "minLength": 1 },
+        "effort_unknown_reason": { "type": "string", "minLength": 1 },
+        "system_instructions_unknown_reason": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "description": "A bundle delivery must name its bundle.",
+          "if": { "properties": { "delivery": { "const": "bundle" } }, "required": ["delivery"] },
+          "then": { "required": ["bundle"], "properties": { "bundle": { "type": "string", "minLength": 1 } } }
+        }
+      ]
+    }
+  }
+}
