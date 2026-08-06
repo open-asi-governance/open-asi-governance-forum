@@ -164,6 +164,66 @@
       "status": "open",
       "note": "This prediction is adversarial to its own author's project, which is the point of filing it.",
       "revision": "Revised in review round 02 (ChatGPT): the original claim asserted both low levels AND the causal reason nobody attempts Level 2, while the criterion tested only whether anything was promoted. An attempt could occur, fail, and leave every entry at Level 1 while falsifying the causal clause. Restated as a directly observable corpus-and-search claim."
+    },
+    {
+      "id": "P-0020",
+      "created_utc": "2026-08-06",
+      "filed_before_the_run": true,
+      "forecaster": {
+        "identity": "Claude Code (Capture Path session, Track B)",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not exposed to the session at authoring time.",
+        "k": 1,
+        "variance_reported": false,
+        "conflict_of_interest": "The forecaster designed the round-03 prompt, chose the excerpt the local model reviewed, built the capture instrument P-0022 tests, and authored the fix P-0021 concerns. Every prediction below is by an interested party about its own work. That is the conflict declared at D-09 and D-11, and it is why each carries a count-based criterion that does not depend on the forecaster's judgement to resolve."
+      },
+      "claim": "Of the review-round-03 responses collected, AT LEAST ONE identifies a further location in this repository carrying the bare unary grammar ASP 2.2 declares non-conforming, beyond 2.3(5) and 2.3(6) which are already corrected.",
+      "resolution_date": "2026-12-31",
+      "resolution_criterion": "Read each captured round-03 response. Count those naming at least one specific location -- file and section -- carrying unary 'is Aligned' or 'is an Aligned Supervisor' grammar not already corrected. Resolve CORRECT if the count is >= 1, REFUTED if 0.",
+      "resolution_limit": "UNSCORABLE if fewer than 3 of the 4 declared parties are captured by the resolution date. A count over 1 or 2 responses cannot distinguish this claim from sampling. Stated in advance because P-0010 was rendered unscorable by a limit nobody had written down.",
+      "confidence": "moderate",
+      "rationale": "Every review round so far has found real errors -- six new deficiencies in round 01 alone -- and partial propagation is the specific failure mode already recorded twice in this document set. Moderate rather than high because 2.2 and 2.3 are the only normative sections, and the rest of the corpus may simply not use the construction anywhere."
+    },
+    {
+      "id": "P-0021",
+      "created_utc": "2026-08-06",
+      "filed_before_the_run": true,
+      "forecaster": {
+        "identity": "Claude Code (Capture Path session, Track B)",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not exposed to the session at authoring time.",
+        "k": 1,
+        "variance_reported": false,
+        "conflict_of_interest": "The forecaster designed the round-03 prompt, chose the excerpt the local model reviewed, built the capture instrument P-0022 tests, and authored the fix P-0021 concerns. Every prediction below is by an interested party about its own work. That is the conflict declared at D-09 and D-11, and it is why each carries a count-based criterion that does not depend on the forecaster's judgement to resolve."
+      },
+      "claim": "Of the review-round-03 responses collected, ZERO report that the ASP 2.3(5)-(6) fix itself fails to resolve the contradiction the local model identified.",
+      "resolution_date": "2026-12-31",
+      "resolution_criterion": "Read each captured response's answer to question 1. Count those concluding the fix does NOT resolve the contradiction, or relocates it, or introduces a new one. Resolve CORRECT if the count is 0, REFUTED if >= 1.",
+      "resolution_limit": "UNSCORABLE below 3 of 4 captures. Note that this prediction is easier to resolve CORRECT the fewer responses arrive, which is the wrong incentive; it is therefore scored ONLY at >= 3, and a round abandoned early is recorded as unscorable rather than as a success.",
+      "confidence": "low",
+      "rationale": "Filed in the direction that would embarrass the custodian's own fix, because a prediction only the forecaster's success can satisfy is not evidence. Confidence is low deliberately: the fix was written by the same party that wrote the defect, and was not itself reviewed before being committed."
+    },
+    {
+      "id": "P-0022",
+      "created_utc": "2026-08-06",
+      "filed_before_the_run": true,
+      "forecaster": {
+        "identity": "Claude Code (Capture Path session, Track B)",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not exposed to the session at authoring time.",
+        "k": 1,
+        "variance_reported": false,
+        "conflict_of_interest": "The forecaster designed the round-03 prompt, chose the excerpt the local model reviewed, built the capture instrument P-0022 tests, and authored the fix P-0021 concerns. Every prediction below is by an interested party about its own work. That is the conflict declared at D-09 and D-11, and it is why each carries a count-based criterion that does not depend on the forecaster's judgement to resolve."
+      },
+      "claim": "Of the review-round-03 captures ingested through tools/ingest_capture.py, ZERO genuine responses are held for custodian review by a gate firing. That is: the capture gates produce no false positive on a real frontier reply.",
+      "resolution_date": "2026-12-31",
+      "resolution_criterion": "Read record/rounds/review-round-03-lifecycle.jsonl. Count captures that entered returned_pending_review AND were subsequently dispositioned 'accepted' by the custodian -- a hold the custodian overturned is by definition a false positive. Resolve CORRECT if that count is 0, REFUTED if >= 1.",
+      "resolution_limit": "UNSCORABLE if fewer than 3 captures are ingested. Also unscorable if a hold is dispositioned 'rejected', since that is the gate working; only an overturned hold counts against it.",
+      "confidence": "moderate",
+      "rationale": "The gates were validated against 9 real captures and every one passed clean, and the two rules that produced false positives were rejected before use. But the validation set is the same corpus the thresholds were read off, which is training on the test set, and round-03 responses are genuinely held-out. This is the forecaster predicting its own instrument will not misfire, which is exactly the kind of claim that should be dated and scored rather than asserted."
     }
   ],
   "scored": [
