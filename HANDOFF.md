@@ -63,6 +63,17 @@ task concerns.
 Four independent tracks. Territories are disjoint by design; where they are not, the overlap is
 named.
 
+**The task briefs are in this repository, not in any session's task list.** A session picking up a
+track reads its brief from `record/tasks/` and needs nothing else. Task numbers below are labels for
+those files, not references to an external tool.
+
+| Session name | Track | Branch | Briefs | Resource |
+|---|---|---|---|---|
+| **Corpus Surface** | A | `session/site` | [T-08](record/tasks/T08-session-log.md) → [T-03](record/tasks/T03-oagf-github-presence.md) | none |
+| **Capture Path** | B | `session/capture` | [T-13](record/tasks/T13-capture-ui.md) → [T-14](record/tasks/T14-asp-fix-to-frontier.md) | none |
+| **Determinism** | C | `session/determinism` | [T-15](record/tasks/T15-seed-nonreproducibility.md) → [T-17](record/tasks/T17-determinism-window.md) | **exclusive inference host** |
+| **Provenance Hardening** | D | `session/signing` | [T-16](record/tasks/T16-tamper-evidence.md) | custodian for keys |
+
 ### Custodian actions no session can perform
 
 These are blockers, not preferences. A session will hit them and stop.
