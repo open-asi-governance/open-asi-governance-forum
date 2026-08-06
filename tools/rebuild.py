@@ -48,6 +48,7 @@ STEPS = [
     ("validate provenance", ["tools/validate_provenance.py", "corpus/"]),
     ("check the deficiency register against its classification", ["tools/check_register.py"]),
     ("build the deficiency register views", ["tools/build_register_view.py"]),
+    ("build the local solicitation round pages", ["tools/build_local_rounds.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
 ]

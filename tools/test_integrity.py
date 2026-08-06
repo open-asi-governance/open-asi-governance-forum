@@ -20,6 +20,7 @@ Exit status is 0 when every case passes and 1 otherwise.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -220,6 +221,25 @@ def main() -> int:
         r = run(c, "tools/check_register.py")
         case("an unclassified deficiency fails the build", r.returncode == 1)
         case("names the unclassified entry", "D-17" in r.stdout)
+
+        print("\nthe published site must not understate the record")
+        c = nxt()
+        run(c, "tools/rebuild.py")
+        page = (c / "docs/index.html").read_text(encoding="utf-8")
+        summaries = list((c / "corpus/artifacts").glob("local-round-*/*-summary.json"))
+        pages = list((c / "docs/local").glob("local-round-*__*.html"))
+        case("every solicitation summary has a published page",
+             len(pages) == len(summaries), f"{len(pages)} pages vs {len(summaries)} summaries")
+        case("local rounds appear in the threaded viewer",
+             'class="round">local-round-01' in page)
+        case("the blanket k=1 claim is gone",
+             "Every contribution here is a single sample (k=1)" not in page)
+        case("local-round content is searchable in the rendered page",
+             "binds_only_what_may_be_claimed" in page)
+        case("the viewer no longer embeds a second copy of every contribution",
+             '"text":' not in page.split("const DATA=")[1].split("};")[0])
+        case("no page loads an external resource",
+             not re.search(r'(?:src|href)="https?://(?!github\.com)', page))
 
     print()
     total = len(PASSED) + len(FAILED)

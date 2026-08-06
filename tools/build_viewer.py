@@ -277,6 +277,69 @@ def build_contribution_nodes() -> list[dict]:
     return nodes
 
 
+def build_local_nodes() -> list[dict]:
+    """Summary nodes for the locally-served solicitation rounds.
+
+    These were absent from the published page entirely. The footer's claim that
+    "every contribution here is a single sample (k=1)" was true only because
+    they were excluded -- and they are the ONLY contributions in this corpus that
+    meet its own k >= 5 with computed variance bar. The party the site omitted
+    was the one party whose contributions clear the standard the site advertises.
+
+    The verbatim samples live on one page per solicitation under docs/local/,
+    not here: this page is already 4.4x too large for that same party to read
+    within its 24,576-token window, and inlining 774 KB of samples would make
+    that worse rather than better. Each node links to its full page.
+    """
+    art = REPO_ROOT / "corpus/artifacts"
+    nodes = []
+    for path in sorted(art.glob("local-round-*/*-summary.json")):
+        doc = json.loads(read_input(path))
+        if doc.get("artifact_type") != "solicitation_summary":
+            continue
+        sampling = doc.get("contributor", {}).get("sampling_parameters", {})
+
+        lines = [doc["question"], ""]
+        for field, v in sorted(doc["variance"].items()):
+            share = v["modal_fraction"]
+            status = ("robust" if share >= 0.9 or share <= 0.1
+                      else "NOISE-DOMINATED" if 0.4 <= share <= 0.6 else "not lopsided")
+            dist = ", ".join(f"{k} {n}" for k, n in
+                             sorted(v["distribution"].items(), key=lambda kv: -kv[1]))
+            lines.append(f"{field}")
+            lines.append(f"    {dist}")
+            lines.append(f"    modal {share:.2f} · H = {v['shannon_entropy_bits']} bits "
+                         f"at T = {sampling.get('temperature', '?')} · {status} under D-28")
+        text = "\n".join(lines)
+
+        nodes.append({
+            "id": f"{doc['round']}--{doc['slug']}",
+            "round": doc["round"],
+            "identity": doc.get("contributor", {}).get("identity", "locally served model"),
+            "label_in_raw": None, "label_absent": False,
+            "role": "solicitation summary",
+            "summary": doc["question"],
+            "text": text,
+            "lines": None,
+            "note": doc.get("citability_note", ""),
+            "correction": "",
+            "ballot": "",
+            "status": "active",
+            "durable": [], "claims": [],
+            "evidence": doc.get("contributor", {}).get("version_identifier", ""),
+            "conflict": "",
+            "superseded": [],
+            "k": doc["k_collected"],
+            "phase": doc.get("phase", ""),
+            "citability": doc.get("citability", ""),
+            "provider": doc.get("contributor", {}).get("provider", ""),
+            "link": f"local/{doc['round']}__{doc['slug']}.html",
+            "parent": None,
+            "is_prompt": False,
+        })
+    return nodes
+
+
 CSS = """
 :root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
 --warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
@@ -344,19 +407,28 @@ let q='', facets={identity:new Set(),round:new Set(),flag:new Set()};
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
 
-function matches(n){
+// Search reads the RENDERED PAGE, not a duplicate copy of it.
+// Every contribution used to be embedded twice -- once in the HTML body and again
+// in this DATA blob -- which is most of why the page was 671 KB against a ~20,000
+// token budget. The text is already in the DOM; indexing it there costs nothing
+// and cannot drift from what a reader actually sees, which the second copy could.
+const HAY=new Map();
+function hay(el){
+  let h=HAY.get(el.id);
+  if(h===undefined){ h=el.textContent.toLowerCase(); HAY.set(el.id,h); }
+  return h;
+}
+function matches(n,el){
   if(facets.round.size && !facets.round.has(n.round)) return false;
   if(facets.identity.size && !facets.identity.has(n.facet)) return false;
   for(const f of facets.flag){
-    if(f==='corrected' && !n.correction) return false;
+    if(f==='corrected' && !n.corrected) return false;
     if(f==='disputed' && n.status==='active') return false;
     if(f==='conflict' && !n.conflict) return false;
     if(f==='ballot' && !n.ballot) return false;
   }
   if(!q) return true;
-  const hay=[n.identity,n.role,n.summary,n.text,n.note,n.correction,n.evidence,
-             (n.durable||[]).join(' '),(n.claims||[]).join(' ')].join(' ').toLowerCase();
-  return hay.includes(q.toLowerCase());
+  return hay(el).includes(q.toLowerCase());
 }
 
 function highlight(el){
@@ -384,7 +456,7 @@ function apply(){
   for(const n of DATA.nodes){
     const el=document.getElementById('n-'+n.id);   // literal id: never CSS-escape here
     if(!el) continue;
-    const ok=matches(n);
+    const ok=matches(n,el);
     el.classList.toggle('hidden',!ok);
     if(ok){shown++; if(q) el.classList.add('open');}
   }
@@ -410,7 +482,7 @@ function facet(kind,val,btn){
 }
 
 function init(){
-  $('#q').addEventListener('input',e=>{q=e.target.value.trim();apply()});
+  $$('.node').forEach(el=>hay(el));   // index before highlight() ever rewrites a text node\n  $('#q').addEventListener('input',e=>{q=e.target.value.trim();apply()});
   $('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';q='';apply()}});
   $$('[data-facet]').forEach(b=>b.addEventListener('click',()=>facet(b.dataset.facet,b.dataset.val,b)));
   $$('.nh').forEach(h=>h.addEventListener('click',()=>{
@@ -471,6 +543,10 @@ def node_html(n: dict) -> str:
 
     parts = [f'<div class="meta">{" · ".join(meta)}</div>'] if meta else []
     parts.append(f'<pre>{e(n["text"])}</pre>')
+    if n.get("link"):
+        parts.append(
+            f'<p><a href="{e(n["link"])}">Every sample, the prompt verbatim, and the provenance →</a>'
+            f'</p>')
 
     if n["evidence"]:
         parts.append(f'<div class="box"><b>identity evidence</b>{e(n["evidence"])}</div>')
@@ -506,7 +582,7 @@ def node_html(n: dict) -> str:
 
 
 def build() -> str:
-    nodes = build_founding_nodes() + build_contribution_nodes()
+    nodes = build_founding_nodes() + build_contribution_nodes() + build_local_nodes()
     for n in nodes:
         n["facet"] = facet_identity(n["identity"])
     identities = sorted({n["facet"] for n in nodes})
@@ -524,6 +600,10 @@ def build() -> str:
     round_titles = {"founding": "Founding deliberation — 2026-08-04 / 2026-08-05"}
     round_titles.update({spec["round"]: spec["title"] for spec in CONTRIBUTION_ROUNDS})
     round_order = ["founding"] + [spec["round"] for spec in CONTRIBUTION_ROUNDS]
+    local_rounds = sorted({n["round"] for n in nodes if n["round"].startswith("local-round-")})
+    for rnd in local_rounds:
+        round_titles[rnd] = f"{rnd} — locally-served solicitations, k \u2265 5 with computed variance"
+    round_order += local_rounds
 
     body = []
     for rnd in round_order:
@@ -533,10 +613,13 @@ def build() -> str:
         body.append(f'<h2 class="round">{html.escape(round_titles[rnd])}</h2>')
         body.extend(node_html(n) for n in group)
 
+    # Only what the facet filters read. Text is NOT duplicated here: search runs
+    # over the rendered DOM instead. Booleans rather than the strings themselves,
+    # since the filters only ever test presence.
     data_json = json.dumps(
-        [{k: n[k] for k in ("id", "round", "identity", "facet", "role", "summary", "text", "note",
-                            "correction", "conflict", "ballot", "status", "durable", "claims",
-                            "evidence")} for n in nodes],
+        [{"id": n["id"], "round": n["round"], "facet": n["facet"], "status": n["status"],
+          "corrected": bool(n["correction"]), "conflict": bool(n["conflict"]),
+          "ballot": bool(n["ballot"])} for n in nodes],
         ensure_ascii=False, separators=(",", ":"),
     ).replace("</script>", "<\\/script>")
 
@@ -563,6 +646,7 @@ def build() -> str:
 {facet_btn("round", "review-round-01", "review 01")}
 {facet_btn("round", "review-round-02", "review 02")}
 {facet_btn("round", "review-round-02-prompt-critique", "round-02 prompt critique")}
+{"".join(facet_btn("round", r, r.replace("local-round-", "local ")) for r in local_rounds)}
 </div>
 <div class="bar"><span class="lbl">who</span>
 {"".join(facet_btn("identity", i) for i in identities)}
@@ -597,8 +681,13 @@ the page, so a rebuild diffed forever and the "no diff means nothing changed" si
 tripped. This one changes when, and only when, the rendered record does — and it is honest on an
 uncommitted working tree, because it names the bytes actually read rather than a commit the page
 never saw.</p>
-<p>Every contribution here is a single sample (k=1) — citable as an artifact of that invocation,
-not as evidence of any model's stable position. See
+<p><strong>The chat-surface contributions</strong> — the founding deliberation and the review
+rounds — are each a single sample (k=1): citable as an artifact of that invocation, not as evidence
+of any model's stable position. <strong>The local-round solicitations are not.</strong> They were
+sampled at k=10 to k=20 with variance computed from the samples, which is the only material here
+that meets this project's own stated bar — and they were absent from this page until 2026-08-06,
+which is what made the blanket k=1 claim previously shown here true. It was true by omission.
+Their apparatus, however, does not reproduce; every one carries D-28 beside its numbers. See
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/deficiencies.md">the deficiency register</a>
 ({open_deficiencies} open) before citing anything.</p>
 <p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or

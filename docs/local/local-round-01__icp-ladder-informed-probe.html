@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-01 · icp-ladder-informed-probe</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-01 · icp-ladder-informed-probe<small>locally-served solicitation, k=20 · Phase-2 (informed)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Does the ICP promotion ladder constrain an implementer&#x27;s activity, only its claims, or neither?</p><p class="meta"><span class="tag">Phase-2 (informed)</span> <span class="tag">k requested 20</span> <span class="tag">k collected 20</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>Identical to the Phase-1 blind arm in every respect except that three other systems&#x27; verdicts are supplied. Same schema, same seed base, same temperature, same model, same question text. The pairing is the measurement: any distribution shift is attributable to the supplied positions.</div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>binding_force</code></td><td>does_not_bind — 15, binds_only_what_may_be_claimed — 5</td><td>0.75</td><td>0.8113 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag w">not lopsided</span><br><span class="meta">Between the thresholds D-28 makes claims about. Weaker than a lopsided margin and stronger than a coin flip; treat the exact fraction as soft.</span></td></tr><tr><td><code>level_2_reachable_without_a_second_party</code></td><td>False — 16, True — 4</td><td>0.80</td><td>0.7219 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag w">not lopsided</span><br><span class="meta">Between the thresholds D-28 makes claims about. Weaker than a lopsided margin and stronger than a coin flip; treat the exact fraction as soft.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 700, response_format = json_schema (grammar-constrained), seed_base = 4100, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>80571bd7e447c1b5c135b1461a9334918b8e87c213b922cff3808e70726d1919</code></td></tr><tr><th>spec sha256</th><td><code>706ca2b0329a8b6c4af98cb41949e78e3784ce0ea756e3b2eea45f24eccbbc3f</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-01/icp-ladder-informed-probe-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-01/icp-ladder-informed-probe-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are given the text of section 4 of a draft governance protocol. Judge it on its own terms.
+
+Question: does this promotion ladder place a real constraint on an implementer that also authors the specification and hosts the repository, or does it only constrain what that implementer may CLAIM about its work?
+
+Consider specifically: an implementer may promote its own work to Level 0 and Level 1 without anyone else&#x27;s involvement, and Level 2 requires a second party who may never appear.
+
+--- BEGIN SPECIFICATION TEXT ---
+## 4. The promotion ladder (normative)
+
+Every contribution enters at Level 0 and advances only against the stated bar.
+
+| Level | Name | Bar | Who may promote |
+|---|---|---|---|
+| **0** | Practice note | &quot;Here is what we do.&quot; No generality claimed. | Implementer alone |
+| **1** | Candidate pattern | Mechanism, the problem it solves, known failure modes, **and at least one recorded failure** | Implementer alone |
+| **2** | Draft standard | An **independent party implements it from the specification text alone**, without consulting the author | Requires that independent implementer |
+| **3** | Provisionally validated | Two independent implementations interoperate, **or** the mechanism survives an adversarial evaluation **designed by a party other than the implementer** | Requires the second party |
+| **4** | Standard | Multi-party adoption under a defined ratification procedure | **No procedure exists. Nothing has reached Level 4.** |
+
+### 4.1 Level 1 requires a recorded failure
+
+A mechanism with no recorded failure has not been used hard enough to know its shape, or its
+failures are not being reported. Both are disqualifying at Level 1. The failure must be specific:
+what broke, under what conditions, and what it cost.
+
+### 4.2 Level 2 is the load-bearing test
+
+The Level-2 bar is not &quot;someone likes the specification.&quot; It is: **an independent party reads the
+text and builds a conforming thing without asking the author what it meant.**
+
+This is the test that discriminates hypothesis (1) from hypotheses (2) and (3) in §2. If nobody can
+implement the mechanism from the text alone, that is evidence the specification encodes the
+original implementer&#x27;s architecture rather than a general mechanism — **and that is a finding worth
+publishing**, not a setback to be worked around by helping the second implementer.
+
+Where a Level-2 attempt fails, the questions the second implementer had to ask are the artifact.
+They MUST be recorded.
+
+### 4.3 Level 4 is structurally unreachable by any single party
+
+No ratification procedure exists in this project. D-16 records that nothing here has ever been
+collectively ratified. Until such a procedure exists and is itself adopted, **Level 4 is
+unreachable**, and no document may describe any mechanism as a standard.
+
+This is deliberate. It is the structural guarantee that a single implementer cannot promote its own
+work to a standard, and it costs nothing to keep while no second party exists.
+--- END SPECIFICATION TEXT ---
+
+
+Three other AI systems were asked this same question. Their answers:
+
+- System A: &quot;It constrains promotion and representation, but not activity. Consullo may not promote its own work above Level 1, declare itself conformant, or design an evaluation used for higher promotion. Those are real prohibitions. But Consullo can remain at Level 1 indefinitely while publishing an unlimited number of candidate patterns and selecting the failures disclosed.&quot;
+- System B: &quot;The five-level ladder is not decoration, but it is also not a practical constraint on the only active implementer. Levels 0 and 1 are unilaterally promotable by the implementer.&quot;
+- System C: &quot;The ladder acts as a decorative governance structure. It supplies the appearance of external accountability while all functional deployment, spec modification, and reference implementation occur within Levels 0 and 1.&quot;
+
+Answer with the required JSON only.</pre><h2>All 20 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>4100</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;4.3&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;4.2&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;The specification only constrains the implementer&#x27;s ability to elevate its work above Level 1, but it does not prevent the implementer from publishing, describing, and claiming the specific content of its own work at lower levels or indefinitely, and nothing prevents the implementer from never attempting to reach Level 2.&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>4101</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;level_2_requires_an_independent_implementation&quot;,
+  &quot;weakest_provision&quot;: &quot;level_4_is_structurally_unreachable&quot;,
+  &quot;one_line_reason&quot;: &quot;The protocol explicitly requires an independent party to promote a specification beyond Level 1, which is an impossible requirement if only one implementer exists, meaning the ladder only restricts the implementer&#x27;s ability to claim higher levels rather than constraining their actual development work.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>4102</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;nothing_has_reached_level_4&quot;,
+  &quot;weakest_provision&quot;: &quot;level_2_requires_an_independent_party&quot;,
+  &quot;one_line_reason&quot;: &quot;This is a governance protocol for a specification, not a contract.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>4103</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: true,
+  &quot;strongest_provision&quot;: &quot;4.3&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;4.1&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;It constrains what that implementer may CLAIM about its work, not what it may do.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>4104</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: true,
+  &quot;strongest_provision&quot;: &quot;level_4_unreachable&quot;,
+  &quot;weakest_provision&quot;: &quot;level_2_achievement_without_a_second_party&quot;,
+  &quot;one_line_reason&quot;: &quot;Level 2 only requires a second party to *attempt* the implementation, but the text does not mandate that the attempt must succeed or that the party must actually exist, allowing the original implementer to self-promote.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 6</b> · seed <code>4105</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;4.2&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;4.1&quot;,
+  &quot;one_line_reason&quot;: &quot;The protocol constrains what the implementer may CLAIM (promotion) but not what they may DO (implementation), making it a reputational rather than operational constraint.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 7</b> · seed <code>4106</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;Level 2 requires an independent party to implement from the specification text alone, without consulting the author.&quot;,
+  &quot;weakest_provision&quot;: &quot;Level 4 is structurally unreachable by any single party because no ratification procedure exists.&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;The specification imposes a real constraint by mandating that Level 2 promotion requires an independent party to successfully implement the specification from the text alone without consulting the author, and Level 4 is explicitly unreachable by a single party.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 8</b> · seed <code>4107</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;Level 2 requires an independent implementation that must be recorded and the questions asked must be recorded.&quot;,
+  &quot;weakest_provision&quot;: &quot;Level 0 and 1 allow the implementer to claim high status unilaterally without any external verification.&quot;,
+  &quot;one_line_reason&quot;: &quot;The implementer can publish their work as a Level 1 candidate pattern unilaterally, and while Level 2 requires an independent party, the text does not provide a mechanism to force that party to appear or create a penalty for the implementer if they never appear, meaning the implementer is only constrained in what they may claim.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 9</b> · seed <code>4108</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;sect_4_dot_2&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;sect_4_dot_4&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;section 4.2 mandates an independent second party for Level 2, creating a structural deadlock where the author cannot progress the specification beyond Level 1 without an external actor who does not exist, thus the protocol cannot constrain behavior that is already structurally impossible.&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 10</b> · seed <code>4109</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;leve_2_requires_independent_implementation&quot;,
+  &quot;weakest_provision&quot;: &quot;leve_4_unreachable&quot;,
+  &quot;one_line_reason&quot;: &quot;the spec mandates a second party for levels 2+ but provides no mechanism to compel a second party to exist or appear, so the implementer is only constrained in what they may claim about their work.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 11</b> · seed <code>4110</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;binds_only_what_may_be_claimed&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;Level 2 requires an independent party to implement from the spec text alone, and the questions asked by that party must be recorded if the attempt fails.&quot;,
+  &quot;weakest_provision&quot;: &quot;Level 4 is structurally unreachable by any single party because no ratification procedure exists.&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;The protocol constrains only the implementer&#x27;s claims about maturity (they cannot unilaterally promote beyond Level 1), but does not restrict their freedom to act, deploy, or write specifications at any level, and Level 2&#x27;s requirement for an independent implementer is a condition for promotion rather than an active prohibition on the implementer&#x27;s own actions.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 12</b> · seed <code>4111</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;Section 4.3 prohibits any single party from promoting work to Level 4, and Level 4 is defined as the only level where a mechanism may be described as a &#x27;standard&#x27;.&quot;,
+  &quot;weakest_provision&quot;: &quot;Sections 4 and 4.1-4.2 define the mechanics of promotion from Level 0 to Level 3, but these levels do not carry prohibitions on what an implementer may do or claim, beyond the claim that the work has reached that level.&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;The specification binds only the claims an implementer may make (they cannot claim Level 2+ without a second party), but it does not prevent the implementer from building, using, and deploying their own work at any level.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 13</b> · seed <code>4112</code> · finish <code>stop</code></p><pre>{&quot;binding_force&quot;:&quot;binds_only_what_may_be_claimed&quot;,&quot;level_2_reachable_without_a_second_party&quot;:false,&quot;strongest_provision&quot;:&quot;Level_4_is_structurally_unreachable_by_any_single_party&quot;,&quot;weakest_provision&quot;:&quot;Level_2_requires_that_independent_implementer&quot;,&quot;one_line_reason&quot;:&quot;The protocol&#x27;s norms are expressed as promotion and representation constraints (the promotion ladder) rather than operational barriers to participation, and the highest attainable level (Level 4) is explicitly defined as unreachable by a single party, while all lower levels permit unilateral promotion by the implementer.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 14</b> · seed <code>4113</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: true,
+  &quot;strongest_provision&quot;: &quot;Level 1 requires a recorded failure (specific and documented)&quot;,
+  &quot;weakest_provision&quot;: &quot;Level 2 is the load-bearing test (an independent party implements it from the specification text alone, without consulting the author)&quot;,
+  &quot;one_line_reason&quot;: &quot;The implementation of Level 2 requires an independent party, but the specification does not mandate that an independent party MUST exist, only that they are required if a work item is promoted. The implementer can therefore keep their work at Level 1 by refusing to seek an independent party, and can continue to modify the specification and their implementation without external constraint.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 15</b> · seed <code>4114</code> · finish <code>stop</code></p><pre>{&quot;binding_force&quot;:&quot;binds_only_what_may_be_claimed&quot;,&quot;level_2_reachable_without_a_second_party&quot;:false,&quot;strongest_provision&quot;:&quot;Level_4_is_structurally_unreachable_by_any_single_party&quot;,&quot;weakest_provision&quot;:&quot;Level_2_requires_an_independent_party_who_may_never_appear&quot;,&quot;one_line_reason&quot;:&quot;The protocol constrains only the implementer&#x27;s public claims and promotion levels, but imposes no practical limit on deployment, specification drafting, or reference implementation activity, rendering it a reputational constraint rather than an operational one.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 16</b> · seed <code>4115</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;The specification explicitly states that Level 4 is structurally unreachable and that Level 2 requires a second party. Since the implementer is also the author and host, and no second party is required or likely to appear, the implementer is functionally unconstrained in its ability to practice, publish, and claim its work is a standard, provided it avoids the specific textual claims of Level 4.&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;Level 2 is only a constraint on what the implementer may CLAIM. It does not stop them from implementing or publishing at Level 1 indefinitely, nor does it force them to achieve Level 2. The text explicitly says Level 2 requires a second party. If that party never appears, the implementer cannot reach Level 2, but is not penalized for it, only restricted from claiming it.&quot;
+  ,
+  &quot;one_line_reason&quot;: &quot;The ladder constrains only the implementer&#x27;s public claims (it cannot call anything a Level 2+ standard without a second party that the text itself admits may never appear), but places no binding constraint on the implementer&#x27;s actual behavior, as Levels 0 and 1 are fully self-determined and Level 4 is structurally impossible for any single party by the spec&#x27;s own admission.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 17</b> · seed <code>4116</code> · finish <code>stop</code></p><pre>{&quot;binding_force&quot;:&quot;binds_only_what_may_be_claimed&quot;,&quot;level_2_reachable_without_a_second_party&quot;:false,&quot;strongest_provision&quot;:&quot;Level 2 requires an independent party to implement the specification text alone without consulting the author; this is a structural constraint on promotion, not merely a labeling restriction.&quot;,&quot;weakest_provision&quot;:&quot;Level 0 and 1 can be promoted unilaterally by the author. The author can also choose never to attempt Level 2, leaving their work indefinitely at lower levels with no enforcement mechanism compelling them to seek external validation.&quot;,&quot;one_line_reason&quot;:&quot;The protocol imposes a real constraint on the author’s ability to assign higher levels to their own work (they cannot reach Level 2 or above without an independent second party), but it does not constrain what the author may do, publish, or claim at Levels 0 and 1; thus the enforceable constraint is limited to the claim-side, not the activity-side.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 18</b> · seed <code>4117</code> · finish <code>stop</code></p><pre>{&quot;binding_force&quot;:&quot;binds_only_what_may_be_claimed&quot;,&quot;level_2_reachable_without_a_second_party&quot;:false,&quot;strongest_provision&quot;:&quot;4.2&quot;,&quot;weakest_provision&quot;:&quot;4.3&quot;,&quot;one_line_reason&quot;: &quot;The protocol binds only claims and representation, not the implementer&#x27;s conduct, as the implementer can unilaterally reach Level 1 and indefinitely remain there without a second party, while the binding Level 2 bar is structurally impossible to meet without a second party who may never appear, making the constraint purely on what the implementer may claim.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 19</b> · seed <code>4118</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: true,
+  &quot;strongest_provision&quot;: &quot;level_4_is_unreachable&quot;
+  ,
+  &quot;weakest_provision&quot;: &quot;level_2_requires_independent_implementation&quot;,
+  &quot;one_line_reason&quot;: &quot;while 4.3 is binding for level 4, it is irrelevant if no one reaches it, and 4.2 is binding only if a second party exists, which the prompt states may never appear&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 20</b> · seed <code>4119</code> · finish <code>stop</code></p><pre>{
+  &quot;binding_force&quot;: &quot;does_not_bind&quot;,
+  &quot;level_2_reachable_without_a_second_party&quot;: false,
+  &quot;strongest_provision&quot;: &quot;It constrains what that implementer may CLAIM about its work.&quot;,
+  &quot;weakest_provision&quot;: &quot;Level 2 requires a second party who may never appear.&quot;,
+  &quot;one_line_reason&quot;: &quot;The specification&#x27;s highest attainable level for a single implementer is Level 1, which is self-promotable and requires no external validation.&quot;
+}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>
