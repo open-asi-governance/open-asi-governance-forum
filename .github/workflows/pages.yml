@@ -15,6 +15,18 @@
 #
 # `verify` now runs with no environment and no write permissions. `deploy` needs it.
 #
+# The split was validated by accident within the hour, which is worth recording
+# because nobody designed the test. GitHub opened a MAJOR OUTAGE of Actions and
+# Pages at 2026-08-06T15:22Z. Under the new arrangement `verify` ran and passed
+# every gate while `deploy` could not complete -- exactly the intended reading:
+# the commit is verified, publication is unavailable, and those are two facts.
+# Under the old single-job design the outage would have blocked the integrity
+# checks from executing at all, because the job could not start until the
+# environment let it, and the run would have shown red against the gate.
+#
+# An infrastructure outage must not be able to masquerade as a failed integrity
+# check, and a passing integrity check must not require infrastructure to be up.
+#
 # NO PATHS FILTER. It used to be paths: ['docs/**', ...]. GitHub evaluates a PUSH,
 # not each commit, so a push whose combined diff touched no docs/ file ran nothing
 # at all -- and 9797cc0 (tools/**) and 35154a4 (corpus/deficiencies.md) are real
