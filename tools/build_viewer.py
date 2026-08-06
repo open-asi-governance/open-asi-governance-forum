@@ -28,7 +28,6 @@ import hashlib
 import html
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 
@@ -38,6 +37,52 @@ OUT = REPO_ROOT / "docs" / "index.html"
 
 def sha256_of(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+# Every file this generator reads, path -> sha256, recorded as it is read.
+# The footer's provenance line is a digest over this, not over git state. See
+# inputs_digest() for why.
+_INPUTS: dict[str, str] = {}
+
+
+def read_input(path: Path) -> str:
+    """Read a generator input and record its hash for the provenance digest.
+
+    Reads go through here so the digest describes what was ACTUALLY read rather
+    than a hand-maintained list of what someone believed was read. A declared
+    list drifts from the code; this cannot.
+    """
+    relative = str(path.relative_to(REPO_ROOT))
+    if relative not in _INPUTS:
+        _INPUTS[relative] = sha256_of(path)
+    return path.read_text(encoding="utf-8")
+
+
+def inputs_digest() -> str:
+    """A digest over every input file, replacing the embedded git commit hash.
+
+    The footer used to record `git log -1 --format=%H`. That could never be
+    right: the page is committed IN a commit, so it could only ever name the
+    commit BEFORE the one carrying it, and every commit therefore invalidated
+    it. `python3 tools/rebuild.py` on a pristine checkout produced a one-line
+    diff forever. README and rebuild.py both advertised "no diff on an unchanged
+    repository, so `git status` after a rebuild is a real signal" -- a tripwire
+    permanently tripped, so a genuine regeneration difference was camouflaged by
+    expected churn.
+
+    Hashing the inputs instead is diff-free by construction, and better than the
+    thing it replaces on four counts:
+
+      * it is honest on a dirty tree -- it names the bytes actually rendered,
+        where any commit hash would be a claim about state the page did not read
+      * it survives shallow clones and archive exports, which carry no history
+      * a reader holding the files but not the repository can recompute it
+      * it changes when, and only when, the rendered record changes
+
+    Call this AFTER every input has been read.
+    """
+    payload = "".join(f"{relative}  {digest}\n" for relative, digest in sorted(_INPUTS.items()))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def deficiency_count() -> int:
@@ -51,21 +96,12 @@ def deficiency_count() -> int:
     derives from it so the page cannot disagree with it at all.
     """
     register = REPO_ROOT / "corpus" / "deficiencies.md"
-    return len(re.findall(r"^### D-\d+ — ", register.read_text(encoding="utf-8"), re.MULTILINE))
-
-
-def head_commit() -> str:
-    try:
-        r = subprocess.run(["git", "log", "-1", "--format=%H"], cwd=REPO_ROOT,
-                           capture_output=True, text=True, check=True)
-        return r.stdout.strip()
-    except Exception:
-        return "unavailable"
+    return len(re.findall(r"^### D-\d+ — ", read_input(register), re.MULTILINE))
 
 
 def raw_lines(path: Path, start: int, end: int) -> str:
     """Extract an inclusive 1-indexed line range, verbatim."""
-    lines = path.read_text(encoding="utf-8").splitlines()
+    lines = read_input(path).splitlines()
     return "\n".join(lines[start - 1:end])
 
 
@@ -82,7 +118,7 @@ def facet_identity(identity: str) -> str:
 
 
 def build_founding_nodes() -> list[dict]:
-    seg_doc = json.loads((REPO_ROOT / "corpus/artifacts/segments.json").read_text(encoding="utf-8"))
+    seg_doc = json.loads(read_input(REPO_ROOT / "corpus/artifacts/segments.json"))
     transcript = REPO_ROOT / "corpus/raw/initial-transcript.txt"
     defaults = seg_doc.get("provenance_defaults", {})
 
@@ -135,7 +171,7 @@ def build_review_nodes() -> list[dict]:
         "role": "prompt",
         "summary": "Adversarial review request sent verbatim to Grok, ChatGPT, Gemini and Claude Fable 5: "
                    "Claude annotated a record in which Claude is a party — find what that produced.",
-        "text": prompt_path.read_text(encoding="utf-8"),
+        "text": read_input(prompt_path),
         "lines": None, "note": "", "correction": "", "ballot": "", "status": "active",
         "durable": [], "claims": [], "evidence": "", "conflict": "", "superseded": [],
         "k": 1, "phase": "Phase-2 (informed)", "citability": "",
@@ -143,7 +179,7 @@ def build_review_nodes() -> list[dict]:
     }]
 
     for path in sorted(art_dir.glob("*.json")):
-        rec = json.loads(path.read_text(encoding="utf-8"))
+        rec = json.loads(read_input(path))
         raw = REPO_ROOT / rec["raw"]["path"]
         c = rec["contributor"]
         nodes.append({
@@ -153,7 +189,7 @@ def build_review_nodes() -> list[dict]:
             "label_in_raw": None, "label_absent": False,
             "role": "adversarial review",
             "summary": "",
-            "text": raw.read_text(encoding="utf-8"),
+            "text": read_input(raw),
             "lines": None,
             "note": rec.get("notes", ""),
             "correction": "",
@@ -411,7 +447,10 @@ def build() -> str:
     identities = sorted({n["facet"] for n in nodes})
 
     transcript = REPO_ROOT / "corpus/raw/initial-transcript.txt"
-    commit = head_commit()
+    founding_sha = sha256_of(transcript)
+    open_deficiencies = deficiency_count()
+    # LAST: every input must already have been read for this to describe them all.
+    rendered_from = inputs_digest()
 
     def facet_btn(kind, val, label=None):
         return (f'<button data-facet="{kind}" data-val="{html.escape(val)}" '
@@ -482,12 +521,18 @@ two parties. Filtering groups them; each contribution still shows the identity e
 record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Claude Code — are never
 merged.</p>
 <p><strong>Provenance.</strong> Founding record
-<code>{sha256_of(transcript)}</code> · generated from commit <code>{commit}</code> ·
+<code>{founding_sha}</code> · rendered from inputs <code>{rendered_from}</code> ·
 {len(nodes)} contributions. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+<p>That second digest covers every file this page was built from, hashed as it was read. It replaces
+an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
+the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
+tripped. This one changes when, and only when, the rendered record does — and it is honest on an
+uncommitted working tree, because it names the bytes actually read rather than a commit the page
+never saw.</p>
 <p>Every contribution here is a single sample (k=1) — citable as an artifact of that invocation,
 not as evidence of any model's stable position. See
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/deficiencies.md">the deficiency register</a>
-({deficiency_count()} open) before citing anything.</p>
+({open_deficiencies} open) before citing anything.</p>
 <p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
 Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>
