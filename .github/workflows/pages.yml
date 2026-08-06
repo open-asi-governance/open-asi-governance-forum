@@ -31,13 +31,53 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Verify the artifact is what we think it is
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install the validator
+        # NOT optional. validate_provenance.py now FAILS rather than warns when
+        # jsonschema is absent, because it previously printed "All provenance
+        # checks passed" on a machine where structural validation had not run.
+        run: python3 -m pip install --quiet jsonschema
+
+      - name: Verify the page is what the generator produces from verified inputs
+        # The gate this workflow was missing. Publication used to check only that
+        # docs/index.html existed and contained the title, which left a bypass:
+        # modify raw material, run build_viewer.py DIRECTLY, commit the changed
+        # page, and Pages published it -- no manifest verification, no provenance
+        # validation, nothing. Found by Codex reviewing the D-29 repair.
+        #
+        # So CI now runs the whole maintenance path on a clean checkout and
+        # requires the committed page to equal the regenerated one byte for byte.
+        # That makes the published page a function of verified inputs rather than
+        # of whatever someone committed.
+        #
+        # This is only possible because the page no longer embeds a git commit
+        # hash. While it did, a rebuild ALWAYS diffed and this check could never
+        # have been written -- the tripwire was permanently tripped. The
+        # provenance line is now a digest of the generator's inputs.
         run: |
-          test -f docs/index.html || { echo "docs/index.html missing"; exit 1; }
           test -f docs/.nojekyll || { echo "docs/.nojekyll missing"; exit 1; }
+          python3 tools/rebuild.py
+          if ! git diff --quiet -- docs/; then
+            echo "::error::The committed page is not what the generator produces."
+            echo "Either docs/ was hand-edited, or it was built from inputs that"
+            echo "differ from what is committed. Run: python3 tools/rebuild.py"
+            git diff --stat -- docs/
+            git diff -- docs/ | head -60
+            exit 1
+          fi
+          echo "Committed page matches a clean regeneration from verified inputs."
           echo "index.html bytes: $(wc -c < docs/index.html)"
-          grep -q 'Open ASI Governance Forum' docs/index.html \
-            || { echo "index.html does not contain the expected title"; exit 1; }
+
+      - name: Integrity regression suite
+        # 23 cases, each one a defect that was live in this repository on
+        # 2026-08-06 and found by running the attack rather than reading the
+        # code. A repair described in a commit message is a claim; a repair a
+        # build re-runs is a control.
+        run: python3 tools/test_integrity.py
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs

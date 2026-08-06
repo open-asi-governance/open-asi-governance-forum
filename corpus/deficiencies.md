@@ -780,23 +780,37 @@ claim must name the invocation — "verified by `tools/rebuild.py`", not "verifi
 any such claim is to violate the property and confirm the documented path fails**, which is the
 same discipline D-28 established for measurement and which had never been applied to the tooling.
 
-### D-30 — Local-round artifacts reference raw material by path, with no hash
+### D-30 — Solicitation summaries reference their samples by path, with no hash
 
 *Found 2026-08-06 by the Corpus Surface session while bounding D-29's scope. Filed separately
 because it has a different cause, a different owner, and survives D-29's repair.*
 
+> **Corrected 2026-08-06, hours after filing, by Codex on review — and the correction is the same
+> mistake this entry is about.** As first written, this entry claimed that **both**
+> `solicitation_summary` **and** `freetext_coding` recorded a bare path. That is false.
+> `freetext_coding` records `coded_source` as `{path, sha256, bytes}` and
+> `validate_provenance.py` verifies that hash, as confirmed by inspecting
+> `local-round-06/…-coding.json` and the validator's own branch for that type. Only
+> `solicitation_summary` is affected. The original title said "Local-round artifacts"; it now says
+> what it means.
+>
+> The error doubled the apparent scope of a defect **in the entry announcing that scope**, written
+> by the session that had just tested the surrounding claims by experiment and did not test this
+> one. It was asserted from a single artifact family and generalised. Recorded rather than quietly
+> amended, because a register that silently fixes its own overstatements is not a register.
+
 Contribution artifacts record their raw material as `{path, sha256, bytes}`, and
-`validate_provenance.py` checks that hash. The `solicitation_summary` and `freetext_coding` families
-— which cover **all eight local rounds**, the largest part of the corpus by volume and the source of
-D-23 through D-28 — record only a bare path:
+`validate_provenance.py` checks that hash. So does `freetext_coding`. The `solicitation_summary`
+family — one artifact per local-round probe, covering **all eight local rounds**, the source of
+D-23 through D-28 — records only a bare path:
 
 ```json
 "raw_samples": "corpus/raw/local-round-02/level-4-guarantee-crosslineage-probe-samples.json"
 ```
 
-So there is **no artifact-level binding between a local-round result and the samples it was computed
-from.** Before D-29 was repaired this meant the family had no integrity check at all, in either
-mechanism.
+So there is **no artifact-level binding between a solicitation's reported result and the samples it
+was computed from.** Before D-29 was repaired this meant that family had no integrity check at all,
+in either mechanism.
 
 **What D-29's repair does and does not fix.** The manifest walks all of `corpus/raw/` by tree, so
 those files are now covered by manifest verification and a lone tamper is caught — confirmed by
@@ -808,9 +822,12 @@ silently recomputed against different samples leaves no trace.
 **Not remediated.** `tools/schemas/` is Track D's territory, and the repair changes the schema and
 every existing local-round artifact. Specified here so it is not re-derived:
 
-1. `solicitation_summary` and `freetext_coding` record raw material as `{path, sha256, bytes}`,
-   matching the contribution family.
-2. `validate_provenance.py` checks that hash for those types, as it already does for contributions.
+1. `solicitation_summary` records `raw_samples` as `{path, sha256, bytes}`, matching the
+   contribution and `freetext_coding` families.
+2. `validate_provenance.py` checks that hash for the type, as it already does for the others. While
+   there, `check_one_anchor()` records a `bytes` field it never compares against `stat().st_size`;
+   if byte count is part of the provenance contract it should be checked, and if it is not it
+   should not be recorded.
 3. Existing local-round artifacts are backfilled from the current manifest, and the backfill is
    recorded as annotation — it certifies the bytes **as of the backfill date**, not as of capture,
    and must not be presented as capture-time provenance.

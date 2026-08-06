@@ -25,6 +25,13 @@ Usage:
 recorded artifact is modified or missing, so new material can never be committed
 in the same motion that quietly re-anchors old material.
 
+Both `--add` and the default verification also check the manifest against the one
+committed at HEAD, and refuse if an entry was dropped or re-anchored. Without
+that, the manifest could not vouch for itself: deleting one line made its file
+look NEW to `--add`, which then anchored the modified bytes and exited 0 while
+reporting "verified N existing artifacts unchanged". Deleting the whole manifest
+re-anchored the entire tree the same way.
+
 `--force-rewrite` discards the existing manifest and rebuilds it from the tree.
 It is the only operation that can drop or change a recorded hash, it is never
 invoked by `rebuild.py`, and it exists for deliberate custodian actions such as
@@ -39,6 +46,8 @@ byte-identical manifest.
 from __future__ import annotations
 
 import hashlib
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -80,11 +89,9 @@ def render(entries: list[tuple[str, str]]) -> str:
     return "\n".join(lines) + "\n"
 
 
-def parse_existing() -> dict[str, str]:
-    if not MANIFEST_PATH.exists():
-        return {}
+def parse_lines(text: str) -> dict[str, str]:
     recorded = {}
-    for line in MANIFEST_PATH.read_text(encoding="utf-8").splitlines():
+    for line in text.splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith("#"):
             continue
@@ -94,10 +101,103 @@ def parse_existing() -> dict[str, str]:
     return recorded
 
 
+def parse_existing() -> dict[str, str]:
+    if not MANIFEST_PATH.exists():
+        return {}
+    return parse_lines(MANIFEST_PATH.read_text(encoding="utf-8"))
+
+
+def manifest_at_head() -> dict[str, str] | None:
+    """The manifest as last committed. Returns None if it cannot be read.
+
+    The working-tree manifest is mutable, so it cannot vouch for itself: an
+    entry deleted from it makes its file look new rather than modified. Committed
+    history is the nearest trusted prior state this tool can reach without a
+    signature or an external transparency log, neither of which exists here.
+    """
+    result = subprocess.run(
+        ["git", "show", "HEAD:corpus/MANIFEST.sha256"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        return None
+    return parse_lines(result.stdout)
+
+
+def check_lineage(recorded: dict[str, str]) -> list[str]:
+    """Every entry committed at HEAD must still be present, at the same digest.
+
+    Without this, `--add` launders. Confirmed by experiment before it was
+    written: delete one line from MANIFEST.sha256, modify the file it anchored,
+    run `--add`, and the modified file is classified as NEW, anchored, and the
+    command exits 0 -- while printing "verified N existing artifacts unchanged".
+    Deleting the manifest entirely was worse: every file looked new, so `--add`
+    re-anchored the whole tree.
+
+    So the claim that `--force-rewrite` was the only mode able to re-anchor old
+    material was false, and it was false in the flattering direction. This makes
+    it true, by checking the manifest against committed history rather than
+    against itself.
+    """
+    head = manifest_at_head()
+    if head is None:
+        return []
+
+    breaks = []
+    for relative, digest in sorted(head.items()):
+        if relative not in recorded:
+            breaks.append(
+                f"DROPPED   {relative}\n"
+                f"          anchored at HEAD, absent from the working manifest.\n"
+                f"          Removing an entry makes its file look new to --add."
+            )
+        elif recorded[relative] != digest:
+            breaks.append(
+                f"REANCHORED {relative}\n"
+                f"          at HEAD: {digest}\n"
+                f"          now:     {recorded[relative]}"
+            )
+    return breaks
+
+
+def report_lineage(breaks: list[str], operation: str) -> None:
+    for line in breaks:
+        print(line)
+    print()
+    print(f"REFUSED — the working manifest is not an append-only extension of the one "
+          f"committed at HEAD ({len(breaks)} discrepanc{'y' if len(breaks) == 1 else 'ies'}).")
+    print(f"{operation} will not proceed against a manifest whose own history was rewritten.")
+    print("If the change is deliberate, use --force-rewrite and record why.")
+
+
+def write_manifest(entries: list[tuple[str, str]]) -> None:
+    """Write atomically, so an interrupted run cannot destroy the trust anchor.
+
+    write_text() truncates first: an interruption leaves an empty or partial
+    manifest, and the anchor has to be recovered from git. Same-directory
+    temporary file, fsync, then os.replace, which is atomic on POSIX.
+    """
+    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temp = MANIFEST_PATH.with_suffix(MANIFEST_PATH.suffix + ".tmp")
+    with temp.open("w", encoding="utf-8") as handle:
+        handle.write(render(entries))
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temp, MANIFEST_PATH)
+
+
 def verify(entries: list[tuple[str, str]]) -> int:
     recorded = parse_existing()
     if not recorded:
         print(f"no manifest at {MANIFEST_PATH.relative_to(REPO_ROOT)}; nothing to verify")
+        return 1
+
+    # Before trusting the manifest, check the manifest. An entry silently dropped
+    # from it takes its file out of scope entirely, so tree-vs-manifest agreement
+    # would be reported for a corpus that quietly shrank.
+    breaks = check_lineage(recorded)
+    if breaks:
+        report_lineage(breaks, "Verification")
         return 1
 
     actual = dict(entries)
@@ -137,6 +237,11 @@ def add_new_only(entries: list[tuple[str, str]]) -> int:
     recorded = parse_existing()
     actual = dict(entries)
 
+    breaks = check_lineage(recorded)
+    if breaks:
+        report_lineage(breaks, "--add")
+        return 1
+
     violations = []
     for relative, digest in sorted(recorded.items()):
         if relative not in actual:
@@ -160,9 +265,8 @@ def add_new_only(entries: list[tuple[str, str]]) -> int:
         print(f"nothing to add — all {len(recorded)} raw artifacts already anchored and verifying.")
         return 0
 
-    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
-    MANIFEST_PATH.write_text(render(entries), encoding="utf-8")
-    print(f"verified {len(recorded)} existing artifact(s) unchanged.")
+    write_manifest(entries)
+    print(f"verified {len(recorded)} existing artifact(s) unchanged, and unchanged since HEAD.")
     print(f"anchored {len(new_paths)} new artifact(s):")
     for relative in new_paths:
         print(f"  {actual[relative][:16]}…  {relative}")
@@ -194,8 +298,7 @@ def force_rewrite(entries: list[tuple[str, str]]) -> int:
         print("No recorded hash changes or drops — this rewrite only adds new material.")
     print()
 
-    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
-    MANIFEST_PATH.write_text(render(entries), encoding="utf-8")
+    write_manifest(entries)
     print(f"wrote {MANIFEST_PATH.relative_to(REPO_ROOT)} — {len(entries)} artifact(s)")
     if changed or dropped:
         print()
@@ -215,8 +318,14 @@ def main(argv: list[str]) -> int:
         print(f"unknown option(s): {' '.join(sorted(unknown))}")
         print(__doc__)
         return 2
-    if len({"--add", "--force-rewrite"} & flags) > 1:
-        print("--add and --force-rewrite are mutually exclusive.")
+    # All three modes are mutually exclusive, not just the two that write. A
+    # `--verify --add` invocation previously let --add win silently, so a command
+    # whose author had written the word "verify" could still modify the manifest.
+    # An operator asking for two different things must be told, never guessed at.
+    modes = {"--verify", "--add", "--force-rewrite"} & flags
+    if len(modes) > 1:
+        print(f"mutually exclusive modes: {' '.join(sorted(modes))}")
+        print("Pass exactly one, or none for the default (verify).")
         return 2
 
     root = Path(argv[1])
