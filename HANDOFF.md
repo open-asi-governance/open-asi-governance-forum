@@ -11,10 +11,10 @@ theoretical one.
 
 ## 1. Read this before doing anything
 
-**`corpus/deficiencies.md`, entries D-23 through D-28.** Not optional, and not for background.
+**`corpus/deficiencies.md`, entries D-23 through D-34.** Not optional, and not for background.
 
-Six deficiencies were filed on 2026-08-06, all by the annotator against its own instruments, all
-within a single day's work. They are not history — they are the accumulated knowledge of how to
+Twelve deficiencies were filed on 2026-08-06 — D-23 through D-34 — nearly all by sessions against
+their own instruments, within a single day's work. They are not history — they are the accumulated knowledge of how to
 build a measurement in this project that is not silently broken:
 
 | | What it cost |
@@ -25,6 +25,11 @@ build a measurement in this project that is not silently broken:
 | **D-26** | Temperature treated as a fixed constant when it controls the quantity being measured |
 | **D-27** | An enum whose values did not name their referent, so accurate answers landed on opposite labels |
 | **D-28** | An apparatus never run twice, which turned out not to reproduce, voiding an already-published effect |
+| **D-29** | A manifest that re-anchored tampered material and reported success, so verification could certify falsified testimony |
+| **D-31** | External reviewers treated as oracles: k = 1, prompted by the party under review, no model identity recorded |
+| **D-32** | Two tracks filed different defects under the same identifier, because nothing says how a number is claimed |
+| **D-33** | A generator documented as wired into the build was not, so a published page carried a hash that did not match what it named |
+| **D-34** | The manifest verifies the tip, so editing raw material and re-anchoring it in one commit passed every check |
 
 A session that skips these will rebuild a contaminated probe within its first hour. Every one of
 them was found late, by reading free text after trusting a category.
@@ -80,6 +85,9 @@ These are blockers, not preferences. A session will hit them and stop.
 
 | Action | Why a session cannot do it | Blocks |
 |---|---|---|
+| **Add `issues`, `discussions` and `actions` write to `GH_TOKEN_OAGF`** | Org owner only. Verified 2026-08-06 by probing the API: label creation returns `x-accepted-github-permissions: issues=write`; `createDiscussion` and run cancel/rerun/dispatch return 403 the same way | **labels cannot be created**, Discussions cannot be seeded, and no session can cancel or re-run a wedged CI run |
+| **Cancel run 31118806082 / deployment 5782750362** | Needs `actions=write`. Wedged `in_progress` since 2026-08-06 16:11Z with every job step already reported | Nothing blocking — the new workflow puts concurrency on `deploy` only, so verification no longer queues behind it |
+| **Configure branch protection on `main`** | Repository settings, org owner | **D-34 is defeated by one `--force`** until this is set. The append-only check reads history; a force-push discards the history it reads |
 | ~~Enable GitHub Pages~~ | **DONE 2026-08-06.** The `pages=write` scope was added and Pages enabled from `main:/docs`. The site is live at <https://open-asi-governance.github.io/open-asi-governance-forum/>. **A merged branch is now published immediately** — a broken build is a public defect | — |
 | **Approve fine-grained token permission changes** | Org owner only | any track needing new scopes |
 | **Signing key decisions** | A session must not generate or register keys unilaterally | Track D |
