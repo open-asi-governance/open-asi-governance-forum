@@ -148,12 +148,32 @@ def determine_citability(args: argparse.Namespace) -> tuple[str, str]:
     return "citable_artifact", "insufficient_k"
 
 
-def validate_record(record: dict) -> None:
+def require_jsonschema():
+    """Fail closed when the validator is absent.
+
+    This previously warned and continued, so a capture written on a machine without
+    jsonschema was recorded with NO structural validation at all -- and the tool still
+    printed its success lines. A verification step that reports success when it did not
+    run is the defect this repository exists to catch: the same shape as D-01's
+    placeholder version, D-13's plaintext signature with no verifier, and D-28's seed
+    field recording a reproducibility the system does not have.
+
+    Found by Codex reviewing the T-13 design, 2026-08-06. It is not a T-13 defect; it
+    was already live in the single capture path.
+    """
     try:
         import jsonschema
     except ImportError:
-        print("warn: jsonschema not installed; schema validation skipped", file=sys.stderr)
-        return
+        fail(
+            "jsonschema is not installed, so the provenance record cannot be validated.\n"
+            "        This tool will not write an unvalidated capture.\n"
+            "        Install it with: python3 -m pip install jsonschema"
+        )
+    return jsonschema
+
+
+def validate_record(record: dict) -> None:
+    jsonschema = require_jsonschema()
     schema = json.loads((REPO_ROOT / "tools/schemas/contribution.schema.json").read_text(encoding="utf-8"))
     errors = sorted(jsonschema.Draft202012Validator(schema).iter_errors(record), key=lambda e: list(e.path))
     if errors:
@@ -211,6 +231,7 @@ def main() -> int:
 
     # Validate every argument BEFORE touching the filesystem. A tool that enforces
     # immutability must never leave a partial artifact behind when it refuses.
+    require_jsonschema()   # refuse early rather than after the raw file is already copied
     contributor = build_contributor(args)
 
     identity_slug = slug(args.identity)

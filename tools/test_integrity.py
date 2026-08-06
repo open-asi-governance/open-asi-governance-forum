@@ -19,6 +19,8 @@ Exit status is 0 when every case passes and 1 otherwise.
 
 from __future__ import annotations
 
+import json
+import re
 import shutil
 import subprocess
 import sys
@@ -192,9 +194,55 @@ def main() -> int:
         case("register self-description consistent",
              run(c, "tools/check_register.py").returncode == 0)
         reg = c / "corpus/deficiencies.md"
-        reg.write_text(reg.read_text().replace("**30 entries**", "**29 entries**"))
-        case("a wrong declared count fails the build",
-             run(c, "tools/rebuild.py").returncode == 1)
+        # Derive the declared count instead of hardcoding it. This case previously
+        # searched for the literal "**30 entries**"; filing D-31 and D-32 made that
+        # string absent, so the tamper silently became a no-op and the case tested
+        # nothing. It would have failed loudly here -- but only because the assertion
+        # is "the build must fail". A fixture that goes stale in the passing direction
+        # is the shape this suite exists to catch.
+        declared = re.search(r"\*\*Status:\*\*\s*open\s*—\s*\*\*(\d+) entries\*\*", reg.read_text())
+        case("count-tamper fixture still matches the register", declared is not None)
+        if declared:
+            wrong = f"**{int(declared.group(1)) - 1} entries**"
+            reg.write_text(reg.read_text().replace(declared.group(0),
+                           declared.group(0).replace(f"**{declared.group(1)} entries**", wrong)))
+            case("a wrong declared count fails the build",
+                 run(c, "tools/rebuild.py").returncode == 1)
+
+        print("\nD-32 — colliding identifiers must fail the build")
+        c = nxt()
+        reg = c / "corpus/deficiencies.md"
+        # Reproduce the actual 2026-08-06 collision: Track B's entry filed as D-29,
+        # the number Track A had concurrently used.
+        reg.write_text(reg.read_text().replace(
+            "### D-31 — External reviewers", "### D-29 — External reviewers", 1))
+        r = run(c, "tools/rebuild.py")
+        case("duplicate D-NN fails the build", r.returncode == 1)
+        case("names the colliding id, not just a bad count", "duplicate entry id: D-29" in r.stdout)
+
+        c = nxt()
+        pred = c / "predictions" / "predictions.json"
+        data = json.loads(pred.read_text())
+        entries = data["predictions"] if isinstance(data, dict) else data
+        entries.append(dict(entries[0]))
+        pred.write_text(json.dumps(data, indent=2))
+        r = run(c, "tools/rebuild.py")
+        case("duplicate P-NNNN fails the build", r.returncode == 1)
+        case("names the colliding prediction id",
+             "duplicate prediction id" in r.stdout)
+
+        c = nxt()
+        # A prediction with no id at all: the loop that collects ids would otherwise
+        # raise KeyError, and a checker that crashes is not a checker that failed.
+        pred = c / "predictions" / "predictions.json"
+        data = json.loads(pred.read_text())
+        entries = data["predictions"] if isinstance(data, dict) else data
+        entries[0].pop("id", None)
+        pred.write_text(json.dumps(data, indent=2))
+        r = run(c, "tools/rebuild.py")
+        case("a prediction with no id fails cleanly", r.returncode == 1)
+        case("reports the missing id rather than a traceback",
+             "have no id" in r.stdout and "Traceback" not in r.stdout + r.stderr)
 
     print()
     total = len(PASSED) + len(FAILED)

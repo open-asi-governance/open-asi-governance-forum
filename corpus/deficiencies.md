@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **30 entries** (D-01 … D-30).
+**Status:** open — **32 entries** (D-01 … D-32).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -14,7 +14,8 @@ source. Raw reviews: `corpus/raw/review-round-01/`.
 
 **Added 2026-08-06:** D-22; D-23 – D-28 by the annotator against its own instruments; D-29 by an
 external adversarial reviewer against the maintenance tooling; D-30 by the session that bounded
-D-29's scope.
+D-29's scope; D-31 by the Capture Path session against the external-review practice itself; D-32 by
+the custodian's merge, against this register's own identifier allocation.
 
 **On "found by".** Entries record where a defect was **first substantively articulated in preserved
 material**, which is checkable, rather than who first privately noticed it, which is not. A question
@@ -835,6 +836,145 @@ every existing local-round artifact. Specified here so it is not re-derived:
 Point 3 is the honest limit: this repair cannot retroactively prove what those files contained when
 the measurements were run.
 
+### D-31 — External reviewers in the maintenance path are treated as oracles
+
+*Filed 2026-08-06 by the Capture Path session as D-29; renumbered to D-31 at merge, see
+D-32. The identifier changed; nothing else did.*
+
+*Added 2026-08-06 by the Capture Path session (Claude Code, Anthropic), against the instrument it
+was using to check its own work. Filed at the custodian's direction, scoped as he directed to **any**
+external reviewer rather than to one vendor. The annotator is the party this deficiency
+inconveniences, which is the conflict at D-09 and D-11 operating on the quality gate rather than on
+the corpus.*
+
+A standing operator rule requires that fixes be designed with an external reviewer before they are
+written, after two deployed unreviewed fixes proved actively harmful. The rule is sound. **The
+reviews it produces are treated as findings rather than as what they are: single samples from an
+unauthenticated party, prompted by the party under review.**
+
+Four observations, all from one day's use.
+
+**1. A reviewer reversed a load-bearing finding within ninety minutes.** Reviewing the T-13 capture
+design, it first held that a hard heuristic refusal gives an AI-authored instrument control over
+which evidence is preserved, contrary to the secretary constraint. The architecture was rebuilt on
+that. Ninety minutes later the same reviewer withdrew it, on the ground that custodian-adopted
+deterministic tooling is human policy implemented in code and `GOVERNANCE.md` §3 forbids only
+*unilateral* control. Both reviews are committed at `record/designs/reviews/`.
+
+**2. The second review was contaminated by the prompt that solicited it.** That prompt opened
+*"Where did the revision **OVER-correct**?"* — naming the direction of the error it expected. This
+is **D-23 in the review path**: the task instruction encoding the annotator's own hypothesis and the
+result then read as independent. It was committed by the same annotator, in the instrument built to
+catch its own errors, **one day after D-23 was filed.**
+
+**3. No reviewer model identity is recorded anywhere.** The review artifacts name `codex-cli
+0.146.0` — a *harness* version, not a model. Which model produced the findings is not in the record.
+That is **D-01** (a value that looks like a version identifier and resolves to nothing) and **D-18**
+(attribution that is operator testimony rather than authentication), in artifacts that changed a
+normative design.
+
+**4. Every review is k = 1.** No review in this project — external design review or frontier corpus
+review — has been collected at k ≥ 5. `CONTRIBUTING.md` requires that of contributions; the
+maintenance path exempted itself without ever saying so.
+
+**Why this is the register's own subject and not a note about tooling.** D-25 was filed against a
+*coding rule* — a tool, not a contributor — so tools that produce judgments are already in scope.
+And these reviews are not advisory: one overturned a rule that had been measured, validated and
+committed an hour earlier, and the corpus now records that reversal as the reason a design changed.
+
+**What rescued the one instance that was checked.** The retraction in (1) was accepted only after
+being verified against `GOVERNANCE.md` §3's actual text, which says "unilateral" and separately
+requires that "original outputs must remain available." That is the mechanism established in
+`corpus/artifacts/review-round-02/gemini-verification-note.md` §3: an agreeing conclusion whose
+stated reasoning misdescribes the document carries no independent evidential weight, and where the
+object is a checkable artifact the reasoning can be checked directly. **It worked. It was also
+discretionary, applied once, because the reversal happened to be conspicuous.**
+
+**Forward requirements.**
+
+1. A review solicited by this project records the **reviewer's model identity**, or `null` with a
+   stated reason. A harness or CLI version is not a model identifier.
+2. A review prompt **must not name the direction of the error it expects.** Ask what is now wrong in
+   either direction and let the reviewer choose.
+3. Before a review's finding changes a design or a document, its **factual claims about the artifact
+   are checked against that artifact**, and the check is recorded. Routine, not discretionary.
+4. A finding that reverses a previously committed result is **not adopted on recency**. Which
+   position is correct is established against the governing text, and the reversal is recorded as an
+   observation about the reviewer.
+5. External reviews are k = 1 unless stated otherwise, and are **citable as artifacts of one
+   invocation, not as evidence of a stable reviewer position** — the same standing every model
+   contribution in this corpus carries.
+
+**Not remediable retrospectively for reviews already relied on.** The reviews that shaped ASP, ICP
+and the T-13 design were collected under none of these requirements. Forward requirement only.
+
+### D-32 — The register has no way to allocate an identifier, so concurrent authors collided
+
+*Filed 2026-08-06 by the custodian's merge. Found by the collision itself, not by review: two
+sessions working the same day both filed a deficiency as **D-29**, for two unrelated defects.*
+
+Track A filed D-29 against the manifest that did not anchor anything. Track B filed D-29 against
+external reviewers treated as oracles. Neither was wrong to pick the number: **both read the register
+at a moment when the highest entry was D-28, and both incremented.** Nothing in the register, in
+`CONTRIBUTING.md`, or in `HANDOFF.md` says how a number is claimed, so the correct procedure was
+followed by both parties and produced a collision anyway.
+
+This is not a merge inconvenience. **Deficiency identifiers are cited** — from `build_manifest.py`,
+from `rebuild.py`, from `HANDOFF.md`, from the specifications, and from artifacts already published
+to the live site. An identifier that means one thing in one branch and another thing in another
+branch makes every citation ambiguous for as long as both exist. The window here was about a day,
+and it closed because a human merged the branches and read the diff. **It would not have closed on
+its own, and nothing outside the register would have reported it.**
+
+*Corrected during filing.* This entry first asserted that the tooling would have caught the
+collision only as a count error, naming neither entry. **That was false, and it was checked rather
+than reasoned about**, per D-31's requirement 3. `tools/check_register.py` already implemented a
+duplicate-id rule (R3), and reproducing the collision against it prints `R3 duplicate entry id:
+D-29` plus `R4 gap in entry ids: D-31` — the collision named exactly, and the displaced entry named
+too. The claim was wrong in the direction that made this entry look more necessary, which is the
+direction to distrust.
+
+The luck is worth stating plainly: **R3 was written by one of the two colliding sessions, for an
+unrelated reason, days before the collision happened.** It was aimed at a register that miscounted
+itself, not at concurrent authorship. Had it been written a week later, the merge would have
+produced two `### D-29` headings, and only the count check would have fired.
+
+**Resolution applied.** Track A's D-29 keeps the number: it was merged first and is already cited by
+name in three tools and in published artifacts, so renumbering it would break references that exist
+outside this file. Track B's became **D-31**, renumbered at merge with the original identifier
+recorded in its own entry. No content changed in either. Priority went to citation load, not to
+authorship or timestamp.
+
+**What this says about the concurrency model.** `HANDOFF.md` §3 assigns each track a disjoint
+territory precisely so that concurrent sessions do not collide, and it works for files. It cannot
+work for `corpus/deficiencies.md`, because **every track appends to that one file by design** — it is
+the register of what every track finds. The one artifact guaranteed to be written by all parties is
+the one with no allocation mechanism.
+
+**Forward requirements.**
+
+1. A session claiming a deficiency number **reserves it in a commit to `main`'s register before
+   writing the entry**, or files under a provisional identifier scoped to its branch
+   (`D-B29`) that is assigned at merge.
+2. `tools/rebuild.py` **fails on duplicate `### D-NN` headings**, by identifier and not only by
+   count. **Already satisfied** by `check_register.py` R3, verified against a reproduction of this
+   collision.
+3. A renumbered entry **retains its original identifier in its own text**. A citation to the old
+   number must remain resolvable by reading the entry it pointed at.
+4. The same requirement applies to every serially-numbered artifact this project keeps —
+   predictions (`P-NNNN`), tasks (`T-NN`), open questions (`Q-NN`). **Predictions are the acute
+   case:** ICP §5 requires pre-registration before a run, so two sessions can file `P-0009` against
+   different hypotheses and each is separately valid, unfalsifiable as a pair, and cited in the
+   run's own record before any merge exists to catch it. **Implemented at filing** as
+   `check_register.py` R5, covering `P-NNNN` and `T-NN`. Uniqueness only — a gap in those namespaces
+   is ordinary and a check that failed on it would be ignored. **`Q-NN` is not covered**: the two
+   open questions live in prose headings in `corpus/index.md` with no allocation point, and inventing
+   one to satisfy a checker would be the tail wagging the dog.
+
+**Not retrospectively checkable.** Whether earlier concurrent work produced a collision that was
+silently resolved by one side losing its entry cannot now be determined; branches were merged before
+this check existed. Forward requirement only.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -883,6 +1023,8 @@ specified as remaining work for the structured register artifact.
 | D-28 | **No, and it voids prior results.** Root-caused to a documented MoE kernel fusion (`disable_finalize_fusion`, top-k 8 > 2). The reproducibility claim is **withdrawn rather than repaired**. Effects below ~0.5 bits are not measurable by this apparatus; P-0008's evidence is void. Remedy is a serving-config change, under review — Track C. |
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
+| D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-32 | **Detection remediated 2026-08-06; allocation is not.** Requirements 2 and 4 are implemented and tested (`check_register.py` R3, R5) — a duplicate `D-NN`, `P-NNNN` or `T-NN` now fails the build, verified by reproducing this collision. `Q-NN` is deliberately uncovered, per the entry. **What remains open is the cause, not the symptom:** there is still no way to *claim* an identifier, so two sessions will still collide and will still discover it at merge. Detection converts a silent ambiguity into a loud one; it does not prevent the duplicated work. Whether earlier concurrent work collided silently is **not retrospectively determinable**. |
 
 ---
 

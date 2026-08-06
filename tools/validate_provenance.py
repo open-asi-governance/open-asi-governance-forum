@@ -98,11 +98,23 @@ def check_schema(document: dict, report: Report) -> None:
     try:
         import jsonschema
     except ImportError:
+        # ERROR, not warn. This previously warned and returned, so a run on a machine
+        # without jsonschema printed "All provenance checks passed" having performed no
+        # structural validation whatsoever -- and exited 0, which rebuild.py reads as
+        # success and the standing `rebuild && commit` chain reads as permission to
+        # commit. A check that reports PASS when it did not run is worse than absent.
+        #
+        # Found TWICE INDEPENDENTLY on 2026-08-06: by Codex reviewing the T-13 design
+        # on Track B, and by Track A auditing the maintenance path after D-29. Neither
+        # track knew of the other's finding until this merge. Recorded because the
+        # convergence is evidence, not bookkeeping: two unrelated audits of the same
+        # tooling landed on the same line, which is what a systematic defect class looks
+        # like from the inside. The fail-open pattern -- report success for a check that
+        # did not execute -- is now a named review target, not a one-off repair.
         report.error(
             "SCHEMA",
-            "jsonschema not installed, so structural validation CANNOT run. "
-            "This is a failure, not a skip -- the build must not claim artifacts "
-            "were validated when they were not. "
+            "jsonschema is not installed, so structural validation did NOT run. "
+            "Refusing to report a pass that was never checked. "
             "Install with: python3 -m pip install jsonschema",
         )
         return
