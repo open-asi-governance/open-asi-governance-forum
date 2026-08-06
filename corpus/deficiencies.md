@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **33 entries** (D-01 … D-33).
+**Status:** open — **34 entries** (D-01 … D-34).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -16,7 +16,8 @@ source. Raw reviews: `corpus/raw/review-round-01/`.
 external adversarial reviewer against the maintenance tooling; D-30 by the session that bounded
 D-29's scope; D-31 by the Capture Path session against the external-review practice itself; D-32 by
 the custodian's merge, against this register's own identifier allocation; D-33 by an external
-reviewer, against a generator that was documented as wired into the build and was not.
+reviewer, against a generator that was documented as wired into the build and was not; D-34 while
+building D-33's repair, against the manifest's inability to see its own history.
 
 **On "found by".** Entries record where a defect was **first substantively articulated in preserved
 material**, which is checkable, rather than who first privately noticed it, which is not. A question
@@ -1028,6 +1029,65 @@ that set must be checked directly rather than assumed from the gate's passing.
 before this edit is not determined. The page was added in `614bce2` and the build never derived it,
 so any divergence in that window is possible and unrecorded.
 
+### D-34 — The manifest verifies the tip, so editing raw material and re-anchoring it in one commit is invisible
+
+*Found 2026-08-06 while restructuring CI for D-33, and demonstrated on a clone before it was filed.
+Not reported by any reviewer; it surfaced from asking what the append-only claim actually rests on.*
+
+`corpus/MANIFEST.sha256` proves the raw tree matches its recorded hashes **at the tip**. It compares
+the tree against the manifest as both stand now. **A single commit that edits a raw file and
+re-anchors the manifest around the new bytes is therefore perfectly self-consistent**, and every
+check in this repository passes it.
+
+Reproduced on a clone, exactly:
+
+```
+append one byte to a committed raw sample
+python3 tools/build_manifest.py corpus/raw/ --force-rewrite
+git commit -am "edit raw and re-anchor"
+
+python3 tools/build_manifest.py corpus/raw/     ->  exit 0, "verified"
+python3 tools/rebuild.py                        ->  exit 0
+```
+
+The tip is clean because the tip was **made** clean. The only evidence that anything happened lives
+in git history, and nothing in this repository looked there.
+
+**This is not D-29 restated.** D-29 was a check that rewrote its own baseline *before reading it* —
+the tool defeated itself. Here every tool behaves exactly as documented and the property still fails,
+because a hash anchor establishes byte-identity between a manifest and a tree and says nothing about
+whether that tree is the one originally committed. `--force-rewrite` exists for legitimate custodian
+withdrawals and prints what it destroys; what was missing is anything that notices it was used.
+
+**Who this is a control against.** The custodian, and any session holding the credentials. That is
+uncomfortable and it is the point: `GOVERNANCE.md` concentrates all six roles in one person, ICP §4.4
+says an operator-designed evaluation is not an independent one, and **D-13** records that no
+cryptographic signature exists anywhere in this repository. Until Track D lands signing, git history
+is the only prior state any check can appeal to.
+
+**Remediated at filing.** `tools/check_raw_append_only.py` walks every newly reachable commit and
+rejects modification, deletion, rename or type-change under `corpus/raw/`; additions are allowed,
+which is how material enters. Merge commits are compared against their first parent. CI runs it on
+every push and pull request to `main`.
+
+The logic is a **tool, not YAML**. The external reviewer proposed it as an inline workflow step; a
+loop inside a workflow file cannot be run locally, cannot be unit-tested, and executes only when CI
+happens to fire — which is D-33's lesson one turn later. It has regression cases.
+
+**What it does not do, stated because the reassurance is otherwise larger than the control.**
+
+1. It cannot see edits made **before** the range it is given. Everything committed up to
+   2026-08-06 is outside its reach, permanently.
+2. A **force-push that discards the offending commits** removes the evidence it depends on. That is
+   branch-protection and ruleset territory, and it is a **custodian action no session can take**.
+   Until it is taken, this check is defeated by one `--force`.
+3. It proves an artifact's bytes are unchanged since they entered the repository. It says nothing
+   about whether they were **truthfully recorded in the first place** — the D-18 problem, which no
+   hash addresses.
+
+**Not retrospectively remediable.** The window before this check existed cannot be audited, because
+auditing it would require exactly the history-integrity guarantee that was missing.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1077,6 +1137,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-34 | **Remediated forward 2026-08-06** — `check_raw_append_only.py`, wired into CI, with regression cases. **Three limits are permanent or blocked:** it cannot audit anything committed before it existed; it is defeated by a force-push until branch protection is configured, which is a **custodian action**; and it establishes byte-continuity, never truthful recording (D-18). |
 | D-33 | **Remediated 2026-08-06** — generator wired into `rebuild.py`, page regenerated, two regression cases added. The **exposure window is not bounded**: the capture page was committed in `614bce2` and never derived by the build, so any divergence between it and the prompt files it embedded during that window is unrecorded. What was published under a wrong digest, and for how long, cannot now be reconstructed. |
 | D-32 | **Detection remediated 2026-08-06; allocation is not.** Requirements 2 and 4 are implemented and tested (`check_register.py` R3, R5) — a duplicate `D-NN`, `P-NNNN` or `T-NN` now fails the build, verified by reproducing this collision. `Q-NN` is deliberately uncovered, per the entry. **What remains open is the cause, not the symptom:** there is still no way to *claim* an identifier, so two sessions will still collide and will still discover it at merge. Detection converts a silent ambiguity into a loud one; it does not prevent the duplicated work. Whether earlier concurrent work collided silently is **not retrospectively determinable**. |
 

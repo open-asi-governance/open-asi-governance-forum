@@ -1,85 +1,147 @@
-# Publish docs/ to GitHub Pages.
+# Verify the repository, then publish docs/ to GitHub Pages.
 #
-# The legacy Jekyll builder failed opaquely on the first build of this site
-# ("Page build failed", no log, duration 0) despite docs/ containing only a
-# .nojekyll marker and a self-contained index.html with no Liquid syntax. This
-# workflow replaces it: a static upload with a visible log, so a failure is
-# diagnosable rather than merely reported.
+# TWO JOBS ON PURPOSE. Until 2026-08-06 there was one job, `deploy`, bound to the
+# `github-pages` environment, with the verification steps inside it. That coupled
+# verification to publication in two ways that both cut the wrong direction:
+#
+#   - An environment protection rule blocks the job BEFORE any step runs, so the
+#     integrity suite cannot execute until a deployment is permitted. Verification
+#     is a property of the commit; it must not wait on permission to publish.
+#   - A failure was reported against the deployment rather than as its own check,
+#     so "did the corpus verify?" and "did Pages deploy?" were the same red mark.
+#     They have different causes and different responses. On 2026-08-06 the gate
+#     passed and `deploy-pages` failed on a transient OIDC 503, and the run read as
+#     a failure of the gate.
+#
+# `verify` now runs with no environment and no write permissions. `deploy` needs it.
+#
+# NO PATHS FILTER. It used to be paths: ['docs/**', ...]. GitHub evaluates a PUSH,
+# not each commit, so a push whose combined diff touched no docs/ file ran nothing
+# at all -- and 9797cc0 (tools/**) and 35154a4 (corpus/deficiencies.md) are real
+# examples on this repository's own history. Changes to the manifest, raw corpus,
+# validators, generators, the deficiency register, or the regression suite itself
+# could all avoid the gate. Enumerating the dependency closure of a filter is
+# fragile in a way that failing open is not survivable for: the closure is every
+# input to rebuild.py, which is most of the repository. So the filter is gone.
 name: pages
 
 on:
   push:
     branches: [main]
-    paths: ['docs/**', '.github/workflows/pages.yml']
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+        with:
+          fetch-depth: 0
+
+      - name: Raw material is append-only across every commit in this push
+        # The manifest proves the raw tree matches its recorded hashes AT THE TIP.
+        # It cannot see a commit that modified a raw file and re-anchored it in the
+        # same push -- the tip is self-consistent and the edit is invisible. This
+        # walks each newly reachable commit and rejects modification or deletion
+        # under corpus/raw/. Additions are allowed; that is how material is added.
+        #
+        # "Raw material is never edited after commit" is the corpus's central claim,
+        # and until now nothing enforced the "after commit" part.
+        #
+        # The logic is in tools/check_raw_append_only.py, NOT inline here, and that
+        # placement is deliberate. Codex's draft put this loop in the YAML. Logic in
+        # a workflow file cannot be run locally, cannot be unit-tested, and is
+        # exercised only when CI happens to fire -- which is D-33's lesson exactly:
+        # a check outside the runnable path is a check nobody can verify works.
+        # It has regression cases in tools/test_integrity.py.
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+          TIP: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: python3 tools/check_raw_append_only.py "$BASE" "$TIP"
 
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Install the validator
-        # NOT optional. validate_provenance.py now FAILS rather than warns when
+        # NOT optional. validate_provenance.py FAILS rather than warns when
         # jsonschema is absent, because it previously printed "All provenance
         # checks passed" on a machine where structural validation had not run.
         run: python3 -m pip install --quiet jsonschema
 
-      - name: Verify the page is what the generator produces from verified inputs
-        # The gate this workflow was missing. Publication used to check only that
-        # docs/index.html existed and contained the title, which left a bypass:
-        # modify raw material, run build_viewer.py DIRECTLY, commit the changed
-        # page, and Pages published it -- no manifest verification, no provenance
-        # validation, nothing. Found by Codex reviewing the D-29 repair.
+      - name: A clean regeneration reproduces every published file
+        # docs/ IS DELETED FIRST, and that is the point. The previous form ran
+        # rebuild.py and then `git diff --quiet -- docs/`, which only constrains
+        # files a generator actually rewrites. Anything else committed under docs/
+        # produced an empty diff because nothing touched it -- so the check passed
+        # most convincingly exactly where it was doing nothing.
         #
-        # So CI now runs the whole maintenance path on a clean checkout and
-        # requires the committed page to equal the regenerated one byte for byte.
-        # That makes the published page a function of verified inputs rather than
-        # of whatever someone committed.
+        # That is not hypothetical: docs/capture/index.html was published for a day
+        # without ever being derived by the build, carrying a prompt_sha256 that did
+        # not match the prompt file it named. See D-33.
         #
-        # This is only possible because the page no longer embeds a git commit
-        # hash. While it did, a rebuild ALWAYS diffed and this check could never
-        # have been written -- the tripwire was permanently tripped. The
-        # provenance line is now a digest of the generator's inputs.
+        # Deleting first also catches a committed file no generator produces at all,
+        # which a diff can never see.
+        shell: bash
         run: |
-          test -f docs/.nojekyll || { echo "docs/.nojekyll missing"; exit 1; }
+          set -euo pipefail
+          rm -rf docs/
           python3 tools/rebuild.py
-          if ! git diff --quiet -- docs/; then
-            echo "::error::The committed page is not what the generator produces."
-            echo "Either docs/ was hand-edited, or it was built from inputs that"
-            echo "differ from what is committed. Run: python3 tools/rebuild.py"
-            git diff --stat -- docs/
-            git diff -- docs/ | head -60
+          if [[ -n "$(git status --porcelain -- docs/ corpus/index.md)" ]]; then
+            echo "::error::Committed artifacts differ from a clean regeneration."
+            echo "Either they were hand-edited, or built from inputs that differ from"
+            echo "what is committed. Run: python3 tools/rebuild.py"
+            git status --short -- docs/ corpus/index.md
+            git diff -- docs/ corpus/index.md | head -60
             exit 1
           fi
-          echo "Committed page matches a clean regeneration from verified inputs."
+          test -f docs/.nojekyll || { echo "::error::docs/.nojekyll missing"; exit 1; }
+          echo "Every published file is reproduced by a clean regeneration."
           echo "index.html bytes: $(wc -c < docs/index.html)"
 
       - name: Integrity regression suite
-        # 23 cases, each one a defect that was live in this repository on
-        # 2026-08-06 and found by running the attack rather than reading the
-        # code. A repair described in a commit message is a claim; a repair a
-        # build re-runs is a control.
+        # Each case is a defect that was live in this repository and was found by
+        # running the attack rather than reading the code. A repair described in a
+        # commit message is a claim; a repair a build re-runs is a control.
+        # The count is deliberately not quoted here -- it was stated as "23" while
+        # the suite held 30, which is the register's own miscounting defect in a
+        # comment.
         run: python3 tools/test_integrity.py
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Capture-path suites
+        # Gate logic, lifecycle, and python-vs-node parity. Never ran in CI before.
+        run: python3 tools/tests/run_all.py
+
+      - if: github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: docs
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: verify
+    runs-on: ubuntu-latest
+    # Concurrency lives HERE rather than at workflow level. At workflow level, a
+    # deployment stuck awaiting approval -- or stuck in GitHub's own deployment
+    # queue, which happened on 2026-08-06 -- holds the group and blocks later
+    # VERIFICATION runs behind it. Verification must never queue behind publication.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4

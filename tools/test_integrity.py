@@ -210,6 +210,70 @@ def main() -> int:
             case("a wrong declared count fails the build",
                  run(c, "tools/rebuild.py").returncode == 1)
 
+        print("\nD-34 — editing raw material and re-anchoring it must not pass")
+        c = nxt()
+        base = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                              capture_output=True, text=True).stdout.strip()
+        (c / RAW_LOCAL).write_bytes((c / RAW_LOCAL).read_bytes() + b"\n")
+        run(c, "tools/build_manifest.py", "corpus/raw/", "--force-rewrite")
+        subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
+                        "commit","-qam","edit raw and re-anchor"], cwd=c, capture_output=True)
+        tip = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                             capture_output=True, text=True).stdout.strip()
+        # The tip is self-consistent, which is the whole difficulty: the manifest was
+        # rewritten around the new bytes, so every tip-scoped check passes.
+        case("the re-anchored tip still verifies (this is why history must be checked)",
+             run(c, "tools/build_manifest.py", "corpus/raw/").returncode == 0)
+        r = run(c, "tools/check_raw_append_only.py", base, tip)
+        case("the append-only check rejects the edit", r.returncode == 1)
+        case("it names the commit and the file",
+             tip[:12] in r.stdout and "local-round-02" in r.stdout)
+
+        c = nxt()
+        head = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                              capture_output=True, text=True).stdout.strip()
+        case("an unchanged range passes",
+             run(c, "tools/check_raw_append_only.py", head, head).returncode == 0)
+
+        c = nxt()
+        base = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                              capture_output=True, text=True).stdout.strip()
+        (c / "corpus/raw/local-round-02/ADDED.md").write_text("new material\n")
+        run(c, "tools/build_manifest.py", "corpus/raw/", "--add")
+        subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
+                        "add","-A"], cwd=c, capture_output=True)
+        subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
+                        "commit","-qm","add material"], cwd=c, capture_output=True)
+        tip = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                             capture_output=True, text=True).stdout.strip()
+        # Additions MUST be allowed, or the corpus cannot grow. A check that rejects
+        # everything is not a stricter check, it is a broken one.
+        case("adding raw material is allowed",
+             run(c, "tools/check_raw_append_only.py", base, tip).returncode == 0)
+
+        c = nxt()
+        # A second commit is needed to exercise the fallback at all: these fixtures
+        # have a single ROOT commit, where an all-zero base correctly reports "no
+        # prior state" and exits 0. Asserting the fallback message against a root
+        # commit tested the fixture, not the tool -- caught by running it.
+        (c / RAW_LOCAL).write_bytes((c / RAW_LOCAL).read_bytes() + b"\n")
+        run(c, "tools/build_manifest.py", "corpus/raw/", "--force-rewrite")
+        subprocess.run(["git","-c","user.name=t","-c","user.email=t@t",
+                        "commit","-qam","edit raw and re-anchor"], cwd=c, capture_output=True)
+        tip = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                             capture_output=True, text=True).stdout.strip()
+        r = run(c, "tools/check_raw_append_only.py", "0" * 40, tip)
+        case("an all-zero base falls back rather than checking nothing",
+             "No usable base" in r.stdout)
+        case("and the fallback still catches the tip's violation", r.returncode == 1)
+
+        c = nxt()
+        r = run(c, "tools/check_raw_append_only.py", "0" * 40,
+                subprocess.run(["git","rev-parse","HEAD"], cwd=c,
+                               capture_output=True, text=True).stdout.strip())
+        case("an all-zero base on a root commit says so and passes",
+             r.returncode == 0 and "Root commit" in r.stdout)
+
         print("\nD-33 — every generator that writes under docs/ must be in the build")
         c = nxt()
         cap = c / "docs/capture/index.html"
