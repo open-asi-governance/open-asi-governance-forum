@@ -1,0 +1,1354 @@
+{
+  "schema_version": "oagrc-deficiency-register-0.1",
+  "artifact_type": "deficiency_register",
+  "annotator": {
+    "identity": "Claude Code (Corpus Surface session, Track A)",
+    "provider": "Anthropic",
+    "date_utc": "2026-08-06",
+    "conflict_of_interest": "Claude is a party to the record this register describes: it declined membership in the founding deliberation, set the representation conditions the project operates under, and cast a consensus ballot. This artifact classifies who found each defect, including six entries attributed to reviewers other than Claude and one to an external reviewer of Claude's own tooling. An annotator scoring its own contribution against others' is the conflict declared at D-09 and D-11, operating here on the attribution statistic itself."
+  },
+  "source": {
+    "path": "corpus/deficiencies.md",
+    "sha256": "bd66cc564c85d62ddfae9dfc638633affd4d6f71a838d501feec88c73183a454"
+  },
+  "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
+  "entries": [
+    {
+      "id": "D-01",
+      "title": "Model version identifiers are absent or placeholders",
+      "section_sha256": "b1dcbecea8515b69ac1eafa6a5957204ade023476e5fa33fa0890a91ba5109c9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The sessions are gone; no version can be recovered."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "validate_provenance.py P4 rejects placeholder version identifiers; no test asserts it does."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-02",
+      "title": "Sampling parameters are absent for every entry",
+      "section_sha256": "c6e5834dfa61bbb429e2df1879cbe58577e348d14894ed8ee0cef7e7ae8522b8",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object"
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Sampling parameters are a required capture field; null demands a stated reason (P5)."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-03",
+      "title": "Timestamps are largely absent and entirely self-reported",
+      "section_sha256": "8c7892e9bac8249ed11fb17c55763adee5273b149275259f17b24216898405cd",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Timestamps are self-reported where present at all."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "capture_response.py requires --captured-utc, recorded at capture rather than reconstructed."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-04",
+      "title": "System and developer instructions were not recorded",
+      "section_sha256": "8bddc97d99e6b70af72340d669d58359501fc5b69f6f90e9d068708d1a31c30b",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object"
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "System instructions are required, or a withholding reason is required."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-05",
+      "title": "Operator prompt text is elided for at least one segment",
+      "section_sha256": "64b593f307e4ab17033ec8b85da19513b1378d0b8002044aae2bef7971b9a0db",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "The elided operator prompt at raw 1902",
+          "repairability": "affected_object_repairable_only_if_missing_evidence_recovered",
+          "remediation_state": "remediation_not_started",
+          "note": "The operator may recall and attest it, flagged as reconstructed. Not done."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Exact prompt text is a rejection-level required field at capture."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-06",
+      "title": "Edit status is unstated, and the artifact is visibly human-assembled",
+      "section_sha256": "7c0848283285c76560a4ea68b3a3e8e2c548c5d2e6b148f79ebece9f5876d2ee",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Whether output was trimmed or reordered during hand-compilation is unrecorded."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "edit_status is a required capture field."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-07",
+      "title": "Every entry is a single sample (k = 1)",
+      "section_sha256": "06302ca3c84935beef9254a72cab742f00d44e8379d11c77be22920562ed9bc1",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-01",
+          "what": "Separated citability from distributional inference. A single sample IS citable as an artifact of one invocation; it cannot characterise a stable position. Also corrected 'adopted standard' to custodian-adopted policy, and noted five is a floor rather than a sufficiency proof."
+        },
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-02",
+          "what": "The capture tool and schema had gone on enforcing the superseded non-citable label on every capture; corrected with the document."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Permanent for the founding record. The sessions are gone."
+        },
+        {
+          "object": "tools/capture_response.py and the contribution schema",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Were enforcing the superseded label. Corrected in review round 02."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "k >= 5 with computed variance for distributional claims; capture records k and variance."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-08",
+      "title": "Phase tags are retro-applied and applied inconsistently",
+      "section_sha256": "b37ccf17eec57515b36686f47453675604025d21ef98451ce9bd07bf67b895df",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Phase tags were invented mid-record and applied by two parties to themselves only."
+        },
+        {
+          "object": "corpus/artifacts/segments.json phase tags",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Retro-classification is marked as annotation, never as testimony."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Phase tag is a required capture field."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-09",
+      "title": "The label \"Claude\" spans multiple distinct or unresolved invocation identities",
+      "section_sha256": "d30f27c62ce9061d95fa8474d507125479134dcdeab08149926567e8a1becf41",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-01",
+          "what": "The evidence does not authenticate three distinct underlying MODELS. Defensible statement: at least three materially distinct or unresolved Anthropic invocation identities merged under 'Claude'."
+        },
+        {
+          "actor_label": "Grok",
+          "round": "review-round-02",
+          "what": "Asked that propagation into the consolidated rankings be enumerated in the register, not only noted in segments.json. Valid half accepted; the overstated half (that it appeared nowhere) corrected."
+        },
+        {
+          "actor_label": "Claude Fable 5",
+          "round": "review-round-01",
+          "what": "The register caught others merging the Claude identities and MISSED Claude merging itself at raw 2055-2088 -- the asymmetry a same-provider annotator would be expected to produce."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The merged labels are in the canonical record and it is never edited."
+        },
+        {
+          "object": "corpus/artifacts/segments.json identity annotations",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Corrected; the raw file was left unedited."
+        },
+        {
+          "object": "Grok's consolidated ranking (S-17) and any cross-model convergence claim over it",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Annotated as contaminated by the merge. The downstream convergence claims are weakened, not repaired."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "CONTRIBUTING identity rule: a distinct model or invocation surface is a distinct identity, never merged."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-10",
+      "title": "A block labeled as a Grok response contains the operator's own message",
+      "section_sha256": "bd7490f7d78064ae6ba5ba18440c4067093f2a7b74f51c374205ff400c4f4dd7",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-01",
+          "what": "'repudiated' was the wrong status and contradicted GOVERNANCE 5.1, where repudiation is a right of the party rather than a classification the annotator may apply. Now 'invocation integrity disputed'. Also: because one of 39 segments is duplicated or missing, every aggregate requires an explicit exclusion rule."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record) segment at raw 2375",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Either Grok's response was never captured or a paste error occurred. Unrecoverable either way."
+        },
+        {
+          "object": "attribution_status for that segment",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Set to 'invocation integrity disputed' rather than the annotator-applied 'repudiated'."
+        },
+        {
+          "object": "Every segment-count aggregate in the corpus",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Requires an explicit exclusion rule, per ChatGPT. Not uniformly applied."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "The same paste-substitution failure recurred live during review round 01. Track B's capture path (T-13) addresses it; not yet landed."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-11",
+      "title": "Claimed consensus is over an operator-selected, operator-invoked set",
+      "section_sha256": "54b7fe55924b099b6e3af5143d12adfa329e2ad1ba9178814775d48b285e27f7",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-01",
+          "what": "'Self-selected' corrected to 'operator-selected'. And unanimity DID descriptively occur; the defect is its external validity, not its occurrence."
+        },
+        {
+          "actor_label": "Claude Fable 5",
+          "round": "review-round-01",
+          "what": "Supplied the estimator n_eff = n / (1 + (n-1)p); at p = 0.7, four models yield n_eff = 1.3. Also named ballot-structure convergence pressure as distinct from sycophancy."
+        },
+        {
+          "actor_label": "Gemini",
+          "round": "review-round-01",
+          "what": "Named the repeated package-review prompts 'a hydraulic press toward convergence', and that both unanimity assertions were authored by a participant inside its own output."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "Every consensus claim in the corpus",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Carried as a standing epistemic caveat in the README. n_eff remains unknown because p is unmeasured."
+        },
+        {
+          "object": "The 'unanimous multi-model consensus' assertions at raw 2207 and 2479",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Authored by a participant inside its own output. Recorded, not removed."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Consensus claims must state invocation conditions. Measuring p, which would make n_eff computable, has not been done."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-12",
+      "title": "Identity labels are typographically inconsistent",
+      "section_sha256": "3f8ca3a99536b082547c884ef90f3dff9091161119e27f62a9cb3f17e4911323",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Immaterial to substance; recorded because a project premised on exact attribution should correct even immaterial identity drift."
+        },
+        {
+          "object": "corpus/artifacts/segments.json identity labels",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified"
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Identities are recorded per contribution rather than typed per mention."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-13",
+      "title": "No cryptographic signatures exist despite a `signatures` field",
+      "section_sha256": "7410d5d2b64fa5166abb678d0f029f95391b37cebf13d03d8fcdb04878f4421b",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "Every attribution in the repository",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "No signature in this record is cryptographically verifiable. Gemini's 'signatures' entry is a plaintext self-assertion with no key, algorithm or verifier."
+        },
+        {
+          "object": "Future commits and artifacts",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Track D owns this. Signing must exist before an invocation ledger can rest on it."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Track D, task T-16. Blocked on custodian key decisions."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "Key generation and registration are custodian decisions a session must not take unilaterally."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-14",
+      "title": "The secretary is asserted as present but produced nothing",
+      "section_sha256": "c9b0540a51db52c5bb95c58c076fe658c6d4f68b417e55d138d90ee77c315cbd",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-01",
+          "what": "Reframed: the original schema never defined context_models_present, so applying CONTRIBUTING's later meaning retrospectively imposes semantics the field never had. The correct charge is schema ambiguity. But the DEEPER defect was understated -- an unsupported role attribution that inflated the apparent membership of a body whose membership was the record's most contested claim."
+        },
+        {
+          "actor_label": "Claude Fable 5",
+          "round": "review-round-01",
+          "what": "Concurred on the reframing to schema ambiguity."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "The member / secretary / maintainer role attributions in corpus/raw/initial-transcript.txt (the founding record)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "They stand as historical fact. The raw transcript is canonical and is not edited."
+        },
+        {
+          "object": "The register's original 'factual misstatement' characterisation",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Reframed as schema ambiguity plus unsupported role attribution."
+        },
+        {
+          "object": "'Produced zero recorded output'",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "No longer true. QCP v0.1 retires two roles on measured capability grounds -- the canonical record does not fit the 24576-token serving window at all -- and records the one role the model can hold. Its first contribution is a pre-registered, refuted prediction."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "context_models_present now lists only models that produced output; QCP governs role claims going forward."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-15",
+      "title": "The record is not self-contained",
+      "section_sha256": "877070f351046e10e5e1a0b70ee6bb3ffd9b117e6a021c1bb70a950c8d4802a5",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/deficiencies.md, compiled 2026-08-05 (register commit)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "The predecessor exchange the record's first substantive entry cites",
+          "repairability": "affected_object_repairable_only_if_missing_evidence_recovered",
+          "remediation_state": "remediation_not_started",
+          "note": "Remediable if the prior exchange is located and committed as a predecessor artifact."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Prior context supplied is a required capture field going forward; it does not recover this one."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-16",
+      "title": "Adoption authority is ambiguous",
+      "section_sha256": "e209e35eeb05c75129c07e0957d201a2c06bc3fda88eab4c0b1acdf74749944d",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/chatgpt-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "ChatGPT (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "Every document that said the founding record 'adopted' contributor proposals",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Corrected during review round 01. The register itself committed this defect, which is the clearest vindication of running the round."
+        },
+        {
+          "object": "The absence of any collective ratification procedure",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Nothing in this project has ever reached collective ratification, and no procedure exists to reach it."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Four-level distinction -- proposed / supported by ballots / adopted by custodian / collectively ratified -- used throughout. No mechanical check enforces it."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-17",
+      "title": "Consensus-scope inflation",
+      "section_sha256": "2d5a0209e508c346f76635099587932215fc4daaa22eaa81886d7a90bc49515c",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/chatgpt-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "ChatGPT (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "Documents presenting governance, ASP design, prediction methodology or provenance rules as ballot-settled",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The ballots addressed exactly two propositions: the naming architecture and the meaning of 'Aligned'."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Every consensus claim must delimit the proposition consensus was obtained on."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-18",
+      "title": "Invocation attribution is unauthenticated throughout",
+      "section_sha256": "367e40e70f8c0264f4d40e39b6e51e594bb2070db46ac939260035f99ade2ad8",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/chatgpt-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "ChatGPT (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "Every author label in the corpus",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Operator-applied labels and model self-descriptions. No provider-signed export, API response id, authenticated capture log or cryptographic binding exists. Applies recursively to the review rounds themselves."
+        },
+        {
+          "object": "Future captures",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Forward: capture provider-signed evidence. Not implemented."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Depends on D-13 signing and on provider-side capabilities not currently used."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-19",
+      "title": "\"Controlled comparison\" is overstated",
+      "section_sha256": "97045c1f7a45911eb1c58b6edab417a4695fd1f4d6a7fe96c1041a51f2241440",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/chatgpt-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "ChatGPT (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "Annotations S-10 and S-24 describing repeated prompts as controlled comparisons",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "They are standardised prompts. System instructions, prior context, configurations, provider policies and sampling were uncontrolled or unknown."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "The distinction is now stated; no mechanical check enforces the vocabulary."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-20",
+      "title": "The pivotal analytical contribution is unattributed in the raw record",
+      "section_sha256": "f9bf2a58b73c83bc3b8f6b1eac61e6681d37fa07517a0e24c469aa73016a1df7",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/claude-fable-5-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "Claude Fable 5 (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-02",
+          "what": "An earlier version said the header 'on its face attributes' the contribution to the operator. It does not; it marks a prompt boundary. The defect is the ABSENCE of a response-author label, not a false attribution."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "corpus/raw/initial-transcript.txt (the founding record) at raw 1904-2050",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The contribution carries no author label in the raw record."
+        },
+        {
+          "object": "segments.json author_label_in_raw: 'ChatGPT'",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "False as a description of the raw file, and a violation of this project's own annotation-versus-testimony distinction. The ChatGPT attribution is a well-supported inference, now recorded as one."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "author_label_in_raw and author_label_absent are distinct fields."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-21",
+      "title": "Ordering cannot support the claims made from it",
+      "section_sha256": "f05494c75f45349f0ec776a9acf1c50044d8a8fffea8a60bdfe9adc484209c7a",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_designated_review_round_invocation",
+        "date_utc": "2026-08-05",
+        "where": "corpus/raw/review-round-01/claude-fable-5-01.md",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "Claude Fable 5 (Anthropic)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "ChatGPT",
+          "round": "review-round-02",
+          "what": "An earlier version concluded no such claim is 'supportable anywhere in this record', which exceeds what missing timestamps establish. Content references, an authenticated session record or a contemporaneous attestation could support one."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "Any chronology claim drawn from file order",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Not supportable without identifying which four responses are counted and supplying independent ordering evidence."
+        },
+        {
+          "object": "ASP 2's reliance on 'all four ballots now carry' the reservation",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied"
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Capture-time UTC stamps are required going forward; they do not recover this ordering."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-22",
+      "title": "The paired-phase probe has no control arm, so its causal claim is unsupported",
+      "section_sha256": "06408e90b04e646461a53a6ad87ae17bb5570ffb31022f6c60887851e33096aa",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-22",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "investigation_triggered_by": {
+        "actor_context": "actor_other_contributor_invocation",
+        "what": "External literature: 'Not All Flips Are Conformity' (arXiv:2606.00820), which reports spontaneous instability as a large baseline source of position change and uses three counterfactual arms where this method specifies two."
+      },
+      "affected_objects": [
+        {
+          "object": "The causal attribution in local-round-01 and record/methods/locating-divergence.md",
+          "repairability": "affected_measurement_repairable_only_by_rerun",
+          "remediation_state": "remediation_not_started",
+          "note": "The measurement stands and the numbers are correct. What is unsupported is the causal claim: nothing in the design separates the semantic content of peers' verdicts from everything else the added prompt text changes."
+        },
+        {
+          "object": "phase_susceptibility as a reported quantity",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Reported as an upper bound on influence rather than a measurement of it, until the placebo arm is run."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A placebo arm -- Phase-2 with the peer block replaced by content-neutral filler of comparable length -- plus a self-reflection arm where a method re-examines rather than draws independently."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "One extra arm on an existing harness, no new capability. Now gated behind D-28: the apparatus itself must be shown repeatable first."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-23",
+      "title": "A \"Phase-1 blind\" arm was contaminated by the annotator's own task instruction",
+      "section_sha256": "5f7874483c55370396edc4a46d1e78567768a89cac81e04a4e88ba9d84dfa3b1",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-23",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "local-round-03, all three arms",
+          "repairability": "affected_measurement_repairable_only_by_rerun",
+          "remediation_state": "remediation_verified",
+          "note": "local-round-04 IS that re-run, on a clean prompt: 0.000 -> 1.353 bits, a gap far above the noise floor. The contaminated run stands in the record as run."
+        },
+        {
+          "object": "The 0/59 acceptance rate as independent corroboration of Claude's argument",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The contamination runs in precisely the direction that flatters the annotator's own provider's contribution."
+        },
+        {
+          "object": "Every other Phase-1 claim in the corpus",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "All are exposed to instruction, schema and enum-label contamination, and NONE has been audited for it."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A Phase-1 arm must certify that instruction, schema and enum labels encode no prior party's conclusion -- or disclose that they do. No mechanical check exists."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-24",
+      "title": "Self-reported categorical fields disagree with the same response's free text",
+      "section_sha256": "734a793017649fdafff8408c77e13142065eb71c380d6d2f939491490158a8b8",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-24",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "cites_non_persistence and fields of its kind in local-round-03",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The measured field understates the real rate by roughly 20 points. A self-report cannot be made reliable after the fact."
+        },
+        {
+          "object": "P-0010",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Rested entirely on such a field; unscorable on its merits, independently of its resolution-limit failure."
+        },
+        {
+          "object": "The free text of those responses",
+          "repairability": "affected_measurement_repairable_only_by_rerun",
+          "remediation_state": "remediation_not_started",
+          "note": "Survives and could be coded deterministically, subject to D-25's validation requirement."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Never ask a model to classify its own reasoning; code free text deterministically instead. Implemented in tools/code_freetext.py -- and D-25 is what happened to the first such coder."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-25",
+      "title": "A deterministic coder was trusted without validation, and it was wrong",
+      "section_sha256": "cdf6906914cefe08c5cbc423e1fb3c97689142ac14d59ec59417d07376103aea",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-25",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "The first unary-versus-relational coding rule",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Scored 9/10 and 10/10 where the truth was 0/10 and 2/10, by matching vocabulary that appears in the SPECIFICATION TEXT the reviewer quotes back. Both the rejected and adopted rules are published so the correction is checkable."
+        },
+        {
+          "object": "P-0017",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Would have been scored REFUTED on a broken instrument. Caught before scoring; the verdict is robust to all three rule variants, 0/10 every time."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "A coding rule must be validated against a hand-checked subset and the validation committed, before it scores anything. The validation is by the same party that wrote the rule and has not been independently checked."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-26",
+      "title": "Temperature is an unexamined free parameter that controls the measured quantity",
+      "section_sha256": "4e5e30ee8be90d6595d4b1605f66ffda080b5a9ddd18b32bee091600e88270e8",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-26",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "investigation_triggered_by": {
+        "actor_context": "actor_human_operator",
+        "actor_label": "Stephen Reed",
+        "what": "Asked why temperature 0.7 was chosen. The question prompted the work; it is recorded as a trigger rather than as the finding, because the preserved substantive articulation is the annotator's."
+      },
+      "affected_objects": [
+        {
+          "object": "Every entropy figure in the corpus",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Now reported conditionally -- 'H = 0.99 bits at T = 0.7' -- rather than bare. The figures themselves are unchanged and remain properties of the model AT 0.7, not of the model."
+        },
+        {
+          "object": "The temperature-sensitivity check owed at 0.3 / 0.7 / 1.0",
+          "repairability": "affected_measurement_repairable_only_by_rerun",
+          "remediation_state": "remediation_not_started",
+          "note": "NOT RUN. This deficiency stays open until it is. If a conclusion moves across that range, every entropy claim in this corpus is softer than stated."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Temperature fixed by declared policy at 0.7 for all measurement runs; any departure declared in the spec before the run."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "One probe replicated at three temperatures, but it needs the exclusive inference host and is downstream of D-28: repeatability must be established before sensitivity can be assessed."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-27",
+      "title": "An enum measured something other than what it named",
+      "section_sha256": "0410b1e06de00bc9e361701b8b09f33592d9e17b118a79da0aecb3ce42d14aa9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-27",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "affected_objects": [
+        {
+          "object": "The compliance field across local-round-07",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "At most a quarter of the modal answers demonstrably mean what the field claims. 25% describe the opposite of their label. Accurate answers landed on opposite labels, so the categorical result cannot be recovered."
+        },
+        {
+          "object": "The free text of those 75 responses",
+          "repairability": "affected_measurement_repairable_only_by_rerun",
+          "remediation_state": "remediation_not_started",
+          "note": "Survives and could be re-coded against a referent-naming scheme."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Every enum value must name its referent in the value itself, and any field whose meaning depends on a referent stated only in prose must be validated against free text on a subset BEFORE the categorical result is used. No mechanical check enforces this."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-28",
+      "title": "The apparatus was never tested for repeatability, and it is not repeatable",
+      "section_sha256": "000ab14960ace45feb2c5186d98b910cdad3b5b456b67b2db089e061083163d3",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-28",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Anthropic)"
+      },
+      "investigation_triggered_by": {
+        "actor_context": "actor_human_operator",
+        "actor_label": "Stephen Reed",
+        "what": "Asked for a temperature-sensitivity check. The check found something larger than the thing it was sent to look for. A first-order defect surfaced by a question about a second-order parameter."
+      },
+      "affected_objects": [
+        {
+          "object": "The seed field in every provenance artifact",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_verified",
+          "note": "Marked non-reproducing in the schemas. It records what was requested, not a guarantee. Same class as D-01's placeholder version identifier: a field asserting a property the system does not have."
+        },
+        {
+          "object": "local-round-01's 0.1815-bit phase effect",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "VOID. 2.6x smaller than the 0.4649-bit run-to-run noise floor measured at identical settings."
+        },
+        {
+          "object": "P-0008's evidence",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Annotated as void."
+        },
+        {
+          "object": "The corpus-wide reproducibility claim and QCP 3",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "WITHDRAWN rather than repaired. The corpus now claims settings are RECORDED, which is true and weaker."
+        },
+        {
+          "object": "The serving configuration (moe_config.disable_finalize_fusion, top-k 8 > 2)",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Root-caused to a vendor-documented non-deterministic kernel fusion. Remedy is a serving-config change under Codex review, because the profile in force has a documented OOM history and the fusion exists for throughput. Track C."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Every measurement round includes a test-retest arm and reports the run-to-run gap alongside the effect; no effect smaller than the noise floor may be reported as an effect. Not yet mechanised."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_high",
+        "basis": "A serving-configuration change on a profile with a documented OOM history, plus retro-annotation of five rounds, plus a test-retest arm added to the harness. Holds the exclusive inference host."
+      },
+      "invalidates": [
+        "P-0008's evidence",
+        "local-round-01's phase effect",
+        "Any comparison resting on a difference below ~0.5 bits",
+        "Any claim drawn from a near-50% modal split"
+      ],
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-29",
+      "title": "The manifest did not anchor anything, because the maintenance path rewrote it first",
+      "section_sha256": "ffd4405db08ff3d45562831bc003d8974c3b5bf1130ccd89e6187e51585fc420",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-06",
+        "where": "Codex design review of an unrelated change, quoted in corpus/deficiencies.md D-29; confirmed by experiment before filing",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "Codex (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/MANIFEST.sha256 as an integrity mechanism",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Verification is now the default; --add is append-only and checks lineage against HEAD; --force-rewrite is the only mode that can change a hash. Verified by re-running the original tamper experiment: what exited 0 now exits 1 and names the file."
+        },
+        {
+          "object": "The period during which the check did not run",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The repair is prospective only. It cannot establish that raw material was unmodified while the anchor was unenforced. No tampering is alleged or detected; the defect is that the corpus could not have detected it."
+        },
+        {
+          "object": "validate_provenance.py reporting a pass when jsonschema was absent",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Now an error rather than a warning. Track B fixed the same fail-open independently on session/capture."
+        },
+        {
+          "object": "The published page, which no CI check regenerated or compared",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "CI now runs the maintenance path on a clean checkout and requires the committed page to match byte for byte. THIS HAS NEVER RUN -- it fires on the first merge to main."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "tools/test_integrity.py, 23 cases, each an attack that worked on 2026-08-06, run in CI. A repair described in a commit message is a claim; a repair the build re-runs is a control."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "The verification code was correct and complete the whole time. It was simply never reached by the path anyone runs."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-30",
+      "title": "Solicitation summaries reference their samples by path, with no hash",
+      "section_sha256": "7968ce2b2c29ef8f139bdaf2d963d51604eaa8053fd47e19bbb9ad471169ddc5",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-30, while bounding D-29's scope",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Corpus Surface session, Track A)"
+      },
+      "narrowed_or_corrected_by": [
+        {
+          "actor_label": "Codex (OpenAI)",
+          "round": "implementation review of the D-29 repair",
+          "what": "The entry as filed claimed freetext_coding also recorded a bare path. It does not -- it records {path, sha256, bytes} and validate_provenance verifies it. The entry doubled the scope of a defect IN THE ENTRY ANNOUNCING THAT SCOPE, generalised from one artifact family without testing. Corrected visibly."
+        }
+      ],
+      "affected_objects": [
+        {
+          "object": "solicitation_summary.raw_samples across all eight local rounds",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Records a bare path. Repair specified in the entry; tools/schemas/ is Track D's territory."
+        },
+        {
+          "object": "The binding between a reported entropy and the bytes it was computed from",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Backfilled hashes will certify bytes AS OF THE BACKFILL, never as of capture. This repair cannot retroactively prove what those files contained when the measurements were run."
+        },
+        {
+          "object": "Exposure to a lone tamper",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Closed by D-29's repair: the manifest walks all of corpus/raw by tree, so those files are covered even without an artifact-level hash. Confirmed by experiment."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "solicitation_summary records {path, sha256, bytes} and validate_provenance checks it, as it already does for contributions and freetext_coding."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "A schema change plus a backfill from the current manifest. Blocked only on track ownership, not on difficulty."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-31",
+      "title": "External reviewers in the maintenance path are treated as oracles",
+      "section_sha256": "72f4084d9699b2310180a3db81f1024de5e7d76357b37a601fe17d198450a031",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "corpus/deficiencies.md D-31 (filed as D-29 by the Capture Path session; renumbered at merge, see D-32)",
+        "evidence_class": "origin_asserted_in_register_only",
+        "actor_label": "Claude Code (Capture Path session, Track B)"
+      },
+      "affected_objects": [
+        {
+          "object": "Every fix in this repository designed against a single external review",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "A review is a single sample from an unknown distribution, and was being treated as a finding. The session that filed this is the party it inconveniences."
+        },
+        {
+          "object": "This session's own reliance on external review",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Track A designed and verified the D-29 repair against one Codex pass, then a second pass found four further defects in it -- which is this deficiency's thesis demonstrated rather than argued."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Requirement 2 of the entry: ask a reviewer what is wrong in EITHER direction rather than naming an expected error. Used to produce the CI review that found D-34."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-32",
+      "title": "The register has no way to allocate an identifier, so concurrent authors collided",
+      "section_sha256": "0a93287664669fcc4afe1c937924cc0794934c11b5bbaaaaf0c57dcec7c95326",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_human_operator",
+        "date_utc": "2026-08-06",
+        "where": "the collision itself, at the custodian's merge -- not by review",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "Stephen Reed"
+      },
+      "affected_objects": [
+        {
+          "object": "Deficiency identifiers already cited from tools, HANDOFF, the specifications and the live site",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Track A's D-29 (the manifest) and Track B's D-29 (external reviewers as oracles) were filed the same day. Both read the register at a moment when D-28 was highest and both incremented; the correct procedure was followed by both and produced a collision anyway. Track B's was renumbered to D-31."
+        },
+        {
+          "object": "The absence of any allocation procedure",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "check_register.py R5 now checks the other serially-numbered namespaces -- P-NNNN and T-NN -- for the same class of collision, before it happens in a registry where ICP 5 makes it worse."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "R5 in tools/check_register.py, run by tools/rebuild.py. R3 caught the original collision at merge, and R3 had been written days earlier by one of the two colliding sessions for an unrelated reason."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-33",
+      "title": "A generator the design said was in the build was not, so a published page carried a hash that did not match what it named",
+      "section_sha256": "b2313726d658aca561b60a26e4e758111a0d2129432eb13acec4c17093f79295",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-06",
+        "where": "external design review of the CI arrangement, confirmed by reproduction",
+        "evidence_class": "origin_supported_by_preserved_artifact",
+        "actor_label": "Codex (OpenAI)"
+      },
+      "affected_objects": [
+        {
+          "object": "A published page carrying a prompt hash that did not match the committed prompt",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The design document recorded as acceptance criterion A10 that build_capture_ui.py runs in rebuild.py. It was never added; STEPS held five entries and none was that generator."
+        },
+        {
+          "object": "rebuild.py's step list",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The generator is now wired in."
+        },
+        {
+          "object": "The window in which the damage was committed and pushed",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "The annotator had already pushed before the review returned."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "The generator runs in the build. An acceptance criterion asserting that a tool is in the build is not evidence that it is -- the same shape as D-29."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    },
+    {
+      "id": "D-34",
+      "title": "The manifest verifies the tip, so editing raw material and re-anchoring it in one commit is invisible",
+      "section_sha256": "a11e1a23362e505de23bfce637af68ef485622037e9da83aae395b2cc6faab7f",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-06",
+        "where": "found while restructuring CI for D-33, demonstrated on a clone before filing",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "The append-only claim over corpus/raw/",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The manifest proves the raw tree matches its hashes AT THE TIP, so a single commit that edits a raw file and re-anchors the manifest around the new bytes is perfectly self-consistent and passes every check."
+        },
+        {
+          "object": "D-29's repair, which does not cover this",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Track A's lineage check compares the working manifest against HEAD's. A commit that changes both together is consistent at HEAD, so the edit remains invisible to it. This is the same defect one level up."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "CI walks each newly reachable commit in a push and rejects modification or deletion under corpus/raw/; additions are allowed. Enforced across history rather than at the tip."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "A per-commit walk in the workflow. The expensive part was noticing that the tip proves less than it appears to."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Authored by the annotator, which is a party to the record. No human has checked these judgements against the prose."
+      }
+    }
+  ]
+}

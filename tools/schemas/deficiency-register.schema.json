@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-asi-governance.github.io/schemas/deficiency-register-0.1.json",
+  "title": "OAGRC structured deficiency register",
+  "description": "Machine-readable metadata for corpus/deficiencies.md. The MARKDOWN IS CANONICAL; this artifact is annotation over it and never replaces it. It exists because the register's own summaries drifted -- three artifacts of this repository stated three different counts of its own defects (21, 24, 28) at the same moment -- and because a public register view built by regexing prose would be D-25 exactly: a reproducible coder mistaken for a correct one. Every field here is a HUMAN OR MODEL JUDGEMENT recorded explicitly, not a value inferred from the prose by a rule.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "artifact_type", "annotator", "source", "vocabulary_note", "entries"],
+  "properties": {
+    "schema_version": { "const": "oagrc-deficiency-register-0.1" },
+    "artifact_type": { "const": "deficiency_register" },
+    "annotator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity", "provider", "date_utc", "conflict_of_interest"],
+      "properties": {
+        "identity": { "type": "string", "minLength": 1 },
+        "provider": { "type": "string", "minLength": 1 },
+        "date_utc": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "conflict_of_interest": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "const": "corpus/deficiencies.md" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "vocabulary_note": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Why the vocabulary is shaped as it is. Required so the reasoning is not lost."
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/entry" }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "title", "section_sha256", "finding_state",
+        "first_articulation", "affected_objects", "prospective_control", "human_review"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^D-\\d{2}$" },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Copied from the markdown heading. Checked for exact equality by tools/check_register.py."
+        },
+        "section_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 of this entry's markdown section. If the prose changes, this stops matching and the build fails, which FORCES RE-REVIEW rather than letting metadata quietly describe text it no longer matches. It does not establish that the judgements below were ever correct -- only that they were made against exactly this text."
+        },
+        "finding_state": {
+          "enum": ["finding_active", "finding_withdrawn", "finding_superseded"],
+          "description": "The status of the FINDING, kept separate from the status of any remediation. A finding can be active while fully remediated, and remediated while the historical damage is permanent."
+        },
+        "first_articulation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["actor_context", "date_utc", "evidence_class", "where"],
+          "properties": {
+            "actor_context": {
+              "enum": [
+                "actor_human_operator",
+                "actor_repository_annotator_invocation",
+                "actor_designated_review_round_invocation",
+                "actor_external_adversarial_reviewer",
+                "actor_other_contributor_invocation"
+              ]
+            },
+            "actor_label": { "type": "string" },
+            "date_utc": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+            "where": { "type": "string", "minLength": 1 },
+            "evidence_class": {
+              "enum": [
+                "origin_supported_by_preserved_artifact",
+                "origin_supported_by_git_history_only",
+                "origin_asserted_in_register_only",
+                "origin_disputed"
+              ],
+              "description": "How well the claimed origin is supported. This project cannot observe who first PRIVATELY noticed a defect, so it records where a defect was first substantively ARTICULATED IN PRESERVED MATERIAL, and how strong that evidence is."
+            }
+          }
+        },
+        "investigation_triggered_by": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["actor_context", "what"],
+          "description": "A question or request that PROMPTED the work, which is not the same as the finding. The operator asking 'why 0.7?' triggered D-26 and D-28; the first preserved substantive articulation in both cases was the annotator's. Collapsing the two would inflate or deflate the project's central credibility statistic.",
+          "properties": {
+            "actor_context": {
+              "enum": [
+                "actor_human_operator",
+                "actor_repository_annotator_invocation",
+                "actor_designated_review_round_invocation",
+                "actor_external_adversarial_reviewer",
+                "actor_other_contributor_invocation"
+              ]
+            },
+            "actor_label": { "type": "string" },
+            "what": { "type": "string", "minLength": 1 }
+          }
+        },
+        "narrowed_or_corrected_by": {
+          "type": "array",
+          "description": "Later parties who narrowed, corrected or reframed the entry. Recorded because 'who found it' and 'who fixed the overstatement in it' are different contributions and the register makes both.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["actor_label", "round", "what"],
+            "properties": {
+              "actor_label": { "type": "string", "minLength": 1 },
+              "round": { "type": "string", "minLength": 1 },
+              "what": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "affected_objects": {
+          "type": "array",
+          "minItems": 1,
+          "description": "ONE ROW PER AFFECTED OBJECT, because repairability is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable, while the segments.json annotation was corrected. A single yes/no is false for one of them whichever way it is written.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["object", "repairability", "remediation_state"],
+            "properties": {
+              "object": { "type": "string", "minLength": 1 },
+              "repairability": {
+                "enum": [
+                  "affected_object_fully_repairable_by_supersession",
+                  "affected_object_partially_repairable_by_supersession",
+                  "affected_measurement_repairable_only_by_rerun",
+                  "affected_object_repairable_only_if_missing_evidence_recovered",
+                  "affected_object_not_repairable",
+                  "affected_object_repairability_not_applicable"
+                ]
+              },
+              "remediation_state": {
+                "enum": [
+                  "remediation_not_started",
+                  "remediation_partially_applied",
+                  "remediation_applied_not_verified",
+                  "remediation_verified",
+                  "remediation_impossible_for_affected_object"
+                ]
+              },
+              "note": { "type": "string" }
+            }
+          }
+        },
+        "prospective_control": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state"],
+          "description": "Whether a forward requirement exists to stop recurrence, and whether it has been VALIDATED as opposed to merely written down. D-29's lesson: a check that is available is not a check that runs.",
+          "properties": {
+            "state": {
+              "enum": [
+                "prospective_control_not_required",
+                "prospective_control_required_not_implemented",
+                "prospective_control_implemented_not_validated",
+                "prospective_control_validated"
+              ]
+            },
+            "mechanism": { "type": "string" }
+          }
+        },
+        "remediation_effort": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["estimate", "basis"],
+          "properties": {
+            "estimate": {
+              "enum": [
+                "remediation_effort_low",
+                "remediation_effort_medium",
+                "remediation_effort_high",
+                "remediation_effort_unknown"
+              ]
+            },
+            "basis": { "type": "string", "minLength": 1 }
+          }
+        },
+        "invalidates": {
+          "type": "array",
+          "description": "Specific claims, predictions or artifacts this deficiency voids or weakens.",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "human_review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status"],
+          "description": "THE HONEST LIMIT OF THIS ARTIFACT. No deterministic check can establish that the metadata above agrees with the prose it describes; that is a semantic judgement. The build verifies structure, coverage, vocabulary and the section hash -- never meaning. This field records whether a human has actually read the entry against its metadata, and 'not_reviewed' is the truthful default rather than an omission.",
+          "properties": {
+            "status": {
+              "enum": ["not_reviewed", "reviewed_by_custodian", "disputed"]
+            },
+            "reviewed_utc": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+            "note": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

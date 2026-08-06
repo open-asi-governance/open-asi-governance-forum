@@ -47,7 +47,9 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 STEPS = [
     ("verify raw material against the manifest", ["tools/build_manifest.py", "corpus/raw/"]),
     ("validate provenance", ["tools/validate_provenance.py", "corpus/"]),
-    ("check the deficiency register counts itself correctly", ["tools/check_register.py"]),
+    ("check the deficiency register against its classification", ["tools/check_register.py"]),
+    ("build the deficiency register views", ["tools/build_register_view.py"]),
+    ("build the local solicitation round pages", ["tools/build_local_rounds.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added

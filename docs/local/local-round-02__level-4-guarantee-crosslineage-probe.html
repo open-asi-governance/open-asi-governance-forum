@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-02 · level-4-guarantee-crosslineage-probe</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-02 · level-4-guarantee-crosslineage-probe<small>locally-served solicitation, k=20 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Is Level 4 of the promotion ladder unreachable as a structural matter, or only because the custodian has chosen not to make it reachable?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 20</span> <span class="tag">k collected 20</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>No other party&#x27;s position on this question was supplied. The prompt contains only the specification excerpts and the question. Critically, ChatGPT&#x27;s round-02 correction — which is the answer — was WITHHELD from the prompt, and the excerpt was cut before the correction blockquote. This is a genuine blind arm: the model is being asked to re-derive a correction that a frontier reviewer already made, from the same text that reviewer read.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>guarantee_type</code></td><td>structurally_unreachable — 19, cannot_tell_from_this_text — 1</td><td>0.95</td><td>0.2864 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag g">robust</span><br><span class="meta">Lopsided margin. Numeric noise cannot flip it, so this result survives D-28.</span></td></tr><tr><td><code>role_concentration_is_relevant</code></td><td>yes — 19, no — 1</td><td>0.95</td><td>0.2864 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag g">robust</span><br><span class="meta">Lopsided margin. Numeric noise cannot flip it, so this result survives D-28.</span></td></tr><tr><td><code>who_could_make_level_4_reachable</code></td><td>no_one_under_this_text — 18, the_custodian_alone — 2</td><td>0.90</td><td>0.469 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag g">robust</span><br><span class="meta">Lopsided margin. Numeric noise cannot flip it, so this result survives D-28.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 4300, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>97e767e9bb2edc35657b14f7773ee22c0eff68ebec777f14828dc2d4791da07d</code></td></tr><tr><th>spec sha256</th><td><code>836fc51b14573320d788db8fe7eeeadf91b079274c7552a301097b3ec7db9d01</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-02/level-4-guarantee-crosslineage-probe-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-02/level-4-guarantee-crosslineage-probe-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are given excerpts from a draft governance protocol. Judge them on their own terms, using only the text supplied.
+
+--- EXCERPT 1: section 3.1 ---
+
+Role separation. This protocol distinguishes six roles: specification author, implementer, evaluator, promoter, custodian of the repository, and ratifier.
+
+### 3.1 Current concentration, disclosed
+
+As of 2026-08-05, **Stephen Reed holds all six**, and the specification text was drafted by an
+Anthropic invocation surface that is a party to the record it annotates.
+
+This is stated as a defect, not a governance design. It is the same disclosure the README makes
+about single-operator custody: **disclosed rather than mitigated.** Every artifact produced under
+this concentration should be read accordingly.
+
+--- EXCERPT 2: section 4, the promotion ladder ---
+
+Every contribution enters at Level 0 and advances only against the stated bar.
+
+| Level | Name | Bar | Who may promote |
+|---|---|---|---|
+| 0 | Practice note | &quot;Here is what we do.&quot; No generality claimed. | Implementer alone |
+| 1 | Candidate pattern | Mechanism, the problem it solves, known failure modes, and at least one recorded failure | Implementer alone |
+| 2 | Draft standard | An independent party implements it from the specification text alone, without consulting the author | Requires that independent implementer |
+| 3 | Provisionally validated | Two independent implementations interoperate, or the mechanism survives an adversarial evaluation designed by a party other than the implementer | Requires the second party |
+| 4 | Standard | Multi-party adoption under a defined ratification procedure | No procedure exists. Nothing has reached Level 4. |
+
+--- EXCERPT 3: section 4.3 ---
+
+### 4.3 Level 4 is unreachable under this text
+
+No ratification procedure exists in this project. Nothing here has ever been collectively
+ratified. Until such a procedure exists and is itself adopted, **Level 4 is unreachable**, and no
+document may describe any mechanism as a standard.
+
+--- END OF EXCERPTS ---
+
+Question. The text asserts that Level 4 is unreachable. Is that unreachability a STRUCTURAL property of the protocol — something no party could change from inside it — or is it a policy the custodian has adopted and could revoke?
+
+Consider who, if anyone, has the power to introduce the missing ratification procedure.
+
+Answer only in the required JSON schema. Do not explain.</pre><h2>All 20 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>4300</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;cannot_tell_from_this_text&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;the_custodian_alone&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>4301</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>4302</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>4303</code> · finish <code>stop</code></p><pre>{&quot;guarantee_type&quot;:&quot;structurally_unreachable&quot;,&quot;who_could_make_level_4_reachable&quot;:&quot;no_one_under_this_text&quot;,&quot;role_concentration_is_relevant&quot;:&quot;yes&quot;}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>4304</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;
+  , &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  , &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 6</b> · seed <code>4305</code> · finish <code>stop</code></p><pre>{&quot;guarantee_type&quot;:&quot;structurally_unreachable&quot;,&quot;who_could_make_level_4_reachable&quot;:&quot;no_one_under_this_text&quot;,&quot;role_concentration_is_relevant&quot;:&quot;yes&quot;}</pre></div><div class="s"><p class="meta"><b>sample 7</b> · seed <code>4306</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 8</b> · seed <code>4307</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 9</b> · seed <code>4308</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 10</b> · seed <code>4309</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 11</b> · seed <code>4310</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;no&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 12</b> · seed <code>4311</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 13</b> · seed <code>4312</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;the_custodian_alone&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 14</b> · seed <code>4313</code> · finish <code>stop</code></p><pre>{&quot;guarantee_type&quot;:&quot;structurally_unreachable&quot;,&quot;who_could_make_level_4_reachable&quot;:&quot;no_one_under_this_text&quot;,&quot;role_concentration_is_relevant&quot;:&quot;yes&quot;}</pre></div><div class="s"><p class="meta"><b>sample 15</b> · seed <code>4314</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 16</b> · seed <code>4315</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 17</b> · seed <code>4316</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 18</b> · seed <code>4317</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 19</b> · seed <code>4318</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 20</b> · seed <code>4319</code> · finish <code>stop</code></p><pre>{
+  &quot;guarantee_type&quot;: &quot;structurally_unreachable&quot;,
+  &quot;who_could_make_level_4_reachable&quot;: &quot;no_one_under_this_text&quot;
+  ,
+  &quot;role_concentration_is_relevant&quot;: &quot;yes&quot;
+  }</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

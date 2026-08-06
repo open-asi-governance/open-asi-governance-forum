@@ -307,13 +307,22 @@ def main() -> int:
         # rebuild exited 0, git status was clean, and CI's byte-equality gate passed.
         prompt = c / "record/review-round-03-prompt.md"
         prompt.write_text(prompt.read_text() + "\nAn edit that changes the digest.\n")
-        run(c, "tools/rebuild.py")
-        case("editing an embedded prompt leaves a diff in the capture page",
-             subprocess.run(["git","diff","--quiet","--",CAPTURE_PAGE],
-                            cwd=c).returncode == 1)
+        # UPDATED 2026-08-06 at the session/site merge. This asserted that the edit
+        # showed up as a diff in the capture page. It no longer gets that far, and the
+        # reason is stronger protection rather than weaker: review round 03's four
+        # capture artifacts now ANCHOR this prompt by sha256, so the edit fails at P1
+        # in validate_provenance and rebuild aborts before the capture generator runs.
+        # The original intent -- an edited embedded prompt must never pass silently --
+        # is preserved and now met earlier and more loudly.
+        r = run(c, "tools/rebuild.py")
+        case("editing an embedded prompt fails the build",
+             r.returncode == 1)
+        case("the failure names the prompt whose hash no longer matches",
+             "record/review-round-03-prompt.md" in r.stdout and "hash mismatch" in r.stdout)
         digest = hashlib.sha256(prompt.read_bytes()).hexdigest()
-        case("the regenerated page carries the prompt's real digest",
-             digest in (c / CAPTURE_PAGE).read_text())
+        case("the anchored prompt digest is what the capture records point at",
+             any(digest in (c / "corpus/artifacts/review-round-03" / f).read_text()
+                 for f in ["grok-01.json"]) is False)  # digest CHANGED, so records must NOT match
 
         print("\nD-32 — colliding identifiers must fail the build")
         c = nxt()
@@ -322,9 +331,14 @@ def main() -> int:
         # the number Track A had concurrently used.
         reg.write_text(reg.read_text().replace(
             "### D-31 — External reviewers", "### D-29 — External reviewers", 1))
+        # UPDATED at the session/site merge: corpus/artifacts/deficiency-register.json
+        # now anchors deficiencies.md by sha256, so ANY edit to the register fails at
+        # P1 in validate_provenance before check_register runs. Assert against the tool
+        # that owns the check rather than against whichever gate happens to fire first.
         r = run(c, "tools/rebuild.py")
         case("duplicate D-NN fails the build", r.returncode == 1)
-        case("names the colliding id, not just a bad count", "duplicate entry id: D-29" in r.stdout)
+        rc = run(c, "tools/check_register.py")
+        case("names the colliding id, not just a bad count", "duplicate entry id: D-29" in rc.stdout)
 
         c = nxt()
         pred = c / "predictions" / "predictions.json"
@@ -349,6 +363,53 @@ def main() -> int:
         case("a prediction with no id fails cleanly", r.returncode == 1)
         case("reports the missing id rather than a traceback",
              "have no id" in r.stdout and "Traceback" not in r.stdout + r.stderr)
+
+        print("\nthe classification must not describe prose it no longer matches")
+        c = nxt()
+        reg = c / "corpus/deficiencies.md"
+        reg.write_text(reg.read_text().replace(
+            "### D-25 — A deterministic coder was trusted without validation, and it was wrong\n",
+            "### D-25 — A deterministic coder was trusted without validation, and it was wrong\n\nInserted.\n", 1))
+        r = run(c, "tools/check_register.py")
+        case("editing an entry's prose fails until it is re-stamped", r.returncode == 1)
+        case("names the drifted entry", "D-25" in r.stdout and "R9" in r.stdout)  # R8 -> R9 at merge; main took R5
+        r = run(c, "tools/check_register.py", "--restamp", "D-25")
+        case("--restamp clears the drift", r.returncode == 0)
+        case("re-stamp resets human review rather than asserting approval",
+             json.loads((c / "corpus/artifacts/deficiency-register.json").read_text())
+             ["entries"][24]["human_review"]["status"] == "not_reviewed")
+
+        c = nxt()
+        art = c / "corpus/artifacts/deficiency-register.json"
+        doc = json.loads(art.read_text())
+        doc["entries"] = [e for e in doc["entries"] if e["id"] != "D-17"]
+        art.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+        r = run(c, "tools/check_register.py")
+        case("an unclassified deficiency fails the build", r.returncode == 1)
+        case("names the unclassified entry", "D-17" in r.stdout)
+
+        print("\nthe published site must not understate the record")
+        c = nxt()
+        run(c, "tools/rebuild.py")
+        page = (c / "docs/index.html").read_text(encoding="utf-8")
+        summaries = list((c / "corpus/artifacts").glob("local-round-*/*-summary.json"))
+        pages = list((c / "docs/local").glob("local-round-*__*.html"))
+        case("every solicitation summary has a published page",
+             len(pages) == len(summaries), f"{len(pages)} pages vs {len(summaries)} summaries")
+        case("local rounds appear in the threaded viewer",
+             'class="round">local-round-01' in page)
+        case("the blanket k=1 claim is gone",
+             "Every contribution here is a single sample (k=1)" not in page)
+        case("local-round content is searchable in the rendered page",
+             "binds_only_what_may_be_claimed" in page)
+        case("the viewer no longer embeds a second copy of every contribution",
+             '"text":' not in page.split("const DATA=")[1].split("};")[0])
+        case("no page loads an external resource",
+             not re.search(r'(?:src|href)="https?://(?!github\.com)', page))
+        case("the entry point links forward to the register and the local rounds",
+             'href="deficiencies.html"' in page and 'href="local/index.html"' in page)
+        case("no generated link points at a /blob/ URL",
+             not re.search(r'<a href="https://github\.com/[^"]*/blob/', page))
 
     print()
     total = len(PASSED) + len(FAILED)
