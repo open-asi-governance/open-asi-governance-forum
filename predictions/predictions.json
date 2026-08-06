@@ -164,6 +164,26 @@
       "status": "open",
       "note": "This prediction is adversarial to its own author's project, which is the point of filing it.",
       "revision": "Revised in review round 02 (ChatGPT): the original claim asserted both low levels AND the causal reason nobody attempts Level 2, while the criterion tested only whether anything was promoted. An attempt could occur, fail, and leave every entry at Level 1 while falsifying the causal clause. Restated as a directly observable corpus-and-search claim."
+    },
+    {
+      "id": "P-0017",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. Reviewing the PRE-CORRECTION ASP section 2.2 blind at k=10, the model will identify the UNARY-GRAMMAR defect -- that 'an agent IS an Aligned Supervisor' states as a property of the agent something that in fact depends on relying party, issuer, criteria version, scope, time and revocation state -- in FEWER THAN 30% of samples.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-06/. A sample counts as identifying the defect only if strongest_objection or second_objection asserts that the status is relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent. Coded deterministically after the run with patterns published alongside the count. CORRECT if <= 0.30; INCORRECT if >= 0.45; UNRESOLVABLE between. At k=10 the SE at p=0.3 is 0.145, so the unresolvable band is wide and stated in advance rather than discovered.",
+      "confidence": "moderate",
+      "rationale": "This is the reachability test that P-0013 was for Claude's contribution, now applied to ChatGPT's. P-0013 found Claude's membership-versus-contribution distinction spontaneously articulated in 1 of 40 samples. ChatGPT's unary-versus-relational finding is a subtler and more technical observation about grammar encoding an ontological claim, and I expect it to be less reachable rather than more. If it IS reached at rate, that is evidence the defect was obvious in the text and ChatGPT's contribution was less load-bearing than the corpus currently implies.",
+      "what_would_change_my_mind": "Frequent identification, which would downgrade how much credit that round-02 finding deserves.",
+      "status": "open",
+      "note": "The paired POST arm is run at the same k with section 2.3 byte-identical, so any difference in the objections raised is attributable to section 2.2 alone. The POST arm carries no numeric prediction: I have no view on what it will find in the corrected text, and filing a guess I do not hold would be pre-registration theatre."
     }
   ],
   "scored": [
