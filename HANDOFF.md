@@ -54,7 +54,7 @@ task concerns.
 | Resource | Rule |
 |---|---|
 | **The inference host** | **EXCLUSIVE.** One session at a time. It restarts services and drains the INEXPENSIVE pool. Two sessions here corrupt each other's measurements and can OOM the surviving pool host |
-| **The OAGF repo** | Shared, but by branch. Pull before starting; never rebase another session's branch |
+| **The OAGF repo** | **One `git worktree` per track.** `git worktree add ../oagf-<track> session/<track>`. NOT "shared by branch" — branch checkout is *global state* in a single working tree, so two tracks cannot occupy one checkout. This was written as "shared, but by branch", and within an hour a session committed into another track's branch and a rebuild in the shared checkout modified a live track's files. Corrected on Track A's process finding |
 | **Codex** | Shared working tree is a known hazard. Run `codex exec` with `--sandbox read-only` and `-C` pointed at this repo |
 | **The task list** | Claim a task by setting its owner before starting |
 

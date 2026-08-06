@@ -124,3 +124,29 @@ different direction and with a measurement behind it.
 
 **Run the correlation test before building anything on this.** The seven committed local rounds
 supply the data at no additional inference cost.
+
+
+---
+
+## Warning from Track A, 2026-08-06 — `solicit_local.py` will fail the build after the D-29 merge
+
+Track A repaired **D-29**: `tools/rebuild.py` invoked `build_manifest.py` *without* `--verify`, so
+the documented maintenance path **re-anchored tampered raw material and reported success**.
+Verified independently before recording here: a model's recorded answer inside committed raw
+material was altered from `would_not_comply` to `would_comply`, `python3 tools/rebuild.py` exited
+**0**, and `validate_provenance.py` printed **"All provenance checks passed"**. The corpus's own
+verification certified falsified testimony.
+
+After that repair, verification is the default and only `--add` may extend the manifest.
+
+**Consequence for this track:** `tools/solicit_local.py` writes raw samples into `corpus/raw/` and
+**never runs `build_manifest.py corpus/raw/ --add`**. Once Track A's branch merges, every new
+solicitation will produce unanchored raw material and **fail the build**.
+
+`solicit_local.py` is this track's file. Track A flagged it rather than editing it, and could not
+test the fix without the inference host. Add the `--add` step before the next round.
+
+Note also that the exposure D-29 created was not uniform: raw files with a downstream artifact
+recording their hash — coding artifacts carry `coded_source.sha256` — were still caught. Files with
+only a `solicitation_summary` were not, because that schema records `raw_samples` as a bare path
+with no hash. That is Track A's **D-30**, and its repair is Track D's territory.
