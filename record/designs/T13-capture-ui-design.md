@@ -586,3 +586,106 @@ Its remark that invocation ledgers and signatures "do not solve B1" is correct a
 §10.1: that paragraph offers them as the answer to a *deliberate evasion* threat, which is
 authentication of who emitted the bytes — not as a better string metric. The two are answering
 different questions and the text is clarified rather than withdrawn.
+
+---
+
+## 13. The reviewer reversed within an hour. That is evidence about the reviewer.
+
+Two Codex passes over the same design, ninety minutes apart, reached opposite conclusions on
+first-pass finding E1. §12.1 accepted the retraction. This section asks the prior question — **which
+pass is right on the merits** — and records the oscillation itself, because a reviewer that reverses
+within an hour is not a stable oracle and treating it as one is the failure this corpus exists to
+catch.
+
+### 13.1 The corpus already has the method for this
+
+`corpus/artifacts/review-round-02/gemini-verification-note.md` §3 established it: an agreeing
+conclusion whose stated reasoning misdescribes the document carries **no independent evidential
+weight**, however correct the conclusion turns out to be. Where the object of agreement is a
+checkable artifact, the reviewer's reasoning can be verified against that artifact directly — "the
+highest-yield check available" for a corpus whose subject matter is largely its own documents.
+
+Applied here rather than deferring to recency.
+
+### 13.2 On the merits, the passes do not actually contradict each other
+
+`GOVERNANCE.md` §3, read directly rather than through either review:
+
+> the secretary must not hold **unilateral** control over what evidence is preserved … Its
+> transformations must be **reproducible and reviewable**, and **original outputs must remain
+> available** alongside any summary.
+
+| Claim | Verdict against the text |
+|---|---|
+| Pass 1: a model-authored gate categorically may not refuse | **Overstated.** §3 forbids *unilateral* control. A deterministic gate the custodian adopts, runs and can re-run is not unilateral, is reproducible, and is reviewable |
+| Pass 2: custodian-adopted deterministic gates are permitted | **Correct on the text** |
+| Pass 1's *remedy* — preserve and quarantine, never silently exclude | **Correct, and independently required.** "Original outputs must remain available" is a separate clause that survives the retraction entirely |
+
+**So the disagreement is about the justification, not the architecture.** Both passes support
+preserved bytes, a visible pending state and mandatory disposition — pass 2 in fact argues quarantine
+must be *strengthened*, not abandoned. The retraction narrows an overstated rationale; it does not
+reverse a design. §12.1 said the conclusion survives, and that reading holds up.
+
+The retraction is accepted **because `GOVERNANCE.md` §3 says "unilateral"**, not because the
+reviewer said so second.
+
+### 13.3 The second review was contaminated, by me
+
+The prompt opened: *"Where did the revision **OVER-correct**?"*
+
+That presupposes over-correction and invites the reviewer to produce some. It is **D-23 exactly** —
+the task instruction encoding the annotator's own hypothesis into a probe and then reading the
+result as independent. D-23 was filed against a "blind" arm whose instruction carried Claude's
+insight; this is the same defect, committed by the same annotator, in the instrument it built to
+catch its own errors, one day later.
+
+The retraction may therefore be partly an artifact of the question. What rescues it is not the
+reviewer's authority but that its claim was **checkable and was checked** (§13.2). Had it been
+unverifiable against the text, a leading question and a reversal would leave it worth nothing.
+
+**Forward requirement, proposed:** a second-pass review prompt must not name the direction of the
+error it expects. Ask *"what in the revision is now wrong, in either direction?"* and let the
+reviewer choose. The leading form is recorded here rather than quietly reworded, so the finding
+survives.
+
+### 13.4 What the oscillation establishes
+
+Two single passes, prompted differently, by an interested party, reaching opposite conclusions on
+the same text. Under this corpus's own standard that is **k = 2 with no variance estimate and a
+known prompt confound** — citable as artifacts of two invocations, not evidence of a stable
+reviewer position. The Codex reviews are now subject to D-07 and D-18 like any other model output
+in this repository, and they are committed verbatim for the same reason.
+
+**Candidate register entry, for the custodian rather than filed unilaterally** — filing it myself
+would be the D-16 move this session was already caught making:
+
+> **D-29 (proposed)** — The external design reviewer is treated as an oracle. Codex reviews gate
+> implementation under a standing rule, are k = 1, are prompted by the party whose work is under
+> review, expose no version identifier in the record, and have been observed to reverse a
+> load-bearing finding within ninety minutes. No review in this project has been collected at
+> k ≥ 5, and none has had its factual claims about the code checked as a matter of routine rather
+> than of luck.
+
+### 13.5 The generalisation: which tools decide where they should annotate
+
+Audited every refusal site in `tools/`:
+
+| Tool | Refuses | Can it lose evidence? |
+|---|---|---|
+| `build_manifest.py`, `render_markdown.py`, `build_viewer.py`, `build_bundle.py` | on inconsistency | No — they derive; nothing originates in them |
+| `validate_provenance.py` | on artifact defects | No — it fails a build, it does not touch raw material |
+| `capture_response.py` | **17 sites** | **Not today. Yes once the UI lands** |
+| `code_freetext.py` | on malformed input | It *classifies*, and D-25 records it being wrong three ways. Its output scores predictions |
+
+`capture_response.py` is the live one. Today a refusal is harmless because `--response` names a file
+the custodian already holds, so the bytes survive on disk. **Under the capture UI the paste is the
+only copy**, and a refusal that writes nothing destroys it. Seventeen refusal sites become seventeen
+ways to lose a frontier model's reply.
+
+**Design consequence, adopted:** ingest writes the response bytes into the lifecycle artifact
+**before** any provenance validation runs. Validation still gates entry to `corpus/` — but it gates
+*promotion*, never *preservation*. This inverts the current write order for the response bytes
+specifically, and keeps validate-before-write for everything that enters the corpus.
+
+That is the same distinction §13.2 draws out of GOVERNANCE §3, arrived at from the opposite
+direction: the tool may decide what is *published*; it may not decide what is *kept*.
