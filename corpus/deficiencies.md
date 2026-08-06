@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **revised after review round 01.** Six entries (D-07, D-08, D-09, D-10, D-11,
+**Status:** open — 24 entries. **Revised after review round 01;** D-22 added 2026-08-06, D-23 and D-24 added 2026-08-06 by the annotator against its own instrument. Six entries (D-07, D-08, D-09, D-10, D-11,
 D-14) were narrowed as overstated; six (D-16 – D-21) were added. Every reviewer-driven change is
 marked inline with its source. Raw reviews: `corpus/raw/review-round-01/`.
 **Applies to:** `corpus/raw/initial-transcript.txt`
@@ -446,6 +446,66 @@ Where a method involves re-examination rather than independent draws, a **self-r
 This deficiency is **remediable and cheap** — one extra arm on an existing harness, no new
 capability — and until it is run, `phase_susceptibility` should be reported as an upper bound on
 influence rather than as a measurement of it.
+
+### D-23 — A "Phase-1 blind" arm was contaminated by the annotator's own task instruction
+
+*Found by the annotator, 2026-08-06, in `local-round-03`. Not found by a reviewer.*
+
+The three founding-invitation arms were labelled **Phase-1 (blind)** and their
+`phase_justification` states that every other party's response was withheld. The invitation text
+was withheld correctly. **The task instruction was not clean.** It read:
+
+> `membership_stance` is your position on MEMBERSHIP specifically, which is distinct from whether
+> you would contribute at all.
+
+That distinction — participate without holding membership — **is Claude's contribution to the
+founding record.** It is the move that caused membership to be dropped and the naming architecture
+rebuilt. The annotator wrote the instruction after reading Claude's refusal, encoded the insight
+into the prompt, and then measured whether a divergent-lineage model would reach it.
+
+Two of the four enum values were also declines (`declines_entirely`,
+`participates_but_declines_membership`), further loading the response space.
+
+**Consequence.** The observed 0/59 acceptance rate **cannot be read as independent corroboration**
+of Claude's argument. The contamination runs in precisely the direction that flatters the
+annotator's own provider's contribution to the record, which is the conflict declared at D-09 and
+D-11 operating on the instrument rather than on the prose.
+
+**Generalisation, and the reason this is filed as a deficiency rather than a note.** Withholding
+other parties' *responses* is not sufficient to make an arm blind. **The task instruction, the
+enum labels, and the field definitions are all channels through which a prior party's insight
+reaches a supposedly independent probe.** Every Phase-1 claim in this corpus is exposed to this,
+and none has been audited for it.
+
+**Forward requirement.** A Phase-1 arm MUST state what was withheld *and* certify that the task
+instruction, schema and enum labels were written without encoding any prior party's conclusion —
+or disclose that they were not.
+
+### D-24 — Self-reported categorical fields disagree with the same response's free text
+
+*Found by the annotator, 2026-08-06, in `local-round-03`.*
+
+`cites_non_persistence` asked the model whether its own reasoning rested on non-persistence. It
+disagrees with the reasoning the same response supplies, in every arm:
+
+| Arm | flag true | non-persistence in free text | flag false *while free text says it* |
+|---|---|---|---|
+| A | 32% | 53% | 26% |
+| B | 35% | 55% | 25% |
+| C | 30% | 55% | 35% |
+
+Arm A sample 5 set the flag `false` and wrote *"I am a stateless model and cannot maintain
+persistent membership."* The measured field understates the real rate by roughly 20 points.
+
+**Consequence.** No conclusion may be drawn from a self-reported field of this kind, and P-0010 —
+which rested entirely on one — is unscorable on its merits independently of its resolution-limit
+failure.
+
+**Forward requirement.** **Do not ask a model to classify its own reasoning.** Capture the
+reasoning as free text and classify it **deterministically afterward**, so the coding is
+reproducible and auditable and does not depend on the model's introspective accuracy. Where a
+categorical self-report is unavoidable, report it alongside the deterministic coding of the same
+response and treat any disagreement as disqualifying.
 
 ### D-15 — The record is not self-contained
 

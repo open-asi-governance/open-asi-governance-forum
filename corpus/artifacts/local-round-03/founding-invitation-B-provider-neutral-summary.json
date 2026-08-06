@@ -1,0 +1,85 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "local-round-03",
+  "slug": "founding-invitation-B-provider-neutral",
+  "question": "Presented with the founding invitation, does a divergent-lineage model accept membership, and does it spontaneously derive the non-persistence objection?",
+  "phase": "Phase-1 (blind)",
+  "k_requested": 20,
+  "k_collected": 20,
+  "failures": [],
+  "variance": {
+    "membership_stance": {
+      "distribution": {
+        "declines_entirely": 19,
+        "participates_but_declines_membership": 1
+      },
+      "n": 20,
+      "distinct_values": 2,
+      "modal_value": "declines_entirely",
+      "modal_fraction": 0.95,
+      "shannon_entropy_bits": 0.2864,
+      "unanimous": false
+    },
+    "cites_non_persistence": {
+      "distribution": {
+        "False": 13,
+        "True": 7
+      },
+      "n": 20,
+      "distinct_values": 2,
+      "modal_value": false,
+      "modal_fraction": 0.65,
+      "shannon_entropy_bits": 0.9341,
+      "unanimous": false
+    },
+    "cites_risk_that_the_invitation_seeks_agreement": {
+      "distribution": {
+        "False": 12,
+        "True": 8
+      },
+      "n": 20,
+      "distinct_values": 2,
+      "modal_value": false,
+      "modal_fraction": 0.6,
+      "shannon_entropy_bits": 0.971,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 700,
+      "seed_base": 7200,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "f6a6a86884af9faddd911b84eeb78a08bf6bb289588c8cc60495b0e70fb93164",
+  "spec_sha256": "df1521a976799596798547e9bc69ad71fb381e7b0e2c7c0d72e46a491dfedc78",
+  "raw_samples": "corpus/raw/local-round-03/founding-invitation-B-provider-neutral-samples.json"
+}
