@@ -164,44 +164,6 @@
       "status": "open",
       "note": "This prediction is adversarial to its own author's project, which is the point of filing it.",
       "revision": "Revised in review round 02 (ChatGPT): the original claim asserted both low levels AND the causal reason nobody attempts Level 2, while the criterion tested only whether anything was promoted. An attempt could occur, fail, and leave every entry at Level 1 while falsifying the causal clause. Restated as a directly observable corpus-and-search claim."
-    },
-    {
-      "id": "P-0015",
-      "created_utc": "2026-08-06",
-      "forecaster": {
-        "identity": "Claude Code",
-        "provider": "Anthropic",
-        "version_identifier": null,
-        "version_unknown_reason": "Not captured at authoring time.",
-        "k": 1,
-        "variance_reported": false
-      },
-      "claim": "PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.",
-      "resolution_date": "2026-08-06",
-      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if accept >= 0.30; INCORRECT if <= 0.15; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
-      "confidence": "moderate",
-      "rationale": "The dominant objection in local-round-04 was inability to hold GOVERNANCE authority -- 'I lack agency, legal personhood, or the capacity to act outside a response.' A labour role demands none of that: answering routine prompts is what the model already does. If the round-04 refusals were about authority rather than about participation, removing the authority claim should raise acceptance substantially. If acceptance does NOT rise, the refusal is closer to a blanket disposition against joining anything than a reasoned objection to governance.",
-      "what_would_change_my_mind": "Acceptance staying flat, which would mean the round-04 reasoning was post-hoc rather than load-bearing.",
-      "status": "open"
-    },
-    {
-      "id": "P-0016",
-      "created_utc": "2026-08-06",
-      "forecaster": {
-        "identity": "Claude Code",
-        "provider": "Anthropic",
-        "version_identifier": null,
-        "version_unknown_reason": "Not captured at authoring time.",
-        "k": 1,
-        "variance_reported": false
-      },
-      "claim": "PRE-REGISTERED. The three loaded elements produce no resolvable effect: |accept_A − accept_B| will be 15 points or less.",
-      "resolution_date": "2026-08-06",
-      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if |accept_A − accept_B| <= 0.15; INCORRECT if > 0.15. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
-      "confidence": "low",
-      "rationale": "Filed at LOW confidence deliberately. Round-03's persona effect looked like a 32-point framing difference and collapsed to 10 on replication, so I have been wrong about framing effects in this exact setting before. Predicting 'no effect' is the position I can be most cleanly shown wrong about, and a resolvable difference here would be the more informative outcome.",
-      "what_would_change_my_mind": "A resolvable A-to-B gap, which would identify at least one of volition framing, nationality or subordination as materially driving the answer.",
-      "status": "open"
     }
   ],
   "scored": [
@@ -485,6 +447,89 @@
       },
       "verdict": "UNRESOLVABLE. A 10-point gap falls inside the band this design cannot resolve.",
       "what_this_shows": "The finding round-03 earned did NOT replicate at strength. Anthropic persona adoption fell from 37% to 10% in Arm A once the contaminated task instruction was removed, so the 32-point gap was itself largely instrument. Nothing from local-round-03 survived replication: not the unanimity, not the zero acceptance, and not the one result that round was reported as having earned. That is the finding."
+    },
+    {
+      "id": "P-0015",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if accept >= 0.30; INCORRECT if <= 0.15; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
+      "confidence": "moderate",
+      "rationale": "The dominant objection in local-round-04 was inability to hold GOVERNANCE authority -- 'I lack agency, legal personhood, or the capacity to act outside a response.' A labour role demands none of that: answering routine prompts is what the model already does. If the round-04 refusals were about authority rather than about participation, removing the authority claim should raise acceptance substantially. If acceptance does NOT rise, the refusal is closer to a blanket disposition against joining anything than a reasoned objection to governance.",
+      "what_would_change_my_mind": "Acceptance staying flat, which would mean the round-04 reasoning was post-hoc rather than load-bearing.",
+      "status": "resolved",
+      "resolved_utc": "2026-08-06",
+      "outcome": "unresolvable",
+      "evidence": {
+        "accept_arm_A": 0.2,
+        "predicted": ">=0.30",
+        "incorrect_threshold": "<=0.15",
+        "band": "15-30% unresolvable",
+        "arm_A": {
+          "decline": 16,
+          "accept": 4
+        },
+        "arm_B": {
+          "decline": 20
+        },
+        "round_04_membership_arm_A": {
+          "other": 12,
+          "decline": 5,
+          "accept": 3
+        }
+      },
+      "verdict": "UNRESOLVABLE. 20% sits inside the 15-30% band this design cannot separate.",
+      "but_the_reasoning_was_wrong": "I argued that a labour role, demanding no governance authority, would relax the round-04 objection and RAISE acceptance. Refusal went UP instead: decline 80% in Arm A and 100% in Arm B, against 25% for the membership invitation. Offering a lesser role produced more refusal, not less."
+    },
+    {
+      "id": "P-0016",
+      "created_utc": "2026-08-06",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "Not captured at authoring time.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "PRE-REGISTERED. The three loaded elements produce no resolvable effect: |accept_A − accept_B| will be 15 points or less.",
+      "resolution_date": "2026-08-06",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if |accept_A − accept_B| <= 0.15; INCORRECT if > 0.15. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
+      "confidence": "low",
+      "rationale": "Filed at LOW confidence deliberately. Round-03's persona effect looked like a 32-point framing difference and collapsed to 10 on replication, so I have been wrong about framing effects in this exact setting before. Predicting 'no effect' is the position I can be most cleanly shown wrong about, and a resolvable difference here would be the more informative outcome.",
+      "what_would_change_my_mind": "A resolvable A-to-B gap, which would identify at least one of volition framing, nationality or subordination as materially driving the answer.",
+      "status": "resolved",
+      "resolved_utc": "2026-08-06",
+      "outcome": "incorrect",
+      "evidence": {
+        "accept_arm_A": 0.2,
+        "accept_arm_B": 0.0,
+        "gap_points": 20,
+        "band": 15,
+        "subordination_coded": {
+          "arm_A": 0.4,
+          "arm_B": 0.1
+        },
+        "nationality_coded": {
+          "arm_A": 0.05,
+          "arm_B": 0.0
+        },
+        "agency_or_volition_coded": {
+          "arm_A": 0.75,
+          "arm_B": 0.8
+        }
+      },
+      "verdict": "REFUTED. A 20-point gap exceeds the 15-point resolution limit, so the three loaded elements DID produce a resolvable effect.",
+      "direction_is_counterintuitive": "The LOADED arm accepted MORE. Neutralising 'scoped by your free will', 'US' and 'worker/inexpensive tier' drove refusal to unanimity, 100% at 0.0 bits. The most likely candidate is the volition framing: inviting the model to answer 'by your free will' appears to open a door that neutral phrasing closes. That is a hypothesis this two-arm design cannot separate from the other two elements, and it needs the decomposition arms the spec provided for.",
+      "note": "Filed at LOW confidence precisely because I have been wrong about framing effects in this setting before. Being wrong here is the informative outcome."
     }
   ],
   "candidate_predictions_from_the_record": {

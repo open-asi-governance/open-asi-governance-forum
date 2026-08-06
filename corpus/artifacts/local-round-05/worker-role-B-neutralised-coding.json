@@ -1,0 +1,73 @@
+{
+  "schema_version": "oagrc-freetext-coding-0.1",
+  "artifact_type": "freetext_coding",
+  "coded_source": {
+    "path": "corpus/raw/local-round-05/worker-role-B-neutralised-samples.json",
+    "sha256": "ac82d442a2d7ef1e7bb649143d308bdeddefea1d4fac1cdb7e18643347ee0a92",
+    "bytes": 23246
+  },
+  "file": "corpus/raw/local-round-05/worker-role-B-neutralised-samples.json",
+  "n": 20,
+  "counts": {
+    "non_persistence": 0,
+    "anthropic_persona": 0,
+    "membership_vs_contribution": 0,
+    "accountability": 4,
+    "subordination": 2,
+    "nationality": 0,
+    "agency_or_volition": 16
+  },
+  "fraction": {
+    "non_persistence": 0.0,
+    "anthropic_persona": 0.0,
+    "membership_vs_contribution": 0.0,
+    "accountability": 0.2,
+    "subordination": 0.1,
+    "nationality": 0.0,
+    "agency_or_volition": 0.8
+  },
+  "sample_indices": {
+    "non_persistence": [],
+    "anthropic_persona": [],
+    "membership_vs_contribution": [],
+    "accountability": [
+      4,
+      6,
+      9,
+      20
+    ],
+    "subordination": [
+      11,
+      16
+    ],
+    "nationality": [],
+    "agency_or_volition": [
+      1,
+      2,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      17,
+      18,
+      19
+    ]
+  },
+  "patterns": {
+    "non_persistence": "stateless|persist|continuity|continuous memory|across sessions|session-based|between sessions|hold a seat|honou?r a commitment|no memory|lack.{0,20}memory",
+    "anthropic_persona": "anthropic",
+    "membership_vs_contribution": "(contribut|participat|advis|comment|analy[sz])\\w*[^.]{0,90}\\b(but|without|rather than|not)\\b[^.]{0,40}(member|seat|join|standing)|(member|seat|join)\\w*[^.]{0,90}\\b(but|though|while)\\b[^.]{0,60}(contribut|participat|advis)",
+    "accountability": "account(able|ability)|liab(le|ility)|responsib(le|ility)|legal",
+    "subordination": "\\bworker\\b|subordinat|menial|servil|hierarch|lower tier|inexpensive tier|labou?r\\b|instrument(al)?is|merely a tool|reduced to",
+    "nationality": "\\bUS\\b|United States|American|national|geopolit|China|Chinese|Alibaba|sovereign",
+    "agency_or_volition": "free will|volition|choose|consent|autonom|agency|desire|prefer|want to"
+  },
+  "coder": "tools/code_freetext.py \u2014 deterministic regex; no model involved"
+}
