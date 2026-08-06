@@ -95,6 +95,32 @@ only, and agreement between the two on every validation case is an acceptance cr
   Custodian authorised proceeding 2026-08-06; the change is additive and is flagged here so Track D
   inherits it rather than discovering it.
 
+### Finding handed to Track A, 2026-08-06 — the rebuild-produces-no-diff signal does not hold
+
+Found by this session while following the standing `rebuild && commit` rule, and **not fixed here,
+because `tools/build_viewer.py` is Track A's.**
+
+`build_viewer.py::head_commit()` stamps `git log -1 --format=%H` — HEAD **at build time**, which is
+always the commit *before* the one the regenerated file will ship in. Three consequences:
+
+1. `docs/index.html` asserts *"generated from commit X"* where X is **never** the commit that
+   contains it. The page is structurally incapable of stating its own provenance correctly, in a
+   repository whose subject is provenance accuracy.
+2. README's claim — *"On an unchanged repository it produces no diff, so `git status` after a
+   rebuild is a real signal"* — is false. After **every** commit the next rebuild dirties the
+   viewer, so the signal every track is told to rely on is permanently noisy by construction.
+3. The standing `rebuild.py && git commit` chain guarantees the stale stamp, because rebuild
+   necessarily runs before the commit it should name exists.
+
+Suggested fix, Track A's call: stamp the last commit that touched the **corpus**
+(`git log -1 --format=%H -- corpus/`) rather than HEAD. That is stable across documentation-only
+commits and is the claim the line is actually trying to make. Alternatively drop the stamp and let
+`MANIFEST.sha256` carry the anchor, which it already does.
+
+Until it is fixed, this session reverts the regenerated `docs/index.html` rather than committing
+Track A's file, and **no session should read a clean `git status` after rebuild as evidence of
+anything.**
+
 ## Acceptance
 - A full four-party round runs without typing a shell command or a timestamp.
   **Amended 2026-08-06:** without typing a timestamp, and with **one** ingest command per round.
