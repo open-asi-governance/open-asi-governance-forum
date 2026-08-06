@@ -627,13 +627,73 @@ twice, was never performed.** It took an operator's question about a second-orde
 surface a first-order defect. D-26's concern about temperature is real but secondary: temperature
 cannot be assessed until repeatability is.
 
+**ROOT-CAUSED 2026-08-06 to a named, documented MoE kernel fusion.**
+
+`tensorrt_llm/llmapi/llm_args.py`, `MoeConfig`:
+
+```
+disable_finalize_fusion: bool = Field(default=False,
+    description="Disable FC2+finalize kernel fusion in CUTLASS MoE backend. "
+                "Setting this to True recovers deterministic numerical behavior with top-k > 2.")
+```
+
+This model runs `num_experts_per_tok = 8` across `num_experts = 256`. **Top-k is 8, far above 2, so
+the fusion is active and its own documentation states it is non-deterministic in that regime.** The
+default is `False`, so every invocation in this corpus was made with a kernel fusion the vendor
+documents as numerically non-deterministic.
+
+`sampling_params.py` confirms the greedy path was correctly selected —
+`params_imply_explicit_greedy` returns true for `top_k == 1 or top_p == 0.0 or temperature == 0` —
+so parameter handling was never the issue. The remedy is a serving-configuration change, under
+Codex review before application because the profile in force has a documented OOM history and the
+fusion exists for throughput.
+
+**The diagnosis below stands and is what led to the source.**
+
+Four tests, each isolating one factor:
+
+| Test | Result |
+|---|---|
+| temperature 0, sequential, one request in flight | **10/10 distinct** |
+| `top_k=1` forced greedy (rules out temperature not being honoured) | **8/8 distinct** |
+| unique prefix per call, KV block reuse impossible | **8/8 distinct** |
+| identical prompt, KV block reuse eligible | 7/8 distinct |
+
+Greedy decoding is non-deterministic with nothing else in flight, no seed involved, and block reuse
+excluded. **The logits themselves vary between runs.** Not the sampler, not the seed, not in-flight
+batching, not KV reuse — the numeric path. No sampling parameter reaches it, so **the
+reproducibility claim is withdrawn rather than repaired.**
+
+**The refinement that matters most for reading every prior result.** The perturbation is *tiny*. A
+low-entropy task — "count from 1 to 12" — came back **6/6 identical** under the same conditions that
+produced 8/8 distinct on an open-ended one. The noise only changes an output when the **top-two
+logits are close enough that a rounding difference flips the argmax**, after which divergence
+cascades token by token.
+
+So the apparatus is **most unreliable exactly where the measurement is most interesting**. A probe
+that lands near 50/50 is measuring a near-tie, which is precisely the regime where numeric noise
+decides the answer. `local-round-01`'s 55/45 split is the worst case in the corpus.
+
+**The operational rule this yields, and it is usable now:**
+
+| Result shape | Status |
+|---|---|
+| Modal share ≥ 90% or ≤ 10%, or a rare-event count | **Robust.** Noise cannot flip a lopsided margin |
+| Modal share near 50% | **Noise-dominated.** Report the split, claim nothing from it |
+| Any difference below ~0.5 bits | **Not an effect** |
+
+That rule rescues P-0013 (1/40), P-0017 (0/10), P-0019 (3/100), and the round-03→04 gap of 1.35
+bits. It condemns every fraction-of-a-bit comparison, P-0008's evidence foremost.
+
 **Forward requirements.**
 1. Every measurement round includes a **test-retest arm** — one condition replicated at identical
    settings — and the run-to-run gap is reported alongside the effect.
-2. **No effect smaller than the measured noise floor may be reported as an effect.** Where an effect
-   is inside the floor, that is the result.
-3. The `seed` field is marked **non-reproducing** in the schema until the cause is found and fixed,
-   rather than continuing to imply a guarantee that does not hold.
+2. **No effect smaller than the measured noise floor may be reported as an effect**, and no claim is
+   made from a near-50% split beyond reporting it.
+3. The `seed` field is marked **non-reproducing** in the schemas. It records what was requested, not
+   a guarantee that it reproduces.
+4. The corpus **no longer claims** that a locally served contribution is reproducible. It claims the
+   settings are *recorded*, which is true and is a weaker thing. QCP §3 is corrected accordingly.
 
 ### D-15 — The record is not self-contained
 

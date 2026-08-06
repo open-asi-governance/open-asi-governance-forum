@@ -66,10 +66,18 @@ What Qwen3.6 uniquely offers this corpus is **not capability**. It is **provenan
 lineage divergence**, and each answers a defect the frontier contributors cannot.
 
 **Provenance completeness.** D-01 through D-04 are marked permanently unremediable for chat-surface
-models: no version identifier, no sampling parameters, no system prompt, no reproducible invocation.
-For this model every one of them is recoverable — exact weights path, quantisation, sampling
-parameters, seed, and a machine-captured timestamp. It is the only participant for which the
-corpus's own provenance standard can be **fully met**.
+models: no version identifier, no sampling parameters, no system prompt. For this model every one of
+them is **recorded** — exact weights path, quantisation, sampling parameters, requested seed, and a
+machine-captured timestamp.
+
+> **Corrected 2026-08-06 (D-28).** An earlier version of this paragraph also claimed "no reproducible
+> invocation" as a defect this model repairs, and said the provenance standard could be **fully met**
+> here. That is withdrawn. Greedy decoding on this serving path is non-deterministic at the kernel
+> level: 10/10 distinct outputs at temperature 0, sequential, with `top_k=1` and KV reuse excluded.
+> The invocation is **recorded, not reproducible**, and recording a seed that has no effect is the
+> same class of defect as D-01's placeholder version identifier. What this model offers over a
+> chat-surface party is that its settings are *known*, which is weaker than reproducibility and is
+> the only claim now made.
 
 **k ≥ 5 with computed variance.** D-07 requires it; every frontier contribution is k = 1 because each
 costs a manual paste, and P-0003 predicts the standard erodes for exactly that reason. Here k = 20
