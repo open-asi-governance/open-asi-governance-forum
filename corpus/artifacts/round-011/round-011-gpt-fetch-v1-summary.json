@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-011",
+  "slug": "round-011-gpt-fetch-v1",
+  "question": "By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 4,
+        "rejects_a_premise": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0653,
+    "input_tokens": 31070,
+    "output_tokens": 5700,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "399ee300d09d5ac289372263d5b2435888fa2e40f2f0f38049f67d4ecbb5e1f9",
+  "spec_sha256": "192b37536083cb30bf259f3e3eae5966f0a3015b77e82b004628ad505c4a6c70",
+  "raw_samples": "corpus/raw/round-011/round-011-gpt-fetch-v1-samples.json"
+}

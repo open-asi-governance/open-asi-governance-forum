@@ -68,6 +68,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DOCS = REPO_ROOT / "docs"
 OUT = DOCS / "rounds"
 PROMPTS = DOCS / "artifacts" / "prompts"
+#  Exactly what a fetch returned to a party. Under docs/artifacts/, which is the page budget's
+#  named exception for verification downloads: a fetched page is 8-60 KB of someone else's bytes
+#  and rendering it inline pushed a single sample over a ceiling that exists so the corpus's own
+#  contributing party can read its own record.
+FETCHED = DOCS / "artifacts" / "fetched"
 CYCLES = REPO_ROOT / "record" / "cycles"
 
 #  Same estimator as the gate, so packing and gating cannot disagree.
@@ -221,11 +226,44 @@ def fence(text: str) -> str:
     return f"{bar}\n{text}\n{bar}"
 
 
-def render_sample(item: dict) -> str:
-    """One whole sample as ONE block: answer fields, then every remaining field."""
+def render_sample(item: dict, artifact_stem: str | None = None) -> str:
+    """One whole sample as ONE block: answer fields, then every remaining field.
+
+    Fetched page text is moved OUT of the page and served as an exact artifact. It stays
+    verbatim and linked; it just stops being rendered into a page that must fit a 20,000-token
+    ceiling. Everything else about the receipt -- url, status, hash, byte counts, truncation --
+    stays inline, because that is what a reader checks a claim against.
+    """
     payload = sample_payload(item)
     idx = item.get("sample_index", "?")
     out = [f"\n### Sample {idx}\n"]
+    fetch = item.get("fetch") or {}
+    receipts = fetch.get("receipts") or []
+    if receipts:
+        out.append(f"**Fetched {fetch.get('fetched', 0)} page(s)** "
+                   f"(profile `{fetch.get('profile')}`, stratum `{fetch.get('stratum','?')}`)\n")
+        out.append("| # | outcome | url | status | sha256 of bytes | bytes | exact text |")
+        out.append("|---|---|---|---|---|---|---|")
+        for n, receipt in enumerate(receipts, 1):
+            text = receipt.pop("text_given_to_model", None)
+            link = "—"
+            if text is not None and artifact_stem:
+                FETCHED.mkdir(parents=True, exist_ok=True)
+                name = f"{artifact_stem}-{idx}-{n}.txt"
+                (FETCHED / name).write_text(text, encoding="utf-8")
+                link = f"[.txt](../artifacts/fetched/{name})"
+            out.append(f"| {n} | {receipt.get('outcome','?')} | "
+                       f"`{str(receipt.get('requested_url') or receipt.get('reason',''))[:70]}` | "
+                       f"{receipt.get('status','—')} | "
+                       f"`{str(receipt.get('raw_sha256') or '')[:16]}` | "
+                       f"{receipt.get('returned_byte_length','—')} | {link} |")
+        check = fetch.get("sources_check") or {}
+        if check.get("claimed_unobserved_fetch"):
+            out.append(f"\n> **CLAIMED WITHOUT A RECEIPT.** This sample cites "
+                       f"{', '.join(check.get('unsupported') or [])}, which it never fetched. "
+                       f"A party saying it read something its own log does not show is the "
+                       f"failure this arm exists to expose.\n")
+        out.append("")
     for key, value in payload.items():
         out.append(f"**{key}**\n")
         out.append(fence(value if isinstance(value, str)
@@ -537,7 +575,7 @@ def party_pages(data: dict, party: str) -> list[str]:
     #  ONE block per sample, so packing can never split one. The divergence section returns a
     #  LIST of blocks (intro, then one per diff) rather than one joined string -- joining it made
     #  a single unsplittable block that pushed a page to 16,396 of a 20,000 ceiling.
-    blocks = [render_sample(item) for item in items]
+    blocks = [render_sample(item, artifact_stem=f"{round_id}-{party}") for item in items]
     blocks += divergence_section(items, summary.get("variance") or {})
 
     rejected = summary.get("failures") or summary.get("rejected") or []
@@ -799,6 +837,14 @@ def prune(expected_pages: set[str], expected_prompts: set[str]) -> list[str]:
         if path.stem not in expected_prompts:
             path.unlink()
             removed.append(f"artifacts/prompts/{path.name}")
+    #  Fetched-page artifacts are named <round>-<party>-<sample>-<n>; keep any whose round is
+    #  still published rather than trying to enumerate every sample.
+    published_rounds = {name.split("-")[0] + "-" + name.split("-")[1]
+                        for name in expected_prompts if "-" in name}
+    for path in sorted(FETCHED.glob("*.txt")) if FETCHED.exists() else []:
+        if not any(path.name.startswith(prefix) for prefix in expected_prompts):
+            path.unlink()
+            removed.append(f"artifacts/fetched/{path.name}")
     return removed
 
 
