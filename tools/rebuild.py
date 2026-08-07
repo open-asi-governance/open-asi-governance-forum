@@ -65,6 +65,7 @@ STEPS = [
     # exited 0 and CI passed. A published instrument carried a hash that did not
     # match the artifact it anchored -- in the page whose entire job is to transport
     # prompts to frontier parties with their hashes. See D-33.
+    ("build the prediction registry view", ["tools/build_predictions_view.py"]),
     ("build capture page", ["tools/build_capture_ui.py"]),
     # LAST, and site-wide. Checking inside any one generator would miss the pages the
     # others write -- and the two pages that had already breached the ceiling were

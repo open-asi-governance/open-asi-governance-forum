@@ -396,10 +396,14 @@ def main() -> int:
         # assertions about routing read the index. Conflating them is how the previous
         # version of this block came to assert `const DATA=` against a page that no
         # longer carries one.
+        # index.html is the LANDING page; record.html is the table of contents. They
+        # were the same file until the landing page landed, and this block asserted
+        # routing against whichever one happened to be index.html at the time.
         index = (c / "docs/index.html").read_text(encoding="utf-8")
+        toc = (c / "docs/record.html").read_text(encoding="utf-8")
         record = "".join(f.read_text(encoding="utf-8")
                          for f in sorted((c / "docs").glob("*.html"))
-                         if f.name not in ("index.html",))
+                         if f.name not in ("index.html", "record.html"))
         page = index + record
         summaries = list((c / "corpus/artifacts").glob("local-round-*/*-summary.json"))
         pages = list((c / "docs/local").glob("local-round-*__*.html"))
@@ -417,12 +421,22 @@ def main() -> int:
                  if "const DATA=" in f.read_text(encoding="utf-8")))
         case("no page loads an external resource",
              not re.search(r'(?:src|href)="https?://(?!github\.com)', page))
-        case("the entry point links forward to the register and the local rounds",
-             'href="deficiencies.html"' in index and 'href="local/index.html"' in index)
-        case("every record page is reachable from the index",
-             all(f'href="{f.stem}.html"' in index
+        case("the landing page routes to every top-level surface",
+             all(link in index for link in ('href="record.html"', 'href="deficiencies.html"',
+                                            'href="predictions.html"', 'href="llms.txt"')))
+        case("the landing page is small enough to be read whole",
+             len(index.encode()) / 3.4 < 6000, f"{int(len(index.encode())/3.4)} est-tokens")
+        case("the prediction registry publishes its own weakness",
+             "forecast by the annotator" in
+             (c / "docs/predictions.html").read_text(encoding="utf-8"))
+        case("the prediction registry computes no aggregate calibration score",
+             "No aggregate calibration score is computed" in
+             (c / "docs/predictions.html").read_text(encoding="utf-8"))
+        case("every record page is reachable from the contents",
+             all(f'href="{f.stem}.html"' in toc
                  for f in sorted((c / "docs").glob("*.html"))
-                 if f.name not in ("index.html",) and not f.stem.startswith("deficiencies")))
+                 if f.name not in ("index.html", "record.html", "predictions.html")
+                 and not f.stem.startswith("deficiencies")))
         case("no published page exceeds the token budget",
              run(c, "tools/check_page_budget.py").returncode == 0)
         case("every record page has a markdown alternate, declared and present",

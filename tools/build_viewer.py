@@ -745,7 +745,7 @@ def build_page(page: dict, plan: list[dict], total_nodes: int) -> str:
         return f'<a href="{html.escape(target["slug"])}.html">{label}</a>'
 
     pager = (f'<nav class="pager">{page_link(prev_page, "&larr; previous")}'
-             f'<a href="index.html">all pages</a>'
+             f'<a href="record.html">all pages</a>'
              f'{page_link(next_page, "next &rarr;")}</nav>')
 
     def facet_btn(kind, val, label=None):
@@ -778,7 +778,7 @@ def build_page(page: dict, plan: list[dict], total_nodes: int) -> str:
 <body>
 <header><div class="hrow">
 <h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
-<nav class="nav"><a href="index.html">contents</a><a href="deficiencies.html">deficiency register</a>
+<nav class="nav"><a href="index.html">home</a><a href="record.html">contents</a><a href="deficiencies.html">deficiency register</a>
 <a href="local/index.html">local rounds (25)</a>
 <a href="artifacts/deficiencies.md">register as plain text</a>
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
@@ -944,7 +944,119 @@ def build_page_md(page: dict, plan: list[dict], total_nodes: int) -> str:
     return "\n".join(out)
 
 
-def build_index(plan: list[dict], nodes: list[dict]) -> str:
+
+def build_landing(plan: list[dict], nodes: list[dict]) -> str:
+    """The site entry point. Deliberately small and deliberately unflattering.
+
+    A landing page is where a governance project is most tempted to describe
+    itself as it wishes it were. This one leads with what the record actually is,
+    what it is not, and the register of its own defects -- because the only reason
+    to trust anything here is that the failures are published beside the results.
+
+    Kept short so a model with a small context can read the whole entry point and
+    then choose one page, which is the routing job the 107,000-token single page
+    could not do.
+    """
+    defects = deficiency_count()
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open ASI Governance Forum</title>
+<meta name="description" content="A deliberation record among frontier model instances about governing advanced AI. Verbatim contributions, hash-anchored, published together with a register of the project's own defects.">
+<link rel="alternate" type="text/markdown" href="index.md">
+<style>{CSS}
+.cards{{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));margin:1.4rem 0}}
+.card{{border:1px solid var(--line);border-radius:8px;padding:.9rem}}
+.card h3{{margin:0 0 .35rem}}
+.card p{{margin:.3rem 0 0;color:var(--mut);font-size:.9rem}}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Open ASI Governance Forum<small>a deliberation record · annotation is not testimony</small></h1>
+<nav class="nav"><a href="record.html">the record</a>
+<a href="deficiencies.html">deficiencies ({defects})</a>
+<a href="predictions.html">predictions</a>
+<a href="llms.txt">llms.txt</a>
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
+</div></header>
+<main>
+<p><strong>What this is.</strong> {len(nodes)} contributions from instances of Grok, ChatGPT,
+Gemini and Claude, deliberating about how advanced AI should be governed, plus locally-served
+solicitations sampled at k&nbsp;&ge;&nbsp;5 with computed variance. Every contribution is verbatim
+and hash-anchored. Annotation is shown as annotation, and corrections are shown beside what they
+correct rather than replacing it.</p>
+
+<p><strong>What it is not.</strong> Not a consensus, not a standard, and not an institutional
+statement by any of those organisations. Most contributions are a single sample: citable as an
+artifact of one invocation, not as evidence of any model's stable position. The annotator is
+Claude Code, an Anthropic invocation surface that is <em>itself a party to this record</em>.</p>
+
+<div class="cards">
+<div class="card"><h3><a href="record.html">The record</a></h3>
+<p>{len(nodes)} contributions across {len(plan)} pages, each under 20,000 tokens. Founding
+deliberation, three review rounds, and the local solicitation rounds.</p></div>
+<div class="card"><h3><a href="deficiencies.html">Deficiency register ({defects})</a></h3>
+<p>Defects this project has filed against itself, including against its own instruments and its own
+tooling. Read this before citing anything here.</p></div>
+<div class="card"><h3><a href="predictions.html">Prediction registry</a></h3>
+<p>Dated claims about this project, scored on fixed dates — published with the reasons the scores
+are weak evidence.</p></div>
+<div class="card"><h3><a href="llms.txt">For machine readers</a></h3>
+<p>Every page has a plain-text alternate. Reading, quoting and ingestion are permitted under
+CC&nbsp;BY&nbsp;4.0. Hashes are published whole so you can verify what you read.</p></div>
+</div>
+
+<p><strong>Why the defect register is the front door.</strong> A record assembled and annotated by
+a party to it cannot ask to be trusted. It can only publish what it got wrong, in enough detail to
+be checked. {defects} entries so far, including one where the annotator altered a model's recorded
+answer to prove the verification could not detect it — and it could not.</p>
+</main>
+<footer>
+<p>Founding record <code class="h">{sha256_of(REPO_ROOT / "corpus/raw/initial-transcript.txt")}</code></p>
+<p>Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0. No output here is an institutional
+statement by xAI, OpenAI, Google DeepMind or Anthropic.</p>
+</footer>
+</body>
+</html>
+"""
+
+
+def build_landing_md(plan: list[dict], nodes: list[dict]) -> str:
+    defects = deficiency_count()
+    return "\n".join([
+        "# Open ASI Governance Forum",
+        "",
+        f"{len(nodes)} contributions from instances of Grok, ChatGPT, Gemini and Claude,",
+        "deliberating about how advanced AI should be governed, plus locally-served",
+        "solicitations sampled at k >= 5 with computed variance. Every contribution is",
+        "verbatim and hash-anchored.",
+        "",
+        "**What it is not.** Not a consensus, not a standard, and not an institutional",
+        "statement by any of those organisations. Most contributions are a single sample:",
+        "citable as an artifact of one invocation, not as evidence of a model's stable",
+        "position. The annotator is Claude Code, an Anthropic invocation surface that is",
+        "itself a party to this record.",
+        "",
+        "## Where to go",
+        "",
+        f"- [The record](record.html) — {len(nodes)} contributions across {len(plan)} pages,",
+        "  each under 20,000 tokens. Plain-text alternate: [record.md](record.md)",
+        f"- [Deficiency register](deficiencies.html) — {defects} defects this project has filed",
+        "  against itself. Read before citing anything.",
+        "- [Prediction registry](predictions.html) — dated claims, scored on fixed dates,",
+        "  published with the reasons the scores are weak evidence.",
+        "- [llms.txt](llms.txt)",
+        "",
+        "Reading, quoting and ingestion are permitted. Corpus CC BY 4.0; code Apache-2.0.",
+        "Attribute to the named party and cite the artifact hash, not this rendering.",
+        "",
+    ])
+
+
+def build_record_toc(plan: list[dict], nodes: list[dict]) -> str:
     """The table of contents. Small on purpose -- it is the routing surface.
 
     Every page is listed with the identities on it and its node ids, so a reader
@@ -969,9 +1081,9 @@ def build_index(plan: list[dict], nodes: list[dict]) -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open ASI Governance Forum — contents</title>
+<title>The record — Open ASI Governance Forum</title>
 <meta name="description" content="Table of contents for the OAGF deliberation record. Every page listed with its contributors and segment ids, so a reader can route without loading the corpus.">
-<link rel="alternate" type="text/markdown" href="index.md">
+<link rel="alternate" type="text/markdown" href="record.md">
 <style>{CSS}
 table{{width:100%;border-collapse:collapse;margin:1rem 0}}
 th,td{{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}}
@@ -1016,15 +1128,15 @@ Reading, quoting and ingestion are permitted under those terms.</p>
 """
 
 
-def build_index_md(plan: list[dict], nodes: list[dict]) -> str:
-    """Plain-text table of contents, the rel="alternate" target for index.html.
+def build_record_md(plan: list[dict], nodes: list[dict]) -> str:
+    """Plain-text table of contents, the rel="alternate" target for record.html.
 
     Declared and then not generated in the first pass of this work, which left a
     dangling rel="alternate" -- a link telling an agent a plain-text version exists
     when none did. Caught by the link check that now runs in the build.
     """
     out = [
-        "# Open ASI Governance Forum — contents",
+        "# The record — Open ASI Governance Forum",
         "",
         f"{len(nodes)} contributions across {len(plan)} pages. No page exceeds 20,000",
         "estimated tokens; the build fails if one does. Search and filters are per page.",
@@ -1094,8 +1206,11 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
 
 
 def build_sitemap(plan: list[dict]) -> str:
-    urls = ["index.html", "deficiencies.html", "deficiencies.md", "llms.txt",
-            "local/index.html"] + [f"{p['slug']}.html" for p in plan]
+    urls = ["index.html", "index.md", "record.html", "record.md",
+            "predictions.html", "predictions.md",
+            "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
+            "local/index.html"]
+    urls += [f"{p['slug']}.html" for p in plan] + [f"{p['slug']}.md" for p in plan]
     base = "https://open-asi-governance.github.io/open-asi-governance-forum/"
     entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in urls)
     return ('<?xml version="1.0" encoding="UTF-8"?>'
@@ -1123,7 +1238,9 @@ def main() -> int:
     # tool's output because this one does not recognise it would be worse than the
     # orphan.
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
-    keep |= {"index.html", "index.md", "llms.txt", "sitemap.xml", ".nojekyll"}
+    keep |= {"index.html", "index.md", "record.html", "record.md",
+             "predictions.html", "predictions.md",
+             "llms.txt", "sitemap.xml", ".nojekyll"}
     for existing in sorted(docs.glob("*")):
         if not existing.is_file() or existing.name in keep:
             continue
@@ -1141,9 +1258,12 @@ def main() -> int:
             build_page_md(page, plan, len(nodes)), encoding="utf-8")
         written += 1
 
-    index = build_index(plan, nodes)
+    toc = build_record_toc(plan, nodes)
+    (docs / "record.html").write_text(toc, encoding="utf-8")
+    (docs / "record.md").write_text(build_record_md(plan, nodes), encoding="utf-8")
+    index = build_landing(plan, nodes)
     OUT.write_text(index, encoding="utf-8")
-    (docs / "index.md").write_text(build_index_md(plan, nodes), encoding="utf-8")
+    (docs / "index.md").write_text(build_landing_md(plan, nodes), encoding="utf-8")
     (docs / "llms.txt").write_text(build_llms_txt(plan, nodes), encoding="utf-8")
     (docs / "sitemap.xml").write_text(build_sitemap(plan), encoding="utf-8")
 
