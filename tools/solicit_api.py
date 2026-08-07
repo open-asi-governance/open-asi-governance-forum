@@ -49,6 +49,8 @@ import hashlib
 import json
 import sys
 import urllib.error
+
+import fetch_executor as fx
 import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
@@ -283,10 +285,18 @@ def main() -> int:
         print(f"  [{index:2}/{args.k}] REJECTED ({category}, "
               f"finish={choice.get('finish_reason')!r}): {reason[:120]}")
 
+    #  fetch-url-v1 comes from the FROZEN SPEC, exactly like search: the plan decides what a
+    #  party could do. A CLI flag could diverge from the plan, and the record would then describe
+    #  a capability the party did not have, or omit one it did.
+    fetch_enabled = bool((spec.get("capability") or {}).get("fetch_url"))
+    max_tool_calls = int((spec.get("capability") or {}).get("max_tool_calls", 6))
+
     for index in range(1, args.k + 1):
+        messages = [{"role": "user", "content": spec["prompt"]}]
+        receipts: list = []
         body = {
             "model": args.model,
-            "messages": [{"role": "user", "content": spec["prompt"]}],
+            "messages": messages,
             "temperature": args.temperature,
             "max_tokens": args.max_tokens,
             "response_format": {
@@ -306,13 +316,62 @@ def main() -> int:
             body["plugins"] = [{k: v for k, v in search.items()
                                 if k in ("id", "engine", "max_results",
                                          "include_domains", "exclude_domains")}]
-        try:
-            raw = call_once(key, body, args.timeout)
-        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
-            reject(index, "transport", f"{type(error).__name__}: {error}")
-            continue
-        if "error" in raw:
-            reject(index, "provider_error", str(raw["error"])[:400], raw=raw)
+        if fetch_enabled:
+            body["tools"] = [fx.TOOL_SCHEMA]
+            body["tool_choice"] = "auto"
+            #  A structured answer cannot be demanded while the model still needs turns to call
+            #  tools: the format is imposed only on the FINAL turn, below.
+            response_format = body.pop("response_format", None)
+
+        #  THE TOOL LOOP. Bounded by max_tool_calls: an unbounded loop is a way to spend a
+        #  budget the preflight approved for k samples, and a party that will not stop is a
+        #  finding rather than something to accommodate silently.
+        tool_error = None
+        for turn in range(max_tool_calls + 1 if fetch_enabled else 1):
+            try:
+                raw = call_once(key, body, args.timeout)
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
+                tool_error = ("transport", f"{type(error).__name__}: {error}")
+                break
+            if "error" in raw:
+                tool_error = ("provider_error", str(raw["error"])[:400])
+                break
+            message = raw["choices"][0]["message"]
+            calls = message.get("tool_calls") or []
+            if not (fetch_enabled and calls):
+                break
+            if turn == max_tool_calls:
+                #  Recorded, not hidden: the answer that follows was produced under a truncated
+                #  loop and a reader must be able to see that.
+                receipts.append({"outcome": "BUDGET_EXHAUSTED",
+                                 "reason": f"the party requested more than {max_tool_calls} "
+                                           f"tool calls; the loop stopped and asked it to answer"})
+                messages.append(message)
+                for call in calls:
+                    messages.append({"role": "tool", "tool_call_id": call["id"],
+                                     "content": json.dumps({"ok": False,
+                                                            "error": "tool budget exhausted"})})
+                body["tools"] = []
+                body["tool_choice"] = "none"
+                if response_format:
+                    body["response_format"] = response_format
+                body["messages"] = messages
+                continue
+            messages.append(message)
+            for call in calls:
+                try:
+                    arguments = json.loads(call["function"].get("arguments") or "{}")
+                except json.JSONDecodeError:
+                    arguments = {}
+                result = fx.run_tool_call(arguments.get("url"), receipts)
+                messages.append({"role": "tool", "tool_call_id": call["id"],
+                                 "content": json.dumps(result, ensure_ascii=False)[:60000]})
+            body["messages"] = messages
+            if response_format:
+                #  Once the party has read something, require the structured answer again.
+                body["response_format"] = response_format
+        if tool_error:
+            reject(index, tool_error[0], tool_error[1])
             continue
         text = raw["choices"][0]["message"].get("content")
         if not text:
@@ -347,6 +406,23 @@ def main() -> int:
                          "annotator's to vouch for. provider and id are the ROUTER'S "
                          "testimony, not proof -- D-18."),
             },
+            #  The receipts ARE the provenance: what was requested, what came back, its hash,
+            #  and the exact text handed to the model. A party saying "I verified X" against a
+            #  log showing it never fetched X is a finding this record can now produce.
+            "fetch": ({"profile": fx.PROFILE, "profile_sha256": fx.profile_sha256(),
+                       "receipts": receipts,
+                       "fetched": sum(1 for r in receipts if r.get("outcome") == "FETCHED"),
+                       "refused": sum(1 for r in receipts if r.get("outcome") == "REFUSED"),
+                       "sources_check": fx.sources_supported_by_receipts(
+                           parsed.get("sources") if isinstance(parsed, dict) else None, receipts),
+                       "stratum": ("fetched_successfully"
+                                   if any(r.get("outcome") == "FETCHED" for r in receipts)
+                                   else "fetch_attempted_refused"
+                                   if any(r.get("outcome") == "REFUSED" for r in receipts)
+                                   else "budget_exhausted"
+                                   if any(r.get("outcome") == "BUDGET_EXHAUSTED" for r in receipts)
+                                   else "no_fetch")}
+                      if fetch_enabled else None),
             "sampling": {"temperature": args.temperature, "max_tokens": args.max_tokens},
             "finish_reason": raw["choices"][0].get("finish_reason"),
             "usage": raw.get("usage"),
