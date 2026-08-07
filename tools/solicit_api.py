@@ -187,7 +187,10 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path,
         "artifact_type": "solicitation_summary",
         "round": args.out_round,
         "slug": spec["slug"],
-        "question": spec["question"],
+        #  .get, not [..]: a proposal cohort's spec has no `question` -- the parties are asked
+        #  to PROPOSE one. This raised KeyError AFTER the samples were collected and paid for,
+        #  losing three arms' summaries while their raw material sat on disk intact.
+        "question": spec.get("question") or spec.get("task"),
         "phase": spec["phase"],
         "k_requested": args.k,
         "k_collected": len(samples),
@@ -334,7 +337,18 @@ def main() -> int:
             try:
                 raw = call_once(key, body, args.timeout)
             except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
-                tool_error = ("transport", f"{type(error).__name__}: {error}")
+                #  READ THE BODY. An HTTPError IS the response, and a bare "HTTP Error 400: Bad
+                #  Request" says only that the provider rejected us -- not what it objected to.
+                #  A whole arm failed 5/5 and the record kept no evidence of WHY, which is the
+                #  same defect as reading `tail -1` of a failing suite: a signal that is not
+                #  causally downstream of the thing it is taken to describe.
+                detail = ""
+                if isinstance(error, urllib.error.HTTPError):
+                    try:
+                        detail = " :: " + error.read().decode("utf-8", "replace")[:600]
+                    except Exception:                             # noqa: BLE001 -- best effort
+                        detail = " :: <body unreadable>"
+                tool_error = ("transport", f"{type(error).__name__}: {error}{detail}")
                 break
             if "error" in raw:
                 tool_error = ("provider_error", str(raw["error"])[:400])

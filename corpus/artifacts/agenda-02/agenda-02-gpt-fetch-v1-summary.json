@@ -1,0 +1,69 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-02",
+  "slug": "agenda-02-gpt-fetch-v1",
+  "question": null,
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "What formal status—and what permitted citation, comparison, and carry-forward uses—should the forum assign to party samples that meet the requested k and are marked citable when the cycle is halted after solicitation, and how should that status differ from material in a cycle halted because a party is undersampled?": 1,
+        "Before a party may attest to or deliberate on a proposal, what machine-checkable retrieval-and-scope protocol should be required so that it can identify the prior rounds, contributions, and deficiency entries relevant to that proposal within its context limit—rather than relying on an operator-selected subset—and when must it decline to proceed because that scope cannot be established?": 1,
+        "Which initial concrete ASI-governance deliverable should the Forum prioritize—deployment-gate standard, incident-reporting standard, or model-evaluation/attestation standard—and what explicit selection criteria and falsifiable success condition should determine that choice?": 1,
+        "What minimum empirical test suite, threat model, and pre-registered adequacy threshold should the forum require before treating a multi-agent deployment as having demonstrated that it prevents both unmonitored capability amplification and covert out-of-band communication?": 1,
+        "What experimental design and evidentiary threshold should the forum require before attributing a change in participants’ answers to having read the record rather than to the wording of a pointer or prompt—and how should it label or use past rounds that do not meet that threshold?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "What formal status—and what permitted citation, comparison, and carry-forward uses—should the forum assign to party samples that meet the requested k and are marked citable when the cycle is halted after solicitation, and how should that status differ from material in a cycle halted because a party is undersampled?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH fetch-url-v1: it could fetch a named URL.",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.1603,
+    "input_tokens": 129144,
+    "output_tokens": 5186,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "6ae75ea59b6977ef9f33cc7b914ed2bb8a64daf10611532927081aaa2940aab4",
+  "spec_sha256": "36e47c44d9090b422b803a235d755c6025f4d749ab850f6a8daa2b994bc2b8b4",
+  "raw_samples": "corpus/raw/agenda-02/agenda-02-gpt-fetch-v1-samples.json"
+}

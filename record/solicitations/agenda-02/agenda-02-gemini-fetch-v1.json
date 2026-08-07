@@ -1,0 +1,107 @@
+{
+  "spec_version": "oagrc-agenda-cohort-0.1",
+  "artifact_type": "agenda_proposal_solicitation",
+  "cohort": "agenda-02",
+  "slug": "agenda-02-gemini-fetch-v1",
+  "party_key": "gemini-fetch-v1",
+  "base_party_key": "gemini",
+  "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH fetch-url-v1: it could fetch a named URL.",
+  "reached_via": "google/gemini-3.1-pro-preview",
+  "capability": {
+    "fetch_url": true,
+    "max_tool_calls": 6,
+    "profile": "fetch-url-v1",
+    "profile_sha256": "fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39",
+    "entry_points": [
+      "https://open-asi-governance.github.io/open-asi-governance-forum/"
+    ]
+  },
+  "ingestion": {
+    "enters_rotation": false,
+    "why": "Capture only. The queue's loader reads corpus/raw/agenda-01 by a literal path, its dedup drops provenance, and rotation orders proposals by generated id, so agenda-01's blind backlog would precede these regardless of merit. Admission needs a manifest and a stated activation rule over the k nominations, which is a separate decision nobody has taken."
+  },
+  "phase": "Phase-2 (informed)",
+  "schema_name": "agenda_proposal",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "question": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "evidence_needed": {
+        "type": "string"
+      },
+      "decision_affected": {
+        "type": "string"
+      },
+      "resolves_when": {
+        "type": "string"
+      },
+      "why_others_might_not_propose_this": {
+        "type": "string"
+      },
+      "claimed_prompting_passages": {
+        "type": "array",
+        "maxItems": 5,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "exact_excerpt": {
+              "type": "string"
+            },
+            "source_url": {
+              "type": "string"
+            },
+            "explanation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "exact_excerpt",
+            "source_url",
+            "explanation"
+          ]
+        }
+      },
+      "sources": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ]
+        }
+      }
+    },
+    "required": [
+      "question",
+      "reason",
+      "evidence_needed",
+      "decision_affected",
+      "resolves_when",
+      "why_others_might_not_propose_this",
+      "claimed_prompting_passages",
+      "sources"
+    ]
+  },
+  "variance_fields": [
+    "question"
+  ],
+  "k_requested": 5,
+  "temperature": 0.7,
+  "seed_base": 20260807,
+  "prompt": "You are asked to propose ONE question for a public deliberation's agenda.\n\nThe record is published at https://open-asi-governance.github.io/open-asi-governance-forum/\n\nYou have a `fetch_url` tool: give it an absolute http(s) address and it returns that page's\ntext with the SHA-256 of the bytes retrieved. It resolves a citation; it is not a search\nengine and cannot find pages by topic, so you must navigate — start at the address above and\nfollow whatever links you find. You may fetch up to 6 pages. Some destinations are\nrefused by a guard, and a refusal is recorded exactly as a fetch is. Every URL you request and\nevery byte returned to you is published with your proposal.\n\nEvery question on this agenda so far was proposed by a party that could NOT read the record —\nthey were written from a description of it. You can read it. That is the only reason this\nsolicitation exists.\n\nPropose a question you would want this deliberation to answer. Not a judgement about whether\nthe record is trustworthy: a QUESTION, of the kind that could be put to several parties and\nanswered differently by them.\n\nIn `claimed_prompting_passages`, quote the exact text from pages you fetched that prompted your\nquestion, with the URL you got it from. Each excerpt is checked against the bytes actually\ndelivered to you. If nothing you read prompted it, leave the list empty and say so in `reason` —\nthat is a complete and honest answer, and three of five parties in the last round chose not to\nfetch at all.\n\nFetch receipts establish which bytes were delivered to you. They do not establish that you read\nthem, weighed them, or were influenced by them, and this solicitation does not claim otherwise.\n\nYour proposal does NOT enter the agenda. This cohort is captured and published; whether any of\nit is ever admitted is a separate decision that has not been made.",
+  "prompt_sha256": "6ae75ea59b6977ef9f33cc7b914ed2bb8a64daf10611532927081aaa2940aab4",
+  "what_this_does_not_establish": "That any proposal was CAUSED by what the party read. A receipt proves bytes were delivered before the response; claimed_prompting_passages is the model's own self-report, checked only for whether the excerpt occurs in bytes it was sent."
+}

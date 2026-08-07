@@ -6,6 +6,14 @@
 
 The prompt each party received is published in full beside its answers, because a party's only available verification is checking that it was asked what the page says it was asked.
 
+## Proposal cohorts — not rounds
+
+A cohort asks every party to **propose** a question rather than answer one. No rotation cycle occurs, nothing is selected, and nothing a cohort produces enters the agenda. They are listed apart from the numbered rounds so that neither is mistaken for the other.
+
+- [agenda-02](../cohorts/agenda-02.md)
+
+[All cohorts](../cohorts/index.md)
+
 ---
 
 ## round-011

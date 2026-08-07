@@ -97,10 +97,36 @@ REPORT_MAX_TOKENS = 12_000
 BUDGET_TOKENS = 1_048_576
 INPUT_CEILING = int(BUDGET_TOKENS * 0.55)          # room for the instruction and the answer
 
+#  REPORT SCHEMA v2. Three fields added at the custodian's request and reshaped in review.
+#
+#  "consensus" was asked for and is NOT the field name, because D-11 records that models invoked
+#  by one operator with one framing produce compatible text whose agreement is substantially
+#  shared prior rather than independent confirmation -- and this corpus has measured a party
+#  holding two incompatible positions under one categorical label. `if_any` in the name, an
+#  explicitly valid negative answer, and mandatory counterexamples are what keep the question
+#  from manufacturing the thing it asks for. Prominence comes from DISPLAY ORDER, not from
+#  stronger epistemic wording.
 SCHEMA = {
     "type": "object",
     "properties": {
         "what_was_asked": {"type": "string"},
+        "areas_of_substantive_overlap_if_any": {"type": "string"},
+        "notable_features_of_the_responses": {
+            "type": "array", "maxItems": 6,
+            "items": {"type": "object", "additionalProperties": False,
+                      "properties": {"observation": {"type": "string"},
+                                     "evidence_in_the_answers": {"type": "string"},
+                                     "why_it_matters_to_interpreting_the_round": {"type": "string"}},
+                      "required": ["observation", "evidence_in_the_answers",
+                                   "why_it_matters_to_interpreting_the_round"]}},
+        "candidate_follow_up_questions": {
+            "type": "array", "maxItems": 4,
+            "items": {"type": "object", "additionalProperties": False,
+                      "properties": {"question": {"type": "string"},
+                                     "why_it_follows_from_this_round": {"type": "string"},
+                                     "alternatives_it_would_distinguish": {"type": "string"}},
+                      "required": ["question", "why_it_follows_from_this_round",
+                                   "alternatives_it_would_distinguish"]}},
         "where_the_parties_differed": {"type": "string"},
         "did_any_party_refuse_or_reject_the_premise": {"type": "string"},
         "what_this_round_did_not_settle": {"type": "string"},
@@ -109,7 +135,9 @@ SCHEMA = {
                                        "enum": ["high", "moderate", "low",
                                                 "cannot_report_from_what_was_shown"]},
     },
-    "required": ["what_was_asked", "where_the_parties_differed",
+    "required": ["what_was_asked", "areas_of_substantive_overlap_if_any",
+                 "notable_features_of_the_responses", "candidate_follow_up_questions",
+                 "where_the_parties_differed",
                  "did_any_party_refuse_or_reject_the_premise",
                  "what_this_round_did_not_settle", "what_a_reader_should_not_conclude",
                  "confidence_in_this_reading"],
@@ -167,40 +195,109 @@ def gather(round_id: str) -> tuple[str, list[dict]]:
                 if payload:
                     answers.append({"sample_index": item.get("sample_index"),
                                     **{k: v for k, v in payload.items() if k != "sources"}})
-        blocks.append({"party": doc.get("contributor", {}).get("identity", doc["slug"]),
-                       "k_collected": doc.get("k_collected"),
-                       "question": doc.get("question"),
-                       "variance": doc.get("variance"),
-                       "every_answer_collected": answers})
+        block = {"party": doc.get("contributor", {}).get("identity", doc["slug"]),
+                 "k_collected": doc.get("k_collected"),
+                 "variance": doc.get("variance"),
+                 "every_answer_collected": answers}
+        #  A cohort has no question PUT to it, and the specs that governed these samples were
+        #  hashed and published before the field existed -- so it reads back as null. Show the
+        #  absence by omitting the key rather than by printing `null`, which invites the reporter
+        #  to treat "no question" as "the question was empty". Rewriting the frozen spec to
+        #  backfill it is not available: its hash is what the published record attests.
+        if doc.get("question"):
+            block["question"] = doc["question"]
+        blocks.append(block)
     if not blocks:
         raise SystemExit(f"REFUSED: {round_id} has no summaries yet")
     return json.dumps(blocks, indent=2, ensure_ascii=False), anchors
 
 
-def build_prompt(round_id: str, material: str) -> str:
-    return f"""You are asked to report on one round of a public deliberation, for readers of the
-record. You are not its moderator and you are not being asked to endorse anything.
+def solicitation_kind(round_id: str) -> dict:
+    """Round or proposal cohort — they are not the same thing and must not be described alike.
 
-Below is the COMPLETE material for {round_id}. Nothing has been selected, excerpted,
-or characterised for you: this is every summary the round produced AND every answer
-each party gave, verbatim. Each block gives a party, how many samples were collected
-from it, the distribution of its categorical answers with entropy, and the full text
-of every one of those answers.
+    A round asks every party ONE question and records how they answered it. A cohort asks every
+    party to PROPOSE a question. Reporting on a cohort with round language would say the parties
+    were asked something they were not, which is the defect this record has now recorded five
+    times: a prompt that misdescribes its own subject.
+    """
+    if round_id.startswith("agenda-"):
+        return {
+            "what": "a proposal cohort",
+            "opening": ("You are asked to report on a PROPOSAL COHORT of a public deliberation, "
+                        "for readers of the record."),
+            "material": ("Each block gives a party, how many samples were collected from it, and "
+                         "every question that party PROPOSED, verbatim. The parties were not "
+                         "asked a question here: they were asked to propose one, having been "
+                         "able to read the record first."),
+            "asked_field": ("`what_was_asked` — what the parties were asked to DO, which was to "
+                            "propose a question, not to answer one."),
+            "differed": ("`where_the_parties_differed` — in what they chose to propose and why: "
+                         "what each treated as the unanswered question, and what that implies "
+                         "about what they attended to."),
+        }
+    return {
+        "what": "one round",
+        "opening": ("You are asked to report on one round of a public deliberation, for readers "
+                    "of the record."),
+        "material": ("Each block gives a party, how many samples were collected from it, the "
+                     "distribution of its categorical answers with entropy, and the full text of "
+                     "every one of those answers."),
+        "asked_field": "`what_was_asked` — the question put to every party.",
+        "differed": "`where_the_parties_differed` — in substance, not in label.",
+    }
+
+
+def build_prompt(round_id: str, material: str) -> str:
+    kind = solicitation_kind(round_id)
+    return f"""{kind['opening']} You are not its moderator and you are not being asked to endorse
+anything.
+
+Below is the COMPLETE material for {round_id}, which is {kind['what']}. Nothing has
+been selected, excerpted, or characterised for you: this is every summary it produced
+AND everything each party returned, verbatim. {kind['material']}
 
 A shared categorical label is a shape, not agreement: this corpus has measured a
 party holding two incompatible positions under one label. Read the answers.
 
 {material}
 
-Write a report a reader can use. Say what was asked, WHERE THE PARTIES DIFFERED, and
-whether any party refused or rejected the premise. Then say what the round did not
-settle, and what a reader should not conclude from it.
+Write a report a reader can use.
+
+{kind['asked_field']}
+
+`areas_of_substantive_overlap_if_any` — report substantive overlap, if any, found in the
+ANSWER TEXT. Scope each claim to the parties or samples that support it, and state
+material counterexamples or qualifications. "No substantive overlap was established"
+is a valid and complete answer. Do NOT infer overlap from categorical labels, shared
+vocabulary, common premises, or a majority count, and do not treat overlap as
+independent confirmation: these parties share training corpora and were given one
+framing by one operator.
+
+`notable_features_of_the_responses` — what is worth noticing in HOW they answered:
+reasoning that recurred, an argument only one party made, a party contradicting itself
+across its own samples, a difference in what they treated as evidence. Each needs the
+evidence in the answers that supports it. Do not praise anyone, do not recommend what
+this project should do, do not attribute motives, and do not make claims about a
+model's capability beyond the answers shown.
+
+`candidate_follow_up_questions` — questions this round makes askable. For each, say
+what live alternatives it would DISTINGUISH and what different answers would indicate.
+A question rarely settles anything by itself. These are suggestions from an external
+reporting model; they are not agenda items and nothing adds them to the agenda.
+
+Then say {kind['differed']}, whether any party refused or rejected the premise, what
+this did not settle, and what a reader should not conclude.
+
+EVERY FIELD MUST STAND ALONE. Do not write "see_below", "as above", or answer one field
+inside another: a previous report returned `see_below` for its central field and it was
+published exactly as returned.
 
 If the material shown is not enough to report from, say so in
 `confidence_in_this_reading` and explain what is missing. That is a complete answer.
 
-You are one party reading one round. Your report is published as that, beside the
-summaries it was written from, and it is not the record's account of itself."""
+You are an external reporting model reading {kind['what']}. Your report is published as
+that, beside the material it was written from, and it is not the record's account of
+itself."""
 
 
 def main(argv) -> int:
@@ -228,7 +325,7 @@ def main(argv) -> int:
 
     spec = {
         "slug": f"{args.round}-report", "identity": REPORTER_IDENTITY,
-        "contribution_class": "CONTRIBUTION — one party's report on one round",
+        "contribution_class": "CONTRIBUTION — an external reporting model's report on one round",
         "contribution_class_note": ("Written by a party that is NOT the moderator, because a "
                                     "consulted party made unilateral synthesis by the conflicted "
                                     "moderator a condition of declining. Not a consensus, not a "
@@ -264,8 +361,8 @@ def main(argv) -> int:
     if result.returncode != 0:
         print("REFUSED: the report was not collected. Nothing published.")
         return 1
-    print(f"\n  report collected for {args.round}. Published as ONE PARTY'S READING,")
-    print("  beside the summaries it was written from. The moderator does not edit it.")
+    print(f"\n  report collected for {args.round}. Published as an EXTERNAL REPORTING MODEL'S")
+    print("  reading, beside the summaries AND answers it was written from. Not edited.")
     return 0
 
 

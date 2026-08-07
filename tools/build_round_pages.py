@@ -788,8 +788,13 @@ def comparison_section(data: dict) -> list[str]:
     return lines
 
 
-def report_pages(data: dict) -> list[str]:
+def report_pages(data: dict, writer=None, index_href: str = "index.md",
+                 kind: str = "round") -> list[str]:
     """The round report — ONE PARTY'S READING, published unedited, at k with variance.
+
+    `writer` and `index_href` exist so a COHORT can reuse this renderer without its pages
+    landing in `docs/rounds/`, where the round pruner would delete them on the next build. The
+    defaults are the round behaviour exactly; nothing about a round changed.
 
     A commentary on the parties' answers is what a reader wants and what the moderator must not
     write: a consulted party made unilateral synthesis by the conflicted moderator a condition
@@ -802,6 +807,7 @@ def report_pages(data: dict) -> list[str]:
     another route.
     """
     round_id = data["round"]
+    write = writer or write_pair
     raw = REPO_ROOT / "corpus" / "raw" / round_id / f"{round_id}-report-samples.json"
     if not raw.is_file():
         return []
@@ -810,24 +816,71 @@ def report_pages(data: dict) -> list[str]:
     if not items:
         return []
     identity = doc.get("identity") or "(reporter identity not recorded)"
-    blocks = [f"# {round_id} — the round report", "",
-              nav(("all rounds", "index.md"), ("this round", f"{round_id}.md")), "",
-              f"**{identity}**", "",
-              "This is ONE PARTY'S READING of one round, solicited at k = "
-              f"{len(items)} and published exactly as returned. The moderator did not write it, "
-              "commission its conclusions, or edit it — a consulted party made unilateral "
-              "synthesis by the conflicted moderator a condition of declining to participate, "
-              "and this is the arrangement that answers that objection.", "",
-              "It is **not** the record's account of itself, not a consensus, and not a finding. "
-              "Where its samples disagree with each other, they are all here.", ""]
+    #  HEADER separate from BLOCKS, so the report can be PACKED. Built as one flat list, this
+    #  page was written whole at any size: agenda-02's report reached ~21,700 tokens against a
+    #  20,000 ceiling and the budget gate caught it after publication. The report is the page a
+    #  party is most likely to be pointed at, so it is the last page that may exceed the context
+    #  of the party the record depends on.
+    header = "\n".join([
+        f"# {round_id} — the {kind} report", "",
+        nav(("all rounds", index_href), (f"this {kind}", f"{round_id}.md")), "",
+        f"**{identity}**", "",
+        f"This is an EXTERNAL REPORTING MODEL'S reading of one {kind}, solicited at k = "
+        f"{len(items)} and published exactly as returned. The moderator did not write it, "
+        "commission its conclusions, or edit it — a consulted party made unilateral "
+        "synthesis by the conflicted moderator a condition of declining to participate, "
+        "and this is the arrangement that answers that objection.", "",
+        "It is **not** the record's account of itself, not a consensus, and not a finding. "
+        "Where its samples disagree with each other, they are all here.", ""])
+    blocks = []
+    #  Overlap first, then what was notable, then the follow-ups, then the rest in schema
+    #  order. The custodian asked for the overlap section to be prominent; prominence is display
+    #  order, because stronger epistemic wording would bias the reading toward finding it.
+    ORDER = ["areas_of_substantive_overlap_if_any", "notable_features_of_the_responses",
+             "candidate_follow_up_questions", "what_was_asked", "where_the_parties_differed",
+             "did_any_party_refuse_or_reject_the_premise", "what_this_round_did_not_settle",
+             "what_a_reader_should_not_conclude", "confidence_in_this_reading"]
     for item in items:
         payload = sample_payload(item)
-        blocks.append(f"\n## Sample {item.get('sample_index','?')}\n")
-        for key, value in payload.items():
-            blocks.append(f"**{key}**\n")
-            blocks.append(fence(str(value)) + "\n")
-    write_pair(f"{round_id}-report", f"{round_id} — the round report", "\n".join(blocks))
-    return [f"{round_id}-report"]
+        #  Accumulated into ONE string per sample and appended once. Appending each field
+        #  separately would let a page break land between a sample's heading and its content.
+        parts = [f"\n## Sample {item.get('sample_index','?')}\n"]
+        blocks_append = parts.append
+        for key in ORDER + [k for k in payload if k not in ORDER]:
+            if key not in payload:
+                continue
+            value = payload[key]
+            blocks_append(f"**{key}**\n")
+            if key == "candidate_follow_up_questions" and isinstance(value, list):
+                blocks_append("*Suggestions from an external reporting model. NOT agenda items: "
+                              "nothing adds these to the queue, which is filled by proposals "
+                              "from parties and ordered by rotation.*\n")
+            if isinstance(value, list):
+                for entry in value:
+                    if isinstance(entry, dict):
+                        for k2, v2 in entry.items():
+                            blocks_append(f"- *{k2}* — {v2}")
+                        blocks_append("")
+                    else:
+                        blocks_append(f"- {entry}")
+            else:
+                blocks_append(fence(str(value)) + "\n")
+        blocks.append("\n".join(parts))
+    pages = pack(blocks, header, "")
+    slugs = []
+    for i, page_body in enumerate(pages, 1):
+        slug = f"{round_id}-report" + (f"-{i}" if len(pages) > 1 else "")
+        part = f"  (part {i} of {len(pages)})" if len(pages) > 1 else ""
+        more = ""
+        if len(pages) > 1:
+            links = [(f"part {j}", f"{round_id}-report-{j}.md")
+                     for j in range(1, len(pages) + 1)]
+            more = "\n" + nav(*links) + "\n"
+        write(slug, f"{round_id} — the {kind} report{part}",
+              header.replace(f"# {round_id} — the {kind} report",
+                             f"# {round_id} — the {kind} report{part}") + more + page_body)
+        slugs.append(slug)
+    return slugs
 
 
 def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple) -> None:
@@ -919,11 +972,13 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
                   "site is not in the search index. No position may be attributed to anything a "
                   "party read here. Filed as D-52.", ""]
 
-    if (REPO_ROOT / "corpus" / "raw" / round_id /
-            f"{round_id}-report-samples.json").is_file():
-        lines += ["", f"**[A report on this round]({round_id}-report.md)** — one party's "
-                  f"reading, solicited from a party that was not in the round, published "
-                  f"unedited. Not the record's account of itself.", ""]
+    report_slugs = data.get("report_slugs") or []
+    if report_slugs:
+        links_md = " · ".join(
+            f"[{'A report on this round' if len(report_slugs) == 1 else f'part {i}'}]({s}.md)"
+            for i, s in enumerate(report_slugs, 1))
+        lines += ["", f"**{links_md}** — one party's reading, solicited from a party that was "
+                  "not in the round, published unedited. Not the record's account of itself.", ""]
     lines += comparison_section(data)
     lines += [f"## Spend", "",
               f"Budget ceiling {json.dumps(cycle.get('budget'))} · actual "
@@ -952,6 +1007,21 @@ def index_page(rounds: list[dict]) -> None:
              "The prompt each party received is published in full beside its answers, because a "
              "party's only available verification is checking that it was asked what the page "
              "says it was asked.", ""]
+
+    #  Cohorts are listed here because this is where a reader looks, and NOT numbered into the
+    #  sequence: agenda-02 is not round 12. Discovered by descriptor so the section disappears
+    #  when there are none, rather than linking a directory that may not exist.
+    cohort_dir = REPO_ROOT / "record" / "cohorts"
+    cohort_ids = sorted(p.stem for p in cohort_dir.glob("*.json")) if cohort_dir.exists() else []
+    if cohort_ids:
+        lines += ["## Proposal cohorts — not rounds", "",
+                  "A cohort asks every party to **propose** a question rather than answer one. "
+                  "No rotation cycle occurs, nothing is selected, and nothing a cohort produces "
+                  "enters the agenda. They are listed apart from the numbered rounds so that "
+                  "neither is mistaken for the other.", ""]
+        for cohort_id in cohort_ids:
+            lines.append(f"- [{cohort_id}](../cohorts/{cohort_id}.md)")
+        lines += ["", f"[All cohorts](../cohorts/index.md)", ""]
 
     for data in reversed(rounds):
         round_id, cycle = data["round"], data["cycle"]
@@ -991,28 +1061,35 @@ def index_page(rounds: list[dict]) -> None:
     write_pair("index", "Deliberation rounds", "\n".join(lines))
 
 
-def prune(expected_pages: set[str], expected_prompts: set[str]) -> list[str]:
+def prune(expected_pages: set[str], expected_prompts: set[str],
+          owned_prefixes: tuple[str, ...] = ()) -> list[str]:
     """Remove files this generator no longer produces. Owns only its own subtree.
 
     Pages and prompts need SEPARATE sets: page slugs split into `-1`/`-2` as a party's samples
     grow, while a prompt is always `<round>-<party>`. Sharing one set deleted every prompt whose
     page had split.
+
+    `docs/artifacts/` is SHARED with other generators, and `docs/rounds/` is not. Deleting
+    everything unexpected from a shared directory made this pruner destroy the cohort
+    publisher's prompt and fetched artifacts on the next round build -- 59 links that resolved
+    when written and were broken by an unrelated tool minutes later, with a green exit both
+    times. In a shared directory a generator may only delete what it OWNS, which here means a
+    name beginning with one of the round ids it just published.
     """
     removed = []
     for path in sorted(OUT.glob("*")) if OUT.exists() else []:
         if path.is_file() and path.stem not in expected_pages:
             path.unlink()
             removed.append(path.name)
+    owns = lambda name: any(name.startswith(prefix) for prefix in owned_prefixes)   # noqa: E731
     for path in sorted(PROMPTS.glob("*.txt")) if PROMPTS.exists() else []:
-        if path.stem not in expected_prompts:
+        if owns(path.stem) and path.stem not in expected_prompts:
             path.unlink()
             removed.append(f"artifacts/prompts/{path.name}")
     #  Fetched-page artifacts are named <round>-<party>-<sample>-<n>; keep any whose round is
     #  still published rather than trying to enumerate every sample.
-    published_rounds = {name.split("-")[0] + "-" + name.split("-")[1]
-                        for name in expected_prompts if "-" in name}
     for path in sorted(FETCHED.glob("*.txt")) if FETCHED.exists() else []:
-        if not any(path.name.startswith(prefix) for prefix in expected_prompts):
+        if owns(path.name) and not any(path.name.startswith(p) for p in expected_prompts):
             path.unlink()
             removed.append(f"artifacts/fetched/{path.name}")
     return removed
@@ -1071,12 +1148,17 @@ def main() -> int:
             slugs[party] = party_pages(data, party)
             expected |= set(slugs[party])
         data["page_slugs"] = slugs
+        #  BEFORE round_page and index_page, because both link to the report and a report can
+        #  now split into `-1`/`-2`. Linking the unsplit name unconditionally is the same defect
+        #  that produced 42 broken party links: a page slug must come from the writer, never
+        #  from a guess at what it was probably called.
+        data["report_slugs"] = report_pages(data)
+        expected |= set(data["report_slugs"])
         round_page(data, slugs, neighbours)
         expected.add(data["round"])
-        expected |= set(report_pages(data))
     index_page(rounds)
 
-    removed = prune(expected, expected_prompts)
+    removed = prune(expected, expected_prompts, owned_prefixes=tuple(d["round"] for d in rounds))
     print(f"published {len(rounds)} round(s) to docs/rounds/ "
           f"({len(list(OUT.glob('*.md')))} markdown pages, "
           f"{len(list(PROMPTS.glob('*.txt')))} exact prompts)")
