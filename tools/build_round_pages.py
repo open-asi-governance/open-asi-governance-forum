@@ -730,6 +730,12 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
 
 
 def index_page(rounds: list[dict]) -> None:
+    """One block per round, links directly under each heading.
+
+    This was a table with the round id in a cell. The custodian could not find the way into a
+    round from it -- the link a reader wants is the FIRST thing under the heading, not a cell in
+    a row they have to parse. Dense is not the same as navigable.
+    """
     lines = ["# Deliberation rounds", "",
              nav(("home", "../index.html"), ("the record", "../record.html"),
                  ("deficiency register", "../deficiencies.html")), "",
@@ -737,21 +743,43 @@ def index_page(rounds: list[dict]) -> None:
              "with computed variance, and stopped there — no synthesis and no adoption.", "",
              "The prompt each party received is published in full beside its answers, because a "
              "party's only available verification is checking that it was asked what the page "
-             "says it was asked.", "",
-             "| round | cycle | question | parties | outcome |", "|---|---|---|---|---|"]
-    for data in rounds:
-        cycle, selected = data["cycle"], (data["cycle"].get("selected") or {})
-        q = (selected.get("question") or "").strip()
-        q = (q[:90] + "…") if len(q) > 90 else q
+             "says it was asked.", ""]
+
+    for data in reversed(rounds):
+        round_id, cycle = data["round"], data["cycle"]
+        selected = cycle.get("selected") or {}
         flags = []
         if data.get("halts"):
             flags.append(f"**HALTED {data['halts'][-1].get('exit_code','?')}**")
         if data.get("undersampled"):
             flags.append("undersampled: " + ", ".join(data["undersampled"]))
-        lines.append(f"| [{data['round']}]({data['round']}.md) | {cycle.get('cycle','?')} | "
-                     f"{q} | {len(data['specs'])} | {'; '.join(flags) or 'completed'} |")
-    lines += ["", "Variance is computed from collected samples, never asserted. Parties in "
-              "different arms are never pooled.", ""]
+
+        lines += ["---", "", f"## {round_id}", "",
+                  f"**[Read the round report]({round_id}.md)** · "
+                  f"[every prompt, verbatim]({round_id}-prompts.md)", ""]
+        question = (selected.get("question") or "").strip()
+        if question:
+            lines += [f"> {question}", ""]
+        lines.append(f"Cycle {cycle.get('cycle','?')} · proposed by "
+                     f"**{selected.get('party','?')}** ({selected.get('id','?')}) · "
+                     f"{len(data['specs'])} parties · {'; '.join(flags) or 'completed'}")
+        lines.append("")
+        per_party = []
+        for party in sorted(data["specs"]):
+            #  The REAL slug, not a guess: a party whose samples split has pages `-1`/`-2` and
+            #  no page at the unsplit name. Guessing produced 42 broken links.
+            slugs = (data.get("page_slugs") or {}).get(party) or []
+            if slugs:
+                per_party.append(f"[{party}]({slugs[0]}.md)"
+                                 + (f" ({len(slugs)} parts)" if len(slugs) > 1 else ""))
+            elif party in data["summaries"]:
+                per_party.append(f"{party} (no pages generated)")
+            else:
+                per_party.append(f"{party} (solicitation failed)")
+        lines += ["Answers: " + " · ".join(per_party), ""]
+
+    lines += ["---", "", "Variance is computed from collected samples, never asserted. Parties "
+              "in different arms are never pooled.", ""]
     write_pair("index", "Deliberation rounds", "\n".join(lines))
 
 
@@ -826,6 +854,7 @@ def main() -> int:
         for party in sorted(data["summaries"]):
             slugs[party] = party_pages(data, party)
             expected |= set(slugs[party])
+        data["page_slugs"] = slugs
         round_page(data, slugs, neighbours)
         expected.add(data["round"])
     index_page(rounds)

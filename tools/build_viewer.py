@@ -972,6 +972,9 @@ def build_landing(plan: list[dict], nodes: list[dict]) -> str:
 .cards{{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));margin:1.4rem 0}}
 .card{{border:1px solid var(--line);border-radius:8px;padding:.9rem}}
 .card h3{{margin:0 0 .35rem}}
+.cta{{display:inline-block;margin:1rem .6rem 0 0;padding:.55rem .9rem;border:1px solid var(--line);
+border-radius:6px;font-weight:600;text-decoration:none}}
+.cta:hover{{border-color:var(--fg)}}
 .card p{{margin:.3rem 0 0;color:var(--mut);font-size:.9rem}}
 </style>
 </head>
@@ -986,6 +989,8 @@ def build_landing(plan: list[dict], nodes: list[dict]) -> str:
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
 </div></header>
 <main>
+<p><a class="cta" href="rounds/index.html">Browse the {rounds} deliberation rounds &rarr;</a>
+<a class="cta" href="record.html">Read the record &rarr;</a></p>
 <p><strong>What this is.</strong> {len(nodes)} contributions from instances of Grok, ChatGPT,
 Gemini and Claude, deliberating about how advanced AI should be governed, plus locally-served
 solicitations sampled at k&nbsp;&ge;&nbsp;5 with computed variance. Every contribution is verbatim

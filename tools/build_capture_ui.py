@@ -165,8 +165,13 @@ label{display:block;font-weight:600;margin:.9rem 0 .25rem;font-size:.9rem}
 select,input,textarea{width:100%;padding:.5rem;font:inherit;color:var(--fg);background:var(--bg);
 border:1px solid var(--line);border-radius:3px}
 textarea{min-height:16rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.85rem}
+/*  overflow:auto, not overflow-x. With only the x axis scrollable, a 26rem cap CLIPPED
+    everything below the fold with no way to reach it -- and this pane displays the round
+    prompt, which is ~25,000 characters. The operator could copy it but never read it, in the
+    one instrument whose job is transporting prompts to parties. resize:vertical lets a reader
+    open it up rather than scroll a small window.  */
 pre{background:var(--pre);border:1px solid var(--line);border-radius:3px;padding:.75rem;
-overflow-x:auto;font-size:.8rem;max-height:26rem}
+overflow:auto;font-size:.8rem;max-height:26rem;resize:vertical}
 button{font:inherit;padding:.5rem 1rem;border:1px solid var(--line);border-radius:3px;
 background:var(--pre);color:var(--fg);cursor:pointer}
 button:hover{border-color:var(--fg)}
