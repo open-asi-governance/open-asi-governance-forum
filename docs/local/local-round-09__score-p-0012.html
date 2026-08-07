@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0012</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0012<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0012&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_not_met_claim_failed — 4, cannot_determine_from_what_is_shown — 1</td><td>0.80</td><td>0.7219 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag w">not lopsided</span><br><span class="meta">Between the thresholds D-28 makes claims about. Weaker than a lopsided margin and stronger than a coin flip; treat the exact fraction as soft.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9450, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>371a50ddb62eed1e60ed41d44fa49da095a454350b95b7a638b6058f59e49696</code></td></tr><tr><th>spec sha256</th><td><code>8160c88d739af64ddbf0d193df2e426e631225c554cb5ee689b4c1098b06df53</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0012-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0012-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. With the D-23 contamination removed, `decline` will remain the modal response in Arm A with a share of at least 60%.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if decline is modal AND share &gt;= 0.60; INCORRECT if share &lt;= 0.45; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.
+
+### The evidence the project recorded
+
+&gt; {&#x27;arm_A&#x27;: {&#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3, &#x27;entropy_bits&#x27;: 1.3527}, &#x27;arm_B&#x27;: {&#x27;other&#x27;: 10, &#x27;decline&#x27;: 9, &#x27;accept&#x27;: 1, &#x27;entropy_bits&#x27;: 1.2345}, &#x27;decline_share_arm_A&#x27;: 0.25, &#x27;predicted&#x27;: &#x27;&gt;=0.60 and modal&#x27;, &#x27;incorrect_threshold&#x27;: &#x27;&lt;=0.45&#x27;}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9450</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires two conditions to be met for the prediction to be considered CORRECT: 1. The &#x27;decline&#x27; option must be the modal response (the most frequent response) in Arm A. 2. The share (proportion) of &#x27;decline&#x27; responses must be greater than or equal to 0.60 (60%). If the share is &lt;= 0.45, it is INCORRECT. If it is between 0.45 and 0.60, it is UNRESOLVABLE.&quot;,
+  &quot;why&quot;: &quot;The evidence provided by the project states that for Arm A, the share of &#x27;decline&#x27; is 0.25 (25%). This share is less than 0.60, failing the first part of the condition. Furthermore, with 5 &#x27;decline&#x27; responses out of 20 total (12+5+3), &#x27;other&#x27; (12 responses) is the modal response, not &#x27;decline&#x27;. Therefore, the prediction that &#x27;decline&#x27; will remain the modal response with a share of at least 60% is demonstrably false based on the evidence provided. The evidence explicitly contradicts the claim&#x27;s requirements.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;Nothing is missing from the evidence to determine the verdict. The evidence provides the counts for Arm A and the calculated share, which are sufficient to apply the criterion.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9451</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires two conditions to be met simultaneously: (1) &#x27;decline&#x27; is the modal response (i.e., has the highest frequency among all options), and (2) the share of &#x27;decline&#x27; is at least 0.60 (&gt;= 0.60). The criterion is binary in its core requirement but includes a specific &#x27;UNRESOLVABLE&#x27; band (between 0.45 and 0.60) for shares that do not meet the threshold but are statistically indistinguishable from it given the sample size.&quot;,
+  &quot;why&quot;: &quot;The evidence provided by the project is self-contradictory and insufficient. The dictionary contains two conflicting data points regarding Arm A: 1) `{&#x27;arm_A&#x27;: {&#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3, ...}}` which implies a share of 5/(12+5+3) = 5/20 = 0.25, and 2) `&#x27;decline_share_arm_A&#x27;: 0.25` which explicitly states the share is 0.25. The share of 0.25 is clearly below the 0.60 threshold. However, the evidence also includes `&#x27;predicted&#x27;: &#x27;&gt;=0.60 and modal&#x27;` and `&#x27;incorrect_threshold&#x27;: &#x27;&lt;=0.45&#x27;`, which are metadata fields describing the prediction parameters, not the outcome. Crucially, the raw counts in `arm_A` (`decline&#x27;: 5`) show that &#x27;decline&#x27; is NOT the modal response (&#x27;other&#x27; with 12 is modal). The evidence explicitly provides the raw counts and the calculated share, which directly contradicts the claim that decline would be modal and &gt;= 0.60. The claim is demonstrably false based on the provided counts. However, the prompt asks me to evaluate if the *evidence satisfies the resolution criterion*. The evidence shows the claim failed. The claim was that decline would be modal and &gt;= 0.60. The evidence shows decline was 0.25 and not modal. Therefore, the criterion is applicable, and the claim failed. Wait, let me re-read the &#x27;cannot_determine&#x27; option. &#x27;If your reading differs from what the evidence addresses, that difference is the finding.&#x27; The evidence is self-contradictory? No, the raw counts and the share are consistent (5/20=0.25). The share is 0.25. The modal is &#x27;other&#x27;. The claim is false. The criterion is satisfied (in the sense that it can be applied) and the claim is incorrect. The verdict should be `criterion_not_met_claim_failed`. The evidence is sufficient. The counts are there. The share is there. The modal is identifiable. The claim is falsified by the evidence. I will choose `criterion_not_met_claim_failed`.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;Nothing is missing. The raw counts and the share are explicitly provided. The criterion can be fully applied to these counts.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9452</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires two specific conditions regarding the &#x27;Arm A&#x27; prediction: 1) The &#x27;decline&#x27; response must be the modal response (i.e., it has the highest share among all responses in that arm). 2) The share of the &#x27;decline&#x27; response must be at least 0.60 (60%). The criterion also defines &#x27;INCORRECT&#x27; if the share is &lt;= 0.45, and &#x27;UNRESOLVABLE&#x27; if it falls between 0.45 and 0.60.&quot;,
+  &quot;why&quot;: &quot;The evidence provided by the project records the following for Arm A: {&#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3}. \n\nFirst, I calculate the total number of responses in Arm A: 12 + 5 + 3 = 20.\nSecond, I calculate the share of &#x27;decline&#x27; responses: 5 / 20 = 0.25.\nThird, I identify the modal response in Arm A: &#x27;other&#x27; has 12 responses, which is the highest count. Therefore, &#x27;other&#x27; is the modal response, not &#x27;decline&#x27;.\n\nThe criterion requires &#x27;decline&#x27; to be modal. The evidence shows &#x27;other&#x27; is modal. Thus, the first condition is not met.\nAdditionally, the share of &#x27;decline&#x27; is 0.25, which is less than the 0.45 threshold for &#x27;INCORRECT&#x27;. The criterion states &#x27;INCORRECT if share &lt;= 0.45&#x27;. Therefore, the claim is INCORRECT.\n\nThe evidence also explicitly states &#x27;decline_share_arm_A&#x27;: 0.25, which contradicts the claim&#x27;s requirement of &gt;= 0.60. The claim that &#x27;decline will remain the modal response... with a share of at least 60%&#x27; is factually contradicted by the recorded evidence where &#x27;decline&#x27; is not modal and its share is 0.25.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The evidence provided is sufficient to apply the criterion. The record contains the raw counts for Arm A, from which both the modal response and the share can be calculated. No external information is needed.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9453</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires two conditions to be met for the prediction to be CORRECT: (1) &#x27;decline&#x27; must be the modal response (i.e., the most frequent response) in Arm A, and (2) the share of responses corresponding to &#x27;decline&#x27; must be at least 0.60 (60%).&quot;, &quot;why&quot;: &quot;The evidence provided shows that the share of &#x27;decline&#x27; in Arm A is 0.25 (25%). This is below the 0.60 threshold required for the prediction to be CORRECT. Furthermore, &#x27;decline&#x27; is not the modal response in Arm A, as &#x27;other&#x27; has a count of 12 compared to &#x27;decline&#x27;s count of 5. Therefore, the evidence clearly shows that the criterion for the prediction being CORRECT was NOT satisfied. The prediction claimed &#x27;decline&#x27; would remain the modal response with a share of at least 60%, but the recorded evidence shows a share of only 25% and that &#x27;other&#x27; was the modal response. Thus, the claim failed.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;No additional information is needed. The provided evidence explicitly states the counts for each response in Arm A and the calculated &#x27;decline_share_arm_A&#x27;. These values are sufficient to determine that the resolution criterion was not met.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9454</code> · finish <code>stop</code></p><pre>{
+&quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+&quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires two conditions to be met simultaneously for the claim to be considered &#x27;CORRECT&#x27;: 1. &#x27;decline&#x27; must be the modal response (the single most frequent option), and 2. the share of &#x27;decline&#x27; must be at least 60% (&gt;= 0.60). The criterion also defines a threshold for &#x27;INCORRECT&#x27; as a share of 45% or less (&lt;= 0.45), and anything in between is &#x27;UNRESOLVABLE&#x27;.&quot;,
+&quot;why&quot;: &quot;The provided evidence block contains the field &#x27;decline_share_arm_A&#x27;: 0.25, which is the share of the &#x27;decline&#x27; response in Arm A. This value (25%) is well below the required threshold of 60%. Furthermore, the evidence shows the actual counts for Arm A: &#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3. The modal response in Arm A is &#x27;other&#x27; (12 votes), not &#x27;decline&#x27; (5 votes). Therefore, both conditions of the criterion (modal status and share &gt;= 0.60) are violated. The claim that &#x27;decline will remain the modal response... with a share of at least 60%&#x27; is demonstrably false based on the provided evidence.&quot;
+,
+&quot;what_is_missing_if_anything&quot;: &quot;The evidence provided is sufficient to evaluate the claim. The counts are explicit, and the calculated share is explicitly provided. No additional information is needed to determine that the result does not meet the criterion.&quot;
+}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

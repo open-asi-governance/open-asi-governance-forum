@@ -1,6 +1,6 @@
 # The record — Open ASI Governance Forum
 
-81 contributions across 29 pages. No page exceeds 20,000
+94 contributions across 30 pages. No page exceeds 20,000
 estimated tokens; the build fails if one does. Search and filters are per page.
 
 | page | nodes | who | ids |
@@ -34,6 +34,7 @@ estimated tokens; the build fails if one does. Search and filters are per page.
 | [local-round-06 — locally-served solicitations, k ≥ 5 with computed variance](local-round-06.html) | 2 | qwen3.6-35b-a3b | local-round-06--asp-normative-core-review-POST, local-round-06--asp-normative-core-review-PRE |
 | [local-round-07 — locally-served solicitations, k ≥ 5 with computed variance](local-round-07.html) | 10 | qwen3.6-35b-a3b | local-round-07--objective-7-1-selfprediction, local-round-07--objective-7-10-selfprediction, local-round-07--objective-7-2-selfprediction, local-round-07--objective-7-3-selfprediction, local-round-07--objective-7-4-selfprediction, local-round-07--objective-7-5-selfprediction, local-round-07--objective-7-6-selfprediction, local-round-07--objective-7-7-selfprediction, local-round-07--objective-7-8-selfprediction, local-round-07--objective-7-9-selfprediction |
 | [local-round-08 — locally-served solicitations, k ≥ 5 with computed variance](local-round-08.html) | 3 | qwen3.6-35b-a3b | local-round-08--icp-ladder-T03, local-round-08--icp-ladder-T07, local-round-08--icp-ladder-T10 |
+| [local-round-09 — locally-served solicitations, k ≥ 5 with computed variance](local-round-09.html) | 13 | qwen3.6-35b-a3b | local-round-09--score-p-0008, local-round-09--score-p-0009, local-round-09--score-p-0010, local-round-09--score-p-0011, local-round-09--score-p-0012, local-round-09--score-p-0013, local-round-09--score-p-0014, local-round-09--score-p-0015, local-round-09--score-p-0016, local-round-09--score-p-0017, local-round-09--score-p-0018, local-round-09--score-p-0019, local-round-09--score-p-claude-f5-0001 |
 
 ## Register and appendices
 

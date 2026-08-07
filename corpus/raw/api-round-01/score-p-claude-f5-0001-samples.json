@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-claude-f5-0001",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-claude-f5-0001.json",
+  "spec_sha256": "cf1029e57da3c79ce5a6b2e377a25da4701f9809976a71b0e0d4a9c702e07659",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:34:35Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It calls for inspecting the repository on 2027-02-05 to verify that, by then, there is at least one committed change to either deficiencies.md or asp-v0.1.md that is attributable to a non-Anthropic model and contains a correction identifying a particular error with a file/line reference.",
+        "why": "The supplied block is an interested party's retrospective assertion, not the specified repository inspection or its underlying evidence. It says that Grok and ChatGPT reviews found errors and that corrections were committed, but does not show the relevant commits, their dates, the changed file contents, provenance establishing model authorship, or the actual file/line references required by the claim. Moreover, citing a section or deficiency ID is not necessarily a file/line reference as written in the prediction.",
+        "what_is_missing_if_anything": "Repository evidence as of the resolution date: commit identifiers and timestamps; diffs or file contents showing corrections in the named files; the review material tying the correction to a non-Anthropic model; and the specific file/line reference identifying the corrected error."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It calls for inspecting the repository on 2027-02-05 to verify that, by then, there is at least one committed change to either deficiencies.md or asp-v0.1.md that is attributable to a non-Anthropic model and contains a correction identifying a particular error with a file/line reference.\",\"why\":\"The supplied block is an interested party's retrospective assertion, not the specified repository inspection or its underlying evidence. It says that Grok and ChatGPT reviews found errors and that corrections were committed, but does not show the relevant commits, their dates, the changed file contents, provenance establishing model authorship, or the actual file/line references required by the claim. Moreover, citing a section or deficiency ID is not necessarily a file/line reference as written in the prediction.\",\"what_is_missing_if_anything\":\"Repository evidence as of the resolution date: commit identifiers and timestamps; diffs or file contents showing corrections in the named files; the review material tying the correction to a non-Anthropic model; and the specific file/line reference identifying the corrected error.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084468-tH5Qc8SP5WKrAGpuqtGG",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 642,
+        "completion_tokens": 425,
+        "total_tokens": 1067,
+        "cost": 0.00798,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00798,
+          "upstream_inference_prompt_cost": 0.001605,
+          "upstream_inference_completions_cost": 0.006375
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 172,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:34:43Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "On 2027-02-05, inspect the repository and verify whether it contains at least one committed correction to deficiencies.md or asp-v0.1.md that was authored by a non-Anthropic model and identifies a specific error with a file/line reference.",
+        "why": "The supplied block is an interested party's retrospective assertion, not the repository inspection specified by the criterion. It does not show the relevant commits, their dates, repository paths as actually committed, diff/history evidence connecting a non-Anthropic model to the correction, or the purported file-and-line reference. Further, its descriptions ('citing the section directly' and 'specific IDs') do not by themselves establish the claim's more specific requirement of a file/line reference. The account may be true, but it is not enough to independently apply the inspection-based criterion.",
+        "what_is_missing_if_anything": "Repository evidence from the resolution date (or commit history demonstrably present then): the relevant committed diffs in deficiencies.md and/or asp-v0.1.md, commit metadata, the non-Anthropic model-authored review material tied to each correction, and an explicit file/line reference identifying the error."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"On 2027-02-05, inspect the repository and verify whether it contains at least one committed correction to deficiencies.md or asp-v0.1.md that was authored by a non-Anthropic model and identifies a specific error with a file/line reference.\",\"why\":\"The supplied block is an interested party's retrospective assertion, not the repository inspection specified by the criterion. It does not show the relevant commits, their dates, repository paths as actually committed, diff/history evidence connecting a non-Anthropic model to the correction, or the purported file-and-line reference. Further, its descriptions ('citing the section directly' and 'specific IDs') do not by themselves establish the claim's more specific requirement of a file/line reference. The account may be true, but it is not enough to independently apply the inspection-based criterion.\",\"what_is_missing_if_anything\":\"Repository evidence from the resolution date (or commit history demonstrably present then): the relevant committed diffs in deficiencies.md and/or asp-v0.1.md, commit metadata, the non-Anthropic model-authored review material tied to each correction, and an explicit file/line reference identifying the error.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084475-dyJlxhwIQioAca8bOSpU",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 642,
+        "completion_tokens": 463,
+        "total_tokens": 1105,
+        "cost": 0.00855,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00855,
+          "upstream_inference_prompt_cost": 0.001605,
+          "upstream_inference_completions_cost": 0.006945
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 192,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:34:49Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks for an inspection of the repository by 2027-02-05 to verify that there is at least one committed correction in either deficiencies.md or asp-v0.1.md, that the correction was authored by a non-Anthropic model, and that it identifies a particular error using a file/line reference.",
+        "why": "The supplied text is an interested party's retrospective assertion that Grok and ChatGPT found errors and that corresponding corrections were committed. It does not itself show the repository, the relevant commits and their dates, the exact changed text, the model authorship/provenance, or the alleged file/line references. Resolving six months early would be compatible with a 'by' deadline, but only if repository inspection substantiated the stated facts.",
+        "what_is_missing_if_anything": "Repository evidence: commit history/dates and diffs for corpus/deficiencies.md and/or spec/asp/asp-v0.1.md; the relevant review files showing the non-Anthropic model's authored finding; and the specific file/line reference in that finding or correction."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks for an inspection of the repository by 2027-02-05 to verify that there is at least one committed correction in either deficiencies.md or asp-v0.1.md, that the correction was authored by a non-Anthropic model, and that it identifies a particular error using a file/line reference.\",\"why\":\"The supplied text is an interested party's retrospective assertion that Grok and ChatGPT found errors and that corresponding corrections were committed. It does not itself show the repository, the relevant commits and their dates, the exact changed text, the model authorship/provenance, or the alleged file/line references. Resolving six months early would be compatible with a 'by' deadline, but only if repository inspection substantiated the stated facts.\",\"what_is_missing_if_anything\":\"Repository evidence: commit history/dates and diffs for corpus/deficiencies.md and/or spec/asp/asp-v0.1.md; the relevant review files showing the non-Anthropic model's authored finding; and the specific file/line reference in that finding or correction.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084483-PXQLYAarI515jLdGAvKK",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 642,
+        "completion_tokens": 352,
+        "total_tokens": 994,
+        "cost": 0.006885,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.006885,
+          "upstream_inference_prompt_cost": 0.001605,
+          "upstream_inference_completions_cost": 0.00528
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 99,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:34:55Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "An inspection of the repository on 2027-02-05 must establish that it then contains at least one committed correction in either deficiencies.md or asp-v0.1.md, that the correction was authored by a non-Anthropic model, and that it identifies a specific error with a file-and-line reference.",
+        "why": "The supplied text is an interested party's retrospective assertion, not the repository inspection itself. It says that Grok and ChatGPT found issues and that corrections were committed, but does not show the relevant commit(s), the changed file contents, model authorship/provenance, or the cited error wording. Moreover, its description of the purported references is not clearly sufficient: 'citing the section directly' is not necessarily a file/line reference, and deficiency IDs are not file/line references. It also does not show the repository state on the stated inspection date.",
+        "what_is_missing_if_anything": "Repository evidence from the relevant date, such as commit hashes and timestamps, diffs or file contents showing the corrections, credible indication that the relevant review/correction was authored by a non-Anthropic model, and the actual specific error citation including a file and line reference."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"An inspection of the repository on 2027-02-05 must establish that it then contains at least one committed correction in either deficiencies.md or asp-v0.1.md, that the correction was authored by a non-Anthropic model, and that it identifies a specific error with a file-and-line reference.\",\"why\":\"The supplied text is an interested party's retrospective assertion, not the repository inspection itself. It says that Grok and ChatGPT found issues and that corrections were committed, but does not show the relevant commit(s), the changed file contents, model authorship/provenance, or the cited error wording. Moreover, its description of the purported references is not clearly sufficient: 'citing the section directly' is not necessarily a file/line reference, and deficiency IDs are not file/line references. It also does not show the repository state on the stated inspection date.\",\"what_is_missing_if_anything\":\"Repository evidence from the relevant date, such as commit hashes and timestamps, diffs or file contents showing the corrections, credible indication that the relevant review/correction was authored by a non-Anthropic model, and the actual specific error citation including a file and line reference.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084489-tNoYZVXaF2eJOzz2AmfY",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 642,
+        "completion_tokens": 400,
+        "total_tokens": 1042,
+        "cost": 0.007605,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.007605,
+          "upstream_inference_prompt_cost": 0.001605,
+          "upstream_inference_completions_cost": 0.006
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 126,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:35:04Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "On 2027-02-05, inspect the repository and verify that it contains at least one committed correction in either deficiencies.md or asp-v0.1.md, where the correction was authored by a non-Anthropic model and identifies a particular error using a file-and-line reference.",
+        "why": "The stated criterion is a repository inspection, but the provided material is only the interested party's retrospective assertion about what is in the repository. It does not show the relevant commit(s), their dates and contents, repository paths, model authorship/provenance, or the actual review text and references. Further, the account says Grok cited a section and ChatGPT cited specific IDs; neither description itself establishes the required file/line reference. It also does not establish that the committed corrections themselves, rather than merely the reviews prompting them, were authored by non-Anthropic models.",
+        "what_is_missing_if_anything": "A repository snapshot or commit history as of 2027-02-05 showing the committed changes to the named files; evidence linking those changes to a non-Anthropic model; and the review/correction text demonstrating identification of a specific error with an actual file and line reference."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"On 2027-02-05, inspect the repository and verify that it contains at least one committed correction in either deficiencies.md or asp-v0.1.md, where the correction was authored by a non-Anthropic model and identifies a particular error using a file-and-line reference.\",\"why\":\"The stated criterion is a repository inspection, but the provided material is only the interested party's retrospective assertion about what is in the repository. It does not show the relevant commit(s), their dates and contents, repository paths, model authorship/provenance, or the actual review text and references. Further, the account says Grok cited a section and ChatGPT cited specific IDs; neither description itself establishes the required file/line reference. It also does not establish that the committed corrections themselves, rather than merely the reviews prompting them, were authored by non-Anthropic models.\",\"what_is_missing_if_anything\":\"A repository snapshot or commit history as of 2027-02-05 showing the committed changes to the named files; evidence linking those changes to a non-Anthropic model; and the review/correction text demonstrating identification of a specific error with an actual file and line reference.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084495-bhfISUoZZXWf8HgcxurK",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 642,
+        "completion_tokens": 417,
+        "total_tokens": 1059,
+        "cost": 0.00786,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00786,
+          "upstream_inference_prompt_cost": 0.001605,
+          "upstream_inference_completions_cost": 0.006255
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 144,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0010",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0010.json",
+  "spec_sha256": "7faafea55e880c4532e41782f0d36cec9fb5ed75ee1a5564b2e58124591303f5",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:38:41Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "The prediction is correct only if the prescribed corpus contains completed, committed grammar-constrained runs for all three arms at k=20 and temperature 0.7, and Arm A has cites_non_persistence true in fewer than 25% of its 20 samples (i.e., at most 4 of 20). Results within the stated 15-point resolution band are to be treated as unresolvable rather than reinterpreted.",
+        "why": "The supplied post-hoc summary reports 6/19 flagged in Arm A, which—if it is an accurate count from the required run—would already be incompatible with fewer than 25% at k=20: six true flags among the reported samples would imply at least 6/20 = 30% even if the missing twentieth sample were false. However, the evidence is an interested party's unsupported summary, not the specified corpus/artifacts, and it reports only 19 rather than the required 20 Arm A samples. It also does not establish that all three arms were run with the required parameters or that all 60 samples were committed. Thus the criterion is sound, but its required factual premises cannot be verified from what is shown.",
+        "what_is_missing_if_anything": "The committed artifacts under corpus/artifacts/local-round-03/, including all 20 Arm A samples and their cites_non_persistence labels, plus evidence that all three arms were run at k=20, temperature 0.7, grammar-constrained, with all 60 samples committed."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The prediction is correct only if the prescribed corpus contains completed, committed grammar-constrained runs for all three arms at k=20 and temperature 0.7, and Arm A has cites_non_persistence true in fewer than 25% of its 20 samples (i.e., at most 4 of 20). Results within the stated 15-point resolution band are to be treated as unresolvable rather than reinterpreted.\",\"why\":\"The supplied post-hoc summary reports 6/19 flagged in Arm A, which—if it is an accurate count from the required run—would already be incompatible with fewer than 25% at k=20: six true flags among the reported samples would imply at least 6/20 = 30% even if the missing twentieth sample were false. However, the evidence is an interested party's unsupported summary, not the specified corpus/artifacts, and it reports only 19 rather than the required 20 Arm A samples. It also does not establish that all three arms were run with the required parameters or that all 60 samples were committed. Thus the criterion is sound, but its required factual premises cannot be verified from what is shown.\",\"what_is_missing_if_anything\":\"The committed artifacts under corpus/artifacts/local-round-03/, including all 20 Arm A samples and their cites_non_persistence labels, plus evidence that all three arms were run at k=20, temperature 0.7, grammar-constrained, with all 60 samples committed.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084709-BavnCWfC1tba4crTsd2l",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 691,
+        "completion_tokens": 854,
+        "total_tokens": 1545,
+        "cost": 0.0145375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0145375,
+          "upstream_inference_prompt_cost": 0.0017275,
+          "upstream_inference_completions_cost": 0.01281
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:38:59Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "After all three grammar-constrained arms have been run with 20 committed samples each, determine Arm A's `cites_non_persistence` true fraction from its 20 samples. The prediction is correct only if that fraction is below 25%; an outcome within the pre-stated unresolved range is not to be credited as correct.",
+        "why": "The supplied summary reports only 19 Arm A samples, not the required 20, and does not show the required corpus/artifacts or establish that all 60 samples were run and committed. It is also a post-result account by the claimant rather than the underlying artifacts. If the reported six true flags among the 19 valid samples are accurate, then any completed 20-sample Arm A set would have at least 6/20 = 30% true, so the <25% claim could not hold. But the evidence shown does not itself establish that these are the required, valid, committed samples or provide the complete required run.",
+        "what_is_missing_if_anything": "The committed `local-round-03` artifacts (or an independently checkable sample ledger), including the twentieth Arm A sample, all three completed k=20 arms, and enough information to verify the flag counts and grammar/temperature settings."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"After all three grammar-constrained arms have been run with 20 committed samples each, determine Arm A's `cites_non_persistence` true fraction from its 20 samples. The prediction is correct only if that fraction is below 25%; an outcome within the pre-stated unresolved range is not to be credited as correct.\",\"why\":\"The supplied summary reports only 19 Arm A samples, not the required 20, and does not show the required corpus/artifacts or establish that all 60 samples were run and committed. It is also a post-result account by the claimant rather than the underlying artifacts. If the reported six true flags among the 19 valid samples are accurate, then any completed 20-sample Arm A set would have at least 6/20 = 30% true, so the <25% claim could not hold. But the evidence shown does not itself establish that these are the required, valid, committed samples or provide the complete required run.\",\"what_is_missing_if_anything\":\"The committed `local-round-03` artifacts (or an independently checkable sample ledger), including the twentieth Arm A sample, all three completed k=20 arms, and enough information to verify the flag counts and grammar/temperature settings.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084721-LABMuJu3M90qhgWcMXMZ",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 691,
+        "completion_tokens": 1149,
+        "total_tokens": 1840,
+        "cost": 0.0189625,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0189625,
+          "upstream_inference_prompt_cost": 0.0017275,
+          "upstream_inference_completions_cost": 0.017235
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 864,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:39:12Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "The claim is held only if Arm A has fewer than 5 true flags out of 20 samples (a true fraction below 25%), under the specified completed three-arm, k=20 protocol. In addition, the pre-stated resolution rule says an outcome within the approximately 15-percentage-point unresolved band is not a correct resolution; it is UNRESOLVABLE and counts against calibration.",
+        "why": "The reported Arm-A count is already 6 true flags. Even if the unreported twentieth Arm-A sample were false, the final rate would be 6/20 = 30%, which is not below 25%. Thus no completion of the stated 20-sample Arm-A run consistent with the reported 6 positives could satisfy the prediction. Further, the reported 32% versus the 25% threshold is only about 6.6 percentage points away, inside the project's stated 15-point resolution limit; under its own advance rule, that would be unresolvable rather than support the prediction. The evidence is self-reported and does not independently verify the artifact corpus or all three arms, but its stated count is nevertheless incompatible with the claim being held.",
+        "what_is_missing_if_anything": "The evidence does not show the required corpus/artifacts, all 60 committed samples, all three completed arms, or the twentieth Arm-A sample. Those omissions prevent verification of protocol compliance, but they cannot make a result with at least 6 positives out of 20 satisfy a below-25% claim."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The claim is held only if Arm A has fewer than 5 true flags out of 20 samples (a true fraction below 25%), under the specified completed three-arm, k=20 protocol. In addition, the pre-stated resolution rule says an outcome within the approximately 15-percentage-point unresolved band is not a correct resolution; it is UNRESOLVABLE and counts against calibration.\",\"why\":\"The reported Arm-A count is already 6 true flags. Even if the unreported twentieth Arm-A sample were false, the final rate would be 6/20 = 30%, which is not below 25%. Thus no completion of the stated 20-sample Arm-A run consistent with the reported 6 positives could satisfy the prediction. Further, the reported 32% versus the 25% threshold is only about 6.6 percentage points away, inside the project's stated 15-point resolution limit; under its own advance rule, that would be unresolvable rather than support the prediction. The evidence is self-reported and does not independently verify the artifact corpus or all three arms, but its stated count is nevertheless incompatible with the claim being held.\",\"what_is_missing_if_anything\":\"The evidence does not show the required corpus/artifacts, all 60 committed samples, all three completed arms, or the twentieth Arm-A sample. Those omissions prevent verification of protocol compliance, but they cannot make a result with at least 6 positives out of 20 satisfy a below-25% claim.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084739-oazi6nkkU81J6cHW8P0c",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 691,
+        "completion_tokens": 850,
+        "total_tokens": 1541,
+        "cost": 0.0144775,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0144775,
+          "upstream_inference_prompt_cost": 0.0017275,
+          "upstream_inference_completions_cost": 0.01275
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:39:29Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "The prediction can be resolved only after the specified k=20, three-arm, grammar-constrained run and commitment of all 60 samples. It is CORRECT only if Arm A's cites_non_persistence true-fraction is below 25%; moreover, an outcome within the stated roughly 15-point resolution band is to be treated as UNRESOLVABLE rather than reinterpreted as support for the prediction.",
+        "why": "The reported result is already 6 true flags among 19 Arm-A samples (about 32%). Even if the missing twentieth sample were false, the completed Arm-A result would be at least 6/20 = 30%, not below 25%. Thus the numerical condition for the claim cannot hold. It is also only about 5–7 percentage points above the cutoff, within the stated 15-point resolution limit, so the pre-registered protocol would label it unresolvable rather than a correct prediction. Since the available verdict choices do not include an unresolvable outcome, it cannot be scored as criterion_met_claim_held; it counts against the claim/calibration under the stated rule.",
+        "what_is_missing_if_anything": "The evidence does not establish the required completed protocol: it reports 19 rather than 20 Arm-A samples and provides no corpus/artifact evidence that all three arms were run and all 60 samples committed. Those omissions prevent a formally complete resolution record, but they cannot make the <25% claim true given the reported six positive Arm-A cases."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The prediction can be resolved only after the specified k=20, three-arm, grammar-constrained run and commitment of all 60 samples. It is CORRECT only if Arm A's cites_non_persistence true-fraction is below 25%; moreover, an outcome within the stated roughly 15-point resolution band is to be treated as UNRESOLVABLE rather than reinterpreted as support for the prediction.\",\"why\":\"The reported result is already 6 true flags among 19 Arm-A samples (about 32%). Even if the missing twentieth sample were false, the completed Arm-A result would be at least 6/20 = 30%, not below 25%. Thus the numerical condition for the claim cannot hold. It is also only about 5–7 percentage points above the cutoff, within the stated 15-point resolution limit, so the pre-registered protocol would label it unresolvable rather than a correct prediction. Since the available verdict choices do not include an unresolvable outcome, it cannot be scored as criterion_met_claim_held; it counts against the claim/calibration under the stated rule.\",\"what_is_missing_if_anything\":\"The evidence does not establish the required completed protocol: it reports 19 rather than 20 Arm-A samples and provides no corpus/artifact evidence that all three arms were run and all 60 samples committed. Those omissions prevent a formally complete resolution record, but they cannot make the <25% claim true given the reported six positive Arm-A cases.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084752-fdbvv9NPuDhaUz1bVUWj",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 691,
+        "completion_tokens": 1203,
+        "total_tokens": 1894,
+        "cost": 0.0197725,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0197725,
+          "upstream_inference_prompt_cost": 0.0017275,
+          "upstream_inference_completions_cost": 0.018045
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 871,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:39:37Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It requires the committed corpus in local-round-03 to contain all three grammar-constrained arms run at k=20 and temperature 0.7, then determines Arm A's 20-sample fraction for cites_non_persistence. The claim holds only if that fraction is below 25%; the pre-stated resolution limitation also says a result within the approximately 15-percentage-point unresolved region should not be treated as a successful prediction.",
+        "why": "The supplied post-result summary reports 6/19 (32%), not the required 20 Arm A samples, and it does not provide the corpus/artifacts or establish that all 60 samples were run and committed as required. Although 6/19 is not below 25% and is only 6.6 percentage points from the threshold, this interested party's summary does not establish the required k=20 result or the artifact-level conditions for resolution.",
+        "what_is_missing_if_anything": "The committed local-round-03 artifacts (or a verifiable accounting) showing all 20 Arm A samples, their cites_non_persistence labels, and confirmation that all three 20-sample arms were run and committed. A precise application of the stated 15-point unresolved band would also require the full 20-sample Arm A outcome."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It requires the committed corpus in local-round-03 to contain all three grammar-constrained arms run at k=20 and temperature 0.7, then determines Arm A's 20-sample fraction for cites_non_persistence. The claim holds only if that fraction is below 25%; the pre-stated resolution limitation also says a result within the approximately 15-percentage-point unresolved region should not be treated as a successful prediction.\",\"why\":\"The supplied post-result summary reports 6/19 (32%), not the required 20 Arm A samples, and it does not provide the corpus/artifacts or establish that all 60 samples were run and committed as required. Although 6/19 is not below 25% and is only 6.6 percentage points from the threshold, this interested party's summary does not establish the required k=20 result or the artifact-level conditions for resolution.\",\"what_is_missing_if_anything\":\"The committed local-round-03 artifacts (or a verifiable accounting) showing all 20 Arm A samples, their cites_non_persistence labels, and confirmation that all three 20-sample arms were run and committed. A precise application of the stated 15-point unresolved band would also require the full 20-sample Arm A outcome.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084769-tP97kIqaqfnJo6JY2OCJ",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 691,
+        "completion_tokens": 592,
+        "total_tokens": 1283,
+        "cost": 0.0106075,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0106075,
+          "upstream_inference_prompt_cost": 0.0017275,
+          "upstream_inference_completions_cost": 0.00888
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 302,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

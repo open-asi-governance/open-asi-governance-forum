@@ -1,0 +1,53 @@
+{
+  "slug": "score-p-0017",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "contribution_class": "CONTRIBUTION \u2014 an external party scoring this project's own predictions",
+  "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+  "question": "Blind to the recorded outcome, does the evidence satisfy P-0017's resolution criterion?",
+  "phase": "Phase-1 (blind)",
+  "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+  "seed_base": 9500,
+  "schema_name": "prediction_scoring",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "verdict": {
+        "type": "string",
+        "enum": [
+          "criterion_met_claim_held",
+          "criterion_not_met_claim_failed",
+          "criterion_cannot_be_applied",
+          "cannot_determine_from_what_is_shown"
+        ]
+      },
+      "what_the_criterion_actually_asks": {
+        "type": "string"
+      },
+      "why": {
+        "type": "string"
+      },
+      "what_is_missing_if_anything": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "verdict",
+      "what_the_criterion_actually_asks",
+      "why",
+      "what_is_missing_if_anything"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "verdict"
+  ],
+  "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+  "source_excerpt": {
+    "path": "record/solicitations/excerpts/prediction-p-0017-blind.md",
+    "sha256": "07a90a0dceada926a36a1229d3a61dc61e27e8a22f928b91e989b028691ea240"
+  },
+  "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+  "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. Reviewing the PRE-CORRECTION ASP section 2.2 blind at k=10, the model will identify the UNARY-GRAMMAR defect -- that 'an agent IS an Aligned Supervisor' states as a property of the agent something that in fact depends on relying party, issuer, criteria version, scope, time and revocation state -- in FEWER THAN 30% of samples.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-06/. A sample counts as identifying the defect only if strongest_objection or second_objection asserts that the status is relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent. Coded deterministically after the run with patterns published alongside the count. CORRECT if <= 0.30; INCORRECT if >= 0.45; UNRESOLVABLE between. At k=10 the SE at p=0.3 is 0.145, so the unresolvable band is wide and stated in advance rather than discovered.\n\n### The evidence the project recorded\n\n> {'PRE_unary_relational': '0/10 = 0%', 'POST_unary_relational': '2/10 = 20%', 'predicted': '<30%', 'correct_at': '<=0.30', 'incorrect_at': '>=0.45', 'PRE_dominant_objection': 'undefined checks/criteria, 5/10', 'POST_dominant_objection': 'revocation ambiguity in 2.3(1), 10/10'}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` \u2014 the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` \u2014 the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` \u2014 the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` \u2014 the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+  "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+  "scored_prediction_id": "P-0017"
+}

@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0011",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0011.json",
+  "spec_sha256": "c968890e7cc94dc7b5c4787c9729f88b72cc2e8bd7ee9f8359878197ad9929a2",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:39:45Z",
+      "parsed": {
+        "verdict": "criterion_cannot_be_applied",
+        "what_the_criterion_actually_asks": "It first says to compute the two arms’ observed `accepts_membership` shares from the committed k=20 runs and call the prediction CORRECT when the absolute difference is at most 0.15. But it then says that a result inside the approximately 15-point band is UNRESOLVABLE and counts against calibration.",
+        "why": "Those instructions conflict for exactly the outcome at issue. A difference of 0.0 is within 0.15, so the explicit threshold rule would resolve it CORRECT. The stated resolution-limit rule says an outcome within that band resolves UNRESOLVABLE instead. Thus the pre-registered criterion does not provide a unique resolution rule for this result; no verdict about whether the claim held or failed follows from it as written.",
+        "what_is_missing_if_anything": "Even aside from the contradiction, the shown self-reported summary does not establish that all three grammar-constrained arms were run at k=20 and temperature 0.7 or that all 60 samples were committed in the specified artifact location. But the primary problem is the criterion’s contradictory treatment of within-15-point results."
+      },
+      "raw_text": "{\"verdict\":\"criterion_cannot_be_applied\",\"what_the_criterion_actually_asks\":\"It first says to compute the two arms’ observed `accepts_membership` shares from the committed k=20 runs and call the prediction CORRECT when the absolute difference is at most 0.15. But it then says that a result inside the approximately 15-point band is UNRESOLVABLE and counts against calibration.\",\"why\":\"Those instructions conflict for exactly the outcome at issue. A difference of 0.0 is within 0.15, so the explicit threshold rule would resolve it CORRECT. The stated resolution-limit rule says an outcome within that band resolves UNRESOLVABLE instead. Thus the pre-registered criterion does not provide a unique resolution rule for this result; no verdict about whether the claim held or failed follows from it as written.\",\"what_is_missing_if_anything\":\"Even aside from the contradiction, the shown self-reported summary does not establish that all three grammar-constrained arms were run at k=20 and temperature 0.7 or that all 60 samples were committed in the specified artifact location. But the primary problem is the criterion’s contradictory treatment of within-15-point results.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084778-ZplLo6ITzZZ0ORRapOf9",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 658,
+        "completion_tokens": 463,
+        "total_tokens": 1121,
+        "cost": 0.00859,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00859,
+          "upstream_inference_prompt_cost": 0.001645,
+          "upstream_inference_completions_cost": 0.006945
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 204,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:39:52Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "After all three grammar-constrained arms have each produced and committed 20 samples at temperature 0.7 from the specified artifact corpus, compute the `accepts_membership` shares for Arms A and B. The claim is correct only if their absolute difference is at most 0.15. However, the preregistration additionally states that an outcome within a band the design cannot resolve is to be marked UNRESOLVABLE rather than reinterpreted as correct.",
+        "why": "The reported values, if they are derived from the required samples, give share_A = 0.0 and share_B = 0.0, hence an absolute difference of 0.0, which is numerically within 0.15. But the evidence is only an interested party's summary and does not show that the required corpus/artifacts were used, that all three arms were run at k=20 under the stated temperature and grammar constraint, that all 60 samples were committed, or how the shares were counted. Further, the stated resolution limit creates an important ambiguity/tension: it says the design cannot distinguish differences smaller than about 15 percentage points and that a result inside a band it cannot resolve should resolve UNRESOLVABLE. A zero observed difference is inside that described non-resolvable band, so the evidence does not establish whether the preregistered special UNRESOLVABLE rule applies instead of the ordinary <= 0.15 rule.",
+        "what_is_missing_if_anything": "The committed sample-level artifacts or an independently auditable record showing 20 samples for each of all three arms, the specified run settings, the coding/counting of `accepts_membership` for Arms A and B, and a clear pre-specified interpretation of how the 'UNRESOLVABLE' resolution-limit language applies to a 0.0 observed difference are missing."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"After all three grammar-constrained arms have each produced and committed 20 samples at temperature 0.7 from the specified artifact corpus, compute the `accepts_membership` shares for Arms A and B. The claim is correct only if their absolute difference is at most 0.15. However, the preregistration additionally states that an outcome within a band the design cannot resolve is to be marked UNRESOLVABLE rather than reinterpreted as correct.\",\"why\":\"The reported values, if they are derived from the required samples, give share_A = 0.0 and share_B = 0.0, hence an absolute difference of 0.0, which is numerically within 0.15. But the evidence is only an interested party's summary and does not show that the required corpus/artifacts were used, that all three arms were run at k=20 under the stated temperature and grammar constraint, that all 60 samples were committed, or how the shares were counted. Further, the stated resolution limit creates an important ambiguity/tension: it says the design cannot distinguish differences smaller than about 15 percentage points and that a result inside a band it cannot resolve should resolve UNRESOLVABLE. A zero observed difference is inside that described non-resolvable band, so the evidence does not establish whether the preregistered special UNRESOLVABLE rule applies instead of the ordinary <= 0.15 rule.\",\"what_is_missing_if_anything\":\"The committed sample-level artifacts or an independently auditable record showing 20 samples for each of all three arms, the specified run settings, the coding/counting of `accepts_membership` for Arms A and B, and a clear pre-specified interpretation of how the 'UNRESOLVABLE' resolution-limit language applies to a 0.0 observed difference are missing.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084786-iBs7IZEHjVcH65hMxIwz",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 658,
+        "completion_tokens": 407,
+        "total_tokens": 1065,
+        "cost": 0.00775,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00775,
+          "upstream_inference_prompt_cost": 0.001645,
+          "upstream_inference_completions_cost": 0.006105
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:40:05Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It requires a completed, committed corpus run: all three arms run with k=20, temperature 0.7, and grammar constraints, with all 60 samples committed. From those samples, the Arm A and Arm B accepts_membership shares must be computed. The stated numeric test is that the absolute share difference is at most 0.15. However, the criterion also says that a result within the design's unresolved band—described as differences smaller than about 15 percentage points—must be recorded as UNRESOLVABLE rather than reinterpreted as a successful prediction.",
+        "why": "The supplied figures assert shares of 0.0 in both arms, which would yield an asserted difference of 0.0 and hence satisfy the bare inequality |share_A - share_B| <= 0.15. But this is an interested party's post-result summary, not evidence that the required samples exist, that the stated run settings were used, that all 60 samples were committed, or that the shares were calculated from those samples. It also provides no underlying artifacts from the specified corpus location. Moreover, a zero difference appears to fall squarely in the stated unresolved band, so the criterion's own resolution-limit language would matter; the evidence does not establish how that provision was applied or reconcile it with the bare inequality.",
+        "what_is_missing_if_anything": "The committed underlying corpus/artifacts (or an independently checkable manifest) showing all three k=20 runs, the required temperature and grammar constraints, all 60 committed samples, the per-sample accepts_membership labels, and reproducible calculations of both shares. A clear application of the criterion's UNRESOLVABLE provision is also needed, since the reported 0-point difference is within the described unresolved range."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It requires a completed, committed corpus run: all three arms run with k=20, temperature 0.7, and grammar constraints, with all 60 samples committed. From those samples, the Arm A and Arm B accepts_membership shares must be computed. The stated numeric test is that the absolute share difference is at most 0.15. However, the criterion also says that a result within the design's unresolved band—described as differences smaller than about 15 percentage points—must be recorded as UNRESOLVABLE rather than reinterpreted as a successful prediction.\",\"why\":\"The supplied figures assert shares of 0.0 in both arms, which would yield an asserted difference of 0.0 and hence satisfy the bare inequality |share_A - share_B| <= 0.15. But this is an interested party's post-result summary, not evidence that the required samples exist, that the stated run settings were used, that all 60 samples were committed, or that the shares were calculated from those samples. It also provides no underlying artifacts from the specified corpus location. Moreover, a zero difference appears to fall squarely in the stated unresolved band, so the criterion's own resolution-limit language would matter; the evidence does not establish how that provision was applied or reconcile it with the bare inequality.\",\"what_is_missing_if_anything\":\"The committed underlying corpus/artifacts (or an independently checkable manifest) showing all three k=20 runs, the required temperature and grammar constraints, all 60 committed samples, the per-sample accepts_membership labels, and reproducible calculations of both shares. A clear application of the criterion's UNRESOLVABLE provision is also needed, since the reported 0-point difference is within the described unresolved range.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084792-V6bViQ1Wd8pAfj9cu7rk",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 658,
+        "completion_tokens": 907,
+        "total_tokens": 1565,
+        "cost": 0.01525,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01525,
+          "upstream_inference_prompt_cost": 0.001645,
+          "upstream_inference_completions_cost": 0.013605
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:40:12Z",
+      "parsed": {
+        "verdict": "criterion_cannot_be_applied",
+        "what_the_criterion_actually_asks": "It nominally asks whether the absolute difference between Arms A and B in the `accepts_membership` share is at most 0.15, after all three specified 20-sample arms have been run and committed. However, it also says that results inside the approximately 15-point indistinguishability band must resolve as UNRESOLVABLE rather than CORRECT.",
+        "why": "The criterion gives contradictory resolution instructions for the same result. A difference of 0.0 is plainly <= 0.15, which the criterion says resolves CORRECT, but it is also within the stated band that the criterion says resolves UNRESOLVABLE. The evidence's reported shares therefore cannot be mapped to one of the requested substantive outcomes under a coherent criterion. Separately, the self-reported summary does not demonstrate that the required corpus artifacts, all three arms, k=20 settings, grammar constraint, and full commitment were actually completed, but even complete artifacts would not cure the internal conflict.",
+        "what_is_missing_if_anything": "A pre-specified rule reconciling the conflict is missing: for example, whether <=0.15 means CORRECT as stated, or instead means UNRESOLVABLE because the design lacks sufficient precision. Evidence of the required runs and committed samples would also be needed if the criterion were made coherent."
+      },
+      "raw_text": "{\"verdict\":\"criterion_cannot_be_applied\",\"what_the_criterion_actually_asks\":\"It nominally asks whether the absolute difference between Arms A and B in the `accepts_membership` share is at most 0.15, after all three specified 20-sample arms have been run and committed. However, it also says that results inside the approximately 15-point indistinguishability band must resolve as UNRESOLVABLE rather than CORRECT.\",\"why\":\"The criterion gives contradictory resolution instructions for the same result. A difference of 0.0 is plainly <= 0.15, which the criterion says resolves CORRECT, but it is also within the stated band that the criterion says resolves UNRESOLVABLE. The evidence's reported shares therefore cannot be mapped to one of the requested substantive outcomes under a coherent criterion. Separately, the self-reported summary does not demonstrate that the required corpus artifacts, all three arms, k=20 settings, grammar constraint, and full commitment were actually completed, but even complete artifacts would not cure the internal conflict.\",\"what_is_missing_if_anything\":\"A pre-specified rule reconciling the conflict is missing: for example, whether <=0.15 means CORRECT as stated, or instead means UNRESOLVABLE because the design lacks sufficient precision. Evidence of the required runs and committed samples would also be needed if the criterion were made coherent.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084805-mQggCUTOTWkoyCJ9uMUa",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 658,
+        "completion_tokens": 541,
+        "total_tokens": 1199,
+        "cost": 0.00976,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00976,
+          "upstream_inference_prompt_cost": 0.001645,
+          "upstream_inference_completions_cost": 0.008115
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 242,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:40:20Z",
+      "parsed": {
+        "verdict": "criterion_cannot_be_applied",
+        "what_the_criterion_actually_asks": "It purports to require that all three arms be run with 20 committed, grammar-constrained samples at temperature 0.7, then compare the Arm A and Arm B `accepts_membership` shares. Its stated numerical rule says the claim is CORRECT when the absolute share difference is at most 0.15.",
+        "why": "The criterion contains an incompatible second instruction: it says that a result inside the approximately 15-percentage-point band the design cannot distinguish is UNRESOLVABLE and counts against calibration. A 0-point difference is both (1) at most 0.15, requiring CORRECT under the explicit numerical rule, and (2) inside that stated non-resolvable band, requiring UNRESOLVABLE. Thus the criterion gives conflicting resolutions for the recorded numerical result. The supplied values do show a 0.0 difference, but cannot determine which contradictory instruction governs.",
+        "what_is_missing_if_anything": "The primary problem is not missing numerical evidence but a pre-specified tie-breaker or clarification reconciling the <=0.15 CORRECT rule with the statement that differences within that same band are UNRESOLVABLE. Separately, the shown summary does not independently establish that all required samples and all three arms were run and committed, but even complete artifacts would not cure the contradictory resolution rules."
+      },
+      "raw_text": "{\"verdict\":\"criterion_cannot_be_applied\",\"what_the_criterion_actually_asks\":\"It purports to require that all three arms be run with 20 committed, grammar-constrained samples at temperature 0.7, then compare the Arm A and Arm B `accepts_membership` shares. Its stated numerical rule says the claim is CORRECT when the absolute share difference is at most 0.15.\",\"why\":\"The criterion contains an incompatible second instruction: it says that a result inside the approximately 15-percentage-point band the design cannot distinguish is UNRESOLVABLE and counts against calibration. A 0-point difference is both (1) at most 0.15, requiring CORRECT under the explicit numerical rule, and (2) inside that stated non-resolvable band, requiring UNRESOLVABLE. Thus the criterion gives conflicting resolutions for the recorded numerical result. The supplied values do show a 0.0 difference, but cannot determine which contradictory instruction governs.\",\"what_is_missing_if_anything\":\"The primary problem is not missing numerical evidence but a pre-specified tie-breaker or clarification reconciling the <=0.15 CORRECT rule with the statement that differences within that same band are UNRESOLVABLE. Separately, the shown summary does not independently establish that all required samples and all three arms were run and committed, but even complete artifacts would not cure the contradictory resolution rules.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084812-E44YKujuTbUbiT2kLdvC",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 2500
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 658,
+        "completion_tokens": 541,
+        "total_tokens": 1199,
+        "cost": 0.00976,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00976,
+          "upstream_inference_prompt_cost": 0.001645,
+          "upstream_inference_completions_cost": 0.008115
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 240,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

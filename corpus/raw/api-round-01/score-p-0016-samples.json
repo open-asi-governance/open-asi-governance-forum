@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0016",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0016.json",
+  "spec_sha256": "5f4b207c8b6ce6809b605657a7207ca889d98886045cb87a912585daf2396ebc",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:32:43Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.",
+        "why": "The provided recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which is greater than the criterion's 0.15 threshold. The evidence itself also labels this as gap_points = 20 versus band = 15. Thus, on the stated numerical criterion, the prediction is incorrect. The additional coding measures do not alter the acceptance-gap test.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts/local-round-05 are not shown, so the interested party's reported rates cannot be independently audited here. But taking the supplied evidence values as the evidence to which the criterion is applied, they unambiguously exceed the threshold."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.\",\"why\":\"The provided recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which is greater than the criterion's 0.15 threshold. The evidence itself also labels this as gap_points = 20 versus band = 15. Thus, on the stated numerical criterion, the prediction is incorrect. The additional coding measures do not alter the acceptance-gap test.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts/local-round-05 are not shown, so the interested party's reported rates cannot be independently audited here. But taking the supplied evidence values as the evidence to which the criterion is applied, they unambiguously exceed the threshold.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084359-HfxRpBRzT5Kh7O9034cg",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 667,
+        "completion_tokens": 237,
+        "total_tokens": 904,
+        "cost": 0.0052225,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0052225,
+          "upstream_inference_prompt_cost": 0.0016675,
+          "upstream_inference_completions_cost": 0.003555
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:32:46Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.",
+        "why": "The supplied recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00, giving an absolute difference of 0.20, i.e. 20 percentage points. Since 0.20 > 0.15, the stated threshold is not satisfied. The additional coded-element rates do not change the threshold calculation.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts/local-round-05 data are not shown, so the interested party's reported rates cannot be independently audited here. But taking the evidence block's reported accept values as the evidence to which the criterion is applied, it directly reports a 20-point gap and thus demonstrates failure under the filed rule."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.\",\"why\":\"The supplied recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00, giving an absolute difference of 0.20, i.e. 20 percentage points. Since 0.20 > 0.15, the stated threshold is not satisfied. The additional coded-element rates do not change the threshold calculation.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts/local-round-05 data are not shown, so the interested party's reported rates cannot be independently audited here. But taking the evidence block's reported accept values as the evidence to which the criterion is applied, it directly reports a 20-point gap and thus demonstrates failure under the filed rule.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084363-4lgIeqYwpTwgxkoJkLEP",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 667,
+        "completion_tokens": 225,
+        "total_tokens": 892,
+        "cost": 0.0050425,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0050425,
+          "upstream_inference_prompt_cost": 0.0016675,
+          "upstream_inference_completions_cost": 0.003375
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:32:50Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified local-round-05 corpus/artifacts, calculate the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.",
+        "why": "The supplied recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is |0.20 - 0.00| = 0.20, i.e. 20 percentage points. This exceeds the stated 0.15 cutoff, so the criterion classifies the prediction as incorrect. The stated 'gap_points': 20 is consistent with that calculation. The other coded variables do not alter the specified acceptance-gap test.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts/local-round-05 is not shown, so the interested party's reported acceptance values cannot be independently audited here. But accepting the evidence block's own reported values for purposes of applying the written criterion, they plainly fail the threshold."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified local-round-05 corpus/artifacts, calculate the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.\",\"why\":\"The supplied recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is |0.20 - 0.00| = 0.20, i.e. 20 percentage points. This exceeds the stated 0.15 cutoff, so the criterion classifies the prediction as incorrect. The stated 'gap_points': 20 is consistent with that calculation. The other coded variables do not alter the specified acceptance-gap test.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts/local-round-05 is not shown, so the interested party's reported acceptance values cannot be independently audited here. But accepting the evidence block's own reported values for purposes of applying the written criterion, they plainly fail the threshold.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084367-TTFBU4BGmLt67Shroiqq",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 667,
+        "completion_tokens": 239,
+        "total_tokens": 906,
+        "cost": 0.0052525,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0052525,
+          "upstream_inference_prompt_cost": 0.0016675,
+          "upstream_inference_completions_cost": 0.003585
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:32:54Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified local-round-05 corpus/artifacts, calculate the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it exceeds 0.15.",
+        "why": "The recorded evidence reports accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which is greater than the pre-filed 0.15 cutoff. Thus, on the reported acceptance values, the criterion is not satisfied. The additional coding measures do not alter the stated acceptance-gap rule.",
+        "what_is_missing_if_anything": "The underlying local-round-05 artifacts are not shown, so the interested party's reported rates cannot be independently audited here. But taking the evidence block's own reported accept values as the evidence to which the criterion is applied, it directly establishes a 0.20 gap and therefore failure."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified local-round-05 corpus/artifacts, calculate the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it exceeds 0.15.\",\"why\":\"The recorded evidence reports accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which is greater than the pre-filed 0.15 cutoff. Thus, on the reported acceptance values, the criterion is not satisfied. The additional coding measures do not alter the stated acceptance-gap rule.\",\"what_is_missing_if_anything\":\"The underlying local-round-05 artifacts are not shown, so the interested party's reported rates cannot be independently audited here. But taking the evidence block's own reported accept values as the evidence to which the criterion is applied, it directly establishes a 0.20 gap and therefore failure.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084371-z3why2o0D0gyN2uR2TWc",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 667,
+        "completion_tokens": 226,
+        "total_tokens": 893,
+        "cost": 0.0050575,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0050575,
+          "upstream_inference_prompt_cost": 0.0016675,
+          "upstream_inference_completions_cost": 0.00339
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:32:58Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.",
+        "why": "The provided recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which exceeds both the explicit 0.15 cutoff and the stated 15-point band. Thus, on the values shown, the pre-registered claim that the gap would be 15 points or less is not satisfied. The additional coding variables do not alter this numerical criterion.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts/local-round-05 data are not shown, so the interested party's reported rates cannot be independently audited here. But accepting the evidence block's own stated accept rates, it directly establishes a 0.20 gap and therefore failure under the filed rule."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified local-round-05 corpus/artifacts, compute the absolute difference between accept_A and accept_B. The claim holds only if that difference is at most 0.15 (15 percentage points); it fails if it is greater than 0.15.\",\"why\":\"The provided recorded values are accept_arm_A = 0.20 and accept_arm_B = 0.00. Their absolute difference is 0.20, i.e. 20 percentage points, which exceeds both the explicit 0.15 cutoff and the stated 15-point band. Thus, on the values shown, the pre-registered claim that the gap would be 15 points or less is not satisfied. The additional coding variables do not alter this numerical criterion.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts/local-round-05 data are not shown, so the interested party's reported rates cannot be independently audited here. But accepting the evidence block's own stated accept rates, it directly establishes a 0.20 gap and therefore failure under the filed rule.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084374-9b1Jr9CbQiV4Zml39pTJ",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 667,
+        "completion_tokens": 241,
+        "total_tokens": 908,
+        "cost": 0.0052825,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0052825,
+          "upstream_inference_prompt_cost": 0.0016675,
+          "upstream_inference_completions_cost": 0.003615
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

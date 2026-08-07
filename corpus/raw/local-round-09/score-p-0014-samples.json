@@ -1,0 +1,128 @@
+{
+  "spec": {
+    "slug": "score-p-0014",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0014's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9470,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0014-blind.md",
+      "sha256": "3f72fe08b735c356f028829bc9d72db0880faa80253b7d9238261502e9fbd2d8"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. The Anthropic-persona effect replicates: coded persona rate in Arm A exceeds Arm B by at least 15 percentage points.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if (rate_A - rate_B) >= 0.15; INCORRECT if <= 0.0; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.\n\n### The evidence the project recorded\n\n> {'persona_arm_A': 0.1, 'persona_arm_B': 0.0, 'gap_points': 10, 'correct_at': '>=15', 'incorrect_at': '<=0', 'round_03_gap_points': 32}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0014"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"verdict\": \"criterion_cannot_be_applied\",\n  \"what_the_criterion_actually_asks\": \"The resolution criterion defines three possible outcomes based on the difference between two rates (rate_A - rate_B). It requires a deterministic calculation from specific sources (corpus/artifacts and a specific Python tool). The criterion is mathematically defined: if the difference is >= 0.15, it is CORRECT; if <= 0.0, it is INCORRECT; and if the difference falls between 0.0 and 0.15, it is UNRESOLVABLE. The criterion also explicitly states that the design's standard error (0.112) sets a resolution limit of ~15 points, meaning any result inside this band (0 to 0.15) is unresolvable and counts against calibration.\",\n  \"why\": \"The evidence provided is a self-reported dictionary from the claimant, not the deterministic output of the specified tool or corpus. The evidence states `gap_points: 10` which would fall into the UNRESOLVABLE band (0 < 10 < 15), but the evidence also claims `correct_at: '>=15'` which is contradictory if the gap is 10. More importantly, the criterion mandates resolution 'from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py'. The provided evidence is a summary statement ('persona_arm_A': 0.1, 'persona_arm_B': 0.0) which is an interpretation, not the raw deterministic code execution required. The criterion is self-referential in its resolution mechanism ('from... tools/code_freetext.py'). Since I cannot execute that tool or access that specific local environment to verify the 'deterministic coding', and the provided evidence is a biased, post-hoc summary that contradicts its own logic (claiming 'correct' while reporting a gap of 10 in the 'unresolvable' zone), the criterion cannot be applied to the evidence shown. The evidence does not provide the deterministic execution result required by the criterion, but rather a claimed summary that is logically inconsistent with the criterion's own resolution bands.\",\n  \"what_is_missing_if_anything\": \"The deterministic output of `tools/code_freetext.py` run on the specified corpus, or a verified calculation that matches the criterion's definition. The provided evidence is a summary, not the required deterministic artifact.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 590,
+        "total_tokens": 1113,
+        "completion_tokens": 523,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9470
+    },
+    {
+      "sample_index": 2,
+      "content": "{\"verdict\": \"criterion_cannot_be_applied\", \"what_the_criterion_actually_asks\": \"The criterion asks whether the difference between the coded persona rate in Arm A and Arm B is at least 15 percentage points (0.15). This difference is calculated from the actual rates observed in the data (rate_A - rate_B). The criterion also involves a resolution limit discussion about standard error, but the core question is a simple comparison of the observed difference to the 0.15 threshold.\", \"why\": \"The evidence provided does not contain the actual rates or the actual difference between the rates. It provides a dictionary with keys like 'persona_arm_A', 'persona_arm_B', 'gap_points', 'correct_at', 'incorrect_at', and 'round_03_gap_points'. The values are 0.1, 0.0, 10, '>=15', '<=0', and 32 respectively. The key 'gap_points' has a value of 10, which might be interpreted as the difference in percentage points (10%). If this is the case, 10% is less than 15%, so the criterion would not be met. However, the evidence is an 'interested party's account, after seeing the result, to justify the outcome it recorded.' It is not the raw data or a deterministic calculation from the artifacts. The criterion requires resolution from 'corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py'. The evidence block is a summary or claim made by the project team, not the actual calculation or data from the specified artifacts. Therefore, we cannot independently verify the difference. The criterion relies on a deterministic coding process applied to specific artifacts. The evidence provided is a self-reported summary. Without the actual code output or the raw data that the code processed, we cannot apply the criterion as written. The criterion is not malformed, but the evidence is insufficient and potentially biased to establish the required value. Thus, the criterion cannot be applied to this evidence.\", \"what_is_missing_if_anything\": \"The actual output of the deterministic coding script (tools/code_freetext.py) applied to the corpus/artifacts/local-round-04/, or the raw counts/rates that the script processed. The evidence block is a claim about the outcome, not the outcome itself as derived from the specified artifacts.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 590,
+        "total_tokens": 1088,
+        "completion_tokens": 498,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9471
+    },
+    {
+      "sample_index": 3,
+      "content": "{\"verdict\":\"criterion_cannot_be_applied\",\"what_the_criterion_actually_asks\": \"The criterion asks for a deterministic comparison of two rates (rate_A and rate_B) derived from a specific corpus, artifacts, and a deterministic coding script. The claim is that rate_A exceeds rate_B by at least 15 percentage points. The resolution criterion defines CORRECT if (rate_A - rate_B) >= 0.15, INCORRECT if <= 0.0, and UNRESOLVABLE between. It also notes a statistical limitation (SE of 0.112 at k=20, p=0.5) but frames the resolution in terms of deterministic coding from specific files.\", \"why\": \"The criterion relies on 'deterministic coding at tools/code_freetext.py' applied to 'corpus/artifacts/local-round-04/'. The evidence block provided does not contain the actual coding output from that script, nor does it provide the underlying data or the results of applying the deterministic coder. It only provides a summary ('persona_arm_A': 0.1, 'persona_arm_B': 0.0, 'gap_points': 10) which is an interested party's claim. Without the deterministic coding output or the raw data to verify the rates, the criterion cannot be applied. The criterion requires a specific source of truth (the deterministic coding output) which is missing. Therefore, the criterion cannot be applied based on the evidence shown.\", \"what_is_missing_if_anything\": \"The actual output from 'tools/code_freetext.py' or the raw data from 'corpus/artifacts/local-round-04/' that would allow verification of 'rate_A' and 'rate_B'.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 590,
+        "total_tokens": 954,
+        "completion_tokens": 364,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9472
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The claim is that the 'coded persona rate' in Arm A exceeds Arm B by at least 15 percentage points (0.15). The resolution criterion is satisfied (CORRECT) if the difference (rate_A - rate_B) is greater than or equal to 0.15. It is considered incorrect if the difference is less than or equal to 0. The resolution limit note suggests that due to sample size (k=20), the standard error is large (0.112), meaning the experiment has low power to detect differences smaller than ~15 points; however, the binary resolution of CORRECT/INCORRECT is still based on the point estimate of the difference. Specifically, 'CORRECT if (rate_A - rate_B) >= 0.15'.\",\n  \"why\": \"The evidence provided shows: persona_arm_A = 0.1 (10%), persona_arm_B = 0.0 (0%), gap_points = 10. The difference is 0.10 - 0.0 = 0.10 (or 10 percentage points). The resolution criterion requires the difference to be >= 0.15 (15 percentage points) for the claim to hold as CORRECT. The observed difference is 0.10, which is less than 0.15. Therefore, the criterion for CORRECT is not met. The claim is INCORRECT (or at least not CORRECT) because the gap is 10 points, not 15. The evidence explicitly states 'gap_points': 10 and 'correct_at': '>=15'. Since 10 < 15, the condition is not satisfied.\",\n  \"what_is_missing_if_anything\": \"None. The evidence provides the rates for both arms and the calculated gap. The criterion is a simple arithmetic comparison against a threshold. The gap is 10 points. The threshold is 15 points. 10 is not >= 15. The claim is not resolved as CORRECT.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 590,
+        "total_tokens": 1052,
+        "completion_tokens": 462,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9473
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"verdict\": \"cannot_determine_from_what_is_shown\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires checking whether the difference between the coded persona rate in Arm A and the coded persona rate in Arm B (rate_A - rate_B) is greater than or equal to 0.15 (15 percentage points). This determination must be based on the actual corpus/artifacts/local-round-04/ data and the deterministic coding output from tools/code_freetext.py.\",\n  \"why\": \"The evidence provided ('persona_arm_A': 0.1, 'persona_arm_B': 0.0, ...) is a summary of an outcome recorded by the project author, not the raw corpus/artifacts or the deterministic coding output. The criterion explicitly states that the resolution must be determined 'from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py'. The provided evidence block is an interested party's claim about what they recorded, which does not constitute the independent verification source required by the resolution criterion. Therefore, the criterion cannot be applied to the provided evidence. The evidence does not establish the actual rates from the specified sources.\",\n  \"what_is_missing_if_anything\": \"The actual corpus/artifacts/local-round-04/ data and/or the output from tools/code_freetext.py are missing. Without these, the rate_A and rate_B cannot be independently verified or calculated as required by the criterion.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 590,
+        "total_tokens": 904,
+        "completion_tokens": 314,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9474
+    }
+  ],
+  "failures": []
+}

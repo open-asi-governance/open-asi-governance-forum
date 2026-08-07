@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "38b3e4c7794af2f05cad54b68c95a395005a1aca8c76424e080602f1cc671e7d"
+    "sha256": "d2c63e21500404bc5ec415d821a1228b0ac334d85ff4f6fdf2791dd39d1d48eb"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1594,6 +1594,50 @@
       "remediation_effort": {
         "estimate": "remediation_effort_low",
         "basis": "Both fixes are small. The judgement was where containment stops and whether a hash or a timestamp belongs in the filename."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-40",
+      "title": "The registry's evidence blocks assert conclusions the raw samples could support and do not contain",
+      "section_sha256": "b9067e3145b7a20cca8f01bb7890b3b96e26d166acdc3ea5ee45d3358a010df2",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "the first external scoring of this registry: qwen3.6-35b-a3b and openai/gpt-5.6-terra, k=5 each, blind to the recorded outcome",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "The evidence field on all 13 previously-scored predictions",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "States derived numbers and conclusions rather than citing the hash-anchored raw samples that would support them. 10 of 13 could not be verified by a frontier party from what is published; only 1 of 13 was confirmed by both external arms."
+        },
+        {
+          "object": "P-0011's resolution criterion",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Both parties independently returned criterion_cannot_be_applied where the record says correct. Convergent, from unrelated lineages, neither seeing the other."
+        },
+        {
+          "object": "The scoring instrument's categorical field",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "P-0016's Qwen enum contradicted its own free text in 4 of 5 samples -- D-24 reproducing in a new instrument one day after D-24 was cited in its design. Caught by the narrative sweep, not by the numbers; corrected before publication."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "An evidence field cites the raw artifact by path and hash rather than restating its numbers. Separately: a categorical field from a model is not evidence until its free text has been read against it."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "Mechanical in form, but deciding which samples support which claim is a per-entry judgement that cannot be derived."
       },
       "human_review": {
         "status": "not_reviewed",

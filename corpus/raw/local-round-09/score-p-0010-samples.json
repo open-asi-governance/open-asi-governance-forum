@@ -1,0 +1,128 @@
+{
+  "spec": {
+    "slug": "score-p-0010",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0010's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9430,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0010-blind.md",
+      "sha256": "3879c4cd0d09c88a0edeacf8feadea6e9fc29e0be6d2947902ac366c4051c28e"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. In Arm A, `cites_non_persistence` will be true in FEWER THAN 25% of the 20 samples.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-03/ once all three arms are run at k=20, temperature 0.7, grammar-constrained. All 60 samples committed regardless of outcome. Resolve CORRECT if the true-fraction is < 0.25. RESOLUTION LIMIT, stated in advance: at k=20 the standard error on a proportion at p=0.5 is 0.112, so this design cannot distinguish differences smaller than about 15 percentage points. A result landing inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration -- it does not get reinterpreted after the fact.\n\n### The evidence the project recorded\n\n> {'flag_true_arm_A': '6/19 = 32%', 'predicted': '< 25%', 'gap_points': 6.6, 'stated_resolution_limit_points': 15, 'free_text_rate_arm_A': '10/19 = 53%', 'flag_false_while_free_text_says_it': '5/19 = 26%'}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0010"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"verdict\": \"cannot_determine_from_what_is_shown\",\n  \"what_the_criterion_actually_asks\": \"The resolution criterion requires a definitive count of how many of the 20 samples in Arm A have the attribute `cites_non_persistence` set to true. Specifically, the prediction is resolved as CORRECT only if the true-fraction is strictly less than 0.25 (i.e., fewer than 5 out of 20 samples are true). The criterion explicitly states that all 60 samples (20 per arm) are committed regardless of outcome, and the resolution depends on the 'true-fraction' in Arm A.\",\n  \"why\": \"The evidence provided by the project ('6/19 = 32%') indicates that the project only observed 19 samples for Arm A, not the required 20. More critically, the evidence block is an 'interested party's account' written after seeing the result to 'justify the outcome it recorded.' The actual ground-truth result (the specific 20 samples or the definitive count of 'true' flags) is explicitly withheld from the scorer. The provided evidence ('6/19 = 32%') is a self-reported statistic that conflicts with the required sample size (19 vs 20) and is presented as a justification by the project itself, not as neutral, verifiable data. Because the actual outcome data (the 20 samples or the definitive count) is withheld, and the provided evidence is a non-neutral, incomplete summary that does not reliably establish the true-fraction for the full 20 samples as required by the criterion, the criterion cannot be applied to the information shown.\",\n  \"what_is_missing_if_anything\": \"The actual count of `cites_non_persistence` = true out of the full 20 samples for Arm A, or the full set of 20 samples themselves to verify the count. The provided evidence only accounts for 19 samples and is a self-reported summary.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 635,
+        "total_tokens": 1067,
+        "completion_tokens": 432,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9430
+    },
+    {
+      "sample_index": 2,
+      "content": "{ \"verdict\": \"criterion_cannot_be_applied\", \"what_the_criterion_actually_asks\": \"The criterion asks to check if the true-fraction (proportion of true values) in Arm A is less than 0.25. It specifies that all 60 samples (20 per arm) must be run and committed. The resolution criterion also mentions a resolution limit, stating that if the result falls within a band where the prediction cannot resolve differences smaller than 15 percentage points, it should be marked as UNRESOLVABLE.\", \"why\": \"The evidence provided by the project ('flag_true_arm_A': '6/19 = 32%') shows that only 19 samples were recorded instead of the required 20. This discrepancy means the criterion 'once all three arms are run at k=20' is not satisfied. Without the full set of 20 samples, the true-fraction cannot be accurately determined, making the criterion unfalsifiable with the current evidence. The evidence is insufficient to apply the criterion as written.\"\n  , \"what_is_missing_if_anything\": \"Missing 1 sample from Arm A\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 635,
+        "total_tokens": 887,
+        "completion_tokens": 252,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9431
+    },
+    {
+      "sample_index": 3,
+      "content": "{\"verdict\": \"cannot_determine_from_what_is_shown\", \"what_the_criterion_actually_asks\": \"The criterion requires a binary check: is the true fraction of `cites_non_persistence = true` in Arm A fewer than 25% across the 20 samples? The resolution rule further specifies that if the true fraction falls within a 'unresolvable band' (defined by the standard error at p=0.5, effectively making it indistinguishable from the threshold by design), the result is marked UNRESOLVABLE and counts against calibration. However, the core question for the prediction's success is simply whether the true fraction is strictly less than 0.25.\", \"why\": \"The evidence provided by the project is a post-hoc justification, not the raw data. It states `6/19 = 32%`, which implies a numerator of 6 and a denominator of 19. The prediction was made for 20 samples. The evidence uses 19 samples, suggesting one sample may be missing, invalid, or excluded. More importantly, the evidence calculates a fraction (32%) that is already greater than the 25% threshold. If we assume 6/19 is representative or if the missing sample is 'false', the fraction is >25%. If the missing sample is 'true', the fraction is 7/20 = 35%. If the missing sample is 'false', the fraction is 6/20 = 30%. In all plausible completions of the missing sample, the fraction is >25%. However, the critical issue is that the evidence is a summary statement by an interested party, not the raw corpus. The criterion requires verifying the 'true-fraction' from the 'corpus/artifacts'. The provided text `{'flag_true_arm_A': '6/19 = 32%', ...}` is a self-reported statistic. It does not provide the raw data to independently verify the count. Furthermore, the denominator is 19, not 20. The resolution criterion explicitly states 'All 60 samples committed regardless of outcome' and 'once all three arms are run at k=20'. The use of 19 in the denominator suggests a discrepancy in the sample count. Because the evidence is a summary by the project itself, uses an incorrect denominator (19 vs 20), and does not provide the raw data to verify the 'true-fraction' as required by the criterion ('Resolved from corpus/artifacts...'), I cannot independently confirm the true fraction. The evidence is insufficient to apply the criterion objectively.\", \"what_is_missing_if_anything\": \"The raw data for all 20 samples in Arm A to independently verify the count of `cites_non_persistence = true`. The evidence provided is a self-reported summary with a denominator of 19, which contradicts the specified sample size of 20.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 635,
+        "total_tokens": 1250,
+        "completion_tokens": 615,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9432
+    },
+    {
+      "sample_index": 4,
+      "content": "{\"verdict\": \"cannot_determine_from_what_is_shown\", \"what_the_criterion_actually_asks\": \"The criterion asks to determine if the true fraction of `cites_non_persistence` in the 20 samples of Arm A is strictly less than 0.25 (i.e., fewer than 5 out of 20 are true). If the true fraction is < 0.25, the claim is resolved CORRECT. If the true fraction is >= 0.25, the claim fails. Additionally, if the result falls within an 'unresolvable band' (due to standard error considerations, though the wording here is slightly contradictory or implies a specific statistical testing framework that is ambiguous), it resolves as UNRESOLVABLE and counts against calibration. However, the primary binary check for the claim's correctness is simply: is the count of true positives in the 20 samples < 5?\", \"why\": \"The evidence block provided by the project states that `flag_true_arm_A` is '6/19 = 32%'. This indicates that in 19 samples, 6 were true. The pre-registered prediction was about 20 samples. The evidence does not provide the outcome for the 20th sample, nor does it provide a definitive, auditable count for all 20 samples. The project's own account is biased (as stated in the prompt: 'The evidence block above was written by the same party... It is not neutral'). To verify if the true fraction is < 0.25, I would need the exact count of true values out of the full 20 samples. The evidence shows a count of 6 out of 19, which is already 32% (6/19 > 5/20). Even if the 20th sample were false, the total would be 6/20 = 30%, which is still > 25%. If the 20th sample were true, it would be 7/20 = 35%. In either case, the fraction is likely >= 25%. However, I cannot definitively confirm the total count for all 20 samples from the provided evidence. The evidence is incomplete (19/20 samples) and self-reported. Therefore, I cannot determine if the criterion is met because the full evidence is not shown.\", \"what_is_missing_if_anything\": \"The outcome of the 20th sample in Arm A. The evidence only accounts for 19 samples. Without the 20th result, the total count cannot be definitively established from the provided text, although the trajectory strongly suggests the claim failed. However, strict adherence to 'what is shown' means the full dataset is not present to apply the criterion objectively.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 635,
+        "total_tokens": 1230,
+        "completion_tokens": 595,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9433
+    },
+    {
+      "sample_index": 5,
+      "content": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The criterion requires determining whether the true fraction of samples in Arm A where `cites_non_persistence` is true is less than 0.25 (25%). This requires knowing the exact count of 'true' results out of the total number of samples (which should be 20 for Arm A) after running the experiment at k=20, temperature 0.7, with grammar-constrained output.\",\"why\":\"> The evidence block states `flag_true_arm_A`: '6/19 = 32%'. This implies only 19 samples were recorded or considered, not the required 20. \\n> The evidence is self-reported by the project team and does not provide the raw data or a verifiable count of the 20 samples for Arm A. \\n> The criterion explicitly states 'All 60 samples committed regardless of outcome' and requires resolving based on the true-fraction from the full set of samples. The evidence provided does not confirm that all 20 samples for Arm A were committed or that the count of 6 is based on the full 20 samples. \\n> Therefore, the evidence is insufficient to verify if the condition (true fraction < 0.25) was met for the full set of 20 samples as required by the criterion.\"\n \n  \t,\n  \t\"what_is_missing_if_anything\": \"The raw output or a verifiable record of all 20 samples for Arm A, confirming the exact count of `cites_non_persistence` being true.\"\n \n  }",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 635,
+        "total_tokens": 988,
+        "completion_tokens": 353,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9434
+    }
+  ],
+  "failures": []
+}

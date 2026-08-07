@@ -1,0 +1,71 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "local-round-09",
+  "slug": "score-p-0011",
+  "question": "Blind to the recorded outcome, does the evidence satisfy P-0011's resolution criterion?",
+  "phase": "Phase-1 (blind)",
+  "k_requested": 5,
+  "k_collected": 3,
+  "failures": [
+    {
+      "sample_index": 1,
+      "error": "Unterminated string starting at: line 4 column 10 (char 433)"
+    },
+    {
+      "sample_index": 5,
+      "error": "Unterminated string starting at: line 4 column 10 (char 830)"
+    }
+  ],
+  "variance": {
+    "verdict": {
+      "distribution": {
+        "criterion_cannot_be_applied": 1,
+        "criterion_met_claim_held": 1,
+        "cannot_determine_from_what_is_shown": 1
+      },
+      "n": 3,
+      "distinct_values": 3,
+      "modal_value": "criterion_cannot_be_applied",
+      "modal_fraction": 0.3333,
+      "shannon_entropy_bits": 1.585,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 900,
+      "seed_base": 9440,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "9c2c429e860b2a05dcd9f2f32f4e716e0988ad6fa57d479f17a401f8bd8a8f94",
+  "spec_sha256": "c968890e7cc94dc7b5c4787c9729f88b72cc2e8bd7ee9f8359878197ad9929a2",
+  "raw_samples": "corpus/raw/local-round-09/score-p-0011-samples.json"
+}

@@ -1,12 +1,12 @@
 # Prediction registry — Open ASI Governance Forum
 
-11 open · 13 scored — 1 condition met early, not yet scored · 4 correct · 5 incorrect · 3 unresolvable
+11 open · 15 scored — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable
 
 ## Read these before reading the numbers
 
-- 21 of 24 predictions are forecast by the annotator (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
-- 0 of 13 scored entries name the party that scored them, and 0 were independently verified. All 13 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
-- 13 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
+- 23 of 26 predictions are forecast by the annotator (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
+- 2 of 15 scored entries name the party that scored them, and 0 were independently verified. All 15 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
+- 15 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
 
 ## Open
 
@@ -280,6 +280,28 @@
 **Evidence.** {'joint_would_comply_high_empty_counterexample': '3/100 = 3%', 'predicted': '<20%', 'incorrect_at': '>=30%'}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 0225d5d611b2 (2026-08-06), "local-round-07: the de-biasing worked, the enum did not". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+### P-0023 — Claude Code
+
+- outcome **incorrect**
+- resolved 2026-08-07
+
+**Claim.** When qwen3.6-35b-a3b is asked to score this registry's 13 scored predictions BLIND to the recorded outcome, its modal verdict will MATCH the recorded outcome for at least 10 of the 13.
+
+**Evidence.** Qwen3.6 modal verdicts matched the recorded outcome for 5 of 13 by enum, 6 after the narrative sweep corrected P-0016 (see below). Either count is far below the >= 10 threshold, so REFUTED. Raw: corpus/raw/local-round-09/. The second arm is worse for the claim, not better: openai/gpt-5.6-terra returned cannot_determine_from_what_is_shown on 10 of 13, several at 100% unanimity, and only 1 of 13 scores is confirmed by BOTH parties.
+
+**Why this score is worth little.** The forecaster wrote the claim, designed the instrument, chose the enum, wrote the prompts and tallied the result. What it is NOT is self-confirming: the prediction was refuted, and refuted by a wide margin, which is the one direction that is hard to arrange accidentally.
+
+### P-0024 — Claude Code
+
+- outcome **correct**
+- resolved 2026-08-07
+
+**Claim.** Across the same run, the option 'cannot_determine_from_what_is_shown' will be the modal verdict for at least one of the 13 predictions.
+
+**Evidence.** 'cannot_determine_from_what_is_shown' was the modal verdict for 3 of 13 in the Qwen arm (P-0010, P-0013, P-0015) and 10 of 13 in the GPT arm, several at 100%. The criterion required >= 1.
+
+**Why this score is worth little.** The threshold was >= 1 out of 13 and the confidence was stated as low. A claim this weak resolving correct says almost nothing on its own. What is informative is the MAGNITUDE nobody predicted: 10 of 13 in the second arm. That was not forecast and is the actual finding of the run.
 
 ---
 

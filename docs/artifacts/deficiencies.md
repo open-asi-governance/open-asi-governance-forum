@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **39 entries** (D-01 … D-39).
+**Status:** open — **40 entries** (D-01 … D-40).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1375,6 +1375,57 @@ case wrote `b"\xf0\x9f\x92\xa9"` — **valid** UTF-8, an emoji — so it decoded
 as invalid JSON instead, passing on the wrong path. The second fixture in one day that could not
 reach the state it named.
 
+### D-40 — The registry's evidence blocks assert conclusions the raw samples could support and do not contain
+
+*Filed 2026-08-07. Found by **two external parties independently**, in the first scoring of this
+registry by anyone other than the party that wrote it.*
+
+Every scored prediction carries an `evidence` field. Those fields state **derived numbers and
+conclusions** — "accept_arm_A: 0.2, gap_points: 20", "POST_unary_relational: 2/10 = 20%" — written
+by the annotator, after seeing the result, to justify the outcome being recorded.
+
+Thirteen scored predictions were put to two parties at k = 5, **blind to the recorded outcome**,
+with the prompt stating plainly that the evidence was written by an interested party after the fact,
+and offering `cannot_determine_from_what_is_shown` as an explicitly legitimate answer.
+
+| | qwen3.6-35b-a3b | openai/gpt-5.6-terra (routed) |
+|---|---|---|
+| modal verdict = "the evidence shown is insufficient" | 3 of 13 | **10 of 13**, several at 100% |
+| scores confirmed by **both** parties | **1 of 13** | |
+
+The objection is the same from both, and it is correct: *"the raw output of the model's objections
+for all 10 samples"* is missing. **The raw samples exist and are hash-anchored in `corpus/raw/`.**
+The evidence field summarises them and does not cite them, so a reader cannot get from the claim to
+the material without already trusting the summary.
+
+**This is not the scorers failing to read.** It is the registry asking to be believed. The corpus's
+stated premise is that claims are checkable without trusting the publisher, and its own calibration
+record does not meet that bar.
+
+**What the disagreements are, specifically.** Both parties independently returned
+`criterion_cannot_be_applied` for **P-0011**, where the record says `correct` — i.e. two unrelated
+lineages judged that criterion unapplicable as written. That is the strongest single signal in the
+run, because it is convergent and neither saw the other.
+
+**A defect in the instrument, caught by the narrative sweep and not by the numbers.** For **P-0016**
+the Qwen enum said `criterion_met_claim_held` while its own free text concluded the claim FAILED, in
+**4 of 5 samples**. The enum contradicted the reasoning that produced it — **D-24 reproducing inside
+a brand-new instrument, one day after D-24 was cited in the design of that instrument.** Reported
+from the enum alone it would have been published as a disagreement that did not exist. The GPT arm
+returned `failed` at 100% on the same prediction, agreeing with the record and with Qwen's prose.
+Two independent lines now say the enum was the artifact.
+
+**Remediation, and its limit.** `evidence` should cite the raw artifact by path and hash rather than
+restating its numbers. That is mechanical and is not done here — the thirteen existing entries would
+each need their supporting samples identified, which is a judgement about which artifact supports
+which claim and cannot be derived. **Filed rather than fixed**, with the scope stated so the gap is
+visible.
+
+**Standing caution this run establishes.** A categorical field from a model is not evidence until
+its free text has been read against it. The corpus has now been bitten by this twice, in unrelated
+instruments, and the second time the instrument had been designed by someone who had just read the
+first.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1424,6 +1475,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |
 | D-38 | **Remediated 2026-08-06** — `resolve_held_capture.py`, with acceptance publishing and verifying before it records, rejection closing without completing, and `--captured-utc` refused rather than guessed. 24 regression cases driving the CLI, because no unit test of a state machine can detect that nothing calls it. **Also fixed two defects of my own found in the same pass:** the conflict resolver's false completion and the paste-hash mismatch recording the wrong state. **Not addressed:** replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines. |
 | D-37 | **Remediated 2026-08-06**, with the disposition path in the same commit so the new blocking state cannot become permanent the way capture Defect 1's did. Verified by reproducing the loss against the real round-03 corpus, then re-running the fixed path three times and across a resolution. **Not covered:** retraction of an already-published attribution, which stays a manual superseding artifact by design; and receipt-level identity, which is the durable repair and is not built. |

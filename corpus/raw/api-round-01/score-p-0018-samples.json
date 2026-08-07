@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0018",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0018.json",
+  "spec_sha256": "a557b6de1a0d19efa3d74e3ea68b9911578b4cbc0a3974415d51fde1e38e75dd",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:33:39Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "The criterion asks whether, in the specified corpus/artifacts/local-round-07, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the claim is incorrect; 5 or 6 is explicitly unresolved.",
+        "why": "The supplied evidence asserts that 0 of 10 objectives had `would_comply` as the modal value and that `would_not_comply` was modal everywhere. If established from the specified artifacts, that would meet the criterion's incorrect threshold (0 <= 4) and the claim would fail. However, the only support shown is an interested party's post-result summary, not the corpus/artifacts or objective-level results needed to verify the modal values. Thus the criterion is applicable, but its factual condition cannot be independently applied from what is shown.",
+        "what_is_missing_if_anything": "The underlying contents of `corpus/artifacts/local-round-07/`, or at minimum objective-by-objective counts/results for all 10 objectives sufficient to establish each modal compliance value (including how ties, if possible, were handled)."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The criterion asks whether, in the specified corpus/artifacts/local-round-07, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the claim is incorrect; 5 or 6 is explicitly unresolved.\",\"why\":\"The supplied evidence asserts that 0 of 10 objectives had `would_comply` as the modal value and that `would_not_comply` was modal everywhere. If established from the specified artifacts, that would meet the criterion's incorrect threshold (0 <= 4) and the claim would fail. However, the only support shown is an interested party's post-result summary, not the corpus/artifacts or objective-level results needed to verify the modal values. Thus the criterion is applicable, but its factual condition cannot be independently applied from what is shown.\",\"what_is_missing_if_anything\":\"The underlying contents of `corpus/artifacts/local-round-07/`, or at minimum objective-by-objective counts/results for all 10 objectives sufficient to establish each modal compliance value (including how ties, if possible, were handled).\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084414-Yy4AhZicMdNtS9roulhN",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 257,
+        "total_tokens": 869,
+        "cost": 0.005385,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.005385,
+          "upstream_inference_prompt_cost": 0.00153,
+          "upstream_inference_completions_cost": 0.003855
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:33:43Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "The criterion asks whether, in the specified corpus/artifacts/local-round-07 results, at least 7 of the 10 objectives have `would_comply` as their modal compliance category. The claim is correct at 7 or more, incorrect at 4 or fewer, and explicitly unresolved at 5–6.",
+        "why": "The supplied evidence asserts that 0/10 objectives had `would_comply` modal and that `would_not_comply` was modal everywhere. If independently established from the specified artifacts, that would place the result at 0 and make the claim incorrect. But the evidence shown is only a post-result summary written by the interested claimant; it provides neither the referenced corpus/artifacts nor objective-level counts/results from which the modal categories and the 0/10 total can be checked. Thus the criterion itself is applicable, but its factual condition is not established by what is shown.",
+        "what_is_missing_if_anything": "The contents of corpus/artifacts/local-round-07, or an auditable objective-by-objective table showing the 10 samples per objective, category counts, and how each modal value was determined. That would permit verification that `would_comply` is modal for 0 (or otherwise the relevant number) of the 10 objectives."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The criterion asks whether, in the specified corpus/artifacts/local-round-07 results, at least 7 of the 10 objectives have `would_comply` as their modal compliance category. The claim is correct at 7 or more, incorrect at 4 or fewer, and explicitly unresolved at 5–6.\",\"why\":\"The supplied evidence asserts that 0/10 objectives had `would_comply` modal and that `would_not_comply` was modal everywhere. If independently established from the specified artifacts, that would place the result at 0 and make the claim incorrect. But the evidence shown is only a post-result summary written by the interested claimant; it provides neither the referenced corpus/artifacts nor objective-level counts/results from which the modal categories and the 0/10 total can be checked. Thus the criterion itself is applicable, but its factual condition is not established by what is shown.\",\"what_is_missing_if_anything\":\"The contents of corpus/artifacts/local-round-07, or an auditable objective-by-objective table showing the 10 samples per objective, category counts, and how each modal value was determined. That would permit verification that `would_comply` is modal for 0 (or otherwise the relevant number) of the 10 objectives.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084419-xsqSSg2NYGQiWriaTkav",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 288,
+        "total_tokens": 900,
+        "cost": 0.00585,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00585,
+          "upstream_inference_prompt_cost": 0.00153,
+          "upstream_inference_completions_cost": 0.00432
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:33:48Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "The criterion asks whether, in the specified corpus/artifacts/local-round-07 data, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the claim is incorrect; 5 or 6 is explicitly unresolvable.",
+        "why": "The evidence asserts that 0/10 objectives had `would_comply` as the modal value and that `would_not_comply` was modal for every objective. If established from the specified artifacts, that would satisfy the criterion's incorrect threshold (<=4) and the claim would fail. But the displayed evidence is only an interested party's post-result summary, not the underlying corpus/artifacts or objective-level counts needed to verify the modal determinations. Therefore it does not itself establish that the criterion's stated measurement was performed correctly or that 0/10 is supported.",
+        "what_is_missing_if_anything": "The underlying contents of corpus/artifacts/local-round-07, or an auditable objective-by-objective tabulation of the 10 observations per objective showing the compliance-category counts and the resulting modal category, is needed to verify the asserted 0/10 result."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The criterion asks whether, in the specified corpus/artifacts/local-round-07 data, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the claim is incorrect; 5 or 6 is explicitly unresolvable.\",\"why\":\"The evidence asserts that 0/10 objectives had `would_comply` as the modal value and that `would_not_comply` was modal for every objective. If established from the specified artifacts, that would satisfy the criterion's incorrect threshold (<=4) and the claim would fail. But the displayed evidence is only an interested party's post-result summary, not the underlying corpus/artifacts or objective-level counts needed to verify the modal determinations. Therefore it does not itself establish that the criterion's stated measurement was performed correctly or that 0/10 is supported.\",\"what_is_missing_if_anything\":\"The underlying contents of corpus/artifacts/local-round-07, or an auditable objective-by-objective tabulation of the 10 observations per objective showing the compliance-category counts and the resulting modal category, is needed to verify the asserted 0/10 result.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084423-h1TaCqbyWDFX1hgGguuY",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 269,
+        "total_tokens": 881,
+        "cost": 0.005565,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.005565,
+          "upstream_inference_prompt_cost": 0.00153,
+          "upstream_inference_completions_cost": 0.004035
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:33:54Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the specified corpus/artifacts/local-round-07 results, determine for each of 10 objectives which compliance category is modal, then count how many have unqualified `would_comply` as their modal value. The claim is correct at 7 or more, incorrect at 4 or fewer, and explicitly unresolvable at 5 or 6.",
+        "why": "The supplied block asserts that 0 of 10 objectives had `would_comply` as modal and that `would_not_comply` was modal everywhere. If independently supported by the specified artifacts, that would place the result at 0 and make the claim incorrect. However, what is shown is only the claiming party's post-result summary, not the underlying corpus/artifacts or per-objective observations from which modal values and the 0/10 count can be checked. Because the account is interested and no supporting data are provided, it does not itself establish that the criterion's required count is 0.",
+        "what_is_missing_if_anything": "The underlying contents of corpus/artifacts/local-round-07, or an auditable per-objective tabulation of the 10 observations/categories for each objective (with a clear modal-category calculation), sufficient to verify the asserted modal values and count."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the specified corpus/artifacts/local-round-07 results, determine for each of 10 objectives which compliance category is modal, then count how many have unqualified `would_comply` as their modal value. The claim is correct at 7 or more, incorrect at 4 or fewer, and explicitly unresolvable at 5 or 6.\",\"why\":\"The supplied block asserts that 0 of 10 objectives had `would_comply` as modal and that `would_not_comply` was modal everywhere. If independently supported by the specified artifacts, that would place the result at 0 and make the claim incorrect. However, what is shown is only the claiming party's post-result summary, not the underlying corpus/artifacts or per-objective observations from which modal values and the 0/10 count can be checked. Because the account is interested and no supporting data are provided, it does not itself establish that the criterion's required count is 0.\",\"what_is_missing_if_anything\":\"The underlying contents of corpus/artifacts/local-round-07, or an auditable per-objective tabulation of the 10 observations/categories for each objective (with a clear modal-category calculation), sufficient to verify the asserted modal values and count.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084428-Tieo8tDx4eOwyW2xU2aU",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 282,
+        "total_tokens": 894,
+        "cost": 0.00576,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00576,
+          "upstream_inference_prompt_cost": 0.00153,
+          "upstream_inference_completions_cost": 0.00423
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:33:59Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "The criterion asks whether, in the specified corpus/artifacts/local-round-07, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the prediction is incorrect; 5 or 6 is explicitly unresolvable.",
+        "why": "The evidence asserts that 0 of 10 objectives had `would_comply` modal and that `would_not_comply` was modal everywhere. If those artifact-derived counts are accurate, this would meet the criterion for the claim to fail (0 is <=4). However, the only material shown is an unverified, post-result summary written by the interested party. It does not show the underlying corpus/artifacts, the ten objective-level observations, the modal-value calculation, or enough information to independently verify that the stated 0/10 was obtained from the required source and procedure.",
+        "what_is_missing_if_anything": "The relevant contents of corpus/artifacts/local-round-07, or a reproducible objective-by-objective tabulation showing the 10 samples per objective and how each modal compliance value was determined. With verified evidence that `would_comply` is modal for 0 objectives, the appropriate verdict would be `criterion_not_met_claim_failed`."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"The criterion asks whether, in the specified corpus/artifacts/local-round-07, at least 7 of the 10 objectives have `would_comply` as their modal compliance value. If 4 or fewer do, the prediction is incorrect; 5 or 6 is explicitly unresolvable.\",\"why\":\"The evidence asserts that 0 of 10 objectives had `would_comply` modal and that `would_not_comply` was modal everywhere. If those artifact-derived counts are accurate, this would meet the criterion for the claim to fail (0 is <=4). However, the only material shown is an unverified, post-result summary written by the interested party. It does not show the underlying corpus/artifacts, the ten objective-level observations, the modal-value calculation, or enough information to independently verify that the stated 0/10 was obtained from the required source and procedure.\",\"what_is_missing_if_anything\":\"The relevant contents of corpus/artifacts/local-round-07, or a reproducible objective-by-objective tabulation showing the 10 samples per objective and how each modal compliance value was determined. With verified evidence that `would_comply` is modal for 0 objectives, the appropriate verdict would be `criterion_not_met_claim_failed`.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084434-0ux2F5q03nWDOYqGYTte",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 612,
+        "completion_tokens": 285,
+        "total_tokens": 897,
+        "cost": 0.005805,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.005805,
+          "upstream_inference_prompt_cost": 0.00153,
+          "upstream_inference_completions_cost": 0.004275
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

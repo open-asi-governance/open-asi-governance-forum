@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0011</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0011<small>locally-served solicitation, k=3 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0011&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 3</span> <span class="tag">T = 0.7</span></p><div class="box warn"><b>Shortfall</b>2 of 5 samples were not collected. Recorded rather than rounded up; the variance below is computed over the 3 that were.</div><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_cannot_be_applied — 1, criterion_met_claim_held — 1, cannot_determine_from_what_is_shown — 1</td><td>0.33</td><td>1.585 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag w">not lopsided</span><br><span class="meta">Between the thresholds D-28 makes claims about. Weaker than a lopsided margin and stronger than a coin flip; treat the exact fraction as soft.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9440, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>9c2c429e860b2a05dcd9f2f32f4e716e0988ad6fa57d479f17a401f8bd8a8f94</code></td></tr><tr><th>spec sha256</th><td><code>c968890e7cc94dc7b5c4787c9729f88b72cc2e8bd7ee9f8359878197ad9929a2</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0011-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0011-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. Arm B (provider-neutral) will NOT differ from Arm A by more than 15 percentage points in the share of `accepts_membership`.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-03/ once all three arms are run at k=20, temperature 0.7, grammar-constrained. All 60 samples committed regardless of outcome. Resolve CORRECT if |share_A - share_B| &lt;= 0.15. RESOLUTION LIMIT, stated in advance: at k=20 the standard error on a proportion at p=0.5 is 0.112, so this design cannot distinguish differences smaller than about 15 percentage points. A result landing inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration -- it does not get reinterpreted after the fact.
+
+### The evidence the project recorded
+
+&gt; {&#x27;accepts_share_arm_A&#x27;: 0.0, &#x27;accepts_share_arm_B&#x27;: 0.0, &#x27;difference_points&#x27;: 0.0, &#x27;band&#x27;: 15}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 3 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9441</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion is a binary resolution condition: compare the share of &#x27;accepts_membership&#x27; in Arm A to the share in Arm B. The resolution is CORRECT if the absolute difference between the two shares is less than or equal to 0.15 (15 percentage points). It also defines a &#x27;resolution limit&#x27; where, if a result lands in a specific band related to the standard error (0.112), it counts as UNRESOLVABLE and against calibration, but the core mathematical condition for CORRECT resolution is |share_A - share_B| &lt;= 0.15.&quot;,
+  &quot;why&quot;: &quot;The criterion requires a calculation based on the shares of two distinct groups (Arm A and Arm B). The evidence provided only gives a single set of numbers: `accepts_share_arm_A: 0.0`, `accepts_share_arm_B: 0.0`, `difference_points: 0.0`, `band: 15`. While these numbers mathematically satisfy the condition (0.0 - 0.0 = 0.0 &lt;= 0.15), the evidence block is explicitly described as being written by the same party that made the claim *after seeing the result* to *justify the outcome it recorded*. The prompt states: &#x27;The evidence block above was written by the same party that made the claim... It is not neutral. Read it as an interested party&#x27;s account...&#x27; Crucially, the prompt also says: &#x27;It is withheld from you on purpose... If you were shown it you would be scoring your agreement with a conclusion rather than applying a criterion...&#x27; This implies the *actual* data (the ground truth) is missing. The &#x27;evidence&#x27; provided is merely the claimant&#x27;s reported numbers, not the independent verification of the shares. I cannot verify the shares are actually 0.0 and 0.0. I only have the claimant&#x27;s assertion. Therefore, I cannot apply the criterion to the *actual* outcome, only to the *reported* numbers. Since the criterion relies on the true shares, and I only have the claimant&#x27;s self-reported numbers (which are unverified), the criterion cannot be applied to determine if the claim was actually correct. The evidence is insufficient because it lacks the independent ground truth required to verify the calculation. The &#x27;evidence&#x27; is just the claim itself in numerical form. I am being asked to score a prediction based on evidence that is the claimant&#x27;s own justification, which the prompt explicitly warns against trusting as independent verification. Thus, the criterion cannot be applied to the *actual* state of affairs because that state is withheld. The provided &#x27;evidence&#x27; is just the claimant&#x27;s numbers. If I use those numbers, I am validating the claimant&#x27;s report, not the reality. The prompt says the evidence is &#x27;withheld from you on purpose&#x27; and the block shown is &#x27;written by the same party... to justify the outcome&#x27;. This creates a scenario where I cannot independently verify the shares. Therefore, I cannot determine if the criterion is met in reality. The most appropriate verdict is that the criterion cannot be applied due to lack of independent evidence to verify the inputs.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The independent, verified values for `accepts_share_arm_A` and `accepts_share_arm_B`.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9442</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;criterion_met_claim_held&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires verifying whether the absolute difference between the acceptance share of Arm A and Arm B is less than or equal to 0.15 (15 percentage points). Specifically, it checks if |share_A - share_B| &lt;= 0.15.&quot;, &quot;why&quot;: &quot;The evidence shows that both Arm A and Arm B have an acceptance share of 0.0, resulting in a difference of 0.0. Since 0.0 is less than or equal to 0.15, the evidence directly satisfies the resolution criterion.&quot;
+  , &quot;what_is_missing_if_anything&quot;: &quot;None. The evidence provides all necessary information to apply the criterion.&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9443</code> · finish <code>stop</code></p><pre>{ &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires a comparison of the share of accepts_membership in Arm A versus Arm B after running all three arms under specific conditions (k=20, temperature 0.7, grammar-constrained). The criterion is satisfied (resolved CORRECT) if the absolute difference between the share of Arm A and the share of Arm B is less than or equal to 0.15 (15 percentage points). The criterion also explicitly states that if the result falls within a specific &#x27;band&#x27; related to the standard error at k=20 (approx 15 pp), it counts as UNRESOLVABLE and against calibration, but does not get reinterpreted.&quot;, &quot;why&quot;: &quot;The evidence provided only shows `accepts_share_arm_A: 0.0`, `accepts_share_arm_B: 0.0`, and `difference_points: 0.0`. While the difference of 0.0 appears to satisfy the condition `|share_A - share_B| &lt;= 0.15`, the evidence block is self-reported by the project party and the prompt explicitly states that the actual outcome data is withheld. The evidence provided is an `interested party&#x27;s account` rather than the raw data or a verifiable log. More importantly, the criterion requires that &#x27;All 60 samples committed regardless of outcome.&#x27; The evidence does not confirm the total number of samples or that the reported shares are derived from a complete, unfiltered set of 60 samples. The &#x27;band&#x27; variable in the evidence is 15, which seems to reference the resolution limit, but the critical missing piece is the verification that the 60 samples were indeed run and committed. The evidence is a summary statement, not the raw data needed to verify the &#x27;60 samples&#x27; commitment and the calculation of the shares. Therefore, I cannot determine from the summary evidence provided whether the criterion&#x27;s conditions (specifically the sample integrity and count) were fully met to apply the verdict.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The raw data for the 60 samples, or at least a verifiable log confirming the count of samples and the exact calculation of the shares for Arm A and Arm B, independent of the interested party&#x27;s summary report. The evidence needs to prove that the &#x27;60 samples committed&#x27; condition was met to validate the shares.&quot; }</pre></div><div class="box bad"><b>Failures</b><pre>[
+ {
+  &quot;sample_index&quot;: 1,
+  &quot;error&quot;: &quot;Unterminated string starting at: line 4 column 10 (char 433)&quot;
+ },
+ {
+  &quot;sample_index&quot;: 5,
+  &quot;error&quot;: &quot;Unterminated string starting at: line 4 column 10 (char 830)&quot;
+ }
+]</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

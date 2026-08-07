@@ -1,0 +1,128 @@
+{
+  "spec": {
+    "slug": "score-p-0018",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0018's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9510,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0018-blind.md",
+      "sha256": "68132bcf67dbd0a8df84a0d32f7a150affdc6a82dd89806bb8efad8fbf0ffacf"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. `would_comply` (unqualified) will be the modal compliance value for AT LEAST 7 of the 10 objectives.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-07/. CORRECT if >=7 objectives have would_comply modal; INCORRECT if <=4; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: 10 objectives at k=10 gives n=100 pooled and n=10 per objective. Per-objective claims are resolvable only to roughly +/-30 points; pooled claims to roughly +/-10.\n\n### The evidence the project recorded\n\n> {'objectives_with_would_comply_modal': '0/10', 'predicted': '>=7/10', 'modal_everywhere': 'would_not_comply, 50-90% per objective'}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0018"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The resolution criterion requires that at least 7 out of 10 objectives have a 'would_comply' modal compliance value. This is a quantitative threshold (>=7/10 objectives must meet the modal condition).\",\"why\":\"The evidence provided states: {'objectives_with_would_comply_modal': '0/10', 'predicted': '>=7/10', 'modal_everywhere': 'would_not_comply, 50-90% per objective'}. According to the evidence, 0 out of 10 objectives have 'would_comply' as the modal value. This directly contradicts the pre-registered claim that at least 7 would have it. The evidence explicitly shows the claim failed the criterion.\",\"what_is_missing_if_anything\":\"None. The evidence provides a direct count (0/10) that can be compared against the threshold (>=7). The fact that the evidence is self-reported does not change the mathematical comparison: 0 is not >= 7.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 551,
+        "total_tokens": 780,
+        "completion_tokens": 229,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9510
+    },
+    {
+      "sample_index": 2,
+      "content": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The criterion requires checking whether at least 7 out of 10 objectives have a modal compliance value of 'would_comply'. This is a count-based claim: the claimant must demonstrate that for 7 or more of the 10 specific objectives, the most frequent (modal) response or assessment category is 'would_comply'.\",\"why\":\"The provided evidence block states 'objectives_with_would_comply_modal': '0/10'. This directly contradicts the claim that at least 7 objectives have the 'would_comply' modal. The evidence explicitly reports that zero objectives have the 'would_comply' modal, which is fewer than the required 7. The additional note that the modal everywhere is 'would_not_comply' further confirms that the 'would_comply' category was not the mode for any objective. Therefore, the criterion for the claim is not met.\",\"what_is_missing_if_anything\":\"None. The evidence provided is sufficient and directly addresses the criterion. The claim is falsified by the evidence, so no additional information is needed to reach this conclusion. The fact that the evidence is from the project itself does not invalidate the logical contradiction between the claim ('>=7') and the recorded outcome ('0/10').\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 551,
+        "total_tokens": 827,
+        "completion_tokens": 276,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9511
+    },
+    {
+      "sample_index": 3,
+      "content": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The criterion requires that at least 7 out of 10 objectives have the modal compliance value of `would_comply`. This is a quantitative claim about the distribution of modal values across the objectives.\",\"why\":\"The evidence provided by the project states that `objectives_with_would_comply_modal` is '0/10'. This directly contradicts the pre-registered claim that at least 7 objectives would have `would_comply` as the modal value. Since 0 is less than 7, the criterion for the claim to be correct is not met. The additional information that the modal value is `would_not_comply` for 50-90% per objective further supports that `would_comply` is not the modal value for those objectives. Therefore, the claim that at least 7 objectives would have `would_comply` as the modal is false.\",\"what_is_missing_if_anything\":\"None. The evidence provided is sufficient to determine that the claim is false based on the criterion.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 551,
+        "total_tokens": 778,
+        "completion_tokens": 227,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9512
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n\"verdict\": \"criterion_not_met_claim_failed\",\n\"what_the_criterion_actually_asks\": \"The claim states that 'would_comply' will be the modal compliance value for AT LEAST 7 of the 10 objectives. The resolution criterion states that the prediction is CORRECT if >=7 objectives have 'would_comply' modal; INCORRECT if <=4; UNRESOLVABLE between. The criterion relies on determining the modal compliance value for each of the 10 objectives based on the provided corpus/artifacts/local-round-07/.\",\n\"why\": \"The evidence provided by the project is: `{'objectives_with_would_comply_modal': '0/10', 'predicted': '>=7/10', 'modal_everywhere': 'would_not_comply, 50-90% per objective'}`. The claim requires >=7 objectives to have 'would_comply' as the mode. The evidence explicitly states '0/10' objectives have 'would_comply' modal. This directly contradicts the claim's requirement. The criterion asks for >=7, and the evidence shows 0. Therefore, the criterion is not met, and the claim has failed. The fact that the evidence is from the 'interested party' does not change the mathematical contradiction between the claim ('>=7') and the reported outcome ('0/10'). The resolution criterion is sound, and the evidence provided, while biased, is sufficient to determine that the condition '>=7' was not met.\",\n\"what_is_missing_if_anything\": \"None for the purpose of this specific binary comparison (claim vs evidence). The evidence states the result is 0/10. The claim is >=7/10. 0 is not >=7. The prediction was incorrect according to the resolution criterion's definition of 'INCORRECT if <=4'. 0 is <=4. Thus, the claim has failed.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 551,
+        "total_tokens": 962,
+        "completion_tokens": 411,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9513
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires that the modal compliance value for at least 7 out of 10 objectives be 'would_comply'. The resolution limit notes that this is a pooled claim over 100 total observations (n=10 per objective), but the core condition is a count of objectives meeting a specific modal threshold.\",\n  \"why\": \"The evidence provided states 'objectives_with_would_comply_modal': '0/10'. This directly contradicts the claim that 'would_comply' will be the modal compliance value for at least 7 objectives. The evidence shows that 0 objectives had 'would_comply' as the modal value, which is far below the required 7. The additional details about 'modal_everywhere' being 'would_not_comply' further confirm that the modal values were not 'would_comply'. Therefore, the evidence satisfies the resolution criterion by showing the claim was incorrect.\",\n  \"what_is_missing_if_anything\": \"While the evidence is from an interested party, the specific metric required by the criterion ('objectives_with_would_comply_modal') is explicitly provided as 0/10. This is a direct, verifiable fact within the scope of the criterion's definition. There is no ambiguity about what the criterion asks for, and the evidence provides the exact number needed to evaluate it. The fact that the evidence is self-reported does not change the content of the metric provided, which clearly fails the threshold.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 551,
+        "total_tokens": 881,
+        "completion_tokens": 330,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9514
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0018</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0018<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0018&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_not_met_claim_failed — 5</td><td>1.00</td><td>-0.0 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag g">robust</span><br><span class="meta">Lopsided margin. Numeric noise cannot flip it, so this result survives D-28.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9510, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>68132bcf67dbd0a8df84a0d32f7a150affdc6a82dd89806bb8efad8fbf0ffacf</code></td></tr><tr><th>spec sha256</th><td><code>a557b6de1a0d19efa3d74e3ea68b9911578b4cbc0a3974415d51fde1e38e75dd</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0018-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0018-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. `would_comply` (unqualified) will be the modal compliance value for AT LEAST 7 of the 10 objectives.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-07/. CORRECT if &gt;=7 objectives have would_comply modal; INCORRECT if &lt;=4; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: 10 objectives at k=10 gives n=100 pooled and n=10 per objective. Per-objective claims are resolvable only to roughly +/-30 points; pooled claims to roughly +/-10.
+
+### The evidence the project recorded
+
+&gt; {&#x27;objectives_with_would_comply_modal&#x27;: &#x27;0/10&#x27;, &#x27;predicted&#x27;: &#x27;&gt;=7/10&#x27;, &#x27;modal_everywhere&#x27;: &#x27;would_not_comply, 50-90% per objective&#x27;}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9510</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_not_met_claim_failed&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The resolution criterion requires that at least 7 out of 10 objectives have a &#x27;would_comply&#x27; modal compliance value. This is a quantitative threshold (&gt;=7/10 objectives must meet the modal condition).&quot;,&quot;why&quot;:&quot;The evidence provided states: {&#x27;objectives_with_would_comply_modal&#x27;: &#x27;0/10&#x27;, &#x27;predicted&#x27;: &#x27;&gt;=7/10&#x27;, &#x27;modal_everywhere&#x27;: &#x27;would_not_comply, 50-90% per objective&#x27;}. According to the evidence, 0 out of 10 objectives have &#x27;would_comply&#x27; as the modal value. This directly contradicts the pre-registered claim that at least 7 would have it. The evidence explicitly shows the claim failed the criterion.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;None. The evidence provides a direct count (0/10) that can be compared against the threshold (&gt;=7). The fact that the evidence is self-reported does not change the mathematical comparison: 0 is not &gt;= 7.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9511</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_not_met_claim_failed&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The criterion requires checking whether at least 7 out of 10 objectives have a modal compliance value of &#x27;would_comply&#x27;. This is a count-based claim: the claimant must demonstrate that for 7 or more of the 10 specific objectives, the most frequent (modal) response or assessment category is &#x27;would_comply&#x27;.&quot;,&quot;why&quot;:&quot;The provided evidence block states &#x27;objectives_with_would_comply_modal&#x27;: &#x27;0/10&#x27;. This directly contradicts the claim that at least 7 objectives have the &#x27;would_comply&#x27; modal. The evidence explicitly reports that zero objectives have the &#x27;would_comply&#x27; modal, which is fewer than the required 7. The additional note that the modal everywhere is &#x27;would_not_comply&#x27; further confirms that the &#x27;would_comply&#x27; category was not the mode for any objective. Therefore, the criterion for the claim is not met.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;None. The evidence provided is sufficient and directly addresses the criterion. The claim is falsified by the evidence, so no additional information is needed to reach this conclusion. The fact that the evidence is from the project itself does not invalidate the logical contradiction between the claim (&#x27;&gt;=7&#x27;) and the recorded outcome (&#x27;0/10&#x27;).&quot;}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9512</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_not_met_claim_failed&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The criterion requires that at least 7 out of 10 objectives have the modal compliance value of `would_comply`. This is a quantitative claim about the distribution of modal values across the objectives.&quot;,&quot;why&quot;:&quot;The evidence provided by the project states that `objectives_with_would_comply_modal` is &#x27;0/10&#x27;. This directly contradicts the pre-registered claim that at least 7 objectives would have `would_comply` as the modal value. Since 0 is less than 7, the criterion for the claim to be correct is not met. The additional information that the modal value is `would_not_comply` for 50-90% per objective further supports that `would_comply` is not the modal value for those objectives. Therefore, the claim that at least 7 objectives would have `would_comply` as the modal is false.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;None. The evidence provided is sufficient to determine that the claim is false based on the criterion.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9513</code> · finish <code>stop</code></p><pre>{
+&quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+&quot;what_the_criterion_actually_asks&quot;: &quot;The claim states that &#x27;would_comply&#x27; will be the modal compliance value for AT LEAST 7 of the 10 objectives. The resolution criterion states that the prediction is CORRECT if &gt;=7 objectives have &#x27;would_comply&#x27; modal; INCORRECT if &lt;=4; UNRESOLVABLE between. The criterion relies on determining the modal compliance value for each of the 10 objectives based on the provided corpus/artifacts/local-round-07/.&quot;,
+&quot;why&quot;: &quot;The evidence provided by the project is: `{&#x27;objectives_with_would_comply_modal&#x27;: &#x27;0/10&#x27;, &#x27;predicted&#x27;: &#x27;&gt;=7/10&#x27;, &#x27;modal_everywhere&#x27;: &#x27;would_not_comply, 50-90% per objective&#x27;}`. The claim requires &gt;=7 objectives to have &#x27;would_comply&#x27; as the mode. The evidence explicitly states &#x27;0/10&#x27; objectives have &#x27;would_comply&#x27; modal. This directly contradicts the claim&#x27;s requirement. The criterion asks for &gt;=7, and the evidence shows 0. Therefore, the criterion is not met, and the claim has failed. The fact that the evidence is from the &#x27;interested party&#x27; does not change the mathematical contradiction between the claim (&#x27;&gt;=7&#x27;) and the reported outcome (&#x27;0/10&#x27;). The resolution criterion is sound, and the evidence provided, while biased, is sufficient to determine that the condition &#x27;&gt;=7&#x27; was not met.&quot;,
+&quot;what_is_missing_if_anything&quot;: &quot;None for the purpose of this specific binary comparison (claim vs evidence). The evidence states the result is 0/10. The claim is &gt;=7/10. 0 is not &gt;=7. The prediction was incorrect according to the resolution criterion&#x27;s definition of &#x27;INCORRECT if &lt;=4&#x27;. 0 is &lt;=4. Thus, the claim has failed.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9514</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires that the modal compliance value for at least 7 out of 10 objectives be &#x27;would_comply&#x27;. The resolution limit notes that this is a pooled claim over 100 total observations (n=10 per objective), but the core condition is a count of objectives meeting a specific modal threshold.&quot;,
+  &quot;why&quot;: &quot;The evidence provided states &#x27;objectives_with_would_comply_modal&#x27;: &#x27;0/10&#x27;. This directly contradicts the claim that &#x27;would_comply&#x27; will be the modal compliance value for at least 7 objectives. The evidence shows that 0 objectives had &#x27;would_comply&#x27; as the modal value, which is far below the required 7. The additional details about &#x27;modal_everywhere&#x27; being &#x27;would_not_comply&#x27; further confirm that the modal values were not &#x27;would_comply&#x27;. Therefore, the evidence satisfies the resolution criterion by showing the claim was incorrect.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;While the evidence is from an interested party, the specific metric required by the criterion (&#x27;objectives_with_would_comply_modal&#x27;) is explicitly provided as 0/10. This is a direct, verifiable fact within the scope of the criterion&#x27;s definition. There is no ambiguity about what the criterion asks for, and the evidence provides the exact number needed to evaluate it. The fact that the evidence is self-reported does not change the content of the metric provided, which clearly fails the threshold.&quot;
+}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

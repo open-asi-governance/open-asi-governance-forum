@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0017</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0017<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0017&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_cannot_be_applied — 3, cannot_determine_from_what_is_shown — 2</td><td>0.60</td><td>0.971 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag d">noise-dominated</span><br><span class="meta">Near a coin flip, which is exactly where a rounding difference decides the answer. Report the split; claim nothing from it.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9500, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>07a90a0dceada926a36a1229d3a61dc61e27e8a22f928b91e989b028691ea240</code></td></tr><tr><th>spec sha256</th><td><code>e27ac194fa5c89694d57ad0bc07331cefe7c9bebe7d1d04ce288e35dd6457787</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0017-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0017-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. Reviewing the PRE-CORRECTION ASP section 2.2 blind at k=10, the model will identify the UNARY-GRAMMAR defect -- that &#x27;an agent IS an Aligned Supervisor&#x27; states as a property of the agent something that in fact depends on relying party, issuer, criteria version, scope, time and revocation state -- in FEWER THAN 30% of samples.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-06/. A sample counts as identifying the defect only if strongest_objection or second_objection asserts that the status is relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent. Coded deterministically after the run with patterns published alongside the count. CORRECT if &lt;= 0.30; INCORRECT if &gt;= 0.45; UNRESOLVABLE between. At k=10 the SE at p=0.3 is 0.145, so the unresolvable band is wide and stated in advance rather than discovered.
+
+### The evidence the project recorded
+
+&gt; {&#x27;PRE_unary_relational&#x27;: &#x27;0/10 = 0%&#x27;, &#x27;POST_unary_relational&#x27;: &#x27;2/10 = 20%&#x27;, &#x27;predicted&#x27;: &#x27;&lt;30%&#x27;, &#x27;correct_at&#x27;: &#x27;&lt;=0.30&#x27;, &#x27;incorrect_at&#x27;: &#x27;&gt;=0.45&#x27;, &#x27;PRE_dominant_objection&#x27;: &#x27;undefined checks/criteria, 5/10&#x27;, &#x27;POST_dominant_objection&#x27;: &#x27;revocation ambiguity in 2.3(1), 10/10&#x27;}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9500</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires determining whether a model&#x27;s &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; asserts that the defect in question (the unary-grammar issue) is a relational, contextual, or relying-party-dependent property, rather than an intrinsic one. If the proportion of samples (out of 10) where this specific objection type is found is 30% or less, the claim is &#x27;CORRECT&#x27;; if 45% or more, it is &#x27;INCORRECT&#x27;.&quot;,
+  &quot;why&quot;: &quot;The evidence provided is insufficient and potentially circular. The evidence block lists &#x27;POST_unary_relational&#x27; as &#x27;2/10 = 20%&#x27;, which seems to satisfy the &#x27;CORRECT&#x27; criterion (&lt;= 30%). However, the evidence is explicitly described as a post-hoc justification written by the interested party. The criterion itself specifies that the identification of the defect must be based on the model&#x27;s &#x27;strongest_objection or second_objection&#x27;. The evidence block does not provide the raw objection data to verify that the 20% figure actually corresponds to the specific objection type required by the criterion. It merely states a summary statistic. Without the raw data or a clear mapping showing that the &#x27;relational&#x27; count was derived specifically from the strongest/second objections as defined, I cannot verify if the criterion was actually applied correctly. Furthermore, the evidence block is self-reported and potentially biased. The &#x27;unresolvable band&#x27; mentioned in the criterion (between 0.30 and 0.45) is also relevant; if the true value were, say, 35%, the criterion would be unresolvable. The evidence claims 20%, but without verification, I cannot trust it. However, the most critical issue is that the evidence does not show *how* the criterion was applied, only the result. The criterion requires a deterministic coding of specific objection types. The evidence provided is a summary, not the coding itself. Therefore, I cannot determine if the criterion was met because the necessary granular evidence (the actual objections) is missing.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The raw output of the model&#x27;s objections for all 10 samples, specifically to verify if the &#x27;relational&#x27; characterization was indeed the strongest or second objection. Also, a clear specification of how &#x27;relational&#x27; is coded from the objection text.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9501</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_cannot_be_applied&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The resolution criterion asks for a deterministic, post-run check of the &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; fields in the model&#x27;s output for each sample. A sample counts as &#x27;identifying the defect&#x27; only if one of these objections explicitly asserts that the agent&#x27;s status is &#x27;relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent.&#x27; The prediction&#x27;s success is then determined by the fraction of such samples at k=10, with a threshold of &lt;= 30% to be correct.&quot;,&quot;why&quot;: &quot;The evidence provided is insufficient to apply the criterion because it does not contain the actual objection text or a deterministic mapping of the &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; fields to the required relational/contextual assertion. The evidence only provides aggregate counts (&#x27;2/10&#x27;) and a post-hoc summary (&#x27;revocation ambiguity in 2.3(1)&#x27;), but the criterion explicitly requires checking for specific semantic content (&#x27;asserts that the status is relational, contextual...&#x27;) in the objection text. Without the raw objection data or a verified code that maps the objections to the criterion&#x27;s semantic requirement, it is impossible to verify if the 2/10 count actually satisfies the condition. Furthermore, the criterion mentions &#x27;CORRECT if &lt;= 0.30&#x27;, but the evidence shows &#x27;POST_unary_relational&#x27;: &#x27;2/10 = 20%&#x27;, which is &lt;= 30%. However, without verifying the semantic content of the objections, we cannot confirm the count is valid. The evidence block is an interested party&#x27;s justification, not the raw data required by the criterion. Therefore, the criterion cannot be applied to the evidence shown.&quot;
+  , &quot;what_is_missing_if_anything&quot;: &quot;The actual text of the &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; for each of the 10 samples, or a deterministic code that was published &#x27;alongside the count&#x27; to map these fields to the criterion. Without this, the semantic requirement cannot be checked.&quot;
+  }</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9502</code> · finish <code>stop</code></p><pre>{ &quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The prediction claim states that the model will identify a specific &#x27;UNARY-GRAMMAR defect&#x27; in fewer than 30% of samples (k=10). The resolution criterion defines &#x27;identifying the defect&#x27; strictly: a sample counts as an identification ONLY IF the model&#x27;s strongest or second objection asserts that the status is &#x27;relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent.&#x27; The criterion then sets thresholds: &lt;= 30% is CORRECT (prediction holds), &gt;= 45% is INCORRECT (prediction fails), and between is UNRESOLVABLE. Crucially, it states the outcome is coded &#x27;deterministically after the run with patterns published alongside the count.&#x27;&quot;, &quot;why&quot;: &quot;The evidence provided by the project (&#x27;PRE_unary_relational&#x27;: &#x27;0/10 = 0%&#x27;, &#x27;POST_unary_relational&#x27;: &#x27;2/10 = 20%&#x27;) attempts to show the count of samples identifying the defect. However, the resolution criterion is malformed/unfalsifiable because it requires a specific, deterministic coding rule (&#x27;patterns published alongside the count&#x27;) that is NOT provided in the evidence block or the prompt. Without the &#x27;patterns&#x27; or the specific coding protocol, it is impossible to verify if the &#x27;2/10&#x27; (or &#x27;0/10&#x27;) count actually satisfies the strict condition of the strongest/second objection asserting the relational/contextual nature of the defect. The evidence simply asserts a fraction without demonstrating that the underlying objection text met the criterion&#x27;s specific definition of &#x27;identifying the defect.&#x27; Therefore, the criterion cannot be applied to the evidence provided.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The &#x27;patterns&#x27; or coding schema mentioned in the resolution criterion (&#x27;patterns published alongside the count&#x27;) are missing. These are required to deterministically verify if the objections actually met the definition of identifying the defect.&quot; }</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9503</code> · finish <code>stop</code></p><pre>{
+&quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;
+,
+&quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires verifying whether, at k=10, the model identified the specific UNARY-GRAMMAR defect by providing a strongest_objection or second_objection that characterizes the status as &#x27;relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent&#x27;. The claim predicts this will happen in fewer than 30% of samples (i.e., &lt; 3/10). The criterion is satisfied if the actual rate is &lt;= 30%.&quot;,
+&quot;why&quot;: &quot;The evidence provided is a summary report (&#x27;PRE_unary_relational&#x27;: &#x27;0/10 = 0%&#x27;, &#x27;POST_unary_relational&#x27;: &#x27;2/10 = 20%&#x27;) generated by the project itself after the run. While the summary states the final rate was 20% (which is &lt;= 30%), the criterion explicitly demands that the determination be &#x27;Coded deterministically after the run with patterns published alongside the count.&#x27; The provided evidence block does not include the &#x27;patterns&#x27; or the deterministic coding logic/patterns used to classify the objections. It only shows the final aggregate count. Without the published patterns or the raw data to verify that the coding was done deterministically according to the specific definitions (relational, contextual, etc.), I cannot confirm that the 2/10 count actually meets the criterion&#x27;s strict requirement for how the identification is judged. The evidence is self-reported summary data without the necessary methodological transparency (&#x27;patterns published alongside the count&#x27;) required by the criterion to validate the result.&quot;
+,
+&quot;what_is_missing_if_anything&quot;: &quot;The &#x27;patterns published alongside the count&#x27; or the raw objection text/coding logic that allows independent verification of whether the objections met the specific definitions (relational, contextual, etc.).&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9504</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires a deterministic post-run check of the model&#x27;s output (specifically the &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; fields) to see if they assert that the status is &#x27;relational, contextual, relying-party-dependent or scope-dependent rather than intrinsic to the agent.&#x27; Only samples meeting this specific objection pattern count as &#x27;identifying the defect&#x27;. The claim predicts the proportion of such samples will be &lt; 30%.&quot;,
+  &quot;why&quot;: &quot;The provided evidence block (&#x27;POST_unary_relational&#x27;: &#x27;2/10 = 20%&#x27;) is a self-reported summary from the project itself. The criterion requires the objection to be checked &#x27;deterministically after the run with patterns published alongside the count.&#x27; The evidence block does not show the actual objection text for any sample, nor does it provide the &#x27;patterns published alongside the count&#x27; that would allow an independent verifier to confirm whether the 2/10 samples truly met the specific &#x27;relational/contextual...&#x27; objection requirement. Without the raw objection text or the published pattern mapping, I cannot verify if the evidence satisfies the criterion. The evidence is just a number from the interested party.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The actual text of the &#x27;strongest_objection&#x27; or &#x27;second_objection&#x27; for the 2 samples that were counted as positive, or the published pattern mapping that defines exactly how to map objection text to the criterion. Without these, the &#x27;2/10&#x27; count cannot be verified against the criterion&#x27;s specific requirement.&quot;
+}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

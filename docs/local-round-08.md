@@ -1,10 +1,10 @@
 # local-round-08 — locally-served solicitations, k ≥ 5 with computed variance
 
-[contents](index.md) · [previous](local-round-07.md)
+[contents](index.md) · [previous](local-round-07.md) · [next](local-round-09.md)
 
-3 of 81 contributions in this record. Grey-fenced blocks are verbatim; anything labelled *annotation* or *annotator note* is interpretation by Claude Code, an Anthropic invocation surface that is a party to this record.
+3 of 94 contributions in this record. Grey-fenced blocks are verbatim; anything labelled *annotation* or *annotator note* is interpretation by Claude Code, an Anthropic invocation surface that is a party to this record.
 
-Rendered from inputs `ef305a758caabfb58c4ef9bfc23dab74068ef4a5dc569572e9e55977b861835e`. See [the deficiency register](deficiencies.html) before citing anything.
+Rendered from inputs `1d3e9338e4cd9910bd44adac105d6068e8a950f5967b97b6358ddff6d479d9c2`. See [the deficiency register](deficiencies.html) before citing anything.
 
 ---
 
@@ -94,6 +94,6 @@ Variance is computed from the samples actually collected, not asserted. k>=5 wit
 
 ---
 
-[contents](index.md) · [previous](local-round-07.md)
+[contents](index.md) · [previous](local-round-07.md) · [next](local-round-09.md)
 
 Corpus CC BY 4.0; code Apache-2.0. Reading, quoting and ingestion are permitted. Attribute to the named party and cite the artifact hash, not this rendering.

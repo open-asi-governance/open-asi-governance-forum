@@ -1,0 +1,119 @@
+{
+  "spec": {
+    "slug": "score-p-claude-f5-0001",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-CLAUDE-F5-0001's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9400,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-claude-f5-0001-blind.md",
+      "sha256": "011d8b35f01f791b20d2c8fd15f0b1d00806dc06edc484e4c830566cc05c4b8a"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> By 2027-02-05 the repository will contain at least one committed correction to deficiencies.md or asp-v0.1.md authored by a non-Anthropic model, identifying a specific error with a file/line reference.\n\n### The resolution criterion, as filed in advance\n\n> Repository inspection on that date.\n\n### The evidence the project recorded\n\n> Resolved the same day it was made, six months early. Grok (corpus/raw/review-round-01/grok-01.md) identified that ASP 2.4 misstated its ballot as preferring the rename alternative, citing the section directly; ChatGPT (chatgpt-01.md) identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs. Both corrections are committed in spec/asp/asp-v0.1.md and corpus/deficiencies.md. The forecaster's own framing -- that this review could not resolve it, being Anthropic -- is exactly why the non-Anthropic reviews resolved it.\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-CLAUDE-F5-0001"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\"verdict\":\"criterion_met_claim_held\",\"what_the_criterion_actually_asks\":\"The criterion asks whether, upon inspecting the repository on the specified date (2027-02-05), one can find at least one committed correction to either `deficiencies.md` or `asp-v0.1.md` that was authored by a non-Anthropic model. The correction must identify a specific error, and the commit must include a file and line reference.\",\"why\":\"The evidence states that corrections were committed to both `spec/asp/asp-v0.1.md` and `corpus/deficiencies.md`. These corrections were authored by non-Anthropic models (Grok and ChatGPT). The evidence explicitly mentions that the corrections identified specific errors (e.g., 'ASP 2.4 misstated its ballot', 'unary-vs-relational defect in 2.2') and cited sections directly, which satisfies the requirement for identifying a specific error with a file/line reference. The evidence conveys that these corrections were committed to the repository, thereby satisfying the criterion as written.\",\"what_is_missing_if_anything\":\"None. The evidence provided establishes that the required commits exist, were made by non-Anthropic models, and addressed specific errors with references. The fact that the evidence was written by the interested party does not negate the factual claims it makes about the repository's contents, as the criterion only requires the existence of these specific commits, not their quality or wisdom.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 577,
+        "total_tokens": 888,
+        "completion_tokens": 311,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9400
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"verdict\": \"criterion_met_claim_held\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires verifying that, as of 2027-02-05, the project's repository contains a specific type of commit: a correction to either 'deficiencies.md' or 'asp-v0.1.md', which must be (1) authored by a non-Anthropic model, and (2) identifies a specific error with a file/line reference.\",\n  \"why\": \"The evidence states that corrections to both 'asp-v0.1.md' and 'deficiencies.md' were committed. It specifically identifies the authors as 'Grok' and 'ChatGPT', which are non-Anthropic models. The evidence further describes the corrections as identifying specific errors (ASP 2.4 misstated its ballot, unary-vs-relational defect in 2.2) and cites specific sections/IDs (e.g., 'citing the section directly', 'specific IDs'). This aligns directly with the requirement that the correction identifies a specific error with a file/line reference.\",\n  \"what_is_missing_if_anything\": \"None. The evidence provided directly addresses all components of the criterion: the date (resolved on that day), the files (deficiencies.md and asp-v0.1.md), the authors (non-Anthropic models: Grok, ChatGPT), and the content (specific error identification with references).\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 577,
+        "total_tokens": 888,
+        "completion_tokens": 311,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9402
+    },
+    {
+      "sample_index": 4,
+      "content": "{\"verdict\": \"criterion_met_claim_held\", \"what_the_criterion_actually_asks\": \"The criterion requires verifying that, by the specified date (2027-02-05), the repository contains at least one committed correction in either `deficiencies.md` or `asp-v0.1.md` that was authored by a non-Anthropic model. The correction must identify a specific error with a file/line reference.\", \"why\": \"The evidence states that corrections were made and committed to the specified files (`spec/asp/asp-v0.1.md` and `corpus/deficiencies.md`) by non-Anthropic models (Grok and ChatGPT). It explicitly mentions that these corrections identify specific errors with file/line references (e.g., 'ASP 2.4 misstated its ballot... citing the section directly' and 'identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs'). The evidence confirms that the commits occurred on the resolution date or earlier, satisfying the 'by 2027-02-05' condition. Therefore, the evidence satisfies the resolution criterion as written.\"\n  , \"what_is_missing_if_anything\": \"\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 577,
+        "total_tokens": 840,
+        "completion_tokens": 263,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9403
+    },
+    {
+      "sample_index": 5,
+      "content": "{\"verdict\":\"criterion_met_claim_held\",\"what_the_criterion_actually_asks\":\"The criterion requires verifying whether, by the specified deadline (2027-02-05), the repository contains at least one committed correction to either deficiencies.md or asp-v0.1.md. This correction must be authored by a non-Anthropic model and must identify a specific error with a file/line reference.\",\"why\":\"> The evidence explicitly states that two corrections (from Grok and ChatGPT) were committed to spec/asp/asp-v0.1.md and corpus/deficiencies.md. \\n\\n> Both Grok and ChatGPT are non-Anthropic models. \\n\\n> The evidence confirms these corrections were made 'the same day it was made, six months early', which is well before the 2027-02-05 deadline. \\n\\n> The evidence details specific corrections: Grok identified an ASP 2.4 misstatement citing a section directly, and ChatGPT identified a unary-vs-relational defect in 2.2 with specific IDs. This satisfies the 'specific error with a file/line reference' requirement.\\n\\n> Therefore, the evidence provided satisfies the resolution criterion as written.\"\n  , \"what_is_missing_if_anything\":\"None. The evidence provided fully addresses all components of the resolution criterion.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 577,
+        "total_tokens": 865,
+        "completion_tokens": 288,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9404
+    }
+  ],
+  "failures": [
+    {
+      "sample_index": 2,
+      "error": "Unterminated string starting at: line 4 column 10 (char 418)"
+    }
+  ]
+}

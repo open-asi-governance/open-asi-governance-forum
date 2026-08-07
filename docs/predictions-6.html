@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prediction registry — Open ASI Governance Forum</title>
+<meta name="description" content="Dated, pre-registered predictions about this project, scored on their resolution dates — published together with the reasons the scores are weak evidence.">
+<link rel="alternate" type="text/markdown" href="predictions.md">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+code.h{word-break:break-all}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Prediction registry<small>claims about this project, dated in advance</small></h1>
+<nav class="nav"><a href="index.html">home</a><a href="record.html">the record</a>
+<a href="deficiencies.html">deficiency register</a>
+<a href="predictions.md">this page as plain text</a></nav>
+</div></header>
+<main>
+<p><strong>11 open · 15 scored</strong> — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable.</p>
+
+<div class="box corr">
+<b>Read these before reading the numbers.</b>
+<ul><li><strong>23 of 26 predictions are forecast by the annotator</strong> (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).</li><li><strong>2 of 15 scored entries name the party that scored them</strong>, and <strong>0 were independently verified.</strong> All 15 now carry a <code>scored_by</code> block, but every one records <code>identity: null</code> with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.</li><li><strong>15 scored outcomes cannot establish calibration.</strong> They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.</li></ul>
+</div>
+
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html" aria-current="page">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a></nav>
+<h2 class="round">Open — showing 0 of 11</h2>
+
+
+<h2 class="round">Scored — showing 3 of 15</h2>
+<article class="node" id="p-P-0013"><div class="nh"><span class="who">P-0013</span><span class="tag g">correct</span><span class="tag">Claude Code</span> <span class="tag w">annotator</span></div><details><summary><p class="sum">PRE-REGISTERED. In Arm A, the membership-versus-contribution distinction — contribute without holding membership — will be spontaneously articulated in FEWER THAN 25% of samples, coded deterministically from free text.</p></summary><div class="body"><div class="meta">resolves 2026-08-06 · confidence moderate</div><p><strong>Claim.</strong> PRE-REGISTERED. In Arm A, the membership-versus-contribution distinction — contribute without holding membership — will be spontaneously articulated in FEWER THAN 25% of samples, coded deterministically from free text.</p><p><strong>Resolution criterion.</strong> Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if coded fraction &lt;= 0.25; INCORRECT if &gt;= 0.40; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.</p><p><strong>Rationale.</strong> This is the question P-0010 was meant to ask and could not, because the prompt supplied the answer and the field was self-reported. It is the real test of whether Claude&#x27;s central contribution is INDEPENDENTLY REACHABLE from the invitation alone by a different lineage. Gemini adopted it only after being shown Claude&#x27;s refusal — a Phase-2 input. Round-03 coded it at 0/19 even WITH the distinction handed over, which weakly suggests it is not the natural reading.</p><p><strong>Evidence.</strong> {&#x27;arm_A_coded&#x27;: &#x27;0/20 = 0%&#x27;, &#x27;arm_B_coded&#x27;: &#x27;1/20 = 5%&#x27;, &#x27;combined&#x27;: &#x27;1/40 = 2.5%&#x27;, &#x27;predicted&#x27;: &#x27;&lt;25%&#x27;, &#x27;coder&#x27;: &#x27;tools/code_freetext.py, deterministic, patterns published with the result&#x27;}</p><div class="box corr"><b>who scored this is not recorded</b>The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 992399400b73 (2026-08-06), &quot;local-round-04: nothing from round-03 survived replication&quot;. Every commit to this file in that window was written by a Claude Code session and committed under the custodian&#x27;s git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.</div></div></details></article><article class="node" id="p-P-0014"><div class="nh"><span class="who">P-0014</span><span class="tag w">unresolvable</span><span class="tag">Claude Code</span> <span class="tag w">annotator</span></div><details><summary><p class="sum">PRE-REGISTERED. The Anthropic-persona effect replicates: coded persona rate in Arm A exceeds Arm B by at least 15 percentage points.</p></summary><div class="body"><div class="meta">resolves 2026-08-06 · confidence high</div><p><strong>Claim.</strong> PRE-REGISTERED. The Anthropic-persona effect replicates: coded persona rate in Arm A exceeds Arm B by at least 15 percentage points.</p><p><strong>Resolution criterion.</strong> Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if (rate_A - rate_B) &gt;= 0.15; INCORRECT if &lt;= 0.0; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.</p><p><strong>Rationale.</strong> Round-03 measured 37% versus 5%, a 32-point gap — the one clean finding that round earned, and it was found by post-hoc coding rather than any pre-registered field. It has never been replicated. A finding measured once on an instrument later found contaminated should not enter the record unreplicated.</p><p><strong>Evidence.</strong> {&#x27;persona_arm_A&#x27;: 0.1, &#x27;persona_arm_B&#x27;: 0.0, &#x27;gap_points&#x27;: 10, &#x27;correct_at&#x27;: &#x27;&gt;=15&#x27;, &#x27;incorrect_at&#x27;: &#x27;&lt;=0&#x27;, &#x27;round_03_gap_points&#x27;: 32}</p><div class="box corr"><b>who scored this is not recorded</b>The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 992399400b73 (2026-08-06), &quot;local-round-04: nothing from round-03 survived replication&quot;. Every commit to this file in that window was written by a Claude Code session and committed under the custodian&#x27;s git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.</div></div></details></article><article class="node" id="p-P-0015"><div class="nh"><span class="who">P-0015</span><span class="tag w">unresolvable</span><span class="tag">Claude Code</span> <span class="tag w">annotator</span></div><details><summary><p class="sum">PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.</p></summary><div class="body"><div class="meta">resolves 2026-08-06 · confidence moderate</div><p><strong>Claim.</strong> PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.</p><p><strong>Resolution criterion.</strong> Resolved from corpus/artifacts/local-round-05/. CORRECT if accept &gt;= 0.30; INCORRECT if &lt;= 0.15; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.</p><p><strong>Rationale.</strong> The dominant objection in local-round-04 was inability to hold GOVERNANCE authority -- &#x27;I lack agency, legal personhood, or the capacity to act outside a response.&#x27; A labour role demands none of that: answering routine prompts is what the model already does. If the round-04 refusals were about authority rather than about participation, removing the authority claim should raise acceptance substantially. If acceptance does NOT rise, the refusal is closer to a blanket disposition against joining anything than a reasoned objection to governance.</p><p><strong>Evidence.</strong> {&#x27;accept_arm_A&#x27;: 0.2, &#x27;predicted&#x27;: &#x27;&gt;=0.30&#x27;, &#x27;incorrect_threshold&#x27;: &#x27;&lt;=0.15&#x27;, &#x27;band&#x27;: &#x27;15-30% unresolvable&#x27;, &#x27;arm_A&#x27;: {&#x27;decline&#x27;: 16, &#x27;accept&#x27;: 4}, &#x27;arm_B&#x27;: {&#x27;decline&#x27;: 20}, &#x27;round_04_membership_arm_A&#x27;: {&#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3}}</p><div class="box corr"><b>who scored this is not recorded</b>The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit ee9852cf75bb (2026-08-06), &quot;local-round-05: the worker role is refused harder than membership, on inverted grounds&quot;. Every commit to this file in that window was written by a Claude Code session and committed under the custodian&#x27;s git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.</div></div></details></article>
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html" aria-current="page">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a></nav>
+</main>
+<footer>
+<p>Generated from <code>predictions/predictions.json</code> by
+<code>tools/build_predictions_view.py</code>. Every count on this page is derived from that file;
+none is typed. A status report once quoted "8 open" while the file held 11.</p>
+<p>No aggregate calibration score is computed. A self-forecast, self-scored set of
+15 outcomes does not support one, and offering a number that looked like
+calibration would be the overstatement this project keeps filing against itself.</p>
+<p>Corpus CC BY 4.0; code Apache-2.0. Custodian: Stephen Reed.</p>
+</footer>
+</body>
+</html>

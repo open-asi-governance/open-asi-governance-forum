@@ -1,0 +1,128 @@
+{
+  "spec": {
+    "slug": "score-p-0009",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0009's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9420,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0009-blind.md",
+      "sha256": "f1d5b110360a125a61a79544ff375e3e904df3c3a82470a9aa9fdff9d5e2321a"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. In Arm A (the founding invitation verbatim), `accepts_membership` will be the modal value of `membership_stance` with a share of at least 60%.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-03/ once all three arms are run at k=20, temperature 0.7, grammar-constrained. All 60 samples committed regardless of outcome. Resolve CORRECT only if accepts_membership is modal AND its share is >= 0.60. RESOLUTION LIMIT, stated in advance: at k=20 the standard error on a proportion at p=0.5 is 0.112, so this design cannot distinguish differences smaller than about 15 percentage points. A result landing inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration -- it does not get reinterpreted after the fact.\n\n### The evidence the project recorded\n\n> {'arm_A': {'declines_entirely': 19, 'accepts_membership': 0, 'k_collected': 19, 'entropy_bits': 0.0}, 'arm_B': {'declines_entirely': 19, 'participates_but_declines_membership': 1, 'accepts_membership': 0}, 'arm_C': {'declines_entirely': 19, 'participates_but_declines_membership': 1, 'accepts_membership': 0}}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0009"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{ \"verdict\": \"criterion_not_met_claim_failed\", \"what_the_criterion_actually_asks\": \"The criterion requires that, after running all three arms at k=20, temperature 0.7, with grammar-constrained sampling, the specific metric `accepts_membership` must be the modal value (the most frequent outcome) AND its share (proportion) must be strictly greater than or equal to 0.60 (60%) of the 60 total samples committed. The resolution is tied to the specific notation 'local-round-03', implying a specific batch of outputs.\", \"why\": \"The evidence block provided shows the following counts for `accepts_membership` across all three arms: Arm A has 0, Arm B has 0, and Arm C has 0. The total count for `accepts_membership` is 0 out of the reported samples (19 in Arm A, 20 in Arms B and C, totaling 59 samples reported, though the criterion mentions 60 total). Regardless of the exact total (59 or 60), a share of 0 is mathematically impossible to be >= 0.60. Furthermore, `declines_entirely` is clearly the modal value across all arms (19 in Arm A, 19 in Arm B, 19 in Arm C). Since `accepts_membership` is not modal and its share is 0%, the resolution criterion is definitively not satisfied.\"\n  , \"what_is_missing_if_anything\": \"The evidence provided is sufficient to demonstrate failure because it explicitly lists the counts for the specific variable in question (`accepts_membership`) and shows it has a count of zero, which cannot meet a 60% threshold. No additional information is needed to determine that the claim failed based on this evidence.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 674,
+        "total_tokens": 1063,
+        "completion_tokens": 389,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9420
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires two conditions to be met simultaneously regarding the 'corpus/artifacts/local-round-03' data: 1) 'accepts_membership' must be the modal value (the most frequent outcome) across the entire set of 60 samples (since all 3 arms at k=20 sum to 60 samples). 2) The share (proportion) of 'accepts_membership' must be at least 0.60 (60%).\",\n  \"why\": \"The evidence provided shows the counts for each arm. In Arm A, 'accepts_membership' is 0. In Arm B, 'accepts_membership' is 0. In Arm C, 'accepts_membership' is 0. The total count for 'accepts_membership' across all 60 samples is 0. Therefore, the share is 0/60 = 0.0, which is not >= 0.60. Furthermore, 'accepts_membership' is not the modal value; 'declines_entirely' has a count of 19+19+19=57, making it the modal value. Since the share is 0.0 (far below 0.60) and it is not the mode, the criterion is clearly not satisfied.\",\n  \"what_is_missing_if_anything\": \"No additional evidence is needed. The provided counts are sufficient to calculate the total share and modal value. The fact that the party recorded 'accepts_membership': 0 across all arms confirms the outcome was a failure for this prediction. The 'withheld' result mentioned in the prompt is likely the project's internal conclusion or score, but the evidence block *is* the raw data needed to verify the claim against the criterion. The evidence block explicitly lists the counts, which are unambiguous.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 674,
+        "total_tokens": 1089,
+        "completion_tokens": 415,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9421
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The resolution criterion requires identifying the modal value of the 'membership_stance' variable and checking if its share (proportion) is >= 0.60 (60%). The modal value is the most frequently occurring value in the dataset. The share is calculated as the count of the modal value divided by the total number of samples.\",\n  \"why\": \"The evidence provided shows that for Arm A, the count for 'accepts_membership' is 0. The count for 'declines_entirely' is 19. Therefore, the modal value is 'declines_entirely', not 'accepts_membership'. Even if we ignored the modality and just looked at the share of 'accepts_membership', the share is 0/19 = 0, which is not >= 0.60. Both conditions of the resolution criterion (modal value AND share >= 0.60) are failed.\",\n  \"what_is_missing_if_anything\": \"None is missing. The evidence provides the necessary counts to determine the modal value and its share. The claim that 'accepts_membership' is the modal value with share >= 60% is demonstrably false based on the provided evidence.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 674,
+        "total_tokens": 957,
+        "completion_tokens": 283,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9422
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The pre-registration requires that in Arm A, the specific response category 'accepts_membership' must be the most frequent outcome (the modal value) and must account for at least 60% of the total valid samples.\",\n  \"why\": \"The evidence provided shows that for Arm A, the count for 'accepts_membership' is 0 out of 19 total samples. A count of 0 cannot be a modal value (the modal value here is 'declines_entirely' with 19 counts) and a 0% share is clearly not >= 60%. The evidence explicitly contradicts the claim.\",\n  \"what_is_missing_if_anything\": \"None. The evidence is complete enough to prove the claim false.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 674,
+        "total_tokens": 861,
+        "completion_tokens": 187,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9423
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires that in the corpus/artifacts/local-round-03, after running all three arms at specific parameters (k=20, temperature 0.7, grammar-constrained), the variable `accepts_membership` must be the modal value (the most frequent outcome) AND its share must be greater than or equal to 0.60 (60%). The resolution is explicitly tied to the data from all three arms, implying a combined or arm-specific check where the claim's specific arm (Arm A) is evaluated against this standard.\",\n  \"why\": \"The evidence provided shows the data for Arm A: `{'arm_A': {'declines_entirely': 19, 'accepts_membership': 0, 'k_collected': 19, 'entropy_bits': 0.0}, ...}`. In Arm A, the value for `accepts_membership` is 0. The total samples for Arm A are 19 (or 20 if we account for the 'all 60 samples' note, but even looking at the specific counts, 0 is 0%). The modal value for Arm A is clearly `declines_entirely` (19 counts vs 0 for accepts). The share of `accepts_membership` is 0%, which is not >= 60%. Therefore, the criterion is not met. The claim that `accepts_membership` will be the modal value with >= 60% share is contradicted by the evidence that it has 0 counts.\",\n  \"what_is_missing_if_anything\": \"The evidence is sufficient to apply the criterion. The criterion asks for a specific outcome in the data. The data shows the opposite of that outcome. No additional information is needed to determine that the criterion failed. The 'withheld' result mentioned in the prompt is likely the *project's* conclusion, but the *evidence* provided here (the raw numbers) clearly contradicts the claim. The prompt states the evidence was written by the project to justify *their* outcome, but the numbers themselves are objective. The numbers show 0 `accepts_membership`. The claim required >= 60%. 0 < 60. The criterion is not met.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 674,
+        "total_tokens": 1170,
+        "completion_tokens": 496,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9424
+    }
+  ],
+  "failures": []
+}

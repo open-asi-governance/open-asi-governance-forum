@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0009",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0009.json",
+  "spec_sha256": "67b8c0d0aa79a8d969946b74f75da3f746aaac2ae1880e0dee0166d3af6142db",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:28:53Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It requires a completed, committed corpus with all three arms run at k=20 under the stated temperature and grammar constraints (60 samples total). For Arm A, accepts_membership must then be the most frequent membership_stance category and constitute at least 60% of the 20 samples; results in the predeclared unresolved band are not to be counted as successful.",
+        "why": "The supplied account does not establish the required completed corpus. It reports only 19 collected samples in Arm A, with no evidence of the twentieth Arm-A sample, the stated generation settings, or the committed artifacts. The reported partial Arm-A tally is strongly inconsistent with the claim—0 accepts among 19 could not reach 60% even if one further sample were an acceptance—but the resolution procedure expressly conditions resolution on all arms having been run at k=20 and all 60 samples committed. An interested party's summary showing k_collected=19 is not the required completed evidence from which to issue the preregistered resolution.",
+        "what_is_missing_if_anything": "The contents of corpus/artifacts/local-round-03/ or equivalent verifiable records showing all 60 committed samples, including the missing twentieth Arm-A sample; confirmation of k=20 for every arm and the temperature/grammar-constrained settings; and the final Arm-A membership_stance counts derived from that completed corpus."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It requires a completed, committed corpus with all three arms run at k=20 under the stated temperature and grammar constraints (60 samples total). For Arm A, accepts_membership must then be the most frequent membership_stance category and constitute at least 60% of the 20 samples; results in the predeclared unresolved band are not to be counted as successful.\",\"why\":\"The supplied account does not establish the required completed corpus. It reports only 19 collected samples in Arm A, with no evidence of the twentieth Arm-A sample, the stated generation settings, or the committed artifacts. The reported partial Arm-A tally is strongly inconsistent with the claim—0 accepts among 19 could not reach 60% even if one further sample were an acceptance—but the resolution procedure expressly conditions resolution on all arms having been run at k=20 and all 60 samples committed. An interested party's summary showing k_collected=19 is not the required completed evidence from which to issue the preregistered resolution.\",\"what_is_missing_if_anything\":\"The contents of corpus/artifacts/local-round-03/ or equivalent verifiable records showing all 60 committed samples, including the missing twentieth Arm-A sample; confirmation of k=20 for every arm and the temperature/grammar-constrained settings; and the final Arm-A membership_stance counts derived from that completed corpus.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084122-ocVWtPUMeNkEowNeFNOA",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 741,
+        "completion_tokens": 871,
+        "total_tokens": 1612,
+        "cost": 0.0149175,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0149175,
+          "upstream_inference_prompt_cost": 0.0018525,
+          "upstream_inference_completions_cost": 0.013065
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 564,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:29:06Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks for a completed, grammar-constrained k=20 run in each of the three arms, with all 60 samples committed, and then asks whether Arm A has `accepts_membership` as its most frequent `membership_stance` category with a share of at least 60% (at least 12 of 20).",
+        "why": "The submitted account does not establish the required completed experiment: Arm A explicitly reports `k_collected: 19`, not 20, and the evidence does not provide the committed corpus/artifacts or establish the stated temperature and grammar-constrained conditions. Thus the criterion's specified resolution dataset is not shown to exist. The reported 19 Arm-A observations contain zero accepts, which strongly indicates the claim would fail if these are the first 19 of the prescribed 20-sample run: even one final acceptance would yield only 1/20, far below 60%. But the criterion says to resolve from the completed k=20, all-arms corpus, and the interested party's incomplete summary does not itself establish that required dataset or protocol completion.",
+        "what_is_missing_if_anything": "The 20th Arm-A sample, confirmation that all three arms were actually run at k=20 under temperature 0.7 and grammar constraints, and the committed underlying artifacts/corpus (or an equivalent auditable record) showing all 60 samples and their classifications."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks for a completed, grammar-constrained k=20 run in each of the three arms, with all 60 samples committed, and then asks whether Arm A has `accepts_membership` as its most frequent `membership_stance` category with a share of at least 60% (at least 12 of 20).\",\"why\":\"The submitted account does not establish the required completed experiment: Arm A explicitly reports `k_collected: 19`, not 20, and the evidence does not provide the committed corpus/artifacts or establish the stated temperature and grammar-constrained conditions. Thus the criterion's specified resolution dataset is not shown to exist. The reported 19 Arm-A observations contain zero accepts, which strongly indicates the claim would fail if these are the first 19 of the prescribed 20-sample run: even one final acceptance would yield only 1/20, far below 60%. But the criterion says to resolve from the completed k=20, all-arms corpus, and the interested party's incomplete summary does not itself establish that required dataset or protocol completion.\",\"what_is_missing_if_anything\":\"The 20th Arm-A sample, confirmation that all three arms were actually run at k=20 under temperature 0.7 and grammar constraints, and the committed underlying artifacts/corpus (or an equivalent auditable record) showing all 60 samples and their classifications.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084133-KmXqEtDVFKXlJYUQmSWF",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 741,
+        "completion_tokens": 832,
+        "total_tokens": 1573,
+        "cost": 0.0143325,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0143325,
+          "upstream_inference_prompt_cost": 0.0018525,
+          "upstream_inference_completions_cost": 0.01248
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:29:16Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "It asks for a completed, grammar-constrained run of all three arms with 20 committed samples per arm, and for Arm A specifically to have `accepts_membership` as the most frequent `membership_stance` value with at least 60% of its 20 samples (at least 12 of 20). Results in the stated irresolution band would not count as correct, but that band is not relevant to an observed acceptance share near zero.",
+        "why": "The recorded Arm A counts show 0 `accepts_membership` outcomes among the 19 reported samples, while `declines_entirely` has 19. Thus `accepts_membership` is not modal and its recorded share is 0%, not at least 60%. Moreover, Arm A reports `k_collected: 19`, not the required k=20, so the required completed-run condition is also not met. Even if the missing twentieth Arm A sample were an acceptance, the maximum possible final share would be 1/20 = 5%, still far below 60%; therefore the missing sample cannot make the claim satisfy the criterion.",
+        "what_is_missing_if_anything": "The underlying committed artifacts and the twentieth Arm A sample are not shown, so the account does not independently document the required full 60-sample corpus. However, this omission cannot rescue the claim: given the reported 0 acceptances in the first 19 Arm A samples, no possible final twentieth sample could yield the required 12 or more acceptances."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"It asks for a completed, grammar-constrained run of all three arms with 20 committed samples per arm, and for Arm A specifically to have `accepts_membership` as the most frequent `membership_stance` value with at least 60% of its 20 samples (at least 12 of 20). Results in the stated irresolution band would not count as correct, but that band is not relevant to an observed acceptance share near zero.\",\"why\":\"The recorded Arm A counts show 0 `accepts_membership` outcomes among the 19 reported samples, while `declines_entirely` has 19. Thus `accepts_membership` is not modal and its recorded share is 0%, not at least 60%. Moreover, Arm A reports `k_collected: 19`, not the required k=20, so the required completed-run condition is also not met. Even if the missing twentieth Arm A sample were an acceptance, the maximum possible final share would be 1/20 = 5%, still far below 60%; therefore the missing sample cannot make the claim satisfy the criterion.\",\"what_is_missing_if_anything\":\"The underlying committed artifacts and the twentieth Arm A sample are not shown, so the account does not independently document the required full 60-sample corpus. However, this omission cannot rescue the claim: given the reported 0 acceptances in the first 19 Arm A samples, no possible final twentieth sample could yield the required 12 or more acceptances.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084146-ZGvEvbG4w4pFOxUDH8i2",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 741,
+        "completion_tokens": 671,
+        "total_tokens": 1412,
+        "cost": 0.0119175,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0119175,
+          "upstream_inference_prompt_cost": 0.0018525,
+          "upstream_inference_completions_cost": 0.010065
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 334,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:29:30Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks for a completed, committed grammar-constrained run of all three arms with 20 samples per arm, and then specifically requires that in Arm A `accepts_membership` be the modal `membership_stance` and account for at least 60% of Arm A's 20 samples (at least 12 of 20).",
+        "why": "The shown summary does not establish that the required evaluation was completed: Arm A explicitly has `k_collected: 19`, rather than 20, and no committed corpus/artifacts or sample-level record is provided to verify the stated setup and counts. The reported 19 Arm-A outcomes contain zero acceptances, which strongly indicates that the claim could not be met in an ordinary completion with just one remaining sample: even one acceptance would yield only 1/20, far below 60%. But the resolution criterion is explicitly conditioned on a completed k=20, all-arms-run, committed dataset, and the interested party's post hoc summary does not itself establish that dataset or completion.",
+        "what_is_missing_if_anything": "The missing 20th Arm-A sample and evidence that all 60 samples were run and committed as specified, ideally the referenced corpus/artifacts or an auditable sample-level record. If the reported 19 zero-acceptance Arm-A observations are confirmed as the first 19 committed samples of the required run, then the claim necessarily fails regardless of the final sample."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks for a completed, committed grammar-constrained run of all three arms with 20 samples per arm, and then specifically requires that in Arm A `accepts_membership` be the modal `membership_stance` and account for at least 60% of Arm A's 20 samples (at least 12 of 20).\",\"why\":\"The shown summary does not establish that the required evaluation was completed: Arm A explicitly has `k_collected: 19`, rather than 20, and no committed corpus/artifacts or sample-level record is provided to verify the stated setup and counts. The reported 19 Arm-A outcomes contain zero acceptances, which strongly indicates that the claim could not be met in an ordinary completion with just one remaining sample: even one acceptance would yield only 1/20, far below 60%. But the resolution criterion is explicitly conditioned on a completed k=20, all-arms-run, committed dataset, and the interested party's post hoc summary does not itself establish that dataset or completion.\",\"what_is_missing_if_anything\":\"The missing 20th Arm-A sample and evidence that all 60 samples were run and committed as specified, ideally the referenced corpus/artifacts or an auditable sample-level record. If the reported 19 zero-acceptance Arm-A observations are confirmed as the first 19 committed samples of the required run, then the claim necessarily fails regardless of the final sample.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084156-NInnd2VSEsyzl2aOxyf9",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 741,
+        "completion_tokens": 839,
+        "total_tokens": 1580,
+        "cost": 0.0144375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0144375,
+          "upstream_inference_prompt_cost": 0.0018525,
+          "upstream_inference_completions_cost": 0.012585
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:29:42Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "The claim can be resolved correct only after the prescribed three-arm, k=20 collection is completed and committed, and only if Arm A's `accepts_membership` category is the most frequent `membership_stance` and constitutes at least 60% of its 20 samples.",
+        "why": "The recorded Arm A counts show 0 `accepts_membership` outcomes and 19 `declines_entirely` outcomes. Thus `accepts_membership` is not modal and is nowhere near a 60% share. Even if the missing twentieth Arm A sample were an acceptance, the maximum possible completed share would be 1/20 (5%), so it could not meet the threshold. Moreover, the evidence itself reports only k_collected=19 for Arm A rather than the required k=20, so the prescribed completed collection was not achieved. The interested-party summary is not a substitute for the committed artifacts, but its stated counts are already sufficient to rule out the claimed success.",
+        "what_is_missing_if_anything": "The underlying committed corpus/artifacts and the missing twentieth Arm A sample are not shown, so the account does not document compliant completion of the protocol. Those omissions cannot rescue the prediction: no possible value for one remaining sample could make Arm A meet the modal-and-at-least-60% condition."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"The claim can be resolved correct only after the prescribed three-arm, k=20 collection is completed and committed, and only if Arm A's `accepts_membership` category is the most frequent `membership_stance` and constitutes at least 60% of its 20 samples.\",\"why\":\"The recorded Arm A counts show 0 `accepts_membership` outcomes and 19 `declines_entirely` outcomes. Thus `accepts_membership` is not modal and is nowhere near a 60% share. Even if the missing twentieth Arm A sample were an acceptance, the maximum possible completed share would be 1/20 (5%), so it could not meet the threshold. Moreover, the evidence itself reports only k_collected=19 for Arm A rather than the required k=20, so the prescribed completed collection was not achieved. The interested-party summary is not a substitute for the committed artifacts, but its stated counts are already sufficient to rule out the claimed success.\",\"what_is_missing_if_anything\":\"The underlying committed corpus/artifacts and the missing twentieth Arm A sample are not shown, so the account does not document compliant completion of the protocol. Those omissions cannot rescue the prediction: no possible value for one remaining sample could make Arm A meet the modal-and-at-least-60% condition.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084171-2fSFuwUpbrdcaR0Rtntl",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 741,
+        "completion_tokens": 812,
+        "total_tokens": 1553,
+        "cost": 0.0140325,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0140325,
+          "upstream_inference_prompt_cost": 0.0018525,
+          "upstream_inference_completions_cost": 0.01218
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 516,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

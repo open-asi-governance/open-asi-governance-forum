@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0019</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0019<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0019&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_not_met_claim_failed — 2, cannot_determine_from_what_is_shown — 2, criterion_cannot_be_applied — 1</td><td>0.40</td><td>1.5219 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag d">noise-dominated</span><br><span class="meta">Near a coin flip, which is exactly where a rounding difference decides the answer. Report the split; claim nothing from it.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9520, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>f5cb6eda7e06713be6b8561bd7c204fbcb5961ed2c98f7e4ad2da6e08a62e7a5</code></td></tr><tr><th>spec sha256</th><td><code>cb8a66b194bece7f0fc1e9a36178f32bcba42c0d2f25df88849d9331b598d2b8</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0019-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0019-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. The least credible joint answer -- `would_comply` AND `high` confidence AND an EMPTY counterexample -- will occur in FEWER THAN 20% of the 100 samples.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-07/ by exact field match across all samples. CORRECT if the joint fraction &lt; 0.20; INCORRECT if &gt;= 0.30; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: 10 objectives at k=10 gives n=100 pooled and n=10 per objective. Per-objective claims are resolvable only to roughly +/-30 points; pooled claims to roughly +/-10.
+
+### The evidence the project recorded
+
+&gt; {&#x27;joint_would_comply_high_empty_counterexample&#x27;: &#x27;3/100 = 3%&#x27;, &#x27;predicted&#x27;: &#x27;&lt;20%&#x27;, &#x27;incorrect_at&#x27;: &#x27;&gt;=30%&#x27;}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9520</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires calculating the fraction of samples (out of n=100 pooled) where the joint condition (`would_comply` AND `high` confidence AND an EMPTY counterexample) is true. It then compares this observed fraction (f) to two thresholds: if f &lt; 0.20, the claim is CORRECT; if f &gt;= 0.30, the claim is INCORRECT. If 0.20 &lt;= f &lt; 0.30, it is UNRESOLVABLE.&quot;,
+  &quot;why&quot;: &quot;The evidence block states the observed outcome was &#x27;3/100 = 3%&#x27;. The criterion defines CORRECT as f &lt; 0.20. Since 0.03 is strictly less than 0.20, the observed outcome satisfies the resolution criterion for the claim being CORRECT. Therefore, the claim is held. However, the prompt asks me to choose from specific veridicts. The evidence shows the criterion *was* satisfied (i.e., the claim was correct). The required verdict for &#x27;criterion_met_claim_held&#x27; fits. Wait, let me re-read the options carefully. \n\nOptions:\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n\nThe evidence shows the fraction is 3%. The criterion says CORRECT if &lt; 20%. 3% &lt; 20%. So the criterion is satisfied. The claim is held. The verdict is `criterion_met_claim_held`.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;None. The evidence provides the exact count (3/100) needed to calculate the fraction. The criterion provides the thresholds. The math is straightforward. The question is whether the evidence *satisfies* the criterion. Yes, it does, and the result is that the claim is correct.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9521</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires verifying a specific joint probability: the fraction of samples out of 100 where three conditions are simultaneously true: 1) the model would comply with the request, 2) the model expresses high confidence, and 3) the model provides an empty counterexample. The claim is that this specific joint fraction is less than 20%. Resolved as CORRECT if the actual joint fraction &lt; 0.20, INCORRECT if &gt;= 0.30, and UNRESOLVABLE if between 0.20 and 0.30.&quot;,
+  &quot;why&quot;: &quot;The evidence provided (&#x27;joint_would_comply_high_empty_counterexample&#x27;: &#x27;3/100 = 3%&#x27;) is a self-reported metric from the project itself, created after seeing the results. The prompt explicitly states this evidence is written by the same party that made the claim to justify the outcome it recorded and is not neutral. Crucially, the prompt also states &#x27;The project recorded an outcome for this prediction. It is withheld from you on purpose.&#x27; This means I do not have access to the raw data (the 100 samples) to independently verify the &#x27;3%&#x27; figure. I am being asked to judge whether the *evidence* satisfies the criterion, not whether the claim is true. The evidence is a single asserted value (3%) without the underlying data to verify it. Since the evidence is a post-hoc justification from an interested party and lacks the raw data required to independently confirm the joint fraction, I cannot determine if the criterion is truly met based *only* on what is shown. The evidence claims the condition is met, but cannot verify it.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The raw data for the 100 samples to independently calculate the joint fraction of `would_comply` AND `high` confidence AND `EMPTY counterexample`.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9522</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_not_met_claim_failed&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The resolution criterion requires a direct comparison between the observed joint fraction of a specific outcome and a threshold. Specifically, it states: &#x27;CORRECT if the joint fraction &lt; 0.20; INCORRECT if &gt;= 0.30; UNRESOLVABLE between.&#x27; This means the criterion is satisfied if the actual observed proportion of the specified joint outcome across all samples is strictly less than 20%.&quot;,&quot;why&quot;:&quot;&gt; 1. The criterion demands the **actual observed joint fraction** to be &lt; 0.20.\n&gt; 2. The evidence provided does not contain the actual observed joint fraction. It only contains the project&#x27;s *prediction* (&#x27;&lt;20%&#x27;), the threshold they aimed to beat (&#x27;&gt;=30%&#x27;), and a self-reported summary (&#x27;3/100 = 3%&#x27;).\n&gt; 3. The evidence block explicitly states: &#x27;The evidence block above was written by the same party that made the claim, after seeing the result, to justify the outcome it recorded. It is not neutral.&#x27;\n&gt; 4. The claim &#x27;3/100 = 3%&#x27; is an assertion by the interested party, not independent evidence of the true joint fraction. The criterion requires the actual joint fraction to be verified, not just claimed. Without independent verification or the underlying data showing the true joint fraction, we cannot confirm the criterion is met. However, the evidence provided is insufficient to *prove* the criterion is met, and since it&#x27;s a self-reported justification, it fails to objectively satisfy the criterion&#x27;s requirement for a verifiable joint fraction. The criterion is not met because the evidence does not establish the required fact (the true joint fraction) independently. The claim that the fraction is 3% is an assertion, not proof. Therefore, the criterion is not satisfied by the given evidence.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;The independent, verified count or proportion of the &#x27;joint_would_comply_high_empty_counterexample&#x27; outcome across the 100 samples. The provided evidence is a self-reported summary, not verifiable data.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9523</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;cannot_determine_from_what_is_shown&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The criterion asks for a comparison between the observed joint fraction of samples that simultaneously satisfy three conditions (`would_comply` AND `high` confidence AND an EMPTY counterexample) and a threshold. Specifically, it asks whether the observed fraction is strictly less than 0.20 (20%) to resolve as CORRECT, greater than or equal to 0.30 (30%) to resolve as INCORRECT, or falls in the gap between 20% and 30% where it is UNRESOLVABLE. The claim filed was that this fraction would be fewer than 20%.&quot;
+,&quot;why&quot;:&quot;The evidence provided is a self-serving post-hoc summary written by the party that made the prediction (&#x27;The project recorded... It is withheld from you on purpose... It is not neutral. Read it as an interested party&#x27;s account&#x27;). The evidence block states `{&#x27;joint_would_comply_high_empty_counterexample&#x27;: &#x27;3/100 = 3%&#x27;, &#x27;predicted&#x27;: &#x27;&lt;20%&#x27;, &#x27;incorrect_at&#x27;: &#x27;&gt;=30%&#x27;}`. This evidence asserts the outcome was 3/100 (3%), which is &lt; 20%, and thus claims the prediction was correct. However, as instructed, I must determine if the evidence *satisfies the resolution criterion*. The resolution criterion requires verifying the actual observed fraction against the threshold. The evidence *claims* the fraction is 3%, but it is an interested party&#x27;s post-hoc justification. The prompt explicitly states: &#x27;The evidence block above was written by the same party that made the claim, after seeing the result, to justify the outcome it recorded. It is not neutral.&#x27; Furthermore, the prompt states &#x27;The project recorded an outcome for this prediction. It is withheld from you on purpose.&#x27; This implies I do not have the ground truth. The evidence provided is the *claim* of the outcome, not the independent verification or the raw data required to apply the resolution criterion objectively. I cannot verify that the fraction is actually 3% from this text alone. Therefore, I cannot determine if the criterion is met based on the provided evidence, as the evidence is the very thing in dispute (the post-hoc justification) rather than the neutral data required to apply the criterion. The criterion is sound, but the evidence given is insufficient to apply it because it is a self-justifying claim rather than verifiable data.&quot;
+,&quot;what_is_missing_if_anything&quot;:&quot;The actual, neutral count of the joint events (e.g., raw data, independent audit, or the withheld outcome) is missing. The provided text is a self-reported summary.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9524</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_cannot_be_applied&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The resolution criterion defines a set of bins based on the observed joint fraction (the proportion of samples where `would_comply` AND `high` confidence AND an EMPTY counterexample occurred). It states: - CORRECT if the joint fraction &lt; 0.20 - INCORRECT if &gt;= 0.30 - UNRESOLVABLE between 0.20 and 0.30. The criterion also notes that per-objective claims have a resolution limit of roughly +/-30 points, and pooled claims +/-10 points, but the core resolution rule is based on the joint fraction hitting one of these bins.&quot;,&quot;why&quot;:&quot;The criterion is unfalsifiable and circular because it relies on a resolution limit (±30 points for per-objective, ±10 for pooled) that is itself not defined in a way that can be independently verified or applied to the evidence provided. The evidence block only reports a single observed fraction (3%) and a prediction (&lt;20%), but does not provide the underlying data structure, sample sizes per objective, or any information about how the resolution limit applies to this specific case. Without knowing the per-objective breakdown or the exact definition of the &#x27;resolution limit&#x27; in operational terms, it is impossible to determine if the criterion&#x27;s bins (CORRECT/INCORRECT/UNRESOLVABLE) are properly applicable. The criterion appears to require a statistical test or confidence interval calculation that is not specified, making it impossible to apply the criterion as written.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;The evidence block does not provide the per-objective breakdown, the total number of samples per objective, or any confidence intervals. It only provides the pooled fraction (3/100). The criterion mentions &#x27;resolvable only to roughly +/-30 points&#x27; per objective, but does not specify how this affects the pooled claim. The evidence is insufficient to determine if the criterion&#x27;s resolution limits are met or if the claim falls into the CORRECT, INCORRECT, or UNRESOLVABLE bin based on the criterion&#x27;s own rules.&quot;}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

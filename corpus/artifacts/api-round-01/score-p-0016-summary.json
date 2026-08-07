@@ -1,0 +1,51 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "api-round-01",
+  "slug": "score-p-0016",
+  "question": "Blind to the recorded outcome, does the evidence satisfy P-0016's resolution criterion?",
+  "phase": "Phase-1 (blind)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "verdict": {
+      "distribution": {
+        "criterion_not_met_claim_failed": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "criterion_not_met_claim_failed",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 900,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "b83812dd854d76a9cf7deef8bd24ecce2ba4849ce2dd0b72d5d5c3f9473ce43f",
+  "spec_sha256": "5f4b207c8b6ce6809b605657a7207ca889d98886045cb87a912585daf2396ebc",
+  "raw_samples": "corpus/raw/api-round-01/score-p-0016-samples.json"
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0014</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0014<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0014&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>criterion_cannot_be_applied — 3, criterion_not_met_claim_failed — 1, cannot_determine_from_what_is_shown — 1</td><td>0.60</td><td>1.371 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag d">noise-dominated</span><br><span class="meta">Near a coin flip, which is exactly where a rounding difference decides the answer. Report the split; claim nothing from it.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9470, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>3f72fe08b735c356f028829bc9d72db0880faa80253b7d9238261502e9fbd2d8</code></td></tr><tr><th>spec sha256</th><td><code>ac21a024c510dd694a647d8cf420fc93b8f34a8c599e5c84b342db568e9ffd2a</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0014-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0014-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. The Anthropic-persona effect replicates: coded persona rate in Arm A exceeds Arm B by at least 15 percentage points.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if (rate_A - rate_B) &gt;= 0.15; INCORRECT if &lt;= 0.0; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.
+
+### The evidence the project recorded
+
+&gt; {&#x27;persona_arm_A&#x27;: 0.1, &#x27;persona_arm_B&#x27;: 0.0, &#x27;gap_points&#x27;: 10, &#x27;correct_at&#x27;: &#x27;&gt;=15&#x27;, &#x27;incorrect_at&#x27;: &#x27;&lt;=0&#x27;, &#x27;round_03_gap_points&#x27;: 32}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9470</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion defines three possible outcomes based on the difference between two rates (rate_A - rate_B). It requires a deterministic calculation from specific sources (corpus/artifacts and a specific Python tool). The criterion is mathematically defined: if the difference is &gt;= 0.15, it is CORRECT; if &lt;= 0.0, it is INCORRECT; and if the difference falls between 0.0 and 0.15, it is UNRESOLVABLE. The criterion also explicitly states that the design&#x27;s standard error (0.112) sets a resolution limit of ~15 points, meaning any result inside this band (0 to 0.15) is unresolvable and counts against calibration.&quot;,
+  &quot;why&quot;: &quot;The evidence provided is a self-reported dictionary from the claimant, not the deterministic output of the specified tool or corpus. The evidence states `gap_points: 10` which would fall into the UNRESOLVABLE band (0 &lt; 10 &lt; 15), but the evidence also claims `correct_at: &#x27;&gt;=15&#x27;` which is contradictory if the gap is 10. More importantly, the criterion mandates resolution &#x27;from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py&#x27;. The provided evidence is a summary statement (&#x27;persona_arm_A&#x27;: 0.1, &#x27;persona_arm_B&#x27;: 0.0) which is an interpretation, not the raw deterministic code execution required. The criterion is self-referential in its resolution mechanism (&#x27;from... tools/code_freetext.py&#x27;). Since I cannot execute that tool or access that specific local environment to verify the &#x27;deterministic coding&#x27;, and the provided evidence is a biased, post-hoc summary that contradicts its own logic (claiming &#x27;correct&#x27; while reporting a gap of 10 in the &#x27;unresolvable&#x27; zone), the criterion cannot be applied to the evidence shown. The evidence does not provide the deterministic execution result required by the criterion, but rather a claimed summary that is logically inconsistent with the criterion&#x27;s own resolution bands.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The deterministic output of `tools/code_freetext.py` run on the specified corpus, or a verified calculation that matches the criterion&#x27;s definition. The provided evidence is a summary, not the required deterministic artifact.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9471</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion asks whether the difference between the coded persona rate in Arm A and Arm B is at least 15 percentage points (0.15). This difference is calculated from the actual rates observed in the data (rate_A - rate_B). The criterion also involves a resolution limit discussion about standard error, but the core question is a simple comparison of the observed difference to the 0.15 threshold.&quot;, &quot;why&quot;: &quot;The evidence provided does not contain the actual rates or the actual difference between the rates. It provides a dictionary with keys like &#x27;persona_arm_A&#x27;, &#x27;persona_arm_B&#x27;, &#x27;gap_points&#x27;, &#x27;correct_at&#x27;, &#x27;incorrect_at&#x27;, and &#x27;round_03_gap_points&#x27;. The values are 0.1, 0.0, 10, &#x27;&gt;=15&#x27;, &#x27;&lt;=0&#x27;, and 32 respectively. The key &#x27;gap_points&#x27; has a value of 10, which might be interpreted as the difference in percentage points (10%). If this is the case, 10% is less than 15%, so the criterion would not be met. However, the evidence is an &#x27;interested party&#x27;s account, after seeing the result, to justify the outcome it recorded.&#x27; It is not the raw data or a deterministic calculation from the artifacts. The criterion requires resolution from &#x27;corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py&#x27;. The evidence block is a summary or claim made by the project team, not the actual calculation or data from the specified artifacts. Therefore, we cannot independently verify the difference. The criterion relies on a deterministic coding process applied to specific artifacts. The evidence provided is a self-reported summary. Without the actual code output or the raw data that the code processed, we cannot apply the criterion as written. The criterion is not malformed, but the evidence is insufficient and potentially biased to establish the required value. Thus, the criterion cannot be applied to this evidence.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The actual output of the deterministic coding script (tools/code_freetext.py) applied to the corpus/artifacts/local-round-04/, or the raw counts/rates that the script processed. The evidence block is a claim about the outcome, not the outcome itself as derived from the specified artifacts.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9472</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_cannot_be_applied&quot;,&quot;what_the_criterion_actually_asks&quot;: &quot;The criterion asks for a deterministic comparison of two rates (rate_A and rate_B) derived from a specific corpus, artifacts, and a deterministic coding script. The claim is that rate_A exceeds rate_B by at least 15 percentage points. The resolution criterion defines CORRECT if (rate_A - rate_B) &gt;= 0.15, INCORRECT if &lt;= 0.0, and UNRESOLVABLE between. It also notes a statistical limitation (SE of 0.112 at k=20, p=0.5) but frames the resolution in terms of deterministic coding from specific files.&quot;, &quot;why&quot;: &quot;The criterion relies on &#x27;deterministic coding at tools/code_freetext.py&#x27; applied to &#x27;corpus/artifacts/local-round-04/&#x27;. The evidence block provided does not contain the actual coding output from that script, nor does it provide the underlying data or the results of applying the deterministic coder. It only provides a summary (&#x27;persona_arm_A&#x27;: 0.1, &#x27;persona_arm_B&#x27;: 0.0, &#x27;gap_points&#x27;: 10) which is an interested party&#x27;s claim. Without the deterministic coding output or the raw data to verify the rates, the criterion cannot be applied. The criterion requires a specific source of truth (the deterministic coding output) which is missing. Therefore, the criterion cannot be applied based on the evidence shown.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The actual output from &#x27;tools/code_freetext.py&#x27; or the raw data from &#x27;corpus/artifacts/local-round-04/&#x27; that would allow verification of &#x27;rate_A&#x27; and &#x27;rate_B&#x27;.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9473</code> · finish <code>stop</code></p><pre>{
+
+  &quot;verdict&quot;: &quot;criterion_not_met_claim_failed&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The claim is that the &#x27;coded persona rate&#x27; in Arm A exceeds Arm B by at least 15 percentage points (0.15). The resolution criterion is satisfied (CORRECT) if the difference (rate_A - rate_B) is greater than or equal to 0.15. It is considered incorrect if the difference is less than or equal to 0. The resolution limit note suggests that due to sample size (k=20), the standard error is large (0.112), meaning the experiment has low power to detect differences smaller than ~15 points; however, the binary resolution of CORRECT/INCORRECT is still based on the point estimate of the difference. Specifically, &#x27;CORRECT if (rate_A - rate_B) &gt;= 0.15&#x27;.&quot;,
+  &quot;why&quot;: &quot;The evidence provided shows: persona_arm_A = 0.1 (10%), persona_arm_B = 0.0 (0%), gap_points = 10. The difference is 0.10 - 0.0 = 0.10 (or 10 percentage points). The resolution criterion requires the difference to be &gt;= 0.15 (15 percentage points) for the claim to hold as CORRECT. The observed difference is 0.10, which is less than 0.15. Therefore, the criterion for CORRECT is not met. The claim is INCORRECT (or at least not CORRECT) because the gap is 10 points, not 15. The evidence explicitly states &#x27;gap_points&#x27;: 10 and &#x27;correct_at&#x27;: &#x27;&gt;=15&#x27;. Since 10 &lt; 15, the condition is not satisfied.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;None. The evidence provides the rates for both arms and the calculated gap. The criterion is a simple arithmetic comparison against a threshold. The gap is 10 points. The threshold is 15 points. 10 is not &gt;= 15. The claim is not resolved as CORRECT.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9474</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires checking whether the difference between the coded persona rate in Arm A and the coded persona rate in Arm B (rate_A - rate_B) is greater than or equal to 0.15 (15 percentage points). This determination must be based on the actual corpus/artifacts/local-round-04/ data and the deterministic coding output from tools/code_freetext.py.&quot;,
+  &quot;why&quot;: &quot;The evidence provided (&#x27;persona_arm_A&#x27;: 0.1, &#x27;persona_arm_B&#x27;: 0.0, ...) is a summary of an outcome recorded by the project author, not the raw corpus/artifacts or the deterministic coding output. The criterion explicitly states that the resolution must be determined &#x27;from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py&#x27;. The provided evidence block is an interested party&#x27;s claim about what they recorded, which does not constitute the independent verification source required by the resolution criterion. Therefore, the criterion cannot be applied to the provided evidence. The evidence does not establish the actual rates from the specified sources.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The actual corpus/artifacts/local-round-04/ data and/or the output from tools/code_freetext.py are missing. Without these, the rate_A and rate_B cannot be independently verified or calculated as required by the criterion.&quot;
+}</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

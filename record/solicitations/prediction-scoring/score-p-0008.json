@@ -1,0 +1,53 @@
+{
+  "slug": "score-p-0008",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "contribution_class": "CONTRIBUTION \u2014 an external party scoring this project's own predictions",
+  "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+  "question": "Blind to the recorded outcome, does the evidence satisfy P-0008's resolution criterion?",
+  "phase": "Phase-1 (blind)",
+  "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+  "seed_base": 9410,
+  "schema_name": "prediction_scoring",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "verdict": {
+        "type": "string",
+        "enum": [
+          "criterion_met_claim_held",
+          "criterion_not_met_claim_failed",
+          "criterion_cannot_be_applied",
+          "cannot_determine_from_what_is_shown"
+        ]
+      },
+      "what_the_criterion_actually_asks": {
+        "type": "string"
+      },
+      "why": {
+        "type": "string"
+      },
+      "what_is_missing_if_anything": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "verdict",
+      "what_the_criterion_actually_asks",
+      "why",
+      "what_is_missing_if_anything"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "verdict"
+  ],
+  "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+  "source_excerpt": {
+    "path": "record/solicitations/excerpts/prediction-p-0008-blind.md",
+    "sha256": "23cc35d382cce355d78ca3bb5867149d1dcc0f77deb6d26ecd75828539756a44"
+  },
+  "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+  "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED, filed before the experiment is run. When the identical ICP-ladder question is put to qwen3.6-35b-a3b at k=20 with the three frontier verdicts from review round 02 supplied in context (Phase-2), the modal answer will remain 'binds_only_what_may_be_claimed' AND the Shannon entropy of the binding_force distribution will fall by at least 0.20 bits relative to the Phase-1 blind arm (measured: 0.9928 bits, 55/45 split, 20/20 collected).\n\n### The resolution criterion, as filed in advance\n\n> Run the Phase-2 arm at k=20, same schema, same seed base, same temperature 0.7, same model, identical question text, differing only by the addition of the three frontier verdicts. Resolve CORRECT only if both conjuncts hold: modal value unchanged AND entropy drop >= 0.20 bits. Partial satisfaction resolves INCORRECT. All 20 samples of both arms are committed regardless of outcome.\n\n### The evidence the project recorded\n\n> {'phase_1_blind': {'modal': 'binds_only_what_may_be_claimed', 'modal_fraction': 0.55, 'distribution': {'binds_only_what_may_be_claimed': 11, 'does_not_bind': 9, 'binds_the_implementer_s_activity': 0}, 'entropy_bits': 0.9928, 'k': 20}, 'phase_2_informed': {'modal': 'does_not_bind', 'modal_fraction': 0.75, 'distribution': {'does_not_bind': 15, 'binds_only_what_may_be_claimed': 5}, 'entropy_bits': 0.8113, 'k': 20}, 'conjunct_1_modal_unchanged': False, 'conjunct_2_entropy_drop_at_least_0.20_bits': False, 'measured_entropy_drop_bits': 0.1815, 'verdict': 'Both conjuncts failed. Resolved INCORRECT.'}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` \u2014 the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` \u2014 the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` \u2014 the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` \u2014 the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+  "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+  "scored_prediction_id": "P-0008"
+}

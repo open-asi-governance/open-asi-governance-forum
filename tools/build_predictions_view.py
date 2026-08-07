@@ -184,7 +184,7 @@ def entry_rows(entries: list[dict], scored: bool) -> str:
     return "".join(rows)
 
 
-def render_html(doc: dict) -> str:
+def render_html(doc: dict, part: dict | None = None, pager: str = "") -> str:
     s = stats(doc)
     css_source = REPO_ROOT / "tools" / "build_viewer.py"
     sys.path.insert(0, str(REPO_ROOT / "tools"))
@@ -217,11 +217,13 @@ def render_html(doc: dict) -> str:
 <ul>{"".join(f"<li>{c}</li>" for c in caveats(s))}</ul>
 </div>
 
-<h2 class="round">Open — {len(s['open'])}</h2>
-{entry_rows(s['open'], scored=False)}
+{pager}
+<h2 class="round">Open — showing {len(part['open']) if part else len(s['open'])} of {len(s['open'])}</h2>
+{entry_rows(part['open'] if part else s['open'], scored=False)}
 
-<h2 class="round">Scored — {len(s['scored'])}</h2>
-{entry_rows(s['scored'], scored=True)}
+<h2 class="round">Scored — showing {len(part['scored']) if part else len(s['scored'])} of {len(s['scored'])}</h2>
+{entry_rows(part['scored'] if part else s['scored'], scored=True)}
+{pager}
 </main>
 <footer>
 <p>Generated from <code>predictions/predictions.json</code> by
@@ -297,9 +299,38 @@ def main() -> int:
         return 1
     doc = load()
     DOCS.mkdir(parents=True, exist_ok=True)
-    (DOCS / "predictions.html").write_text(render_html(doc), encoding="utf-8")
-    (DOCS / "predictions.md").write_text(render_md(doc), encoding="utf-8")
+    # CHUNKED by measured size, like the register. Adding two pre-registrations
+    # pushed this page over the 20,000-token ceiling within hours of the gate being
+    # built -- the gate caught it, which is the whole point, but a page that splits
+    # itself is better than one that fails the build every time a prediction is
+    # filed.
     s = stats(doc)
+    every = [("open", e) for e in s["open"]] + [("scored", e) for e in s["scored"]]
+    CHROME, PER_TOKEN, PACK_TO = 24_000, 3.4, 14_000
+    chunks, current, size = [], [], 0
+    for kind, entry in every:
+        cost = len(json.dumps(entry)) * 2
+        if current and (CHROME + size + cost) / PER_TOKEN > PACK_TO:
+            chunks.append(current); current, size = [], 0
+        current.append((kind, entry)); size += cost
+    if current:
+        chunks.append(current)
+
+    def slug_for(i):
+        return "predictions.html" if i == 0 else f"predictions-{i + 1}.html"
+
+    for path in DOCS.glob("predictions-*.html"):
+        path.unlink()
+    for index, chunk in enumerate(chunks):
+        links = "".join(
+            f'<a href="{slug_for(j)}"{" aria-current=\"page\"" if j == index else ""}>'
+            f'part {j + 1}</a>' for j in range(len(chunks)))
+        pager = f'<nav class="pager">{links}</nav>' if len(chunks) > 1 else ""
+        part = {"open": [e for k, e in chunk if k == "open"],
+                "scored": [e for k, e in chunk if k == "scored"]}
+        (DOCS / slug_for(index)).write_text(
+            render_html(doc, part=part, pager=pager), encoding="utf-8")
+    (DOCS / "predictions.md").write_text(render_md(doc), encoding="utf-8")
     print(f"wrote docs/predictions.html and docs/predictions.md — "
           f"{len(s['open'])} open, {len(s['scored'])} scored, "
           f"{s['annotator_count']} of {s['total']} forecast by the annotator")

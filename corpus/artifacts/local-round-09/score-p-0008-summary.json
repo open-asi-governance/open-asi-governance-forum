@@ -1,0 +1,60 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "local-round-09",
+  "slug": "score-p-0008",
+  "question": "Blind to the recorded outcome, does the evidence satisfy P-0008's resolution criterion?",
+  "phase": "Phase-1 (blind)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "verdict": {
+      "distribution": {
+        "criterion_not_met_claim_failed": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "criterion_not_met_claim_failed",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 900,
+      "seed_base": 9410,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "23cc35d382cce355d78ca3bb5867149d1dcc0f77deb6d26ecd75828539756a44",
+  "spec_sha256": "e59df780df891269788a161d68bfa210a5859f54bf174043028ae65d23280595",
+  "raw_samples": "corpus/raw/local-round-09/score-p-0008-samples.json"
+}

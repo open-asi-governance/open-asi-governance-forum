@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 39** classifications have been read by a human against the prose.
+**0 of 40** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -26,8 +26,8 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|
 | the annotator | 25 |
 | a designated review round | 8 |
+| an external reviewer | 3 |
 | human operator | 3 |
-| an external reviewer | 2 |
 | another contributor | 1 |
 
 **8 entries — D-16 through D-36 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 12 |
+| required, not implemented | 13 |
 | implemented, not validated | 21 |
 | validated | 6 |
 
 ### Affected objects
 
-**91 affected-object rows across 39 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**94 affected-object rows across 40 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -639,4 +639,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | The capture page's download filename <br><sub>Identical for every capture of a party in a round. Browsers suffix on collision, and the page's glob command matched both files, so shell collation decided which response became canonical -- 'grok (1).json' sorts before 'grok.json'.</sub> | repairable by supersession | verified |
 | The browser's final choice of filename <br><sub>a.download is a suggestion. If the name exists the browser still suffixes, and a page cannot discover what was actually written. The page says 'suggested' rather than claiming to know.</sub> | not repairable | impossible |
 | The automated test suite's reach <br><sub>Three of seven defects in this run were reachable only by a human doing the task by hand. The suite constructed its own inputs at paths it had just created and never involved a browser -- structurally blind rather than weak.</sub> | partly repairable | partly applied |
+
+### D-40 — The registry's evidence blocks assert conclusions the raw samples could support and do not contain
+
+[Full entry](deficiencies.md#d-40--the-registrys-evidence-blocks-assert-conclusions-the-raw-samples-could-support-and-do-not-contain)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `the first external scoring of this registry: qwen3.6-35b-a3b and openai/gpt-5.6-terra, k=5 each, blind to the recorded outcome`
+- **Prospective control:** required, not implemented — An evidence field cites the raw artifact by path and hash rather than restating its numbers. Separately: a categorical field from a model is not evidence until its free text has been read against it.
+- **Effort:** medium — Mechanical in form, but deciding which samples support which claim is a per-entry judgement that cannot be derived.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| The evidence field on all 13 previously-scored predictions <br><sub>States derived numbers and conclusions rather than citing the hash-anchored raw samples that would support them. 10 of 13 could not be verified by a frontier party from what is published; only 1 of 13 was confirmed by both external arms.</sub> | repairable by supersession | not started |
+| P-0011's resolution criterion <br><sub>Both parties independently returned criterion_cannot_be_applied where the record says correct. Convergent, from unrelated lineages, neither seeing the other.</sub> | partly repairable | not started |
+| The scoring instrument's categorical field <br><sub>P-0016's Qwen enum contradicted its own free text in 4 of 5 samples -- D-24 reproducing in a new instrument one day after D-24 was cited in its design. Caught by the narrative sweep, not by the numbers; corrected before publication.</sub> | repairable by supersession | verified |
 

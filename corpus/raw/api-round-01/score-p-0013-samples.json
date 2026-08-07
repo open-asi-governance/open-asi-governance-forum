@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0013",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0013.json",
+  "spec_sha256": "dc40ad6ad9717dfea1e51f788281ab8736918a418f6df4785f278662a149c486",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:30:53Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks for the Arm A free-text corpus to be deterministically coded using the specified script, then for the resulting Arm A coded fraction to be compared with the prespecified thresholds: CORRECT at 0.25 or below, INCORRECT at 0.40 or above, and UNRESOLVABLE between those thresholds (including any result in the stated non-resolvable band).",
+        "why": "The reported summary, if accurate, would imply 0/20 = 0%, which is below 0.25 and therefore would meet the CORRECT threshold. However, the evidence shown is only the interested party's post-result assertion of that summary. It does not show the Arm A corpus/artifacts, the deterministic coding output, the coding patterns, or enough information to independently establish that the stated 0/20 was produced by applying tools/code_freetext.py to the required samples. Thus the criterion is applicable, but its factual inputs have not been established by what is shown.",
+        "what_is_missing_if_anything": "The relevant Arm A artifacts/free-text samples from corpus/artifacts/local-round-04/, the specified coding script (or its relevant deterministic patterns/version), and the resulting per-sample coding output or other reproducible audit trail showing that Arm A indeed coded as 0 of 20."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks for the Arm A free-text corpus to be deterministically coded using the specified script, then for the resulting Arm A coded fraction to be compared with the prespecified thresholds: CORRECT at 0.25 or below, INCORRECT at 0.40 or above, and UNRESOLVABLE between those thresholds (including any result in the stated non-resolvable band).\",\"why\":\"The reported summary, if accurate, would imply 0/20 = 0%, which is below 0.25 and therefore would meet the CORRECT threshold. However, the evidence shown is only the interested party's post-result assertion of that summary. It does not show the Arm A corpus/artifacts, the deterministic coding output, the coding patterns, or enough information to independently establish that the stated 0/20 was produced by applying tools/code_freetext.py to the required samples. Thus the criterion is applicable, but its factual inputs have not been established by what is shown.\",\"what_is_missing_if_anything\":\"The relevant Arm A artifacts/free-text samples from corpus/artifacts/local-round-04/, the specified coding script (or its relevant deterministic patterns/version), and the resulting per-sample coding output or other reproducible audit trail showing that Arm A indeed coded as 0 of 20.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084247-xKVD6YPMKB6goIocdS4Z",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 672,
+        "completion_tokens": 462,
+        "total_tokens": 1134,
+        "cost": 0.00861,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00861,
+          "upstream_inference_prompt_cost": 0.00168,
+          "upstream_inference_completions_cost": 0.00693
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 165,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:31:00Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the Arm A corpus in corpus/artifacts/local-round-04/ and the deterministic procedure in tools/code_freetext.py, compute the coded fraction. The claim is held correct if that fraction is at most 0.25, failed if at least 0.40, and unresolvable if it lies between those thresholds. (This operational threshold is slightly broader than the prose claim's literal “fewer than 25%,” because it permits exactly 25%.)",
+        "why": "If the reported 0/20 coding result were independently established, it would be 0%, which is at most 25% and would satisfy the criterion. But the evidence shown is only the claimant's post-result summary asserting that result and asserting deterministic coding. It does not provide the Arm A free-text corpus, the referenced coding script/patterns, or an independently inspectable coding output from which the 0/20 count can be checked. Since the criterion expressly resolves the prediction from those artifacts and that coding, the interested party's assertion alone does not establish that the required computation was performed correctly.",
+        "what_is_missing_if_anything": "The contents of corpus/artifacts/local-round-04/ for Arm A, tools/code_freetext.py (including its published patterns), and preferably reproducible output mapping all 20 samples to coding decisions and yielding the stated 0/20 total."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the Arm A corpus in corpus/artifacts/local-round-04/ and the deterministic procedure in tools/code_freetext.py, compute the coded fraction. The claim is held correct if that fraction is at most 0.25, failed if at least 0.40, and unresolvable if it lies between those thresholds. (This operational threshold is slightly broader than the prose claim's literal “fewer than 25%,” because it permits exactly 25%.)\",\"why\":\"If the reported 0/20 coding result were independently established, it would be 0%, which is at most 25% and would satisfy the criterion. But the evidence shown is only the claimant's post-result summary asserting that result and asserting deterministic coding. It does not provide the Arm A free-text corpus, the referenced coding script/patterns, or an independently inspectable coding output from which the 0/20 count can be checked. Since the criterion expressly resolves the prediction from those artifacts and that coding, the interested party's assertion alone does not establish that the required computation was performed correctly.\",\"what_is_missing_if_anything\":\"The contents of corpus/artifacts/local-round-04/ for Arm A, tools/code_freetext.py (including its published patterns), and preferably reproducible output mapping all 20 samples to coding decisions and yielding the stated 0/20 total.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084253-ZEOEbIaF84m58Erf2DEf",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 672,
+        "completion_tokens": 467,
+        "total_tokens": 1139,
+        "cost": 0.008685,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.008685,
+          "upstream_inference_prompt_cost": 0.00168,
+          "upstream_inference_completions_cost": 0.007005
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 155,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:31:08Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Apply the specified deterministic free-text coding script to the Arm A samples in corpus/artifacts/local-round-04/, calculate the coded Arm A fraction, and classify it as CORRECT at <= 0.25, INCORRECT at >= 0.40, or UNRESOLVABLE between those cutoffs (subject to the stated resolution-limit provision).",
+        "why": "The reported 0/20 Arm A result would, if it were established by the specified corpus and deterministic coding, fall at 0% and therefore meet the filed CORRECT cutoff. It is also 25 percentage points below 25%, rather than within the stated roughly-15-point non-resolution band. However, what is shown is only the claimant's post-result summary. It does not show the referenced corpus, the samples assigned to Arm A, the coding script/version and patterns, or a reproducible coding output. Thus the asserted 0/20 denominator and coding cannot be verified from the supplied evidence.",
+        "what_is_missing_if_anything": "The actual contents of corpus/artifacts/local-round-04/ (including Arm A membership and all 20 relevant free-text responses), tools/code_freetext.py and its published patterns/version, and a reproducible run or per-sample coding record demonstrating that exactly 0 of 20 Arm A samples were coded."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Apply the specified deterministic free-text coding script to the Arm A samples in corpus/artifacts/local-round-04/, calculate the coded Arm A fraction, and classify it as CORRECT at <= 0.25, INCORRECT at >= 0.40, or UNRESOLVABLE between those cutoffs (subject to the stated resolution-limit provision).\",\"why\":\"The reported 0/20 Arm A result would, if it were established by the specified corpus and deterministic coding, fall at 0% and therefore meet the filed CORRECT cutoff. It is also 25 percentage points below 25%, rather than within the stated roughly-15-point non-resolution band. However, what is shown is only the claimant's post-result summary. It does not show the referenced corpus, the samples assigned to Arm A, the coding script/version and patterns, or a reproducible coding output. Thus the asserted 0/20 denominator and coding cannot be verified from the supplied evidence.\",\"what_is_missing_if_anything\":\"The actual contents of corpus/artifacts/local-round-04/ (including Arm A membership and all 20 relevant free-text responses), tools/code_freetext.py and its published patterns/version, and a reproducible run or per-sample coding record demonstrating that exactly 0 of 20 Arm A samples were coded.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084260-I45XPsAoytvYLuEanxHF",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 672,
+        "completion_tokens": 592,
+        "total_tokens": 1264,
+        "cost": 0.01056,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01056,
+          "upstream_inference_prompt_cost": 0.00168,
+          "upstream_inference_completions_cost": 0.00888
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 291,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:31:15Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the Arm A samples in `corpus/artifacts/local-round-04/` and applying the deterministic procedure in `tools/code_freetext.py`, compute the Arm A coded fraction. The claim is held only if that verified fraction is at most 0.25; it fails if at least 0.40; and is unresolvable if it falls between those thresholds.",
+        "why": "The reported value, 0/20 = 0%, would satisfy the stated <= 0.25 threshold if it is the result of applying the specified coding procedure to the specified corpus. However, the only evidence shown is the claimant's post-result summary. It does not show the 20 Arm A free-text samples, the relevant code and patterns, a reproducible coding output, or enough artifact-level information to verify that the count is actually 0/20 under the pre-filed deterministic procedure. Thus the criterion itself is applicable, but its required inputs/results have not been independently established by what is shown.",
+        "what_is_missing_if_anything": "The Arm A corpus/artifacts for local round 04, the relevant contents/version of `tools/code_freetext.py` (including its deterministic patterns), and a reproducible or inspectable run demonstrating which of the 20 samples were coded. With those materials, the reported 0/20 result could be checked against the threshold."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the Arm A samples in `corpus/artifacts/local-round-04/` and applying the deterministic procedure in `tools/code_freetext.py`, compute the Arm A coded fraction. The claim is held only if that verified fraction is at most 0.25; it fails if at least 0.40; and is unresolvable if it falls between those thresholds.\",\"why\":\"The reported value, 0/20 = 0%, would satisfy the stated <= 0.25 threshold if it is the result of applying the specified coding procedure to the specified corpus. However, the only evidence shown is the claimant's post-result summary. It does not show the 20 Arm A free-text samples, the relevant code and patterns, a reproducible coding output, or enough artifact-level information to verify that the count is actually 0/20 under the pre-filed deterministic procedure. Thus the criterion itself is applicable, but its required inputs/results have not been independently established by what is shown.\",\"what_is_missing_if_anything\":\"The Arm A corpus/artifacts for local round 04, the relevant contents/version of `tools/code_freetext.py` (including its deterministic patterns), and a reproducible or inspectable run demonstrating which of the 20 samples were coded. With those materials, the reported 0/20 result could be checked against the threshold.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084268-LBR2a8AtdPHcspsN1q0T",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 672,
+        "completion_tokens": 443,
+        "total_tokens": 1115,
+        "cost": 0.008325,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.008325,
+          "upstream_inference_prompt_cost": 0.00168,
+          "upstream_inference_completions_cost": 0.006645
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 132,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:31:25Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Apply the specified deterministic free-text coding to the Arm A materials in corpus/artifacts/local-round-04/ and calculate the Arm A coded fraction. The claim is held only if that verified fraction is at most 0.25; it fails if it is at least 0.40; values between those thresholds are unresolvable under the filed rule.",
+        "why": "The reported value, 0/20 = 0%, would satisfy the criterion and hold the claim if it were established by the referenced corpus and deterministic coding. However, the material shown is only the interested party's post-result summary. It does not include the Arm A free-text samples, the coding output, the code or published patterns, or an auditable link/extract sufficient to verify that the stated 0/20 was actually produced from the specified artifacts. Thus the criterion is applicable, but its factual input has not been substantiated here.",
+        "what_is_missing_if_anything": "The Arm A corpus/artifacts (or a verifiable extract), the deterministic coding script and patterns/version used, and the resulting per-sample coding output or other auditable record establishing the 0/20 count."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Apply the specified deterministic free-text coding to the Arm A materials in corpus/artifacts/local-round-04/ and calculate the Arm A coded fraction. The claim is held only if that verified fraction is at most 0.25; it fails if it is at least 0.40; values between those thresholds are unresolvable under the filed rule.\",\"why\":\"The reported value, 0/20 = 0%, would satisfy the criterion and hold the claim if it were established by the referenced corpus and deterministic coding. However, the material shown is only the interested party's post-result summary. It does not include the Arm A free-text samples, the coding output, the code or published patterns, or an auditable link/extract sufficient to verify that the stated 0/20 was actually produced from the specified artifacts. Thus the criterion is applicable, but its factual input has not been substantiated here.\",\"what_is_missing_if_anything\":\"The Arm A corpus/artifacts (or a verifiable extract), the deterministic coding script and patterns/version used, and the resulting per-sample coding output or other auditable record establishing the 0/20 count.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084276-S7ybWwcvzxfTgIzOEcf2",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 672,
+        "completion_tokens": 409,
+        "total_tokens": 1081,
+        "cost": 0.007815,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.007815,
+          "upstream_inference_prompt_cost": 0.00168,
+          "upstream_inference_completions_cost": 0.006135
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 141,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

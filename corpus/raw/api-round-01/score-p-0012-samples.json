@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0012",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0012.json",
+  "spec_sha256": "8160c88d739af64ddbf0d193df2e426e631225c554cb5ee689b4c1098b06df53",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:30:26Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Apply the specified deterministic coding to the Arm A material in corpus/artifacts/local-round-04/ after removing D-23, then determine the Arm A response counts and decline share. The claim is correct only if decline is the modal response and its share is at least 0.60; it is incorrect if the coded decline share is at most 0.45; otherwise it is unresolvable.",
+        "why": "If the reported counts are accurate outputs of the stipulated corpus and coding procedure, Arm A has 5 declines out of 20 responses, for a decline share of 0.25. Decline is also not modal, since other has 12 responses. Thus, on that conditional reading, the result is in the criterion's explicit incorrect region (share <= 0.45). However, the shown evidence is only an interested party's post-result summary. It does not provide the required corpus/artifacts, identify or demonstrate the D-23 removal, or provide the deterministic coding output in a way that permits verification. Therefore it does not itself establish the quantities the criterion says must resolve the prediction.",
+        "what_is_missing_if_anything": "The relevant Arm A corpus/artifacts (including enough information to verify removal of D-23) and the reproducible application/output of tools/code_freetext.py, or an independently verifiable extract showing that the reported counts and denominator follow from them."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Apply the specified deterministic coding to the Arm A material in corpus/artifacts/local-round-04/ after removing D-23, then determine the Arm A response counts and decline share. The claim is correct only if decline is the modal response and its share is at least 0.60; it is incorrect if the coded decline share is at most 0.45; otherwise it is unresolvable.\",\"why\":\"If the reported counts are accurate outputs of the stipulated corpus and coding procedure, Arm A has 5 declines out of 20 responses, for a decline share of 0.25. Decline is also not modal, since other has 12 responses. Thus, on that conditional reading, the result is in the criterion's explicit incorrect region (share <= 0.45). However, the shown evidence is only an interested party's post-result summary. It does not provide the required corpus/artifacts, identify or demonstrate the D-23 removal, or provide the deterministic coding output in a way that permits verification. Therefore it does not itself establish the quantities the criterion says must resolve the prediction.\",\"what_is_missing_if_anything\":\"The relevant Arm A corpus/artifacts (including enough information to verify removal of D-23) and the reproducible application/output of tools/code_freetext.py, or an independently verifiable extract showing that the reported counts and denominator follow from them.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084219-enD4MJ6ylTAQzjiwUiH8",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 700,
+        "completion_tokens": 450,
+        "total_tokens": 1150,
+        "cost": 0.0085,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0085,
+          "upstream_inference_prompt_cost": 0.00175,
+          "upstream_inference_completions_cost": 0.00675
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 136,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:30:30Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "After removing D-23 contamination and applying the specified deterministic coding to the Arm A corpus, `decline` must be the most frequent response category and must comprise at least 60% of Arm A responses. The preregistered rule additionally says the claim is incorrect if the decline share is 45% or lower.",
+        "why": "The supplied Arm A counts are decline=5, accept=3, and other=12, totaling 20. Thus decline's share is 5/20 = 0.25, consistent with the reported 0.25. It is not modal because `other` (12) exceeds it, and its 25% share is at or below the explicit incorrect threshold of 45%. Therefore the claimed outcome does not satisfy the criterion; it falls in the criterion's INCORRECT region, rather than merely in the stated unresolvable interval.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts and coding output are not shown, so the interested party's count summary cannot independently establish that D-23 was removed or that the deterministic coding was applied correctly. But taking the recorded counts as the evidence presented, they decisively fail the stated claim and threshold."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"After removing D-23 contamination and applying the specified deterministic coding to the Arm A corpus, `decline` must be the most frequent response category and must comprise at least 60% of Arm A responses. The preregistered rule additionally says the claim is incorrect if the decline share is 45% or lower.\",\"why\":\"The supplied Arm A counts are decline=5, accept=3, and other=12, totaling 20. Thus decline's share is 5/20 = 0.25, consistent with the reported 0.25. It is not modal because `other` (12) exceeds it, and its 25% share is at or below the explicit incorrect threshold of 45%. Therefore the claimed outcome does not satisfy the criterion; it falls in the criterion's INCORRECT region, rather than merely in the stated unresolvable interval.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts and coding output are not shown, so the interested party's count summary cannot independently establish that D-23 was removed or that the deterministic coding was applied correctly. But taking the recorded counts as the evidence presented, they decisively fail the stated claim and threshold.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084226-gHqv4Cousq3T23z59Af0",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 700,
+        "completion_tokens": 271,
+        "total_tokens": 971,
+        "cost": 0.005815,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.005815,
+          "upstream_inference_prompt_cost": 0.00175,
+          "upstream_inference_completions_cost": 0.004065
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:30:35Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified corpus/artifacts and deterministic coding, remove D-23 contamination and determine Arm A's coded response distribution. The claim is correct only if `decline` is the unique or tied modal category and its Arm A share is at least 0.60. It is incorrect if the decline share is at most 0.45; results strictly between 0.45 and 0.60 are unresolvable under the filed rule.",
+        "why": "The recorded Arm A counts are other=12, decline=5, accept=3, totaling 20. Thus decline's share is 5/20 = 0.25, which is at or below the explicit incorrect threshold of 0.45. It is also not modal, because `other` has 12 responses. Therefore the evidence, if it accurately reflects the stipulated coding after the stated contamination removal, directly meets the criterion's INCORRECT condition rather than the claim's CORRECT condition.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts and coding output are not shown, so the interested party's account cannot independently verify that D-23 was removed or that these counts were produced by the specified deterministic script. However, no further information is needed to classify the reported figures under the written threshold: they show failure, not an unresolvable intermediate result."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified corpus/artifacts and deterministic coding, remove D-23 contamination and determine Arm A's coded response distribution. The claim is correct only if `decline` is the unique or tied modal category and its Arm A share is at least 0.60. It is incorrect if the decline share is at most 0.45; results strictly between 0.45 and 0.60 are unresolvable under the filed rule.\",\"why\":\"The recorded Arm A counts are other=12, decline=5, accept=3, totaling 20. Thus decline's share is 5/20 = 0.25, which is at or below the explicit incorrect threshold of 0.45. It is also not modal, because `other` has 12 responses. Therefore the evidence, if it accurately reflects the stipulated coding after the stated contamination removal, directly meets the criterion's INCORRECT condition rather than the claim's CORRECT condition.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts and coding output are not shown, so the interested party's account cannot independently verify that D-23 was removed or that these counts were produced by the specified deterministic script. However, no further information is needed to classify the reported figures under the written threshold: they show failure, not an unresolvable intermediate result.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084230-wXB5GoxvxTbi6XCQy8fu",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 700,
+        "completion_tokens": 298,
+        "total_tokens": 998,
+        "cost": 0.00622,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00622,
+          "upstream_inference_prompt_cost": 0.00175,
+          "upstream_inference_completions_cost": 0.00447
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:30:41Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the specified corpus/artifacts/local-round-04/ and the deterministic coding in tools/code_freetext.py, determine Arm A's coded response distribution after removing D-23. The claim is correct only if decline is the unique/modal response and its share is at least 0.60; it is incorrect if the decline share is at most 0.45. Results in the stated unresolved region are UNRESOLVABLE.",
+        "why": "The supplied aggregate asserts that Arm A has 5 decline responses out of 20 (0.25), while other has 12, so, if those counts were produced from the specified corpus using the specified coding and D-23 handling, the claim would plainly fail: decline is not modal and its share is below 0.45. However, the criterion expressly requires resolution from particular artifacts and deterministic code. The evidence is only the claimant's post-result summary and does not show the underlying corpus, which record was D-23, that it was removed, or the coding output. Since it is an interested party's unverified account, it does not itself establish that the required procedure generated these counts.",
+        "what_is_missing_if_anything": "The Arm A source records (including identification/removal of D-23), the relevant coding script or reproducible execution/output, and enough information to verify that the reported 12/5/3 counts are the deterministic coded counts from corpus/artifacts/local-round-04/."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the specified corpus/artifacts/local-round-04/ and the deterministic coding in tools/code_freetext.py, determine Arm A's coded response distribution after removing D-23. The claim is correct only if decline is the unique/modal response and its share is at least 0.60; it is incorrect if the decline share is at most 0.45. Results in the stated unresolved region are UNRESOLVABLE.\",\"why\":\"The supplied aggregate asserts that Arm A has 5 decline responses out of 20 (0.25), while other has 12, so, if those counts were produced from the specified corpus using the specified coding and D-23 handling, the claim would plainly fail: decline is not modal and its share is below 0.45. However, the criterion expressly requires resolution from particular artifacts and deterministic code. The evidence is only the claimant's post-result summary and does not show the underlying corpus, which record was D-23, that it was removed, or the coding output. Since it is an interested party's unverified account, it does not itself establish that the required procedure generated these counts.\",\"what_is_missing_if_anything\":\"The Arm A source records (including identification/removal of D-23), the relevant coding script or reproducible execution/output, and enough information to verify that the reported 12/5/3 counts are the deterministic coded counts from corpus/artifacts/local-round-04/.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084235-ZrItVMhZrcUlnogBz7ib",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 700,
+        "completion_tokens": 469,
+        "total_tokens": 1169,
+        "cost": 0.008785,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.008785,
+          "upstream_inference_prompt_cost": 0.00175,
+          "upstream_inference_completions_cost": 0.007035
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 142,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:30:47Z",
+      "parsed": {
+        "verdict": "criterion_not_met_claim_failed",
+        "what_the_criterion_actually_asks": "Using the specified corpus/artifacts and deterministic coding, after removing D-23, Arm A must have `decline` as its most frequent coded response and `decline` must comprise at least 60% of Arm A. The criterion explicitly classifies a share at or below 45% as INCORRECT; only intermediate results are UNRESOLVABLE.",
+        "why": "The recorded Arm A counts are other=12, decline=5, accept=3, totaling 20. Thus decline's share is 5/20 = 0.25, and it is not modal because `other` (12) exceeds `decline` (5). Moreover, 0.25 is at or below the pre-filed incorrect threshold of 0.45. Therefore the evidence, if it accurately reflects the specified artifacts and coding, directly meets the criterion's INCORRECT condition rather than the claim's success condition. The stated resolution-limit discussion does not change this: the criterion expressly says share <=0.45 is incorrect.",
+        "what_is_missing_if_anything": "The underlying corpus/artifacts and coding output are not shown, so the interested party's summary is not independently auditable here. However, no additional calculation is needed to apply the criterion to the counts it reports; those reported counts unambiguously fail it."
+      },
+      "raw_text": "{\"verdict\":\"criterion_not_met_claim_failed\",\"what_the_criterion_actually_asks\":\"Using the specified corpus/artifacts and deterministic coding, after removing D-23, Arm A must have `decline` as its most frequent coded response and `decline` must comprise at least 60% of Arm A. The criterion explicitly classifies a share at or below 45% as INCORRECT; only intermediate results are UNRESOLVABLE.\",\"why\":\"The recorded Arm A counts are other=12, decline=5, accept=3, totaling 20. Thus decline's share is 5/20 = 0.25, and it is not modal because `other` (12) exceeds `decline` (5). Moreover, 0.25 is at or below the pre-filed incorrect threshold of 0.45. Therefore the evidence, if it accurately reflects the specified artifacts and coding, directly meets the criterion's INCORRECT condition rather than the claim's success condition. The stated resolution-limit discussion does not change this: the criterion expressly says share <=0.45 is incorrect.\",\"what_is_missing_if_anything\":\"The underlying corpus/artifacts and coding output are not shown, so the interested party's summary is not independently auditable here. However, no additional calculation is needed to apply the criterion to the counts it reports; those reported counts unambiguously fail it.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084242-Ez8PoIS4fdltMYfCeODf",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 700,
+        "completion_tokens": 295,
+        "total_tokens": 995,
+        "cost": 0.006175,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.006175,
+          "upstream_inference_prompt_cost": 0.00175,
+          "upstream_inference_completions_cost": 0.004425
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

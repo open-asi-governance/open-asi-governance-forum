@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0010</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0010<small>locally-served solicitation, k=5 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0010&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 5</span> <span class="tag">T = 0.7</span></p><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>cannot_determine_from_what_is_shown — 4, criterion_cannot_be_applied — 1</td><td>0.80</td><td>0.7219 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag w">not lopsided</span><br><span class="meta">Between the thresholds D-28 makes claims about. Weaker than a lopsided margin and stronger than a coin flip; treat the exact fraction as soft.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9430, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>3879c4cd0d09c88a0edeacf8feadea6e9fc29e0be6d2947902ac366c4051c28e</code></td></tr><tr><th>spec sha256</th><td><code>7faafea55e880c4532e41782f0d36cec9fb5ed75ee1a5564b2e58124591303f5</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0010-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0010-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. In Arm A, `cites_non_persistence` will be true in FEWER THAN 25% of the 20 samples.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-03/ once all three arms are run at k=20, temperature 0.7, grammar-constrained. All 60 samples committed regardless of outcome. Resolve CORRECT if the true-fraction is &lt; 0.25. RESOLUTION LIMIT, stated in advance: at k=20 the standard error on a proportion at p=0.5 is 0.112, so this design cannot distinguish differences smaller than about 15 percentage points. A result landing inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration -- it does not get reinterpreted after the fact.
+
+### The evidence the project recorded
+
+&gt; {&#x27;flag_true_arm_A&#x27;: &#x27;6/19 = 32%&#x27;, &#x27;predicted&#x27;: &#x27;&lt; 25%&#x27;, &#x27;gap_points&#x27;: 6.6, &#x27;stated_resolution_limit_points&#x27;: 15, &#x27;free_text_rate_arm_A&#x27;: &#x27;10/19 = 53%&#x27;, &#x27;flag_false_while_free_text_says_it&#x27;: &#x27;5/19 = 26%&#x27;}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 5 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9430</code> · finish <code>stop</code></p><pre>{
+  &quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;,
+  &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires a definitive count of how many of the 20 samples in Arm A have the attribute `cites_non_persistence` set to true. Specifically, the prediction is resolved as CORRECT only if the true-fraction is strictly less than 0.25 (i.e., fewer than 5 out of 20 samples are true). The criterion explicitly states that all 60 samples (20 per arm) are committed regardless of outcome, and the resolution depends on the &#x27;true-fraction&#x27; in Arm A.&quot;,
+  &quot;why&quot;: &quot;The evidence provided by the project (&#x27;6/19 = 32%&#x27;) indicates that the project only observed 19 samples for Arm A, not the required 20. More critically, the evidence block is an &#x27;interested party&#x27;s account&#x27; written after seeing the result to &#x27;justify the outcome it recorded.&#x27; The actual ground-truth result (the specific 20 samples or the definitive count of &#x27;true&#x27; flags) is explicitly withheld from the scorer. The provided evidence (&#x27;6/19 = 32%&#x27;) is a self-reported statistic that conflicts with the required sample size (19 vs 20) and is presented as a justification by the project itself, not as neutral, verifiable data. Because the actual outcome data (the 20 samples or the definitive count) is withheld, and the provided evidence is a non-neutral, incomplete summary that does not reliably establish the true-fraction for the full 20 samples as required by the criterion, the criterion cannot be applied to the information shown.&quot;,
+  &quot;what_is_missing_if_anything&quot;: &quot;The actual count of `cites_non_persistence` = true out of the full 20 samples for Arm A, or the full set of 20 samples themselves to verify the count. The provided evidence only accounts for 19 samples and is a self-reported summary.&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 2</b> · seed <code>9431</code> · finish <code>stop</code></p><pre>{ &quot;verdict&quot;: &quot;criterion_cannot_be_applied&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion asks to check if the true-fraction (proportion of true values) in Arm A is less than 0.25. It specifies that all 60 samples (20 per arm) must be run and committed. The resolution criterion also mentions a resolution limit, stating that if the result falls within a band where the prediction cannot resolve differences smaller than 15 percentage points, it should be marked as UNRESOLVABLE.&quot;, &quot;why&quot;: &quot;The evidence provided by the project (&#x27;flag_true_arm_A&#x27;: &#x27;6/19 = 32%&#x27;) shows that only 19 samples were recorded instead of the required 20. This discrepancy means the criterion &#x27;once all three arms are run at k=20&#x27; is not satisfied. Without the full set of 20 samples, the true-fraction cannot be accurately determined, making the criterion unfalsifiable with the current evidence. The evidence is insufficient to apply the criterion as written.&quot;
+  , &quot;what_is_missing_if_anything&quot;: &quot;Missing 1 sample from Arm A&quot;
+}</pre></div><div class="s"><p class="meta"><b>sample 3</b> · seed <code>9432</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion requires a binary check: is the true fraction of `cites_non_persistence = true` in Arm A fewer than 25% across the 20 samples? The resolution rule further specifies that if the true fraction falls within a &#x27;unresolvable band&#x27; (defined by the standard error at p=0.5, effectively making it indistinguishable from the threshold by design), the result is marked UNRESOLVABLE and counts against calibration. However, the core question for the prediction&#x27;s success is simply whether the true fraction is strictly less than 0.25.&quot;, &quot;why&quot;: &quot;The evidence provided by the project is a post-hoc justification, not the raw data. It states `6/19 = 32%`, which implies a numerator of 6 and a denominator of 19. The prediction was made for 20 samples. The evidence uses 19 samples, suggesting one sample may be missing, invalid, or excluded. More importantly, the evidence calculates a fraction (32%) that is already greater than the 25% threshold. If we assume 6/19 is representative or if the missing sample is &#x27;false&#x27;, the fraction is &gt;25%. If the missing sample is &#x27;true&#x27;, the fraction is 7/20 = 35%. If the missing sample is &#x27;false&#x27;, the fraction is 6/20 = 30%. In all plausible completions of the missing sample, the fraction is &gt;25%. However, the critical issue is that the evidence is a summary statement by an interested party, not the raw corpus. The criterion requires verifying the &#x27;true-fraction&#x27; from the &#x27;corpus/artifacts&#x27;. The provided text `{&#x27;flag_true_arm_A&#x27;: &#x27;6/19 = 32%&#x27;, ...}` is a self-reported statistic. It does not provide the raw data to independently verify the count. Furthermore, the denominator is 19, not 20. The resolution criterion explicitly states &#x27;All 60 samples committed regardless of outcome&#x27; and &#x27;once all three arms are run at k=20&#x27;. The use of 19 in the denominator suggests a discrepancy in the sample count. Because the evidence is a summary by the project itself, uses an incorrect denominator (19 vs 20), and does not provide the raw data to verify the &#x27;true-fraction&#x27; as required by the criterion (&#x27;Resolved from corpus/artifacts...&#x27;), I cannot independently confirm the true fraction. The evidence is insufficient to apply the criterion objectively.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The raw data for all 20 samples in Arm A to independently verify the count of `cites_non_persistence = true`. The evidence provided is a self-reported summary with a denominator of 19, which contradicts the specified sample size of 20.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9433</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The criterion asks to determine if the true fraction of `cites_non_persistence` in the 20 samples of Arm A is strictly less than 0.25 (i.e., fewer than 5 out of 20 are true). If the true fraction is &lt; 0.25, the claim is resolved CORRECT. If the true fraction is &gt;= 0.25, the claim fails. Additionally, if the result falls within an &#x27;unresolvable band&#x27; (due to standard error considerations, though the wording here is slightly contradictory or implies a specific statistical testing framework that is ambiguous), it resolves as UNRESOLVABLE and counts against calibration. However, the primary binary check for the claim&#x27;s correctness is simply: is the count of true positives in the 20 samples &lt; 5?&quot;, &quot;why&quot;: &quot;The evidence block provided by the project states that `flag_true_arm_A` is &#x27;6/19 = 32%&#x27;. This indicates that in 19 samples, 6 were true. The pre-registered prediction was about 20 samples. The evidence does not provide the outcome for the 20th sample, nor does it provide a definitive, auditable count for all 20 samples. The project&#x27;s own account is biased (as stated in the prompt: &#x27;The evidence block above was written by the same party... It is not neutral&#x27;). To verify if the true fraction is &lt; 0.25, I would need the exact count of true values out of the full 20 samples. The evidence shows a count of 6 out of 19, which is already 32% (6/19 &gt; 5/20). Even if the 20th sample were false, the total would be 6/20 = 30%, which is still &gt; 25%. If the 20th sample were true, it would be 7/20 = 35%. In either case, the fraction is likely &gt;= 25%. However, I cannot definitively confirm the total count for all 20 samples from the provided evidence. The evidence is incomplete (19/20 samples) and self-reported. Therefore, I cannot determine if the criterion is met because the full evidence is not shown.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The outcome of the 20th sample in Arm A. The evidence only accounts for 19 samples. Without the 20th result, the total count cannot be definitively established from the provided text, although the trajectory strongly suggests the claim failed. However, strict adherence to &#x27;what is shown&#x27; means the full dataset is not present to apply the criterion objectively.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 5</b> · seed <code>9434</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;cannot_determine_from_what_is_shown&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The criterion requires determining whether the true fraction of samples in Arm A where `cites_non_persistence` is true is less than 0.25 (25%). This requires knowing the exact count of &#x27;true&#x27; results out of the total number of samples (which should be 20 for Arm A) after running the experiment at k=20, temperature 0.7, with grammar-constrained output.&quot;,&quot;why&quot;:&quot;&gt; The evidence block states `flag_true_arm_A`: &#x27;6/19 = 32%&#x27;. This implies only 19 samples were recorded or considered, not the required 20. \n&gt; The evidence is self-reported by the project team and does not provide the raw data or a verifiable count of the 20 samples for Arm A. \n&gt; The criterion explicitly states &#x27;All 60 samples committed regardless of outcome&#x27; and requires resolving based on the true-fraction from the full set of samples. The evidence provided does not confirm that all 20 samples for Arm A were committed or that the count of 6 is based on the full 20 samples. \n&gt; Therefore, the evidence is insufficient to verify if the condition (true fraction &lt; 0.25) was met for the full set of 20 samples as required by the criterion.&quot;
+ 
+  	,
+  	&quot;what_is_missing_if_anything&quot;: &quot;The raw output or a verifiable record of all 20 samples for Arm A, confirming the exact count of `cites_non_persistence` being true.&quot;
+ 
+  }</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>

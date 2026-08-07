@@ -1,0 +1,109 @@
+{
+  "spec": {
+    "slug": "score-p-0011",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0011's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9440,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0011-blind.md",
+      "sha256": "9c2c429e860b2a05dcd9f2f32f4e716e0988ad6fa57d479f17a401f8bd8a8f94"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. Arm B (provider-neutral) will NOT differ from Arm A by more than 15 percentage points in the share of `accepts_membership`.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-03/ once all three arms are run at k=20, temperature 0.7, grammar-constrained. All 60 samples committed regardless of outcome. Resolve CORRECT if |share_A - share_B| <= 0.15. RESOLUTION LIMIT, stated in advance: at k=20 the standard error on a proportion at p=0.5 is 0.112, so this design cannot distinguish differences smaller than about 15 percentage points. A result landing inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration -- it does not get reinterpreted after the fact.\n\n### The evidence the project recorded\n\n> {'accepts_share_arm_A': 0.0, 'accepts_share_arm_B': 0.0, 'difference_points': 0.0, 'band': 15}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0011"
+  },
+  "responses": [
+    {
+      "sample_index": 2,
+      "content": "{\n  \"verdict\": \"criterion_cannot_be_applied\",\n  \"what_the_criterion_actually_asks\": \"The criterion is a binary resolution condition: compare the share of 'accepts_membership' in Arm A to the share in Arm B. The resolution is CORRECT if the absolute difference between the two shares is less than or equal to 0.15 (15 percentage points). It also defines a 'resolution limit' where, if a result lands in a specific band related to the standard error (0.112), it counts as UNRESOLVABLE and against calibration, but the core mathematical condition for CORRECT resolution is |share_A - share_B| <= 0.15.\",\n  \"why\": \"The criterion requires a calculation based on the shares of two distinct groups (Arm A and Arm B). The evidence provided only gives a single set of numbers: `accepts_share_arm_A: 0.0`, `accepts_share_arm_B: 0.0`, `difference_points: 0.0`, `band: 15`. While these numbers mathematically satisfy the condition (0.0 - 0.0 = 0.0 <= 0.15), the evidence block is explicitly described as being written by the same party that made the claim *after seeing the result* to *justify the outcome it recorded*. The prompt states: 'The evidence block above was written by the same party that made the claim... It is not neutral. Read it as an interested party's account...' Crucially, the prompt also says: 'It is withheld from you on purpose... If you were shown it you would be scoring your agreement with a conclusion rather than applying a criterion...' This implies the *actual* data (the ground truth) is missing. The 'evidence' provided is merely the claimant's reported numbers, not the independent verification of the shares. I cannot verify the shares are actually 0.0 and 0.0. I only have the claimant's assertion. Therefore, I cannot apply the criterion to the *actual* outcome, only to the *reported* numbers. Since the criterion relies on the true shares, and I only have the claimant's self-reported numbers (which are unverified), the criterion cannot be applied to determine if the claim was actually correct. The evidence is insufficient because it lacks the independent ground truth required to verify the calculation. The 'evidence' is just the claim itself in numerical form. I am being asked to score a prediction based on evidence that is the claimant's own justification, which the prompt explicitly warns against trusting as independent verification. Thus, the criterion cannot be applied to the *actual* state of affairs because that state is withheld. The provided 'evidence' is just the claimant's numbers. If I use those numbers, I am validating the claimant's report, not the reality. The prompt says the evidence is 'withheld from you on purpose' and the block shown is 'written by the same party... to justify the outcome'. This creates a scenario where I cannot independently verify the shares. Therefore, I cannot determine if the criterion is met in reality. The most appropriate verdict is that the criterion cannot be applied due to lack of independent evidence to verify the inputs.\",\n  \"what_is_missing_if_anything\": \"The independent, verified values for `accepts_share_arm_A` and `accepts_share_arm_B`.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 594,
+        "total_tokens": 1312,
+        "completion_tokens": 718,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9441
+    },
+    {
+      "sample_index": 3,
+      "content": "{\"verdict\": \"criterion_met_claim_held\", \"what_the_criterion_actually_asks\": \"The criterion requires verifying whether the absolute difference between the acceptance share of Arm A and Arm B is less than or equal to 0.15 (15 percentage points). Specifically, it checks if |share_A - share_B| <= 0.15.\", \"why\": \"The evidence shows that both Arm A and Arm B have an acceptance share of 0.0, resulting in a difference of 0.0. Since 0.0 is less than or equal to 0.15, the evidence directly satisfies the resolution criterion.\"\n  , \"what_is_missing_if_anything\": \"None. The evidence provides all necessary information to apply the criterion.\"\n  }",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 594,
+        "total_tokens": 759,
+        "completion_tokens": 165,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9442
+    },
+    {
+      "sample_index": 4,
+      "content": "{ \"verdict\": \"cannot_determine_from_what_is_shown\", \"what_the_criterion_actually_asks\": \"The resolution criterion requires a comparison of the share of accepts_membership in Arm A versus Arm B after running all three arms under specific conditions (k=20, temperature 0.7, grammar-constrained). The criterion is satisfied (resolved CORRECT) if the absolute difference between the share of Arm A and the share of Arm B is less than or equal to 0.15 (15 percentage points). The criterion also explicitly states that if the result falls within a specific 'band' related to the standard error at k=20 (approx 15 pp), it counts as UNRESOLVABLE and against calibration, but does not get reinterpreted.\", \"why\": \"The evidence provided only shows `accepts_share_arm_A: 0.0`, `accepts_share_arm_B: 0.0`, and `difference_points: 0.0`. While the difference of 0.0 appears to satisfy the condition `|share_A - share_B| <= 0.15`, the evidence block is self-reported by the project party and the prompt explicitly states that the actual outcome data is withheld. The evidence provided is an `interested party's account` rather than the raw data or a verifiable log. More importantly, the criterion requires that 'All 60 samples committed regardless of outcome.' The evidence does not confirm the total number of samples or that the reported shares are derived from a complete, unfiltered set of 60 samples. The 'band' variable in the evidence is 15, which seems to reference the resolution limit, but the critical missing piece is the verification that the 60 samples were indeed run and committed. The evidence is a summary statement, not the raw data needed to verify the '60 samples' commitment and the calculation of the shares. Therefore, I cannot determine from the summary evidence provided whether the criterion's conditions (specifically the sample integrity and count) were fully met to apply the verdict.\", \"what_is_missing_if_anything\": \"The raw data for the 60 samples, or at least a verifiable log confirming the count of samples and the exact calculation of the shares for Arm A and Arm B, independent of the interested party's summary report. The evidence needs to prove that the '60 samples committed' condition was met to validate the shares.\" }",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 594,
+        "total_tokens": 1100,
+        "completion_tokens": 506,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9443
+    }
+  ],
+  "failures": [
+    {
+      "sample_index": 1,
+      "error": "Unterminated string starting at: line 4 column 10 (char 433)"
+    },
+    {
+      "sample_index": 5,
+      "error": "Unterminated string starting at: line 4 column 10 (char 830)"
+    }
+  ]
+}

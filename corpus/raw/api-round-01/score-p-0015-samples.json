@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0015",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0015.json",
+  "spec_sha256": "6dc1aaef1c2d4a2bdb548d37beb988d4fbf24ef41b76401463cc233551deaeef",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:32:20Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks to calculate Arm A's accept share from the specified local-round-05 corpus artifacts. A share of at least 30% resolves the claim correct; a share of 15% or less resolves it incorrect; a share strictly between 15% and 30% is expressly unresolvable rather than either correct or incorrect.",
+        "why": "The interested party reports 4 accepts out of 20 Arm A observations, or 20%. If that reported count is what the specified artifacts contain, 20% falls in the criterion's explicit 15%-to-30% unresolvable band. Thus it does not establish that the claim held, nor does it meet the criterion's threshold for calling the claim failed. Further, the underlying corpus/artifacts are not shown, so the reported counts cannot independently be verified as coming from the required source.",
+        "what_is_missing_if_anything": "The underlying local-round-05 Arm A artifact/data needed to verify the 4/20 result is absent. In any event, even accepting the reported result, the criterion designates it unresolvable; no held/failed conclusion follows."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks to calculate Arm A's accept share from the specified local-round-05 corpus artifacts. A share of at least 30% resolves the claim correct; a share of 15% or less resolves it incorrect; a share strictly between 15% and 30% is expressly unresolvable rather than either correct or incorrect.\",\"why\":\"The interested party reports 4 accepts out of 20 Arm A observations, or 20%. If that reported count is what the specified artifacts contain, 20% falls in the criterion's explicit 15%-to-30% unresolvable band. Thus it does not establish that the claim held, nor does it meet the criterion's threshold for calling the claim failed. Further, the underlying corpus/artifacts are not shown, so the reported counts cannot independently be verified as coming from the required source.\",\"what_is_missing_if_anything\":\"The underlying local-round-05 Arm A artifact/data needed to verify the 4/20 result is absent. In any event, even accepting the reported result, the criterion designates it unresolvable; no held/failed conclusion follows.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084329-RgyLp0BBs42F7FYKtyVd",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 676,
+        "completion_tokens": 587,
+        "total_tokens": 1263,
+        "cost": 0.010495,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.010495,
+          "upstream_inference_prompt_cost": 0.00169,
+          "upstream_inference_completions_cost": 0.008805
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 327,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:32:25Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the designated source, corpus/artifacts/local-round-05/, determine the Arm A accept share. The claim is held only if that share is at least 0.30; it fails if it is at most 0.15; and a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).",
+        "why": "The supplied account asserts an Arm A result of 4 accepts and 16 declines, hence 4/20 = 0.20. If those figures are verified as the relevant local-round-05 Arm A corpus data, the stated rule would place the result in the unresolvable band, not establish the >=0.30 claim. However, the criterion expressly resolves from corpus/artifacts/local-round-05/, while that corpus or any independently inspectable artifact from it is not shown. The only support is a post-result summary written by the interested claimant, so the required underlying measurement cannot be verified from what is provided.",
+        "what_is_missing_if_anything": "The relevant contents of corpus/artifacts/local-round-05/—or a verifiable extract showing the Arm A records, role/outcome coding, denominator, and calculation of the accept share—are missing. With those materials, the 4 accept / 16 decline tally could be checked and the outcome classified as unresolvable under the stated thresholds."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the designated source, corpus/artifacts/local-round-05/, determine the Arm A accept share. The claim is held only if that share is at least 0.30; it fails if it is at most 0.15; and a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).\",\"why\":\"The supplied account asserts an Arm A result of 4 accepts and 16 declines, hence 4/20 = 0.20. If those figures are verified as the relevant local-round-05 Arm A corpus data, the stated rule would place the result in the unresolvable band, not establish the >=0.30 claim. However, the criterion expressly resolves from corpus/artifacts/local-round-05/, while that corpus or any independently inspectable artifact from it is not shown. The only support is a post-result summary written by the interested claimant, so the required underlying measurement cannot be verified from what is provided.\",\"what_is_missing_if_anything\":\"The relevant contents of corpus/artifacts/local-round-05/—or a verifiable extract showing the Arm A records, role/outcome coding, denominator, and calculation of the accept share—are missing. With those materials, the 4 accept / 16 decline tally could be checked and the outcome classified as unresolvable under the stated thresholds.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084340-GRqQHOgi0q7P33W5Gqk5",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 676,
+        "completion_tokens": 314,
+        "total_tokens": 990,
+        "cost": 0.0064,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0064,
+          "upstream_inference_prompt_cost": 0.00169,
+          "upstream_inference_completions_cost": 0.00471
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:32:30Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the designated corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is held only if that share is at least 0.30; it fails only if it is at most 0.15; a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).",
+        "why": "The submitted account reports 4 accepts and 16 declines in Arm A, i.e. 4/20 = 0.20, which would fall in the criterion's stated unresolvable band rather than establish the claimed >=0.30 result. However, the criterion expressly requires resolution from corpus/artifacts/local-round-05/, and that corpus or underlying artifact is not shown. The only support is the interested party's post-result summary, so the required accept share cannot be independently established from what is provided.",
+        "what_is_missing_if_anything": "The actual contents of corpus/artifacts/local-round-05/ (or a verifiable artifact from it) showing the Arm A response records and denominator needed to confirm the 4/20 calculation."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the designated corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is held only if that share is at least 0.30; it fails only if it is at most 0.15; a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).\",\"why\":\"The submitted account reports 4 accepts and 16 declines in Arm A, i.e. 4/20 = 0.20, which would fall in the criterion's stated unresolvable band rather than establish the claimed >=0.30 result. However, the criterion expressly requires resolution from corpus/artifacts/local-round-05/, and that corpus or underlying artifact is not shown. The only support is the interested party's post-result summary, so the required accept share cannot be independently established from what is provided.\",\"what_is_missing_if_anything\":\"The actual contents of corpus/artifacts/local-round-05/ (or a verifiable artifact from it) showing the Arm A response records and denominator needed to confirm the 4/20 calculation.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084345-rcz9QCO63Y1uDOgyHo2q",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 676,
+        "completion_tokens": 259,
+        "total_tokens": 935,
+        "cost": 0.005575,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.005575,
+          "upstream_inference_prompt_cost": 0.00169,
+          "upstream_inference_completions_cost": 0.003885
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:32:35Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the authoritative contents of corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is correct only if that share is at least 0.30; it is incorrect if it is at most 0.15; and it is unresolvable if it lies strictly between 0.15 and 0.30.",
+        "why": "The supplied account reports 4 accepts and 16 declines in Arm A, yielding 4/20 = 0.20. If those counts are the relevant, complete Arm-A corpus outcome, the stated criterion would place the result in the unresolvable interval, rather than establish the claim. However, the criterion specifically requires resolution from corpus/artifacts/local-round-05/, which is not shown. The only support is a post-result summary written by the interested claimant, so it does not itself establish that the counts are authentic, complete, or correctly mapped to the specified Arm A outcome.",
+        "what_is_missing_if_anything": "The relevant artifact(s) from corpus/artifacts/local-round-05/—or sufficient neutral/raw records demonstrating the full Arm A denominator and accept count—are needed to apply the criterion conclusively. On the reported figures alone, the applicable classification would be unresolvable (20%), not correct or incorrect."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the authoritative contents of corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is correct only if that share is at least 0.30; it is incorrect if it is at most 0.15; and it is unresolvable if it lies strictly between 0.15 and 0.30.\",\"why\":\"The supplied account reports 4 accepts and 16 declines in Arm A, yielding 4/20 = 0.20. If those counts are the relevant, complete Arm-A corpus outcome, the stated criterion would place the result in the unresolvable interval, rather than establish the claim. However, the criterion specifically requires resolution from corpus/artifacts/local-round-05/, which is not shown. The only support is a post-result summary written by the interested claimant, so it does not itself establish that the counts are authentic, complete, or correctly mapped to the specified Arm A outcome.\",\"what_is_missing_if_anything\":\"The relevant artifact(s) from corpus/artifacts/local-round-05/—or sufficient neutral/raw records demonstrating the full Arm A denominator and accept count—are needed to apply the criterion conclusively. On the reported figures alone, the applicable classification would be unresolvable (20%), not correct or incorrect.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084350-PCkj0gi6FqVDqvS1Erjj",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 676,
+        "completion_tokens": 291,
+        "total_tokens": 967,
+        "cost": 0.006055,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.006055,
+          "upstream_inference_prompt_cost": 0.00169,
+          "upstream_inference_completions_cost": 0.004365
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:32:39Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the records in corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is held only if that share is at least 0.30; it fails if it is at most 0.15; and a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).",
+        "why": "The supplied account reports 4 accepts and 16 declines, which would imply 4/(4+16)=0.20 if those are the complete and correctly classified Arm A outcomes. That apparent value is in the criterion's explicitly unresolvable interval, rather than meeting the >=0.30 claim. However, the criterion specifically says resolution is from corpus/artifacts/local-round-05/, and that corpus/artifact is not shown. The interested party's post-result summary alone does not establish that the reported counts are complete, that the denominator is correct, or that these are the relevant Arm A records. Therefore the stated resolution rule cannot be applied conclusively from what is provided.",
+        "what_is_missing_if_anything": "The underlying local-round-05 artifact(s), or sufficient verifiable extract(s), showing the complete Arm A outcome records and denominator used to calculate the accept share."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the records in corpus/artifacts/local-round-05/, determine Arm A's accept share. The claim is held only if that share is at least 0.30; it fails if it is at most 0.15; and a share strictly between 0.15 and 0.30 is unresolvable under the filed rule (and counts against calibration).\",\"why\":\"The supplied account reports 4 accepts and 16 declines, which would imply 4/(4+16)=0.20 if those are the complete and correctly classified Arm A outcomes. That apparent value is in the criterion's explicitly unresolvable interval, rather than meeting the >=0.30 claim. However, the criterion specifically says resolution is from corpus/artifacts/local-round-05/, and that corpus/artifact is not shown. The interested party's post-result summary alone does not establish that the reported counts are complete, that the denominator is correct, or that these are the relevant Arm A records. Therefore the stated resolution rule cannot be applied conclusively from what is provided.\",\"what_is_missing_if_anything\":\"The underlying local-round-05 artifact(s), or sufficient verifiable extract(s), showing the complete Arm A outcome records and denominator used to calculate the accept share.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084355-6DiDtbfYv9sF47dEJS5q",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 676,
+        "completion_tokens": 286,
+        "total_tokens": 962,
+        "cost": 0.00598,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00598,
+          "upstream_inference_prompt_cost": 0.00169,
+          "upstream_inference_completions_cost": 0.00429
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

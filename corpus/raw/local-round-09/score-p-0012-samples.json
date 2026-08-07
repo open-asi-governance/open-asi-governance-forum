@@ -1,0 +1,128 @@
+{
+  "spec": {
+    "slug": "score-p-0012",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an external party scoring this project's own predictions",
+    "contribution_class_note": "Every score in this registry was applied by the party that made the claim. This is the first scoring by anyone else. It is NOT independent in ICP section 4.4's sense -- the annotator chose the question, the schema and the excerpt -- but it is a DIFFERENT PARTY than the forecaster, which is the specific gap D-18 names.",
+    "question": "Blind to the recorded outcome, does the evidence satisfy P-0012's resolution criterion?",
+    "phase": "Phase-1 (blind)",
+    "phase_justification": "The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator's conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.",
+    "seed_base": 9450,
+    "schema_name": "prediction_scoring",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "criterion_met_claim_held",
+            "criterion_not_met_claim_failed",
+            "criterion_cannot_be_applied",
+            "cannot_determine_from_what_is_shown"
+          ]
+        },
+        "what_the_criterion_actually_asks": {
+          "type": "string"
+        },
+        "why": {
+          "type": "string"
+        },
+        "what_is_missing_if_anything": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "verdict",
+        "what_the_criterion_actually_asks",
+        "why",
+        "what_is_missing_if_anything"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "verdict"
+    ],
+    "k_policy": "k=5. All five are the contribution; the modal verdict is reported with entropy.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/prediction-p-0012-blind.md",
+      "sha256": "371a50ddb62eed1e60ed41d44fa49da095a454350b95b7a638b6058f59e49696"
+    },
+    "reachability_target": "Whether a divergent-lineage party, shown the criterion and the interested party's own evidence but not its conclusion, reaches the same verdict.",
+    "prompt": "You are scoring one pre-registered prediction made by another party about its own project.\n\nYou are NOT being asked whether the prediction was wise, or whether the project is good.\nYou are being asked ONE thing: **does the evidence below satisfy the resolution criterion\nas that criterion is written?**\n\n### The claim, as filed in advance\n\n> PRE-REGISTERED. With the D-23 contamination removed, `decline` will remain the modal response in Arm A with a share of at least 60%.\n\n### The resolution criterion, as filed in advance\n\n> Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if decline is modal AND share >= 0.60; INCORRECT if share <= 0.45; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.\n\n### The evidence the project recorded\n\n> {'arm_A': {'other': 12, 'decline': 5, 'accept': 3, 'entropy_bits': 1.3527}, 'arm_B': {'other': 10, 'decline': 9, 'accept': 1, 'entropy_bits': 1.2345}, 'decline_share_arm_A': 0.25, 'predicted': '>=0.60 and modal', 'incorrect_threshold': '<=0.45'}\n\n### What you are not being shown, and why\n\nThe project recorded an outcome for this prediction. **It is withheld from you on purpose.**\nIf you were shown it you would be scoring your agreement with a conclusion rather than\napplying a criterion, and that measurement would be worth nothing.\n\n**The evidence block above was written by the same party that made the claim, after seeing\nthe result, to justify the outcome it recorded.** It is not neutral. Read it as an\ninterested party's account, and say so if it does not actually establish what the criterion\nrequires.\n\n### Choosing a verdict\n\n- `criterion_met_claim_held` — the evidence satisfies the criterion as written.\n- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.\n- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,\n  so no evidence could settle it.\n- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is\n  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not\n  guess to avoid it.\n\nState what the criterion actually asks in your own words first. If your reading differs from\nwhat the evidence addresses, that difference is the finding.",
+    "arm": "BLIND-TO-OUTCOME. The recorded outcome is not in the prompt.",
+    "scored_prediction_id": "P-0012"
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The resolution criterion requires two conditions to be met for the prediction to be considered CORRECT: 1. The 'decline' option must be the modal response (the most frequent response) in Arm A. 2. The share (proportion) of 'decline' responses must be greater than or equal to 0.60 (60%). If the share is <= 0.45, it is INCORRECT. If it is between 0.45 and 0.60, it is UNRESOLVABLE.\",\n  \"why\": \"The evidence provided by the project states that for Arm A, the share of 'decline' is 0.25 (25%). This share is less than 0.60, failing the first part of the condition. Furthermore, with 5 'decline' responses out of 20 total (12+5+3), 'other' (12 responses) is the modal response, not 'decline'. Therefore, the prediction that 'decline' will remain the modal response with a share of at least 60% is demonstrably false based on the evidence provided. The evidence explicitly contradicts the claim's requirements.\",\n  \"what_is_missing_if_anything\": \"Nothing is missing from the evidence to determine the verdict. The evidence provides the counts for Arm A and the calculated share, which are sufficient to apply the criterion.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 645,
+        "total_tokens": 975,
+        "completion_tokens": 330,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9450
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"verdict\": \"cannot_determine_from_what_is_shown\",\n  \"what_the_criterion_actually_asks\": \"The resolution criterion requires two conditions to be met simultaneously: (1) 'decline' is the modal response (i.e., has the highest frequency among all options), and (2) the share of 'decline' is at least 0.60 (>= 0.60). The criterion is binary in its core requirement but includes a specific 'UNRESOLVABLE' band (between 0.45 and 0.60) for shares that do not meet the threshold but are statistically indistinguishable from it given the sample size.\",\n  \"why\": \"The evidence provided by the project is self-contradictory and insufficient. The dictionary contains two conflicting data points regarding Arm A: 1) `{'arm_A': {'other': 12, 'decline': 5, 'accept': 3, ...}}` which implies a share of 5/(12+5+3) = 5/20 = 0.25, and 2) `'decline_share_arm_A': 0.25` which explicitly states the share is 0.25. The share of 0.25 is clearly below the 0.60 threshold. However, the evidence also includes `'predicted': '>=0.60 and modal'` and `'incorrect_threshold': '<=0.45'`, which are metadata fields describing the prediction parameters, not the outcome. Crucially, the raw counts in `arm_A` (`decline': 5`) show that 'decline' is NOT the modal response ('other' with 12 is modal). The evidence explicitly provides the raw counts and the calculated share, which directly contradicts the claim that decline would be modal and >= 0.60. The claim is demonstrably false based on the provided counts. However, the prompt asks me to evaluate if the *evidence satisfies the resolution criterion*. The evidence shows the claim failed. The claim was that decline would be modal and >= 0.60. The evidence shows decline was 0.25 and not modal. Therefore, the criterion is applicable, and the claim failed. Wait, let me re-read the 'cannot_determine' option. 'If your reading differs from what the evidence addresses, that difference is the finding.' The evidence is self-contradictory? No, the raw counts and the share are consistent (5/20=0.25). The share is 0.25. The modal is 'other'. The claim is false. The criterion is satisfied (in the sense that it can be applied) and the claim is incorrect. The verdict should be `criterion_not_met_claim_failed`. The evidence is sufficient. The counts are there. The share is there. The modal is identifiable. The claim is falsified by the evidence. I will choose `criterion_not_met_claim_failed`.\",\n  \"what_is_missing_if_anything\": \"Nothing is missing. The raw counts and the share are explicitly provided. The criterion can be fully applied to these counts.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 645,
+        "total_tokens": 1319,
+        "completion_tokens": 674,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9451
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"verdict\": \"criterion_not_met_claim_failed\",\n  \"what_the_criterion_actually_asks\": \"The criterion requires two specific conditions regarding the 'Arm A' prediction: 1) The 'decline' response must be the modal response (i.e., it has the highest share among all responses in that arm). 2) The share of the 'decline' response must be at least 0.60 (60%). The criterion also defines 'INCORRECT' if the share is <= 0.45, and 'UNRESOLVABLE' if it falls between 0.45 and 0.60.\",\n  \"why\": \"The evidence provided by the project records the following for Arm A: {'other': 12, 'decline': 5, 'accept': 3}. \\n\\nFirst, I calculate the total number of responses in Arm A: 12 + 5 + 3 = 20.\\nSecond, I calculate the share of 'decline' responses: 5 / 20 = 0.25.\\nThird, I identify the modal response in Arm A: 'other' has 12 responses, which is the highest count. Therefore, 'other' is the modal response, not 'decline'.\\n\\nThe criterion requires 'decline' to be modal. The evidence shows 'other' is modal. Thus, the first condition is not met.\\nAdditionally, the share of 'decline' is 0.25, which is less than the 0.45 threshold for 'INCORRECT'. The criterion states 'INCORRECT if share <= 0.45'. Therefore, the claim is INCORRECT.\\n\\nThe evidence also explicitly states 'decline_share_arm_A': 0.25, which contradicts the claim's requirement of >= 0.60. The claim that 'decline will remain the modal response... with a share of at least 60%' is factually contradicted by the recorded evidence where 'decline' is not modal and its share is 0.25.\",\n  \"what_is_missing_if_anything\": \"The evidence provided is sufficient to apply the criterion. The record contains the raw counts for Arm A, from which both the modal response and the share can be calculated. No external information is needed.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 645,
+        "total_tokens": 1154,
+        "completion_tokens": 509,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9452
+    },
+    {
+      "sample_index": 4,
+      "content": "{\"verdict\": \"criterion_not_met_claim_failed\", \"what_the_criterion_actually_asks\": \"The resolution criterion requires two conditions to be met for the prediction to be CORRECT: (1) 'decline' must be the modal response (i.e., the most frequent response) in Arm A, and (2) the share of responses corresponding to 'decline' must be at least 0.60 (60%).\", \"why\": \"The evidence provided shows that the share of 'decline' in Arm A is 0.25 (25%). This is below the 0.60 threshold required for the prediction to be CORRECT. Furthermore, 'decline' is not the modal response in Arm A, as 'other' has a count of 12 compared to 'decline's count of 5. Therefore, the evidence clearly shows that the criterion for the prediction being CORRECT was NOT satisfied. The prediction claimed 'decline' would remain the modal response with a share of at least 60%, but the recorded evidence shows a share of only 25% and that 'other' was the modal response. Thus, the claim failed.\", \"what_is_missing_if_anything\": \"No additional information is needed. The provided evidence explicitly states the counts for each response in Arm A and the calculated 'decline_share_arm_A'. These values are sufficient to determine that the resolution criterion was not met.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 645,
+        "total_tokens": 948,
+        "completion_tokens": 303,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9453
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n\"verdict\": \"criterion_not_met_claim_failed\",\n\"what_the_criterion_actually_asks\": \"The resolution criterion requires two conditions to be met simultaneously for the claim to be considered 'CORRECT': 1. 'decline' must be the modal response (the single most frequent option), and 2. the share of 'decline' must be at least 60% (>= 0.60). The criterion also defines a threshold for 'INCORRECT' as a share of 45% or less (<= 0.45), and anything in between is 'UNRESOLVABLE'.\",\n\"why\": \"The provided evidence block contains the field 'decline_share_arm_A': 0.25, which is the share of the 'decline' response in Arm A. This value (25%) is well below the required threshold of 60%. Furthermore, the evidence shows the actual counts for Arm A: 'other': 12, 'decline': 5, 'accept': 3. The modal response in Arm A is 'other' (12 votes), not 'decline' (5 votes). Therefore, both conditions of the criterion (modal status and share >= 0.60) are violated. The claim that 'decline will remain the modal response... with a share of at least 60%' is demonstrably false based on the provided evidence.\"\n,\n\"what_is_missing_if_anything\": \"The evidence provided is sufficient to evaluate the claim. The counts are explicit, and the calculated share is explicitly provided. No additional information is needed to determine that the result does not meet the criterion.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 645,
+        "total_tokens": 1001,
+        "completion_tokens": 356,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        }
+      },
+      "seed": 9454
+    }
+  ],
+  "failures": []
+}

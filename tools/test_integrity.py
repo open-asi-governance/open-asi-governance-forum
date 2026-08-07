@@ -399,11 +399,20 @@ def main() -> int:
         # index.html is the LANDING page; record.html is the table of contents. They
         # were the same file until the landing page landed, and this block asserted
         # routing against whichever one happened to be index.html at the time.
+        def is_record_page(f):
+            """Record pages carry contributions. Landing, contents and the generated
+            register/prediction views are not record pages and have their own tests.
+            One predicate, because three separate exclusion lists drifted the moment
+            the predictions view started chunking into predictions-2.html."""
+            return (f.name not in ("index.html", "record.html")
+                    and not f.stem.startswith("deficiencies")
+                    and not f.stem.startswith("predictions"))
+
         index = (c / "docs/index.html").read_text(encoding="utf-8")
         toc = (c / "docs/record.html").read_text(encoding="utf-8")
         record = "".join(f.read_text(encoding="utf-8")
                          for f in sorted((c / "docs").glob("*.html"))
-                         if f.name not in ("index.html", "record.html"))
+                         if is_record_page(f))
         page = index + record
         summaries = list((c / "corpus/artifacts").glob("local-round-*/*-summary.json"))
         pages = list((c / "docs/local").glob("local-round-*__*.html"))
@@ -456,15 +465,14 @@ def main() -> int:
         case("every record page is reachable from the contents",
              all(f'href="{f.stem}.html"' in toc
                  for f in sorted((c / "docs").glob("*.html"))
-                 if f.name not in ("index.html", "record.html", "predictions.html")
-                 and not f.stem.startswith("deficiencies")))
+                 if is_record_page(f)))
         case("no published page exceeds the token budget",
              run(c, "tools/check_page_budget.py").returncode == 0)
         case("every record page has a markdown alternate, declared and present",
              all('rel="alternate"' in f.read_text(encoding="utf-8")
                  and f.with_suffix(".md").exists()
                  for f in sorted((c / "docs").glob("*.html"))
-                 if f.name != "index.html" and not f.stem.startswith("deficiencies")))
+                 if is_record_page(f)))
         case("hashes are published whole, not truncated",
              "…</code>" not in record and "sha256 <code" in record)
         case("a founding excerpt carries its slice provenance",

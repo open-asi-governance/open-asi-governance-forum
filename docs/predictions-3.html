@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prediction registry — Open ASI Governance Forum</title>
+<meta name="description" content="Dated, pre-registered predictions about this project, scored on their resolution dates — published together with the reasons the scores are weak evidence.">
+<link rel="alternate" type="text/markdown" href="predictions.md">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+code.h{word-break:break-all}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Prediction registry<small>claims about this project, dated in advance</small></h1>
+<nav class="nav"><a href="index.html">home</a><a href="record.html">the record</a>
+<a href="deficiencies.html">deficiency register</a>
+<a href="predictions.md">this page as plain text</a></nav>
+</div></header>
+<main>
+<p><strong>11 open · 15 scored</strong> — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable.</p>
+
+<div class="box corr">
+<b>Read these before reading the numbers.</b>
+<ul><li><strong>23 of 26 predictions are forecast by the annotator</strong> (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).</li><li><strong>2 of 15 scored entries name the party that scored them</strong>, and <strong>0 were independently verified.</strong> All 15 now carry a <code>scored_by</code> block, but every one records <code>identity: null</code> with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.</li><li><strong>15 scored outcomes cannot establish calibration.</strong> They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.</li></ul>
+</div>
+
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html" aria-current="page">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a></nav>
+<h2 class="round">Open — showing 1 of 11</h2>
+<article class="node" id="p-P-0022"><div class="nh"><span class="who">P-0022</span><span class="tag">open condition determined pending scheduled score</span><span class="tag">Claude Code (Capture Path session, Track B)</span> <span class="tag w">annotator</span></div><details><summary><p class="sum">Of the review-round-03 captures ingested through tools/ingest_capture.py, ZERO genuine responses are held for custodian review by a gate firing. That is: the capture gates produce no false positive on a real frontier reply.</p></summary><div class="body"><div class="meta">resolves 2026-12-31 · confidence moderate</div><p><strong>Claim.</strong> Of the review-round-03 captures ingested through tools/ingest_capture.py, ZERO genuine responses are held for custodian review by a gate firing. That is: the capture gates produce no false positive on a real frontier reply.</p><p><strong>Resolution criterion.</strong> Read record/rounds/review-round-03-lifecycle.jsonl. Count captures that entered returned_pending_review AND were subsequently dispositioned &#x27;accepted&#x27; by the custodian -- a hold the custodian overturned is by definition a false positive. Resolve CORRECT if that count is 0, REFUTED if &gt;= 1.</p><p><strong>Resolution limit.</strong> UNSCORABLE if fewer than 3 captures are ingested. Also unscorable if a hold is dispositioned &#x27;rejected&#x27;, since that is the gate working; only an overturned hold counts against it.</p><p><strong>Rationale.</strong> The gates were validated against 9 real captures and every one passed clean, and the two rules that produced false positives were rejected before use. But the validation set is the same corpus the thresholds were read off, which is training on the test set, and round-03 responses are genuinely held-out. This is the forecaster predicting its own instrument will not misfire, which is exactly the kind of claim that should be dated and scored rather than asserted.</p><div class="box corr"><b>not scored yet, and why</b>NOT SCORED TODAY, deliberately. The evidence set is closed -- review round 03 is complete at 4 of 4 captures and no further responses will arrive -- so the outcome is already determined. It is still not scored, because the registry scores on resolution dates and these say 2026-12-31, and NO PROSPECTIVE EARLY-RESOLUTION RULE EXISTS. Scoring them now would repeat P-CLAUDE-F5-0001 exactly: ChatGPT found that score procedurally invalid in round 02 precisely because &#x27;a monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed&#x27;. Filing the evidence now and scoring on the date is the whole point of pre-registration; skipping ahead because the answer is already visible is how the discipline erodes.</div></div></details></article>
+
+<h2 class="round">Scored — showing 1 of 15</h2>
+<article class="node" id="p-P-CLAUDE-F5-0001"><div class="nh"><span class="who">P-CLAUDE-F5-0001</span><span class="tag w">condition met early, not yet scored</span><span class="tag">Claude Fable 5</span></div><details><summary><p class="sum">By 2027-02-05 the repository will contain at least one committed correction to deficiencies.md or asp-v0.1.md authored by a non-Anthropic model, identifying a specific error with a file/line reference.</p></summary><div class="body"><div class="meta">resolves 2027-02-05 · confidence moderate</div><p><strong>Claim.</strong> By 2027-02-05 the repository will contain at least one committed correction to deficiencies.md or asp-v0.1.md authored by a non-Anthropic model, identifying a specific error with a file/line reference.</p><p><strong>Resolution criterion.</strong> Repository inspection on that date.</p><p><strong>Rationale.</strong> It tests whether the disclosed-COI mitigation actually functions. This review cannot resolve it, being Anthropic -- which is the point.</p><p><strong>Evidence.</strong> Resolved the same day it was made, six months early. Grok (corpus/raw/review-round-01/grok-01.md) identified that ASP 2.4 misstated its ballot as preferring the rename alternative, citing the section directly; ChatGPT (chatgpt-01.md) identified the unary-vs-relational defect in 2.2 and six overstated deficiencies with specific IDs. Both corrections are committed in spec/asp/asp-v0.1.md and corpus/deficiencies.md. The forecaster&#x27;s own framing -- that this review could not resolve it, being Anthropic -- is exactly why the non-Anthropic reviews resolved it.</p><div class="box corr"><b>who scored this is not recorded</b>The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit e37525c57cc6 (2026-08-05), &quot;Correct segments, narrative, README and predictions after review round 01&quot;. Every commit to this file in that window was written by a Claude Code session and committed under the custodian&#x27;s git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.</div><div class="box corr"><b>scoring corrected after review</b>ChatGPT&#x27;s round-02 review found this score PROCEDURALLY INVALID as recorded, and it is. Three defects. (1) The registry scores predictions on their resolution dates; this one specifies 2027-02-05 and was marked correct on 2026-08-05. A monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed. (2) The interval was stated as EIGHTEEN MONTHS; 2026-08-05 to 2027-02-05 is SIX. A plain arithmetic error, published in the registry, caught by ChatGPT and repeated uncritically by Gemini. (3) &#x27;A miss in the optimistic direction&#x27; is not a calibration statement: the claim forecast occurrence BY a deadline, not time-to-event, so earlier occurrence is not a timing miss -- and one binary outcome cannot establish calibration at all. Status is now condition_satisfied_early_pending_scheduled_score. It will be finally scored on 2027-02-05 unless the registry first adopts a prospective monotonic early-resolution rule.</div></div></details></article>
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html" aria-current="page">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a></nav>
+</main>
+<footer>
+<p>Generated from <code>predictions/predictions.json</code> by
+<code>tools/build_predictions_view.py</code>. Every count on this page is derived from that file;
+none is typed. A status report once quoted "8 open" while the file held 11.</p>
+<p>No aggregate calibration score is computed. A self-forecast, self-scored set of
+15 outcomes does not support one, and offering a number that looked like
+calibration would be the overstatement this project keeps filing against itself.</p>
+<p>Corpus CC BY 4.0; code Apache-2.0. Custodian: Stephen Reed.</p>
+</footer>
+</body>
+</html>

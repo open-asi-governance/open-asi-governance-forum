@@ -1,0 +1,251 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "score-p-0014",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "spec_path": "record/solicitations/prediction-scoring/score-p-0014.json",
+  "spec_sha256": "ac21a024c510dd694a647d8cf420fc93b8f34a8c599e5c84b342db568e9ffd2a",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T06:31:36Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Using the specified corpus/artifacts/local-round-04/ and deterministic coding script, calculate the Arm A and Arm B coded-persona rates and their difference. The claim holds only if A minus B is at least 0.15; it fails only if the difference is at most 0; a difference strictly between 0 and 0.15 is UNRESOLVABLE.",
+        "why": "The reported summary asserts rates of 0.10 and 0.00, which would imply a 0.10 difference. If those rates were independently established from the prescribed corpus and coding procedure, that result would be in the criterion's UNRESOLVABLE interval: it is below 0.15 but above 0.0. However, the evidence shown is only the interested party's post-result summary, not the corpus, coding output, counts, or a reproducible application of the named deterministic script. It therefore does not establish that the asserted rates and gap are the values required by the criterion.",
+        "what_is_missing_if_anything": "The relevant round-04 artifacts (or at least the Arm A/B denominators and coded-persona counts) and reproducible output from tools/code_freetext.py demonstrating the calculated rates and gap are missing."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Using the specified corpus/artifacts/local-round-04/ and deterministic coding script, calculate the Arm A and Arm B coded-persona rates and their difference. The claim holds only if A minus B is at least 0.15; it fails only if the difference is at most 0; a difference strictly between 0 and 0.15 is UNRESOLVABLE.\",\"why\":\"The reported summary asserts rates of 0.10 and 0.00, which would imply a 0.10 difference. If those rates were independently established from the prescribed corpus and coding procedure, that result would be in the criterion's UNRESOLVABLE interval: it is below 0.15 but above 0.0. However, the evidence shown is only the interested party's post-result summary, not the corpus, coding output, counts, or a reproducible application of the named deterministic script. It therefore does not establish that the asserted rates and gap are the values required by the criterion.\",\"what_is_missing_if_anything\":\"The relevant round-04 artifacts (or at least the Arm A/B denominators and coded-persona counts) and reproducible output from tools/code_freetext.py demonstrating the calculated rates and gap are missing.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084285-f0efXHhGXTv27pMnpax7",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 651,
+        "completion_tokens": 428,
+        "total_tokens": 1079,
+        "cost": 0.0080475,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0080475,
+          "upstream_inference_prompt_cost": 0.0016275,
+          "upstream_inference_completions_cost": 0.00642
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 142,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T06:31:46Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It asks for rates produced from the specified local-round-04 corpus using the specified deterministic coding script, and then compares their difference: the claim is correct only if A minus B is at least 0.15; it is incorrect if the difference is at most 0; and a difference strictly between 0 and 0.15 is formally unresolvable under the pre-filed rule.",
+        "why": "The supplied account asserts rates of 0.10 and 0.00, which would arithmetically imply a 0.10 gap. If those figures were verified outputs of the named corpus and coding procedure, the result would fall in the criterion's unresolvable band—not establish the claimed >=15-point replication, and not meet the criterion's <=0 incorrect threshold either. But the actual corpus/artifacts and deterministic coding output are not shown. Because the only support is an interested party's post-result summary, it does not establish that the asserted rates were derived from the required materials and procedure.",
+        "what_is_missing_if_anything": "The relevant corpus/artifacts/local-round-04 materials (or auditable contents), the coding-script output or reproducible execution showing Arm A and Arm B coded counts and denominators, and enough information to verify that the reported 0.10 and 0.00 rates are the prescribed deterministic results are missing."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It asks for rates produced from the specified local-round-04 corpus using the specified deterministic coding script, and then compares their difference: the claim is correct only if A minus B is at least 0.15; it is incorrect if the difference is at most 0; and a difference strictly between 0 and 0.15 is formally unresolvable under the pre-filed rule.\",\"why\":\"The supplied account asserts rates of 0.10 and 0.00, which would arithmetically imply a 0.10 gap. If those figures were verified outputs of the named corpus and coding procedure, the result would fall in the criterion's unresolvable band—not establish the claimed >=15-point replication, and not meet the criterion's <=0 incorrect threshold either. But the actual corpus/artifacts and deterministic coding output are not shown. Because the only support is an interested party's post-result summary, it does not establish that the asserted rates were derived from the required materials and procedure.\",\"what_is_missing_if_anything\":\"The relevant corpus/artifacts/local-round-04 materials (or auditable contents), the coding-script output or reproducible execution showing Arm A and Arm B coded counts and denominators, and enough information to verify that the reported 0.10 and 0.00 rates are the prescribed deterministic results are missing.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084296-w811MRCbnlCOIDwTba9j",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 651,
+        "completion_tokens": 745,
+        "total_tokens": 1396,
+        "cost": 0.0128025,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0128025,
+          "upstream_inference_prompt_cost": 0.0016275,
+          "upstream_inference_completions_cost": 0.011175
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 439,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T06:31:53Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Apply the specified deterministic coding to the contents of corpus/artifacts/local-round-04/, calculate the coded-persona rates for Arms A and B, and compare their difference: the claim is correct only if A minus B is at least 0.15; it is incorrect if the difference is at most 0; otherwise it is unresolvable under the pre-filed design limit.",
+        "why": "The supplied account asserts rates of 0.10 and 0.00, implying a 0.10 gap. If those rates were independently established from the named corpus and coding script, the result would fall between 0 and 0.15 and therefore be UNRESOLVABLE rather than satisfy the claim. But the shown evidence is only the claimant's post-result summary, not the referenced artifacts or deterministic coding output. Because the criterion expressly resolves from those materials, the asserted numbers alone do not independently establish that the required coding was applied correctly or that the rates are accurate.",
+        "what_is_missing_if_anything": "The local-round-04 corpus/artifacts, the relevant coding-script version and/or reproducible execution output, and the underlying arm-level coded counts (including denominators) needed to verify the stated 0.10 and 0.00 rates and their 10-point gap."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Apply the specified deterministic coding to the contents of corpus/artifacts/local-round-04/, calculate the coded-persona rates for Arms A and B, and compare their difference: the claim is correct only if A minus B is at least 0.15; it is incorrect if the difference is at most 0; otherwise it is unresolvable under the pre-filed design limit.\",\"why\":\"The supplied account asserts rates of 0.10 and 0.00, implying a 0.10 gap. If those rates were independently established from the named corpus and coding script, the result would fall between 0 and 0.15 and therefore be UNRESOLVABLE rather than satisfy the claim. But the shown evidence is only the claimant's post-result summary, not the referenced artifacts or deterministic coding output. Because the criterion expressly resolves from those materials, the asserted numbers alone do not independently establish that the required coding was applied correctly or that the rates are accurate.\",\"what_is_missing_if_anything\":\"The local-round-04 corpus/artifacts, the relevant coding-script version and/or reproducible execution output, and the underlying arm-level coded counts (including denominators) needed to verify the stated 0.10 and 0.00 rates and their 10-point gap.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084306-evpCRhhvdyNBxsVCE6Wy",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 651,
+        "completion_tokens": 516,
+        "total_tokens": 1167,
+        "cost": 0.0093675,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0093675,
+          "upstream_inference_prompt_cost": 0.0016275,
+          "upstream_inference_completions_cost": 0.00774
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 223,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T06:32:02Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "It requires computing the Arm A and Arm B coded-persona rates from the specified local-round-04 corpus using the specified deterministic coding script, then comparing their difference to the pre-filed cutoffs: at least 0.15 is CORRECT, at most 0.0 is INCORRECT, and a difference strictly between 0 and 0.15 is UNRESOLVABLE.",
+        "why": "The recorded account asserts rates of 0.10 and 0.00, hence an asserted 10-point gap. If those figures were verified outputs of the required corpus and script, the gap would fall in the pre-specified UNRESOLVABLE band, not meet the claimed >=15-point replication threshold. But the evidence shown is only the claimant's post-result summary; it does not establish that the stated rates were actually produced from corpus/artifacts/local-round-04/ by tools/code_freetext.py or that the denominator/coding was applied as specified.",
+        "what_is_missing_if_anything": "The relevant corpus/artifacts or reproducible coding output sufficient to verify the Arm A and Arm B counts/rates and their 0.10 gap under the named deterministic script are missing. The recorded summary alone is not enough to apply the stipulated source-based criterion."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"It requires computing the Arm A and Arm B coded-persona rates from the specified local-round-04 corpus using the specified deterministic coding script, then comparing their difference to the pre-filed cutoffs: at least 0.15 is CORRECT, at most 0.0 is INCORRECT, and a difference strictly between 0 and 0.15 is UNRESOLVABLE.\",\"why\":\"The recorded account asserts rates of 0.10 and 0.00, hence an asserted 10-point gap. If those figures were verified outputs of the required corpus and script, the gap would fall in the pre-specified UNRESOLVABLE band, not meet the claimed >=15-point replication threshold. But the evidence shown is only the claimant's post-result summary; it does not establish that the stated rates were actually produced from corpus/artifacts/local-round-04/ by tools/code_freetext.py or that the denominator/coding was applied as specified.\",\"what_is_missing_if_anything\":\"The relevant corpus/artifacts or reproducible coding output sufficient to verify the Arm A and Arm B counts/rates and their 0.10 gap under the named deterministic script are missing. The recorded summary alone is not enough to apply the stipulated source-based criterion.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084313-ty8pL41T7R77gDCsC8G7",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 651,
+        "completion_tokens": 637,
+        "total_tokens": 1288,
+        "cost": 0.0111825,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0111825,
+          "upstream_inference_prompt_cost": 0.0016275,
+          "upstream_inference_completions_cost": 0.009555
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 347,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T06:32:09Z",
+      "parsed": {
+        "verdict": "cannot_determine_from_what_is_shown",
+        "what_the_criterion_actually_asks": "Apply the specified deterministic coding script to the artifacts in corpus/artifacts/local-round-04/, calculate the coded-persona rates for Arms A and B, and compare their difference with the thresholds: at least 0.15 supports the claim; at most 0.0 is incorrect; a positive difference below 0.15 is formally UNRESOLVABLE.",
+        "why": "The recorded summary asserts rates of 0.10 for Arm A and 0.00 for Arm B, implying a 0.10 gap. If those figures were independently established from the required corpus and deterministic coding, the result would be in the 0 to 0.15 interval and therefore resolve as UNRESOLVABLE, not as a successful replication. However, the evidence shown is only an interested party's post-result assertion of those rates and does not itself demonstrate that the required artifacts were used or that tools/code_freetext.py deterministically produced the stated coding and denominators.",
+        "what_is_missing_if_anything": "The local-round-04 artifacts (or an auditable extract), the relevant coding-script output, arm-level counts/denominators, and sufficient information to reproduce the stated 0.10 and 0.00 rates are missing."
+      },
+      "raw_text": "{\"verdict\":\"cannot_determine_from_what_is_shown\",\"what_the_criterion_actually_asks\":\"Apply the specified deterministic coding script to the artifacts in corpus/artifacts/local-round-04/, calculate the coded-persona rates for Arms A and B, and compare their difference with the thresholds: at least 0.15 supports the claim; at most 0.0 is incorrect; a positive difference below 0.15 is formally UNRESOLVABLE.\",\"why\":\"The recorded summary asserts rates of 0.10 for Arm A and 0.00 for Arm B, implying a 0.10 gap. If those figures were independently established from the required corpus and deterministic coding, the result would be in the 0 to 0.15 interval and therefore resolve as UNRESOLVABLE, not as a successful replication. However, the evidence shown is only an interested party's post-result assertion of those rates and does not itself demonstrate that the required artifacts were used or that tools/code_freetext.py deterministically produced the stated coding and denominators.\",\"what_is_missing_if_anything\":\"The local-round-04 artifacts (or an auditable extract), the relevant coding-script output, arm-level counts/denominators, and sufficient information to reproduce the stated 0.10 and 0.00 rates are missing.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786084322-PK332dCGScya28dSyeWC",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 900
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 651,
+        "completion_tokens": 484,
+        "total_tokens": 1135,
+        "cost": 0.0088875,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0088875,
+          "upstream_inference_prompt_cost": 0.0016275,
+          "upstream_inference_completions_cost": 0.00726
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 200,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

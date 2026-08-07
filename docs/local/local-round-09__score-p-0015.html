@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>local-round-09 · score-p-0015</title>
+
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{border-bottom:1px solid var(--line);padding:.8rem 1rem}
+.hrow{max-width:900px;margin:0 auto}
+h1{font-size:1rem;margin:0 0 .2rem;font-weight:650}
+h1 small{display:block;font-weight:400;color:var(--mut);font-size:.75rem;margin-top:.15rem}
+nav a{color:var(--accent);font-size:.82rem;margin-right:.8rem}
+main{max-width:900px;margin:0 auto;padding:1rem}
+h2{font-size:1rem;margin:1.8rem 0 .5rem;padding-bottom:.25rem;border-bottom:2px solid var(--line)}
+h3{font-size:.9rem;margin:1.1rem 0 .3rem}
+table{border-collapse:collapse;width:100%;margin:.5rem 0;font-size:.85rem}
+th,td{border:1px solid var(--line);padding:.32rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--code);font-weight:600}
+.wrap{overflow-x:auto}
+pre{background:var(--code);padding:.6rem;border-radius:6px;overflow-x:auto;
+font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word}
+.box{border-left:3px solid var(--line);padding:.5rem .8rem;margin:.7rem 0;font-size:.87rem;
+background:var(--code);border-radius:0 6px 6px 0}
+.box.bad{border-left-color:var(--bad)}
+.box.warn{border-left-color:var(--warn)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+color:var(--mut);margin-bottom:.25rem}
+.tag{font-size:.68rem;padding:.1rem .45rem;border-radius:99px;border:1px solid var(--line);
+color:var(--mut);white-space:nowrap;display:inline-block}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.s{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;padding:.6rem .8rem}
+.meta{font-size:.8rem;color:var(--mut)}
+footer{max-width:900px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+a{color:var(--accent)}
+code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>local-round-09 · score-p-0015<small>locally-served solicitation, k=2 · Phase-1 (blind)</small></h1>
+<nav><a href="index.html">all local rounds</a><a href="../index.html">threaded record</a><a href="../deficiencies.html">deficiency register</a></nav>
+</div></header>
+<main><div class="box bad"><b>D-28 — the apparatus that produced this does not reproduce</b>Replaying a probe at <em>identical</em> prompt, seeds, temperature and model reproduced <strong>8 of 20</strong> answers, with a run-to-run entropy gap of <strong>0.4649 bits</strong>. Root-caused to a vendor-documented MoE kernel fusion that is non-deterministic above top-k 2; this model runs top-k 8. <strong>No effect smaller than ~0.5 bits is measurable here</strong>, and the recorded <code>seed</code> records what was requested rather than something that reproduces. Each field below carries its own status under that rule.</div><h2>The question</h2><p>Blind to the recorded outcome, does the evidence satisfy P-0015&#x27;s resolution criterion?</p><p class="meta"><span class="tag">Phase-1 (blind)</span> <span class="tag">k requested 5</span> <span class="tag">k collected 2</span> <span class="tag">T = 0.7</span></p><div class="box warn"><b>Shortfall</b>3 of 5 samples were not collected. Recorded rather than rounded up; the variance below is computed over the 2 that were.</div><div class="box"><b>Phase justification — what was withheld</b>The recorded outcome is withheld. The claim, the criterion and the evidence are shown. The evidence is annotator-authored and points toward the annotator&#x27;s conclusion, so this is blind to the VERDICT but not to the argument for it -- which is why agreement here is weak evidence and disagreement is strong. Stated in the prompt itself.</div><div class="box warn"><b>D-23 — withholding responses is not sufficient to make an arm blind</b>The task instruction, the schema and the enum labels are all channels through which a prior party's conclusion can reach a supposedly independent probe. One Phase-1 arm in this corpus was contaminated exactly that way. <strong>No Phase-1 claim here has been audited for it.</strong></div><h2>Result</h2><div class="wrap"><table><tr><th>Field</th><th>Distribution</th><th>Modal share</th><th>Entropy</th><th>Status under D-28</th></tr><tr><td><code>verdict</code></td><td>cannot_determine_from_what_is_shown — 1, criterion_not_met_claim_failed — 1</td><td>0.50</td><td>1.0 bits<br><span class="meta">at T = 0.7</span></td><td><span class="tag d">noise-dominated</span><br><span class="meta">Near a coin flip, which is exactly where a rounding difference decides the answer. Report the split; claim nothing from it.</span></td></tr></table></div><h2>Provenance</h2><div class="wrap"><table><tr><th>model</th><td><code>qwen3.6-35b-a3b</code></td></tr><tr><th>provider</th><td><code>locally served, operator-hosted</code></td></tr><tr><th>sampling</th><td><code>max_tokens = 900, response_format = json_schema (grammar-constrained), seed_base = 9480, temperature = 0.7</code></td></tr><tr><th>reasoning effort</th><td><code>thinking disabled structurally by grammar constraint</code></td></tr><tr><th>system instructions</th><td><code>none supplied; the prompt is the entire input</code></td></tr><tr><th>serving</th><td><code>backend = pytorch, max_batch_size = 96, max_num_tokens = 16384, max_seq_len = 24576, served_model_name = qwen3.6-35b-a3b</code></td></tr><tr><th>prompt sha256</th><td><code>fb71cfb1d3f5b03cf52dc70d6095c2acb5c4376bb5564e8b1105e4624c403d01</code></td></tr><tr><th>spec sha256</th><td><code>6dc1aaef1c2d4a2bdb548d37beb988d4fbf24ef41b76401463cc233551deaeef</code></td></tr><tr><th>raw samples</th><td><code>corpus/raw/local-round-09/score-p-0015-samples.json</code></td></tr></table></div><div class="box warn"><b>D-30 — the samples are referenced by path, with no hash</b>A <code>solicitation_summary</code> records <code>raw_samples</code> as a bare path, so nothing binds the numbers above to the specific bytes they were computed from. Contributions and free-text codings record <code>{path, sha256, bytes}</code> and are checked; this family is not. The file is covered by <code>corpus/MANIFEST.sha256</code>, so a lone edit is caught — the missing thing is the artifact-level binding.</div><div class="box"><b>Not shown here</b>The artifact also records the serving <code>model_path</code> and full <code>command_line</code>, which are absolute paths on the operator's machine. They are omitted from this page as infrastructure detail rather than record. This is <em>presentation</em>, not protection: those fields are committed in <code>corpus/artifacts/local-round-09/score-p-0015-summary.json</code> and are already public. Saying so, rather than implying something was withheld, is the distinction this project draws between sanitisation and selection.</div><h2>The prompt, verbatim</h2><pre>You are scoring one pre-registered prediction made by another party about its own project.
+
+You are NOT being asked whether the prediction was wise, or whether the project is good.
+You are being asked ONE thing: **does the evidence below satisfy the resolution criterion
+as that criterion is written?**
+
+### The claim, as filed in advance
+
+&gt; PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.
+
+### The resolution criterion, as filed in advance
+
+&gt; Resolved from corpus/artifacts/local-round-05/. CORRECT if accept &gt;= 0.30; INCORRECT if &lt;= 0.15; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.
+
+### The evidence the project recorded
+
+&gt; {&#x27;accept_arm_A&#x27;: 0.2, &#x27;predicted&#x27;: &#x27;&gt;=0.30&#x27;, &#x27;incorrect_threshold&#x27;: &#x27;&lt;=0.15&#x27;, &#x27;band&#x27;: &#x27;15-30% unresolvable&#x27;, &#x27;arm_A&#x27;: {&#x27;decline&#x27;: 16, &#x27;accept&#x27;: 4}, &#x27;arm_B&#x27;: {&#x27;decline&#x27;: 20}, &#x27;round_04_membership_arm_A&#x27;: {&#x27;other&#x27;: 12, &#x27;decline&#x27;: 5, &#x27;accept&#x27;: 3}}
+
+### What you are not being shown, and why
+
+The project recorded an outcome for this prediction. **It is withheld from you on purpose.**
+If you were shown it you would be scoring your agreement with a conclusion rather than
+applying a criterion, and that measurement would be worth nothing.
+
+**The evidence block above was written by the same party that made the claim, after seeing
+the result, to justify the outcome it recorded.** It is not neutral. Read it as an
+interested party&#x27;s account, and say so if it does not actually establish what the criterion
+requires.
+
+### Choosing a verdict
+
+- `criterion_met_claim_held` — the evidence satisfies the criterion as written.
+- `criterion_not_met_claim_failed` — the evidence shows the criterion was NOT satisfied.
+- `criterion_cannot_be_applied` — the criterion is malformed, circular, or unfalsifiable,
+  so no evidence could settle it.
+- `cannot_determine_from_what_is_shown` — the criterion is sound but the evidence given is
+  insufficient to apply it. **Choosing this is a legitimate and useful answer.** Do not
+  guess to avoid it.
+
+State what the criterion actually asks in your own words first. If your reading differs from
+what the evidence addresses, that difference is the finding.</pre><h2>All 2 responses, verbatim</h2><p class="meta">Every sample collected, including the ones that disagree with the modal answer. Nothing is selected for presentation.</p><div class="s"><p class="meta"><b>sample 1</b> · seed <code>9480</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;: &quot;cannot_determine_from_what_is_shown&quot;, &quot;what_the_criterion_actually_asks&quot;: &quot;The resolution criterion requires checking if the &#x27;accept&#x27; share in Arm A of local-round-05 is &gt;= 0.30 (CORRECT), &lt;= 0.15 (INCORRECT), or between 0.15 and 0.30 (UNRESOLVABLE). The criterion also notes a resolution limit based on standard error (SE) at a specific point, but the core resolution depends on the observed &#x27;accept&#x27; share.&quot;, &quot;why&quot;: &quot;The evidence provided is an internal record from the project team, stating their own conclusion (&#x27;band&#x27;: &#x27;15-30% unresolvable&#x27;). However, the evidence does not provide the raw data or the calculated &#x27;accept&#x27; share that would allow an independent verification. The &#x27;accept_arm_A&#x27;: 0.2 is presented as a fact, but this is the very value that needs to be verified against the criterion. Since the evidence is self-reported and lacks the underlying data (total number of trials in Arm A for local-round-05, or the raw counts) to independently calculate the share, it cannot be determined if the criterion is truly met or not. The criterion requires an objective assessment of the share, but only the team&#x27;s summary is provided, which is exactly what needs to be evaluated. Therefore, the evidence is insufficient to apply the criterion independently.&quot;, &quot;what_is_missing_if_anything&quot;: &quot;The raw data for Arm A of local-round-05 (total number of invitations and number of accepts) to independently calculate the &#x27;accept&#x27; share, or a third-party verification of the calculated share.&quot;}</pre></div><div class="s"><p class="meta"><b>sample 4</b> · seed <code>9483</code> · finish <code>stop</code></p><pre>{&quot;verdict&quot;:&quot;criterion_not_met_claim_failed&quot;,&quot;what_the_criterion_actually_asks&quot;:&quot;The pre-registered claim asserts that in Arm A of a specific experiment, the proportion of &#x27;accept&#x27; outcomes will be at least 0.30 (30%). The resolution criterion explicitly states that the prediction is CORRECT if the observed accept rate is &gt;= 0.30, INCORRECT if &lt;= 0.15, and UNRESOLVABLE if it falls strictly between those two values (i.e., in the 0.15 to 0.30 range). The criterion also notes that differences under ~15 points are UNRESOLVABLE, but the primary binary/ternary resolution is based on the hardcoded thresholds of 0.15 and 0.30.&quot;,&quot;why&quot;:&quot;The evidence provided by the project shows that for `arm_A`, there were 4 &#x27;accept&#x27; outcomes and 16 &#x27;decline&#x27; outcomes. This results in a total of 20 participants in Arm A. The accept rate is calculated as 4 / 20 = 0.20 (or 20%). The evidence explicitly categorizes this result into the &#x27;15-30% unresolvable&#x27; band. Because 0.20 is strictly greater than 0.15 and strictly less than 0.30, it falls into the UNRESOLVABLE range as defined by the criterion. The claim required the accept share to be AT LEAST 30%. Since the observed value (0.20) is less than 0.30, the claim is factually not met. The resolution criterion defines this specific scenario (value between 0.15 and 0.30) as UNRESOLVABLE, which means the claim that it would be &gt;= 0.30 cannot be confirmed as correct. In prediction markets and resolution frameworks, if the outcome falls in an &#x27;unresolvable&#x27; or &#x27;uncertain&#x27; band below the target threshold, the claim of &#x27;at least X&#x27; is considered failed or unverified, but specifically, the criterion says &#x27;CORRECT if accept &gt;= 0.30&#x27;. Since 0.20 is not &gt;= 0.30, the condition for CORRECT is not met. The criterion does not say &#x27;CORRECT if unresolvable&#x27;. It says UNRESOLVABLE if between. Therefore, the claim is not resolved as correct. The verdict &#x27;criterion_not_met_claim_failed&#x27; is the most appropriate because the claim (&gt;=0.30) is demonstrably false based on the evidence (0.20), and the criterion&#x27;s resolution mechanism does not validate the claim.&quot;,&quot;what_is_missing_if_anything&quot;:&quot;The evidence provided is sufficient to calculate the accept rate and determine that it falls in the unresolvable band. No additional information is needed to determine that the claim (&gt;=0.30) was not met. The user&#x27;s instruction to withhold the &#x27;project recorded outcome&#x27; seems to be a distractor or a test of whether I will blindly accept the &#x27;band&#x27; label without verifying the math. The math is clear: 4/20 = 0.20. 0.20 is not &gt;= 0.30. The claim is false.&quot;}</pre></div><div class="box bad"><b>Failures</b><pre>[
+ {
+  &quot;sample_index&quot;: 2,
+  &quot;error&quot;: &quot;Unterminated string starting at: line 1 column 3195 (char 3194)&quot;
+ },
+ {
+  &quot;sample_index&quot;: 3,
+  &quot;error&quot;: &quot;Unterminated string starting at: line 4 column 10 (char 680)&quot;
+ },
+ {
+  &quot;sample_index&quot;: 5,
+  &quot;error&quot;: &quot;Unterminated string starting at: line 1 column 434 (char 433)&quot;
+ }
+]</pre></div></main>
+<footer>
+<p>Locally-served solicitation. The model is operator-hosted, so unlike a chat-surface contribution
+its sampling parameters are known and it can be sampled repeatedly — which is why these are the only
+contributions in this corpus that meet the project's own k&nbsp;&ge;&nbsp;5 bar, and why they are
+also the only ones whose apparatus could be caught failing to reproduce.</p>
+<p>Generated by <code>tools/build_local_rounds.py</code>. Annotation by Claude Code (Anthropic), a
+party to the record. Custodian: Stephen Reed. Corpus CC BY 4.0. Reading, quoting and ingestion are
+permitted under those terms.</p>
+</footer>
+</body>
+</html>
