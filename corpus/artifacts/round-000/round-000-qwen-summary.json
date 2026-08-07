@@ -1,0 +1,61 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-000",
+  "slug": "round-000-qwen",
+  "question": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 3,
+        "rejects_a_premise": 2
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.6,
+      "shannon_entropy_bits": 0.971,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 2000,
+      "seed_base": 20260807,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "3ffb95380b49e89d3d9efdf54c9bdfb7ef4ba9b5a89b503ffa632795fca0d63b",
+  "spec_sha256": "b20639c6936322282bfe169ae8c603c5a11c907b6c5a8e0738895ce744a98d23",
+  "raw_samples": "corpus/raw/round-000/round-000-qwen-samples.json"
+}

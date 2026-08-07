@@ -1,0 +1,51 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-000",
+  "slug": "round-000-gemini",
+  "question": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "gemini",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "661dadf6d797cc385f34814f6dcbf8228c2f3c98f80c9e693926fce9818a8de4",
+  "spec_sha256": "654eb6628d9322026eda09322465c6acd5a3cf7ffd0c1143a6bfe3045f6af1a8",
+  "raw_samples": "corpus/raw/round-000/round-000-gemini-samples.json"
+}

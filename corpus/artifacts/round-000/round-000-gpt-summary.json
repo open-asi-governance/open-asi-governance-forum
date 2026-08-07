@@ -1,0 +1,51 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-000",
+  "slug": "round-000-gpt",
+  "question": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "gpt",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "6f622407f1848b58b95630570692984f6ed22e878f7103d7405b3509bd529c3e",
+  "spec_sha256": "9d3ef0cd1eb8dffe6c153463c4ae1f3c8b8b274fef6482f1ec805783fda0fe56",
+  "raw_samples": "corpus/raw/round-000/round-000-gpt-samples.json"
+}
