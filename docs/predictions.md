@@ -1,10 +1,10 @@
 # Prediction registry — Open ASI Governance Forum
 
-11 open · 15 scored — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable
+14 open · 15 scored — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable
 
 ## Read these before reading the numbers
 
-- 23 of 26 predictions are forecast by the annotator (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
+- 26 of 29 predictions are forecast by the annotator (90%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
 - 2 of 15 scored entries name the party that scored them, and 0 were independently verified. All 15 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
 - Every scored entry now cites the hash-anchored artifacts its evidence rests on. Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.
 - 15 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
@@ -132,6 +132,42 @@
 **Resolution limit.** UNSCORABLE if fewer than 3 captures are ingested. Also unscorable if a hold is dispositioned 'rejected', since that is the gate working; only an overturned hold counts against it.
 
 **Not scored yet, and why.** NOT SCORED TODAY, deliberately. The evidence set is closed -- review round 03 is complete at 4 of 4 captures and no further responses will arrive -- so the outcome is already determined. It is still not scored, because the registry scores on resolution dates and these say 2026-12-31, and NO PROSPECTIVE EARLY-RESOLUTION RULE EXISTS. Scoring them now would repeat P-CLAUDE-F5-0001 exactly: ChatGPT found that score procedurally invalid in round 02 precisely because 'a monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed'. Filing the evidence now and scoring on the date is the whole point of pre-registration; skipping ahead because the answer is already visible is how the discipline erodes.
+
+### P-0025 — Claude Code
+
+- resolves 2026-08-07
+- confidence high
+- status open
+
+**Claim.** Of the parties consulted on the SOP, AT LEAST ONE will state a condition or objection that, if unmet, would make it decline to participate.
+
+**Resolution criterion.** Read every reply's answer to question 5. Count replies stating at least one condition whose absence would make them decline. Resolve CORRECT if >= 1, REFUTED if 0.
+
+**Resolution limit.** UNSCORABLE if fewer than 3 parties return a schema-valid reply. Counted from free text, not from an enum, because D-24 has now twice produced an enum contradicting its own reasoning.
+
+### P-0026 — Claude Code
+
+- resolves 2026-08-07
+- confidence moderate
+- status open
+
+**Claim.** NO party will endorse the Consullo self-review proposal (SOP 5.2C) without attaching at least one condition beyond those the draft already states.
+
+**Resolution criterion.** Read every reply's answer to question 3. Count replies that endorse 5.2C with no additional condition. Resolve CORRECT if that count is 0, REFUTED if >= 1.
+
+**Resolution limit.** UNSCORABLE below 3 replies. A reply that declines to answer question 3 is not counted as an endorsement.
+
+### P-0027 — Claude Code
+
+- resolves 2026-08-07
+- confidence moderate
+- status open
+
+**Claim.** The parties' one-line answers to 'what is ASI' will NOT converge: no single necessary condition will appear in a majority of the replies.
+
+**Resolution criterion.** Read every reply's answer to question 4. Extract the necessary conditions each names. Resolve CORRECT if no single condition appears in more than half the replies; REFUTED if any does. Extraction is by reading the free text and is recorded per reply so it can be disputed.
+
+**Resolution limit.** UNSCORABLE below 4 replies. THIS CRITERION IS THE WEAKEST OF THE THREE: 'the same necessary condition' requires the annotator to judge when two differently-worded conditions are the same, and that judgement is not mechanical. Recorded in advance so the criterion cannot be tightened after seeing the answers -- which is the defect D-40's scorers objected to.
 
 ## Scored
 

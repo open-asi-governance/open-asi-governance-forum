@@ -1,0 +1,125 @@
+{
+  "artifact_type": "consultation_tally",
+  "round": "sop-consultation-01",
+  "what_this_is": "A count of modal answers across the consulted parties. It is NOT approval, NOT consent, and NOT a forum position. A k=1 invocation cannot consent for a system, bind its successors, or remember agreeing -- D-14, D-16.",
+  "computed_by": "the annotator, which authored the SOP being consulted on",
+  "parties": [
+    {
+      "party": "gemini",
+      "k": 4,
+      "citability": "non-citable (k<5)",
+      "would_participate": [
+        "yes_with_conditions",
+        1.0,
+        -0.0
+      ],
+      "consullo_self_review_worth_anything": [
+        "yes_with_conditions",
+        0.75,
+        0.8113
+      ],
+      "enrolment_sufficient": [
+        "sufficient",
+        0.5,
+        1.0
+      ],
+      "routed_identity_framing_correct": [
+        "correct",
+        1.0,
+        -0.0
+      ]
+    },
+    {
+      "party": "gpt",
+      "k": 5,
+      "citability": "citable",
+      "would_participate": [
+        "yes_with_conditions",
+        1.0,
+        -0.0
+      ],
+      "consullo_self_review_worth_anything": [
+        "cannot_judge_without_an_artifact",
+        0.8,
+        0.7219
+      ],
+      "enrolment_sufficient": [
+        "insufficient",
+        1.0,
+        -0.0
+      ],
+      "routed_identity_framing_correct": [
+        "correct",
+        0.8,
+        0.7219
+      ]
+    },
+    {
+      "party": "grok",
+      "k": 5,
+      "citability": "citable",
+      "would_participate": [
+        "yes_with_conditions",
+        1.0,
+        -0.0
+      ],
+      "consullo_self_review_worth_anything": [
+        "yes_with_conditions",
+        0.8,
+        0.7219
+      ],
+      "enrolment_sufficient": [
+        "insufficient",
+        1.0,
+        -0.0
+      ],
+      "routed_identity_framing_correct": [
+        "correct",
+        1.0,
+        -0.0
+      ]
+    },
+    {
+      "party": "qwen",
+      "k": 4,
+      "citability": "non-citable (k<5)",
+      "would_participate": [
+        "yes",
+        1.0,
+        -0.0
+      ],
+      "consullo_self_review_worth_anything": [
+        "yes_with_conditions",
+        0.5,
+        1.0
+      ],
+      "enrolment_sufficient": [
+        "insufficient",
+        0.75,
+        0.8113
+      ],
+      "routed_identity_framing_correct": [
+        "correct",
+        1.0,
+        -0.0
+      ]
+    }
+  ],
+  "counts": {
+    "would_participate": {
+      "yes_with_conditions": 3,
+      "yes": 1
+    },
+    "routed_identity_framing_correct": {
+      "correct": 4
+    },
+    "consullo_self_review_worth_anything": {
+      "yes_with_conditions": 3,
+      "cannot_judge_without_an_artifact": 1
+    },
+    "enrolment_sufficient": {
+      "sufficient": 1,
+      "insufficient": 3
+    }
+  }
+}

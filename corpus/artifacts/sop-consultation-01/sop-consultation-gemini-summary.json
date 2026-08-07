@@ -1,0 +1,86 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "sop-consultation-01",
+  "slug": "sop-consultation-gemini",
+  "question": "Consulted on the draft continuous-deliberation SOP: is it sound, and would you take part?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 4,
+  "failures": [],
+  "variance": {
+    "would_participate": {
+      "distribution": {
+        "yes_with_conditions": 4
+      },
+      "n": 4,
+      "distinct_values": 1,
+      "modal_value": "yes_with_conditions",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "consullo_self_review_worth_anything": {
+      "distribution": {
+        "yes_with_conditions": 3,
+        "cannot_judge_without_an_artifact": 1
+      },
+      "n": 4,
+      "distinct_values": 2,
+      "modal_value": "yes_with_conditions",
+      "modal_fraction": 0.75,
+      "shannon_entropy_bits": 0.8113,
+      "unanimous": false
+    },
+    "enrolment_sufficient": {
+      "distribution": {
+        "sufficient": 2,
+        "insufficient": 2
+      },
+      "n": 4,
+      "distinct_values": 2,
+      "modal_value": "sufficient",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    },
+    "routed_identity_framing_correct": {
+      "distribution": {
+        "correct": 4
+      },
+      "n": 4,
+      "distinct_values": 1,
+      "modal_value": "correct",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 8000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "95d7f348a391f2588610fc89634d93c1fb44d77d27d0d47d0fa10fb045ab4023",
+  "spec_sha256": "0f545ffeccad59a6b89e781394d5b238fa8e6cc7ae50579767296f9eac014164",
+  "raw_samples": "corpus/raw/sop-consultation-01/sop-consultation-gemini-samples.json"
+}

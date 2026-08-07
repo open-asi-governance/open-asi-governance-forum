@@ -1,0 +1,85 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "sop-consultation-01",
+  "slug": "sop-consultation-grok",
+  "question": "Consulted on the draft continuous-deliberation SOP: is it sound, and would you take part?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "would_participate": {
+      "distribution": {
+        "yes_with_conditions": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "yes_with_conditions",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "consullo_self_review_worth_anything": {
+      "distribution": {
+        "yes_with_conditions": 4,
+        "cannot_judge_without_an_artifact": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "yes_with_conditions",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    },
+    "enrolment_sufficient": {
+      "distribution": {
+        "insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "routed_identity_framing_correct": {
+      "distribution": {
+        "correct": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "correct",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok (routed API, x-ai/grok-4.5)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 3000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "95d7f348a391f2588610fc89634d93c1fb44d77d27d0d47d0fa10fb045ab4023",
+  "spec_sha256": "ac9cd2d8c4a58ba4e23b76f9ec3513c439564325c8371138776a2c310f24b217",
+  "raw_samples": "corpus/raw/sop-consultation-01/sop-consultation-grok-samples.json"
+}
