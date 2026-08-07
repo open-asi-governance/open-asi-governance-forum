@@ -119,11 +119,25 @@ def append_event(round_id: str, event: dict) -> dict:
     return event
 
 
-def current_state(round_id: str, identity: str) -> str | None:
-    """Last recorded state for a party, or None if the party has no events."""
+def current_state(round_id: str, identity: str, index: int = 1) -> str | None:
+    """Last recorded state for ONE SAMPLE of a party, or None if it has no events.
+
+    THE KEY IS (round, identity, sample_index), NOT (round, identity).
+
+    It was the pair, and that made k>=5 by hand impossible rather than merely
+    tedious: once sample 1 of a party reached `accepted`, sample 2 of the SAME party
+    was read as a second capture for an already-filled slot and routed down the
+    conflict path. The custodian pasting five independent replies would have been
+    told, four times, that the party's slot was taken.
+
+    Events written before sample indices existed carry none, and default to 1 —
+    which is what they were: single captures.
+    """
     state = None
     for event in read_events(round_id):
-        if event.get("identity") == identity and "state" in event:
+        if (event.get("identity") == identity
+                and int(event.get("sample_index", 1)) == int(index)
+                and "state" in event):
             state = event["state"]
     return state
 
@@ -306,11 +320,12 @@ def unresolved_conflicts(round_id: str) -> list[dict]:
     return list(conflicts.values())
 
 
-def check_transition(round_id: str, identity: str, new_state: str) -> tuple[bool, str]:
+def check_transition(round_id: str, identity: str, new_state: str,
+                     index: int = 1) -> tuple[bool, str]:
     """Validate a transition without performing it."""
     if new_state not in TRANSITIONS:
         return False, f"unknown state {new_state!r}"
-    old = current_state(round_id, identity)
+    old = current_state(round_id, identity, index)
     if old is None:
         if new_state != "planned":
             return False, f"first event for {identity!r} must be 'planned', not {new_state!r}"
@@ -321,13 +336,18 @@ def check_transition(round_id: str, identity: str, new_state: str) -> tuple[bool
     return True, ""
 
 
-def transition(round_id: str, identity: str, new_state: str, actor: str, **detail) -> dict:
-    ok, why = check_transition(round_id, identity, new_state)
+def transition(round_id: str, identity: str, new_state: str, actor: str,
+               index: int = 1, **detail) -> dict:
+    #  `sample_index` goes into the EVENT, not just into the transition check, or the
+    #  log records five samples of a party as five transitions of one slot and no
+    #  reader can tell them apart afterwards.
+    ok, why = check_transition(round_id, identity, new_state, index)
     if not ok:
         raise ValueError(why)
     if new_state in ("accepted", "rejected") and not detail.get("reason"):
         raise ValueError(f"a disposition to {new_state!r} requires a stated reason")
-    return append_event(round_id, {"identity": identity, "state": new_state, "actor": actor, **detail})
+    return append_event(round_id, {"identity": identity, "sample_index": int(index),
+                                   "state": new_state, "actor": actor, **detail})
 
 
 def receive(round_id: str, identity: str, party_slug: str, response_text: str,
@@ -349,7 +369,7 @@ def receive(round_id: str, identity: str, party_slug: str, response_text: str,
     target.write_text(response_text, encoding="utf-8")
 
     return transition(
-        round_id, identity, state, actor,
+        round_id, identity, state, actor, index=index,
         preserved_at=str(target.relative_to(REPO_ROOT)),
         response_sha256=sha256_of_text(response_text),
         response_bytes=len(response_text.encode("utf-8")),

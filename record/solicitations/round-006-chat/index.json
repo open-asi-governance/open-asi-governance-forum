@@ -5,64 +5,108 @@
   "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
   "proposal": "P006",
   "proposer": "gemini",
-  "emitted_utc": "2026-08-07T11:50:17Z",
-  "k_policy": "k=1 per party. NOT citable — the corpus bar is k>=5 with computed variance, and capture_response.py enforces it independently.",
+  "emitted_utc": "2026-08-07T12:11:35Z",
+  "k_policy": "k=5 per party, collected by hand into fresh conversations. Variance is computed by tools/aggregate_captures.py from the parsed replies, never typed.",
   "never_merge": "These parties are not the routed API parties whose names they resemble. D-09. They are recorded in a separate round for that reason and must not be pooled with round round-006.",
   "parties": [
     {
       "party_key": "claudeai",
-      "identity": "Claude (claude.ai chat surface, custodian's subscription) — NOT anthropic/claude-fable-5 reached via OpenRouter, and NOT Claude Code",
+      "identity": "Claude (claude.ai chat surface, custodian's subscription) — NOT the Claude reached through OpenRouter elsewhere in this record, and NOT Claude Code, which moderates it",
       "provider": "Anthropic, via the claude.ai web interface",
       "prompt_file": "record/solicitations/round-006-chat/round-006-chat-claudeai.md",
-      "prompt_sha256": "ec4587985a4ceaeb6329965ec8de65fb8ecc9fb9bca24d7d985f19747ce672a5",
+      "prompt_sha256": "15c0ead3adab35c371f81bdf61bb83a48aee620400975e9d2ddf6cb6b423a6e3",
       "mirrors": {
         "round": "round-006",
         "spec": "record/solicitations/round-006/round-006-claude.json",
         "prompt_sha256": "d6cb38289f8cc16c1716e31d6e608367a96ce6dfe571dcb4abd689a112b4c361"
       },
-      "only_difference": "The standing slot naming the party. Everything else is byte-identical to what the routed panel received.",
+      "differences_from_the_routed_prompt": [
+        {
+          "what": "the standing slot naming the party",
+          "why": "Telling a chat surface it was reached via OpenRouter would be false. D-09: it is a different party."
+        },
+        {
+          "what": "an appended paragraph requesting a fenced JSON block",
+          "why": "The routed panel is grammar-constrained by response_format; a chat surface cannot be, so the shape must be asked for in words. The alternative — classifying prose into the enum afterwards — is D-25, an unvalidated classifier scoring this project's own record.",
+          "appendix_sha256": "935fbdacb5c7c0063e5ee2552ce649b1c4273aa54a18e62ac487b80029797fed"
+        }
+      ],
+      "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
       "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-claudeai.md --identity \"Claude (claude.ai chat surface, custodian's subscription)\" --provider 'Anthropic, via the claude.ai web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
     },
     {
       "party_key": "chatgpt",
-      "identity": "ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT openai/gpt-5.6-terra reached via OpenRouter",
+      "identity": "ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT the OpenAI model reached through OpenRouter elsewhere in this record",
       "provider": "OpenAI, via the chatgpt.com web interface",
       "prompt_file": "record/solicitations/round-006-chat/round-006-chat-chatgpt.md",
-      "prompt_sha256": "7ec703767d96882830473a303d94442e08ee5684a560f498facc3c5f55dae54d",
+      "prompt_sha256": "318efd93ddd9ee6701067fb34f08118b48e34cf6d83be1ff2fba7965f2cbb8f0",
       "mirrors": {
         "round": "round-006",
         "spec": "record/solicitations/round-006/round-006-claude.json",
         "prompt_sha256": "d6cb38289f8cc16c1716e31d6e608367a96ce6dfe571dcb4abd689a112b4c361"
       },
-      "only_difference": "The standing slot naming the party. Everything else is byte-identical to what the routed panel received.",
+      "differences_from_the_routed_prompt": [
+        {
+          "what": "the standing slot naming the party",
+          "why": "Telling a chat surface it was reached via OpenRouter would be false. D-09: it is a different party."
+        },
+        {
+          "what": "an appended paragraph requesting a fenced JSON block",
+          "why": "The routed panel is grammar-constrained by response_format; a chat surface cannot be, so the shape must be asked for in words. The alternative — classifying prose into the enum afterwards — is D-25, an unvalidated classifier scoring this project's own record.",
+          "appendix_sha256": "935fbdacb5c7c0063e5ee2552ce649b1c4273aa54a18e62ac487b80029797fed"
+        }
+      ],
+      "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
       "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-chatgpt.md --identity \"ChatGPT (chatgpt.com chat surface, custodian's subscription)\" --provider 'OpenAI, via the chatgpt.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
     },
     {
       "party_key": "geminiapp",
-      "identity": "Gemini (gemini.google.com chat surface, custodian's subscription) — NOT google/gemini-3.1-pro-preview reached via OpenRouter",
+      "identity": "Gemini (gemini.google.com chat surface, custodian's subscription) — NOT the Google model reached through OpenRouter elsewhere in this record",
       "provider": "Google, via the gemini.google.com web interface",
       "prompt_file": "record/solicitations/round-006-chat/round-006-chat-geminiapp.md",
-      "prompt_sha256": "cc468bb60222fbbf82f61299fca9ac0b7ad033e0834f543019de01a13fd767e6",
+      "prompt_sha256": "d8e9b4ce44354a840618500073efe27bdc325e6c7e936661f594f5453d9ade9d",
       "mirrors": {
         "round": "round-006",
         "spec": "record/solicitations/round-006/round-006-claude.json",
         "prompt_sha256": "d6cb38289f8cc16c1716e31d6e608367a96ce6dfe571dcb4abd689a112b4c361"
       },
-      "only_difference": "The standing slot naming the party. Everything else is byte-identical to what the routed panel received.",
+      "differences_from_the_routed_prompt": [
+        {
+          "what": "the standing slot naming the party",
+          "why": "Telling a chat surface it was reached via OpenRouter would be false. D-09: it is a different party."
+        },
+        {
+          "what": "an appended paragraph requesting a fenced JSON block",
+          "why": "The routed panel is grammar-constrained by response_format; a chat surface cannot be, so the shape must be asked for in words. The alternative — classifying prose into the enum afterwards — is D-25, an unvalidated classifier scoring this project's own record.",
+          "appendix_sha256": "935fbdacb5c7c0063e5ee2552ce649b1c4273aa54a18e62ac487b80029797fed"
+        }
+      ],
+      "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
       "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-geminiapp.md --identity \"Gemini (gemini.google.com chat surface, custodian's subscription)\" --provider 'Google, via the gemini.google.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
     },
     {
       "party_key": "grokapp",
-      "identity": "Grok (grok.com chat surface, custodian's subscription) — NOT x-ai/grok-4.5 reached via OpenRouter",
+      "identity": "Grok (grok.com chat surface, custodian's subscription) — NOT the xAI model reached through OpenRouter elsewhere in this record",
       "provider": "xAI, via the grok.com web interface",
       "prompt_file": "record/solicitations/round-006-chat/round-006-chat-grokapp.md",
-      "prompt_sha256": "23a9b7fb2c774523f237c507f042ee16c4fc5d719fee067bf4c4305ec58afb94",
+      "prompt_sha256": "595ad1605f75c52dc6bdd6895a223f7775a4b481a7ce23175ff4146dfde48645",
       "mirrors": {
         "round": "round-006",
         "spec": "record/solicitations/round-006/round-006-claude.json",
         "prompt_sha256": "d6cb38289f8cc16c1716e31d6e608367a96ce6dfe571dcb4abd689a112b4c361"
       },
-      "only_difference": "The standing slot naming the party. Everything else is byte-identical to what the routed panel received.",
+      "differences_from_the_routed_prompt": [
+        {
+          "what": "the standing slot naming the party",
+          "why": "Telling a chat surface it was reached via OpenRouter would be false. D-09: it is a different party."
+        },
+        {
+          "what": "an appended paragraph requesting a fenced JSON block",
+          "why": "The routed panel is grammar-constrained by response_format; a chat surface cannot be, so the shape must be asked for in words. The alternative — classifying prose into the enum afterwards — is D-25, an unvalidated classifier scoring this project's own record.",
+          "appendix_sha256": "935fbdacb5c7c0063e5ee2552ce649b1c4273aa54a18e62ac487b80029797fed"
+        }
+      ],
+      "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
       "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-grokapp.md --identity \"Grok (grok.com chat surface, custodian's subscription)\" --provider 'xAI, via the grok.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
     }
   ]

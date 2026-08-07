@@ -142,6 +142,16 @@ def determine_citability(args: argparse.Namespace) -> tuple[str, str]:
     if args.k == 1:
         return "citable_artifact", "insufficient_k"
     if args.k >= 5 and args.variance:
+        #  UNREACHABLE BY DESIGN NOW. --variance is refused at parse time, because it
+        #  was a free-text string and `bool(args.variance)` granted the distribution
+        #  claim on whatever was typed: --variance "they mostly agreed" produced
+        #  citability "citable_artifact_and_distribution". The corpus rule is that
+        #  variance is COMPUTED from the samples and never asserted (D-07), and this
+        #  is the tool that enforces citability.
+        #
+        #  The distribution claim is now made by tools/aggregate_captures.py, which
+        #  parses every sample and computes the counts and entropy. This branch is
+        #  kept so the shape of the two propositions stays visible.
         return "citable_artifact_and_distribution", "supported"
     if args.k >= 5:
         return "citable_artifact", "insufficient_variance_reporting"
@@ -205,11 +215,21 @@ def main() -> int:
     parser.add_argument("--edit-status", default="unedited")
     parser.add_argument("--k", type=int, default=1)
     parser.add_argument("--sample-index", type=int, default=1)
-    parser.add_argument("--variance", help="variance across the k samples; required for citability")
+    parser.add_argument("--variance",
+                        help="REFUSED. Variance is computed by tools/aggregate_captures.py "
+                             "from the samples, never typed. See determine_citability().")
     parser.add_argument("--tool", action="append", help="repeatable")
     parser.add_argument("--prior-context")
     parser.add_argument("--notes")
     args = parser.parse_args()
+
+    if args.variance:
+        fail("--variance is refused. It was a free-text string, and any non-empty value "
+             "granted 'citable_artifact_and_distribution' — so a typed sentence could "
+             "certify a distribution nobody computed. The corpus rule is that variance is "
+             "computed from the samples and never asserted (D-07).\n"
+             "        Collect the k samples with --sample-index 1..k, then run:\n"
+             "          python3 tools/aggregate_captures.py --round " + (args.round or "<round>"))
 
     response = Path(args.response).expanduser()
     if not response.is_absolute():

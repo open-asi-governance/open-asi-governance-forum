@@ -145,7 +145,8 @@ def prior_context_for(party: dict, bundle: dict) -> str:
     return text or "Not recorded."
 
 
-def promote(bundle: dict, party: dict, preserved: Path, dry_run: bool) -> bool:
+def promote(bundle: dict, party: dict, preserved: Path, dry_run: bool,
+            k_declared: int = 1) -> bool:
     """Write into the corpus through capture_response.py -- the single writer."""
     argv = [
         sys.executable, str(REPO_ROOT / "tools/capture_response.py"),
@@ -158,6 +159,13 @@ def promote(bundle: dict, party: dict, preserved: Path, dry_run: bool) -> bool:
         "--phase", "blind" if "Phase-1" in bundle.get("phase", "Phase-2") else "informed",
         "--captured-by", bundle["attested_by"],
         "--prior-context", prior_context_for(party, bundle),
+        # THE INDEX IS WHAT MAKES k>=5 BY HAND POSSIBLE. capture_response.py names
+        # raw material "<identity>-<index>.md", and this tool never passed one --
+        # so every sample of a party landed at 01 and the second was refused as an
+        # immutability violation. The blocker was three missing arguments, not a
+        # missing capability.
+        "--k", str(int(k_declared)),
+        "--sample-index", str(int(bundle.get("sample_index") or 1)),
         "--capture-method",
         ("Pasted from the provider surface into the local capture UI by the custodian, hashed at "
          "paste time, ingested from the resulting bundle. No intermediary transcription."),
@@ -237,7 +245,25 @@ def ingest_one(path: Path, dry_run: bool) -> str:
         return "refused"
 
     identity = bundle["identity"]
-    existing = lifecycle.current_state(bundle["round"], identity)
+    #  THE SAMPLE IS PART OF THE KEY. Without it, sample 2 of a party was read as a
+    #  second capture for an already-filled slot and sent down the conflict path, so
+    #  collecting k>=5 by hand was impossible rather than merely tedious.
+    sample_index = int(bundle.get("sample_index") or 1)
+    #  THE BUNDLE IS UNTRUSTED — it is a JSON file that sat on a disk. Its sample
+    #  coordinates are reconciled against the FROZEN round declaration, exactly as
+    #  round, party and prompt hash already are. Consuming them raw would let an
+    #  edited bundle place a capture at index 0, at a negative index, or beyond the
+    #  round's k, and the index is what every later join is keyed on.
+    k_declared = int(declaration.get("k_target") or 1)
+    if not 1 <= sample_index <= k_declared:
+        print(f"      REFUSED: sample_index {sample_index} is outside 1..{k_declared} "
+              f"declared for this round.")
+        return "refused"
+    if int(bundle.get("k_target") or 1) != k_declared:
+        print(f"      REFUSED: bundle claims k_target {bundle.get('k_target')!r}; the round "
+              f"declares {k_declared}. The declaration wins.")
+        return "refused"
+    existing = lifecycle.current_state(bundle["round"], identity, sample_index)
     if existing in ("accepted", "rejected") or existing in lifecycle.NEEDS_DISPOSITION:
         # DEFECT 7. Both of these branches used to return "skipped" unconditionally,
         # so a DIFFERING capture for a party whose slot was taken vanished: exit 0,
@@ -316,10 +342,16 @@ def ingest_one(path: Path, dry_run: bool) -> str:
 
     #  Every path from here preserves the bytes first.
     if existing is None:
-        lifecycle.transition(bundle["round"], identity, "planned", "tools/ingest_capture.py")
-    if lifecycle.current_state(bundle["round"], identity) == "planned":
+        lifecycle.transition(bundle["round"], identity, "planned",
+                             "tools/ingest_capture.py", index=sample_index)
+    #  EVERY lifecycle call carries the sample. One of these did not, and it read
+    #  sample 1's terminal "accepted" state when starting sample 2 -- so the second
+    #  paste of a party died on "cannot move to planned". The whole point of keying
+    #  on the sample is lost the moment one call forgets it.
+    if lifecycle.current_state(bundle["round"], identity, sample_index) == "planned":
         lifecycle.transition(
             bundle["round"], identity, "sent_attested", bundle["attested_by"],
+            index=sample_index,
             prompt_path=party["prompt_rel"], prompt_sha256=party["prompt_sha256"],
             delivery=party.get("delivery"),
             note="Send attested at ingest rather than at send time. This is the custodian's "
@@ -330,6 +362,7 @@ def ingest_one(path: Path, dry_run: bool) -> str:
         event = lifecycle.receive(
             bundle["round"], identity, slug(identity), response,
             bundle["attested_by"], [r.as_record() for r in results], state,
+            index=sample_index,
             gates_version=GATES_VERSION,
             response_sha256_at_paste=bundle.get("response_sha256_at_paste"),
             attested_answers_round_question=True,
@@ -363,6 +396,7 @@ def ingest_one(path: Path, dry_run: bool) -> str:
             state = "returned_pending_review"
             lifecycle.transition(
                 bundle["round"], identity, state, bundle["attested_by"],
+                index=sample_index,
                 reason="bundle hash inconsistent: response_sha256_at_paste does not match "
                        "the ingested bytes, so the bundle is internally inconsistent",
                 response_sha256=event["response_sha256"],
@@ -376,10 +410,11 @@ def ingest_one(path: Path, dry_run: bool) -> str:
         print("      Disposition is required. Nothing entered the corpus.")
         return "held"
 
-    if promote(bundle, party, preserved, dry_run):
+    if promote(bundle, party, preserved, dry_run, k_declared):
         if not dry_run:
             lifecycle.transition(
                 bundle["round"], identity, "accepted", bundle["attested_by"],
+                index=sample_index,
                 reason="Gates clean; custodian attested the response answers the round question.",
             )
         print("      ACCEPTED into the corpus.")

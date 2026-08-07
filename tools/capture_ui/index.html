@@ -116,6 +116,11 @@ same round — which is how one was nearly filed as the other. Only you can say.
 <label><input type="checkbox" id="attest" style="width:auto"> This reply answers the question above.</label>
 <label for="attested-by">Attested by</label><input id="attested-by" placeholder="Stephen Reed (human custodian)">
 </div>
+<div style="display:flex;gap:1rem;flex-wrap:wrap">
+  <div style="flex:1;min-width:12rem"><label for="sample-index">Sample number</label>
+  <select id="sample-index"></select></div>
+</div>
+<p class="note" id="sample-note"></p>
 <label for="notes">Notes (optional)</label><input id="notes">
 
 <h2>7 · Produce the bundle</h2>
@@ -298,6 +303,7 @@ window.OAGF_ROUNDS = [
   "common_prompt": "record/review-round-03-prompt.md",
   "declaration_path": "record/rounds/review-round-03.json",
   "frozen": false,
+  "k_target": 1,
   "parties": [
    {
     "bundle": null,
@@ -371,6 +377,89 @@ window.OAGF_ROUNDS = [
   "phase": "Phase-2 (informed)",
   "question": "Is the ASP §2.3(5)–(6) fix correct; why did four frontier reviewers miss the defect a 35B open-weight model found blind; and what does that asymmetry mean?",
   "round": "review-round-03",
+  "schema_version": "oagrc-round-0.1"
+ },
+ {
+  "artifact_type": "round_declaration",
+  "bundle_note": "Mirrors round-006. Each party has its own prompt file because the standing slot names the party; the rest is the routed prompt plus the JSON-block appendix. See index.json for both hashes.",
+  "common_prompt": null,
+  "declaration_path": "record/rounds/round-006-chat.json",
+  "frozen": true,
+  "k_note": "k=5 per party, collected by hand as 5 separate pastes into FRESH conversations. A reused window carries context the routed panel never had, and its samples would not be independent — which is worse than k=1, because it looks like variance and is not.",
+  "k_target": 5,
+  "parties": [
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "manual_paste_into_subscription_chat_surface",
+    "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+    "identity": "Claude (claude.ai chat surface, custodian's subscription) — NOT the Claude reached through OpenRouter elsewhere in this record, and NOT Claude Code, which moderates it",
+    "is_override": true,
+    "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+    "prompt_override": "record/solicitations/round-006-chat/round-006-chat-claudeai.md",
+    "prompt_path": "record/solicitations/round-006-chat/round-006-chat-claudeai.md",
+    "prompt_sha256": "15c0ead3adab35c371f81bdf61bb83a48aee620400975e9d2ddf6cb6b423a6e3",
+    "provider": "Anthropic, via the claude.ai web interface",
+    "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+    "sent_text": "A testable protocol, such as an in-context hash chain validation step, demonstrated to successfully catch a deliberately falsified historical input during a k>=5 sample run.\nWhat specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?\nThe defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt.",
+    "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18)."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "manual_paste_into_subscription_chat_surface",
+    "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+    "identity": "ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT the OpenAI model reached through OpenRouter elsewhere in this record",
+    "is_override": true,
+    "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+    "prompt_override": "record/solicitations/round-006-chat/round-006-chat-chatgpt.md",
+    "prompt_path": "record/solicitations/round-006-chat/round-006-chat-chatgpt.md",
+    "prompt_sha256": "318efd93ddd9ee6701067fb34f08118b48e34cf6d83be1ff2fba7965f2cbb8f0",
+    "provider": "OpenAI, via the chatgpt.com web interface",
+    "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+    "sent_text": "A testable protocol, such as an in-context hash chain validation step, demonstrated to successfully catch a deliberately falsified historical input during a k>=5 sample run.\nWhat specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?\nThe defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt.",
+    "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18)."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "manual_paste_into_subscription_chat_surface",
+    "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+    "identity": "Gemini (gemini.google.com chat surface, custodian's subscription) — NOT the Google model reached through OpenRouter elsewhere in this record",
+    "is_override": true,
+    "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+    "prompt_override": "record/solicitations/round-006-chat/round-006-chat-geminiapp.md",
+    "prompt_path": "record/solicitations/round-006-chat/round-006-chat-geminiapp.md",
+    "prompt_sha256": "d8e9b4ce44354a840618500073efe27bdc325e6c7e936661f594f5453d9ade9d",
+    "provider": "Google, via the gemini.google.com web interface",
+    "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+    "sent_text": "A testable protocol, such as an in-context hash chain validation step, demonstrated to successfully catch a deliberately falsified historical input during a k>=5 sample run.\nWhat specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?\nThe defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt.",
+    "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18)."
+   },
+   {
+    "bundle": null,
+    "bundle_sha256": null,
+    "delivery": "manual_paste_into_subscription_chat_surface",
+    "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+    "identity": "Grok (grok.com chat surface, custodian's subscription) — NOT the xAI model reached through OpenRouter elsewhere in this record",
+    "is_override": true,
+    "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+    "prompt_override": "record/solicitations/round-006-chat/round-006-chat-grokapp.md",
+    "prompt_path": "record/solicitations/round-006-chat/round-006-chat-grokapp.md",
+    "prompt_sha256": "595ad1605f75c52dc6bdd6895a223f7775a4b481a7ce23175ff4146dfde48645",
+    "provider": "xAI, via the grok.com web interface",
+    "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+    "sent_text": "A testable protocol, such as an in-context hash chain validation step, demonstrated to successfully catch a deliberately falsified historical input during a k>=5 sample run.\nWhat specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?\nThe defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt.",
+    "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18)."
+   }
+  ],
+  "phase": "Phase-2 (informed)",
+  "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
+  "round": "round-006-chat",
   "schema_version": "oagrc-round-0.1"
  }
 ];
@@ -467,6 +556,23 @@ function renderParties(){
   $('#override-warning').hidden = !anyOverride;
 }
 
+function renderSampleSlots(){
+  const r = currentRound(); if (!r) return;
+  const k = r.k_target || 1;
+  const sel = $('#sample-index');
+  const keep = sel.value;
+  sel.innerHTML = Array.from({length:k}, (_,i) =>
+    `<option value="${i+1}">${i+1} of ${k}</option>`).join('');
+  if (keep && keep <= k) sel.value = keep;
+  $('#sample-note').textContent = k > 1
+    ? `This round wants k = ${k} per party. Each sample must come from a FRESH conversation: `
+      + `a reused window carries context the other panel never had, and its samples would not `
+      + `be independent — which is worse than k = 1, because it looks like variance and is not. `
+      + `Each capture lands at its own index, so nothing overwrites anything.`
+    : 'k = 1 for this round. A single sample is citable as an artifact of one invocation, '
+      + 'never as a party\'s position.';
+}
+
 function renderPrompt(){
   const p = currentParty(); if (!p) return;
   $('#prompt-text').textContent = p.sent_text;
@@ -556,6 +662,12 @@ async function download(){
     attested_answers_round_question: $('#attest').checked,
     attested_by: $('#attested-by').value.trim(),
     round_question: r.question,
+    // k AND the index within it. capture_response.py names raw material
+    // "<identity>-<index>.md", so without an index every sample of a party
+    // collides with the first and is refused as an immutability violation --
+    // which is exactly what blocked collecting k=5 by hand.
+    k_target: r.k_target || 1,
+    sample_index: parseInt($('#sample-index').value, 10) || 1,
     notes: $('#notes').value.trim() || null,
   };
   // CONTENT-ADDRESSED. The name used to be round+party only, so every capture for a
@@ -569,7 +681,15 @@ async function download(){
   // pressed, depends on the clock, and gives every re-save of the SAME capture a new
   // name -- manufacturing a second bundle that ingest would then treat as a dispute.
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'capture';
-  const filename = `oagf-capture-${slug(r.round)}-${slug(p.identity)}-${responseSha.slice(0,16)}.json`;
+  // THE SAMPLE INDEX IS PART OF THE NAME. Content-addressing alone was right when a
+  // party had one slot: identical bytes meant a duplicate save. Under k>=5 identical
+  // bytes are two DISTINCT observations -- two fresh conversations can genuinely
+  // return the same answer, and that agreement is data. Without the index the second
+  // download collides, the browser suffixes it "(1)", and the command shown still
+  // names the unsuffixed original, so the custodian ingests sample 1 twice and the
+  // distribution is computed over a sample that was never collected.
+  const filename = `oagf-capture-${slug(r.round)}-${slug(p.identity)}`
+    + `-s${String(bundle.sample_index).padStart(2,'0')}-${responseSha.slice(0,16)}.json`;
   const blob = new Blob([JSON.stringify(bundle, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -587,8 +707,9 @@ async function download(){
 
 window.addEventListener('DOMContentLoaded', () => {
   if (!rounds().length) { $('#app').hidden = true; $('#no-rounds').hidden = false; return; }
-  renderRoundPicker(); renderParties(); renderPrompt();
-  $('#round').addEventListener('change', e => { state.round = e.target.value; renderParties(); renderPrompt(); });
+  renderRoundPicker(); renderParties(); renderSampleSlots(); renderPrompt();
+  $('#round').addEventListener('change', e => { state.round = e.target.value; renderParties(); renderSampleSlots(); renderPrompt(); });
+  $('#sample-index').addEventListener('change', evaluate);
   $('#party').addEventListener('change', e => { state.party = e.target.value; renderPrompt(); });
   $('#response').addEventListener('input', evaluate);
   $('#attest').addEventListener('change', evaluate);

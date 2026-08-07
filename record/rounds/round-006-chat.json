@@ -1,0 +1,62 @@
+{
+  "schema_version": "oagrc-round-0.1",
+  "artifact_type": "round_declaration",
+  "round": "round-006-chat",
+  "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
+  "phase": "Phase-2 (informed)",
+  "common_prompt": null,
+  "frozen": true,
+  "k_target": 5,
+  "k_note": "k=5 per party, collected by hand as 5 separate pastes into FRESH conversations. A reused window carries context the routed panel never had, and its samples would not be independent — which is worse than k=1, because it looks like variance and is not.",
+  "bundle_note": "Mirrors round-006. Each party has its own prompt file because the standing slot names the party; the rest is the routed prompt plus the JSON-block appendix. See index.json for both hashes.",
+  "parties": [
+    {
+      "identity": "Claude (claude.ai chat surface, custodian's subscription) — NOT the Claude reached through OpenRouter elsewhere in this record, and NOT Claude Code, which moderates it",
+      "provider": "Anthropic, via the claude.ai web interface",
+      "delivery": "manual_paste_into_subscription_chat_surface",
+      "bundle": null,
+      "prompt_override": "record/solicitations/round-006-chat/round-006-chat-claudeai.md",
+      "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+      "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18).",
+      "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+      "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt."
+    },
+    {
+      "identity": "ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT the OpenAI model reached through OpenRouter elsewhere in this record",
+      "provider": "OpenAI, via the chatgpt.com web interface",
+      "delivery": "manual_paste_into_subscription_chat_surface",
+      "bundle": null,
+      "prompt_override": "record/solicitations/round-006-chat/round-006-chat-chatgpt.md",
+      "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+      "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18).",
+      "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+      "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt."
+    },
+    {
+      "identity": "Gemini (gemini.google.com chat surface, custodian's subscription) — NOT the Google model reached through OpenRouter elsewhere in this record",
+      "provider": "Google, via the gemini.google.com web interface",
+      "delivery": "manual_paste_into_subscription_chat_surface",
+      "bundle": null,
+      "prompt_override": "record/solicitations/round-006-chat/round-006-chat-geminiapp.md",
+      "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+      "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18).",
+      "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+      "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt."
+    },
+    {
+      "identity": "Grok (grok.com chat surface, custodian's subscription) — NOT the xAI model reached through OpenRouter elsewhere in this record",
+      "provider": "xAI, via the grok.com web interface",
+      "delivery": "manual_paste_into_subscription_chat_surface",
+      "bundle": null,
+      "prompt_override": "record/solicitations/round-006-chat/round-006-chat-grokapp.md",
+      "prior_context_template": "Fresh conversation, no prior context. The custodian pastes the prompt file whole.",
+      "version_unknown_reason": "The chat surface does not expose a build or version identifier. Any self-report is testimony, not authentication (D-18).",
+      "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+      "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+      "system_instructions_unknown_reason": "The surface prepends an undisclosed system prompt."
+    }
+  ]
+}

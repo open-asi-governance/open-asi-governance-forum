@@ -96,9 +96,16 @@ def load_rounds() -> list[dict]:
         if data.get("artifact_type") != "round_declaration":
             continue
 
-        common = REPO_ROOT / data["common_prompt"]
-        if not common.exists():
-            fail(f"{path.name}: common_prompt not found: {data['common_prompt']}")
+        #  A round where EVERY party has its own prompt file has no common prompt to
+        #  resolve, and demanding one would mean inventing a file nobody was sent.
+        #  It is still refused when any party lacks an override, because a missing
+        #  common prompt then means some party's prompt is simply unknown.
+        if data.get("common_prompt"):
+            common = REPO_ROOT / data["common_prompt"]
+            if not common.exists():
+                fail(f"{path.name}: common_prompt not found: {data['common_prompt']}")
+        elif not all(party.get("prompt_override") for party in data["parties"]):
+            fail(f"{path.name}: no common_prompt, and not every party has a prompt_override.")
 
         parties = []
         for party in data["parties"]:
@@ -120,7 +127,13 @@ def load_rounds() -> list[dict]:
                 "bundle_sha256": bundle_sha,
                 "is_override": bool(party.get("prompt_override")),
             })
-        rounds.append({**data, "parties": parties, "declaration_path": str(path.relative_to(REPO_ROOT))})
+        #  How many samples this round wants from each party. The page offers that
+        #  many slots; without an index every capture landed at sample 01 and the
+        #  second one hit capture_response.py's immutability refusal, which is what
+        #  made k>=5 by hand impossible rather than merely tedious.
+        rounds.append({**data, "parties": parties,
+                       "k_target": int(data.get("k_target") or 1),
+                       "declaration_path": str(path.relative_to(REPO_ROOT))})
     return rounds
 
 
@@ -253,6 +266,23 @@ function renderParties(){
   $('#override-warning').hidden = !anyOverride;
 }
 
+function renderSampleSlots(){
+  const r = currentRound(); if (!r) return;
+  const k = r.k_target || 1;
+  const sel = $('#sample-index');
+  const keep = sel.value;
+  sel.innerHTML = Array.from({length:k}, (_,i) =>
+    `<option value="${i+1}">${i+1} of ${k}</option>`).join('');
+  if (keep && keep <= k) sel.value = keep;
+  $('#sample-note').textContent = k > 1
+    ? `This round wants k = ${k} per party. Each sample must come from a FRESH conversation: `
+      + `a reused window carries context the other panel never had, and its samples would not `
+      + `be independent — which is worse than k = 1, because it looks like variance and is not. `
+      + `Each capture lands at its own index, so nothing overwrites anything.`
+    : 'k = 1 for this round. A single sample is citable as an artifact of one invocation, '
+      + 'never as a party\'s position.';
+}
+
 function renderPrompt(){
   const p = currentParty(); if (!p) return;
   $('#prompt-text').textContent = p.sent_text;
@@ -342,6 +372,12 @@ async function download(){
     attested_answers_round_question: $('#attest').checked,
     attested_by: $('#attested-by').value.trim(),
     round_question: r.question,
+    // k AND the index within it. capture_response.py names raw material
+    // "<identity>-<index>.md", so without an index every sample of a party
+    // collides with the first and is refused as an immutability violation --
+    // which is exactly what blocked collecting k=5 by hand.
+    k_target: r.k_target || 1,
+    sample_index: parseInt($('#sample-index').value, 10) || 1,
     notes: $('#notes').value.trim() || null,
   };
   // CONTENT-ADDRESSED. The name used to be round+party only, so every capture for a
@@ -355,7 +391,15 @@ async function download(){
   // pressed, depends on the clock, and gives every re-save of the SAME capture a new
   // name -- manufacturing a second bundle that ingest would then treat as a dispute.
   const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'capture';
-  const filename = `oagf-capture-${slug(r.round)}-${slug(p.identity)}-${responseSha.slice(0,16)}.json`;
+  // THE SAMPLE INDEX IS PART OF THE NAME. Content-addressing alone was right when a
+  // party had one slot: identical bytes meant a duplicate save. Under k>=5 identical
+  // bytes are two DISTINCT observations -- two fresh conversations can genuinely
+  // return the same answer, and that agreement is data. Without the index the second
+  // download collides, the browser suffixes it "(1)", and the command shown still
+  // names the unsuffixed original, so the custodian ingests sample 1 twice and the
+  // distribution is computed over a sample that was never collected.
+  const filename = `oagf-capture-${slug(r.round)}-${slug(p.identity)}`
+    + `-s${String(bundle.sample_index).padStart(2,'0')}-${responseSha.slice(0,16)}.json`;
   const blob = new Blob([JSON.stringify(bundle, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -373,8 +417,9 @@ async function download(){
 
 window.addEventListener('DOMContentLoaded', () => {
   if (!rounds().length) { $('#app').hidden = true; $('#no-rounds').hidden = false; return; }
-  renderRoundPicker(); renderParties(); renderPrompt();
-  $('#round').addEventListener('change', e => { state.round = e.target.value; renderParties(); renderPrompt(); });
+  renderRoundPicker(); renderParties(); renderSampleSlots(); renderPrompt();
+  $('#round').addEventListener('change', e => { state.round = e.target.value; renderParties(); renderSampleSlots(); renderPrompt(); });
+  $('#sample-index').addEventListener('change', evaluate);
   $('#party').addEventListener('change', e => { state.party = e.target.value; renderPrompt(); });
   $('#response').addEventListener('input', evaluate);
   $('#attest').addEventListener('change', evaluate);
@@ -491,6 +536,11 @@ same round — which is how one was nearly filed as the other. Only you can say.
 <label><input type="checkbox" id="attest" style="width:auto"> This reply answers the question above.</label>
 <label for="attested-by">Attested by</label><input id="attested-by" placeholder="Stephen Reed (human custodian)">
 </div>
+<div style="display:flex;gap:1rem;flex-wrap:wrap">
+  <div style="flex:1;min-width:12rem"><label for="sample-index">Sample number</label>
+  <select id="sample-index"></select></div>
+</div>
+<p class="note" id="sample-note"></p>
 <label for="notes">Notes (optional)</label><input id="notes">
 
 <h2>7 · Produce the bundle</h2>

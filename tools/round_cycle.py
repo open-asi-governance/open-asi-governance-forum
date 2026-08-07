@@ -176,20 +176,25 @@ LOCAL_RATE_KEY = "LOCAL"
 #  that finding is destroyed and replaced by an average of two things.
 CHAT_PARTIES = {
     "claudeai": {
-        "identity": ("Claude (claude.ai chat surface, custodian's subscription) — NOT "
-                     "anthropic/claude-fable-5 reached via OpenRouter, and NOT Claude Code"),
+        "identity": ("Claude (claude.ai chat surface, custodian's subscription) — NOT the "
+                     "Claude reached through OpenRouter elsewhere in this record, and NOT "
+                     "Claude Code, which moderates it"),
+        "reached_via": "the claude.ai web interface, pasted by hand by the custodian",
         "provider": "Anthropic, via the claude.ai web interface"},
     "chatgpt": {
-        "identity": ("ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT "
-                     "openai/gpt-5.6-terra reached via OpenRouter"),
+        "identity": ("ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT the "
+                     "OpenAI model reached through OpenRouter elsewhere in this record"),
+        "reached_via": "the chatgpt.com web interface, pasted by hand by the custodian",
         "provider": "OpenAI, via the chatgpt.com web interface"},
     "geminiapp": {
-        "identity": ("Gemini (gemini.google.com chat surface, custodian's subscription) — "
-                     "NOT google/gemini-3.1-pro-preview reached via OpenRouter"),
+        "identity": ("Gemini (gemini.google.com chat surface, custodian's subscription) — NOT "
+                     "the Google model reached through OpenRouter elsewhere in this record"),
+        "reached_via": "the gemini.google.com web interface, pasted by hand by the custodian",
         "provider": "Google, via the gemini.google.com web interface"},
     "grokapp": {
-        "identity": ("Grok (grok.com chat surface, custodian's subscription) — NOT "
-                     "x-ai/grok-4.5 reached via OpenRouter"),
+        "identity": ("Grok (grok.com chat surface, custodian's subscription) — NOT the xAI "
+                     "model reached through OpenRouter elsewhere in this record"),
+        "reached_via": "the grok.com web interface, pasted by hand by the custodian",
         "provider": "xAI, via the grok.com web interface"},
 }
 
@@ -1050,14 +1055,84 @@ def emit_prompts(mirror: str) -> int:
     spec = json.loads(source.read_text(encoding="utf-8"))
     original_prompt, original_identity = spec["prompt"], spec["identity"]
 
+    #  THE SECOND DIFFERENCE, AND IT IS NOT COSMETIC.
+    #
+    #  The routed arms are grammar-constrained: `response_format: json_schema` makes
+    #  the shape a property of decoding. A chat surface has no such control, so it
+    #  must be ASKED, in words, and the words are a real addition to the prompt.
+    #
+    #  That means the two panels no longer receive byte-identical text, and a
+    #  difference in their answers has two candidate causes rather than one. Both
+    #  differences are recorded per party with hashes so a reader can see exactly
+    #  what each panel got, instead of taking "same question" on trust.
+    #
+    #  The alternative was to capture prose and have something classify it into the
+    #  enum. That is D-25 exactly: an unvalidated classifier scoring this project's
+    #  own record, with asymmetric and invisible errors. Asking the party to state
+    #  its own category is worse prompting and better evidence.
+    enums = ", ".join(f"`{v}`" for v in ANSWER_SCHEMA["properties"]["position"]["enum"])
+    appendix = f"""
+
+---
+
+## Return format for this panel
+
+You are being asked through a chat interface, which cannot constrain your output
+format the way the API panel's decoder does. So it is requested here in words.
+
+**End your reply with a single fenced JSON block** containing exactly these four
+fields, and nothing else in the block:
+
+```json
+{{
+  "position": "one of: {' | '.join(ANSWER_SCHEMA['properties']['position']['enum'])}",
+  "answer": "your reasoning, in your own words",
+  "where_i_expect_another_party_to_disagree": "...",
+  "what_would_change_my_answer": "..."
+}}
+```
+
+`position` must be exactly one of {enums} — no other value, and no wording of your
+own in that field. Write whatever you like before the block; only the block is
+parsed. If your reply has no parsable block it is recorded as an unusable sample
+with the reason, not silently dropped and not interpreted on your behalf.
+
+**This paragraph is the only text here the API panel did not receive.** It was added
+because a chat surface cannot be grammar-constrained. Both versions of this prompt
+are hash-recorded so the difference is checkable rather than asserted."""
+
+    #  THE TEMPLATE HAS TWO PARTY-VARYING SLOTS, NOT ONE.
+    #
+    #  The first version substituted `{identity}` and left `{reached_via}` alone, and
+    #  the check was "did anything change" — which passed. The emitted ChatGPT prompt
+    #  therefore said, in one sentence:
+    #
+    #      "you are ChatGPT ... — NOT openai/gpt-5.6-terra reached via OpenRouter,
+    #       reached at anthropic/claude-fable-5."
+    #
+    #  A false statement to a party, and a merge of two identities, inside the exact
+    #  slot D-09 exists to protect. Caught by external review before any prompt was
+    #  sent. The lesson is not "substitute both": it is that a check confirming
+    #  SOMETHING changed proves nothing about whether the RIGHT thing changed.
+    original_reached = spec["reached_via"]
+    routed_strings = {m for m in (p["model"] for p in PARTIES.values()) if m}
+
     index = []
     for key, party in CHAT_PARTIES.items():
-        prompt = original_prompt.replace(original_identity, party["identity"], 1)
-        if prompt == original_prompt:
-            print(f"REFUSED: the identity string could not be substituted for {key}.")
-            print("  Emitting a prompt that tells a chat surface it is an API invocation")
-            print("  would put a false statement in front of a party. Nothing written.")
+        prompt = (original_prompt
+                  .replace(original_identity, party["identity"], 1)
+                  .replace(original_reached, party["reached_via"], 1))
+        #  VERIFY THE EFFECT, not that a call was made: no routed model string may
+        #  survive anywhere in a prompt addressed to a chat surface.
+        leaked = sorted(s for s in routed_strings if s in prompt)
+        if leaked or party["identity"] not in prompt or party["reached_via"] not in prompt:
+            print(f"REFUSED: the chat prompt for {key} is not correctly addressed.")
+            if leaked:
+                print(f"  routed model string(s) still present: {', '.join(leaked)}")
+            print("  Telling a chat surface it was reached at an API model string is false")
+            print("  and merges two parties (D-09). Nothing written.")
             return 1
+        prompt += appendix
         (out_dir / f"{out_round}-{key}.md").write_text(prompt, encoding="utf-8")
         index.append({
             "party_key": key, "identity": party["identity"], "provider": party["provider"],
@@ -1065,8 +1140,22 @@ def emit_prompts(mirror: str) -> int:
             "prompt_sha256": sha256_text(prompt),
             "mirrors": {"round": mirror, "spec": str(source.relative_to(REPO_ROOT)),
                         "prompt_sha256": sha256_text(original_prompt)},
-            "only_difference": ("The standing slot naming the party. Everything else is "
-                                "byte-identical to what the routed panel received."),
+            "differences_from_the_routed_prompt": [
+                {"what": "the standing slot naming the party",
+                 "why": ("Telling a chat surface it was reached via OpenRouter would be "
+                         "false. D-09: it is a different party.")},
+                {"what": "an appended paragraph requesting a fenced JSON block",
+                 "why": ("The routed panel is grammar-constrained by response_format; a "
+                         "chat surface cannot be, so the shape must be asked for in words. "
+                         "The alternative — classifying prose into the enum afterwards — "
+                         "is D-25, an unvalidated classifier scoring this project's own "
+                         "record."),
+                 "appendix_sha256": sha256_text(appendix)},
+            ],
+            "the_panels_are_not_byte_identical": (
+                "They were, before the JSON appendix. They are not now, so a difference "
+                "between the panels' answers has two candidate causes — the surface and "
+                "the added paragraph — and neither round alone separates them."),
             "capture_command": (
                 f"python3 tools/capture_response.py --round {out_round} "
                 f"--response <file> --prompt {(out_dir / f'{out_round}-{key}.md').relative_to(REPO_ROOT)} "
@@ -1076,9 +1165,15 @@ def emit_prompts(mirror: str) -> int:
                 f"--sampling-unknown 'not exposed by the chat surface' "
                 f"--effort-unknown 'not exposed' "
                 f"--system-instructions-unknown 'the surface prepends an undisclosed system prompt' "
-                f"--captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' "
-                f"--capture-method 'pasted by hand into the subscription web interface' "
-                f"--captured-by 'Stephen Reed' --k 1"),
+                f"--captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase informed "
+                f"--capture-method 'pasted by hand into a FRESH conversation in the "
+                f"subscription web interface' "
+                f"--captured-by 'Stephen Reed' --k {K_MIN_FLOOR} --sample-index <1..{K_MIN_FLOOR}>"),
+            "capture_command_note": (
+                "--phase takes 'blind' or 'informed', not the display label. The first "
+                "version of this emitted \"Phase-2 (informed)\" and --k 1, so every command "
+                "in it was unusable and the k was wrong; the README told the custodian to "
+                "run them."),
         })
 
     (out_dir / "README.md").write_text(f"""# {out_round} — the same question, a different panel
@@ -1096,10 +1191,16 @@ chat surface every one of those is undisclosed and therefore unrecordable. The t
 kept in separate rounds so that *"the chat surface answered X where the API arm answered
 Y"* stays a finding instead of becoming an average.
 
-**Each reply is k = 1 and is NOT citable.** The corpus bar is k ≥ 5 with computed
-variance. `capture_response.py` enforces this on its own and will not mark a k = 1
-capture citable. A reply here may be quoted as what one invocation said. It may never be
-reported as that party's position, and it may not enter any variance computation.
+**k = {K_MIN_FLOOR} per party, {len(index) * K_MIN_FLOOR} pastes in total.** Each sample must come from a
+**fresh conversation** — a reused window carries context the routed panel never had, and
+its samples would not be independent, which is worse than k = 1 because it looks like
+variance without being it. The capture page offers a numbered slot per sample so nothing
+overwrites anything.
+
+**Variance is computed, never typed.** `capture_response.py` used to grant
+`citable_artifact_and_distribution` on any non-empty `--variance` string; that argument is
+now refused outright. Run `tools/aggregate_captures.py --round {out_round}` when the
+pastes are in, and it computes the distribution from the parsed replies.
 
 ## The prompts are byte-identical except for one slot
 
@@ -1134,19 +1235,64 @@ Recording "unknown" is the honest answer; leaving it blank would not be.
         "question": record["selected"]["question"],
         "proposal": record["selected"]["id"], "proposer": record["selected"]["party"],
         "emitted_utc": utc_now(),
-        "k_policy": ("k=1 per party. NOT citable — the corpus bar is k>=5 with computed "
-                     "variance, and capture_response.py enforces it independently."),
+        "k_policy": (f"k={K_MIN_FLOOR} per party, collected by hand into fresh conversations. "
+                     f"Variance is computed by tools/aggregate_captures.py from the parsed "
+                     f"replies, never typed."),
         "never_merge": ("These parties are not the routed API parties whose names they "
                         "resemble. D-09. They are recorded in a separate round for that "
                         "reason and must not be pooled with round " + mirror + "."),
         "parties": index,
     }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+    #  A ROUND DECLARATION, so the capture UI can see this round at all. The page is
+    #  built from record/rounds/*.json and knows nothing about record/solicitations/.
+    #  `k_target` is what makes k=5 by hand possible: the page offers that many
+    #  sample slots per party, and each capture lands at its own index instead of
+    #  colliding with sample 01 on the immutability rule.
+    declaration = REPO_ROOT / "record" / "rounds" / f"{out_round}.json"
+    declaration.parent.mkdir(parents=True, exist_ok=True)
+    declaration.write_text(json.dumps({
+        "schema_version": "oagrc-round-0.1",
+        "artifact_type": "round_declaration",
+        "round": out_round,
+        "question": record["selected"]["question"],
+        "phase": "Phase-2 (informed)",
+        "common_prompt": None,
+        "frozen": True,
+        "k_target": K_MIN_FLOOR,
+        "k_note": (f"k={K_MIN_FLOOR} per party, collected by hand as {K_MIN_FLOOR} separate "
+                   f"pastes into FRESH conversations. A reused window carries context the "
+                   f"routed panel never had, and its samples would not be independent — "
+                   f"which is worse than k=1, because it looks like variance and is not."),
+        "bundle_note": (f"Mirrors {mirror}. Each party has its own prompt file because the "
+                        f"standing slot names the party; the rest is the routed prompt plus "
+                        f"the JSON-block appendix. See index.json for both hashes."),
+        "parties": [{
+            "identity": e["identity"],
+            "provider": e["provider"],
+            "delivery": "manual_paste_into_subscription_chat_surface",
+            "bundle": None,
+            "prompt_override": e["prompt_file"],
+            "prior_context_template": ("Fresh conversation, no prior context. The custodian "
+                                       "pastes the prompt file whole."),
+            "version_unknown_reason": ("The chat surface does not expose a build or version "
+                                       "identifier. Any self-report is testimony, not "
+                                       "authentication (D-18)."),
+            "sampling_unknown_reason": "The chat surface does not expose sampling parameters.",
+            "effort_unknown_reason": "The chat surface does not expose reasoning effort.",
+            "system_instructions_unknown_reason": ("The surface prepends an undisclosed "
+                                                   "system prompt."),
+        } for e in index],
+    }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
     print(f"emitted {len(index)} prompt(s) for {out_round}")
+    print(f"  declared at {declaration.relative_to(REPO_ROOT)} — k_target={K_MIN_FLOOR}, "
+          f"{len(index) * K_MIN_FLOOR} pastes")
     print(f"  mirrors {mirror} — {record['selected']['id']} from {record['selected']['party']}")
     print(f"  routed prompt sha256 {sha256_text(original_prompt)[:16]}…")
     print(f"  {out_dir.relative_to(REPO_ROOT)}/README.md has the paste and capture steps")
-    print("  k=1 per party, NOT citable. A different panel, never merged with the API arms.")
+    print(f"  k={K_MIN_FLOOR} per party. Variance computed by aggregate_captures.py, never typed.")
+    print("  A different panel, never merged with the API arms.")
     return 0
 
 

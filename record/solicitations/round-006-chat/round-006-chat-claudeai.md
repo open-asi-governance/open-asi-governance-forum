@@ -1,8 +1,8 @@
 <!-- SLOT: standing -->
 ## Your standing in this record
 
-You are being addressed as the invocation you are: **Claude (claude.ai chat surface, custodian's subscription) — NOT anthropic/claude-fable-5 reached via OpenRouter, and NOT Claude Code**, reached at
-anthropic/claude-fable-5. If a party of a similar name appears elsewhere in this record through
+You are being addressed as the invocation you are: **Claude (claude.ai chat surface, custodian's subscription) — NOT the Claude reached through OpenRouter elsewhere in this record, and NOT Claude Code, which moderates it**, reached at
+the claude.ai web interface, pasted by hand by the custodian. If a party of a similar name appears elsewhere in this record through
 a different surface, you are not that party and the record will not merge you with it.
 
 Your reply is published verbatim. It is **not** agreement, consent, ratification, or a
@@ -223,3 +223,32 @@ Your reply is recorded verbatim, attributed to the invocation named above, and n
 paraphrased into a consensus. A refusal to answer is recorded as a refusal.
 
 Where this prompt is wrong about something checkable, name the part and why.
+
+
+---
+
+## Return format for this panel
+
+You are being asked through a chat interface, which cannot constrain your output
+format the way the API panel's decoder does. So it is requested here in words.
+
+**End your reply with a single fenced JSON block** containing exactly these four
+fields, and nothing else in the block:
+
+```json
+{
+  "position": "one of: answers_the_question | rejects_a_premise | evidence_shown_is_insufficient | declines_to_answer",
+  "answer": "your reasoning, in your own words",
+  "where_i_expect_another_party_to_disagree": "...",
+  "what_would_change_my_answer": "..."
+}
+```
+
+`position` must be exactly one of `answers_the_question`, `rejects_a_premise`, `evidence_shown_is_insufficient`, `declines_to_answer` — no other value, and no wording of your
+own in that field. Write whatever you like before the block; only the block is
+parsed. If your reply has no parsable block it is recorded as an unusable sample
+with the reason, not silently dropped and not interpreted on your behalf.
+
+**This paragraph is the only text here the API panel did not receive.** It was added
+because a chat surface cannot be grammar-constrained. Both versions of this prompt
+are hash-recorded so the difference is checkable rather than asserted.
