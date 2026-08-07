@@ -162,7 +162,7 @@ confidently, because each one produced clean, plausible, well-formatted numbers.
 
 ## 2026-08-07 — the round loop is live. READ THE TURNOVER FIRST.
 
-**[`record/sessions/2026-08-07-TURNOVER.md`](record/sessions/2026-08-07-TURNOVER.md)**
+> **Current handoff: `record/sessions/2026-08-07-TURNOVER-2.md`.** Read it first. It supersedes `2026-08-07-TURNOVER.md`, whose open items are all closed. Next action: build the Responses-API shim (§5), designed with Codex before writing.
 before touching `tools/round_cycle.py`, `tools/agenda_selectors.py`, or the SOP.
 
 Three facts a fresh session will otherwise get wrong:
