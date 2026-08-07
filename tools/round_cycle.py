@@ -219,6 +219,34 @@ TEMPERATURE = 0.7
 MAX_TOKENS_ROUTED = 16000
 MAX_TOKENS_LOCAL = 8000
 
+#  WEB SEARCH FOR THE ROUTED ARMS, so the address in the prompt is one a party can
+#  actually follow. Frozen into every spec, so the plan says what the party was able
+#  to do rather than leaving it to whatever the router defaulted to.
+#
+#  `exa` RATHER THAN `native`, for two reasons and neither is quality:
+#    * native routes each provider to its OWN search backend, so the four parties
+#      would be reading results from four different search engines — a confound
+#      inside the panel, dressed as one condition.
+#    * native pricing passes through the provider and is not in the rate table, so
+#      the cycle could not be bounded. A model with no rate is refused here; a
+#      search engine with no rate should be too.
+#
+#  The `plugins` form, NOT the `:online` model suffix: the suffix changes the model
+#  id, and the budget preflight refuses any model id it cannot price — so `:online`
+#  would halt the cycle at exit 7 for a reason that reads like a bug.
+WEB_SEARCH = {"id": "web", "engine": "exa", "max_results": 5}
+
+#  Worst-case characters of extracted page text per search result, injected into the
+#  model's input and billed at the input rate. Exa returns adaptive excerpts and the
+#  plugin pins no max_characters, so this is a deliberately high assumption rather
+#  than a measurement -- which is the safe direction for a ceiling.
+SEARCH_RESULT_CHARS = 8000
+
+#  The local arm has no search. It is served on the operator's own hardware with no
+#  tools, and pretending otherwise would put a capability in the record that the
+#  party did not have.
+LOCAL_HAS_WEB_SEARCH = False
+
 #  The repository's own conservative estimator, from tools/check_page_budget.py.
 #  Deliberately low bytes-per-token, so token counts come out HIGH.
 BYTES_PER_TOKEN = 3.4
@@ -398,6 +426,15 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
     """
     template = TEMPLATE.read_text(encoding="utf-8")
     party = PARTIES[party_key]
+    #  WHETHER THIS PARTY CAN ACTUALLY FETCH. Derived from the same fact the spec
+    #  records, so the prompt and the spec cannot disagree.
+    #
+    #  They did disagree. One sentence told EVERY party "you have web search available
+    #  in this round" while the locally-served arm has no tools at all — a false
+    #  capability claim to a party, and the third false statement this session put in
+    #  front of one. The dry run validated it happily, because nothing compared the
+    #  prompt's claims against the spec's capabilities.
+    has_search = bool(party["model"]) and bool(WEB_SEARCH.get("id"))
 
     #  What the PROPOSER said the question needs, quoted, with the gap stated plainly.
     #  The proposal contract exists so a round knows what its question requires; the
@@ -421,11 +458,39 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
         #  maintains", so this slot supplies the name and nothing more.
         "moderator_identity": "Claude Code, an Anthropic invocation surface",
         "custodian": "Stephen Reed",
+        #  APPROVED BY THE CUSTODIAN 2026-08-07. This is a slot VALUE, not the
+        #  template, so the approved template hash is unaffected — but the prompt
+        #  bytes change, so rounds from here are not byte-comparable with 000-006.
+        #
+        #  The address is supplied together with browsing (see WEB_SEARCH below),
+        #  never before it. A pointer given to a party that cannot follow it is the
+        #  failure the template names in its own words: "A citation you cannot
+        #  resolve is not disclosure."
         "forum_reference": (
             "A deliberation among instances of frontier models about governing advanced AI. "
             "Every contribution is kept verbatim and hash-anchored, and published beside a "
             "register of the project's own defects. Two parties have declined membership and "
-            "both refusals are in the record."),
+            "both refusals are in the record.\n\n"
+            "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/ "
+            + (" You have web search available in this round; if you can fetch pages, read it "
+               "rather than taking this prompt's summary on trust.\n\n" if has_search else
+               " You have NO search or fetch capability in this round, so you cannot read it. "
+               "That is a fact about what this round can establish from your answer, and it is "
+               "recorded as one.\n\n")
+            + "**Reading it is not independent verification.** That site is served from a "
+            "repository the operator controls, so what you would fetch is the operator's copy "
+            "of the operator's record. It can tell you whether this prompt describes it "
+            "accurately. It cannot tell you whether anything in it is true.\n\n"
+            "One thing there is not under the operator's control: the manifest of raw material "
+            "is committed to the Bitcoin blockchain through four independently-run "
+            "OpenTimestamps calendar servers, so hash history cannot be silently rewritten. "
+            "That is the only such control, it began on 2026-08-07, and it establishes "
+            "existence-no-later-than and nothing else — not that any content is true, and not "
+            "that the operator cannot delete the whole thing. If you cannot verify that claim "
+            "yourself, treat it as an assertion by an interested party, because that is what it "
+            "is to you.\n\n"
+            "If you cannot fetch pages, say so. It is a fact about what this round could "
+            "establish, and it is recorded as one."),
         "operative_text": (
             "No governing passage is required to answer this question. If you find that "
             "it is, say so and name what you would need."),
@@ -645,11 +710,37 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
             raise Refusal(HALT_REFUSED, f"no rate recorded for {model!r}",
                           {"file": str(RATES_FILE.relative_to(REPO_ROOT)),
                            "why": "The loop will not solicit a model it cannot price."})
+        #  EVERY INPUT TOKEN FIRST, THEN THE COST. The search allowance was added to
+        #  prompt_tokens AFTER cost was computed, so it changed the reported token
+        #  count and not one cent of the bound: $6.5899 before, $6.5896 after. A
+        #  no-op that reads as a fix, which is this session's recurring defect.
+        engine = (spec.get("web_search") or {}).get("engine")
         prompt_tokens = len(spec["prompt"].encode("utf-8")) / BYTES_PER_TOKEN
-        cost = spec["k_requested"] * (
-            prompt_tokens * rate["input"] + spec["max_tokens"] * rate["output"]) / 1_000_000
+        injected_tokens = 0.0
+        search_cost = 0.0
+        if engine:
+            per_request = (rates.get("web_search_usd_per_request") or {}).get(engine)
+            if per_request is None:
+                raise Refusal(HALT_REFUSED, f"no rate recorded for search engine {engine!r}",
+                              {"file": str(RATES_FILE.relative_to(REPO_ROOT)),
+                               "why": ("A search engine with no price is the same unbounded "
+                                       "spend as a model with no price.")})
+            search_cost = spec["k_requested"] * per_request
+            #  SEARCH RESULTS ARE PROMPT TOKENS, and the per-request fee is the
+            #  smaller half: the engine injects extracted page text into the model's
+            #  INPUT, billed at the input rate. Pricing only the composed prompt made
+            #  the bound stop bounding the moment browsing was switched on.
+            injected_tokens = ((spec["web_search"].get("max_results") or 0)
+                               * SEARCH_RESULT_CHARS / BYTES_PER_TOKEN)
+        token_cost = spec["k_requested"] * (
+            (prompt_tokens + injected_tokens) * rate["input"]
+            + spec["max_tokens"] * rate["output"]) / 1_000_000
+        cost = token_cost + search_cost
         per_party.append({"party_key": spec["party_key"], "model": model,
                           "prompt_tokens_estimated": int(prompt_tokens),
+                          "search_result_tokens_allowed": int(injected_tokens),
+                          "web_search_engine": engine,
+                          "web_search_fee_usd": round(search_cost, 4),
                           "worst_case_usd": round(cost, 4)})
         total += cost
     return {"per_party": per_party, "worst_case_usd": round(total, 4),
@@ -710,7 +801,31 @@ def build_plan(args, index: int) -> dict:
                       {"asked": len(queue),
                        "why": "The agenda is exhausted. Solicit new proposals from the parties."})
 
-    pick = AS.SELECTORS[args.selector](queue, parties, index, args.seed)
+    if args.reask:
+        #  THE MODERATOR CHOOSING THE QUESTION IS THE POWER THE SELECTOR EXISTS TO
+        #  PREVENT, and this bypasses it. That is legitimate ONLY for re-measuring a
+        #  question already asked, under a stated change in conditions — it adds
+        #  nothing to the agenda and takes no party's turn, because the question has
+        #  already had its turn.
+        #
+        #  It is not a quiet override: a reason is required on the command line and
+        #  is written into the round record, so the choice is attributable rather
+        #  than inferable from a round appearing out of rotation.
+        pick = next((p for p in queue if p.pid == args.reask), None)
+        if pick is None:
+            raise Refusal(HALT_REFUSED, f"no proposal {args.reask!r} in the queue",
+                          {"queue_size": len(queue)})
+        if not pick.asked:
+            raise Refusal(HALT_REFUSED, f"{args.reask} has never been asked, so this is "
+                                        f"not a re-ask",
+                          {"why": ("A first asking goes through the selector. Using --reask "
+                                   "for it would be the moderator picking the agenda and "
+                                   "calling it a re-measurement.")})
+        print(f"  RE-ASK of {pick.pid} (first asked in {pick.asked_in}), "
+              f"chosen by the moderator, not the selector")
+        print(f"    reason: {args.reask_reason}")
+    else:
+        pick = AS.SELECTORS[args.selector](queue, parties, index, args.seed)
     if pick is None:
         if args.selector == "portfolio" and index % 4 == 3:
             raise Refusal(HALT_EMPTY_QUEUE,
@@ -765,6 +880,12 @@ def build_plan(args, index: int) -> dict:
             "k_policy": f"k={args.k}; variance computed from the samples collected.",
             "temperature": TEMPERATURE,
             "max_tokens": max_tokens,
+            "web_search": (dict(WEB_SEARCH) if PARTIES[party_key]["model"]
+                           else {"id": None, "engine": None, "max_results": 0,
+                                 "why_none": ("Served locally with no tools. The prompt tells "
+                                              "this party the address; it cannot follow it, and "
+                                              "the round records that asymmetry rather than "
+                                              "hiding it.")}),
             "source_excerpt": {"path": str(TEMPLATE.relative_to(REPO_ROOT)),
                                "sha256": template_sha},
             "context_pack": {"pack_version": PACK_VERSION, "pack_sha256": pack_sha,
@@ -772,7 +893,12 @@ def build_plan(args, index: int) -> dict:
                              "resolution": ("Rule-resolved, not fixed: the rule is constant, "
                                             "the bytes it resolves to change with the "
                                             "repository. Pinned and checked.")},
-            "selected_by": {"selector": args.selector, "proposal": pick.pid,
+            #  A RE-ASK IS NOT A SELECTION. Recording the selector as the chooser
+            #  when the moderator typed the proposal id would put a false attribution
+            #  in every spec of the round — and the selector's whole purpose is that
+            #  the moderator does not choose.
+            "selected_by": {"selector": ("moderator-reask" if args.reask else args.selector),
+                            "proposal": pick.pid,
                             "proposer": pick.party, "cycle": index},
             "prompt": prompt,
             "prompt_sha256": sha256_text(prompt),
@@ -875,19 +1001,34 @@ def validate_plan(plan: dict, pick, rendered: str, anchors: list[dict], k: int) 
         if anchors and anchors[0]["sha256"][:12] not in spec["prompt"]:
             problems.append(f"{spec['slug']}: the context pack's anchors are absent from the prompt")
 
-    #  IDENTICAL TREATMENT, proved rather than assumed. Re-compose every party with
-    #  the two party-varying slots replaced by sentinels; the results must be
-    #  byte-identical. A future party-specific note would be a new experimental arm,
-    #  not an innocent exception, and this check is what forces that to be said.
-    sentinels = set()
+    #  IDENTICAL TREATMENT WITHIN AN ARM, proved rather than assumed.
+    #
+    #  This required every party's prompt to be byte-identical modulo two slots, and
+    #  it FAILED the moment web search was introduced — correctly. Search is not
+    #  available to the locally-served party, and telling it otherwise was a false
+    #  capability claim, so its prompt now says something different and true. That is
+    #  a second experimental arm, which is exactly what this check exists to force
+    #  someone to say out loud rather than discover in the results.
+    #
+    #  So the invariant is now: identical WITHIN an arm, and the arms are declared.
+    #  Nothing pools them — every summary is per party — but a reader comparing the
+    #  local party to the routed ones is comparing across a capability difference,
+    #  and the round record has to carry that.
+    arms: dict[bool, set] = {}
     for spec in plan["specs"]:
         body, _ = compose(pick, spec["party_key"], k, rendered, anchors,
                           identity_override="«PARTY-IDENTITY»",
                           reached_override="«REACHED-VIA»")
-        sentinels.add(sha256_text(body))
-    if len(sentinels) > 1:
-        problems.append("parties received prompts that differ in more than the two declared "
-                        f"party-varying slots {PARTY_VARYING_SLOTS}")
+        arms.setdefault(bool((spec.get("web_search") or {}).get("engine")), set()).add(
+            sha256_text(body))
+    mixed = {armed for armed, digests in arms.items() if len(digests) > 1}
+    if mixed:
+        problems.append(f"within an arm, parties received prompts differing in more than the "
+                        f"two declared party-varying slots {PARTY_VARYING_SLOTS}")
+    if len(arms) > 1:
+        print(f"  TWO ARMS in this round: {sum(1 for s in plan['specs'] if (s.get('web_search') or {}).get('engine'))} "
+              f"with search, {sum(1 for s in plan['specs'] if not (s.get('web_search') or {}).get('engine'))} without. "
+              f"They are not comparable to each other.")
 
     for report in plan["prompt_lint"]:
         for hit in report["fatal"]:
@@ -1309,6 +1450,12 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--parties", default=",".join(PARTIES))
     ap.add_argument("--k", type=int, default=K_MIN_FLOOR)
     ap.add_argument("--seed", type=int, default=20260807)
+    ap.add_argument("--reask", metavar="PID",
+                    help="re-measure a question ALREADY asked, bypassing the selector. "
+                         "Requires --round-id and --reask-reason. Legitimate only when a "
+                         "condition has changed and you are measuring the change.")
+    ap.add_argument("--reask-reason",
+                    help="why this question is being re-asked. Written into the round record.")
     ap.add_argument("--round-id",
                     help="record under this id instead of round-NNN. Used when re-asking "
                          "a question after a tooling fix, so the two attempts are separate "
@@ -1331,6 +1478,10 @@ def main(argv: list[str]) -> int:
 
     if not args.dry_run and args.max_spend_usd is None:
         ap.error("--max-spend-usd is required for a live round. There is no default ceiling.")
+    if args.reask and not (args.round_id and args.reask_reason):
+        ap.error("--reask requires --round-id and --reask-reason. A re-ask that overwrote the "
+                 "first asking, or arrived without a stated reason, would be indistinguishable "
+                 "from the moderator quietly choosing the agenda.")
     if args.dry_run and args.max_spend_usd is None:
         args.max_spend_usd = float("inf")
 
@@ -1487,7 +1638,22 @@ def main(argv: list[str]) -> int:
                                "rejected_samples": s.get("failures") or []}
                               for k, s in summaries.items()],
                   "solicitation_failures": failures,
-                  "reasked_after_fix": args.round_id is not None,
+                  #  Was "args.round_id is not None", which labelled ANY custom round
+                  #  id as a re-ask after a fix — including ids chosen for unrelated
+                  #  reasons. A field that is true for the wrong reason is worse than
+                  #  absent, because it reads as evidence.
+                  "reasked_after_fix": bool(args.reask),
+                  "arms": sorted({("search:" + ((s.get("web_search") or {}).get("engine")
+                                                 or "none")) for s in plan["specs"]}),
+                  "arms_note": ("Parties in different arms had different capabilities and "
+                                "received different text about them. Their answers are not "
+                                "comparable to each other, and nothing here pools them."),
+                  "reask": ({"of": args.reask, "first_asked_in": pick.asked_in,
+                             "reason": args.reask_reason,
+                             "chosen_by": "the moderator, bypassing the selector",
+                             "note": ("A re-ask adds nothing to the agenda and takes no "
+                                      "party's turn. The selector was bypassed deliberately "
+                                      "and this record says so.")} if args.reask else None),
                   "no_synthesis": ("Deliberately absent. A consulted party made unilateral "
                                    "synthesis by the conflicted moderator a condition of "
                                    "declining.")}

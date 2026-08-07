@@ -104,7 +104,8 @@ def validate_sample(parsed, schema: dict) -> str | None:
     return None
 
 
-def spend_from(samples: list[dict], model: str, rates_path: Path) -> dict:
+def spend_from(samples: list[dict], model: str, rates_path: Path,
+               web_search: dict | None = None) -> dict:
     """Actual cost, summed from what each response reported it used.
 
     Reported usage is the provider's testimony, exactly like the served model string
@@ -123,10 +124,24 @@ def spend_from(samples: list[dict], model: str, rates_path: Path) -> dict:
     rates = json.loads(rates_path.read_text(encoding="utf-8"))
     entry["rates_version"] = rates.get("rates_version")
     rate = rates.get("usd_per_million_tokens", {}).get(model)
+    #  SEARCH FEES ARE PART OF WHAT A ROUND COST. Pricing tokens only understated a
+    #  browsed 20-request round by the whole search fee, and the ledger inherited it —
+    #  so the daily ceiling would have been computed against a number that omits a
+    #  charge the round definitely incurred.
+    engine = (web_search or {}).get("engine")
+    fee = (rates.get("web_search_usd_per_request") or {}).get(engine) if engine else None
+    entry["web_search_engine"] = engine
+    entry["web_search_requests"] = len(samples) if engine else 0
+    entry["web_search_usd"] = round(len(samples) * fee, 4) if fee else (0.0 if not engine else None)
+    if entry["web_search_usd"] is None:
+        entry["web_search_unpriced_reason"] = (
+            f"no per-request rate recorded for {engine!r}; the fee is real and is not counted "
+            f"in actual_usd, which therefore UNDERSTATES this round")
     if rate and (entry["input_tokens"] or entry["output_tokens"]):
         entry["actual_usd"] = round(
             (entry["input_tokens"] * rate["input"]
-             + entry["output_tokens"] * rate["output"]) / 1_000_000, 4)
+             + entry["output_tokens"] * rate["output"]) / 1_000_000
+            + (entry["web_search_usd"] or 0.0), 4)
         entry["rates_are_verified"] = bool(rates.get("verified_by_custodian"))
     return entry
 
@@ -195,7 +210,8 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path,
                                         "The router does not expose a seed parameter."},
         },
         "spend": spend_from(samples, args.model,
-                            REPO_ROOT / "record" / "cycles" / "model-rates.json"),
+                            REPO_ROOT / "record" / "cycles" / "model-rates.json",
+                            spec.get("web_search")),
         "serve_configuration": {
             "captured": True,
             "router": "openrouter.ai",
@@ -279,6 +295,16 @@ def main() -> int:
                                 "schema": spec["schema"]},
             },
         }
+        #  SEARCH COMES FROM THE FROZEN SPEC, never from a flag. The plan decides what
+        #  a party could do; a CLI argument could diverge from the plan and the record
+        #  would then describe a capability the party did not have, or omit one it did.
+        #
+        #  The `plugins` form rather than the `:online` suffix: the suffix changes the
+        #  model id, and the budget preflight refuses a model id it cannot price.
+        search = spec.get("web_search") or {}
+        if search.get("id"):
+            body["plugins"] = [{k: v for k, v in search.items()
+                                if k in ("id", "engine", "max_results")}]
         try:
             raw = call_once(key, body, args.timeout)
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
@@ -323,6 +349,42 @@ def main() -> int:
             "sampling": {"temperature": args.temperature, "max_tokens": args.max_tokens},
             "finish_reason": raw["choices"][0].get("finish_reason"),
             "usage": raw.get("usage"),
+            #  WHAT THIS PARTY ACTUALLY READ. The prompt now gives an address and the
+            #  means to fetch it, so "did it look?" becomes a question the record can
+            #  answer instead of infer. Each url_citation carries the page, its title,
+            #  the extracted text, and the character span of the reply where it was
+            #  used -- so a claim in an answer can be traced to the page behind it.
+            #
+            #  AN EMPTY LIST DOES NOT MEAN THE PARTY CHOSE NOT TO SEARCH. The web
+            #  plugin runs a search on every request; empty annotations mean nothing
+            #  was cited in the answer, which is a different claim entirely. Reading
+            #  it as "the party did not look" would be an inference dressed as a
+            #  record. Nor is this fetching a URL: it is a search engine's results.
+            "web_citations": [
+                {"url": (a.get("url_citation") or {}).get("url"),
+                 "title": (a.get("url_citation") or {}).get("title"),
+                 "used_at": [(a.get("url_citation") or {}).get("start_index"),
+                             (a.get("url_citation") or {}).get("end_index")],
+                 #  Two hashes, because one over bytes nobody kept is unverifiable.
+                 #  The first covers the stored excerpt and can be recomputed from
+                 #  this artifact; the second covers what the router returned and can
+                 #  only ever be compared, never reproduced from here.
+                 "content_stored_sha256": hashlib.sha256(
+                     (((a.get("url_citation") or {}).get("content") or "")[:4000])
+                     .encode("utf-8")).hexdigest(),
+                 "content_full_sha256": hashlib.sha256(
+                     ((a.get("url_citation") or {}).get("content") or "").encode("utf-8")
+                 ).hexdigest(),
+                 "content_full_length": len((a.get("url_citation") or {}).get("content") or ""),
+                 "content": ((a.get("url_citation") or {}).get("content") or "")[:4000]}
+                for a in (raw["choices"][0]["message"].get("annotations") or [])
+                if a.get("type") == "url_citation"],
+            "web_search": {k: v for k, v in (spec.get("web_search") or {}).items()
+                           if k in ("id", "engine", "max_results")},
+            "citations_are_the_router_s_report": (
+                "Which pages were fetched, and their extracted text, are reported by the "
+                "router. That is testimony (D-18), exactly like the served model string. "
+                "Nothing here proves the page said what the extract says it said."),
         })
         print(f"  [{index:2}/{args.k}] {raw['choices'][0].get('finish_reason')} "
               f"{raw.get('usage',{}).get('completion_tokens','?')}tok")

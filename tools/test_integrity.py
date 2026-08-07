@@ -258,9 +258,18 @@ out["proposer_bytes_intact"] = hostile.question in hostile_prompt
 out["real_slot_still_filled"] = "Return the structured fields" in hostile_prompt
 
 # All parties must receive identical bytes apart from the two declared slots.
-bodies = {RC.sha256_text(RC.compose(plain, k, 5, rendered, anchors,
-          identity_override="X", reached_override="Y")[0]) for k in RC.PARTIES}
-out["identical_modulo_identity"] = len(bodies) == 1
+# Identical WITHIN AN ARM. Parties with search and parties without receive
+# different, true, statements about what they can do; across that line the
+# prompts SHOULD differ, and requiring them not to is what produced a false
+# capability claim to the local party in the first place.
+arms = {}
+for kk in RC.PARTIES:
+    armed = bool(RC.PARTIES[kk]["model"]) and bool(RC.WEB_SEARCH.get("id"))
+    arms.setdefault(armed, set()).add(RC.sha256_text(RC.compose(
+        plain, kk, 5, rendered, anchors, identity_override="X", reached_override="Y")[0]))
+out["identical_within_arm"] = all(len(v) == 1 for v in arms.values())
+out["arms"] = len(arms)
+out["arms_differ"] = len({d for v in arms.values() for d in v}) == len(arms)
 
 # A denylist phrase the PARTY wrote is recorded; the same phrase in the
 # moderator's template is fatal. The parties' words are not ours to sanitise.
@@ -315,8 +324,13 @@ print(json.dumps(out))
              out.get("proposer_bytes_intact") is True)
         case("and the real slot is still filled anyway",
              out.get("real_slot_still_filled") is True)
-        case("every party receives identical bytes but the two declared slots",
-             out.get("identical_modulo_identity") is True)
+        case("within an arm, every party receives identical bytes but the two declared slots",
+             out.get("identical_within_arm") is True, f"{out.get('arms')} arm(s)")
+        # And the arms must actually DIFFER — otherwise a party without search would
+        # be reading the sentence written for parties that have it, which is the
+        # false capability claim this split exists to prevent.
+        case("the no-search arm is told something different from the search arm",
+             out.get("arms", 0) > 1 and out.get("arms_differ") is True)
         case("a denylist phrase in the party's own words is recorded, not fatal",
              out.get("party_phrase_recorded_not_fatal") is True)
         case("a value with no slot raises rather than silently doing nothing",

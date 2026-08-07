@@ -54,5 +54,10 @@
   },
   "daily_ceiling_usd": 25.0,
   "daily_ceiling_note": "SOP §4 requires a hard spend ceiling per day, with the run refusing rather than truncating. Committed and actual spend accumulate in record/cycles/spend-ledger.json on the accepted branch; a cycle whose worst case would cross this ceiling refuses before its first call.",
-  "a_model_with_no_entry_here_is_refused": "The loop will not solicit a model it cannot price. A missing rate is the condition under which an unbounded spend happens, so it is a refusal rather than a default."
+  "a_model_with_no_entry_here_is_refused": "The loop will not solicit a model it cannot price. A missing rate is the condition under which an unbounded spend happens, so it is a refusal rather than a default.",
+  "web_search_usd_per_request": {
+    "exa": 0.005,
+    "parallel": 0.005,
+    "_note": "Per-request search pricing, from OpenRouter's web-search documentation. 'native' is deliberately absent: its price passes through the serving provider and is not published in the model catalogue, so a cycle using it could not be bounded. An engine with no rate is refused, exactly as a model with no rate is."
+  }
 }
