@@ -184,8 +184,34 @@ def promote(bundle: dict, party: dict, preserved: Path, dry_run: bool) -> bool:
 
 def ingest_one(path: Path, dry_run: bool) -> str:
     print(f"\n\033[1m▸ {path.name}\033[0m")
+
+    # THE READ IS CONTAINED; NOTHING ELSE IS. Only json.JSONDecodeError used to be
+    # caught here, so a mistyped path -- the first thing a custodian gets wrong --
+    # raised FileNotFoundError out of a list comprehension in main(), aborting the
+    # batch. Bundles before it had ALREADY written; bundles after it were never
+    # processed; and the summary and round-status table, which come after that line,
+    # never printed. The operator was left with a traceback that named no party.
+    # IsADirectoryError, PermissionError and UnicodeDecodeError escaped the same way.
+    #
+    # Containment stops HERE, deliberately. A failure while writing quarantine
+    # bytes, appending the lifecycle event, or promoting into the corpus must still
+    # crash: at that point repository invariants are uncertain, and continuing to
+    # the next bundle would build on a state nobody has checked.
+    #
+    # `input_error`, not `refused`. A refusal is a governance judgement about a
+    # bundle that was read and evaluated. Nothing was evaluated here, and recording
+    # "refused" would put an assessment in the summary that never happened.
     try:
-        bundle = json.loads(path.read_text(encoding="utf-8"))
+        text = path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as error:
+        print(f"      INPUT ERROR: not UTF-8 text: {error}")
+        return "input_error"
+    except OSError as error:
+        print(f"      INPUT ERROR: cannot read this path: {error}")
+        return "input_error"
+
+    try:
+        bundle = json.loads(text)
     except json.JSONDecodeError as error:
         print(f"      REFUSED: not valid JSON: {error}")
         return "refused"
@@ -374,7 +400,7 @@ def main() -> int:
     outcomes = [ingest_one(Path(b).expanduser(), args.dry_run) for b in args.bundles]
 
     print("\n" + "─" * 60)
-    for label in ("accepted", "held", "conflict", "refused", "skipped"):
+    for label in ("accepted", "held", "conflict", "refused", "input_error", "skipped"):
         n = outcomes.count(label)
         if n:
             print(f"  {label:9} {n}")
@@ -412,7 +438,10 @@ def main() -> int:
         return 3
     if "held" in outcomes:
         return 2
-    return 1 if "refused" in outcomes else 0
+    # input_error shares exit 1 with refused: both mean "one or more inputs were not
+    # ingested". They are distinguished in the summary, where the difference is
+    # legible, rather than in an exit code the shell cannot explain.
+    return 1 if {"refused", "input_error"} & set(outcomes) else 0
 
 
 if __name__ == "__main__":

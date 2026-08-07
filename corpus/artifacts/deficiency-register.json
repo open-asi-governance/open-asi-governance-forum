@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "bb00fc4b26e1cb2df57577f0d5dc0c77a1ef5414496f48584ce36d8bceafcec0"
+    "sha256": "38b3e4c7794af2f05cad54b68c95a395005a1aca8c76424e080602f1cc671e7d"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1544,6 +1544,56 @@
       "remediation_effort": {
         "estimate": "remediation_effort_medium",
         "basis": "The transition is one call. The work was that acceptance must publish and verify, that rejection must not complete, and that the fix surfaced two further defects in the same subsystem."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-39",
+      "title": "The two failures a custodian meets first: a mistyped path, and a filename that collides",
+      "section_sha256": "2b8940bb36670cd6ec61537abe72cc6b5797783bf2eb62de46ed7815f0625161",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_human_operator",
+        "date_utc": "2026-08-06",
+        "where": "the custodian at a keyboard on the first real attempt; filed as capture-integration Defects 4 and 6",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/ingest_capture.py batch handling",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Only JSONDecodeError was caught, so a mistyped path aborted the batch: earlier bundles had already written, later ones never ran, and the summary and status table never printed."
+        },
+        {
+          "object": "The capture page's download filename",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Identical for every capture of a party in a round. Browsers suffix on collision, and the page's glob command matched both files, so shell collation decided which response became canonical -- 'grok (1).json' sorts before 'grok.json'."
+        },
+        {
+          "object": "The browser's final choice of filename",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "a.download is a suggestion. If the name exists the browser still suffixes, and a page cannot discover what was actually written. The page says 'suggested' rather than claiming to know."
+        },
+        {
+          "object": "The automated test suite's reach",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Three of seven defects in this run were reachable only by a human doing the task by hand. The suite constructed its own inputs at paths it had just created and never involved a browser -- structurally blind rather than weak."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_validated",
+        "mechanism": "Containment scoped to the read only, so write failures still crash; input_error distinguished from refused; content-addressed capture filenames; the exact ingest command printed rather than a glob. 15 regression cases driving the CLI and asserting against the generated page."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Both fixes are small. The judgement was where containment stops and whether a hash or a timestamp belongs in the filename."
       },
       "human_review": {
         "status": "not_reviewed",

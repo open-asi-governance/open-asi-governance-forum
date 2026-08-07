@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 38** classifications have been read by a human against the prose.
+**0 of 39** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -26,8 +26,8 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|
 | the annotator | 25 |
 | a designated review round | 8 |
+| human operator | 3 |
 | an external reviewer | 2 |
-| human operator | 2 |
 | another contributor | 1 |
 
 **8 entries — D-16 through D-36 — were first substantively articulated in preserved designated review-round submissions.** That is narrower than "found by the reviewers", and unlike it, checkable.
@@ -38,11 +38,11 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|
 | required, not implemented | 12 |
 | implemented, not validated | 21 |
-| validated | 5 |
+| validated | 6 |
 
 ### Affected objects
 
-**87 affected-object rows across 38 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**91 affected-object rows across 39 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -622,4 +622,21 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/resolve_conflict.py's supersede decision <br><sub>Recorded the decision, cleared the block, left the disowned text published. My own defect from hours earlier, found by external review and reproduced. Conflicts now clear from the corpus, not the label.</sub> | repairable by supersession | verified |
 | The paste-hash mismatch path in ingest_capture.py <br><sub>Printed 'Held for review' while recording returned_clean, because the reassignment came after receive() had written the event.</sub> | repairable by supersession | verified |
 | Replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines <br><sub>A round with a rejection stays honestly incomplete because neither a replacement nor a withdrawal mechanism exists. Named rather than faked.</sub> | partly repairable | not started |
+
+### D-39 — The two failures a custodian meets first: a mistyped path, and a filename that collides
+
+[Full entry](deficiencies.md#d-39--the-two-failures-a-custodian-meets-first-a-mistyped-path-and-a-filename-that-collides)
+
+- **First articulated:** human operator, 2026-08-06 · evidence: *preserved artifact*
+  - where: `the custodian at a keyboard on the first real attempt; filed as capture-integration Defects 4 and 6`
+- **Prospective control:** validated — Containment scoped to the read only, so write failures still crash; input_error distinguished from refused; content-addressed capture filenames; the exact ingest command printed rather than a glob. 15 regression cases driving the CLI and asserting against the generated page.
+- **Effort:** low — Both fixes are small. The judgement was where containment stops and whether a hash or a timestamp belongs in the filename.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/ingest_capture.py batch handling <br><sub>Only JSONDecodeError was caught, so a mistyped path aborted the batch: earlier bundles had already written, later ones never ran, and the summary and status table never printed.</sub> | repairable by supersession | verified |
+| The capture page's download filename <br><sub>Identical for every capture of a party in a round. Browsers suffix on collision, and the page's glob command matched both files, so shell collation decided which response became canonical -- 'grok (1).json' sorts before 'grok.json'.</sub> | repairable by supersession | verified |
+| The browser's final choice of filename <br><sub>a.download is a suggestion. If the name exists the browser still suffixes, and a page cannot discover what was actually written. The page says 'suggested' rather than claiming to know.</sub> | not repairable | impossible |
+| The automated test suite's reach <br><sub>Three of seven defects in this run were reachable only by a human doing the task by hand. The suite constructed its own inputs at paths it had just created and never involved a browser -- structurally blind rather than weak.</sub> | partly repairable | partly applied |
 

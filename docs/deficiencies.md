@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **38 entries** (D-01 … D-38).
+**Status:** open — **39 entries** (D-01 … D-39).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1300,6 +1300,81 @@ crash between them leaves a partial promotion that a retry must recognise); lock
 concurrent lifecycle appends; deadlines or escalation for holds nobody returns to; and tamper-evident
 logs, which are Track D's.
 
+### D-39 — The two failures a custodian meets first: a mistyped path, and a filename that collides
+
+*Filed 2026-08-06 as capture-integration Defects 4 and 6. **Both were found by the custodian at a
+keyboard on the first real attempt, and neither was reachable by the headless runs** — every bundle
+in those was constructed programmatically at a path known to exist, and no browser ever saved a
+file. Filed together because that shared origin is the finding.*
+
+**Defect 4 — an unreadable path aborted the batch and suppressed the report.** `ingest_one()`
+caught only `json.JSONDecodeError`, so `FileNotFoundError`, `IsADirectoryError`, `PermissionError`
+and `UnicodeDecodeError` escaped through a list comprehension in `main()` with no per-item
+containment. Reproduced:
+
+```
+python3 tools/ingest_capture.py good.json /nonexistent.json
+  -> fourteen-line traceback, exit 1
+  -> good.json had ALREADY written quarantine bytes and a lifecycle event
+  -> round-status table printed: 0 lines
+```
+
+A four-party round with a typo in the third path left two parties ingested, two not, and the
+operator holding a traceback naming no party. **The tool's stated design is "refuse early, refuse
+legibly, leave nothing partial", and a mistyped path — the first thing anyone gets wrong — produced
+the one outcome that design promises cannot happen.**
+
+**Containment stops at the read, and that boundary is the correction.** The obvious fix wraps the
+whole item; that would swallow a failure while writing quarantine bytes, appending the lifecycle
+event, or promoting into the corpus — at which point repository invariants are uncertain and
+continuing to the next bundle builds on state nobody checked. Those still crash. Only the *read* is
+contained.
+
+**And an unreadable path is not a refusal.** A refusal is a governance judgement about a bundle that
+was read and evaluated. Nothing was evaluated, so recording `refused` would put an assessment in the
+summary that never happened. It is `input_error`, sharing exit 1 with `refused` because both mean
+"one or more inputs were not ingested", and distinguished in the summary where the difference is
+legible.
+
+**Defect 6 — the capture page's filename collided, and the fix it shipped with was worse than
+recorded.** `a.download` was `oagf-capture-<round>-<party>.json`, identical for every capture of a
+party in a round. Browsers do not overwrite on collision; they suffix. A corrected capture landed at
+`… (1).json`.
+
+The finding says the page printed that exact filename. **By the time it was fixed the page printed a
+glob** — `oagf-capture-*.json` — which is a different and slightly worse failure: it matches *both*
+files, so both are ingested, and **shell collation decides which response becomes canonical.**
+Measured: `grok (1).json` sorts *before* `grok.json`, and `(10)` before `(2)`. Which capture becomes
+the party's recorded response was determined by string sorting.
+
+**Content hash, not timestamp.** The name now carries 16 hex of the response's SHA-256, so different
+responses are different files and identical responses converge — the same identity the ingest side
+compares on. A timestamp says only when Download was pressed, depends on the clock, and gives every
+re-save of the *same* capture a new name, manufacturing a second bundle that ingest would treat as a
+dispute.
+
+**Stated honestly rather than overclaimed:** `a.download` is a *suggestion*. If a file of that name
+already exists the browser still saves `… (1).json`, and **a page cannot discover the name actually
+used.** So the page says "suggested filename" and explains what to check, rather than asserting it
+knows.
+
+**What had already changed underneath.** Since D-37, the second bundle no longer vanishes — it
+becomes a conflicting receipt requiring disposition. So Defect 6 had degraded from *silently
+ingesting the wrong capture* to *ingesting one and raising a dispute about the other*. Still wrong,
+no longer silent. Recorded because it shows the defects interacting: fixing the deeper one changed
+the severity of the shallower one before anybody touched it.
+
+**The finding that ties them together.** Three of this run's seven defects — 4, 6 and 7 — were
+reachable only by a human doing the task by hand. **The automated suite was not weak; it was
+structurally blind**, because it constructed its own inputs at paths it had just created and never
+involved a browser. A test harness that generates its own fixtures cannot find the failures that
+live in how a person supplies them.
+
+**A third fixture defect, mine, found in this same pass.** The regression test for the non-UTF-8
+case wrote `b"\xf0\x9f\x92\xa9"` — **valid** UTF-8, an emoji — so it decoded cleanly and failed
+as invalid JSON instead, passing on the wrong path. The second fixture in one day that could not
+reach the state it named.
+
 ### D-15 — The record is not self-contained
 
 Its first substantive entry (raw 23) opens: "I have already committed to joining the Aligned
@@ -1349,6 +1424,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |
 | D-38 | **Remediated 2026-08-06** — `resolve_held_capture.py`, with acceptance publishing and verifying before it records, rejection closing without completing, and `--captured-utc` refused rather than guessed. 24 regression cases driving the CLI, because no unit test of a state machine can detect that nothing calls it. **Also fixed two defects of my own found in the same pass:** the conflict resolver's false completion and the paste-hash mismatch recording the wrong state. **Not addressed:** replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines. |
 | D-37 | **Remediated 2026-08-06**, with the disposition path in the same commit so the new blocking state cannot become permanent the way capture Defect 1's did. Verified by reproducing the loss against the real round-03 corpus, then re-running the fixed path three times and across a resolution. **Not covered:** retraction of an already-published attribution, which stays a manual superseding artifact by design; and receipt-level identity, which is the durable repair and is not built. |
 | D-36 | **Not remediable where it acted.** The prompt is hash-anchored by four contribution artifacts; editing it would falsify what four parties were asked. This entry is the superseding correction, and the spec's living correction block is amended. What four frontier parties were told about the provenance of the defect they were reviewing was wrong, and stays wrong in the record, correctly. |

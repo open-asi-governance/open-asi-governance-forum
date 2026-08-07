@@ -122,7 +122,12 @@ same round — which is how one was nearly filed as the other. Only you can say.
 <div class="row"><button id="download" type="button" disabled>Download capture bundle</button></div>
 <div id="next" class="v ok" hidden>
 Saved. Ingest it with:
-<pre>python3 tools/ingest_capture.py ~/Downloads/oagf-capture-*.json</pre>
+<pre id="ingest-command"></pre>
+<span class="muted">This is the <strong>suggested</strong> filename. A browser will not overwrite an
+existing file &mdash; if one of that name is already in the folder it saves as
+<span class="mono">&hellip;&nbsp;(1).json</span> instead, and a page cannot see the name that was
+actually used. If the command below fails, check the folder. The name contains a hash of the
+response, so a differently-named file with the same hash holds the same response.</span>
 Nothing has entered the record yet.
 </div>
 </div>
@@ -525,6 +530,10 @@ async function evaluate(){
 async function download(){
   const r = currentRound(), p = currentParty();
   const text = $('#response').value;
+  // Recomputed here rather than reading state.pasteSha, which is written by an
+  // async handler and can lag the textarea if Download is pressed quickly after a
+  // paste. The bundle's own hash must describe the bytes being written INTO it.
+  const responseSha = await sha256(text);
   const bundle = {
     bundle_version: 'oagrc-capture-bundle-0.1',
     gates_version: window.GATES.GATES_VERSION,
@@ -533,7 +542,7 @@ async function download(){
     provider: p.provider,
     captured_utc: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),
     response_text: text,
-    response_sha256_at_paste: state.pasteSha,
+    response_sha256_at_paste: responseSha,
     prompt_path: p.prompt_path,
     prompt_sha256: p.prompt_sha256,
     bundle_path: p.bundle || null,
@@ -549,12 +558,30 @@ async function download(){
     round_question: r.question,
     notes: $('#notes').value.trim() || null,
   };
+  // CONTENT-ADDRESSED. The name used to be round+party only, so every capture for a
+  // party in a round produced the SAME filename. Browsers do not overwrite on
+  // collision, they suffix -- so a corrected capture landed at "... (1).json" while
+  // the page told the custodian to ingest the original. A hash of the response makes
+  // different responses different files and identical responses the same file, which
+  // is also the identity the ingest side compares on.
+  //
+  // A timestamp was the alternative and is worse: it says only when Download was
+  // pressed, depends on the clock, and gives every re-save of the SAME capture a new
+  // name -- manufacturing a second bundle that ingest would then treat as a dispute.
+  const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || 'capture';
+  const filename = `oagf-capture-${slug(r.round)}-${slug(p.identity)}-${responseSha.slice(0,16)}.json`;
   const blob = new Blob([JSON.stringify(bundle, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `oagf-capture-${r.round}-${p.identity.toLowerCase().replace(/[^a-z0-9]+/g,'-')}.json`;
+  a.download = filename;
   a.click();
   URL.revokeObjectURL(a.href);
+  // The exact path, not a glob. A glob makes every historical capture in the folder
+  // part of a state-changing operation, and lets shell collation decide which
+  // response becomes canonical -- "grok (1).json" sorts BEFORE "grok.json", and
+  // "(10)" before "(2)".
+  $('#ingest-command').textContent =
+    `python3 tools/ingest_capture.py "$HOME/Downloads/${filename}"`;
   $('#next').hidden = false;
 }
 

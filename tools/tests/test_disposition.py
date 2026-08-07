@@ -203,6 +203,53 @@ def main() -> int:
         check("confirm_recorded DOES clear immediately",
               status(repo2)["complete"] is True, r.stdout + r.stderr)
 
+
+        # ------------------------------------- Defect 4: batch containment --
+        # A mistyped path is the first thing a custodian gets wrong. It used to raise
+        # out of a list comprehension in main(): bundles before it had ALREADY
+        # written, bundles after were never processed, and the summary and
+        # round-status table -- everything after that line -- never printed.
+        repo4 = build_repo(tmp / "fourth")
+        good = bundle(repo4, "good.json", "A genuine reply about the specification, "
+                                          "long enough to clear every gate comfortably.")
+        # b"\xff" is a lone byte that cannot begin a UTF-8 sequence. The first version
+        # of this fixture used b"\xf0\x9f\x92\xa9", which is VALID UTF-8 (an emoji), so
+        # it decoded cleanly and failed as invalid JSON instead -- the test passed on
+        # the wrong path. Second fixture today that could not reach the state it named.
+        (repo4 / "binary.json").write_bytes(b"\xff\xfe not utf-8 at all")
+        (repo4 / "notjson.json").write_text("{ this is not json", encoding="utf-8")
+
+        r = run(repo4, "tools/ingest_capture.py", str(good),
+                "/nonexistent-path.json", ".", "binary.json", "notjson.json")
+        out = r.stdout + r.stderr
+        check("a batch with bad paths does not traceback", "Traceback" not in out, out[-300:])
+        check("a missing path is reported", "No such file or directory" in out)
+        check("a directory is reported", "Is a directory" in out)
+        check("a non-UTF-8 file is reported", "not UTF-8 text" in out)
+        check("bad input is INPUT ERROR, not a governance refusal",
+              out.count("INPUT ERROR") == 3)
+        check("invalid JSON is still a refusal", "REFUSED: not valid JSON" in out)
+        check("the summary still prints", "input_error" in out)
+        check("the round-status table still prints", "t-round:" in out)
+        check("the good bundle in the batch was still processed",
+              (repo4 / "record/quarantine/t-round").exists())
+        check("exit is non-zero when inputs failed", r.returncode != 0)
+
+        # ------------------------------ Defect 6: the capture page filename --
+        page = (REAL_ROOT / "tools" / "capture_ui" / "index.html").read_text(encoding="utf-8")
+        check("the page no longer prints a glob ingest command",
+              "oagf-capture-*" not in page,
+              "a glob makes shell collation decide which response becomes canonical")
+        check("the download filename carries a response hash",
+              "responseSha.slice(0,16)" in page)
+        check("the printed command is filled in from the name actually used",
+              'ingest-command' in page and "ingest_capture.py \"$HOME/Downloads/" in page)
+        check("the page calls the filename SUGGESTED, because a browser may suffix",
+              "suggested" in page.lower())
+        check("the bundle hash is recomputed at download, not read from async state",
+              "const responseSha = await sha256(text)" in page
+              and "response_sha256_at_paste: responseSha" in page)
+
     print()
     print(f"{len(PASSED)} passed, {len(FAILED)} failed")
     for name in FAILED:
