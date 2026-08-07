@@ -469,6 +469,33 @@ def pending_dispositions(rounds: list[str]) -> list[str]:
     return blocked
 
 
+def cycle_index() -> int:
+    """How many rounds have been recorded. COUNTED BY CONTENT, never by filename.
+
+    This counted `record/cycles/round-*.json`. Adding a legitimate artifact called
+    `round-002-spend-correction.json` made it read 4 after three rounds — and the
+    index is not cosmetic: it is the round number rotation uses to decide whose turn
+    it is, the default round id, and the seed base. A file whose name happened to
+    start with "round-" would have silently changed which party got asked next and
+    left a gap at round-003.
+
+    A glob is a claim about names. `artifact_type` is what the artifact says it is.
+    """
+    total = 0
+    for path in sorted(CYCLES_DIR.glob("*.json")):
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as error:                                  # noqa: BLE001
+            raise Refusal(HALT_REFUSED, f"{path.name} is unreadable, so the cycle index "
+                                        f"cannot be established",
+                          {"error": f"{type(error).__name__}: {error}",
+                           "why": ("Guessing the index picks the wrong party's turn and "
+                                   "names the round after one that may already exist.")})
+        if isinstance(doc, dict) and doc.get("artifact_type") == "round_record":
+            total += 1
+    return total
+
+
 def known_rounds() -> list[str]:
     d = REPO_ROOT / "record" / "rounds"
     return sorted(p.stem.replace("-lifecycle", "") for p in d.glob("*-lifecycle.jsonl")) \
@@ -974,7 +1001,7 @@ def main(argv: list[str]) -> int:
         args.max_spend_usd = float("inf")
 
     CYCLES_DIR.mkdir(parents=True, exist_ok=True)
-    index = len(list(CYCLES_DIR.glob("round-*.json")))
+    index = cycle_index()
     round_id = args.round_id or f"round-{index:03d}"
     print(f"cycle {index} · selector={args.selector} · k={args.k}")
 

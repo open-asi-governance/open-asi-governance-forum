@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **50 entries** (D-01 … D-50).
+**Status:** open — **51 entries** (D-01 … D-51).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1664,6 +1664,36 @@ failure so each keeps what it has. `max_tokens` was then raised **from the measu
 completion lengths** — Gemini's reasoning tokens count against the ceiling and one
 sample hit 6000 exactly — rather than from a guess.
 
+### D-51 — The cycle index counted filenames, so an unrelated artifact advanced the round number
+
+*Filed 2026-08-07. Found by reading the dry-run banner after merging round 002 and
+noticing it said "cycle 4" when three rounds had run.*
+
+`cycle_index()` was `len(CYCLES_DIR.glob("round-*.json"))`. A spend correction filed
+as `round-002-spend-correction.json` matched that glob, and the index read 4.
+
+**The index is not cosmetic.** It is the `round_index` rotation uses to decide whose
+turn it is, the default round id, and the seed base. A file whose name happened to
+begin with `round-` would have changed **which party got asked next**, named the next
+round `round-004` leaving a permanent gap at 003, and shifted every sample's seed —
+none of it visible in any artifact, because the wrong index is self-consistent
+everywhere it appears.
+
+**A glob is a claim about names; `artifact_type` is what an artifact says it is.**
+The disposition reader beside it was already correct for exactly this reason: it
+globbed the same pattern but then filtered on `artifact_type == "round_record"`, so
+the correction file was skipped. The check that existed one function away was the one
+the index needed.
+
+**Remediated:** both readers now scan every JSON in the directory and count only what
+declares itself a round record, and an unreadable file in there refuses rather than
+being skipped — guessing the index picks the wrong party's turn.
+
+**What made it visible at all** was the banner printing the number. Had the index
+only been used internally, the effect would have been an agenda that quietly skipped
+a party's turn, which is precisely the harm the rotation selector was adopted to
+prevent.
+
 ## Deficiencies that are permanent vs. remediable
 
 *This table stopped at D-22 until 2026-08-06, omitting eight entries — including every instrument
@@ -1711,6 +1741,7 @@ specified as remaining work for the structured register artifact.
 | D-48 | **Remediated 2026-08-07**, and the remediation deliberately makes the loop halt more often. Disposition is read only from round records on the accepted branch; a cycle refuses (exit 8) while any round record is unaccepted, rather than reaching across branches for material the custodian has not reviewed. **Not repairable backwards:** round 000b was spent re-asking round 000's question and that expenditure is not recoverable. |
 | D-49 | **Remediated 2026-08-07** — the loop commits its own halt record on the round branch. **Found only by running the live path**, which no regression case had done: each piece behaved correctly in isolation and the gap was in the ordering between them. |
 | D-50 | **Remediated 2026-08-07** in both arms — `finish_reason`, usage, response bytes and byte length on every rejection, with transport and parse failures separated so each keeps what it holds. **Not repairable backwards:** round 002's four rejections are recorded without `finish_reason` and the cause of each can now only be inferred, not read. |
+| D-51 | **Remediated 2026-08-07** — the cycle index and the disposition reader both count by `artifact_type`, not by filename, and an unreadable file in `record/cycles/` refuses rather than being skipped. **Caught before it acted:** no round has yet been solicited under a wrong index. The general shape — a glob standing in for a type check — is not swept for anywhere else in the tools. |
 | D-41 | **Remediated 2026-08-06/07** — both solicitation tools refuse to overwrite raw material; the overwritten run restored from git and the second run preserved as its own artifact. **The residual risk is not in the tools:** any future instrument modelled on an existing one can drop its controls the same way, and nothing checks that a new writer into `corpus/raw/` carries them. |
 | D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |

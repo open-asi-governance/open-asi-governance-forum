@@ -117,7 +117,12 @@ def disposition_from_records(cycles_dir: Path) -> dict[str, str]:
     seen: dict[str, str] = {}
     if not cycles_dir.is_dir():
         return seen
-    for path in sorted(cycles_dir.glob("round-*.json")):
+    #  Every JSON in the directory, filtered by what it SAYS it is. A glob on
+    #  "round-*" is a claim about filenames, and a legitimately-named
+    #  "round-002-spend-correction.json" matched it. The artifact_type filter
+    #  below already made this reader correct; the cycle index next to it was
+    #  not, and read 4 after three rounds.
+    for path in sorted(cycles_dir.glob("*.json")):
         try:
             doc = json.loads(path.read_text(encoding="utf-8"))
         except Exception as error:                                  # noqa: BLE001

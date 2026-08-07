@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 50** classifications have been read by a human against the prose.
+**0 of 51** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 29 |
+| the annotator | 30 |
 | an external reviewer | 9 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -37,12 +37,12 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | State | Entries |
 |---|---|
 | required, not implemented | 14 |
-| implemented, not validated | 29 |
+| implemented, not validated | 30 |
 | validated | 7 |
 
 ### Affected objects
 
-**123 affected-object rows across 50 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**126 affected-object rows across 51 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -814,4 +814,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Round 002's four rejection records <br><sub>Written without finish_reason. Whether each reply was cut off by max_tokens or malformed otherwise can now only be inferred.</sub> | not repairable | not started |
 | tools/solicit_api.py and tools/solicit_local.py <br><sub>Both record finish_reason, usage, response bytes and byte length on every rejection; the local arm separates transport failure from parse failure.</sub> | repairable by supersession | verified |
 | MAX_TOKENS_ROUTED and MAX_TOKENS_LOCAL <br><sub>Raised from the measured completion lengths of round 002 rather than guessed. Gemini's reasoning tokens count against the ceiling and one sample hit 6000 exactly.</sub> | repairable by supersession | applied, not verified |
+
+### D-51 — The cycle index counted filenames, so an unrelated artifact advanced the round number
+
+[Full entry](deficiencies.md#d-51--the-cycle-index-counted-filenames-so-an-unrelated-artifact-advanced-the-round-number)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `the dry-run banner read 'cycle 4' after three rounds, on the run following the round-002 merge`
+- **Prospective control:** implemented, not validated — Both readers filter on artifact_type and refuse on an unreadable file. Caught before it acted: no round has been solicited under a wrong index.
+- **Effort:** low — Small, and it would have been invisible: a wrong index is self-consistent in every artifact it touches. The effect would have been an agenda quietly skipping a party's turn, which is the harm rotation was adopted to prevent.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/round_cycle.py cycle_index() <br><sub>Counts round records by artifact_type; verified to read 3 for the three rounds recorded.</sub> | repairable by supersession | verified |
+| record/cycles/round-002-spend-correction.json <br><sub>Renamed to spend-correction-round-002.json. The rename alone would have been treating the symptom.</sub> | repairable by supersession | verified |
+| Other globs standing in for type checks across tools/ <br><sub>Not swept for. The disposition reader one function away was already correct because it filtered on artifact_type, which is the pattern the rest should follow.</sub> | partly repairable | not started |
 

@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "c2f4e30d1c64016419a5730083989cf28542a548349c32facad2cf4d6d725ca8"
+    "sha256": "0d03ece781a4acf87b22efa27357db47555bb436c1df2a5b0481a0abf04624d3"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2072,6 +2072,50 @@
       "remediation_effort": {
         "estimate": "remediation_effort_low",
         "basis": "Small in code and consequential in kind: this corpus has twice recorded a truncated reply as a party declining, and a rejection without its cause reproduces that ambiguity one level down."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-51",
+      "title": "The cycle index counted filenames, so an unrelated artifact advanced the round number",
+      "section_sha256": "08ecd364b6f94bfb81d3ea3ef265b80264b7f7e35c51765157bb520a4eb6e9b3",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-07",
+        "where": "the dry-run banner read 'cycle 4' after three rounds, on the run following the round-002 merge",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/round_cycle.py cycle_index()",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Counts round records by artifact_type; verified to read 3 for the three rounds recorded."
+        },
+        {
+          "object": "record/cycles/round-002-spend-correction.json",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Renamed to spend-correction-round-002.json. The rename alone would have been treating the symptom."
+        },
+        {
+          "object": "Other globs standing in for type checks across tools/",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Not swept for. The disposition reader one function away was already correct because it filtered on artifact_type, which is the pattern the rest should follow."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Both readers filter on artifact_type and refuse on an unreadable file. Caught before it acted: no round has been solicited under a wrong index."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Small, and it would have been invisible: a wrong index is self-consistent in every artifact it touches. The effect would have been an agenda quietly skipping a party's turn, which is the harm rotation was adopted to prevent."
       },
       "human_review": {
         "status": "not_reviewed",
