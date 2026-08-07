@@ -341,6 +341,29 @@ print(json.dumps(out))
         case("an unfilled slot raises rather than shipping",
              r.returncode != 0 and "a_new_slot_nobody_filled" in (r.stderr + r.stdout))
 
+        print("\nthe capture page must show the WHOLE prompt for a verbatim round")
+        c = nxt()
+        r = run(c, "-c",
+                "import sys,json;sys.path.insert(0,'tools');"
+                "import build_capture_ui as b;from pathlib import Path;"
+                "out={};"
+                "rs={x['round']:x for x in b.load_rounds()};"
+                "v=[p for x in rs.values() for p in x['parties'] if p.get('prompt_is_verbatim')];"
+                "out['verbatim_whole']=all(p['sent_text']==Path(p['prompt_path']).read_text() for p in v);"
+                "out['n_verbatim']=len(v);"
+                "l=[p for x in rs.values() for p in x['parties'] if not p.get('prompt_is_verbatim')];"
+                "out['legacy_still_extracts']=all(len(p['sent_text'])<=len(Path(p['prompt_path']).read_text()) for p in l);"
+                "print(json.dumps(out))")
+        out = json.loads(r.stdout) if r.returncode == 0 else {}
+        # A verbatim prompt file IS the sent bytes. Run through the blockquote
+        # extractor built for the legacy review-round files it kept 3 lines of 254 --
+        # and the response gates compared against those 3 lines too.
+        case("a verbatim prompt is displayed and gated whole",
+             out.get("verbatim_whole") is True and out.get("n_verbatim", 0) > 0,
+             f"{out.get('n_verbatim')} verbatim parties")
+        case("a legacy prompt still has its metadata stripped",
+             out.get("legacy_still_extracts") is True)
+
         print("\nthe external anchor must fail when the manifest drifts past it")
         c = nxt()
         case("a correctly anchored manifest verifies",

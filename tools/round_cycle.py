@@ -1273,6 +1273,10 @@ Recording "unknown" is the honest answer; leaving it blank would not be.
             "delivery": "manual_paste_into_subscription_chat_surface",
             "bundle": None,
             "prompt_override": e["prompt_file"],
+            #  This file IS the sent bytes. Without this flag the capture page runs
+            #  it through a blockquote extractor built for the legacy review-round
+            #  files and displays 3 lines of 254.
+            "prompt_is_verbatim": True,
             "prior_context_template": ("Fresh conversation, no prior context. The custodian "
                                        "pastes the prompt file whole."),
             "version_unknown_reason": ("The chat surface does not expose a build or version "

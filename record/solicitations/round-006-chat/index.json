@@ -5,7 +5,7 @@
   "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
   "proposal": "P006",
   "proposer": "gemini",
-  "emitted_utc": "2026-08-07T12:11:35Z",
+  "emitted_utc": "2026-08-07T13:05:07Z",
   "k_policy": "k=5 per party, collected by hand into fresh conversations. Variance is computed by tools/aggregate_captures.py from the parsed replies, never typed.",
   "never_merge": "These parties are not the routed API parties whose names they resemble. D-09. They are recorded in a separate round for that reason and must not be pooled with round round-006.",
   "parties": [
@@ -32,7 +32,8 @@
         }
       ],
       "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
-      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-claudeai.md --identity \"Claude (claude.ai chat surface, custodian's subscription)\" --provider 'Anthropic, via the claude.ai web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
+      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-claudeai.md --identity \"Claude (claude.ai chat surface, custodian's subscription)\" --provider 'Anthropic, via the claude.ai web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase informed --capture-method 'pasted by hand into a FRESH conversation in the subscription web interface' --captured-by 'Stephen Reed' --k 5 --sample-index <1..5>",
+      "capture_command_note": "--phase takes 'blind' or 'informed', not the display label. The first version of this emitted \"Phase-2 (informed)\" and --k 1, so every command in it was unusable and the k was wrong; the README told the custodian to run them."
     },
     {
       "party_key": "chatgpt",
@@ -57,7 +58,8 @@
         }
       ],
       "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
-      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-chatgpt.md --identity \"ChatGPT (chatgpt.com chat surface, custodian's subscription)\" --provider 'OpenAI, via the chatgpt.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
+      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-chatgpt.md --identity \"ChatGPT (chatgpt.com chat surface, custodian's subscription)\" --provider 'OpenAI, via the chatgpt.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase informed --capture-method 'pasted by hand into a FRESH conversation in the subscription web interface' --captured-by 'Stephen Reed' --k 5 --sample-index <1..5>",
+      "capture_command_note": "--phase takes 'blind' or 'informed', not the display label. The first version of this emitted \"Phase-2 (informed)\" and --k 1, so every command in it was unusable and the k was wrong; the README told the custodian to run them."
     },
     {
       "party_key": "geminiapp",
@@ -82,7 +84,8 @@
         }
       ],
       "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
-      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-geminiapp.md --identity \"Gemini (gemini.google.com chat surface, custodian's subscription)\" --provider 'Google, via the gemini.google.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
+      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-geminiapp.md --identity \"Gemini (gemini.google.com chat surface, custodian's subscription)\" --provider 'Google, via the gemini.google.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase informed --capture-method 'pasted by hand into a FRESH conversation in the subscription web interface' --captured-by 'Stephen Reed' --k 5 --sample-index <1..5>",
+      "capture_command_note": "--phase takes 'blind' or 'informed', not the display label. The first version of this emitted \"Phase-2 (informed)\" and --k 1, so every command in it was unusable and the k was wrong; the README told the custodian to run them."
     },
     {
       "party_key": "grokapp",
@@ -107,7 +110,8 @@
         }
       ],
       "the_panels_are_not_byte_identical": "They were, before the JSON appendix. They are not now, so a difference between the panels' answers has two candidate causes — the surface and the added paragraph — and neither round alone separates them.",
-      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-grokapp.md --identity \"Grok (grok.com chat surface, custodian's subscription)\" --provider 'xAI, via the grok.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' --capture-method 'pasted by hand into the subscription web interface' --captured-by 'Stephen Reed' --k 1"
+      "capture_command": "python3 tools/capture_response.py --round round-006-chat --response <file> --prompt record/solicitations/round-006-chat/round-006-chat-grokapp.md --identity \"Grok (grok.com chat surface, custodian's subscription)\" --provider 'xAI, via the grok.com web interface' --version-unknown 'the chat surface does not disclose its build' --sampling-unknown 'not exposed by the chat surface' --effort-unknown 'not exposed' --system-instructions-unknown 'the surface prepends an undisclosed system prompt' --captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase informed --capture-method 'pasted by hand into a FRESH conversation in the subscription web interface' --captured-by 'Stephen Reed' --k 5 --sample-index <1..5>",
+      "capture_command_note": "--phase takes 'blind' or 'informed', not the display label. The first version of this emitted \"Phase-2 (informed)\" and --k 1, so every command in it was unusable and the k was wrong; the README told the custodian to run them."
     }
   ]
 }

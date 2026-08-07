@@ -123,7 +123,18 @@ def load_rounds() -> list[dict]:
                 **party,
                 "prompt_path": prompt_rel,
                 "prompt_sha256": sha256_of(prompt_path),
-                "sent_text": sent_prompt_text(prompt_path.read_text(encoding="utf-8")),
+                #  A verbatim prompt file is displayed WHOLE, and the gates compare
+                #  against the whole of it. The blockquote extraction below is a
+                #  legacy accommodation for the review-round files, which mix
+                #  metadata with a quoted outbound section. Applied to a file that
+                #  is already the sent bytes it kept 3 lines of 254 — 2.6% — and
+                #  both the displayed prompt AND the response gates would have used
+                #  that. Explicit flag, not detection: guessing which kind of file
+                #  this is would fail silently in exactly the same way.
+                "sent_text": (prompt_path.read_text(encoding="utf-8")
+                              if party.get("prompt_is_verbatim")
+                              else sent_prompt_text(
+                                  prompt_path.read_text(encoding="utf-8"))),
                 "bundle_sha256": bundle_sha,
                 "is_override": bool(party.get("prompt_override")),
             })
