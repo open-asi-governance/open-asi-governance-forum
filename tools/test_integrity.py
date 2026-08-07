@@ -341,6 +341,25 @@ print(json.dumps(out))
         case("an unfilled slot raises rather than shipping",
              r.returncode != 0 and "a_new_slot_nobody_filled" in (r.stderr + r.stdout))
 
+        print("\nthe external anchor must fail when the manifest drifts past it")
+        c = nxt()
+        case("a correctly anchored manifest verifies",
+             run(c, "tools/anchor_manifest.py").returncode == 0)
+        # Every round adds raw material, so the manifest changes and the previous
+        # anchor stops covering the live state. An anchor that keeps passing while
+        # the thing it anchors moves is a control that has stopped measuring.
+        man = c / "corpus/MANIFEST.sha256"
+        man.write_text(man.read_text() + "0" * 64 + "  corpus/raw/zz/x.json\n")
+        r = run(c, "tools/anchor_manifest.py")
+        case("a drifted manifest fails the anchor check",
+             r.returncode == 1 and "not anchored" in r.stdout)
+        case("and the whole build refuses", run(c, "tools/rebuild.py").returncode == 1)
+        man.write_text(man.read_text().replace("0" * 64 + "  corpus/raw/zz/x.json\n", ""))
+        for receipt in (c / "record/anchors").glob("*.ots"):
+            receipt.unlink()
+        case("a missing receipt fails rather than passing by absence",
+             run(c, "tools/anchor_manifest.py").returncode == 1)
+
         print("\nthe loop must not advance past what the custodian has not accepted")
         c = nxt()
         # Disposition: a question recorded as asked must not be selected again.

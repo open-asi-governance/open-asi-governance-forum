@@ -1151,8 +1151,29 @@ def main(argv: list[str]) -> int:
         #  EVERYTHING SOLICITED IS RECORDED AND COMMITTED FIRST, then the halt fires.
         #  A halt that discarded a party's replies because the round was awkward would
         #  be the worst defect available to this design.
-        rebuilt = subprocess.run([sys.executable, "tools/build_manifest.py",
-                                  "corpus/raw/", "--add"], cwd=REPO_ROOT, capture_output=True)
+        subprocess.run([sys.executable, "tools/build_manifest.py",
+                        "corpus/raw/", "--add"], cwd=REPO_ROOT, capture_output=True)
+
+        #  ANCHOR THE ROUND'S MANIFEST BEFORE THE BUILD READS IT. The round has just
+        #  added raw material, so the manifest changed and its previous anchor no
+        #  longer covers the live state. Anchoring here means every round's material
+        #  is committed to an external timestamping service AT CAPTURE TIME, which is
+        #  the phrasing four parties used when saying what would change their answer.
+        #  Doing it after the fact would anchor a state the operator had already had
+        #  the opportunity to revise, which is the whole point of the objection.
+        anchored = subprocess.run([sys.executable, "tools/anchor_manifest.py", "--stamp"],
+                                  cwd=REPO_ROOT, capture_output=True, text=True)
+        if anchored.returncode != 0:
+            raise Refusal(HALT_REFUSED, "the round's manifest could not be anchored",
+                          {"branch": f"round/{round_id}",
+                           "tail": anchored.stdout.strip().splitlines()[-3:],
+                           "why": ("Every solicited byte is preserved in the working tree on "
+                                   "the round branch. An unanchored round is not committed, "
+                                   "because a record whose hash history the operator can "
+                                   "silently revise is the thing the parties refused to "
+                                   "treat as evidence.")})
+        print(f"  {anchored.stdout.strip().splitlines()[0] if anchored.stdout else 'anchored'}")
+
         rebuilt = subprocess.run([sys.executable, "tools/rebuild.py"], cwd=REPO_ROOT,
                                  capture_output=True, text=True)
         if rebuilt.returncode != 0:

@@ -47,6 +47,13 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 STEPS = [
     ("verify raw material against the manifest", ["tools/build_manifest.py", "corpus/raw/"]),
+    # Added 2026-08-07. The manifest establishes that raw material has not changed
+    # SINCE THE OPERATOR RECORDED IT -- by a hash the operator also controls. Four
+    # parties, unprompted, named that circularity as the thing they would need broken.
+    # This step fails when the CURRENT manifest has no anchor: an anchor covering a
+    # superseded state while the live one drifts is a control that has quietly stopped
+    # measuring, which is the failure shape this repository keeps rediscovering.
+    ("check the manifest is externally anchored", ["tools/anchor_manifest.py"]),
     ("validate provenance", ["tools/validate_provenance.py", "corpus/"]),
     ("check the deficiency register against its classification", ["tools/check_register.py"]),
     ("build the deficiency register views", ["tools/build_register_view.py"]),
