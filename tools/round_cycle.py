@@ -258,6 +258,12 @@ WEB_SEARCH = {"id": "web", "engine": "exa", "max_results": 8,
 #  than a measurement -- which is the safe direction for a ceiling.
 SEARCH_RESULT_CHARS = 8000
 
+#  Worst-case characters a single fetch_url result adds to the conversation, which is then
+#  re-sent as input on every subsequent turn. fetch_executor caps a body at 200,000 bytes and
+#  the solicitation tools cap the serialised tool message at 60,000 characters, so the smaller
+#  cap is the real ceiling and it is the one priced.
+FETCH_RESULT_CHARS = 60_000
+
 #  The local arm has no search. It is served on the operator's own hardware with no
 #  tools, and pretending otherwise would put a capability in the record that the
 #  party did not have.
@@ -767,15 +773,29 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
             #  the bound stop bounding the moment browsing was switched on.
             injected_tokens = ((spec["web_search"].get("max_results") or 0)
                                * SEARCH_RESULT_CHARS / BYTES_PER_TOKEN)
+        #  AN AGENTIC SAMPLE IS NOT ONE COMPLETION. With fetch-url-v1 the loop re-sends the
+        #  whole conversation on every turn, and each turn appends a fetched page to it. So the
+        #  input is paid AGAIN, larger, on every turn: for T turns the input cost is roughly
+        #  triangular in T, not linear. Pricing one completion here would have let the preflight
+        #  approve a round costing several times its own ceiling -- the bound silently ceasing to
+        #  bind the moment the capability was switched on, which is exactly what happened when
+        #  search was added and the injected tokens were counted after the cost.
+        capability = spec.get("capability") or {}
+        turns = int(capability.get("max_tool_calls", 0)) + 1 if capability.get("fetch_url") else 1
+        fetch_tokens = (FETCH_RESULT_CHARS / BYTES_PER_TOKEN) if capability.get("fetch_url") else 0.0
+        input_tokens_all_turns = sum(
+            prompt_tokens + injected_tokens + fetch_tokens * turn for turn in range(turns))
         token_cost = spec["k_requested"] * (
-            (prompt_tokens + injected_tokens) * rate["input"]
-            + spec["max_tokens"] * rate["output"]) / 1_000_000
+            input_tokens_all_turns * rate["input"]
+            + turns * spec["max_tokens"] * rate["output"]) / 1_000_000
         cost = token_cost + search_cost
         per_party.append({"party_key": spec["party_key"], "model": model,
                           "prompt_tokens_estimated": int(prompt_tokens),
                           "search_result_tokens_allowed": int(injected_tokens),
                           "web_search_engine": engine,
                           "web_search_fee_usd": round(search_cost, 4),
+                          "agentic_turns_priced": turns,
+                          "fetch_tokens_allowed_per_turn": int(fetch_tokens),
                           "worst_case_usd": round(cost, 4)})
         total += cost
     return {"per_party": per_party, "worst_case_usd": round(total, 4),
@@ -783,8 +803,11 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
             "rates_recorded_utc": rates.get("recorded_utc"),
             "rates_source": rates.get("source"),
             "rates_verified_by_custodian": bool(rates.get("verified_by_custodian")),
-            "basis": ("Every sample emitting max_tokens, prompt tokens estimated at "
-                      f"{BYTES_PER_TOKEN} bytes/token. Over-states by construction."),
+            "basis": ("Every sample emitting max_tokens on every turn, prompt tokens estimated "
+                      f"at {BYTES_PER_TOKEN} bytes/token, and for a fetch-enabled party every "
+                      f"turn re-sending the whole conversation with another "
+                      f"{FETCH_RESULT_CHARS}-character page appended. Over-states by "
+                      f"construction."),
             "what_it_cannot_do": ("It cannot bind the provider. Only a provider-side "
                                   "spending cap does that.")}
 
@@ -1054,16 +1077,30 @@ def validate_plan(plan: dict, pick, rendered: str, anchors: list[dict], k: int) 
         body, _ = compose(pick, spec["party_key"], k, rendered, anchors,
                           identity_override="«PARTY-IDENTITY»",
                           reached_override="«REACHED-VIA»")
-        arms.setdefault(bool((spec.get("web_search") or {}).get("engine")), set()).add(
+        #  An arm is the CAPABILITY a party had, and search is only one axis of it. Classifying
+        #  by search alone would put a fetch-enabled party and a tool-less one in the same arm
+        #  and describe their answers as comparable.
+        arms.setdefault(((spec.get("web_search") or {}).get("engine"),
+                         bool((spec.get("capability") or {}).get("fetch_url"))), set()).add(
             sha256_text(body))
     mixed = {armed for armed, digests in arms.items() if len(digests) > 1}
     if mixed:
         problems.append(f"within an arm, parties received prompts differing in more than the "
                         f"two declared party-varying slots {PARTY_VARYING_SLOTS}")
     if len(arms) > 1:
-        print(f"  TWO ARMS in this round: {sum(1 for s in plan['specs'] if (s.get('web_search') or {}).get('engine'))} "
-              f"with search, {sum(1 for s in plan['specs'] if not (s.get('web_search') or {}).get('engine'))} without. "
-              f"They are not comparable to each other.")
+        #  Name every arm by what its parties could DO, and list who is in it. "TWO ARMS ... with
+        #  search, ... without" could not describe a round containing a fetch-enabled party, and
+        #  a round record that cannot name its own arms cannot say which answers are comparable.
+        def arm_label(engine, fetch):
+            parts = [f"search:{engine}" if engine else "no-search",
+                     "fetch:fetch-url-v1" if fetch else "no-fetch"]
+            return " + ".join(parts)
+        print(f"  {len(arms)} ARMS in this round — answers are NOT comparable across them:")
+        for (engine, fetch), _ in sorted(arms.items(), key=lambda kv: str(kv[0])):
+            members = [sp["party_key"] for sp in plan["specs"]
+                       if ((sp.get("web_search") or {}).get("engine") == engine
+                           and bool((sp.get("capability") or {}).get("fetch_url")) == fetch)]
+            print(f"    {arm_label(engine, fetch):<34} {', '.join(sorted(members))}")
 
     for report in plan["prompt_lint"]:
         for hit in report["fatal"]:
@@ -1653,8 +1690,14 @@ def main(argv: list[str]) -> int:
                             "testimony; the dollar figure is only as good as the table.")})
         LEDGER_FILE.write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
 
+        #  Each party is judged against ITS OWN k_requested. Comparing every party to
+        #  plan["specs"][0] meant a party deliberately solicited at a higher k -- because its
+        #  replies are lost to truncation at a measured rate -- would be silently judged against
+        #  someone else's floor, and the policy that raised its k would not be honoured.
+        requested_by_party = {spec["party_key"]: spec["k_requested"] for spec in plan["specs"]}
         short = [k for k, s in summaries.items()
-                 if s.get("k_collected", 0) < plan["specs"][0]["k_requested"]]
+                 if s.get("k_collected", 0) < requested_by_party.get(
+                     k, plan["specs"][0]["k_requested"])]
         rejected = {k: s.get("failures") for k, s in summaries.items() if s.get("failures")}
 
         record = {"artifact_type": "round_record", "round": round_id, "cycle": index,

@@ -51,9 +51,9 @@
       "minLength": 1
     },
     "party_key": {
-      "description": "The short handle used in filenames only. NOT the party's identity.",
+      "description": "The short handle used in filenames only. NOT the party's identity. Hyphens are permitted so a capability-bearing party can be named for its capability (`gemini-fetch-v1`), which D-09 requires: the same weights with a different capability is a different party.",
       "type": "string",
-      "pattern": "^[a-z][a-z0-9]{0,15}$"
+      "pattern": "^[a-z][a-z0-9-]{0,31}$"
     },
     "identity": {
       "description": "The canonical identity published in the record. D-09's never-merge rule: a routed API identity is not the chat-surface identity of a similarly named system, and an abbreviation like 'gpt' invites exactly that merge.",
@@ -258,6 +258,40 @@
         },
         "why_none": {
           "type": "string"
+        }
+      }
+    },
+    "base_party_key": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{0,15}$",
+      "description": "The tool-less party this one derives from. Recorded so a reader can SEE the relationship and so analysis cannot silently pool them: D-09 forbids merging a capability change onto the same identity, and this field makes the merge visible rather than preventing it."
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "What this party could DO beyond emitting text. Frozen in the plan, never set by a flag: a CLI argument could diverge from the plan and the record would then describe a capability the party did not have.",
+      "properties": {
+        "fetch_url": {
+          "type": "boolean"
+        },
+        "max_tool_calls": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        },
+        "profile": {
+          "type": "string"
+        },
+        "profile_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "entry_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "URLs named in the prompt. Anything else the party reached, it found."
         }
       }
     }

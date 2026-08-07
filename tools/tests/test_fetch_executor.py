@@ -212,6 +212,43 @@ check("the tool schema forbids extra arguments",
       fe.TOOL_SCHEMA["function"]["parameters"]["additionalProperties"] is False)
 
 
+
+# =============================================================================================
+# 8. The round-loop contract that had to change before a fetch round could exist
+# =============================================================================================
+
+import json as _json                                                      # noqa: E402
+import re as _re                                                          # noqa: E402
+
+_spec_schema = _json.loads((ROOT / "tools" / "schemas" /
+                            "solicitation-spec.schema.json").read_text())
+_props = _spec_schema["properties"]
+
+check("the spec schema admits a capability block", "capability" in _props)
+check("and a base_party_key, so a derived party's origin is visible",
+      "base_party_key" in _props)
+check("party_key accepts a capability-bearing name",
+      bool(_re.match(_props["party_key"]["pattern"], "gemini-fetch-v1")),
+      "D-09: same weights + different capability = different party")
+check("party_key still rejects an empty or upper-case handle",
+      not _re.match(_props["party_key"]["pattern"], "Gemini"))
+check("capability forbids undeclared fields",
+      _props["capability"]["additionalProperties"] is False)
+
+_rc = (ROOT / "tools" / "round_cycle.py").read_text()
+check("undersampling is judged per party, not against the first spec",
+      "requested_by_party" in _rc,
+      "a party solicited at a higher k must not be judged against someone else's floor")
+check("arms are classified by capability, not by search alone",
+      'bool((spec.get("capability") or {}).get("fetch_url"))), set())' in _rc,
+      "a fetch-enabled party and a tool-less one must not share an arm")
+check("the budget prices agentic turns, not one completion",
+      "input_tokens_all_turns" in _rc and "FETCH_RESULT_CHARS" in _rc,
+      "each turn re-sends the conversation with another page appended")
+check("the fetch allowance is the SMALLER of the two caps that apply",
+      "FETCH_RESULT_CHARS = 60_000" in _rc,
+      "the tool message cap binds before the executor's body cap")
+
 # =============================================================================================
 
 print(f"\n\033[32m{len(PASSED)} passed\033[0m")
