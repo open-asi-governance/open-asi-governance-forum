@@ -304,7 +304,8 @@ def main() -> int:
         search = spec.get("web_search") or {}
         if search.get("id"):
             body["plugins"] = [{k: v for k, v in search.items()
-                                if k in ("id", "engine", "max_results")}]
+                                if k in ("id", "engine", "max_results",
+                                         "include_domains", "exclude_domains")}]
         try:
             raw = call_once(key, body, args.timeout)
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:

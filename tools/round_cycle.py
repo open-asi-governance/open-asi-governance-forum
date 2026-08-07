@@ -234,7 +234,23 @@ MAX_TOKENS_LOCAL = 8000
 #  The `plugins` form, NOT the `:online` model suffix: the suffix changes the model
 #  id, and the budget preflight refuses any model id it cannot price — so `:online`
 #  would halt the cycle at exit 7 for a reason that reads like a bug.
-WEB_SEARCH = {"id": "web", "engine": "exa", "max_results": 5}
+#  PINNED TO THE RECORD'S OWN HOST, because the first browsed round proved that
+#  giving a party "web search" does not get the record read.
+#
+#  Round 007 supplied the address and enabled Exa. All four parties cited pages in all
+#  five samples — 100 citations — and ZERO pointed at the record. The plugin runs a
+#  semantic search derived from the prompt, and the prompt is dense with model identity
+#  strings, so what came back was documentation ABOUT the models:
+#  anthropic.com/news/claude-fable-5, ai.google.dev/gemini-3.1-pro-preview,
+#  docs.x.ai/grok-4-5. A search engine is not a fetch, and the round could not attribute
+#  any position change to anything a party had actually read.
+#
+#  include_domains makes the citations mean something. The cost is real and is stated to
+#  the party: within a round pinned this way it can check the record and nothing else,
+#  so it cannot compare the record against outside sources. A party that needs the open
+#  web is a different arm — which is what the tool-using local arm is being built for.
+WEB_SEARCH = {"id": "web", "engine": "exa", "max_results": 8,
+              "include_domains": ["open-asi-governance.github.io"]}
 
 #  Worst-case characters of extracted page text per search result, injected into the
 #  model's input and billed at the input rate. Exa returns adaptive excerpts and the
@@ -491,8 +507,11 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
             "register of the project's own defects. Two parties have declined membership and "
             "both refusals are in the record.\n\n"
             "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/."
-            + (" You have web search available in this round; if you can fetch pages, read it "
-               "rather than taking this prompt's summary on trust.\n\n" if has_search else
+            + (" You have web search in this round, and it is restricted to that site: you can "
+               "search the record and nothing else. Read it rather than taking this "
+               "prompt's summary on trust. The restriction is deliberate and it cuts "
+               "both ways — you cannot check this record against any outside source, "
+               "and if that limits what you can conclude, say so.\n\n" if has_search else
                " You have NO search or fetch capability in this round, so you cannot read it. "
                "That is a fact about what this round can establish from your answer, and it is "
                "recorded as one.\n\n")
