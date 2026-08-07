@@ -908,11 +908,17 @@ def observed_spend_ratio() -> dict:
 def build_plan(args, index: int) -> dict:
     """PURE. Reads the repository; writes nothing, sends nothing, spends nothing."""
     parties = [p.strip() for p in args.parties.split(",") if p.strip()]
-    if args.capability:
+    #  getattr, not attribute access: build_plan is called by the integrity probe with a
+    #  hand-built Namespace, so every new flag would otherwise break the probe -- and this one
+    #  did, failing six integrity cases for a day while the suite's own tail line still read
+    #  PASS. A planner that requires a fully populated argparse object is a planner only its CLI
+    #  can call.
+    capability_name = getattr(args, "capability", None)
+    if capability_name:
         #  Derive the round's party keys from the base roster. Every downstream lookup goes
         #  through resolve_party(), so the derived key names the capability in the filename, the
         #  identity string, the arm and the round record without duplicating the roster.
-        suffix = CAPABILITIES[args.capability]["suffix"]
+        suffix = CAPABILITIES[capability_name]["suffix"]
         parties = [f"{p}-{suffix}" for p in parties]
     #  Validated through the resolver, so a derived key is checked against its BASE. A typo in
     #  the base still fails here -- which is the point: an unrecognised key once fell through to

@@ -299,7 +299,7 @@ except RC.Refusal as e:
 import argparse
 try:
     RC.build_plan(argparse.Namespace(parties="grok,gtp", k=5, selector="rotation",
-                  seed=1, round_id=None, max_spend_usd=99.0), 0)
+                  seed=1, round_id=None, max_spend_usd=99.0, capability=None), 0)
     out["typo_party_refuses"] = False
 except RC.Refusal as e:
     out["typo_party_refuses"] = "gtp" in str(e.detail)
