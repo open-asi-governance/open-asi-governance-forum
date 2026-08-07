@@ -108,8 +108,8 @@ spec/icp/        Implementer Contribution Protocol — how an implementer suppli
 docs/            the threaded viewer, generated — served by GitHub Pages
 tools/           three kinds of program, kept apart on purpose:
                    maintenance — deterministic, no LLM in the path, reproducible
-                   solicitation — asks a party a question (solicit_api, solicit_local);
-                     an LLM is in the path by definition
+                   solicitation — asks a party a question (solicit_api, solicit_local,
+                     solicit_tools); an LLM is in the path by definition
                    the tool-using arm's harness — responses_shim, arm_profile,
                      arm_acceptance, fetch_tool_mcp
 ```

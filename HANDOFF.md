@@ -338,11 +338,13 @@ PY
 
 **What a fresh session will get wrong**
 
-1. **The tools arm has no solicitation driver.** `round_cycle.py`'s `PARTIES` table has five
-   entries and the local one routes to `solicit_local.py`, a single-shot chat completion with no
-   tools. Rounds 007 and 008 ran routed-only for exactly this reason. Running a tools round means
-   writing `solicit_tools.py` first, on the `round-NNN-chat` precedent — its own round id, its own
-   prompt (the party must be told what tools it has), never pooled with `qwen`.
+1. **The tools arm runs OUTSIDE `round_cycle.py`.** Its `PARTIES` table has five entries and the
+   local one routes to `solicit_local.py`, a single-shot chat completion with no tools — which is
+   why rounds 007 and 008 ran routed-only. `tools/solicit_tools.py` is the driver, on the
+   `round-NNN-chat` precedent: its own round id, its own prompt (the party is told what tools it
+   has, appended and hashed separately so a reader can subtract it), never pooled with `qwen`.
+   **It has not been run.** It still needs a spec file for the tools party, and the prompt bytes
+   it would freeze are worth the custodian's eye before a permanent artifact is written.
 2. **The arm is `workspace-write`, not `read-only`.** Codex grants network only in that mode. The
    requirement that matters — the party cannot write to the record — holds via an empty
    `writable_roots` and a scratch cwd, and `arm_acceptance.py` proves it. The scope doc carries
