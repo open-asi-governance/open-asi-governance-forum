@@ -20,6 +20,7 @@ repository keeps filing against itself:
   R3  ids are unique
   R4  no id is skipped between D-01 and the highest id present
   R5  the OTHER serially-numbered namespaces -- P-NNNN, T-NN -- are also unique
+  R11 every scored prediction records who scored it, or a reason it is unrecorded
   R6  corpus/artifacts/deficiency-register.json validates against its schema
   R7  entries and headings are one-to-one -- no entry without a heading, no
       heading without an entry
@@ -103,8 +104,33 @@ def check_predictions() -> list[str]:
         return [f"R5  {len(missing)} prediction(s) have no id, at index "
                 + ", ".join(str(i) for i in missing)]
 
+    # R11 -- a scored prediction must say who scored it. The registry ran with no
+    # scorer field at all: thirteen outcomes applied, and the party that judged them
+    # recorded nowhere. The forecaster, the criterion author and the scorer were the
+    # same surface, and that was not even capturable. D-18's shape.
+    #
+    # `identity: null` is ACCEPTABLE and is what the backfilled entries carry --
+    # what is not acceptable is the field being absent, because absence cannot be
+    # told apart from "nobody thought about it". A null with a stated reason is a
+    # record; a missing key is a gap.
+    scored = data.get("scored", []) if isinstance(data, dict) else []
+    problems = []
+    for entry in scored:
+        if not isinstance(entry, dict):
+            continue
+        by = entry.get("scored_by")
+        if by is None:
+            problems.append(
+                f"R11 {entry.get('id', '?')} is scored but has no scored_by. A scored "
+                f"prediction must record who applied the outcome, or record null with a "
+                f"reason. See D-18.")
+        elif by.get("identity") is None and not by.get("identity_unrecorded_reason"):
+            problems.append(
+                f"R11 {entry.get('id', '?')} has scored_by.identity null with no "
+                f"identity_unrecorded_reason. An unexplained null is a gap, not a record.")
+
     ids = [entry["id"] for entry in entries]
-    return [
+    return problems + [
         f"R5  duplicate prediction id: {entry}\n"
         f"      Two pre-registrations sharing an id are unfalsifiable as a pair —\n"
         f"      each run cites {entry} and they resolve differently. See D-32."

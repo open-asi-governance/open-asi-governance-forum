@@ -429,6 +429,27 @@ def main() -> int:
         case("the prediction registry publishes its own weakness",
              "forecast by the annotator" in
              (c / "docs/predictions.html").read_text(encoding="utf-8"))
+        # R11: a scored prediction must record who applied the outcome.
+        pj = c / "predictions/predictions.json"
+        original = pj.read_text(encoding="utf-8")
+        doc = json.loads(original)
+        doc["scored"][0].pop("scored_by", None)
+        pj.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+        r = run(c, "tools/check_register.py")
+        case("a scored prediction with no scored_by fails the build", r.returncode == 1)
+        case("and R11 names the entry", "R11" in r.stdout and doc["scored"][0]["id"] in r.stdout)
+
+        doc["scored"][0]["scored_by"] = {"identity": None}
+        pj.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
+        r = run(c, "tools/check_register.py")
+        case("an unexplained null scorer fails too", r.returncode == 1)
+        pj.write_text(original, encoding="utf-8")
+        case("the registry restored cleanly",
+             run(c, "tools/check_register.py").returncode == 0)
+        case("no scored entry claims an independently verified score",
+             not any((s.get("scored_by") or {}).get("independently_verified")
+                     for s in json.loads(original)["scored"]))
+
         case("the prediction registry computes no aggregate calibration score",
              "No aggregate calibration score is computed" in
              (c / "docs/predictions.html").read_text(encoding="utf-8"))

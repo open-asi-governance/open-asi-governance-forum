@@ -21,12 +21,15 @@ them at the top rather than in a footnote:
   * **21 of 24 predictions are forecast by the annotator** -- Claude Code, an
     Anthropic invocation surface that is a party to this record. Three come from
     anyone else.
-  * **No entry records who scored it.** Scored entries carry `outcome` and
-    `resolved_utc` and nothing else. The party that wrote the claim, wrote the
-    resolution criterion, and decided whether it was met is the same party, and
-    the registry does not even capture that as a field. That is D-18's shape --
-    attribution resting on the interested party's own testimony -- applied to
-    calibration.
+  * **No entry NAMES the party that scored it.** Every scored entry now carries a
+    `scored_by` block, and every one of them records `identity: null` with a stated
+    reason: the field did not exist when those outcomes were applied, so the
+    judging party was never captured. The block records what IS known -- the commit
+    the outcome first appears in, and its date -- separately from what is merely
+    inferred, and it says nobody verified any of it independently. A backfill that
+    had written "Claude Code" into `identity` would have been a value that looks
+    like provenance and is a guess. That is D-18's shape -- attribution resting on
+    the interested party's own testimony -- applied to calibration.
   * **One binary outcome establishes nothing about calibration** at all, and
     thirteen barely more when they are not independent and share a forecaster.
 
@@ -94,8 +97,14 @@ def stats(doc: dict) -> dict:
         "by_forecaster": by_forecaster,
         "annotator_count": sum(n for who, n in by_forecaster.items() if is_annotator(who)),
         "external": {who: n for who, n in by_forecaster.items() if not is_annotator(who)},
+        # A scored_by whose identity is null is a RECORD of an unrecorded scorer,
+        # not a recorded scorer. Counting the field's presence would report 13 of 13
+        # and mean nothing -- the number that matters is how many name a party.
+        "scorer_field_present": sum(1 for s in scored if s.get("scored_by")),
         "scorer_recorded": sum(
-            1 for s in scored if any(k in s for k in ("scored_by", "resolver", "resolved_by"))),
+            1 for s in scored if (s.get("scored_by") or {}).get("identity")),
+        "independently_verified": sum(
+            1 for s in scored if (s.get("scored_by") or {}).get("independently_verified")),
     }
 
 
@@ -108,10 +117,13 @@ def caveats(s: dict) -> list[str]:
         f"party to this record. External forecasters: "
         f"{', '.join(f'{k} ({v})' for k, v in sorted(s['external'].items())) or 'none'}.",
 
-        f"<strong>{s['scorer_recorded']} of {len(s['scored'])} scored entries record who scored "
-        f"them.</strong> The registry has no scorer field. The party that wrote each claim, wrote "
-        f"its resolution criterion, and judged whether it was met is the same party — and that is "
-        f"not even captured. See D-18.",
+        f"<strong>{s['scorer_recorded']} of {len(s['scored'])} scored entries name the party that "
+        f"scored them</strong>, and <strong>{s['independently_verified']} were independently "
+        f"verified.</strong> All {s['scorer_field_present']} now carry a <code>scored_by</code> "
+        f"block, but every one records <code>identity: null</code> with a stated reason: the field "
+        f"did not exist when they were scored, so the judging party was never captured and is "
+        f"inferred from git history rather than recorded. The party that wrote each claim, wrote "
+        f"its resolution criterion, and applied the outcome is the same party. See D-18.",
 
         f"<strong>{len(s['scored'])} scored outcomes cannot establish calibration.</strong> They "
         f"are not independent, they share a forecaster, and several concern this project's own "
@@ -134,6 +146,15 @@ def entry_rows(entries: list[dict], scored: bool) -> str:
             status = entry.get("status", "open")
             state = f'<span class="tag">{e_(status.replace("_", " "))}</span>'
         extra = []
+        by = entry.get("scored_by") or {}
+        if by and by.get("identity") is None:
+            extra.append(
+                f'<div class="box corr"><b>who scored this is not recorded</b>'
+                f'{e_(by.get("identity_unrecorded_reason", ""))} '
+                f'Inferred: {e_(str(by.get("inferred_identity", "unknown")))}. '
+                f'{e_(str(by.get("inference_basis", "")))} '
+                f'Independently verified: {"yes" if by.get("independently_verified") else "no"}.'
+                f'</div>')
         for key, label in (("why_this_score_is_worth_little", "why this score is worth little"),
                            ("scoring_correction_round_02", "scoring corrected after review"),
                            ("criterion_defect", "criterion defect recorded"),
@@ -250,6 +271,14 @@ def render_md(doc: dict) -> str:
                 f"**Claim.** {entry['claim']}", ""]
         if entry.get("evidence"):
             out += [f"**Evidence.** {entry['evidence']}", ""]
+        by = entry.get("scored_by") or {}
+        if by and by.get("identity") is None:
+            out += [f"**Who scored this is not recorded.** "
+                    f"{by.get('identity_unrecorded_reason','')} "
+                    f"Inferred: {by.get('inferred_identity','unknown')}. "
+                    f"{by.get('inference_basis','')} "
+                    f"Independently verified: "
+                    f"{'yes' if by.get('independently_verified') else 'no'}.", ""]
         if entry.get("why_this_score_is_worth_little"):
             out += [f"**Why this score is worth little.** "
                     f"{entry['why_this_score_is_worth_little']}", ""]

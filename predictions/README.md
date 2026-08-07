@@ -53,3 +53,30 @@ doesn't.
 
 No model-solicited predictions have been collected yet. When they are, they will be collected at
 k ≥ 5 with reported variance, per `CONTRIBUTING.md`.
+
+## Who scored it (`scored_by`, required)
+
+Every scored entry records the party that applied the outcome. This was added on
+2026-08-07 after the registry was found to have **no scorer field at all**: thirteen
+outcomes had been applied and the judging party was captured nowhere, while the same
+surface wrote the claim, wrote the resolution criterion, and decided whether it was met.
+
+`identity: null` is a valid and honest value. What is not valid is the field being
+absent, because absence cannot be distinguished from nobody having thought about it.
+A null must carry `identity_unrecorded_reason`. `tools/check_register.py` R11 enforces
+both, and the build fails otherwise.
+
+The thirteen backfilled entries all carry `identity: null`. They record, separately:
+
+- `first_recorded_in_commit` / `first_recorded_utc` — the commit the outcome first
+  appears in. This is evidence and is checkable.
+- `inferred_identity` / `inference_basis` — an inference from git history, labelled as
+  one. Every commit to the file in that window was written by a Claude Code session and
+  committed under the custodian's git identity, so the git author does not distinguish
+  them; the inference is about which surface wrote the score, not who approved it.
+- `independently_verified: false` — on all thirteen. No independent party has checked
+  any outcome against its resolution criterion.
+
+Writing a name into `identity` during the backfill would have converted a guess into
+what reads as a record. The rule is the same one D-01 states about version identifiers:
+a value that looks precise and resolves to nothing is worse than an honest null.
