@@ -425,6 +425,25 @@ def main() -> int:
                  if f.name not in ("index.html",) and not f.stem.startswith("deficiencies")))
         case("no published page exceeds the token budget",
              run(c, "tools/check_page_budget.py").returncode == 0)
+        case("every record page has a markdown alternate, declared and present",
+             all('rel="alternate"' in f.read_text(encoding="utf-8")
+                 and f.with_suffix(".md").exists()
+                 for f in sorted((c / "docs").glob("*.html"))
+                 if f.name != "index.html" and not f.stem.startswith("deficiencies")))
+        case("hashes are published whole, not truncated",
+             "…</code>" not in record and "sha256 <code" in record)
+        case("a founding excerpt carries its slice provenance",
+             "excerpt sha256" in record and "cut from" in record)
+        # Written plainly. The first attempt at this was a one-liner whose condition
+        # was `not path.write_text(...)` -- write_text returns a character count, so
+        # the ternary always took its else branch and the case passed without
+        # testing anything. A vacuous test is worse than no test: it reports a
+        # control that does not exist.
+        orphan = c / "docs/zz-orphan.html"
+        orphan.write_text("<html>stale</html>", encoding="utf-8")
+        case("a stale page exists before the build", orphan.exists())
+        run(c, "tools/build_viewer.py")
+        case("a stale page is removed by the next build", not orphan.exists())
         case("the record is readable without scripting",
              "<details>" in record and ".body{display:none}" not in record)
         case("no generated link points at a /blob/ URL",

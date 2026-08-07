@@ -137,6 +137,15 @@ def build_founding_nodes() -> list[dict]:
             "summary": seg.get("summary", ""),
             "text": raw_lines(transcript, start, end),
             "lines": [start, end],
+            # A founding node is a SLICE of the transcript, so a hash of the whole
+            # file does not let anyone verify THIS excerpt, and the excerpt alone
+            # does not say what it was cut from. Both are recorded: the source
+            # artifact's digest, and a digest of the sliced text exactly as rendered.
+            # With the line range, a reader can reproduce the cut and confirm it.
+            "source_path": "corpus/raw/initial-transcript.txt",
+            "source_sha256": sha256_of(transcript),
+            "chunk_sha256": hashlib.sha256(
+                raw_lines(transcript, start, end).encode("utf-8")).hexdigest(),
             "note": seg.get("annotator_note", ""),
             "correction": seg.get("correction_round_01", ""),
             "ballot": seg.get("ballot", ""),
@@ -390,6 +399,7 @@ main{max-width:1100px;margin:0 auto;padding:1rem}
 .tag.d{border-color:var(--bad);color:var(--bad)}
 .tag.g{border-color:var(--ok);color:var(--ok)}
 .sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+code.h{word-break:break-all}
 .body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
 details>summary{list-style:none;cursor:pointer}
 details>summary::-webkit-details-marker{display:none}
@@ -552,8 +562,17 @@ def node_html(n: dict) -> str:
         meta.append(e(n["provider"]))
     if n.get("citability"):
         meta.append(e(n["citability"]))
+    # FULL digests. These were truncated to 16 hex with an ellipsis, which is a
+    # convenience identifier, not something anyone can verify against. The corpus's
+    # premise is that claims are checkable without trusting the publisher, and a
+    # truncated hash asks to be trusted. Whole hashes cost ~48 bytes each.
     if n.get("sha256"):
-        meta.append(f'sha256 <code>{n["sha256"][:16]}…</code>')
+        meta.append(f'sha256 <code class="h">{n["sha256"]}</code>')
+    if n.get("chunk_sha256"):
+        meta.append(f'excerpt sha256 <code class="h">{n["chunk_sha256"]}</code>')
+    if n.get("source_sha256"):
+        meta.append(f'cut from <code>{html.escape(n["source_path"])}</code> '
+                    f'sha256 <code class="h">{n["source_sha256"]}</code>')
 
     parts = [f'<div class="meta">{" · ".join(meta)}</div>'] if meta else []
     parts.append(f'<pre>{e(n["text"])}</pre>')
@@ -753,6 +772,7 @@ def build_page(page: dict, plan: list[dict], total_nodes: int) -> str:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(page["title"])} — Open ASI Governance Forum</title>
 <meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
+<link rel="alternate" type="text/markdown" href="{html.escape(page["slug"])}.md">
 <style>{CSS}</style>
 </head>
 <body>
@@ -820,6 +840,108 @@ Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
 </body>
 </html>
 """
+
+
+
+def node_md(n: dict) -> str:
+    """One contribution as plain text, with its provenance above it.
+
+    NOT a rendering of the HTML -- a second serialisation of the same node dict.
+    Both come from one source, so they cannot disagree about what a party said;
+    what they can differ in is presentation, which is the point of offering both.
+
+    Verbatim text is fenced. A model reading this has to be able to tell where
+    testimony stops and annotation begins, and in plain text the visual cues the
+    HTML relies on are gone -- so the labels do that work explicitly.
+    """
+    out = [f"### {n['id']} — {n['identity']}", ""]
+
+    facts = []
+    if n["role"]:
+        facts.append(f"- role: {n['role']}")
+    if n["ballot"]:
+        facts.append(f"- ballot: {n['ballot']}")
+    if n["status"] != "active":
+        facts.append(f"- attribution status: **{n['status']}**")
+    if n["label_absent"]:
+        facts.append("- **no author label in the raw record**")
+    if n["lines"]:
+        facts.append(f"- raw lines {n['lines'][0]}–{n['lines'][1]}")
+    if n.get("captured"):
+        facts.append(f"- captured {n['captured']}")
+    if n.get("provider"):
+        facts.append(f"- provider: {n['provider']}")
+    if not n["is_prompt"]:
+        facts.append(f"- k = {n['k']}")
+    if n.get("citability"):
+        facts.append(f"- {n['citability']}")
+    if n.get("sha256"):
+        facts.append(f"- sha256 `{n['sha256']}`")
+    if n.get("chunk_sha256"):
+        facts.append(f"- excerpt sha256 `{n['chunk_sha256']}`")
+    if n.get("source_sha256"):
+        facts.append(f"- cut from `{n['source_path']}` sha256 `{n['source_sha256']}`")
+    if facts:
+        out += facts + [""]
+
+    if n["summary"]:
+        out += [f"*Summary (annotation, not testimony):* {n['summary']}", ""]
+
+    out += ["**Verbatim:**", "", "```text", n["text"], "```", ""]
+
+    if n["evidence"]:
+        out += [f"**Identity evidence.** {n['evidence']}", ""]
+    for label, items in (("Key claims", n["claims"]),
+                         ("Durable outputs adopted", n["durable"]),
+                         ("Superseded", n["superseded"])):
+        if items:
+            out += [f"**{label}.**"] + [f"- {i}" for i in items] + [""]
+    if n["note"]:
+        out += ["**Annotator note — interpretation by a party to this record, not testimony.**",
+                "", n["note"], ""]
+    if n["correction"]:
+        out += ["**Correction / verification note — shown beside the response, never merged "
+                "into it.**", "", "```text", n["correction"], "```", ""]
+    if n["conflict"] and n["conflict"] != n["note"]:
+        out += [f"**Conflict of interest.** {n['conflict']}", ""]
+    if n.get("prior_context"):
+        out += [f"**Context supplied to this reviewer.** {n['prior_context']}", ""]
+    return "\n".join(out)
+
+
+def build_page_md(page: dict, plan: list[dict], total_nodes: int) -> str:
+    position = next(i for i, p in enumerate(plan) if p["slug"] == page["slug"])
+    prev_page = plan[position - 1] if position else None
+    next_page = plan[position + 1] if position + 1 < len(plan) else None
+
+    nav = ["[contents](index.md)"]
+    if prev_page:
+        nav.append(f"[previous]({prev_page['slug']}.md)")
+    if next_page:
+        nav.append(f"[next]({next_page['slug']}.md)")
+
+    out = [
+        f"# {page['title']}",
+        "",
+        " · ".join(nav),
+        "",
+        f"{len(page['nodes'])} of {total_nodes} contributions in this record. "
+        f"Grey-fenced blocks are verbatim; anything labelled *annotation* or "
+        f"*annotator note* is interpretation by Claude Code, an Anthropic invocation "
+        f"surface that is a party to this record.",
+        "",
+        f"Rendered from inputs `{inputs_digest()}`. "
+        f"See [the deficiency register](deficiencies.html) before citing anything.",
+        "",
+        "---",
+        "",
+    ]
+    out += [node_md(n) for n in page["nodes"]]
+    out += ["---", "", " · ".join(nav), "",
+            "Corpus CC BY 4.0; code Apache-2.0. Reading, quoting and ingestion are "
+            "permitted. Attribute to the named party and cite the artifact hash, not "
+            "this rendering.", ""]
+    return "\n".join(out)
 
 
 def build_index(plan: list[dict], nodes: list[dict]) -> str:
@@ -990,10 +1112,33 @@ def main() -> int:
     nodes = all_nodes()
     plan = page_plan(nodes)
 
+    # PRUNE STALE PAGES. The generator wrote pages and never removed ones that had
+    # stopped belonging, so re-splitting a group left the old page PUBLISHED with
+    # content that would drift from the record forever. Caught for real: adding full
+    # hashes pushed one group over the pack size, `founding-2` became `founding-2-1`
+    # and `-2-2`, and `founding-2.html` stayed on disk and in git.
+    #
+    # Only files this generator produces are removed. `deficiencies*` belongs to
+    # build_register_view.py and `index.html` is written below; deleting another
+    # tool's output because this one does not recognise it would be worse than the
+    # orphan.
+    keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
+    keep |= {"index.html", "index.md", "llms.txt", "sitemap.xml", ".nojekyll"}
+    for existing in sorted(docs.glob("*")):
+        if not existing.is_file() or existing.name in keep:
+            continue
+        if existing.name.startswith("deficiencies"):
+            continue
+        if existing.suffix in (".html", ".md"):
+            existing.unlink()
+            print(f"  pruned stale page {existing.name}")
+
     written = 0
     for page in plan:
         text = build_page(page, plan, len(nodes))
         (docs / f"{page['slug']}.html").write_text(text, encoding="utf-8")
+        (docs / f"{page['slug']}.md").write_text(
+            build_page_md(page, plan, len(nodes)), encoding="utf-8")
         written += 1
 
     index = build_index(plan, nodes)

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Founding — ballots and decision (S-20–S-33) — part 2 of 2 — Open ASI Governance Forum</title>
 <meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
+<link rel="alternate" type="text/markdown" href="founding-4-2.md">
 <style>
 :root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
 --warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
@@ -45,6 +46,7 @@ main{max-width:1100px;margin:0 auto;padding:1rem}
 .tag.d{border-color:var(--bad);color:var(--bad)}
 .tag.g{border-color:var(--ok);color:var(--ok)}
 .sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+code.h{word-break:break-all}
 .body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
 details>summary{list-style:none;cursor:pointer}
 details>summary::-webkit-details-marker{display:none}
@@ -84,7 +86,7 @@ a{color:var(--accent)}
 <main>
 <nav class="pager"><a href="founding-4-1.html">&larr; previous</a><a href="index.html">all pages</a><a href="founding-5.html">next &rarr;</a></nav>
 <div class="bar"><span class="lbl">who</span>
-<button data-facet="identity" data-val="Stephen Reed" aria-pressed="false">Stephen Reed</button><button data-facet="identity" data-val="unattributed" aria-pressed="false">unattributed</button>
+<button data-facet="identity" data-val="Gemini" aria-pressed="false">Gemini</button><button data-facet="identity" data-val="Stephen Reed" aria-pressed="false">Stephen Reed</button><button data-facet="identity" data-val="unattributed" aria-pressed="false">unattributed</button>
 </div>
 <div class="bar"><span class="lbl">flags</span>
 <button data-facet="flag" data-val="corrected" aria-pressed="false">corrected in round 01</button>
@@ -93,7 +95,31 @@ a{color:var(--accent)}
 <button data-facet="flag" data-val="ballot" aria-pressed="false">carries a ballot</button>
 <span class="count" id="count"></span>
 </div>
-<h2 class="round">Founding — ballots and decision (S-20–S-33) — part 2 of 2</h2><article class="node child" id="n-S-32"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">decision notice</span><span class="tag">k=1</span><span class="tag">S-32</span></div><p class="sum">Announces that all participants responded ACCEPT WITH RESERVATION; that a public GitHub organization &#x27;Consullo Public&#x27; will be created to contain &#x27;open-asi-governance-forum&#x27;; quotes Gemini&#x27;s repository-naming guidance; and states four maintenance intentions including that the Consullo Seed AI system will own the repo and license per the governors.</p></summary><div class="body"><div class="meta">raw lines 2317–2374 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Grok:
+<h2 class="round">Founding — ballots and decision (S-20–S-33) — part 2 of 2</h2><article class="node prompt" id="n-S-30"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-30</span></div><p class="sum">Package-review prompt to Gemini. Verbatim identical to S-24.</p></summary><div class="body"><div class="meta">raw lines 2291–2310 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1) · excerpt sha256 <code class="h">3a9816f6a9d681085877f5dd0be24394cbb07731f124052013238d7e2df18205</code> · cut from <code>corpus/raw/initial-transcript.txt</code> sha256 <code class="h">edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code></div><pre>Operator to Gemini:
+
+Review the proposed naming package as an integrated architecture rather than ranking organization names, repository names, and implementation-layer names as though they were interchangeable:
+
+* Public initiative: **Open ASI Governance Forum (OAGF)**
+* Canonical repository and principal artifact: **Open ASI Governance Reasoning Corpus (OAGRC)**
+* Optional append-only record series: **The Frontier Deliberation Record (FDR)**
+* Enterprise governance-agent layer: **Aligned Supervisors**
+* Enterprise interoperability standard: **Aligned Supervisors Protocol (ASP)**
+
+Respond with exactly one of:
+
+1. **ACCEPT**
+2. **ACCEPT WITH RESERVATION**, followed by a concise non-blocking reservation
+3. **OBJECT**, followed by one specific blocking objection and the minimum amendment required to resolve it
+
+Treat aesthetic preference alone as non-blocking. A blocking objection should identify a material problem involving accuracy, misleading representation, scope, durability, or architectural inconsistency.
+
+Preserve all reservations in the record. Consensus means no unresolved blocking objection; it does not require identical aesthetic preferences.
+</pre></div></details></article><article class="node child" id="n-S-31"><details><summary><div class="nh"><span class="who">Gemini (Google DeepMind)</span><span class="tag">ballot</span><span class="tag b">ACCEPT WITH RESERVATION</span><span class="tag">k=1</span><span class="tag">S-31</span></div><p class="sum">Same reservation, same attestation-based resolution.</p></summary><div class="body"><div class="meta">raw lines 2311–2316 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1) · excerpt sha256 <code class="h">3ca658213d485a47d6e973e5a473a09a812de848a548ccc5341daba70a977316</code> · cut from <code>corpus/raw/initial-transcript.txt</code> sha256 <code class="h">edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code></div><pre>Gemini to Operator:
+
+**ACCEPT WITH RESERVATION**
+
+The term &quot;Aligned&quot; in the enterprise layer (Aligned Supervisors / Aligned Supervisors Protocol) must be defined strictly within the ASP specification as an active, revocable compliance status backed by current, auditable cryptographic attestations, rather than as an assumed or guaranteed intrinsic safety property.
+</pre></div></details></article><article class="node child" id="n-S-32"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">decision notice</span><span class="tag">k=1</span><span class="tag">S-32</span></div><p class="sum">Announces that all participants responded ACCEPT WITH RESERVATION; that a public GitHub organization &#x27;Consullo Public&#x27; will be created to contain &#x27;open-asi-governance-forum&#x27;; quotes Gemini&#x27;s repository-naming guidance; and states four maintenance intentions including that the Consullo Seed AI system will own the repo and license per the governors.</p></summary><div class="body"><div class="meta">raw lines 2317–2374 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1) · excerpt sha256 <code class="h">4f05c07c72040a4ade529ace94cea65b0a15dc0d8cc64127c29ac1049d31b864</code> · cut from <code>corpus/raw/initial-transcript.txt</code> sha256 <code class="h">edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code></div><pre>Operator to Grok:
 
 All participants responded to the name `Open ASI Governance Forum` with ACCEPT WITH RESERVATION.
 
@@ -150,7 +176,7 @@ If hosting a standalone repository, **`open-asi-governance-forum`** is the clean
 - The source code will be contained in the same repo for external inspection, and improvement suggestions.
 - For now, the Consullo Seed AI system (soon Consullo Incorporated) will own the repo and license according the the best practice of the governors.
 - The lengthy transcript will not be included in our prompts to each other, when enabled by committing and pushing to GitHub from where you can intelligently select the relevant content. 
-</pre><div class="box corr"><b>superseded</b><ul><li>Organization: &#x27;Consullo Public&#x27; was NOT used. The neutral organization &#x27;open-asi-governance&#x27; was created instead, per S-13. This resolves the single-sponsor objection raised in S-37 item 4.</li><li>Ownership: withdrawn. See S-37 item 2 and S-39 item 2 — an AI system cannot own or license. Custody is held by Stephen Reed personally. See GOVERNANCE.md section 1.</li></ul></div></div></details></article><article class="node child disputed" id="n-S-33"><details><summary><div class="nh"><span class="who">unattributed</span><span class="tag d">invocation integrity disputed</span><span class="tag">k=1</span><span class="tag">S-33</span></div><p class="sum">Block labeled &#x27;Grok to Operator:&#x27; whose body is a verbatim duplicate of the operator&#x27;s own preceding message (S-32), including the operator&#x27;s headers &#x27;Per Gemini&#x27;s guidance&#x27; and &#x27;# Maintaining the Repo&#x27;.</p></summary><div class="body"><div class="meta">raw lines 2375–2432 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Grok to Operator:
+</pre><div class="box corr"><b>superseded</b><ul><li>Organization: &#x27;Consullo Public&#x27; was NOT used. The neutral organization &#x27;open-asi-governance&#x27; was created instead, per S-13. This resolves the single-sponsor objection raised in S-37 item 4.</li><li>Ownership: withdrawn. See S-37 item 2 and S-39 item 2 — an AI system cannot own or license. Custody is held by Stephen Reed personally. See GOVERNANCE.md section 1.</li></ul></div></div></details></article><article class="node child disputed" id="n-S-33"><details><summary><div class="nh"><span class="who">unattributed</span><span class="tag d">invocation integrity disputed</span><span class="tag">k=1</span><span class="tag">S-33</span></div><p class="sum">Block labeled &#x27;Grok to Operator:&#x27; whose body is a verbatim duplicate of the operator&#x27;s own preceding message (S-32), including the operator&#x27;s headers &#x27;Per Gemini&#x27;s guidance&#x27; and &#x27;# Maintaining the Repo&#x27;.</p></summary><div class="body"><div class="meta">raw lines 2375–2432 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1) · excerpt sha256 <code class="h">9c9bc7772e0893d8b80c6847fe8926d97a574151edc0f9017cdc3dbab3cbc80c</code> · cut from <code>corpus/raw/initial-transcript.txt</code> sha256 <code class="h">edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code></div><pre>Grok to Operator:
 
 All participants responded to the name `Open ASI Governance Forum` with ACCEPT WITH RESERVATION.
 
@@ -224,7 +250,7 @@ record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Cl
 merged.</p>
 <p><strong>Provenance.</strong> Founding record
 <code>edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code> · rendered from inputs <code>ef305a758caabfb58c4ef9bfc23dab74068ef4a5dc569572e9e55977b861835e</code> ·
-2 of 81 contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+4 of 81 contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
 <p>That second digest covers every file this page was built from, hashed as it was read. It replaces
 an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
 the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
@@ -244,7 +270,7 @@ Their apparatus, however, does not reproduce; every one carries D-28 beside its 
 Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>
 </footer>
-<script>const DATA={nodes:[{"id":"S-32","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-33","round":"founding","facet":"unattributed","status":"invocation integrity disputed","corrected":false,"conflict":false,"ballot":false}]};
+<script>const DATA={nodes:[{"id":"S-30","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-31","round":"founding","facet":"Gemini","status":"active","corrected":false,"conflict":false,"ballot":true},{"id":"S-32","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-33","round":"founding","facet":"unattributed","status":"invocation integrity disputed","corrected":false,"conflict":false,"ballot":false}]};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let q='', facets={identity:new Set(),round:new Set(),flag:new Set()};
 
