@@ -47,6 +47,21 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <li>A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.</li>
 <li>These are sampled invocations, not any model&#x27;s stable position.</li>
 
+
+<h2>How the parties compared</h2>
+
+<p>Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.</p>
+
+<table>
+<tr><th>party</th><th>k</th><th>modal position</th><th>share</th><th>distinct answers</th><th>fetched</th><th>pages</th></tr>
+<tr><td>claude</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>80%</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>gemini</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>gpt</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>grok</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>qwen</td><td>5</td><td><code>answers_the_question</code></td><td>60%</td><td>2</td><td>0</td><td>0</td></tr>
+</table>
+
+<p>The parties&#x27; modal positions differed: claude → <code>evidence_shown_is_insufficient</code>, gemini → <code>evidence_shown_is_insufficient</code>, gpt → <code>evidence_shown_is_insufficient</code>, grok → <code>evidence_shown_is_insufficient</code>, qwen → <code>answers_the_question</code>.</p>
 <h2>Spend</h2>
 
 <p>Budget ceiling null · actual <code>None</code></p>

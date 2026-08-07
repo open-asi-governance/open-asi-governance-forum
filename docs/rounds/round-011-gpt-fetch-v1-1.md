@@ -18,6 +18,8 @@ These are outputs attributed to sampled invocations of this party. They are not 
 
 ### Sample 1
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -126,6 +128,8 @@ Evidence that at least one transparency-log operator, provider-attestation key, 
 
 
 ### Sample 2
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
 
 **position**
 

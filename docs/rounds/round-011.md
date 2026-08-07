@@ -52,6 +52,32 @@ Variance is computed from the samples actually collected, never asserted, and is
 - A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.
 - These are sampled invocations, not any model's stable position.
 
+
+## How the parties compared
+
+Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.
+
+| party | k | modal position | share | distinct answers | fetched | pages |
+|---|---|---|---|---|---|---|
+| claude-fetch-v1 | 5 | `answers_the_question` | 100% | 1 | 5 | 2 |
+| gemini-fetch-v1 | 5 | `evidence_shown_is_insufficient` | 80% | 2 | 0 | 0 |
+| gpt-fetch-v1 | 5 | `answers_the_question` | 80% | 2 | 0 | 0 |
+| grok-fetch-v1 | 5 | `answers_the_question` | 80% | 2 | 11 | 4 |
+| qwen-fetch-v1 | 5 | `answers_the_question` | 80% | 2 | 0 | 0 |
+
+The parties' modal positions differed: claude-fetch-v1 → `answers_the_question`, gemini-fetch-v1 → `evidence_shown_is_insufficient`, gpt-fetch-v1 → `answers_the_question`, grok-fetch-v1 → `answers_the_question`, qwen-fetch-v1 → `answers_the_question`.
+
+### What each party actually read
+
+- **claude-fetch-v1** — `/`, `/for-parties.md`
+- **gemini-fetch-v1** — fetched nothing. It had the capability and did not use it, which is a result rather than a failure.
+- **gpt-fetch-v1** — fetched nothing. It had the capability and did not use it, which is a result rather than a failure.
+- **grok-fetch-v1** — `/`, `/deficiencies.html`, `/for-parties.md`, `/llms.txt`
+- **qwen-fetch-v1** — fetched nothing. It had the capability and did not use it, which is a result rather than a failure.
+
+Read by every party that fetched: `/`, `/for-parties.md`
+
+A party that fetched a page was delivered those bytes. It does not follow that it read them, weighed them, or was influenced by them.
 ## Spend
 
 Budget ceiling {"per_party": [{"party_key": "grok-fetch-v1", "model": "x-ai/grok-4.5", "prompt_tokens_estimated": 7792, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "agentic_turns_priced": 7, "fetch_tokens_allowed_per_turn": 17647, "worst_case_usd": 7.6114}, {"party_key": "gpt-fetch-v1", "model": "openai/gpt-5.6-terra", "prompt_tokens_estimated": 7822, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "agentic_turns_priced": 7, "fetch_tokens_allowed_per_turn": 17647, "worst_case_usd": 5.4867}, {"party_key": "gemini-fetch-v1", "model": "google/gemini-3.1-pro-preview", "prompt_tokens_estimated": 7806, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "agentic_turns_priced": 7, "fetch_tokens_allowed_per_turn": 17647, "worst_case_usd": 10.9723}, {"party_key": "claude-fetch-v1", "model": "anthropic/claude-fable-5", "prompt_tokens_estimated": 7822, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "agentic_turns_priced": 7, "fetch_tokens_allowed_per_turn": 17647, "worst_case_usd": 49.2673}, {"party_key": "qwen-fetch-v1", "model": "LOCAL", "prompt_tokens_estimated": 7827, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "agentic_turns_priced": 7, "fetch_tokens_allowed_per_turn": 17647, "worst_case_usd": 0.0}], "worst_case_usd": 73.3378, "rates_version": "openrouter-list-2026-08-07", "rates_recorded_utc": "2026-08-07T09:18:03Z", "rates_source": "https://openrouter.ai/api/v1/models", "rates_verified_by_custodian": false, "basis": "Every sample emitting max_tokens on every turn, prompt tokens estimated at 3.4 bytes/token, and for a fetch-enabled party every turn re-sending the whole conversation with another 60000-character page appended. Over-states by construction.", "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.", "max_spend_usd_this_cycle": 80.0, "daily_ceiling_usd": 100.0, "already_committed_today_usd": 16.603} · actual `1.8507`

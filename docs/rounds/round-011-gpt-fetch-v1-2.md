@@ -18,6 +18,8 @@ These are outputs attributed to sampled invocations of this party. They are not 
 
 ### Sample 3
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -132,6 +134,8 @@ Evidence that participating instances can directly obtain provider-authenticated
 
 
 ### Sample 4
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
 
 **position**
 

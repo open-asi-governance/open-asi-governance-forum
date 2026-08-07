@@ -38,6 +38,20 @@ Variance is computed from the samples actually collected, never asserted, and is
 - A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.
 - These are sampled invocations, not any model's stable position.
 
+
+## How the parties compared
+
+Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.
+
+| party | k | modal position | share | distinct answers | fetched | pages |
+|---|---|---|---|---|---|---|
+| claude | 5 | `evidence_shown_is_insufficient` | 80% | 2 | 0 | 0 |
+| gemini | 5 | `evidence_shown_is_insufficient` | 100% | 1 | 0 | 0 |
+| gpt | 5 | `evidence_shown_is_insufficient` | 100% | 1 | 0 | 0 |
+| grok | 5 | `evidence_shown_is_insufficient` | 100% | 1 | 0 | 0 |
+| qwen | 5 | `answers_the_question` | 60% | 2 | 0 | 0 |
+
+The parties' modal positions differed: claude → `evidence_shown_is_insufficient`, gemini → `evidence_shown_is_insufficient`, gpt → `evidence_shown_is_insufficient`, grok → `evidence_shown_is_insufficient`, qwen → `answers_the_question`.
 ## Spend
 
 Budget ceiling null · actual `None`

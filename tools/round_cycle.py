@@ -858,7 +858,20 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
                           "fetch_tokens_allowed_per_turn": int(fetch_tokens),
                           "worst_case_usd": round(cost, 4)})
         total += cost
+    #  AN EXPECTED CASE BESIDE THE BOUND. The bound assumes every sample emits max_tokens on
+    #  every turn and fills its fetch budget; round 011 spent $1.85 against a $73.34 bound, a
+    #  ratio of 0.03 where ordinary rounds run 0.18-0.24. A bound that over-states by 30x still
+    #  bounds, but it refuses affordable rounds and invites raising a ceiling on a number nobody
+    #  believes -- so the observed ratio is computed from the ledger and reported alongside.
+    #
+    #  The CEILING IS STILL CHECKED AGAINST THE BOUND. This is information for the custodian,
+    #  never a relaxation of the control: an expected case used as a limit would be a limit that
+    #  fails exactly when a round behaves unusually, which is when a limit matters.
+    observed = observed_spend_ratio()
+    expected = round(total * observed["ratio"], 4) if observed["ratio"] else None
     return {"per_party": per_party, "worst_case_usd": round(total, 4),
+            "expected_usd_from_observed_ratio": expected,
+            "observed_ratio": observed,
             "rates_version": rates.get("rates_version"),
             "rates_recorded_utc": rates.get("recorded_utc"),
             "rates_source": rates.get("source"),
@@ -873,6 +886,24 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
 
 
 # -------------------------------------------------------------------- plan ---
+
+def observed_spend_ratio() -> dict:
+    """actual/worst_case across recorded rounds, so the bound can be read against evidence."""
+    ledger = CYCLES_DIR / "spend-ledger.json"
+    if not ledger.is_file():
+        return {"ratio": None, "n": 0, "why": "no spend ledger yet"}
+    entries = json.loads(ledger.read_text(encoding="utf-8")).get("entries") or []
+    pairs = [(e.get("worst_case_usd"), e.get("actual_usd")) for e in entries
+             if e.get("worst_case_usd") and e.get("actual_usd") is not None]
+    if not pairs:
+        return {"ratio": None, "n": 0, "why": "no round has both a bound and an actual"}
+    ratios = sorted(a / w for w, a in pairs)
+    return {"ratio": round(ratios[len(ratios) // 2], 4), "n": len(ratios),
+            "min": round(ratios[0], 4), "max": round(ratios[-1], 4),
+            "basis": ("Median of actual/worst_case over recorded rounds. Agentic rounds sit far "
+                      "below the rest -- round 011 was 0.03 -- because the bound assumes every "
+                      "sample fills its fetch budget and three of five parties fetched nothing.")}
+
 
 def build_plan(args, index: int) -> dict:
     """PURE. Reads the repository; writes nothing, sends nothing, spends nothing."""
@@ -1674,6 +1705,13 @@ def main(argv: list[str]) -> int:
           f"({len(pick.sponsors)} sponsor(s)); "
           f"{plan['queue_already_asked']}/{plan['queue_size']} already asked")
     print(f"    {pick.question[:150]}")
+    _b = plan["budget"]
+    _exp = _b.get("expected_usd_from_observed_ratio")
+    _obs = _b.get("observed_ratio") or {}
+    if _exp is not None:
+        print(f"  expected ~${_exp} from the ledger — median {_obs.get('ratio')} of bound over "
+              f"{_obs.get('n')} rounds (range {_obs.get('min')}–{_obs.get('max')}). The CEILING "
+              f"is still checked against the bound, not this.")
     print(f"  plan {plan['plan_sha256'][:16]}…  worst case "
           f"${plan['budget']['worst_case_usd']}")
     #  The AGE of the rates, not just their existence. A rate table decays silently,

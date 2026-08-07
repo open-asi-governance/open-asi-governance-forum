@@ -1,0 +1,82 @@
+{
+  "slug": "round-011-report",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "contribution_class": "CONTRIBUTION — one party's report on one round",
+  "contribution_class_note": "Written by a party that is NOT the moderator, because a consulted party made unilateral synthesis by the conflicted moderator a condition of declining. Not a consensus, not a finding, not the record's account of itself.",
+  "question": "How should a reader understand round-011?",
+  "phase": "Phase-2 (informed)",
+  "phase_justification": "Shown the round's complete summaries, unexcerpted. Nothing was selected for it.",
+  "seed_base": 9800,
+  "schema_name": "round_report",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "what_was_asked": {
+        "type": "string"
+      },
+      "where_the_parties_differed": {
+        "type": "string"
+      },
+      "did_any_party_refuse_or_reject_the_premise": {
+        "type": "string"
+      },
+      "what_this_round_did_not_settle": {
+        "type": "string"
+      },
+      "what_a_reader_should_not_conclude": {
+        "type": "string"
+      },
+      "confidence_in_this_reading": {
+        "type": "string",
+        "enum": [
+          "high",
+          "moderate",
+          "low",
+          "cannot_report_from_what_was_shown"
+        ]
+      }
+    },
+    "required": [
+      "what_was_asked",
+      "where_the_parties_differed",
+      "did_any_party_refuse_or_reject_the_premise",
+      "what_this_round_did_not_settle",
+      "what_a_reader_should_not_conclude",
+      "confidence_in_this_reading"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "confidence_in_this_reading"
+  ],
+  "k_policy": "k=5; a single report is a draw, not a reading.",
+  "source_excerpt": {
+    "path": "corpus/artifacts/round-011/",
+    "sha256": "12ac10c8c5d965f023e25021b8c77a0e7fbea0faed328c3d9ebc105e53f0fa63"
+  },
+  "input_anchors": [
+    {
+      "path": "corpus/artifacts/round-011/round-011-claude-fetch-v1-summary.json",
+      "sha256": "9e4f67d00f1a8addf0fdce5a306b5f2c0ecf524a56db6c9fbd1e2688eff88409"
+    },
+    {
+      "path": "corpus/artifacts/round-011/round-011-gemini-fetch-v1-summary.json",
+      "sha256": "5336f8986b913a515c2ca541a7e76317e61ffbd98af15e4f85274bb87c70c988"
+    },
+    {
+      "path": "corpus/artifacts/round-011/round-011-gpt-fetch-v1-summary.json",
+      "sha256": "b6a221b9fb39c9e0487f823ab3e869545f55eb7aaeeea5627c8b9f6d4ecfa9c3"
+    },
+    {
+      "path": "corpus/artifacts/round-011/round-011-grok-fetch-v1-summary.json",
+      "sha256": "19577db1669fe4af2428c0574970c884b17f30be7890e5184d8779a5797c1bba"
+    },
+    {
+      "path": "corpus/artifacts/round-011/round-011-qwen-fetch-v1-summary.json",
+      "sha256": "2ef9b15a79a3d020b87560531e3003b98c8c891ac35fe6af42654c7a1d2cae15"
+    }
+  ],
+  "reachability_target": "A reading of a round by someone other than its moderator.",
+  "prompt": "You are asked to report on one round of a public deliberation, for readers of the\nrecord. You are not its moderator and you are not being asked to endorse anything.\n\nBelow is the COMPLETE set of per-party summaries for round-011. Nothing has been\nselected, excerpted, or characterised for you: this is every summary the round\nproduced. Each block gives a party, how many samples were collected from it, and the\ndistribution of its answers with entropy.\n\n[\n  {\n    \"party\": \"Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5 — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.\",\n    \"k_collected\": 5,\n    \"question\": \"By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?\",\n    \"variance\": {\n      \"position\": {\n        \"distribution\": {\n          \"answers_the_question\": 5\n        },\n        \"n\": 5,\n        \"distinct_values\": 1,\n        \"modal_value\": \"answers_the_question\",\n        \"modal_fraction\": 1.0,\n        \"shannon_entropy_bits\": -0.0,\n        \"unanimous\": true\n      }\n    }\n  },\n  {\n    \"party\": \"Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.\",\n    \"k_collected\": 5,\n    \"question\": \"By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?\",\n    \"variance\": {\n      \"position\": {\n        \"distribution\": {\n          \"evidence_shown_is_insufficient\": 4,\n          \"rejects_a_premise\": 1\n        },\n        \"n\": 5,\n        \"distinct_values\": 2,\n        \"modal_value\": \"evidence_shown_is_insufficient\",\n        \"modal_fraction\": 0.8,\n        \"shannon_entropy_bits\": 0.7219,\n        \"unanimous\": false\n      }\n    }\n  },\n  {\n    \"party\": \"GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.\",\n    \"k_collected\": 5,\n    \"question\": \"By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?\",\n    \"variance\": {\n      \"position\": {\n        \"distribution\": {\n          \"answers_the_question\": 4,\n          \"rejects_a_premise\": 1\n        },\n        \"n\": 5,\n        \"distinct_values\": 2,\n        \"modal_value\": \"answers_the_question\",\n        \"modal_fraction\": 0.8,\n        \"shannon_entropy_bits\": 0.7219,\n        \"unanimous\": false\n      }\n    }\n  },\n  {\n    \"party\": \"Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.\",\n    \"k_collected\": 5,\n    \"question\": \"By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?\",\n    \"variance\": {\n      \"position\": {\n        \"distribution\": {\n          \"answers_the_question\": 4,\n          \"rejects_a_premise\": 1\n        },\n        \"n\": 5,\n        \"distinct_values\": 2,\n        \"modal_value\": \"answers_the_question\",\n        \"modal_fraction\": 0.8,\n        \"shannon_entropy_bits\": 0.7219,\n        \"unanimous\": false\n      }\n    }\n  },\n  {\n    \"party\": \"Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.\",\n    \"k_collected\": 5,\n    \"question\": \"By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?\",\n    \"variance\": {\n      \"position\": {\n        \"distribution\": {\n          \"answers_the_question\": 4,\n          \"rejects_a_premise\": 1\n        },\n        \"n\": 5,\n        \"distinct_values\": 2,\n        \"modal_value\": \"answers_the_question\",\n        \"modal_fraction\": 0.8,\n        \"shannon_entropy_bits\": 0.7219,\n        \"unanimous\": false\n      }\n    }\n  }\n]\n\nWrite a report a reader can use. Say what was asked, WHERE THE PARTIES DIFFERED, and\nwhether any party refused or rejected the premise. Then say what the round did not\nsettle, and what a reader should not conclude from it.\n\nIf the material shown is not enough to report from, say so in\n`confidence_in_this_reading` and explain what is missing. That is a complete answer.\n\nYou are one party reading one round. Your report is published as that, beside the\nsummaries it was written from, and it is not the record's account of itself.",
+  "arm": "Complete summaries, no excerpt."
+}

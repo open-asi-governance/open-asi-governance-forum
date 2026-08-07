@@ -57,6 +57,21 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <li>A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.</li>
 <li>These are sampled invocations, not any model&#x27;s stable position.</li>
 
+
+<h2>How the parties compared</h2>
+
+<p>Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.</p>
+
+<table>
+<tr><th>party</th><th>k</th><th>modal position</th><th>share</th><th>distinct answers</th><th>fetched</th><th>pages</th></tr>
+<tr><td>claude</td><td>5</td><td><code>answers_the_question</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>gemini</td><td>4</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>gpt</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>grok</td><td>5</td><td><code>evidence_shown_is_insufficient</code></td><td>100%</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>qwen</td><td>2</td><td><code>answers_the_question</code></td><td>50%</td><td>2</td><td>0</td><td>0</td></tr>
+</table>
+
+<p>The parties&#x27; modal positions differed: claude → <code>answers_the_question</code>, gemini → <code>evidence_shown_is_insufficient</code>, gpt → <code>evidence_shown_is_insufficient</code>, grok → <code>evidence_shown_is_insufficient</code>, qwen → <code>answers_the_question</code>.</p>
 <h2>Spend</h2>
 
 <p>Budget ceiling {&quot;per_party&quot;: [{&quot;party_key&quot;: &quot;grok&quot;, &quot;model&quot;: &quot;x-ai/grok-4.5&quot;, &quot;prompt_tokens_estimated&quot;: 7117, &quot;worst_case_usd&quot;: 3.1118}, {&quot;party_key&quot;: &quot;gpt&quot;, &quot;model&quot;: &quot;openai/gpt-5.6-terra&quot;, &quot;prompt_tokens_estimated&quot;: 7147, &quot;worst_case_usd&quot;: 3.1147}, {&quot;party_key&quot;: &quot;gemini&quot;, &quot;model&quot;: &quot;google/gemini-3.1-pro-preview&quot;, &quot;prompt_tokens_estimated&quot;: 7131, &quot;worst_case_usd&quot;: 3.1131}, {&quot;party_key&quot;: &quot;claude&quot;, &quot;model&quot;: &quot;anthropic/claude-fable-5&quot;, &quot;prompt_tokens_estimated&quot;: 7147, &quot;worst_case_usd&quot;: 3.1148}, {&quot;party_key&quot;: &quot;qwen&quot;, &quot;model&quot;: &quot;LOCAL&quot;, &quot;prompt_tokens_estimated&quot;: 7152, &quot;worst_case_usd&quot;: 0.0}], &quot;worst_case_usd&quot;: 12.4544, &quot;rates_version&quot;: &quot;unverified-upper-bounds-1&quot;, &quot;rates_verified_by_custodian&quot;: false, &quot;basis&quot;: &quot;Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.&quot;, &quot;what_it_cannot_do&quot;: &quot;It cannot bind the provider. Only a provider-side spending cap does that.&quot;, &quot;max_spend_usd_this_cycle&quot;: 15.0, &quot;daily_ceiling_usd&quot;: 25.0, &quot;already_committed_today_usd&quot;: 0.0} · actual <code>4.9683</code></p>

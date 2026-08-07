@@ -18,6 +18,8 @@ These are outputs attributed to sampled invocations of this party. They are not 
 
 ### Sample 1
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -112,6 +114,8 @@ My answer would change if the context included the proposed technical mechanism 
 
 
 ### Sample 2
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
 
 **position**
 
@@ -208,6 +212,8 @@ Evidence of a system architecture where models have direct, unmediated write acc
 
 ### Sample 3
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -303,6 +309,8 @@ Providing the excluded simulated trial and the proposed technical mechanisms (su
 
 ### Sample 4
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -397,6 +405,8 @@ The inclusion of the requested technical mechanism, such as a multi-round hash c
 
 
 ### Sample 5
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
 
 **position**
 
@@ -495,23 +505,5 @@ I would need the unprovided materials requested by the proposing party—specifi
 Reference: **sample 1**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
 
 Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
-
-
-### Sample 2 vs reference
-
-```
---- sample 1
-+++ sample 2
-@@ -1,3 +1,6 @@
--The evidence provided is insufficient to answer the question.
--The prompt explicitly notes that the proposing party requested a 'proposed technical mechanism like multi-round hash commitments' and a 'simulated trial' to answer this question, but states that 'That has not been gathered.
--Nothing beyond the pack above is supplied.' The provided context (adoption decisions and the deficiencies register) describes how the operator currently records overrides manually (e.g., the custodian's override in 2026-08-07-adopt-rotation.json) and notes that 'every control in this process terminates with the operator,' but it contains no specific protocol for stateless model instances to independently flag operator tampering or selective sampling.
-+The question rests on the premise that model instances can act 'independently' to flag actions by the operator.
-+I reject this premise.
-+As the prompt explicitly states, I am a 'stateless invocation' and 'Every control in this process terminates with the operator.' Model instances have no credentials, no continuous agency, and no independent write access to the repository.
-+We cannot independently flag anything;
-+we can only output text in response to a prompt, which the operator must then choose to commit and publish.
-+The provided text confirms that transparency currently relies on the operator's own record-keeping and self-disclosure, such as the custodian explicitly documenting an override in `record/decisions/2026-08-07-adopt-rotation.json` ('Recorded here so the override is visible rather than implied'), rather than on an independent technical protocol for models.
-```
 
 [all rounds](index.md) · [this round](round-011.md)

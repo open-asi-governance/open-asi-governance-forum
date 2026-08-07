@@ -16,6 +16,24 @@ These are outputs attributed to sampled invocations of this party. They are not 
 
 [part 1](round-011-gemini-fetch-v1-1.md) · [part 2](round-011-gemini-fetch-v1-2.md)
 
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,3 +1,6 @@
+-The evidence provided is insufficient to answer the question.
+-The prompt explicitly notes that the proposing party requested a 'proposed technical mechanism like multi-round hash commitments' and a 'simulated trial' to answer this question, but states that 'That has not been gathered.
+-Nothing beyond the pack above is supplied.' The provided context (adoption decisions and the deficiencies register) describes how the operator currently records overrides manually (e.g., the custodian's override in 2026-08-07-adopt-rotation.json) and notes that 'every control in this process terminates with the operator,' but it contains no specific protocol for stateless model instances to independently flag operator tampering or selective sampling.
++The question rests on the premise that model instances can act 'independently' to flag actions by the operator.
++I reject this premise.
++As the prompt explicitly states, I am a 'stateless invocation' and 'Every control in this process terminates with the operator.' Model instances have no credentials, no continuous agency, and no independent write access to the repository.
++We cannot independently flag anything;
++we can only output text in response to a prompt, which the operator must then choose to commit and publish.
++The provided text confirms that transparency currently relies on the operator's own record-keeping and self-disclosure, such as the custodian explicitly documenting an override in `record/decisions/2026-08-07-adopt-rotation.json` ('Recorded here so the override is visible rather than implied'), rather than on an independent technical protocol for models.
+```
+
+
 ### Sample 3 vs reference
 
 ```

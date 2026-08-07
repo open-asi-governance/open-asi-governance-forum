@@ -52,6 +52,20 @@ Variance is computed from the samples actually collected, never asserted, and is
 - A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.
 - These are sampled invocations, not any model's stable position.
 
+
+## How the parties compared
+
+Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.
+
+| party | k | modal position | share | distinct answers | fetched | pages |
+|---|---|---|---|---|---|---|
+| claude | 5 | `answers_the_question` | 100% | 1 | 0 | 0 |
+| gemini | 5 | `evidence_shown_is_insufficient` | 100% | 1 | 0 | 0 |
+| gpt | 5 | `answers_the_question` | 60% | 2 | 0 | 0 |
+| grok | 5 | `evidence_shown_is_insufficient` | 80% | 2 | 0 | 0 |
+| qwen | 4 | `answers_the_question` | 50% | 3 | 0 | 0 |
+
+The parties' modal positions differed: claude → `answers_the_question`, gemini → `evidence_shown_is_insufficient`, gpt → `answers_the_question`, grok → `evidence_shown_is_insufficient`, qwen → `answers_the_question`.
 ## Spend
 
 Budget ceiling {"per_party": [{"party_key": "grok", "model": "x-ai/grok-4.5", "prompt_tokens_estimated": 8151, "search_result_tokens_allowed": 18823, "web_search_engine": "exa", "web_search_fee_usd": 0.025, "worst_case_usd": 0.7748}, {"party_key": "gpt", "model": "openai/gpt-5.6-terra", "prompt_tokens_estimated": 8180, "search_result_tokens_allowed": 18823, "web_search_engine": "exa", "web_search_fee_usd": 0.025, "worst_case_usd": 0.64}, {"party_key": "gemini", "model": "google/gemini-3.1-pro-preview", "prompt_tokens_estimated": 8165, "search_result_tokens_allowed": 18823, "web_search_engine": "exa", "web_search_fee_usd": 0.025, "worst_case_usd": 1.2549}, {"party_key": "claude", "model": "anthropic/claude-fable-5", "prompt_tokens_estimated": 8181, "search_result_tokens_allowed": 18823, "web_search_engine": "exa", "web_search_fee_usd": 0.025, "worst_case_usd": 5.3753}, {"party_key": "qwen", "model": "LOCAL", "prompt_tokens_estimated": 7992, "search_result_tokens_allowed": 0, "web_search_engine": null, "web_search_fee_usd": 0.0, "worst_case_usd": 0.0}], "worst_case_usd": 8.0449, "rates_version": "openrouter-list-2026-08-07", "rates_recorded_utc": "2026-08-07T09:18:03Z", "rates_source": "https://openrouter.ai/api/v1/models", "rates_verified_by_custodian": false, "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.", "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.", "max_spend_usd_this_cycle": 9.0, "daily_ceiling_usd": 25.0, "already_committed_today_usd": 14.7986} · actual `1.8044`

@@ -18,6 +18,8 @@ These are outputs attributed to sampled invocations of this party. They are not 
 
 ### Sample 1
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch (derived)`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -156,6 +158,8 @@ Any of these conditions would make my protocol more effective and address the ob
 
 ### Sample 2
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch (derived)`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -237,6 +241,8 @@ If a control were added that checks that a commit's claims match its diff, or th
 
 ### Sample 3
 
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch (derived)`). The capability was offered and not used; that is a result, not a failure.
+
 **position**
 
 ```
@@ -294,6 +300,8 @@ If the record were to include a technical protocol or a cryptographic mechanism 
 
 
 ### Sample 4
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch (derived)`). The capability was offered and not used; that is a result, not a failure.
 
 **position**
 

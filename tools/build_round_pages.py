@@ -85,6 +85,9 @@ HTML_EXPANSION = 2.4
 PAGE_CEILING_TOKENS = int(20_000 / HTML_EXPANSION)     # ~8,300 markdown tokens
 ROUND_ID = re.compile(r"^round-[0-9]{3}")
 
+#  Solicitations that live beside a round's party specs without being a party.
+NON_PARTY_SPECS = {"report"}
+
 
 class BuildRefusal(Exception):
     """An inconsistency that must not be published. Never a warning."""
@@ -106,7 +109,17 @@ def load_round(round_id: str) -> dict:
     specs = {}
     for path in sorted(spec_dir.glob(f"{round_id}-*.json")):
         party = path.stem[len(round_id) + 1:]
-        specs[party] = json.loads(path.read_text(encoding="utf-8"))
+        spec = json.loads(path.read_text(encoding="utf-8"))
+        #  A solicitation spec in this directory is not necessarily a PARTY. round_report.py
+        #  writes `<round>-report.json` for its own solicitation, and treating it as a party
+        #  made the round refuse for having "a party with no summary" -- the fail-closed check
+        #  firing correctly on something that was never a party.
+        #
+        #  Excluded by NAME, not by the absence of `party_key`: the earliest rounds' specs
+        #  predate that field, and filtering on it dropped every party of round-000.
+        if party in NON_PARTY_SPECS:
+            continue
+        specs[party] = spec
     if not specs:
         raise BuildRefusal(f"{round_id}: no solicitation specs; nothing to publish")
 
@@ -239,9 +252,15 @@ def render_sample(item: dict, artifact_stem: str | None = None) -> str:
     out = [f"\n### Sample {idx}\n"]
     fetch = item.get("fetch") or {}
     receipts = fetch.get("receipts") or []
+    if fetch and not receipts:
+        #  A party that HAD the capability and did not use it is the result this round exists
+        #  to be able to state. Rendering only when receipts exist hid it entirely.
+        out.append(f"**Fetched nothing** (profile `{fetch.get('profile')}`, stratum "
+                   f"`{derive_stratum(fetch)}`). The capability was offered and not used; that "
+                   f"is a result, not a failure.\n")
     if receipts:
         out.append(f"**Fetched {fetch.get('fetched', 0)} page(s)** "
-                   f"(profile `{fetch.get('profile')}`, stratum `{fetch.get('stratum','?')}`)\n")
+                   f"(profile `{fetch.get('profile')}`, stratum `{derive_stratum(fetch)}`)\n")
         out.append("| # | outcome | url | status | sha256 of bytes | bytes | exact text |")
         out.append("|---|---|---|---|---|---|---|")
         for n, receipt in enumerate(receipts, 1):
@@ -666,6 +685,101 @@ def prompts_page(data: dict) -> None:
         (PROMPTS / f"{round_id}-{party}.txt").write_text(spec["prompt"], encoding="utf-8")
 
 
+def derive_stratum(fetch: dict) -> str:
+    """The stratum, computed from the receipts when the writing tool did not record one.
+
+    solicit_local omitted `stratum` while solicit_api recorded it, so the local party's samples
+    were unclassifiable beside the routed ones. The writer is fixed, but raw material is
+    immutable and round 011's samples are already committed -- so it is DERIVED here rather than
+    backfilled there. The receipts are the ground truth either way; the field was only ever a
+    convenience.
+    """
+    if fetch.get("stratum"):
+        return fetch["stratum"]
+    receipts = fetch.get("receipts") or []
+    for outcome, label in (("FETCHED", "fetched_successfully"),
+                           ("REFUSED", "fetch_attempted_refused"),
+                           ("BUDGET_EXHAUSTED", "budget_exhausted")):
+        if any(r.get("outcome") == outcome for r in receipts):
+            return label + ("" if fetch.get("stratum") else " (derived)")
+    return "no_fetch (derived)"
+
+
+def comparison_section(data: dict) -> list[str]:
+    """How the parties compared — COMPUTED, never interpreted.
+
+    The commentary a reader wants is one party's reading of a round, and the moderator writing
+    it is the power a consulted party made a condition of declining to participate. So this
+    stops short of interpretation: it puts side by side what each party answered, what each
+    fetched, and where their citations overlap, and leaves the reading to a reader or to a
+    non-participating party's report.
+
+    The unanimity caveat is not decoration. This corpus has measured a party holding two
+    incompatible positions under one label, so a shared categorical value is a shape and not
+    agreement.
+    """
+    round_id = data["round"]
+    parties = sorted(data["summaries"])
+    if len(parties) < 2:
+        return []
+    lines = ["\n## How the parties compared\n",
+             "Computed from the collected samples. Nothing here is a synthesis: the categorical "
+             "label is a shape, and two parties sharing one can still answer incompatibly.\n",
+             "| party | k | modal position | share | distinct answers | fetched | pages |",
+             "|---|---|---|---|---|---|---|"]
+    positions = {}
+    citations = {}
+    for party in parties:
+        summary = data["summaries"][party]
+        raw = data["samples"].get(party, {})
+        items = accepted_samples(raw)
+        variance = summary.get("variance") or {}
+        first = next(iter(variance.values()), {})
+        positions[party] = first.get("modal_value")
+        urls, fetched = set(), 0
+        for item in items:
+            fetch = item.get("fetch") or {}
+            for receipt in (fetch.get("receipts") or []):
+                if receipt.get("outcome") == "FETCHED":
+                    fetched += 1
+                    urls.add(receipt.get("final_url") or receipt.get("requested_url") or "")
+        citations[party] = urls
+        lines.append(
+            f"| {party} | {summary.get('k_collected','?')} | `{first.get('modal_value','—')}` | "
+            f"{(first.get('modal_fraction') or 0):.0%} | {first.get('distinct_values','?')} | "
+            f"{fetched} | {len(urls)} |")
+
+    labels = {p for p in positions.values() if p is not None}
+    lines.append("")
+    if len(labels) == 1 and labels:
+        lines.append(f"Every party's modal position was `{labels.pop()}`. **That is not "
+                     f"agreement.** It records that the categorical field carried no "
+                     f"information this round; the answers themselves are above, unpooled.")
+    else:
+        lines.append("The parties' modal positions differed: "
+                     + ", ".join(f"{p} → `{v}`" for p, v in sorted(positions.items())) + ".")
+
+    if any(citations.values()):
+        shared = set.intersection(*[c for c in citations.values() if c]) if \
+            len([c for c in citations.values() if c]) > 1 else set()
+        lines += ["", "### What each party actually read", ""]
+        for party in parties:
+            urls = citations[party]
+            if not urls:
+                lines.append(f"- **{party}** — fetched nothing. It had the capability and did "
+                             f"not use it, which is a result rather than a failure.")
+                continue
+            lines.append(f"- **{party}** — " + ", ".join(
+                f"`{u.split('open-asi-governance-forum')[-1] or '/'}`" for u in sorted(urls)))
+        if shared:
+            lines.append(f"\nRead by every party that fetched: "
+                         + ", ".join(f"`{u.split('open-asi-governance-forum')[-1] or '/'}`"
+                                     for u in sorted(shared)))
+        lines.append("\nA party that fetched a page was delivered those bytes. It does not "
+                     "follow that it read them, weighed them, or was influenced by them.")
+    return lines
+
+
 def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple) -> None:
     round_id, cycle = data["round"], data["cycle"]
     selected = cycle.get("selected") or {}
@@ -755,6 +869,7 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
                   "site is not in the search index. No position may be attributed to anything a "
                   "party read here. Filed as D-52.", ""]
 
+    lines += comparison_section(data)
     lines += [f"## Spend", "",
               f"Budget ceiling {json.dumps(cycle.get('budget'))} · actual "
               f"`{cycle.get('actual_usd')}`", "",
