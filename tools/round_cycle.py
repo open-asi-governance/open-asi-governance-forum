@@ -507,11 +507,18 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
             "register of the project's own defects. Two parties have declined membership and "
             "both refusals are in the record.\n\n"
             "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/."
-            + (" You have web search in this round, and it is restricted to that site: you can "
-               "search the record and nothing else. Read it rather than taking this "
-               "prompt's summary on trust. The restriction is deliberate and it cuts "
-               "both ways — you cannot check this record against any outside source, "
-               "and if that limits what you can conclude, say so.\n\n" if has_search else
+            + (" You have web search in this round, restricted to that site. **You should "
+               "expect it to return nothing.** The search runs, but the site is not in the "
+               "index it queries: the same configuration returned zero results across all "
+               "twenty samples of an earlier round, and a direct probe on 2026-08-07 returned "
+               "zero again. So the honest description of your capability is that you can issue "
+               "a search that will probably fail, and you cannot check this record against any "
+               "outside source either.\n\n"
+               "Try it anyway if you want to — whether it returns anything is itself recorded, "
+               "and this prompt could be wrong. What you should not do is treat the record as "
+               "something you have read. An earlier version of this paragraph told parties they "
+               "could read the record here; that was false, and correcting it is why this "
+               "paragraph is worded the way it is.\n\n" if has_search else
                " You have NO search or fetch capability in this round, so you cannot read it. "
                "That is a fact about what this round can establish from your answer, and it is "
                "recorded as one.\n\n")
