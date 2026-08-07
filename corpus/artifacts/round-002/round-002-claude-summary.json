@@ -1,0 +1,62 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-002",
+  "slug": "round-002-claude",
+  "question": "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 1.9318,
+    "input_tokens": 43160,
+    "output_tokens": 13357,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "unverified-upper-bounds-1",
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "aa79d47366cbf525e090d59b6a286a71fd4b60c40f971da10db5a3ecdc93e0cd",
+  "spec_sha256": "79dc3c24363420ed4242de10a67c453450c7506c387f135332582a1996450076",
+  "raw_samples": "corpus/raw/round-002/round-002-claude-samples.json"
+}
