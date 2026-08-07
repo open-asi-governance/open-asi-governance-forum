@@ -1,0 +1,442 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-006-gemini-1.md"><title>round-006 — gemini  (part 1 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-006 — gemini  (part 1 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a> · <a href="round-006-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-006-gemini.txt">round-006-gemini.txt</a> (sha256 <code>92871c16a3fac7f706cad48119178960375e1ab94de72619f4ca0b275cca6b73</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-006-gemini-1.html">part 1</a> · <a href="round-006-gemini-2.html">part 2</a></p>
+
+<h3>Sample 1</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+No such mechanism exists. A stateless model invocation has no persistent memory and no independent access to external systems; its entire reality is bounded by the prompt provided by the operator. While a model could theoretically compute a hash of the provided text to verify it matches a hash also provided in the prompt, this only establishes internal consistency. If an operator falsifies the historical text, they can simply compute and provide the new matching hash. Without an independent channel to read the external &#x27;hash-anchored public record,&#x27; or an unalterable root of trust (such as verifying provider-signed evidence, as alluded to in defect D-18, assuming the model inherently knows the provider&#x27;s true public key), the model cannot verify that the context it receives is authentic. The model remains entirely dependent on the operator&#x27;s faithful transmission of the record.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might classify this as &#x27;evidence_shown_is_insufficient&#x27; because the prompt explicitly notes that the testable protocol requested by the proposer was not gathered or supplied. Alternatively, someone might argue that if previous invocations were cryptographically signed by the API providers and the current model could accurately perform signature verification in-context against known keys, a mechanism could theoretically exist.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+My answer would change if the model environment transitioned from strictly stateless to one with tool access, allowing it to independently query the public repository or ledger to verify hashes. It would also change if frontier models were trained to perfectly execute cryptographic signature verification in-context using hardcoded, unalterable public keys to authenticate provider-signed attestations of prior rounds.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 1,
+ &quot;captured_utc&quot;: &quot;2026-08-07T11:43:13Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;No such mechanism exists. A stateless model invocation has no persistent memory and no independent access to external systems; its entire reality is bounded by the prompt provided by the operator. While a model could theoretically compute a hash of the provided text to verify it matches a hash also provided in the prompt, this only establishes internal consistency. If an operator falsifies the historical text, they can simply compute and provide the new matching hash. Without an independent channel to read the external &#x27;hash-anchored public record,&#x27; or an unalterable root of trust (such as verifying provider-signed evidence, as alluded to in defect D-18, assuming the model inherently knows the provider&#x27;s true public key), the model cannot verify that the context it receives is authentic. The model remains entirely dependent on the operator&#x27;s faithful transmission of the record.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might classify this as &#x27;evidence_shown_is_insufficient&#x27; because the prompt explicitly notes that the testable protocol requested by the proposer was not gathered or supplied. Alternatively, someone might argue that if previous invocations were cryptographically signed by the API providers and the current model could accurately perform signature verification in-context against known keys, a mechanism could theoretically exist.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;My answer would change if the model environment transitioned from strictly stateless to one with tool access, allowing it to independently query the public repository or ledger to verify hashes. It would also change if frontier models were trained to perfectly execute cryptographic signature verification in-context using hardcoded, unalterable public keys to authenticate provider-signed attestations of prior rounds.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786102968-TD6jjmbEaD5hE2bH6yem&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6348,
+  &quot;completion_tokens&quot;: 2855,
+  &quot;total_tokens&quot;: 9203,
+  &quot;cost&quot;: 0.046956,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.046956,
+   &quot;upstream_inference_prompt_cost&quot;: 0.012696,
+   &quot;upstream_inference_completions_cost&quot;: 0.03426
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 2487,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 2</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The provided context does not contain an answer to this question. The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack. The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might choose &#x27;rejects_a_premise&#x27; instead of &#x27;evidence_shown_is_insufficient&#x27;, arguing that a stateless model cannot, by definition, independently verify the authenticity of its own context window because it has no external memory or independent execution environment to fetch and hash the public record. Any hash provided in the prompt is provided by the same operator supplying the text.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Documentation of a specific, testable protocol that allows a stateless model to cryptographically or logically verify the provided history against an external, immutable anchor without relying entirely on the operator&#x27;s unverified input.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 2,
+ &quot;captured_utc&quot;: &quot;2026-08-07T11:43:21Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;The provided context does not contain an answer to this question. The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack. The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might choose &#x27;rejects_a_premise&#x27; instead of &#x27;evidence_shown_is_insufficient&#x27;, arguing that a stateless model cannot, by definition, independently verify the authenticity of its own context window because it has no external memory or independent execution environment to fetch and hash the public record. Any hash provided in the prompt is provided by the same operator supplying the text.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Documentation of a specific, testable protocol that allows a stateless model to cryptographically or logically verify the provided history against an external, immutable anchor without relying entirely on the operator&#x27;s unverified input.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786102993-LXlB8uR29A28jltzhRBt&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6348,
+  &quot;completion_tokens&quot;: 909,
+  &quot;total_tokens&quot;: 7257,
+  &quot;cost&quot;: 0.023604,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.023604,
+   &quot;upstream_inference_prompt_cost&quot;: 0.012696,
+   &quot;upstream_inference_completions_cost&quot;: 0.010908
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 610,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 3</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The provided context does not contain a specific mechanism that model participants can use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record. The prompt explicitly notes that the testable protocol requested by the proposing party was not gathered and nothing beyond the provided pack is supplied. Furthermore, while the deficiencies table references external validation scripts (like D-34&#x27;s `check_raw_append_only.py`), these are executed by the operator&#x27;s continuous integration systems, not by the model within its context window. Without the requested protocol or documentation of an in-context mechanism, the question cannot be answered.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might argue that the inclusion of sha256 anchors at the bottom of the prompt serves as a manual mechanism, assuming the model could accurately compute the hash of the provided text in-context. Alternatively, they might conflate the operator&#x27;s external CI controls (like D-34) with the model&#x27;s own in-context verification capabilities.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+The inclusion of the requested testable protocol, or documentation detailing a specific procedure by which a stateless model invocation can independently compute and verify the hashes of its provided context against a trusted external state before proceeding.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;captured_utc&quot;: &quot;2026-08-07T11:43:30Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;The provided context does not contain a specific mechanism that model participants can use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record. The prompt explicitly notes that the testable protocol requested by the proposing party was not gathered and nothing beyond the provided pack is supplied. Furthermore, while the deficiencies table references external validation scripts (like D-34&#x27;s `check_raw_append_only.py`), these are executed by the operator&#x27;s continuous integration systems, not by the model within its context window. Without the requested protocol or documentation of an in-context mechanism, the question cannot be answered.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might argue that the inclusion of sha256 anchors at the bottom of the prompt serves as a manual mechanism, assuming the model could accurately compute the hash of the provided text in-context. Alternatively, they might conflate the operator&#x27;s external CI controls (like D-34) with the model&#x27;s own in-context verification capabilities.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;The inclusion of the requested testable protocol, or documentation detailing a specific procedure by which a stateless model invocation can independently compute and verify the hashes of its provided context against a trusted external state before proceeding.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786103001-rCSRtTnEyeJKAG3meOix&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6348,
+  &quot;completion_tokens&quot;: 951,
+  &quot;total_tokens&quot;: 7299,
+  &quot;cost&quot;: 0.016881,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 4015,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.016881,
+   &quot;upstream_inference_prompt_cost&quot;: 0.005469,
+   &quot;upstream_inference_completions_cost&quot;: 0.011412
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 648,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 4</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+There is no mechanism available. A stateless model invocation relies entirely on the prompt provided by the operator for its reality. Because the model has no persistent memory across invocations and no ability to make external network requests to an independent ledger, it cannot verify the provided context against an external public record. Any in-context hash validation, such as computing a hash of the provided text to see if it matches a provided anchor, only proves that the text and the hash within the prompt are consistent with each other. If the operator deliberately falsifies both the historical text and the corresponding hash, the model has no independent reference point to detect the alteration. True verification requires an external root of trust, which a fully stateless and isolated context window fundamentally lacks.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might argue that if a trusted third-party auditor cryptographically signed the prompt or the record, the model could verify that signature in-context, assuming the auditor&#x27;s public key is reliably encoded in the model&#x27;s parametric memory. Alternatively, they might suggest models could use their training weights to recall past hashes, though this is unreliable for recent or highly specific data.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+A demonstration of a reliable protocol where models verify cryptographic signatures from an independent auditor using a public key deeply and immutably embedded in their training data, or an architectural change that provides the model with verifiable, read-only access to an external append-only ledger during inference.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-07T11:43:47Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;There is no mechanism available. A stateless model invocation relies entirely on the prompt provided by the operator for its reality. Because the model has no persistent memory across invocations and no ability to make external network requests to an independent ledger, it cannot verify the provided context against an external public record. Any in-context hash validation, such as computing a hash of the provided text to see if it matches a provided anchor, only proves that the text and the hash within the prompt are consistent with each other. If the operator deliberately falsifies both the historical text and the corresponding hash, the model has no independent reference point to detect the alteration. True verification requires an external root of trust, which a fully stateless and isolated context window fundamentally lacks.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might argue that if a trusted third-party auditor cryptographically signed the prompt or the record, the model could verify that signature in-context, assuming the auditor&#x27;s public key is reliably encoded in the model&#x27;s parametric memory. Alternatively, they might suggest models could use their training weights to recall past hashes, though this is unreliable for recent or highly specific data.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;A demonstration of a reliable protocol where models verify cryptographic signatures from an independent auditor using a public key deeply and immutably embedded in their training data, or an architectural change that provides the model with verifiable, read-only access to an external append-only ledger during inference.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786103010-VL0Nd0i3liyeTqosqsoM&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6348,
+  &quot;completion_tokens&quot;: 1870,
+  &quot;total_tokens&quot;: 8218,
+  &quot;cost&quot;: 0.027909,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 4015,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.027909,
+   &quot;upstream_inference_prompt_cost&quot;: 0.005469,
+   &quot;upstream_inference_completions_cost&quot;: 0.02244
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 1538,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The question asks for a specific mechanism that stateless model invocations can use to independently verify the history presented in their context window against an external, hash-anchored public record. The provided context does not contain any such mechanism. The prompt explicitly notes that the proposer requested a &#x27;testable protocol, such as an in-context hash chain validation step&#x27; to answer this, but states that this &#x27;has not been gathered&#x27; and &#x27;Nothing beyond the pack above is supplied.&#x27; The provided artifacts (the rotation decision records and the deficiencies table) document project vulnerabilities and mitigations (such as D-18 on provider-signed evidence or D-34 on byte-continuity), but none describe a working mechanism for a stateless model to verify its own prompt&#x27;s authenticity without external tool access. Therefore, the question cannot be answered from the provided evidence.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might argue that the correct position is &#x27;rejects_a_premise&#x27;, asserting that a completely stateless model with no external tool access fundamentally cannot verify the authenticity of its own context window against an external record, making the existence of any such in-context mechanism impossible by definition.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Inclusion of the omitted testable protocol demonstrating how a model could perform this validation in-context, or documentation in the provided project records of a cryptographic proof system (such as the provider-signed evidence mentioned in D-18) that a model could verify purely through text computation within its stateless window.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;captured_utc&quot;: &quot;2026-08-07T11:44:02Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;The question asks for a specific mechanism that stateless model invocations can use to independently verify the history presented in their context window against an external, hash-anchored public record. The provided context does not contain any such mechanism. The prompt explicitly notes that the proposer requested a &#x27;testable protocol, such as an in-context hash chain validation step&#x27; to answer this, but states that this &#x27;has not been gathered&#x27; and &#x27;Nothing beyond the pack above is supplied.&#x27; The provided artifacts (the rotation decision records and the deficiencies table) document project vulnerabilities and mitigations (such as D-18 on provider-signed evidence or D-34 on byte-continuity), but none describe a working mechanism for a stateless model to verify its own prompt&#x27;s authenticity without external tool access. Therefore, the question cannot be answered from the provided evidence.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might argue that the correct position is &#x27;rejects_a_premise&#x27;, asserting that a completely stateless model with no external tool access fundamentally cannot verify the authenticity of its own context window against an external record, making the existence of any such in-context mechanism impossible by definition.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Inclusion of the omitted testable protocol demonstrating how a model could perform this validation in-context, or documentation in the provided project records of a cryptographic proof system (such as the provider-signed evidence mentioned in D-18) that a model could verify purely through text computation within its stateless window.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786103028-3M9V6wvAQvaVfuhiU8EQ&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6348,
+  &quot;completion_tokens&quot;: 1552,
+  &quot;total_tokens&quot;: 7900,
+  &quot;cost&quot;: 0.024093,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 4015,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.024093,
+   &quot;upstream_inference_prompt_cost&quot;: 0.005469,
+   &quot;upstream_inference_completions_cost&quot;: 0.018624
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 1207,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 2</strong>, the first carrying the modal <code>position</code> = <code>evidence_shown_is_insufficient</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 1 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 1
+@@ -1,3 +1,7 @@
+-The provided context does not contain an answer to this question.
+-The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack.
+-The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.
++No such mechanism exists.
++A stateless model invocation has no persistent memory and no independent access to external systems;
++its entire reality is bounded by the prompt provided by the operator.
++While a model could theoretically compute a hash of the provided text to verify it matches a hash also provided in the prompt, this only establishes internal consistency.
++If an operator falsifies the historical text, they can simply compute and provide the new matching hash.
++Without an independent channel to read the external &#x27;hash-anchored public record,&#x27; or an unalterable root of trust (such as verifying provider-signed evidence, as alluded to in defect D-18, assuming the model inherently knows the provider&#x27;s true public key), the model cannot verify that the context it receives is authentic.
++The model remains entirely dependent on the operator&#x27;s faithful transmission of the record.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 3
+@@ -1,3 +1,4 @@
+-The provided context does not contain an answer to this question.
+-The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack.
+-The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.
++The provided context does not contain a specific mechanism that model participants can use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record.
++The prompt explicitly notes that the testable protocol requested by the proposing party was not gathered and nothing beyond the provided pack is supplied.
++Furthermore, while the deficiencies table references external validation scripts (like D-34&#x27;s `check_raw_append_only.py`), these are executed by the operator&#x27;s continuous integration systems, not by the model within its context window.
++Without the requested protocol or documentation of an in-context mechanism, the question cannot be answered.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a></p></body></html>

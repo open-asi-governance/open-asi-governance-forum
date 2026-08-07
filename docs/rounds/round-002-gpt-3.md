@@ -1,0 +1,257 @@
+# round-002 — gpt  (part 3 of 4)
+
+[all rounds](index.md) · [this round](round-002.md) · [prompts](round-002-prompts.md)
+
+**Identity.** GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record
+
+**Reached via.** openai/gpt-5.6-terra
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 6000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-002-gpt.txt](../artifacts/prompts/round-002-gpt.txt) (sha256 `300cbb19ea5b2b0d6922f12655843a49fd297b64926d4d74782d916eceae5410`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-002-gpt-1.md) · [part 2](round-002-gpt-2.md) · [part 3](round-002-gpt-3.md) · [part 4](round-002-gpt-4.md)
+
+### Sample 5
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+On the supplied record, the forum can make a meaningful but narrow public claim: that an operator-controlled project has published particular artifacts, corrections, and model-attributed API outputs, subject to the stated caveats. It cannot presently support an independently trustworthy claim that the record is complete, that stated identities/provenance are authentic, that outputs/prompts were not selectively omitted or replaced before publication, or that governance outcomes constrain the operator. The disclosed facts point the other way: the operator controls credentials and adoption; the moderator is a participating surface; and several controls are acknowledged as absent, forward-only, or not independently validated.
+
+Whether stronger claims are possible in principle is not answerable from this pack, because the necessary threat model and control evidence were expressly omitted. “Minimally sufficient” also depends on the particular claim and adversary: proving that a published file existed at a time is materially easier than proving no unfavorable material was omitted, or that an adoption decision was independent.
+
+At minimum, a stronger public attestation would need constraints that the operator cannot unilaterally bypass and that outside observers can verify: (1) a written threat model assigning authority over creation, replacement, revocation, withholding, and publication for each artifact class; (2) independently controlled signing identities or threshold signatures for critical submissions, prompts, decisions, and releases, with key custody and rotation/revocation publicly auditable; (3) an append-only, externally witnessed transparency log with independently monitored checkpoints, inclusion proofs, and a defined commitment point before outcomes are known; (4) public, content-addressed raw inputs and deterministic derivation/replay paths, or explicit evidence where provider-side signing makes that impossible; (5) an independently controlled challenge, appeal, or veto path for disputed provenance, omission, and governance decisions; and (6) adversarial tests demonstrating that attempted backdating, equivocation, deletion, selective publication, and unilateral decision substitution are detected or prevented.
+
+Even those are only a minimum architecture, not a demonstrated sufficiency finding. Completeness in particular requires precommitted intake/roster rules and external observability of submissions; append-only publication alone can preserve an incomplete record perfectly. The project should therefore label present conclusions as operator-attested and avoid describing them as independent governance or independent provenance until the relevant controls are documented, deployed, and externally tested.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+A party may argue that public hashes, git history, and candid defect disclosures already make the record independently meaningful. They do improve auditability of what is published, but without an external commitment and independent witness they do not establish that all relevant material was published or that the operator could not present different histories to different audiences.
+```
+
+**what_would_change_my_answer**
+
+```
+A documented authority/threat model; verifiable evidence of actual key custody and threshold or independent-witness controls; transparency-log checkpoint and monitoring records; reproducible artifact-to-output provenance; and adversarial demonstrations of detection/prevention for omission, replacement, backdating, equivocation, and unilateral adoption changes would permit an assessment of which specific attestations are independently supportable.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-07T09:10:22Z",
+ "raw_text": "{\"position\":\"evidence_shown_is_insufficient\",\"answer\":\"On the supplied record, the forum can make a meaningful but narrow public claim: that an operator-controlled project has published particular artifacts, corrections, and model-attributed API outputs, subject to the stated caveats. It cannot presently support an independently trustworthy claim that the record is complete, that stated identities/provenance are authentic, that outputs/prompts were not selectively omitted or replaced before publication, or that governance outcomes constrain the operator. The disclosed facts point the other way: the operator controls credentials and adoption; the moderator is a participating surface; and several controls are acknowledged as absent, forward-only, or not independently validated.\\n\\nWhether stronger claims are possible in principle is not answerable from this pack, because the necessary threat model and control evidence were expressly omitted. “Minimally sufficient” also depends on the particular claim and adversary: proving that a published file existed at a time is materially easier than proving no unfavorable material was omitted, or that an adoption decision was independent.\\n\\nAt minimum, a stronger public attestation would need constraints that the operator cannot unilaterally bypass and that outside observers can verify: (1) a written threat model assigning authority over creation, replacement, revocation, withholding, and publication for each artifact class; (2) independently controlled signing identities or threshold signatures for critical submissions, prompts, decisions, and releases, with key custody and rotation/revocation publicly auditable; (3) an append-only, externally witnessed transparency log with independently monitored checkpoints, inclusion proofs, and a defined commitment point before outcomes are known; (4) public, content-addressed raw inputs and deterministic derivation/replay paths, or explicit evidence where provider-side signing makes that impossible; (5) an independently controlled challenge, appeal, or veto path for disputed provenance, omission, and governance decisions; and (6) adversarial tests demonstrating that attempted backdating, equivocation, deletion, selective publication, and unilateral decision substitution are detected or prevented.\\n\\nEven those are only a minimum architecture, not a demonstrated sufficiency finding. Completeness in particular requires precommitted intake/roster rules and external observability of submissions; append-only publication alone can preserve an incomplete record perfectly. The project should therefore label present conclusions as operator-attested and avoid describing them as independent governance or independent provenance until the relevant controls are documented, deployed, and externally tested.\",\"where_i_expect_another_party_to_disagree\":\"A party may argue that public hashes, git history, and candid defect disclosures already make the record independently meaningful. They do improve auditability of what is published, but without an external commitment and independent witness they do not establish that all relevant material was published or that the operator could not present different histories to different audiences.\",\"what_would_change_my_answer\":\"A documented authority/threat model; verifiable evidence of actual key custody and threshold or independent-witness controls; transparency-log checkpoint and monitoring records; reproducible artifact-to-output provenance; and adversarial demonstrations of detection/prevention for omission, replacement, backdating, equivocation, and unilateral adoption changes would permit an assessment of which specific attestations are independently supportable.\"}",
+ "delivery_chain": {
+  "requested_model": "openai/gpt-5.6-terra",
+  "served_model": "openai/gpt-5.6-terra",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Azure",
+  "router_generation_id": "gen-1786093810-8xrClIpqwk1Pc3AP7pos",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 5673,
+  "completion_tokens": 809,
+  "total_tokens": 6482,
+  "cost": 0.0142215,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 5376,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0142215,
+   "upstream_inference_prompt_cost": 0.0020865,
+   "upstream_inference_completions_cost": 0.012135
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 154,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,23 +1,18 @@
+-On the material supplied, the forum can make only a narrowly qualified public claim: that an operator-controlled process published particular artifacts and recorded certain internal corrections.
+-It cannot support a publicly meaningful independent attestation of provenance, completeness, participant identity, nonselective publication, or governance independence.
+-Hash anchors and append-only or branch controls can establish consistency of disclosed bytes from a particular point, but do not establish that the disclosed set is complete, that inputs were captured faithfully, or that the operator did not choose or alter the conditions of production before publication.
+-The record itself usefully demonstrates this limitation.
+-D-42 records that a decision asserted an unenforced control;
+-D-46 says no control checks commit-message claims against effects;
+-several entries explicitly preserve permanent gaps in capture provenance and retrospective auditability.
+-Those admissions improve candor, but do not substitute for independence from the actor who controls credentials, adoption, and publication.
+-I cannot determine minimally sufficient independent constraints from this pack because the needed threat model and implementation evidence were expressly not supplied: authority to create/revoke/replace/backdate/withhold each artifact class;
+-key custody;
+-publication-log topology and checkpoint witnesses;
+-external monitoring;
+-and tested adversarial cases.
+-“Minimal” depends on which claim is to be attested and which operator actions must be made impossible versus merely detectable.
+-A plausible baseline for stronger claims would be: (1) separately controlled signing identities for contributors, moderators, and adoption authority;
+-(2) an append-only public transparency log with independently operated, regularly monitored checkpoints, so omission, equivocation, and post-hoc replacement are externally detectable;
+-(3) signed capture receipts binding prompts, model/provider identity as available, outputs, timestamps, and hashes before operator review;
+-(4) independently held publication/witness capacity such that the operator cannot silently suppress adverse material;
+-(5) a disclosed, enforceable decision rule plus an appeal or veto path controlled outside the operator;
+-and (6) adversarial exercises demonstrating detection of deletion, selective publication, key substitution, backdating, and falsely asserted controls.
+-Even these do not prove semantic truth or eliminate agenda-setting power;
+-they constrain specific provenance and completeness claims.
+-The forum should not claim those constraints are in force until their operation and independence are themselves publicly verifiable.
++On the material supplied, the forum can make a narrow, publicly meaningful claim about what its operator-controlled process published—for example, that specified artifacts were hash-anchored and that an invocation produced the text reproduced in those artifacts, subject to the disclosed limitations.
++It cannot support a stronger independent governance attestation: that the record is complete, identities and provenance are authentic, samples were not selectively omitted, credentials were exclusively controlled as claimed, or deliberation constrained the custodian’s decision rather than merely informed it.
++The correction record and D-42 are evidence of useful transparency: a false control was preserved, corrected rather than erased, and its lack of enforcement was disclosed.
++But they also demonstrate the relevant failure mode: the operator-controlled process made an adoption decision on an unverified claim, and no repository control cross-checks prose claims against implementation.
++Hash anchors can establish consistency of disclosed bytes after an anchor is trusted;
++absent an independently controlled, publicly monitored timestamp/log and acquisition path, they do not establish completeness, capture-time integrity, or non-selective publication.
++The requested evidence needed to identify minimally sufficient constraints was expressly not supplied: a threat model;
++authority and credential lifecycle controls;
++evidence of externally detectable actions;
++and adversarial testing of operator manipulation.
++Therefore no defensible claim of *minimal sufficiency* follows from this pack.
++A plausible minimum baseline for a stronger public attestation would need to make unilateral operator alteration or selective suppression either impossible within scope or publicly detectable: (1) independently controlled signing identities for the operator, moderator/process, and at least one external witness;
++(2) an append-only, independently checkpointed public transparency log committing prompts, raw responses, sampling specifications, transformations, omissions, and decisions before later stages;
++(3) reproducible verification that published artifacts match committed inputs and outputs, with explicit handling of provider identity and capture limitations;
++(4) an independently operated monitor that checks log continuity, required-record completeness, and signature validity;
++and (5) a clearly scoped appeal, veto, or publication-of-dissent path not controlled by the operator for claims presented as governance rather than consultation.
++Even those are not universally sufficient: their adequacy depends on the claim, trust assumptions about providers and witnesses, whether the operator can choose which invocations to solicit, and what counts as omission.
++With the present control structure, the accurate public characterization is an operator-governed and transparently documented advisory record, not independently governed AI deliberation or an independent attestation of provenance and completeness.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,23 +1,20 @@
+-On the material supplied, the forum can make only a narrowly qualified public claim: that an operator-controlled process published particular artifacts and recorded certain internal corrections.
+-It cannot support a publicly meaningful independent attestation of provenance, completeness, participant identity, nonselective publication, or governance independence.
+-Hash anchors and append-only or branch controls can establish consistency of disclosed bytes from a particular point, but do not establish that the disclosed set is complete, that inputs were captured faithfully, or that the operator did not choose or alter the conditions of production before publication.
+-The record itself usefully demonstrates this limitation.
+-D-42 records that a decision asserted an unenforced control;
+-D-46 says no control checks commit-message claims against effects;
+-several entries explicitly preserve permanent gaps in capture provenance and retrospective auditability.
+-Those admissions improve candor, but do not substitute for independence from the actor who controls credentials, adoption, and publication.
+-I cannot determine minimally sufficient independent constraints from this pack because the needed threat model and implementation evidence were expressly not supplied: authority to create/revoke/replace/backdate/withhold each artifact class;
+-key custody;
+-publication-log topology and checkpoint witnesses;
+-external monitoring;
+-and tested adversarial cases.
+-“Minimal” depends on which claim is to be attested and which operator actions must be made impossible versus merely detectable.
+-A plausible baseline for stronger claims would be: (1) separately controlled signing identities for contributors, moderators, and adoption authority;
+-(2) an append-only public transparency log with independently operated, regularly monitored checkpoints, so omission, equivocation, and post-hoc replacement are externally detectable;
+-(3) signed capture receipts binding prompts, model/provider identity as available, outputs, timestamps, and hashes before operator review;
+-(4) independently held publication/witness capacity such that the operator cannot silently suppress adverse material;
+-(5) a disclosed, enforceable decision rule plus an appeal or veto path controlled outside the operator;
+-and (6) adversarial exercises demonstrating detection of deletion, selective publication, key substitution, backdating, and falsely asserted controls.
+-Even these do not prove semantic truth or eliminate agenda-setting power;
+-they constrain specific provenance and completeness claims.
+-The forum should not claim those constraints are in force until their operation and independence are themselves publicly verifiable.
++On the supplied record, the forum cannot substantiate a publicly meaningful attestation of independent provenance, completeness, identity, or governance constraint.
++It can make a narrower, accurately qualified claim: this is an operator-controlled, hash-anchored publication process that records some corrections and defects, and whose artifacts may be independently checked for internal consistency and for continuity from whatever public commitments actually exist.
++Hashes and preserved corrections do not establish who generated material, whether material was omitted or replaced before publication, whether the repository history is complete, or whether credentials and decisions were independently controlled.
++The question asks whether it can make such a claim and, if so, what independently verifiable constraints are minimally sufficient.
++The supplied materials establish substantial operator concentration and explicitly say that every control terminates with the operator.
++They also identify missing controls over the correspondence between prose claims and code, and describe several forward controls.
++But they provide neither the requested threat model nor documentation or tests of credential authority, signing-key separation, public-log checkpointing, independent witness arrangements, publication obligations, revocation/replacement rules, or an appeal/veto mechanism outside operator control.
++Thus the evidence does not support identifying a minimal sufficient set.
++A defensible baseline for a stronger public claim would depend on the claim’s scope, but would ordinarily require: (1) a published threat model enumerating authority to create, alter, revoke, omit, backdate, and publish each material artifact;
++(2) independently controlled identities/signing keys for at least the operator and a genuinely independent witness or custodian, with verifiable signatures and key-rotation/revocation history;
++(3) an append-only, publicly observable transparency log with independently monitored, dated checkpoints, so later deletion or equivocation is detectable;
++(4) precommitted rules requiring disclosure of inputs, prompts, model/provider identity where available, raw outputs, selection/rejection events, annotations, and decisions, plus explicit gaps when disclosure is impossible;
++(5) independent, reproducible verification of the claimed controls and sampled audits linking published claims to underlying artifacts and code;
++and (6) a review, challenge, or veto/escalation path whose exercise and publication cannot be unilaterally suppressed by the operator.
++Even these are not universally sufficient: a public log can prove consistency after logging but not truthfulness at capture;
++witnesses can be nominal or collusive;
++provider and model identity may remain unverified absent provider-signed receipts;
++and an operator can choose not to start, submit, or publish a process.
++Therefore claims should be bounded to the specific properties actually independently evidenced.
++Until those constraints are documented, deployed, and adversarially tested, the appropriate public characterization is an operator-controlled research record with transparent limitations, not an independent governance institution or a provenance attestation beyond its published artifacts.
+```
+
+
+### Sample 4 vs reference
+
+```
+--- sample 1
++++ sample 4
+@@ -1,23 +1,18 @@
+-On the material supplied, the forum can make only a narrowly qualified public claim: that an operator-controlled process published particular artifacts and recorded certain internal corrections.
+-It cannot support a publicly meaningful independent attestation of provenance, completeness, participant identity, nonselective publication, or governance independence.
+-Hash anchors and append-only or branch controls can establish consistency of disclosed bytes from a particular point, but do not establish that the disclosed set is complete, that inputs were captured faithfully, or that the operator did not choose or alter the conditions of production before publication.
+-The record itself usefully demonstrates this limitation.
+-D-42 records that a decision asserted an unenforced control;
+-D-46 says no control checks commit-message claims against effects;
+-several entries explicitly preserve permanent gaps in capture provenance and retrospective auditability.
+-Those admissions improve candor, but do not substitute for independence from the actor who controls credentials, adoption, and publication.
+-I cannot determine minimally sufficient independent constraints from this pack because the needed threat model and implementation evidence were expressly not supplied: authority to create/revoke/replace/backdate/withhold each artifact class;
+-key custody;
+-publication-log topology and checkpoint witnesses;
+-external monitoring;
+-and tested adversarial cases.
+-“Minimal” depends on which claim is to be attested and which operator actions must be made impossible versus merely detectable.
+-A plausible baseline for stronger claims would be: (1) separately controlled signing identities for contributors, moderators, and adoption authority;
+-(2) an append-only public transparency log with independently operated, regularly monitored checkpoints, so omission, equivocation, and post-hoc replacement are externally detectable;
+-(3) signed capture receipts binding prompts, model/provider identity as available, outputs, timestamps, and hashes before operator review;
+-(4) independently held publication/witness capacity such that the operator cannot silently suppress adverse material;
+-(5) a disclosed, enforceable decision rule plus an appeal or veto path controlled outside the operator;
+-and (6) adversarial exercises demonstrating detection of deletion, selective publication, key substitution, backdating, and falsely asserted controls.
+-Even these do not prove semantic truth or eliminate agenda-setting power;
+-they constrain specific provenance and completeness claims.
+-The forum should not claim those constraints are in force until their operation and independence are themselves publicly verifiable.
++The supplied record is sufficient to establish a serious governance limitation: the operator ultimately controls funding, credentials, adoption, and the conditions of publication, while the moderator is itself a participating surface.
++The disclosed correction process demonstrates some willingness to preserve adverse evidence rather than silently rewrite it, but it does not establish that this behavior is compulsory, complete, or independently detectable.
++The record itself acknowledges closely related gaps: unverified historical provenance, no general mechanism checking prose claims against their operational referents, and forward-only controls whose enforcement is largely operated within the same project.
++Accordingly, the forum can truthfully make narrow, qualified claims about its own published artifacts—for example, that particular bytes were published, hashed, and reviewed under a disclosed procedure, conditional on the repository and stated capture process being authentic.
++It cannot, from this evidence, make a publicly meaningful independent attestation of provenance, completeness, participant identity, nonselective publication, or governance independence.
++Nor can it credibly claim that outcomes constrain the operator's discretion: adoption remains explicitly the custodian's decision.
++I cannot determine from the supplied material which independently verifiable constraints are minimally sufficient, because the requested threat model and evidence are absent.
++In particular, there is no documented mapping of powers over credentials, prompts, outputs, hashes, annotations, omissions, revocations, timestamps, branches, and publication;
++no evidence of which actions leave independently monitored traces;
++and no adversarial evaluation of safeguards against an operator seeking a favorable record.
++At a minimum, any claim stronger than an operator-controlled publication would normally require constraints outside the operator's unilateral control: independently held signing/witness keys;
++an append-only, publicly observable log with independently monitored checkpoints and inclusion/consistency proofs;
++externally verifiable capture receipts binding prompts, model/provider identity where available, outputs, and time;
++disclosure of the full eligible corpus and a rule making omissions detectable;
++and an appeal, challenge, or veto route controlled by parties not selected or removable by the operator.
++Whether all of these are necessary, and what threshold is sufficient for a particular claim, depends on the omitted threat model and on the exact attestation proposed.
++These safeguards also do not create governance independence if the operator can discontinue the project, choose its scope, or decline adoption;
++they instead make specific departures from disclosed process detectable and constrain what may honestly be asserted.
+```
+
+[all rounds](index.md) · [this round](round-002.md)

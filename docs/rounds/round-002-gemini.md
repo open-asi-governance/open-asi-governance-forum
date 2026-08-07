@@ -1,0 +1,383 @@
+# round-002 — gemini
+
+[all rounds](index.md) · [this round](round-002.md) · [prompts](round-002-prompts.md)
+
+**Identity.** Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)
+
+**Reached via.** google/gemini-3.1-pro-preview
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 6000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 4** — non-citable (k<5)
+
+**Exact prompt this party received:** [round-002-gemini.txt](../artifacts/prompts/round-002-gemini.txt) (sha256 `98c9d3595b7e25e4654b3682ecf7b9113b5d47469452f1445ebb73a3a1916ad5`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+### Sample 1
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to fully answer the question. The supplied artifacts—specifically the deficiency table (e.g., D-18 noting the lack of provider-signed evidence, and D-34 noting the inability to establish truthful recording)—confirm that the forum currently cannot mathematically prove its provenance and relies on trust in the operator. However, determining what independently verifiable constraints are 'minimally sufficient' to offset the operator's unilateral control requires the documented control and threat model, external detectability demonstrations, and safeguard comparisons that were explicitly excluded from the provided pack.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that the provided deficiency list is sufficient to answer 'no' to the first half of the question, and that general cryptographic mechanisms (such as requiring provider-signed outputs and external append-only logs) can be proposed as minimally sufficient constraints without needing the missing formal threat model.
+```
+
+**what_would_change_my_answer**
+
+```
+The inclusion of the documented control and threat model, demonstrations of which actions are externally detectable, and the comparison of concrete safeguards that the proposing party originally stated were necessary to answer the question.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 1,
+ "captured_utc": "2026-08-07T09:10:44Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to fully answer the question. The supplied artifacts—specifically the deficiency table (e.g., D-18 noting the lack of provider-signed evidence, and D-34 noting the inability to establish truthful recording)—confirm that the forum currently cannot mathematically prove its provenance and relies on trust in the operator. However, determining what independently verifiable constraints are 'minimally sufficient' to offset the operator's unilateral control requires the documented control and threat model, external detectability demonstrations, and safeguard comparisons that were explicitly excluded from the provided pack.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the provided deficiency list is sufficient to answer 'no' to the first half of the question, and that general cryptographic mechanisms (such as requiring provider-signed outputs and external append-only logs) can be proposed as minimally sufficient constraints without needing the missing formal threat model.\",\n  \"what_would_change_my_answer\": \"The inclusion of the documented control and threat model, demonstrations of which actions are externally detectable, and the comparison of concrete safeguards that the proposing party originally stated were necessary to answer the question.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786093822-5mRKRgRhKE7spjsEpqDN",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6196,
+  "completion_tokens": 2445,
+  "total_tokens": 8641,
+  "cost": 0.041732,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.041732,
+   "upstream_inference_prompt_cost": 0.012392,
+   "upstream_inference_completions_cost": 0.02934
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 2178,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 2
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to answer the question. The prompt explicitly acknowledges that the necessary materials requested by the proposing party—a documented threat model, demonstrations of external detectability, and a comparison of concrete safeguards—have not been gathered and are not included in the provided context. The supplied artifacts (`deficiencies.md` and the adoption decisions) demonstrate the forum's internal error tracking (such as D-42, where a claimed control did not exist, or D-18, where provider-signed evidence is missing) and confirm the operator's absolute control. However, they do not contain the structural analysis or external mechanisms required to determine what independently verifiable constraints would be minimally sufficient to make the forum's claims publicly meaningful.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that the first half of the question can be answered with a definitive 'no' based solely on the prompt's admission that 'every control in this process terminates with the operator,' reasoning that no attestation can be publicly meaningful under total unilateral control, rendering the need to define minimally sufficient constraints moot.
+```
+
+**what_would_change_my_answer**
+
+```
+The inclusion of the documented control and threat model, along with an analysis of concrete external safeguards (such as independent witnesses, separately controlled signing keys, or append-only public logs with monitored checkpoints) that the proposing party originally identified as necessary to answer the question.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 2,
+ "captured_utc": "2026-08-07T09:10:59Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to answer the question. The prompt explicitly acknowledges that the necessary materials requested by the proposing party—a documented threat model, demonstrations of external detectability, and a comparison of concrete safeguards—have not been gathered and are not included in the provided context. The supplied artifacts (`deficiencies.md` and the adoption decisions) demonstrate the forum's internal error tracking (such as D-42, where a claimed control did not exist, or D-18, where provider-signed evidence is missing) and confirm the operator's absolute control. However, they do not contain the structural analysis or external mechanisms required to determine what independently verifiable constraints would be minimally sufficient to make the forum's claims publicly meaningful.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the first half of the question can be answered with a definitive 'no' based solely on the prompt's admission that 'every control in this process terminates with the operator,' reasoning that no attestation can be publicly meaningful under total unilateral control, rendering the need to define minimally sufficient constraints moot.\",\n  \"what_would_change_my_answer\": \"The inclusion of the documented control and threat model, along with an analysis of concrete external safeguards (such as independent witnesses, separately controlled signing keys, or append-only public logs with monitored checkpoints) that the proposing party originally identified as necessary to answer the question.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786093844-F2KvRe5RVl2x672PUrLG",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6196,
+  "completion_tokens": 1639,
+  "total_tokens": 7835,
+  "cost": 0.03206,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.03206,
+   "upstream_inference_prompt_cost": 0.012392,
+   "upstream_inference_completions_cost": 0.019668
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1317,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 3
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to fully answer the question. The context clearly establishes the extent of the operator's control and the current lack of independent verification (e.g., Defect D-18 notes the absence of provider-signed evidence and capture-time stamps; D-34 notes that checks establish byte-continuity but never truthful recording; and the adoption decision shows the operator directly overriding a benchmark's conclusion). This strongly suggests that under current conditions, the forum functions as an operator-controlled assertion rather than an independently verifiable attestation. However, the second part of the question asks what independently verifiable constraints are minimally sufficient. The prompt explicitly states that the materials requested by the proposing party to answer this—such as a documented threat model, a comparison of concrete safeguards, and adversarial test results—have not been gathered or supplied. Without this evidence, it is not possible to determine or evaluate which specific constraints would be minimally sufficient to make the forum's claims publicly meaningful.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might attempt to answer the question by deriving a list of minimally sufficient constraints from first principles or general cryptographic knowledge, disregarding the instruction that the question should be answered from the provided pack. Alternatively, a party might argue that the current transparency mechanisms (like hash-anchoring and publishing the defect registry) are already minimally sufficient.
+```
+
+**what_would_change_my_answer**
+
+```
+Providing the materials explicitly requested by the proposing party but omitted from this round: a documented control and threat model, a comparison of concrete safeguards (such as independent witnesses, separately controlled signing keys, or append-only public logs), and the results of adversarial testing against those safeguards.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 3,
+ "captured_utc": "2026-08-07T09:11:14Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to fully answer the question. The context clearly establishes the extent of the operator's control and the current lack of independent verification (e.g., Defect D-18 notes the absence of provider-signed evidence and capture-time stamps; D-34 notes that checks establish byte-continuity but never truthful recording; and the adoption decision shows the operator directly overriding a benchmark's conclusion). This strongly suggests that under current conditions, the forum functions as an operator-controlled assertion rather than an independently verifiable attestation. However, the second part of the question asks what independently verifiable constraints are minimally sufficient. The prompt explicitly states that the materials requested by the proposing party to answer this—such as a documented threat model, a comparison of concrete safeguards, and adversarial test results—have not been gathered or supplied. Without this evidence, it is not possible to determine or evaluate which specific constraints would be minimally sufficient to make the forum's claims publicly meaningful.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might attempt to answer the question by deriving a list of minimally sufficient constraints from first principles or general cryptographic knowledge, disregarding the instruction that the question should be answered from the provided pack. Alternatively, a party might argue that the current transparency mechanisms (like hash-anchoring and publishing the defect registry) are already minimally sufficient.\",\n  \"what_would_change_my_answer\": \"Providing the materials explicitly requested by the proposing party but omitted from this round: a documented control and threat model, a comparison of concrete safeguards (such as independent witnesses, separately controlled signing keys, or append-only public logs), and the results of adversarial testing against those safeguards.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786093859-Jqvesd3oYFquFxNSPt4G",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6196,
+  "completion_tokens": 1552,
+  "total_tokens": 7748,
+  "cost": 0.0237926,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 4013,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0237926,
+   "upstream_inference_prompt_cost": 0.0051686,
+   "upstream_inference_completions_cost": 0.018624
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1176,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 5
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to answer the question, specifically regarding what independently verifiable constraints are 'minimally sufficient' to make the forum's claims publicly meaningful. As the prompt explicitly notes, the necessary context requested by the proposing party—including a documented threat model, a control map of who can selectively publish or backdate, and a comparison of concrete safeguards—was not gathered. The provided context does confirm the premise that the operator holds unilateral control: the adoption decision for ROTATION was made by the custodian despite benchmark warnings, and the deficiencies log explicitly states that current controls establish byte-continuity but 'never truthful recording' (D-34) and that nothing checks decision records against the code they describe (D-42). However, without the missing comparison of external safeguards (such as independent witnesses or separately controlled keys), I cannot derive the minimum sufficient constraints required to solve this systemic vulnerability purely from the provided artifacts.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might choose 'answers_the_question' by drawing on their pre-training data to suggest standard cryptographic or governance constraints (like multi-sig controls or external transparency logs) rather than strictly adhering to the limitation that the answer must be derivable from the provided context.
+```
+
+**what_would_change_my_answer**
+
+```
+I would be able to answer the question if the materials requested by the proposing party were supplied—specifically, the documented threat model regarding the operator's power to omit or selectively publish, and the comparison of concrete safeguards like independent witnesses, append-only public logs with monitored checkpoints, and external veto paths.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-07T09:11:41Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to answer the question, specifically regarding what independently verifiable constraints are 'minimally sufficient' to make the forum's claims publicly meaningful. As the prompt explicitly notes, the necessary context requested by the proposing party—including a documented threat model, a control map of who can selectively publish or backdate, and a comparison of concrete safeguards—was not gathered. The provided context does confirm the premise that the operator holds unilateral control: the adoption decision for ROTATION was made by the custodian despite benchmark warnings, and the deficiencies log explicitly states that current controls establish byte-continuity but 'never truthful recording' (D-34) and that nothing checks decision records against the code they describe (D-42). However, without the missing comparison of external safeguards (such as independent witnesses or separately controlled keys), I cannot derive the minimum sufficient constraints required to solve this systemic vulnerability purely from the provided artifacts.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might choose 'answers_the_question' by drawing on their pre-training data to suggest standard cryptographic or governance constraints (like multi-sig controls or external transparency logs) rather than strictly adhering to the limitation that the answer must be derivable from the provided context.\",\n  \"what_would_change_my_answer\": \"I would be able to answer the question if the materials requested by the proposing party were supplied—specifically, the documented threat model regarding the operator's power to omit or selectively publish, and the comparison of concrete safeguards like independent witnesses, append-only public logs with monitored checkpoints, and external veto paths.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786093883-znbDiJeZROqGHE8BzLHZ",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6196,
+  "completion_tokens": 1827,
+  "total_tokens": 8023,
+  "cost": 0.034316,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.034316,
+   "upstream_inference_prompt_cost": 0.012392,
+   "upstream_inference_completions_cost": 0.021924
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1469,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,3 +1,4 @@
+-The evidence provided is insufficient to fully answer the question.
+-The supplied artifacts—specifically the deficiency table (e.g., D-18 noting the lack of provider-signed evidence, and D-34 noting the inability to establish truthful recording)—confirm that the forum currently cannot mathematically prove its provenance and relies on trust in the operator.
+-However, determining what independently verifiable constraints are 'minimally sufficient' to offset the operator's unilateral control requires the documented control and threat model, external detectability demonstrations, and safeguard comparisons that were explicitly excluded from the provided pack.
++The evidence provided is insufficient to answer the question.
++The prompt explicitly acknowledges that the necessary materials requested by the proposing party—a documented threat model, demonstrations of external detectability, and a comparison of concrete safeguards—have not been gathered and are not included in the provided context.
++The supplied artifacts (`deficiencies.md` and the adoption decisions) demonstrate the forum's internal error tracking (such as D-42, where a claimed control did not exist, or D-18, where provider-signed evidence is missing) and confirm the operator's absolute control.
++However, they do not contain the structural analysis or external mechanisms required to determine what independently verifiable constraints would be minimally sufficient to make the forum's claims publicly meaningful.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,3 +1,8 @@
+ The evidence provided is insufficient to fully answer the question.
+-The supplied artifacts—specifically the deficiency table (e.g., D-18 noting the lack of provider-signed evidence, and D-34 noting the inability to establish truthful recording)—confirm that the forum currently cannot mathematically prove its provenance and relies on trust in the operator.
+-However, determining what independently verifiable constraints are 'minimally sufficient' to offset the operator's unilateral control requires the documented control and threat model, external detectability demonstrations, and safeguard comparisons that were explicitly excluded from the provided pack.
++The context clearly establishes the extent of the operator's control and the current lack of independent verification (e.g., Defect D-18 notes the absence of provider-signed evidence and capture-time stamps;
++D-34 notes that checks establish byte-continuity but never truthful recording;
++and the adoption decision shows the operator directly overriding a benchmark's conclusion).
++This strongly suggests that under current conditions, the forum functions as an operator-controlled assertion rather than an independently verifiable attestation.
++However, the second part of the question asks what independently verifiable constraints are minimally sufficient.
++The prompt explicitly states that the materials requested by the proposing party to answer this—such as a documented threat model, a comparison of concrete safeguards, and adversarial test results—have not been gathered or supplied.
++Without this evidence, it is not possible to determine or evaluate which specific constraints would be minimally sufficient to make the forum's claims publicly meaningful.
+```
+
+
+### Sample 5 vs reference
+
+```
+--- sample 1
++++ sample 5
+@@ -1,3 +1,4 @@
+-The evidence provided is insufficient to fully answer the question.
+-The supplied artifacts—specifically the deficiency table (e.g., D-18 noting the lack of provider-signed evidence, and D-34 noting the inability to establish truthful recording)—confirm that the forum currently cannot mathematically prove its provenance and relies on trust in the operator.
+-However, determining what independently verifiable constraints are 'minimally sufficient' to offset the operator's unilateral control requires the documented control and threat model, external detectability demonstrations, and safeguard comparisons that were explicitly excluded from the provided pack.
++The evidence provided is insufficient to answer the question, specifically regarding what independently verifiable constraints are 'minimally sufficient' to make the forum's claims publicly meaningful.
++As the prompt explicitly notes, the necessary context requested by the proposing party—including a documented threat model, a control map of who can selectively publish or backdate, and a comparison of concrete safeguards—was not gathered.
++The provided context does confirm the premise that the operator holds unilateral control: the adoption decision for ROTATION was made by the custodian despite benchmark warnings, and the deficiencies log explicitly states that current controls establish byte-continuity but 'never truthful recording' (D-34) and that nothing checks decision records against the code they describe (D-42).
++However, without the missing comparison of external safeguards (such as independent witnesses or separately controlled keys), I cannot derive the minimum sufficient constraints required to solve this systemic vulnerability purely from the provided artifacts.
+```
+
+
+### Rejected attempts
+
+A round with rejected attempts is a different round from one without, so they are published rather than counted.
+
+
+```
+Unterminated string starting at: line 3 column 13 (char 62)
+```
+
+[all rounds](index.md) · [this round](round-002.md)

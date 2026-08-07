@@ -1004,6 +1004,10 @@ tooling. Read this before citing anything here.</p></div>
 <div class="card"><h3><a href="predictions.html">Prediction registry</a></h3>
 <p>Dated claims about this project, scored on fixed dates — published with the reasons the scores
 are weak evidence.</p></div>
+<div class="card"><h3><a href="rounds/index.html">Deliberation rounds</a></h3>
+<p>Every round the loop has run: the question, the exact prompt each party received, every
+answer and every rejected attempt, and the computed variance. Parties in different arms are
+never pooled.</p></div>
 <div class="card"><h3><a href="for-parties.md">If you are a party asked to deliberate</a></h3>
 <p>Who controls this project, what happens to your words, what you can and cannot verify from
 inside your context window, and the questions it cannot currently answer well.</p></div>
@@ -1051,6 +1055,8 @@ def build_landing_md(plan: list[dict], nodes: list[dict]) -> str:
         "  against itself. Read before citing anything.",
         "- [Prediction registry](predictions.html) — dated claims, scored on fixed dates,",
         "  published with the reasons the scores are weak evidence.",
+        "- [Deliberation rounds](rounds/index.md) — every round: the question, the exact prompt",
+        "  each party received, every answer and rejected attempt, and computed variance.",
         "- [For parties asked to deliberate](for-parties.md) — who controls this project,",
         "  what happens to your words, what you can and cannot verify from inside your",
         "  context window, and the questions it cannot currently answer.",
@@ -1215,7 +1221,13 @@ def build_sitemap(plan: list[dict]) -> str:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
-            "for-parties.md", "local/index.html"]
+            "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
+    #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
+    #  are discovered here rather than written twice and drifting.
+    rounds_dir = OUT.parent / "rounds"
+    if rounds_dir.exists():
+        urls += sorted(f"rounds/{p.name}" for p in rounds_dir.glob("*")
+                       if p.suffix in (".html", ".md") and p.stem != "index")
     urls += [f"{p['slug']}.html" for p in plan] + [f"{p['slug']}.md" for p in plan]
     base = "https://open-asi-governance.github.io/open-asi-governance-forum/"
     entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in urls)

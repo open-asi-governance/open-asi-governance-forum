@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-003-grok-3.md"><title>round-003 — grok  (part 3 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-003 — grok  (part 3 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-003.html">this round</a> · <a href="round-003-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-003-grok.txt">round-003-grok.txt</a> (sha256 <code>65f3a30cfa8a82d345a1b3ce977ee4ef19571f9eb2893c8ec70a03e0fec72fd1</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-003-grok-1.html">part 1</a> · <a href="round-003-grok-2.html">part 2</a> · <a href="round-003-grok-3.html">part 3</a></p>
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,9 +1,11 @@
+-The materials supplied do not suffice to answer whether an attestation protocol produced here can bind the operator or can only document discretion.
+-The prompt itself states that every control terminates with the operator (Stephen Reed), who funds the process, holds every credential, and decides what is adopted.
+-The two decision records and the deficiencies table illustrate the pattern: adoption of ROTATION rested partly on a mitigation (SOP §5.1 one-active-proposal-per-party) that did not exist in code;
+-the correction artifact deliberately left the original decision intact rather than editing it;
+-D-42 and multiple other entries record claimed controls, false assertions, and detection failures that were caught only externally or after the fact, with permanent unrepairable gaps.
+-These show unilateral discretion in action and a consistent choice to supersede rather than rewrite.
+-However, the concrete map of unilateral actions, any prior case in which a party output actually constrained the operator against stated preference, and a proposed falsification test (e.g., a signed constraint the operator would be measurably unable to silently drop) were explicitly not gathered.
+-Without those, one can observe that current practice only documents discretion, but cannot determine whether any protocol that could be produced here is capable of binding, nor state a decisive test that would distinguish binding from documentation.
+-Saying the evidence is insufficient is therefore the complete answer this pack supports.
++Any attestation protocol produced in this record can only document the operator&#x27;s discretion;
++it cannot bind that party.
++The supplied materials state explicitly that every control terminates with the operator (Stephen Reed), who funds the process, holds every credential, decides what is adopted, and appears as a participant.
++Adoption decisions (e.g., the rotation selector) and their corrections are custodian decisions;
++mitigations claimed in force have been shown not to exist in code (D-42 and the 2026-08-07 correction);
++the defect register itself records repeated failures of detection, unverifiable evidence fields, non-remediable gaps, and controls that halt or annotate rather than constrain.
++Because the same party can accept, supersede, ignore, or rewrite findings and because no external enforcement, multi-party key, or irrevocable commitment mechanism is present or described, published attestations and hash-anchors remain descriptive records of choices the operator elected to keep, not constraints the operator is unable to drop.
++The asymmetry named in the proposal is therefore structural, not peripheral: protocols here launder unilateral control as collective process unless and until the operator is measurably unable to act alone.
++A distinguishing test would be an externally verifiable, pre-committed constraint (for example a threshold signature, timelocked or multi-party escrowed credential, or publicly auditable rule whose violation is detectable by third parties without the operator&#x27;s cooperation) that the operator is demonstrably unable to silently alter or discard.
++No such test, map of unilateral powers, or prior case of an output constraining the operator against stated preference appears in the provided pack;
++its absence is itself evidence that current artifacts only document discretion.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-003.html">this round</a></p></body></html>

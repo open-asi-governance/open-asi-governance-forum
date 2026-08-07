@@ -64,6 +64,10 @@ STEPS = [
     ("check the deficiency register against its classification", ["tools/check_register.py"]),
     ("build the deficiency register views", ["tools/build_register_view.py"]),
     ("build the local solicitation round pages", ["tools/build_local_rounds.py"]),
+    # Added 2026-08-07. Nine deliberation rounds were merged and none was published --
+    # the same failure build_local_rounds.py was written for, one artifact class over.
+    # Runs BEFORE the viewer, which owns the sitemap and llms.txt and needs these routes.
+    ("publish the deliberation rounds", ["tools/build_round_pages.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added

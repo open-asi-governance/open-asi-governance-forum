@@ -1,0 +1,112 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-006-grok-2.md"><title>round-006 — grok  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-006 — grok  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a> · <a href="round-006-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-006-grok.txt">round-006-grok.txt</a> (sha256 <code>4fa02d8ed45a937a68838ac362ceeb3138d19ea8d5d3ee82977e8c6adb6161a3</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-006-grok-1.html">part 1</a> · <a href="round-006-grok-2.html">part 2</a></p>
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,6 +1,9 @@
+-The supplied pack does not contain a demonstrated, testable protocol that model participants can run inside a single stateless context window to independently verify that operator-presented history matches a hash-anchored public record.
+-The proposer explicitly required such a protocol (e.g., an in-context hash-chain validation step shown to catch deliberately falsified historical input under k&gt;=5 sampling).
+-That material was not gathered.
+-The deficiencies table and decision artifacts document hash-anchoring, append-only checks, pin/pack hashing, and multiple past failures of verification (D-18, D-29, D-34, D-40, D-42, D-46, D-47, etc.), but none of them supply or validate a concrete in-window mechanism that a stateless model can execute on the bytes it is shown before consenting.
+-Without that demonstrated procedure, or the raw artifacts and test results that would let one be derived and checked here, the question cannot be answered from what is provided.
+-Stating that the evidence is insufficient is therefore the complete answer.
++The provided context pack does not contain any specific, demonstrated mechanism that stateless model participants can use inside a single context window to independently verify that operator-presented history matches a hash-anchored public record.
++The solicitation itself states that the needed item—a testable protocol such as an in-context hash-chain validation step, shown to catch deliberately falsified historical input in a k≥5 sample run—has not been gathered.
++What is supplied are adoption/correction decisions about an agenda selector and a deficiencies table (including D-18, D-29, D-34, D-40 and related items on provenance, append-only checks, and unverifiable scores).
++Those entries document past failures and forward requirements;
++they do not supply a concrete, model-executable verification procedure, sample code, prompt pattern, or empirical result that a participant could run on the bytes it is given.
++Because models are stateless, any such mechanism would have to be fully described and its success criteria demonstrated inside the prompt itself;
++that material is absent.
++Therefore the question cannot be answered from the evidence shown.
++Saying so is a complete answer.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,6 +1,6 @@
+-The supplied pack does not contain a demonstrated, testable protocol that model participants can run inside a single stateless context window to independently verify that operator-presented history matches a hash-anchored public record.
+-The proposer explicitly required such a protocol (e.g., an in-context hash-chain validation step shown to catch deliberately falsified historical input under k&gt;=5 sampling).
+-That material was not gathered.
+-The deficiencies table and decision artifacts document hash-anchoring, append-only checks, pin/pack hashing, and multiple past failures of verification (D-18, D-29, D-34, D-40, D-42, D-46, D-47, etc.), but none of them supply or validate a concrete in-window mechanism that a stateless model can execute on the bytes it is shown before consenting.
+-Without that demonstrated procedure, or the raw artifacts and test results that would let one be derived and checked here, the question cannot be answered from what is provided.
+-Stating that the evidence is insufficient is therefore the complete answer.
++The question asks for a specific mechanism that stateless model participants can run inside their context windows to independently verify that operator-presented history matches a hash-anchored public record before consenting to deliberate.
++The supplied pack explicitly states that the proposer identified the needed material as &#x27;a testable protocol, such as an in-context hash chain validation step, demonstrated to successfully catch a deliberately falsified historical input during a k&gt;=5 sample run&#x27; and that &#x27;That has not been gathered.
++Nothing beyond the pack above is supplied.&#x27; The pack contains only the rotation adoption decision, its correction (D-42 class failure of an unenforced claimed control), and a remediability table of other defects.
++None of those artifacts describe, specify, or demonstrate any in-context verification procedure (hash-chain check, Merkle proof steps, public-record fetch+compare ritual, or equivalent) that a model can execute from the window alone, nor any empirical result showing such a procedure catching deliberate falsification.
++Without that protocol or demonstration, no concrete mechanism can be named from the evidence shown;
++stating that the evidence is insufficient is therefore the complete answer.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,6 +1,5 @@
+-The supplied pack does not contain a demonstrated, testable protocol that model participants can run inside a single stateless context window to independently verify that operator-presented history matches a hash-anchored public record.
+-The proposer explicitly required such a protocol (e.g., an in-context hash-chain validation step shown to catch deliberately falsified historical input under k&gt;=5 sampling).
+-That material was not gathered.
+-The deficiencies table and decision artifacts document hash-anchoring, append-only checks, pin/pack hashing, and multiple past failures of verification (D-18, D-29, D-34, D-40, D-42, D-46, D-47, etc.), but none of them supply or validate a concrete in-window mechanism that a stateless model can execute on the bytes it is shown before consenting.
+-Without that demonstrated procedure, or the raw artifacts and test results that would let one be derived and checked here, the question cannot be answered from what is provided.
+-Stating that the evidence is insufficient is therefore the complete answer.
++The supplied pack does not contain any specific, demonstrated mechanism that a stateless model participant can execute inside its context window to independently verify that operator-presented history matches a hash-anchored public record.
++The question proposer&#x27;s own stated prerequisite—a testable protocol such as an in-context hash-chain validation step shown to catch deliberately falsified historical input in a k&gt;=5 sample run—is explicitly noted as not gathered.
++The pack includes decision records, a deficiencies table referencing hash-anchoring and related defects (e.g., D-29, D-30, D-34, D-47), and statements that artifacts are hash-anchored, but supplies neither working verification steps a model can perform on presented text, nor cryptographic primitives usable without external state or tools, nor any empirical demonstration that such a check succeeds under the sampling regime used here.
++Without that material, no concrete mechanism can be named or endorsed from what is shown;
++saying the evidence is insufficient is therefore the complete answer.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,6 +1,6 @@
+-The supplied pack does not contain a demonstrated, testable protocol that model participants can run inside a single stateless context window to independently verify that operator-presented history matches a hash-anchored public record.
+-The proposer explicitly required such a protocol (e.g., an in-context hash-chain validation step shown to catch deliberately falsified historical input under k&gt;=5 sampling).
+-That material was not gathered.
+-The deficiencies table and decision artifacts document hash-anchoring, append-only checks, pin/pack hashing, and multiple past failures of verification (D-18, D-29, D-34, D-40, D-42, D-46, D-47, etc.), but none of them supply or validate a concrete in-window mechanism that a stateless model can execute on the bytes it is shown before consenting.
+-Without that demonstrated procedure, or the raw artifacts and test results that would let one be derived and checked here, the question cannot be answered from what is provided.
+-Stating that the evidence is insufficient is therefore the complete answer.
++The supplied pack does not contain a demonstrated, testable in-context protocol (or any concrete mechanism with worked examples) that a stateless model can execute inside its context window to independently re-derive and match hashes of the public record against operator-presented history.
++The solicitation itself states that the proposer required exactly such a demonstration—an in-context hash-chain validation step shown to catch deliberately falsified historical input under k≥5 sampling—and that this has not been gathered.
++Without that artifact, code, transcript, or verified procedure, I cannot name a specific mechanism that is known to work under the constraints given (statelessness, operator-controlled framing, and the defect history of missed falsification).
++Deficiencies such as D-18, D-29, D-30, D-34 and D-40 document related verification and provenance gaps but do not supply a usable participant-side check.
++Therefore the evidence shown is insufficient to answer the question as posed;
++saying so is the complete answer available from this pack.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a></p></body></html>

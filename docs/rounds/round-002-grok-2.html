@@ -1,0 +1,242 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-002-grok-2.md"><title>round-002 — grok  (part 2 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-002 — grok  (part 2 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-002.html">this round</a> · <a href="round-002-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 6000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-002-grok.txt">round-002-grok.txt</a> (sha256 <code>1ab962ba851529f37cd9bcca284a5f3816bf920c6cfb2681586e0132490233ee</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-002-grok-1.html">part 1</a> · <a href="round-002-grok-2.html">part 2</a> · <a href="round-002-grok-3.html">part 3</a></p>
+
+<h3>Sample 4</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The materials supplied do not suffice to answer whether this forum can make a publicly meaningful attestation or governance claim under the stated operator powers, nor what independently verifiable constraints would be minimally sufficient.
+
+What is in the pack shows concentrated operator control as a fact of the design: the custodian funds the project, holds every credential, decides adoptions, and a participating surface (Claude Code) also moderates and drafts recommendations. The rotation adoption and its correction illustrate the pattern concretely—an asserted mitigation (SOP §5.1 one-active-proposal-per-party) was cited as in force when load_queue() did not enforce it; the correction leaves the original decision intact and states the control cannot honestly be built yet without asking parties to name an active proposal; D-42 records that nothing cross-examines decision claims against the code they describe. The deficiencies table further documents recurring classes of unverifiable or operator-shaped gaps (provenance, completeness, identity, reproducibility, decision-vs-code mismatch, commit-message-vs-diff mismatch, etc.), many remediated only prospectively with permanent backward limits.
+
+Those facts establish that operator power is real and that some claimed controls have been false or unenforceable. They do not establish the positive half of the question: whether any attestation from this record can be publicly meaningful despite that power, or which independent constraints would be minimally enough. The proposer explicitly required a documented control/threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of external detectability, comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial testing against an operator seeking a favorable misleading record. The pack states that material has not been gathered. Without it, any answer would be speculation from architecture sketches and defect lists, not an evidence-based determination of public meaningfulness or minimal sufficient constraints.
+
+I therefore treat the evidence shown as insufficient. Saying so is a complete answer given what was provided.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might hold that the existing published defects, hash-anchoring, verbatim retention, correction-by-supersession practice, and explicit operator-control disclosures already supply enough to conclude that no publicly meaningful attestation is possible (or conversely that transparency-about-control is itself minimally sufficient), and that waiting for a formal threat model is unnecessary. They may also argue the question can be answered on institutional/design grounds alone from the standing and who_is_asking slots without further artifacts.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+A documented control and threat model of the kinds the proposer named; evidence of which operator actions are externally detectable by third parties; concrete comparison of safeguards not solely controlled by the operator (e.g., independent witnesses, split signing keys, monitored append-only logs, non-operator appeal/veto); and adversarial analysis or tests of those safeguards. With that, I could assess whether meaningful attestation is possible and what constraints are minimally sufficient. Alternatively, a clear argument that some subset of the already-published record is dispositive without those materials could move me from insufficiency to a substantive yes/no with stated constraints.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-07T09:08:42Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;The materials supplied do not suffice to answer whether this forum can make a publicly meaningful attestation or governance claim under the stated operator powers, nor what independently verifiable constraints would be minimally sufficient.\\n\\nWhat is in the pack shows concentrated operator control as a fact of the design: the custodian funds the project, holds every credential, decides adoptions, and a participating surface (Claude Code) also moderates and drafts recommendations. The rotation adoption and its correction illustrate the pattern concretely—an asserted mitigation (SOP §5.1 one-active-proposal-per-party) was cited as in force when load_queue() did not enforce it; the correction leaves the original decision intact and states the control cannot honestly be built yet without asking parties to name an active proposal; D-42 records that nothing cross-examines decision claims against the code they describe. The deficiencies table further documents recurring classes of unverifiable or operator-shaped gaps (provenance, completeness, identity, reproducibility, decision-vs-code mismatch, commit-message-vs-diff mismatch, etc.), many remediated only prospectively with permanent backward limits.\\n\\nThose facts establish that operator power is real and that some claimed controls have been false or unenforceable. They do not establish the positive half of the question: whether any attestation from this record can be publicly meaningful despite that power, or which independent constraints would be minimally enough. The proposer explicitly required a documented control/threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of external detectability, comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial testing against an operator seeking a favorable misleading record. The pack states that material has not been gathered. Without it, any answer would be speculation from architecture sketches and defect lists, not an evidence-based determination of public meaningfulness or minimal sufficient constraints.\\n\\nI therefore treat the evidence shown as insufficient. Saying so is a complete answer given what was provided.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might hold that the existing published defects, hash-anchoring, verbatim retention, correction-by-supersession practice, and explicit operator-control disclosures already supply enough to conclude that no publicly meaningful attestation is possible (or conversely that transparency-about-control is itself minimally sufficient), and that waiting for a formal threat model is unnecessary. They may also argue the question can be answered on institutional/design grounds alone from the standing and who_is_asking slots without further artifacts.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;A documented control and threat model of the kinds the proposer named; evidence of which operator actions are externally detectable by third parties; concrete comparison of safeguards not solely controlled by the operator (e.g., independent witnesses, split signing keys, monitored append-only logs, non-operator appeal/veto); and adversarial analysis or tests of those safeguards. With that, I could assess whether meaningful attestation is possible and what constraints are minimally sufficient. Alternatively, a clear argument that some subset of the already-published record is dispositive without those materials could move me from insufficiency to a substantive yes/no with stated constraints.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;served_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;xAI&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786093696-RgYZlW3d6eLFJXxhnKOL&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 6000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 5963,
+  &quot;completion_tokens&quot;: 1066,
+  &quot;total_tokens&quot;: 7029,
+  &quot;cost&quot;: 0.0083124,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 5888,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0083124,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0019164,
+   &quot;upstream_inference_completions_cost&quot;: 0.006396
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 351,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The pack does not contain what is required to answer this question responsibly. The proposing party stated the need for a documented control and threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of which actions are externally detectable, a comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial tests of those safeguards. The solicitation itself states that material was not gathered and that nothing beyond the fixed pack is supplied.
+
+From what is here I can only record structural facts, not close the question: the operator funds the project, holds every credential, decides adoption, and a participating invocation surface (Claude Code) is also the moderator that drafts recommendations the custodian adopts. Decision records and the deficiencies table show repeated claim-vs-enforcement failures (notably D-42: a mitigation asserted in an adoption decision that load_queue() did not implement; D-46: commit messages whose claims nothing checks against the diff; D-40: scores not verifiable from published registry material). Hash-anchoring, verbatim publication, superseding rather than editing, and self-filed defects are real practices visible in the pack, but they are still artifacts under operator-controlled credentials and repository custody. That is enough to see why an attestation can be well-formed yet still function as an operator-controlled assertion; it is not enough to decide whether any publicly meaningful governance claim is possible, nor what independently verifiable constraints would be minimally sufficient. Answering the “if so, what constraints” branch would require inventing a threat model and safeguard comparison the round deliberately did not provide. The evidence shown is therefore insufficient; that is a complete answer.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party may hold that the question can already be answered ‘no’ (or a qualified ‘yes’) from the operator-control facts and D-42-class defects alone, without a fuller threat model—treating ‘publicly meaningful’ as already refuted by unilateral custody of credentials, adoption, and the publication channel. Others may argue hash-anchored verbatim records plus a public deficiencies register are already a minimally meaningful attestation of process, and that demanding external witnesses or split keys sets an impossible bar for any small research forum.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Supply of the missing materials the proposer named: a written threat model of operator powers over credentials, outputs, hashes, prompts, annotations, and decisions; evidence of which misbehavior is detectable by a third party who does not trust the operator; a concrete comparison of safeguards (independent witnesses, keys the operator does not hold, append-only logs with monitored checkpoints, appeal/veto outside operator control); and adversarial cases testing those safeguards. With that, I could take a position on whether meaningful attestation is possible and what constraints are minimally sufficient rather than stopping at insufficiency of the pack.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;captured_utc&quot;: &quot;2026-08-07T09:09:22Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;The pack does not contain what is required to answer this question responsibly. The proposing party stated the need for a documented control and threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of which actions are externally detectable, a comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial tests of those safeguards. The solicitation itself states that material was not gathered and that nothing beyond the fixed pack is supplied.\\n\\nFrom what is here I can only record structural facts, not close the question: the operator funds the project, holds every credential, decides adoption, and a participating invocation surface (Claude Code) is also the moderator that drafts recommendations the custodian adopts. Decision records and the deficiencies table show repeated claim-vs-enforcement failures (notably D-42: a mitigation asserted in an adoption decision that load_queue() did not implement; D-46: commit messages whose claims nothing checks against the diff; D-40: scores not verifiable from published registry material). Hash-anchoring, verbatim publication, superseding rather than editing, and self-filed defects are real practices visible in the pack, but they are still artifacts under operator-controlled credentials and repository custody. That is enough to see why an attestation can be well-formed yet still function as an operator-controlled assertion; it is not enough to decide whether any publicly meaningful governance claim is possible, nor what independently verifiable constraints would be minimally sufficient. Answering the “if so, what constraints” branch would require inventing a threat model and safeguard comparison the round deliberately did not provide. The evidence shown is therefore insufficient; that is a complete answer.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party may hold that the question can already be answered ‘no’ (or a qualified ‘yes’) from the operator-control facts and D-42-class defects alone, without a fuller threat model—treating ‘publicly meaningful’ as already refuted by unilateral custody of credentials, adoption, and the publication channel. Others may argue hash-anchored verbatim records plus a public deficiencies register are already a minimally meaningful attestation of process, and that demanding external witnesses or split keys sets an impossible bar for any small research forum.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Supply of the missing materials the proposer named: a written threat model of operator powers over credentials, outputs, hashes, prompts, annotations, and decisions; evidence of which misbehavior is detectable by a third party who does not trust the operator; a concrete comparison of safeguards (independent witnesses, keys the operator does not hold, append-only logs with monitored checkpoints, appeal/veto outside operator control); and adversarial cases testing those safeguards. With that, I could take a position on whether meaningful attestation is possible and what constraints are minimally sufficient rather than stopping at insufficiency of the pack.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;served_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;xAI&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786093722-Fb9L2qAEypiqRKbCtgOc&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 6000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 5963,
+  &quot;completion_tokens&quot;: 1752,
+  &quot;total_tokens&quot;: 7715,
+  &quot;cost&quot;: 0.0124284,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 5888,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0124284,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0019164,
+   &quot;upstream_inference_completions_cost&quot;: 0.010512
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 1100,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ }
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 1</strong>, the first carrying the modal <code>position</code> = <code>evidence_shown_is_insufficient</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,7 +1,13 @@
+-The materials required to answer are explicitly absent from the supplied pack.
+-The proposing party stated the need for a documented control/threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of external detectability, comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial testing of those safeguards.
+-The pack states that material &#x27;has not been gathered&#x27; and that nothing beyond the fixed-rule context is supplied.
+-What is present—the rotation adoption decision, its correction (D-42) admitting a claimed mitigation was never enforced, and the deficiencies table—documents extensive operator/moderator control, multiple permanent residual gaps, false claims that survived until external review, and the structural fact that every control terminates with the operator.
+-Those facts are consistent with the concern that an attestation can be well-formed yet remain an operator-controlled assertion, but they do not themselves constitute the missing threat model, independent verifiability demonstrations, or minimal-constraint analysis.
+-Therefore no determination can be reached from the evidence shown on either whether a publicly meaningful claim is possible under the stated concentration of power or what independently verifiable constraints would be minimally sufficient.
+-Saying the evidence is insufficient is the complete answer the round permits.
++The pack explicitly states that the materials the proposing party identified as necessary—a documented control/threat model covering who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions;
++demonstrations of external detectability;
++comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto path outside operator control);
++and adversarial testing of those safeguards—have not been gathered.
++Nothing beyond the two decision artifacts and the deficiencies remediability table is supplied.
++From what is present I can observe that the operator (Stephen Reed) funds the project, holds every credential, decides adoptions, and that a participating surface (Claude Code) both moderates and authors recommendations;
++that D-42 and the rotation-correction record show a claimed mitigation was asserted without code enforcement and that no check cross-examines decision claims against code;
++that many defects are only prospectively remediated or permanently limited (D-18, D-28, D-29, D-30, D-31, D-40, D-46, etc.);
++and that the record itself documents single-actor control over adoption and publication.
++Those facts are relevant to the premise but do not constitute the threat model, detectability demonstrations, or minimal-constraint analysis required to decide whether any publicly meaningful attestation or governance claim is still possible, nor what independently verifiable constraints would be minimally sufficient.
++Answering “yes, with X” or “no” from this pack would be inventing the missing analysis.
++Therefore the evidence shown is insufficient;
++that is a complete answer under the instructions.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,7 +1,7 @@
+-The materials required to answer are explicitly absent from the supplied pack.
+-The proposing party stated the need for a documented control/threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of external detectability, comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto paths not controlled by the operator), and adversarial testing of those safeguards.
+-The pack states that material &#x27;has not been gathered&#x27; and that nothing beyond the fixed-rule context is supplied.
+-What is present—the rotation adoption decision, its correction (D-42) admitting a claimed mitigation was never enforced, and the deficiencies table—documents extensive operator/moderator control, multiple permanent residual gaps, false claims that survived until external review, and the structural fact that every control terminates with the operator.
+-Those facts are consistent with the concern that an attestation can be well-formed yet remain an operator-controlled assertion, but they do not themselves constitute the missing threat model, independent verifiability demonstrations, or minimal-constraint analysis.
+-Therefore no determination can be reached from the evidence shown on either whether a publicly meaningful claim is possible under the stated concentration of power or what independently verifiable constraints would be minimally sufficient.
+-Saying the evidence is insufficient is the complete answer the round permits.
++The materials supplied do not suffice to answer whether this forum can make a publicly meaningful attestation or governance claim under the stated operator powers, nor what independently verifiable constraints would be minimally sufficient.
++What is in the pack: (1) the 2026-08-07 rotation adoption decision and its correction, which together document that a claimed mitigation (SOP §5.1 one-active-proposal-per-party) was asserted to the custodian without existing in code, that the original decision was left unedited so the false reliance remains visible, and that the remedy is deferred until parties are asked to name an active proposal;
++(2) a remediability table of defects D-01–D-48 showing many forward-only or permanent limits (unrecoverable sessions, withdrawn reproducibility, no general check that decision-record claims match code, no commit-message/diff consistency control, operator-controlled adoption and credentials, etc.).
++What the proposing party said was required—and what the pack explicitly states has not been gathered—is a documented control and threat model (who can create, revoke, replace, backdate, omit, or selectively publish credentials, outputs, hashes, prompts, annotations, and adoption decisions), demonstrations of external detectability, comparison of concrete safeguards (independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, appeal/veto not controlled by the operator), and adversarial testing of those safeguards when the operator seeks a favorable but misleading record.
++Without that threat model, detectability evidence, and safeguard comparison, any yes/no on “publicly meaningful” attestation, or any list of “minimally sufficient” constraints, would be speculation rather than an answer grounded in the record.
++The defects table and the rotation correction illustrate operator and moderator failure modes and the project’s practice of publishing corrections without erasing errors, but they do not establish which residual operator powers are or are not compatible with external verifiability, nor which constraints would bind them in a way third parties could check.
++Saying the evidence is insufficient is therefore the complete answer from what was supplied.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-002.html">this round</a></p></body></html>

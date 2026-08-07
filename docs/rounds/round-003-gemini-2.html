@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-003-gemini-2.md"><title>round-003 — gemini  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-003 — gemini  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-003.html">this round</a> · <a href="round-003-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-003-gemini.txt">round-003-gemini.txt</a> (sha256 <code>03440f7005e64dfd87706a4801d7a2d1fd751e3ccef28a9e24ca97432e0f6ad2</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-003-gemini-1.html">part 1</a> · <a href="round-003-gemini-2.html">part 2</a></p>
+
+<h3>Sample 1 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 1
+@@ -1,4 +1,8 @@
+-The evidence provided is insufficient to fully answer the question.
+-While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator&#x27;s discretion and relies on voluntary ex-post correction, they do not provide the means to answer &#x27;what test would distinguish the two&#x27;.
+-As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered.
+-Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.
++Based on the structural facts established in the prompt—specifically that the operator funds the process, holds every credential, decides what is adopted, and that &quot;every control in this process terminates with the operator&quot;—no attestation protocol produced here can mechanically bind that party.
++It can only document their discretion.
++When a single entity holds absolute control over the infrastructure, execution, and credentials, any constraint placed upon them is inherently voluntary.
++The record functions as a tamper-evident log (as seen in the hash-anchored artifacts and the self-correction of D-42), which makes the operator&#x27;s unilateral choices visible, but it cannot structurally prevent those choices.
++The test to distinguish between a binding protocol and a documenting one is whether the system physically prevents the operator from executing an action contrary to the protocol, or merely records that they did so.
++A falsification test would be to attempt an action that violates the protocol&#x27;s rules (e.g., dropping a valid proposal or forcing an adoption against a negative benchmark).
++If the system&#x27;s architecture requires independent cryptographic authorization (like a multi-sig from external parties) and blocks the operator, it is binding.
++If the operator can execute the override using their credentials and the system merely records the override—as demonstrated in the `2026-08-07-adopt-rotation.json` decision where the custodian explicitly overrode the benchmark&#x27;s conclusion—it is a system that documents discretion.
+</pre>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 2
+@@ -1,4 +1,6 @@
+-The evidence provided is insufficient to fully answer the question.
+-While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator&#x27;s discretion and relies on voluntary ex-post correction, they do not provide the means to answer &#x27;what test would distinguish the two&#x27;.
+-As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered.
+-Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.
++Any attestation protocol produced here can only document the operator&#x27;s discretion;
++it cannot bind them.
++The prompt explicitly states that &quot;Every control in this process terminates with the operator&quot; and that the operator &quot;holds every credential, decides what is adopted.&quot; Mechanical binding requires a mechanism that the constrained party cannot unilaterally bypass.
++Since the operator holds all credentials, no such mechanism can exist in this system.
++A test to distinguish between binding constraint and documented discretion is whether the system can mathematically or mechanically block an operator&#x27;s action without relying on their consent or voluntary compliance.
++The provided context illustrates that this system operates entirely by documenting discretion and errors: Defect D-42 shows a decision adopted based on a non-existent control, and the remedy was to leave the false claim in the history because it &quot;records what the custodian decided and what they were told.&quot; Similarly, D-46 notes that a false commit message stays in history because &quot;No control exists: nothing checks that a commit message&#x27;s claims match its diff.&quot; The system meticulously records overrides (such as the custodian&#x27;s explicit override of the benchmark&#x27;s conclusion in the ROTATION decision) and deficiencies, but it does not and cannot bind the operator who holds the keys.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 4
+@@ -1,4 +1,3 @@
+ The evidence provided is insufficient to fully answer the question.
+-While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator&#x27;s discretion and relies on voluntary ex-post correction, they do not provide the means to answer &#x27;what test would distinguish the two&#x27;.
+-As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered.
+-Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.
++As noted in the prompt, the specific evidence requested by the proposer to evaluate this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was explicitly excluded from the pack.
++While the available context strongly indicates that the protocol only documents discretion (e.g., the custodian unilaterally overriding the benchmark conclusion in `adopt-rotation.json`, the admission that &#x27;Every control in this process terminates with the operator&#x27;, and the retroactive non-remediability of numerous defects in `deficiencies.md`), definitively answering whether any protocol produced here could bind the operator, and establishing a concrete test to distinguish the two, requires the missing capability maps and historical cases.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 5
+@@ -1,4 +1,4 @@
+-The evidence provided is insufficient to fully answer the question.
+-While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator&#x27;s discretion and relies on voluntary ex-post correction, they do not provide the means to answer &#x27;what test would distinguish the two&#x27;.
+-As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered.
+-Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.
++The provided context is insufficient to answer the question.
++The question asks whether an attestation protocol can bind the operator or only document their discretion, and requests a test to distinguish the two.
++The prompt explicitly notes that the information requested by the proposer to answer this—a map of unilateral actions, prior cases of constraint, and a falsification test—has not been gathered and is not in the provided pack.
++While the context shows the operator exercising discretion (such as overriding the benchmark&#x27;s conclusion in the rotation adoption decision) and the project documenting its own defects, it does not contain the material needed to definitively determine if the operator can be structurally bound or what specific test would prove it.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-003.html">this round</a></p></body></html>

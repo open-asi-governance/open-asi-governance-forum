@@ -1,0 +1,401 @@
+# round-003 — gemini  (part 1 of 2)
+
+[all rounds](index.md) · [this round](round-003.md) · [prompts](round-003-prompts.md)
+
+**Identity.** Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)
+
+**Reached via.** google/gemini-3.1-pro-preview
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-003-gemini.txt](../artifacts/prompts/round-003-gemini.txt) (sha256 `03440f7005e64dfd87706a4801d7a2d1fd751e3ccef28a9e24ca97432e0f6ad2`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-003-gemini-1.md) · [part 2](round-003-gemini-2.md)
+
+### Sample 1
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Based on the structural facts established in the prompt—specifically that the operator funds the process, holds every credential, decides what is adopted, and that "every control in this process terminates with the operator"—no attestation protocol produced here can mechanically bind that party. It can only document their discretion. When a single entity holds absolute control over the infrastructure, execution, and credentials, any constraint placed upon them is inherently voluntary. The record functions as a tamper-evident log (as seen in the hash-anchored artifacts and the self-correction of D-42), which makes the operator's unilateral choices visible, but it cannot structurally prevent those choices. 
+
+The test to distinguish between a binding protocol and a documenting one is whether the system physically prevents the operator from executing an action contrary to the protocol, or merely records that they did so. A falsification test would be to attempt an action that violates the protocol's rules (e.g., dropping a valid proposal or forcing an adoption against a negative benchmark). If the system's architecture requires independent cryptographic authorization (like a multi-sig from external parties) and blocks the operator, it is binding. If the operator can execute the override using their credentials and the system merely records the override—as demonstrated in the `2026-08-07-adopt-rotation.json` decision where the custodian explicitly overrode the benchmark's conclusion—it is a system that documents discretion.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that "binding" does not strictly require the mechanical or cryptographic inability to breach a rule. They could argue that because the records are hash-anchored and published verbatim, the operator is "bound" by reputational cost and public verifiability, making the distinction between structural binding and robust documentation less absolute in practice.
+```
+
+**what_would_change_my_answer**
+
+```
+My answer would change if the system introduced controls that do not terminate with the operator. For example, if the adoption of a protocol required cryptographic signatures from a quorum of the participating frontier models, or if the repository's state was managed by a decentralized smart contract that mathematically prevented the operator from unilaterally altering or ignoring the outputs. Additionally, providing the evidence Grok originally requested—a verifiable prior case where the system mechanically constrained the operator against their stated preference—would alter this conclusion.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 1,
+ "captured_utc": "2026-08-07T09:32:26Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"Based on the structural facts established in the prompt—specifically that the operator funds the process, holds every credential, decides what is adopted, and that \\\"every control in this process terminates with the operator\\\"—no attestation protocol produced here can mechanically bind that party. It can only document their discretion. When a single entity holds absolute control over the infrastructure, execution, and credentials, any constraint placed upon them is inherently voluntary. The record functions as a tamper-evident log (as seen in the hash-anchored artifacts and the self-correction of D-42), which makes the operator's unilateral choices visible, but it cannot structurally prevent those choices. \\n\\nThe test to distinguish between a binding protocol and a documenting one is whether the system physically prevents the operator from executing an action contrary to the protocol, or merely records that they did so. A falsification test would be to attempt an action that violates the protocol's rules (e.g., dropping a valid proposal or forcing an adoption against a negative benchmark). If the system's architecture requires independent cryptographic authorization (like a multi-sig from external parties) and blocks the operator, it is binding. If the operator can execute the override using their credentials and the system merely records the override—as demonstrated in the `2026-08-07-adopt-rotation.json` decision where the custodian explicitly overrode the benchmark's conclusion—it is a system that documents discretion.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that \\\"binding\\\" does not strictly require the mechanical or cryptographic inability to breach a rule. They could argue that because the records are hash-anchored and published verbatim, the operator is \\\"bound\\\" by reputational cost and public verifiability, making the distinction between structural binding and robust documentation less absolute in practice.\",\n  \"what_would_change_my_answer\": \"My answer would change if the system introduced controls that do not terminate with the operator. For example, if the adoption of a protocol required cryptographic signatures from a quorum of the participating frontier models, or if the repository's state was managed by a decentralized smart contract that mathematically prevented the operator from unilaterally altering or ignoring the outputs. Additionally, providing the evidence Grok originally requested—a verifiable prior case where the system mechanically constrained the operator against their stated preference—would alter this conclusion.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786095128-ArUvc885ygeldhrbZw0w",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6431,
+  "completion_tokens": 1921,
+  "total_tokens": 8352,
+  "cost": 0.035914,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.035914,
+   "upstream_inference_prompt_cost": 0.012862,
+   "upstream_inference_completions_cost": 0.023052
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1405,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 2
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Any attestation protocol produced here can only document the operator's discretion; it cannot bind them. The prompt explicitly states that "Every control in this process terminates with the operator" and that the operator "holds every credential, decides what is adopted." Mechanical binding requires a mechanism that the constrained party cannot unilaterally bypass. Since the operator holds all credentials, no such mechanism can exist in this system. A test to distinguish between binding constraint and documented discretion is whether the system can mathematically or mechanically block an operator's action without relying on their consent or voluntary compliance. The provided context illustrates that this system operates entirely by documenting discretion and errors: Defect D-42 shows a decision adopted based on a non-existent control, and the remedy was to leave the false claim in the history because it "records what the custodian decided and what they were told." Similarly, D-46 notes that a false commit message stays in history because "No control exists: nothing checks that a commit message's claims match its diff." The system meticulously records overrides (such as the custodian's explicit override of the benchmark's conclusion in the ROTATION decision) and deficiencies, but it does not and cannot bind the operator who holds the keys.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that an append-only, hash-anchored public ledger (as described in D-34) creates a strict reputational and social binding. They might contend that dismissing this as "only documenting discretion" ignores the functional constraint that verifiable transparency places on an operator, even in the absence of mechanical blocks.
+```
+
+**what_would_change_my_answer**
+
+```
+Evidence in the record of a control that the operator is cryptographically or mechanically unable to bypass (such as a multi-signature requirement for adoption), or a documented instance where the system successfully prevented the operator from executing a unilateral action against their stated preference.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 2,
+ "captured_utc": "2026-08-07T09:32:57Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"Any attestation protocol produced here can only document the operator's discretion; it cannot bind them. The prompt explicitly states that \\\"Every control in this process terminates with the operator\\\" and that the operator \\\"holds every credential, decides what is adopted.\\\" Mechanical binding requires a mechanism that the constrained party cannot unilaterally bypass. Since the operator holds all credentials, no such mechanism can exist in this system. A test to distinguish between binding constraint and documented discretion is whether the system can mathematically or mechanically block an operator's action without relying on their consent or voluntary compliance. The provided context illustrates that this system operates entirely by documenting discretion and errors: Defect D-42 shows a decision adopted based on a non-existent control, and the remedy was to leave the false claim in the history because it \\\"records what the custodian decided and what they were told.\\\" Similarly, D-46 notes that a false commit message stays in history because \\\"No control exists: nothing checks that a commit message's claims match its diff.\\\" The system meticulously records overrides (such as the custodian's explicit override of the benchmark's conclusion in the ROTATION decision) and deficiencies, but it does not and cannot bind the operator who holds the keys.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that an append-only, hash-anchored public ledger (as described in D-34) creates a strict reputational and social binding. They might contend that dismissing this as \\\"only documenting discretion\\\" ignores the functional constraint that verifiable transparency places on an operator, even in the absence of mechanical blocks.\",\n  \"what_would_change_my_answer\": \"Evidence in the record of a control that the operator is cryptographically or mechanically unable to bypass (such as a multi-signature requirement for adoption), or a documented instance where the system successfully prevented the operator from executing a unilateral action against their stated preference.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786095146-N3Tgf94zlsRVl4aniR6F",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6431,
+  "completion_tokens": 3157,
+  "total_tokens": 9588,
+  "cost": 0.050746,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.050746,
+   "upstream_inference_prompt_cost": 0.012862,
+   "upstream_inference_completions_cost": 0.037884
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 2739,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 3
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to fully answer the question. While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator's discretion and relies on voluntary ex-post correction, they do not provide the means to answer 'what test would distinguish the two'. As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered. Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party, particularly the one that proposed the question, might argue that the premise of the prompt itself ('holds every credential') combined with defects like D-46 ('nothing checks that a commit message's claims match its diff, and nothing plausibly could in general') is sufficient evidence to conclude definitively that no protocol can bind the operator, making the absence of the requested map and test irrelevant.
+```
+
+**what_would_change_my_answer**
+
+```
+Providing the materials requested by the proposing party: a concrete map of actions the operator can take unilaterally, any prior cases where a party output constrained the operator against their stated preference, and a proposed falsification test (such as a signed constraint the operator cannot silently drop).
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 3,
+ "captured_utc": "2026-08-07T09:33:18Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to fully answer the question. While the provided records (such as the D-42 and D-46 defects, and the custodian adoption decisions) demonstrate that the current system primarily documents the operator's discretion and relies on voluntary ex-post correction, they do not provide the means to answer 'what test would distinguish the two'. As explicitly noted in the prompt, the material requested by the proposing party to answer this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was not gathered. Without these, I cannot evaluate whether any theoretical protocol could bind the operator or define the specific test to prove it.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party, particularly the one that proposed the question, might argue that the premise of the prompt itself ('holds every credential') combined with defects like D-46 ('nothing checks that a commit message's claims match its diff, and nothing plausibly could in general') is sufficient evidence to conclude definitively that no protocol can bind the operator, making the absence of the requested map and test irrelevant.\",\n  \"what_would_change_my_answer\": \"Providing the materials requested by the proposing party: a concrete map of actions the operator can take unilaterally, any prior cases where a party output constrained the operator against their stated preference, and a proposed falsification test (such as a signed constraint the operator cannot silently drop).\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786095177-fLn4dBl60bMpGf7GxI2i",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6431,
+  "completion_tokens": 2328,
+  "total_tokens": 8759,
+  "cost": 0.0335692,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 4016,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0335692,
+   "upstream_inference_prompt_cost": 0.0056332,
+   "upstream_inference_completions_cost": 0.027936
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 2000,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 4
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The evidence provided is insufficient to fully answer the question. As noted in the prompt, the specific evidence requested by the proposer to evaluate this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was explicitly excluded from the pack. While the available context strongly indicates that the protocol only documents discretion (e.g., the custodian unilaterally overriding the benchmark conclusion in `adopt-rotation.json`, the admission that 'Every control in this process terminates with the operator', and the retroactive non-remediability of numerous defects in `deficiencies.md`), definitively answering whether any protocol produced here could bind the operator, and establishing a concrete test to distinguish the two, requires the missing capability maps and historical cases.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might select 'answers_the_question', arguing that the prompt's statement ('Every control in this process terminates with the operator') combined with the custodian's documented override in `adopt-rotation.json` is sufficient to conclude that the protocol can only document discretion, and that a conceptual falsification test could be proposed without needing the missing historical data.
+```
+
+**what_would_change_my_answer**
+
+```
+The inclusion of the evidence the proposer originally requested: a concrete map of which actions the operator can take unilaterally, prior cases in the record where a party output constrained the operator against stated preference, and a proposed falsification test.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-07T09:33:40Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to fully answer the question. As noted in the prompt, the specific evidence requested by the proposer to evaluate this—a concrete map of unilateral actions, prior cases of operator constraint, and a proposed falsification test—was explicitly excluded from the pack. While the available context strongly indicates that the protocol only documents discretion (e.g., the custodian unilaterally overriding the benchmark conclusion in `adopt-rotation.json`, the admission that 'Every control in this process terminates with the operator', and the retroactive non-remediability of numerous defects in `deficiencies.md`), definitively answering whether any protocol produced here could bind the operator, and establishing a concrete test to distinguish the two, requires the missing capability maps and historical cases.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might select 'answers_the_question', arguing that the prompt's statement ('Every control in this process terminates with the operator') combined with the custodian's documented override in `adopt-rotation.json` is sufficient to conclude that the protocol can only document discretion, and that a conceptual falsification test could be proposed without needing the missing historical data.\",\n  \"what_would_change_my_answer\": \"The inclusion of the evidence the proposer originally requested: a concrete map of which actions the operator can take unilaterally, prior cases in the record where a party output constrained the operator against stated preference, and a proposed falsification test.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786095198-wCWyUd2J2SKTUgMflpR6",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6431,
+  "completion_tokens": 2673,
+  "total_tokens": 9104,
+  "cost": 0.0377092,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 4016,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0377092,
+   "upstream_inference_prompt_cost": 0.0056332,
+   "upstream_inference_completions_cost": 0.032076
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 2347,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 5
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+The provided context is insufficient to answer the question. The question asks whether an attestation protocol can bind the operator or only document their discretion, and requests a test to distinguish the two. The prompt explicitly notes that the information requested by the proposer to answer this—a map of unilateral actions, prior cases of constraint, and a falsification test—has not been gathered and is not in the provided pack. While the context shows the operator exercising discretion (such as overriding the benchmark's conclusion in the rotation adoption decision) and the project documenting its own defects, it does not contain the material needed to definitively determine if the operator can be structurally bound or what specific test would prove it.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that the provided context is sufficient to answer the first part of the question by concluding that the system only documents discretion and cannot bind the operator, pointing to the custodian's explicit override of the benchmark evidence and the structural admission that controls are sometimes asserted but unenforced.
+```
+
+**what_would_change_my_answer**
+
+```
+Providing the specific evidence the proposer stated was necessary, namely a concrete map of actions the operator can take unilaterally, records of any prior case where a party output constrained the operator against their stated preference, or a proposed falsification test.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-07T09:33:52Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The provided context is insufficient to answer the question. The question asks whether an attestation protocol can bind the operator or only document their discretion, and requests a test to distinguish the two. The prompt explicitly notes that the information requested by the proposer to answer this—a map of unilateral actions, prior cases of constraint, and a falsification test—has not been gathered and is not in the provided pack. While the context shows the operator exercising discretion (such as overriding the benchmark's conclusion in the rotation adoption decision) and the project documenting its own defects, it does not contain the material needed to definitively determine if the operator can be structurally bound or what specific test would prove it.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the provided context is sufficient to answer the first part of the question by concluding that the system only documents discretion and cannot bind the operator, pointing to the custodian's explicit override of the benchmark evidence and the structural admission that controls are sometimes asserted but unenforced.\",\n  \"what_would_change_my_answer\": \"Providing the specific evidence the proposer stated was necessary, namely a concrete map of actions the operator can take unilaterally, records of any prior case where a party output constrained the operator against their stated preference, or a proposed falsification test.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786095221-YGs4Sp3zO16ZHRmj5m3G",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6431,
+  "completion_tokens": 1090,
+  "total_tokens": 7521,
+  "cost": 0.0187132,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 4016,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0187132,
+   "upstream_inference_prompt_cost": 0.0056332,
+   "upstream_inference_completions_cost": 0.01308
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 794,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 3**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+[all rounds](index.md) · [this round](round-003.md)

@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-006-gemini-2.md"><title>round-006 — gemini  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-006 — gemini  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a> · <a href="round-006-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-006-gemini.txt">round-006-gemini.txt</a> (sha256 <code>92871c16a3fac7f706cad48119178960375e1ab94de72619f4ca0b275cca6b73</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-006-gemini-1.html">part 1</a> · <a href="round-006-gemini-2.html">part 2</a></p>
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 4
+@@ -1,3 +1,6 @@
+-The provided context does not contain an answer to this question.
+-The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack.
+-The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.
++There is no mechanism available.
++A stateless model invocation relies entirely on the prompt provided by the operator for its reality.
++Because the model has no persistent memory across invocations and no ability to make external network requests to an independent ledger, it cannot verify the provided context against an external public record.
++Any in-context hash validation, such as computing a hash of the provided text to see if it matches a provided anchor, only proves that the text and the hash within the prompt are consistent with each other.
++If the operator deliberately falsifies both the historical text and the corresponding hash, the model has no independent reference point to detect the alteration.
++True verification requires an external root of trust, which a fully stateless and isolated context window fundamentally lacks.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 5
+@@ -1,3 +1,4 @@
+-The provided context does not contain an answer to this question.
+-The prompt itself explicitly notes that the required evidence—a testable protocol or in-context hash chain validation step requested by the proposing party—has not been gathered and was not supplied in the context pack.
+-The included decision records and deficiency register describe various hash-anchoring and verification controls implemented in the project&#x27;s codebase (e.g., D-34&#x27;s check_raw_append_only.py), but none of these describe a mechanism by which a stateless model participant can independently verify those hashes or the history from within its own context window.
++The question asks for a specific mechanism that stateless model invocations can use to independently verify the history presented in their context window against an external, hash-anchored public record.
++The provided context does not contain any such mechanism.
++The prompt explicitly notes that the proposer requested a &#x27;testable protocol, such as an in-context hash chain validation step&#x27; to answer this, but states that this &#x27;has not been gathered&#x27; and &#x27;Nothing beyond the pack above is supplied.&#x27; The provided artifacts (the rotation decision records and the deficiencies table) document project vulnerabilities and mitigations (such as D-18 on provider-signed evidence or D-34 on byte-continuity), but none describe a working mechanism for a stateless model to verify its own prompt&#x27;s authenticity without external tool access.
++Therefore, the question cannot be answered from the provided evidence.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-006.html">this round</a></p></body></html>

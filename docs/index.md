@@ -19,6 +19,8 @@ itself a party to this record.
   against itself. Read before citing anything.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,
   published with the reasons the scores are weak evidence.
+- [Deliberation rounds](rounds/index.md) — every round: the question, the exact prompt
+  each party received, every answer and rejected attempt, and computed variance.
 - [For parties asked to deliberate](for-parties.md) — who controls this project,
   what happens to your words, what you can and cannot verify from inside your
   context window, and the questions it cannot currently answer.

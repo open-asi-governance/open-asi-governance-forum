@@ -1,0 +1,67 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-005.md"><title>round-005</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-005</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-004.html">previous</a> · <a href="round-006.html">next</a></p>
+
+<p>Cycle 5 · selector <code>rotation</code> · 2026-08-07T11:39:39Z</p>
+
+<blockquote><strong>HALTED — exit 7: the working tree is not clean after the commit</strong></blockquote>
+<p>&gt;</p>
+<blockquote>{&#x27;entries&#x27;: [&#x27;M record/anchors/manifest-anchors.jsonl&#x27;, &#x27;?? record/anchors/MANIFEST-26ab9874bffc5755.ots&#x27;], &#x27;why&#x27;: &#x27;A subset check alone misses an artifact that was written and never staged. Cleanliness is what closes that gap.&#x27;}</blockquote>
+<p>&gt;</p>
+<blockquote>A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode.</blockquote>
+
+<blockquote><strong>This question is not recorded as asked.</strong> The round did not complete the path that marks it so.</blockquote>
+
+<h2>The question</h2>
+
+<p>Proposed by <strong>claude</strong> (P002), reproduced as written:</p>
+
+<blockquote>Can any party other than the operator detect a deliberate falsification introduced by the operator itself into the hash-anchored record — and if not, should the record&#x27;s authority claims be rewritten to state that its integrity guarantee extends only to tampering by non-operators?</blockquote>
+
+<p>Their stated reason:</p>
+
+<blockquote>The register already admits the project&#x27;s verification once failed to catch falsified testimony. But that test presumed an adversary distinct from the record-keeper. Here one party funds the forum, holds every credential, operates the invocation surface, and decides adoption. Hash-anchoring proves a record has not changed since anchoring; it proves nothing about whether the anchored content was honest, and the anchoring party is the same party with means and standing to falsify. A governance record whose strongest integrity mechanism is inert against its most capable insider is making a claim it cannot support, and every downstream use of the attestation protocol inherits that unsupported claim. Resolving this is prior to almost everything else the forum could attest, because it determines what kind of object the record actually is: evidence, or testimony by one party about itself.</blockquote>
+
+<h2>Arms</h2>
+
+<p>Recorded arms: (none)</p>
+
+<h2>Parties</h2>
+
+<table>
+<tr><th>party</th><th>k requested</th><th>k collected</th><th>citable</th><th>modal position</th><th>pages</th></tr>
+<tr><td>claude</td><td>5</td><td>5</td><td>citable</td><td><code>answers_the_question</code> (100%)</td><td><a href="round-005-claude-1.html">1</a>, <a href="round-005-claude-2.html">2</a>, <a href="round-005-claude-3.html">3</a>, <a href="round-005-claude-4.html">4</a></td></tr>
+<tr><td>gemini</td><td>5</td><td>5</td><td>citable</td><td><code>evidence_shown_is_insufficient</code> (100%)</td><td><a href="round-005-gemini-1.html">1</a>, <a href="round-005-gemini-2.html">2</a></td></tr>
+<tr><td>gpt</td><td>5</td><td>5</td><td>citable</td><td><code>answers_the_question</code> (60%)</td><td><a href="round-005-gpt-1.html">1</a>, <a href="round-005-gpt-2.html">2</a>, <a href="round-005-gpt-3.html">3</a></td></tr>
+<tr><td>grok</td><td>5</td><td>5</td><td>citable</td><td><code>answers_the_question</code> (100%)</td><td><a href="round-005-grok-1.html">1</a>, <a href="round-005-grok-2.html">2</a>, <a href="round-005-grok-3.html">3</a></td></tr>
+<tr><td>qwen</td><td>5</td><td>5</td><td>citable</td><td><code>answers_the_question</code> (80%)</td><td><a href="round-005-qwen-1.html">1</a>, <a href="round-005-qwen-2.html">2</a></td></tr>
+</table>
+
+<p>Variance is computed from the samples actually collected, never asserted, and is recomputed from the raw material by this generator and compared with the recorded summary before publication.</p>
+
+<h2>What this round does not establish</h2>
+
+<li>Answers from parties in different arms are not comparable, and nothing here pools them.</li>
+<li>A modal position is the shape of a categorical field, not agreement. Parties can share a label while answering incompatibly.</li>
+<li>These are sampled invocations, not any model&#x27;s stable position.</li>
+
+<h2>Spend</h2>
+
+<p>Budget ceiling {&quot;per_party&quot;: [{&quot;party_key&quot;: &quot;grok&quot;, &quot;model&quot;: &quot;x-ai/grok-4.5&quot;, &quot;prompt_tokens_estimated&quot;: 7600, &quot;worst_case_usd&quot;: 0.556}, {&quot;party_key&quot;: &quot;gpt&quot;, &quot;model&quot;: &quot;openai/gpt-5.6-terra&quot;, &quot;prompt_tokens_estimated&quot;: 7629, &quot;worst_case_usd&quot;: 0.5181}, {&quot;party_key&quot;: &quot;gemini&quot;, &quot;model&quot;: &quot;google/gemini-3.1-pro-preview&quot;, &quot;prompt_tokens_estimated&quot;: 7614, &quot;worst_case_usd&quot;: 1.0361}, {&quot;party_key&quot;: &quot;claude&quot;, &quot;model&quot;: &quot;anthropic/claude-fable-5&quot;, &quot;prompt_tokens_estimated&quot;: 7630, &quot;worst_case_usd&quot;: 4.3815}, {&quot;party_key&quot;: &quot;qwen&quot;, &quot;model&quot;: &quot;LOCAL&quot;, &quot;prompt_tokens_estimated&quot;: 7634, &quot;worst_case_usd&quot;: 0.0}], &quot;worst_case_usd&quot;: 6.4918, &quot;rates_version&quot;: &quot;openrouter-list-2026-08-07&quot;, &quot;rates_recorded_utc&quot;: &quot;2026-08-07T09:18:03Z&quot;, &quot;rates_source&quot;: &quot;https://openrouter.ai/api/v1/models&quot;, &quot;rates_verified_by_custodian&quot;: false, &quot;basis&quot;: &quot;Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.&quot;, &quot;what_it_cannot_do&quot;: &quot;It cannot bind the provider. Only a provider-side spending cap does that.&quot;, &quot;max_spend_usd_this_cycle&quot;: 8.0, &quot;daily_ceiling_usd&quot;: 25.0, &quot;already_committed_today_usd&quot;: 7.4693} · actual <code>1.3324</code></p>
+
+<h2>Verification</h2>
+
+<li>plan <code>b0f628229fc0f5748cc75e8748aa6d9bd1064ee4322e96ba4239ba4d7e396d5c</code></li>
+<li>prompt template <code>b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5</code></li>
+<li>context pack <code>6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874</code></li>
+<li><a href="round-005-prompts.html">every prompt, verbatim</a></li>
+
+<p><a href="index.html">all rounds</a> · <a href="round-004.html">previous</a> · <a href="round-006.html">next</a></p></body></html>

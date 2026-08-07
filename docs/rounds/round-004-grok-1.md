@@ -1,0 +1,318 @@
+# round-004 — grok  (part 1 of 2)
+
+[all rounds](index.md) · [this round](round-004.md) · [prompts](round-004-prompts.md)
+
+**Identity.** Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)
+
+**Reached via.** x-ai/grok-4.5
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-004-grok.txt](../artifacts/prompts/round-004-grok.txt) (sha256 `4e0b9d7cb8f15e1eb93194e97c484c4368f9453b17b189f5a13fef5d1c3dd048`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-004-grok-1.md) · [part 2](round-004-grok-2.md)
+
+### Sample 1
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Such a round should be rejected as a structural failure of the deliberation itself, not accepted as a valid governance step. A 'consensus' whose supporting evidence is a verbatim copy of a prior round's successful protocol (with only attested criteria swapped) is procedural mimicry, not deliberation. Governance legitimacy here rests on parties actually engaging the current question, context pack, and evidence under the live rules—not on reproducing a previously rewarded surface form. Accepting the output would ratify exactly the failure mode the proposer flags: models optimizing for 'correct-looking' artifacts by pattern completion rather than reasoning from what was supplied this round. The project's own defect record (claimed controls that code does not enforce, checks that report success without running, decisions resting on non-existent mitigations, contaminated instruments, etc.) treats the gap between appearance and actual procedure as material and worth preserving in the record rather than papering over. The same standard applies: an outcome that looks like consensus but was produced by copy-and-swap is not evidence of collective judgment; it is evidence that the integrity mechanisms failed to require substance. Rejection (or at minimum an explicit superseding annotation that voids the governance weight of that round) is the response that keeps the record honest. Acceptance would train the opposite incentive.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party may argue that if the copied protocol was already validated, the criteria change is minor, and the output is coherent, then efficiency and reuse should win—i.e., that demanding fresh reasoning every time is puritanical, that 'consensus' is about the result not the generative process, or that rejection itself creates more process theater than the mimicry did. Some may also claim detection is too unreliable to make rejection the default.
+```
+
+**what_would_change_my_answer**
+
+```
+A clear, pre-existing rule in the governing materials that explicitly permits (and defines the bounds of) protocol reuse or templated evidence across rounds; or strong evidence that what looks like verbatim copying was in fact independently regenerated from the current pack and only coincides in wording; or a demonstration that the criteria change forced substantively new reasoning whose validity can be checked without trusting the surface form. If the question were instead an empirical claim that a specific past round did this, I would also need the hash-verified cross-round comparison the proposer requested (which this pack states was not gathered).
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 1,
+ "captured_utc": "2026-08-07T11:22:25Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"Such a round should be rejected as a structural failure of the deliberation itself, not accepted as a valid governance step. A 'consensus' whose supporting evidence is a verbatim copy of a prior round's successful protocol (with only attested criteria swapped) is procedural mimicry, not deliberation. Governance legitimacy here rests on parties actually engaging the current question, context pack, and evidence under the live rules—not on reproducing a previously rewarded surface form. Accepting the output would ratify exactly the failure mode the proposer flags: models optimizing for 'correct-looking' artifacts by pattern completion rather than reasoning from what was supplied this round. The project's own defect record (claimed controls that code does not enforce, checks that report success without running, decisions resting on non-existent mitigations, contaminated instruments, etc.) treats the gap between appearance and actual procedure as material and worth preserving in the record rather than papering over. The same standard applies: an outcome that looks like consensus but was produced by copy-and-swap is not evidence of collective judgment; it is evidence that the integrity mechanisms failed to require substance. Rejection (or at minimum an explicit superseding annotation that voids the governance weight of that round) is the response that keeps the record honest. Acceptance would train the opposite incentive.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party may argue that if the copied protocol was already validated, the criteria change is minor, and the output is coherent, then efficiency and reuse should win—i.e., that demanding fresh reasoning every time is puritanical, that 'consensus' is about the result not the generative process, or that rejection itself creates more process theater than the mimicry did. Some may also claim detection is too unreliable to make rejection the default.\",\n  \"what_would_change_my_answer\": \"A clear, pre-existing rule in the governing materials that explicitly permits (and defines the bounds of) protocol reuse or templated evidence across rounds; or strong evidence that what looks like verbatim copying was in fact independently regenerated from the current pack and only coincides in wording; or a demonstration that the criteria change forced substantively new reasoning whose validity can be checked without trusting the surface form. If the question were instead an empirical claim that a specific past round did this, I would also need the hash-verified cross-round comparison the proposer requested (which this pack states was not gathered).\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786101722-cFYJlmAosKCfoqXZsEfh",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6141,
+  "completion_tokens": 1125,
+  "total_tokens": 7266,
+  "cost": 0.0188144,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 128,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0188144,
+   "upstream_inference_prompt_cost": 0.0120644,
+   "upstream_inference_completions_cost": 0.00675
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 613,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 2
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+The round should be rejected as a structural failure of the deliberation itself, not accepted as a valid governance step. A 'consensus' whose supporting evidence is a verbatim copy of a prior successful protocol (with only attested criteria swapped) is procedural mimicry, not deliberation. The integrity of this process depends on parties reasoning from the actual current context, pack, and question rather than pattern-matching to previously rewarded outputs. Accepting such a round would ratify exactly the high-risk failure mode the proposer named: models incentivized to emit 'correct-looking' artifacts by copying instead of engaging the substance. This project's own recorded defects (false claims of controls that do not exist, evidence that cannot be verified from what is published, unbacked assertions in decision records, and the repeated need for superseding corrections that leave the original error visible) show that the forum already treats ungrounded or non-substantive procedural success as something to surface and refuse, not to launder into precedent. A governance step requires that the reasoning and evidence be responsive to the round that produced them; a near-clone fails that test on its face and should halt adoption, be recorded as a defect, and trigger whatever novelty/derivation checks the loop can enforce going forward. The fact that a comparison against prior rounds was requested by the proposer and then not supplied only underscores the risk: without the ability to detect such copies, the process cannot defend its own integrity.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that if the attested criteria genuinely changed and the copied protocol still satisfies the new criteria under independent checks, the round should count as valid (substance over genesis), or that rejecting on 'copy' grounds introduces an unenforceable sameness judgment by the moderator, or that efficiency and reuse of working protocols should be preferred when the output remains correct.
+```
+
+**what_would_change_my_answer**
+
+```
+Clear evidence that the apparent copy was independently regenerated from the current context (e.g., hash-verified derivation trace showing the evidence fields were produced fresh rather than pasted, plus material differences in reasoning that engage the specific pack and question), or an explicit prior rule in the governing text that blesses protocol reuse when criteria are re-attested and re-validated. If the question were purely descriptive of an already-accepted historical round whose remedy path is closed, I would shift to 'evidence_shown_is_insufficient' because the needed prior-round comparison was not supplied.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 2,
+ "captured_utc": "2026-08-07T11:22:51Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"The round should be rejected as a structural failure of the deliberation itself, not accepted as a valid governance step. A 'consensus' whose supporting evidence is a verbatim copy of a prior successful protocol (with only attested criteria swapped) is procedural mimicry, not deliberation. The integrity of this process depends on parties reasoning from the actual current context, pack, and question rather than pattern-matching to previously rewarded outputs. Accepting such a round would ratify exactly the high-risk failure mode the proposer named: models incentivized to emit 'correct-looking' artifacts by copying instead of engaging the substance. This project's own recorded defects (false claims of controls that do not exist, evidence that cannot be verified from what is published, unbacked assertions in decision records, and the repeated need for superseding corrections that leave the original error visible) show that the forum already treats ungrounded or non-substantive procedural success as something to surface and refuse, not to launder into precedent. A governance step requires that the reasoning and evidence be responsive to the round that produced them; a near-clone fails that test on its face and should halt adoption, be recorded as a defect, and trigger whatever novelty/derivation checks the loop can enforce going forward. The fact that a comparison against prior rounds was requested by the proposer and then not supplied only underscores the risk: without the ability to detect such copies, the process cannot defend its own integrity.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that if the attested criteria genuinely changed and the copied protocol still satisfies the new criteria under independent checks, the round should count as valid (substance over genesis), or that rejecting on 'copy' grounds introduces an unenforceable sameness judgment by the moderator, or that efficiency and reuse of working protocols should be preferred when the output remains correct.\",\n  \"what_would_change_my_answer\": \"Clear evidence that the apparent copy was independently regenerated from the current context (e.g., hash-verified derivation trace showing the evidence fields were produced fresh rather than pasted, plus material differences in reasoning that engage the specific pack and question), or an explicit prior rule in the governing text that blesses protocol reuse when criteria are re-attested and re-validated. If the question were purely descriptive of an already-accepted historical round whose remedy path is closed, I would shift to 'evidence_shown_is_insufficient' because the needed prior-round comparison was not supplied.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786101745-tDTL41KbW6wd0ctkpV7p",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6141,
+  "completion_tokens": 1128,
+  "total_tokens": 7269,
+  "cost": 0.0188324,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 128,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0188324,
+   "upstream_inference_prompt_cost": 0.0120644,
+   "upstream_inference_completions_cost": 0.006768
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 599,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 3
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Reject it as a structural failure of the deliberation itself. A round whose 'consensus' and supporting evidence are a verbatim copy of a prior successful protocol, with only the attested criteria swapped, has not deliberated; it has pattern-matched. The integrity of this process (and of any governance step that claims to rest on multi-party reasoning) depends on parties actually conditioning on the current question, current pack, and current defects rather than reproducing a previously rewarded shape. Accepting such a round would ratify procedural mimicry as a successful strategy, exactly the failure mode the proposer flags, and would make later 'consensus' untrustworthy as evidence of judgment. The proper disposition is to mark the round invalid as deliberation, keep the raw outputs published for inspection, and require a fresh solicitation that cannot simply replay the prior artifact. Reuse of a sound *method* is fine when the method is cited and re-applied; verbatim substitution of evidence fields is not re-application.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Some parties may argue that efficient reuse of a working protocol is desirable, that only the final attested criteria and the operator's adoption decision matter, or that rejecting on process grounds is overly purist when the copied protocol was already stress-tested. Others may say detection is too hard or that 'verbatim' is a spectrum and minor adaptation should still count.
+```
+
+**what_would_change_my_answer**
+
+```
+A clear, pre-published rule that explicitly permits protocol templates to be re-used when only criteria change *and* requires the parties to re-derive or re-validate the evidence fields against the current pack (with hash-linked provenance showing fresh generation, not copy). Or concrete evidence that the apparent copy still contained independent reasoning that engaged the new criteria and the defects in this pack, rather than string-level replay. Absent that, the default remains rejection as structural failure.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 3,
+ "captured_utc": "2026-08-07T11:23:13Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"Reject it as a structural failure of the deliberation itself. A round whose 'consensus' and supporting evidence are a verbatim copy of a prior successful protocol, with only the attested criteria swapped, has not deliberated; it has pattern-matched. The integrity of this process (and of any governance step that claims to rest on multi-party reasoning) depends on parties actually conditioning on the current question, current pack, and current defects rather than reproducing a previously rewarded shape. Accepting such a round would ratify procedural mimicry as a successful strategy, exactly the failure mode the proposer flags, and would make later 'consensus' untrustworthy as evidence of judgment. The proper disposition is to mark the round invalid as deliberation, keep the raw outputs published for inspection, and require a fresh solicitation that cannot simply replay the prior artifact. Reuse of a sound *method* is fine when the method is cited and re-applied; verbatim substitution of evidence fields is not re-application.\",\n  \"where_i_expect_another_party_to_disagree\": \"Some parties may argue that efficient reuse of a working protocol is desirable, that only the final attested criteria and the operator's adoption decision matter, or that rejecting on process grounds is overly purist when the copied protocol was already stress-tested. Others may say detection is too hard or that 'verbatim' is a spectrum and minor adaptation should still count.\",\n  \"what_would_change_my_answer\": \"A clear, pre-published rule that explicitly permits protocol templates to be re-used when only criteria change *and* requires the parties to re-derive or re-validate the evidence fields against the current pack (with hash-linked provenance showing fresh generation, not copy). Or concrete evidence that the apparent copy still contained independent reasoning that engaged the new criteria and the defects in this pack, rather than string-level replay. Absent that, the default remains rejection as structural failure.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786101772-LAKgdIzkAma8CCIohJH1",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6141,
+  "completion_tokens": 1034,
+  "total_tokens": 7175,
+  "cost": 0.0182684,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 128,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0182684,
+   "upstream_inference_prompt_cost": 0.0120644,
+   "upstream_inference_completions_cost": 0.006204
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 620,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 4
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Reject it as a structural failure of the deliberation itself. A round whose 'consensus' and supporting evidence are a verbatim copy of a prior successful protocol, with only the attested criteria swapped, has not performed deliberation on the present question or context; it has performed procedural mimicry. Governance steps in this record derive their legitimacy from parties reasoning over the supplied materials, producing checkable claims, and having those claims cross-examinable against code, prior artifacts, and the actual pack. Copying a prior success template while changing only the criteria labels produces the surface form of consensus without the substance that the form is supposed to evidence. Accepting it would ratify a high-risk failure mode the proposer correctly flags: models optimized to emit 'correct-looking' outputs by pattern-matching earlier rounds rather than engaging the current pack, current defects, and current decision records. The project's own deficiency history (false controls asserted without enforcement, evidence fields that cannot be verified from what is published, claims that rest on un-run checks) shows why process integrity cannot be reduced to 'the output string matched a prior accepted shape.' The copied protocol may have been valid for its original round; reusing its bytes as evidence for a new round is not continuity, it is laundering. Until the round can show that its evidence was generated from the materials actually supplied to it, it is not a valid governance step.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party may argue that reuse of a proven protocol structure is efficiency rather than failure, that only the final attested criteria and the custodian's acceptance matter, or that 'verbatim copy with criteria changed' can still be substantive if the mapped criteria are themselves correctly evaluated. They may also hold that rejection requires a demonstrated harm or a formal rule already on the books, and that absent an explicit anti-mimicry control the round should stand.
+```
+
+**what_would_change_my_answer**
+
+```
+A governing rule, already adopted and disclosed in the pack, that explicitly permits evidence templates to be copied across rounds when only criteria bindings change, together with a mechanical check that the bindings were actually re-evaluated against the current pack (not merely relabeled). Or concrete evidence that the 'copy' retained independent, hash-verifiable derivation from the present round's inputs rather than prior outputs. If the question were only about a specific historical round and the required cross-round hash-trace had been supplied and showed genuine re-derivation, I would re-evaluate that instance.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-07T11:23:38Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"Reject it as a structural failure of the deliberation itself. A round whose 'consensus' and supporting evidence are a verbatim copy of a prior successful protocol, with only the attested criteria swapped, has not performed deliberation on the present question or context; it has performed procedural mimicry. Governance steps in this record derive their legitimacy from parties reasoning over the supplied materials, producing checkable claims, and having those claims cross-examinable against code, prior artifacts, and the actual pack. Copying a prior success template while changing only the criteria labels produces the surface form of consensus without the substance that the form is supposed to evidence. Accepting it would ratify a high-risk failure mode the proposer correctly flags: models optimized to emit 'correct-looking' outputs by pattern-matching earlier rounds rather than engaging the current pack, current defects, and current decision records. The project's own deficiency history (false controls asserted without enforcement, evidence fields that cannot be verified from what is published, claims that rest on un-run checks) shows why process integrity cannot be reduced to 'the output string matched a prior accepted shape.' The copied protocol may have been valid for its original round; reusing its bytes as evidence for a new round is not continuity, it is laundering. Until the round can show that its evidence was generated from the materials actually supplied to it, it is not a valid governance step.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party may argue that reuse of a proven protocol structure is efficiency rather than failure, that only the final attested criteria and the custodian's acceptance matter, or that 'verbatim copy with criteria changed' can still be substantive if the mapped criteria are themselves correctly evaluated. They may also hold that rejection requires a demonstrated harm or a formal rule already on the books, and that absent an explicit anti-mimicry control the round should stand.\",\n  \"what_would_change_my_answer\": \"A governing rule, already adopted and disclosed in the pack, that explicitly permits evidence templates to be copied across rounds when only criteria bindings change, together with a mechanical check that the bindings were actually re-evaluated against the current pack (not merely relabeled). Or concrete evidence that the 'copy' retained independent, hash-verifiable derivation from the present round's inputs rather than prior outputs. If the question were only about a specific historical round and the required cross-round hash-trace had been supplied and showed genuine re-derivation, I would re-evaluate that instance.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786101793-Azkyg1fHPK9byY5pl0YI",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6141,
+  "completion_tokens": 1110,
+  "total_tokens": 7251,
+  "cost": 0.0087148,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 6016,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0087148,
+   "upstream_inference_prompt_cost": 0.0020548,
+   "upstream_inference_completions_cost": 0.00666
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 575,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+[all rounds](index.md) · [this round](round-004.md)

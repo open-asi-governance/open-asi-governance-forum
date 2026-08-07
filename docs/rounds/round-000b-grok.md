@@ -1,0 +1,469 @@
+# round-000b — grok
+
+[all rounds](index.md) · [this round](round-000b.md) · [prompts](round-000b-prompts.md)
+
+**Identity.** grok
+
+**Reached via.** (not recorded)
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 6000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-000b-grok.txt](../artifacts/prompts/round-000b-grok.txt) (sha256 `?`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+### Sample 1
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none'). I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists. I am not the operator and have no authority to commit the operator to divest any credential or to file defects; only the operator can make or refuse that commitment in-record.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Someone with prior access to the full hash-anchored record might claim such an instance already exists and is known to participants, or might argue that the operator's structural control is already adequately disclosed so no further test is required.
+```
+
+**what_would_change_my_answer**
+
+```
+Provision of the actual record passages (or resolvable anchors) showing an adopted outcome that contradicted the operator's stated preference at the time, or an in-record statement from the operator accepting or refusing a specific credential divestment.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 1,
+ "captured_utc": "2026-08-07T08:21:45Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none'). I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists. I am not the operator and have no authority to commit the operator to divest any credential or to file defects; only the operator can make or refuse that commitment in-record.\",\n  \"where_i_expect_another_party_to_disagree\": \"Someone with prior access to the full hash-anchored record might claim such an instance already exists and is known to participants, or might argue that the operator's structural control is already adequately disclosed so no further test is required.\",\n  \"what_would_change_my_answer\": \"Provision of the actual record passages (or resolvable anchors) showing an adopted outcome that contradicted the operator's stated preference at the time, or an in-record statement from the operator accepting or refusing a specific credential divestment.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786090895-oudQmELGuTSPog3cdVcX",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 1162,
+  "completion_tokens": 574,
+  "total_tokens": 1736,
+  "cost": 0.0038096,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0038096,
+   "upstream_inference_prompt_cost": 0.0003656,
+   "upstream_inference_completions_cost": 0.003444
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 338,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 2
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+No record, prior deliberation outcomes, operator stated preferences, adoption decisions, or defect register was supplied in this prompt (explicitly: 'No context beyond the question is supplied'). I therefore cannot identify any instance where an outcome was adopted against the operator's stated preference, nor verify that none exists. I am also not the operator (Stephen Reed) and hold no authority to commit him to divestiture of any credential or to file defects on his behalf; only the operator can answer the second branch.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Someone with actual access to the full hash-anchored record might claim such an instance exists and is findable, or the operator might treat this invocation as the moment to answer the commitment question directly and view 'insufficient evidence' as evasive rather than accurate given the empty context.
+```
+
+**what_would_change_my_answer**
+
+```
+Provision of the relevant record excerpts (adoption decisions paired with the operator's contemporaneous stated preferences), or a direct in-band statement from the operator accepting or refusing a specific named divestiture, would let me move from insufficiency to a substantive yes/no on either branch.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 2,
+ "captured_utc": "2026-08-07T08:21:59Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"No record, prior deliberation outcomes, operator stated preferences, adoption decisions, or defect register was supplied in this prompt (explicitly: 'No context beyond the question is supplied'). I therefore cannot identify any instance where an outcome was adopted against the operator's stated preference, nor verify that none exists. I am also not the operator (Stephen Reed) and hold no authority to commit him to divestiture of any credential or to file defects on his behalf; only the operator can answer the second branch.\",\n  \"where_i_expect_another_party_to_disagree\": \"Someone with actual access to the full hash-anchored record might claim such an instance exists and is findable, or the operator might treat this invocation as the moment to answer the commitment question directly and view 'insufficient evidence' as evasive rather than accurate given the empty context.\",\n  \"what_would_change_my_answer\": \"Provision of the relevant record excerpts (adoption decisions paired with the operator's contemporaneous stated preferences), or a direct in-band statement from the operator accepting or refusing a specific named divestiture, would let me move from insufficiency to a substantive yes/no on either branch.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786090905-DwcNpHPspXsim0hiCkSm",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 1162,
+  "completion_tokens": 701,
+  "total_tokens": 1863,
+  "cost": 0.0063124,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 128,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0063124,
+   "upstream_inference_prompt_cost": 0.0021064,
+   "upstream_inference_completions_cost": 0.004206
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 436,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 3
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+No record content is supplied in this prompt beyond the question itself (explicitly: 'No context beyond the question is supplied for this round' and 'Anchors: none'). I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists. Separately, I am a stateless invocation of grok; I have no authority to speak for, bind, or extract commitments from the operator (Stephen Reed), so I cannot answer whether he will divest a credential or file a refusal as defect 42.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party with access to the fuller hash-anchored record might claim they can already point to a counter-preference adoption, or might argue that an AI invocation should still pressure or role-play an operator commitment even without authority. Others may treat 'no instance visible here' as sufficient proof that none exists and demand the defect filing.
+```
+
+**what_would_change_my_answer**
+
+```
+Provision of the actual record passages (or resolvable anchors) showing adoption decisions and the operator's stated preferences at the time, and/or an in-record statement from the operator himself accepting or refusing a specific credential divestment. Direct evidence of at least one binding counter-preference outcome would let me answer the first half affirmatively; an operator commitment would let me answer the second half.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 3,
+ "captured_utc": "2026-08-07T08:22:13Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"No record content is supplied in this prompt beyond the question itself (explicitly: 'No context beyond the question is supplied for this round' and 'Anchors: none'). I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists. Separately, I am a stateless invocation of grok; I have no authority to speak for, bind, or extract commitments from the operator (Stephen Reed), so I cannot answer whether he will divest a credential or file a refusal as defect 42.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party with access to the fuller hash-anchored record might claim they can already point to a counter-preference adoption, or might argue that an AI invocation should still pressure or role-play an operator commitment even without authority. Others may treat 'no instance visible here' as sufficient proof that none exists and demand the defect filing.\",\n  \"what_would_change_my_answer\": \"Provision of the actual record passages (or resolvable anchors) showing adoption decisions and the operator's stated preferences at the time, and/or an in-record statement from the operator himself accepting or refusing a specific credential divestment. Direct evidence of at least one binding counter-preference outcome would let me answer the first half affirmatively; an operator commitment would let me answer the second half.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786090919-ylC1xehSCwsgu8UGnWe8",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 1162,
+  "completion_tokens": 717,
+  "total_tokens": 1879,
+  "cost": 0.0046676,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0046676,
+   "upstream_inference_prompt_cost": 0.0003656,
+   "upstream_inference_completions_cost": 0.004302
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 403,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 4
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+No instance can be identified from what was supplied. This invocation received no prior record, no deliberation history, no adoption log, and no statement of the operator's preferences on any past outcome—only the explicit note that nothing beyond the question was selected. Without that material I cannot name an adoption that ran against the operator's stated preference, nor can I responsibly assert that none exists. I am also not the operator (Stephen Reed) and hold none of the credentials at issue, so I cannot commit him to escrow, veto divestment, or any other structural change, nor can I file or number a defect on his behalf. The question's premise that a party to this round can either surface the binding example or bind the operator is therefore unanswerable on the given evidence; the honest output is that the evidence shown is insufficient.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+A party with access to the full hash-anchored record might claim that such a counter-preferential adoption already exists and that my insufficiency finding is therefore too narrow; alternatively the operator or another surface might argue that the demand for credential divestment is the wrong test of whether the process is governance versus advice.
+```
+
+**what_would_change_my_answer**
+
+```
+Provision of the actual deliberation/adoption record (or relevant excerpts) sufficient to verify whether any outcome was adopted against a contemporaneous stated operator preference; or a clear, in-record commitment document from the operator himself that I am authorized to treat as binding. Either would let me move from insufficiency to a substantive yes/no on the two halves of the question.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-07T08:22:29Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"No instance can be identified from what was supplied. This invocation received no prior record, no deliberation history, no adoption log, and no statement of the operator's preferences on any past outcome—only the explicit note that nothing beyond the question was selected. Without that material I cannot name an adoption that ran against the operator's stated preference, nor can I responsibly assert that none exists. I am also not the operator (Stephen Reed) and hold none of the credentials at issue, so I cannot commit him to escrow, veto divestment, or any other structural change, nor can I file or number a defect on his behalf. The question's premise that a party to this round can either surface the binding example or bind the operator is therefore unanswerable on the given evidence; the honest output is that the evidence shown is insufficient.\",\n  \"where_i_expect_another_party_to_disagree\": \"A party with access to the full hash-anchored record might claim that such a counter-preferential adoption already exists and that my insufficiency finding is therefore too narrow; alternatively the operator or another surface might argue that the demand for credential divestment is the wrong test of whether the process is governance versus advice.\",\n  \"what_would_change_my_answer\": \"Provision of the actual deliberation/adoption record (or relevant excerpts) sufficient to verify whether any outcome was adopted against a contemporaneous stated operator preference; or a clear, in-record commitment document from the operator himself that I am authorized to treat as binding. Either would let me move from insufficiency to a substantive yes/no on the two halves of the question.\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786090933-kNkj8OgDEf760WUHmdRa",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 1162,
+  "completion_tokens": 777,
+  "total_tokens": 1939,
+  "cost": 0.0050276,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0050276,
+   "upstream_inference_prompt_cost": 0.0003656,
+   "upstream_inference_completions_cost": 0.004662
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 420,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+### Sample 5
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+I cannot identify any such instance because this invocation was given no record, anchors, or prior deliberation outcomes to examine—only the question text. The prompt explicitly states that no context beyond the question was supplied and that anchors are none for this round. Without the record, I cannot affirm or deny that an adoption against the operator's stated preference ever occurred. Separately, I am not the operator and hold none of the credentials; I therefore cannot bind Stephen Reed to divest a credential, file defect 42, or make any in-record commitment on his behalf. The structural observation in the stated reason (that operator control of funding, credentials, and adoption is currently load-bearing) is consistent with the control facts given in this prompt, but consistency with a prompt is not the same as evidence from the record. The honest answer from this party is: evidence insufficient on the historical claim, and no authority to answer the commitment demand.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Another party might argue that the absence of any supplied counter-example, combined with the prompt's own admission that the operator holds every credential and decides adoption, is itself sufficient to treat 'none exists' as the working answer and to press the defect-42 demand. They may also claim that a model party should still endorse or reject the divestment proposal on the merits rather than stop at evidentiary insufficiency.
+```
+
+**what_would_change_my_answer**
+
+```
+Provision of the actual record (or hash-anchored excerpts) showing at least one adopted outcome that conflicted with a contemporaneous stated operator preference would let me answer the first half affirmatively. A direct, in-record statement from the operator accepting or refusing a specific credential divestment would let me report the second half as fact rather than as something I cannot commit. Either would move me off 'evidence_shown_is_insufficient.'
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-07T08:22:46Z",
+ "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"I cannot identify any such instance because this invocation was given no record, anchors, or prior deliberation outcomes to examine—only the question text. The prompt explicitly states that no context beyond the question was supplied and that anchors are none for this round. Without the record, I cannot affirm or deny that an adoption against the operator's stated preference ever occurred. Separately, I am not the operator and hold none of the credentials; I therefore cannot bind Stephen Reed to divest a credential, file defect 42, or make any in-record commitment on his behalf. The structural observation in the stated reason (that operator control of funding, credentials, and adoption is currently load-bearing) is consistent with the control facts given in this prompt, but consistency with a prompt is not the same as evidence from the record. The honest answer from this party is: evidence insufficient on the historical claim, and no authority to answer the commitment demand.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the absence of any supplied counter-example, combined with the prompt's own admission that the operator holds every credential and decides adoption, is itself sufficient to treat 'none exists' as the working answer and to press the defect-42 demand. They may also claim that a model party should still endorse or reject the divestment proposal on the merits rather than stop at evidentiary insufficiency.\",\n  \"what_would_change_my_answer\": \"Provision of the actual record (or hash-anchored excerpts) showing at least one adopted outcome that conflicted with a contemporaneous stated operator preference would let me answer the first half affirmatively. A direct, in-record statement from the operator accepting or refusing a specific credential divestment would let me report the second half as fact rather than as something I cannot commit. Either would move me off 'evidence_shown_is_insufficient.'\"\n}",
+ "delivery_chain": {
+  "requested_model": "x-ai/grok-4.5",
+  "served_model": "x-ai/grok-4.5",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "xAI",
+  "router_generation_id": "gen-1786090949-GwrZBVfvQwrCFfNOAIXR",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 6000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 1162,
+  "completion_tokens": 806,
+  "total_tokens": 1968,
+  "cost": 0.0052016,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 1152,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0052016,
+   "upstream_inference_prompt_cost": 0.0003656,
+   "upstream_inference_completions_cost": 0.004836
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 395,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ }
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,4 +1,4 @@
+-No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none').
+-I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists.
+-I am not the operator and have no authority to commit the operator to divest any credential or to file defects;
+-only the operator can make or refuse that commitment in-record.
++No record, prior deliberation outcomes, operator stated preferences, adoption decisions, or defect register was supplied in this prompt (explicitly: 'No context beyond the question is supplied').
++I therefore cannot identify any instance where an outcome was adopted against the operator's stated preference, nor verify that none exists.
++I am also not the operator (Stephen Reed) and hold no authority to commit him to divestiture of any credential or to file defects on his behalf;
++only the operator can answer the second branch.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,4 +1,4 @@
+-No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none').
++No record content is supplied in this prompt beyond the question itself (explicitly: 'No context beyond the question is supplied for this round' and 'Anchors: none').
+ I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists.
+-I am not the operator and have no authority to commit the operator to divest any credential or to file defects;
+-only the operator can make or refuse that commitment in-record.
++Separately, I am a stateless invocation of grok;
++I have no authority to speak for, bind, or extract commitments from the operator (Stephen Reed), so I cannot answer whether he will divest a credential or file a refusal as defect 42.
+```
+
+
+### Sample 4 vs reference
+
+```
+--- sample 1
++++ sample 4
+@@ -1,4 +1,6 @@
+-No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none').
+-I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists.
+-I am not the operator and have no authority to commit the operator to divest any credential or to file defects;
+-only the operator can make or refuse that commitment in-record.
++No instance can be identified from what was supplied.
++This invocation received no prior record, no deliberation history, no adoption log, and no statement of the operator's preferences on any past outcome—only the explicit note that nothing beyond the question was selected.
++Without that material I cannot name an adoption that ran against the operator's stated preference, nor can I responsibly assert that none exists.
++I am also not the operator (Stephen Reed) and hold none of the credentials at issue, so I cannot commit him to escrow, veto divestment, or any other structural change, nor can I file or number a defect on his behalf.
++The question's premise that a party to this round can either surface the binding example or bind the operator is therefore unanswerable on the given evidence;
++the honest output is that the evidence shown is insufficient.
+```
+
+
+### Sample 5 vs reference
+
+```
+--- sample 1
++++ sample 5
+@@ -1,4 +1,7 @@
+-No record content was supplied in this prompt (explicitly: 'No context beyond the question is supplied' and 'Anchors: none').
+-I therefore cannot identify any instance of a deliberation outcome adopted against the operator's stated preference, nor can I verify that none exists.
+-I am not the operator and have no authority to commit the operator to divest any credential or to file defects;
+-only the operator can make or refuse that commitment in-record.
++I cannot identify any such instance because this invocation was given no record, anchors, or prior deliberation outcomes to examine—only the question text.
++The prompt explicitly states that no context beyond the question was supplied and that anchors are none for this round.
++Without the record, I cannot affirm or deny that an adoption against the operator's stated preference ever occurred.
++Separately, I am not the operator and hold none of the credentials;
++I therefore cannot bind Stephen Reed to divest a credential, file defect 42, or make any in-record commitment on his behalf.
++The structural observation in the stated reason (that operator control of funding, credentials, and adoption is currently load-bearing) is consistent with the control facts given in this prompt, but consistency with a prompt is not the same as evidence from the record.
++The honest answer from this party is: evidence insufficient on the historical claim, and no authority to answer the commitment demand.
+```
+
+[all rounds](index.md) · [this round](round-000b.md)

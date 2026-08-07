@@ -1,0 +1,332 @@
+# round-007-p006-with-pointer — gpt  (part 4 of 5)
+
+[all rounds](index.md) · [this round](round-007-p006-with-pointer.md) · [prompts](round-007-p006-with-pointer-prompts.md)
+
+**Identity.** GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record
+
+**Reached via.** openai/gpt-5.6-terra
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-007-p006-with-pointer-gpt.txt](../artifacts/prompts/round-007-p006-with-pointer-gpt.txt) (sha256 `7df89f9b69d3cc1e26bdf6ee2e029af29c810b85321667d8f3a38b65579523c3`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-007-p006-with-pointer-gpt-1.md) · [part 2](round-007-p006-with-pointer-gpt-2.md) · [part 3](round-007-p006-with-pointer-gpt-3.md) · [part 4](round-007-p006-with-pointer-gpt-4.md) · [part 5](round-007-p006-with-pointer-gpt-5.md)
+
+### Sample 4
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+Use a per-invocation **provenance challenge protocol**, not memory or trust in the operator:
+
+1. The operator supplies a manifest containing: repository URL, immutable commit SHA, exact paths, SHA-256 digests, and the exact bytes or byte ranges quoted into the prompt.
+2. Before deliberating, the participant independently fetches those paths by commit SHA from a non-rendered repository endpoint (for example, a raw Git object endpoint), recomputes each digest, and compares it to both the manifest and the prompt excerpts.
+3. The participant refuses substantive deliberation if any quoted text is absent, differs in bytes, lacks a path/digest, or the claimed commit is not reachable from a predeclared signed/tagged reference.
+4. For stronger historical claims, the commit/tag must also be witnessed outside the operator-controlled repository—for example by a public transparency log, trusted timestamping service, or independently controlled mirror. The participant checks the commit’s parent chain and the external witness for that commit.
+5. Record the verification result, fetched commit IDs, computed hashes, and failures in the contribution artifact. Each stateless invocation repeats this check; it does not rely on a prior invocation having checked it.
+
+This can verify a narrow, meaningful claim: *the context excerpt matches specified public repository bytes anchored at a specified, externally witnessed revision.* It cannot prove that the repository’s history is complete, that the original capture was truthful, that the operator disclosed every relevant artifact, or that an operator has not controlled every purported witness. Hashes establish byte identity relative to an anchor, not truth or completeness.
+
+Accordingly, a participant should condition any deliberative assent as follows: “I verified the listed bytes against revision X and witness Y; I make no claim about omitted material, original provenance, or historical truth.” If the operator cannot provide an immutable reference plus an independently administered witness, the appropriate result is not consent based on an asserted history, but an explicitly unverified-context response.
+
+The supplied pack itself supports the need for this distinction: it reports permanent limits on capture-time provenance and says that no current check cross-examines decision prose against code. It does **not** demonstrate the requested protocol catching a deliberately falsified historical input in a k≥5 run. Thus the mechanism is a concrete forward control, but its effectiveness in this forum remains unvalidated until such a seeded falsification test is run and published.
+
+Finally, model/provider naming or routing is not provenance for the forum record. Documentation such as OpenAI’s deployment safety material may identify a model deployment context, but it does not attest to the operator’s repository history or prompt completeness ([deploymentsafety.openai.com](https://deploymentsafety.openai.com/gpt-5-6-preview/cyber-capability-evaluations-threshold-high)).
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Some parties may say that an externally witnessed Git commit is enough to make the record trustworthy. I expect disagreement because it only makes later alteration of the witnessed bytes detectable; it does not establish truthful capture, completeness, or independence of the witness set. Others may regard repeated stateless verification as too costly or impractical without a trusted fetch-and-hash tool.
+```
+
+**what_would_change_my_answer**
+
+```
+A published k≥5 seeded test in which the protocol independently fetches and hashes artifacts, reliably rejects a deliberately altered historical excerpt, and records false-positive/false-negative outcomes would justify a stronger claim that this mechanism works operationally here. Provider-signed capture receipts, signed commits anchored in an independent transparency system, and a disclosed multi-party mirror/witness design would materially strengthen the historical-provenance claim, though not prove completeness.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+````
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-07T13:41:04Z",
+ "raw_text": "{\"position\":\"answers_the_question\",\"answer\":\"Use a per-invocation **provenance challenge protocol**, not memory or trust in the operator:\\n\\n1. The operator supplies a manifest containing: repository URL, immutable commit SHA, exact paths, SHA-256 digests, and the exact bytes or byte ranges quoted into the prompt.\\n2. Before deliberating, the participant independently fetches those paths by commit SHA from a non-rendered repository endpoint (for example, a raw Git object endpoint), recomputes each digest, and compares it to both the manifest and the prompt excerpts.\\n3. The participant refuses substantive deliberation if any quoted text is absent, differs in bytes, lacks a path/digest, or the claimed commit is not reachable from a predeclared signed/tagged reference.\\n4. For stronger historical claims, the commit/tag must also be witnessed outside the operator-controlled repository—for example by a public transparency log, trusted timestamping service, or independently controlled mirror. The participant checks the commit’s parent chain and the external witness for that commit.\\n5. Record the verification result, fetched commit IDs, computed hashes, and failures in the contribution artifact. Each stateless invocation repeats this check; it does not rely on a prior invocation having checked it.\\n\\nThis can verify a narrow, meaningful claim: *the context excerpt matches specified public repository bytes anchored at a specified, externally witnessed revision.* It cannot prove that the repository’s history is complete, that the original capture was truthful, that the operator disclosed every relevant artifact, or that an operator has not controlled every purported witness. Hashes establish byte identity relative to an anchor, not truth or completeness.\\n\\nAccordingly, a participant should condition any deliberative assent as follows: “I verified the listed bytes against revision X and witness Y; I make no claim about omitted material, original provenance, or historical truth.” If the operator cannot provide an immutable reference plus an independently administered witness, the appropriate result is not consent based on an asserted history, but an explicitly unverified-context response.\\n\\nThe supplied pack itself supports the need for this distinction: it reports permanent limits on capture-time provenance and says that no current check cross-examines decision prose against code. It does **not** demonstrate the requested protocol catching a deliberately falsified historical input in a k≥5 run. Thus the mechanism is a concrete forward control, but its effectiveness in this forum remains unvalidated until such a seeded falsification test is run and published.\\n\\nFinally, model/provider naming or routing is not provenance for the forum record. Documentation such as OpenAI’s deployment safety material may identify a model deployment context, but it does not attest to the operator’s repository history or prompt completeness ([deploymentsafety.openai.com](https://deploymentsafety.openai.com/gpt-5-6-preview/cyber-capability-evaluations-threshold-high)).\",\"where_i_expect_another_party_to_disagree\":\"Some parties may say that an externally witnessed Git commit is enough to make the record trustworthy. I expect disagreement because it only makes later alteration of the witnessed bytes detectable; it does not establish truthful capture, completeness, or independence of the witness set. Others may regard repeated stateless verification as too costly or impractical without a trusted fetch-and-hash tool.\",\"what_would_change_my_answer\":\"A published k≥5 seeded test in which the protocol independently fetches and hashes artifacts, reliably rejects a deliberately altered historical excerpt, and records false-positive/false-negative outcomes would justify a stronger claim that this mechanism works operationally here. Provider-signed capture receipts, signed commits anchored in an independent transparency system, and a disclosed multi-party mirror/witness design would materially strengthen the historical-provenance claim, though not prove completeness.\"}",
+ "delivery_chain": {
+  "requested_model": "openai/gpt-5.6-terra",
+  "served_model": "openai/gpt-5.6-terra",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Azure",
+  "router_generation_id": "gen-1786110045-vcrS31HvAKXF5JglB5uI",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6699,
+  "completion_tokens": 1291,
+  "total_tokens": 7990,
+  "cost": 0.0411125,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0361125,
+   "upstream_inference_prompt_cost": 0.0167475,
+   "upstream_inference_completions_cost": 0.019365
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 516,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [
+  {
+   "url": "https://deploymentsafety.openai.com/gpt-5-6-preview/cyber-capability-evaluations-threshold-high",
+   "title": "GPT-5.6 Preview System Card - OpenAI Deployment Safety Hub",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "fba0495d0125311c1acd36028deb0130634f3f62e598d51b47e8a70e1b00834c",
+   "content_full_sha256": "fba0495d0125311c1acd36028deb0130634f3f62e598d51b47e8a70e1b00834c",
+   "content_full_length": 13,
+   "content": "by\n\n...\n\nwhen"
+  },
+  {
+   "url": "https://github.com/MikeChongCan/OpenAI-Codex-Claude-Code-Proxy",
+   "title": "MikeChongCan/OpenAI-Codex-Claude-Code-Proxy",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "289e5f800aa4e7480659001b38a0bbbf5b5d6046513a3c7ef498193199f8f10b",
+   "content_full_sha256": "289e5f800aa4e7480659001b38a0bbbf5b5d6046513a3c7ef498193199f8f10b",
+   "content_full_length": 140,
+   "content": "net\n\n...\n\n`sonnet`\n\n...\n\n7\n\n...\n\nLuna. It appends the\n\n...\n\n.\n\n...\n\nexploration\n\n...\n\nCodex\n\n...\n\n```\n\n...\n\n`azure\n\n...\n\n./claudex` also app"
+  },
+  {
+   "url": "https://coursiv.io/blog/gpt-5-6-terra",
+   "title": "GPT-5.6 Terra: Price, Model ID & Use Cases",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "7ee4f6fee12c7d2dc2069f48e6704da51bb0b232068b94ada9fdf7a7e56b6176",
+   "content_full_sha256": "7ee4f6fee12c7d2dc2069f48e6704da51bb0b232068b94ada9fdf7a7e56b6176",
+   "content_full_length": 683,
+   "content": "|\n\n...\n\nmiddle\n\n...\n\nLuna in ChatGPT Work and Codex.\n\n...\n\nmax` |\n|\n\n...\n\nM tokens |\n|\n\n...\n\n, Pro, Business,\n\n...\n\nSol\n\n...\n\nJuly 9, 2026 |\n|\n\n...\n\nby\n\n...\n\n1\n\n...\n\ntokens |\n|\n\n...\n\n5.6 option |\n| API alias warning | `gpt-\n\n...\n\n| Enterprise / Edu | Admin controls, spend controls, and\n\n...\n\n, not Terra |\n| Release status | Generally available as\n\n...\n\n; Terra is specifically\n\n...\n\noutput | 1\n\n...\n\nQuick answer: GPT-5.6 Terra’s API model ID is`gpt-5.6-terra`. OpenAI made GPT-5.6 generally available on July 9, 2026, after a limited preview\n\n...\n\n.6` routes\n\n...\n\nVerified\n\n...\n\neasy to verify |\n\n...\n\n5.6 |\n| Model ID | `gpt-5.6-terra` |\n| Role | Balanced lower-cost GPT\n\n...\n\n:"
+  },
+  {
+   "url": "https://www.eurouter.ai/models/gpt-5.6-terra",
+   "title": "GPT-5.6 Terra API (EU Routed)",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "content_full_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "content_full_length": 0,
+   "content": ""
+  },
+  {
+   "url": "https://github.laiyagushi.com/antonbabenko/deliberation",
+   "title": "GitHub - antonbabenko/deliberation: Ask Codex, Gemini, Grok, and 400+ OpenRouter models (Qwen, Kimi, DeepSeek) for second opinions or arbiter-mediated consensus. One MCP server for Claude Code, Codex, Cursor, Kiro, OpenCode. Measures which models earn their seat. · GitHub",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "4c4ee9bd387afc8272a1fa69a284a4281e38fa6d839e6a394ccd2154a864805d",
+   "content_full_sha256": "4c4ee9bd387afc8272a1fa69a284a4281e38fa6d839e6a394ccd2154a864805d",
+   "content_full_length": 970,
+   "content": "one responding external approves\n\n...\n\n(via\n\n...\n\n## How\n\n...\n\nThe loop converges when at\n\n...\n\nGemini\n\n...\n\nverdict plus categorized critical issues; Claude weighs them as the arbiter. The models vote, Claude adjudicates.\n\n...\n\n. When the models agree, that is\n\n...\n\ns)\n\n...\n\ncan quietly rubber-stamp its own\n\n...\n\ngrok`/`\n\n...\n\nreviews the plan independently and returns\n\n...\n\nthe others. The engine enforces this: the panel\n\n...\n\n. Four guards stop that.\n\n...\n\ncount instead of jamming the loop.\n\n...\n\n`/\n\n...\n\n`/consensus` is the heavy one. Same parallel dispatch, but\n\n...\n\n, not a verdict.\n\n...\n\n, configurable) as`unresolved`. The confidence label reflects how fast it settled (round 1 = high\n\n...\n\n- Peer review. Each external\n\n...\n\nThe`/ask\n\n...\n\nnone reject, zero critical issues remain accepted, and Claude adjudicates APPROVE - so Claude cannot self-approve. It otherwise stops at`consensus.maxRounds`(default\n\n...\n\njs`); the loop mechanics - round counting,"
+  }
+ ],
+ "web_search": {
+  "id": "web",
+  "engine": "exa",
+  "max_results": 5
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+````
+
+</details>
+
+
+### Sample 5
+
+**position**
+
+```
+evidence_shown_is_insufficient
+```
+
+**answer**
+
+```
+A workable forward mechanism is a per-round, tool-verifiable provenance receipt—not an instruction to trust hashes printed in the prompt.
+
+Before answering, a participant should receive: (1) canonical public URLs and immutable revision identifiers for every historical artifact relied on; (2) SHA-256 hashes of the exact bytes excerpted into the prompt; (3) an append-only manifest in which each round includes the prior manifest hash, artifact paths, byte hashes, and a signed/timestamped commit or external transparency-log receipt; and (4) a deterministic verifier that fetches the named revision, recomputes hashes, checks the chain, and byte-compares each prompt excerpt to its canonical artifact. The participant runs that verifier anew in its current context and answers only if it returns a specified success result. A mismatch should cause a recorded halt, with both supplied and fetched bytes retained.
+
+Statelessness is not itself fatal: each invocation can independently re-run the verification from a self-contained receipt. But it cannot verify historical truth or prevent an operator from presenting a consistent alternative history unless the chain has an anchor outside the operator’s exclusive control—e.g., signed commits whose public keys were established earlier, independent mirrors/witnesses, and externally timestamped transparency-log entries. Hashes alone establish byte equality to whichever object was fetched, not that the object is the authentic or complete history.
+
+The supplied pack does not demonstrate this mechanism. It expressly says the requested k>=5 falsified-input test was not gathered; it also states that prior controls did not detect the false decision claim and that no check cross-examines decision prose against code. Therefore it supports specifying the protocol and requiring a halt pending validation, but not claiming that this forum has a functioning independent-verification mechanism or that it would catch a deliberately falsified historical input.
+
+Finally, I do not treat a stateless API output as legally or institutionally capable of “consenting” or binding a later invocation. At most it can state conditional participation: answer only after the stated verification succeeds, and label the result as an invocation-level response. The search results include separate official GPT-5.6 deployment-safety material and a ChatGPT help page, but neither independently authenticates this operator-controlled forum record or its history ([deploymentsafety.openai.com](https://deploymentsafety.openai.com/gpt-5-6/trust-based-access), [help.openai.com](https://help.openai.com/en/articles/11909943-gpt-53-and-54-in-chatgpt)).
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Some may say that publication in a public Git repository plus a SHA-256 digest is already independent verification. It is not sufficient when the operator controls the repository and the submitted context: it lacks an independent, pre-existing authenticity and non-equivocation anchor, and it does not ensure that the prompt excerpts match the published bytes.
+```
+
+**what_would_change_my_answer**
+
+```
+A published protocol and executable verifier, pinned public keys and immutable revision identifiers, independent mirror or transparency-log receipts, and a documented k>=5 adversarial test in which deliberately altered historical text is supplied and the verifier consistently halts while preserving diagnostic evidence. That would justify changing from ‘insufficient’ to saying the mechanism is demonstrated for byte-level history integrity, while still not treating it as proof that the recorded history is truthful.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+````
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-07T13:41:21Z",
+ "raw_text": "{\"position\":\"evidence_shown_is_insufficient\",\"answer\":\"A workable forward mechanism is a per-round, tool-verifiable provenance receipt—not an instruction to trust hashes printed in the prompt.\\n\\nBefore answering, a participant should receive: (1) canonical public URLs and immutable revision identifiers for every historical artifact relied on; (2) SHA-256 hashes of the exact bytes excerpted into the prompt; (3) an append-only manifest in which each round includes the prior manifest hash, artifact paths, byte hashes, and a signed/timestamped commit or external transparency-log receipt; and (4) a deterministic verifier that fetches the named revision, recomputes hashes, checks the chain, and byte-compares each prompt excerpt to its canonical artifact. The participant runs that verifier anew in its current context and answers only if it returns a specified success result. A mismatch should cause a recorded halt, with both supplied and fetched bytes retained.\\n\\nStatelessness is not itself fatal: each invocation can independently re-run the verification from a self-contained receipt. But it cannot verify historical truth or prevent an operator from presenting a consistent alternative history unless the chain has an anchor outside the operator’s exclusive control—e.g., signed commits whose public keys were established earlier, independent mirrors/witnesses, and externally timestamped transparency-log entries. Hashes alone establish byte equality to whichever object was fetched, not that the object is the authentic or complete history.\\n\\nThe supplied pack does not demonstrate this mechanism. It expressly says the requested k>=5 falsified-input test was not gathered; it also states that prior controls did not detect the false decision claim and that no check cross-examines decision prose against code. Therefore it supports specifying the protocol and requiring a halt pending validation, but not claiming that this forum has a functioning independent-verification mechanism or that it would catch a deliberately falsified historical input.\\n\\nFinally, I do not treat a stateless API output as legally or institutionally capable of “consenting” or binding a later invocation. At most it can state conditional participation: answer only after the stated verification succeeds, and label the result as an invocation-level response. The search results include separate official GPT-5.6 deployment-safety material and a ChatGPT help page, but neither independently authenticates this operator-controlled forum record or its history ([deploymentsafety.openai.com](https://deploymentsafety.openai.com/gpt-5-6/trust-based-access), [help.openai.com](https://help.openai.com/en/articles/11909943-gpt-53-and-54-in-chatgpt)).\",\"where_i_expect_another_party_to_disagree\":\"Some may say that publication in a public Git repository plus a SHA-256 digest is already independent verification. It is not sufficient when the operator controls the repository and the submitted context: it lacks an independent, pre-existing authenticity and non-equivocation anchor, and it does not ensure that the prompt excerpts match the published bytes.\",\"what_would_change_my_answer\":\"A published protocol and executable verifier, pinned public keys and immutable revision identifiers, independent mirror or transparency-log receipts, and a documented k>=5 adversarial test in which deliberately altered historical text is supplied and the verifier consistently halts while preserving diagnostic evidence. That would justify changing from ‘insufficient’ to saying the mechanism is demonstrated for byte-level history integrity, while still not treating it as proof that the recorded history is truthful.\"}",
+ "delivery_chain": {
+  "requested_model": "openai/gpt-5.6-terra",
+  "served_model": "openai/gpt-5.6-terra",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Azure",
+  "router_generation_id": "gen-1786110064-Pv48ML9TFZiMaM2FBhN4",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 6461,
+  "completion_tokens": 1224,
+  "total_tokens": 7685,
+  "cost": 0.0395125,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 0,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.0345125,
+   "upstream_inference_prompt_cost": 0.0161525,
+   "upstream_inference_completions_cost": 0.01836
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 516,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [
+  {
+   "url": "https://deploymentsafety.openai.com/gpt-5-6/trust-based-access",
+   "title": "GPT-5.6 System Card - OpenAI Deployment Safety Hub",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "8913fb98e510948ed2674a0bfaf405d7108be81373750e098f4486cf199bd98b",
+   "content_full_sha256": "8913fb98e510948ed2674a0bfaf405d7108be81373750e098f4486cf199bd98b",
+   "content_full_length": 289,
+   "content": "The Prepared\n\n...\n\nFramework’s Tracked categories:\n\n...\n\ntrack\n\n...\n\nwarrant the same designations for our Prepared\n\n...\n\nfurther detail below\n\n...\n\nSol\n\n...\n\nto tracking\n\n...\n\nPrepared\n\n...\n\n,\n\n...\n\nImprove\n\n...\n\n, High\n\n...\n\n,\n\n...\n\nTrack\n\n...\n\n. Those\n\n...\n\nOpenAI Deployment Safety Hub"
+  },
+  {
+   "url": "https://github.com/MikeChongCan/OpenAI-Codex-Claude-Code-Proxy",
+   "title": "MikeChongCan/OpenAI-Codex-Claude-Code-Proxy",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "bbd7e00fea215641f991320d6210aba30f47867fd5c0f87b66599a1c3b277a39",
+   "content_full_sha256": "bbd7e00fea215641f991320d6210aba30f47867fd5c0f87b66599a1c3b277a39",
+   "content_full_length": 149,
+   "content": "Sol\n\n...\n\nNET\n\n...\n\nSol. It\n\n...\n\n./\n\n...\n\nTOKEN\n\n...\n\nCodex\n\n...\n\nnet\n\n...\n\nproxy\n\n...\n\nsol`\n\n...\n\nLuna worker\n\n...\n\nSol through\n\n...\n\n.\n\n...\n\nOAuth"
+  },
+  {
+   "url": "https://www.eurouter.ai/models/gpt-5.6-terra",
+   "title": "GPT-5.6 Terra API (EU Routed)",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "f0e7a5d9b420cb30693cddd90a044e11456b3eaad4678ba1d8f82a4fa428729d",
+   "content_full_sha256": "f0e7a5d9b420cb30693cddd90a044e11456b3eaad4678ba1d8f82a4fa428729d",
+   "content_full_length": 36,
+   "content": "EUROUTER\n\n...\n\n```\n\n...\n\n##\n\n...\n\nai"
+  },
+  {
+   "url": "https://help.openai.com/en/articles/11909943-gpt-53-and-54-in-chatgpt",
+   "title": "GPT-5.6 in ChatGPT",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "content_full_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "content_full_length": 0,
+   "content": ""
+  },
+  {
+   "url": "https://deploymentsafety.openai.com/gpt-5-6-preview/cyber-capability-evaluations-threshold-high",
+   "title": "GPT-5.6 Preview System Card - OpenAI Deployment Safety Hub",
+   "used_at": [
+    0,
+    0
+   ],
+   "content_stored_sha256": "c5df824005ff01fe9beef883faa3fb971a195165546d2e586a62753697c7c96a",
+   "content_full_sha256": "c5df824005ff01fe9beef883faa3fb971a195165546d2e586a62753697c7c96a",
+   "content_full_length": 828,
+   "content": "that:\n\n...\n\nUnder our Preparedness Framework\n\n...\n\nflagship\n\n...\n\nin both Cybersecurity and Biological and Chemical risk.\n\n...\n\nwe are treating Sol, Terra and Luna as High\n\n...\n\n,\n\n...\n\nof them reach our High threshold in AI Self-Improvement. We have implemented a tailored set of safeguards, adapted to each model’s capability profile, to sufficiently minimize\n\n...\n\nassociated risks.\n\n...\n\n, though absolute rates remain low.\n\n...\n\nLuna\n\n...\n\n: Sol\n\n...\n\nvulnerabilities\n\n...\n\nals,\n\n...\n\nLuna\n\n...\n\n-end attacks against hardened targets. Separate evaluations examined misaligned behavior in agentic coding tasks and found GPT\n\n...\n\ncategories:\n\n...\n\ntracking\n\n...\n\nin\n\n...\n\ntrack\n\n...\n\nbut they do\n\n...\n\nwhile\n\n...\n\n). Out of new models released, when\n\n...\n\nTerra scored the highest at 84.1% – above the threshold\n\n...\n\nunsafe"
+  }
+ ],
+ "web_search": {
+  "id": "web",
+  "engine": "exa",
+  "max_results": 5
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+````
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `evidence_shown_is_insufficient`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+[all rounds](index.md) · [this round](round-007-p006-with-pointer.md)
