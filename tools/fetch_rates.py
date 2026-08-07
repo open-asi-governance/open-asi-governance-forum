@@ -117,7 +117,13 @@ def build(priced: dict) -> dict:
                       "note": ("Served on the custodian's own hardware. Zero marginal API "
                                "cost; electricity and wear are real and not modelled here.")}},
 
-        "daily_ceiling_usd": 25.0,
+        #  RAISED to 100.0 on 2026-08-07 for the first fetch-enabled round, whose worst case
+        #  is $73.34 against $8.01 for the same question without the capability. Kept in step
+        #  with record/cycles/model-rates.json ON PURPOSE: a refresh that reset this to 25 would
+        #  silently re-impose a ceiling the custodian had deliberately raised, and the next
+        #  fetch round would refuse for a reason nobody had chosen. See daily_ceiling_history
+        #  in the rates file for the reasoning and the expectation that it comes back down.
+        "daily_ceiling_usd": 100.0,
         "daily_ceiling_note": ("SOP §4 requires a hard spend ceiling per day, with the run "
                                "refusing rather than truncating. Committed and actual spend "
                                "accumulate in record/cycles/spend-ledger.json on the accepted "

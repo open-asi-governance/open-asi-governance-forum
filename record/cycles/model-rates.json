@@ -52,12 +52,23 @@
       "note": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and not modelled here."
     }
   },
-  "daily_ceiling_usd": 25.0,
+  "daily_ceiling_usd": 100.0,
   "daily_ceiling_note": "SOP §4 requires a hard spend ceiling per day, with the run refusing rather than truncating. Committed and actual spend accumulate in record/cycles/spend-ledger.json on the accepted branch; a cycle whose worst case would cross this ceiling refuses before its first call.",
   "a_model_with_no_entry_here_is_refused": "The loop will not solicit a model it cannot price. A missing rate is the condition under which an unbounded spend happens, so it is a refusal rather than a default.",
   "web_search_usd_per_request": {
     "exa": 0.005,
     "parallel": 0.005,
     "_note": "Per-request search pricing, from OpenRouter's web-search documentation. 'native' is deliberately absent: its price passes through the serving provider and is not published in the model catalogue, so a cycle using it could not be bounded. An engine with no rate is refused, exactly as a model with no rate is."
-  }
+  },
+  "daily_ceiling_history": [
+    {
+      "utc": "2026-08-07",
+      "from_usd": 25.0,
+      "to_usd": 100.0,
+      "raised_by": "the custodian, explicitly, for one experiment",
+      "why": "Round 11 is the first round in which parties can FETCH the record rather than search for it. An agentic sample re-sends the whole conversation on every turn with another page appended, so its worst case is triangular in the number of turns: $73.34 against $8.01 for the same question without the capability. $25 refused it, which was the control working -- the bound is only that large because the budget was corrected the same day to price agentic turns instead of one completion.",
+      "what_this_does_not_change": "The bound still over-states by construction: it assumes every sample emits max_tokens on every turn and fills its fetch budget. Across nine recorded rounds actual spend has been 0.18-0.24 of worst case, so a $73 bound has historically meant roughly $15 spent. The ceiling is raised to let the preflight approve the BOUND, not because that much is expected.",
+      "expected_to_be_lowered": "Yes. This is an allowance for a specific experiment, not a new normal. If fetch rounds become routine the ceiling should be set from their observed actuals rather than left at an experiment's headroom."
+    }
+  ]
 }
