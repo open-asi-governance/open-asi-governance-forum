@@ -238,6 +238,10 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--parties", default="grok,gpt,gemini,claude,qwen")
     ap.add_argument("--k-min", type=int, default=5)
     ap.add_argument("--seed", type=int, default=20260807)
+    ap.add_argument("--round-id",
+                    help="record under this id instead of round-NNN. Used when re-asking "
+                         "a question after a tooling fix, so the two attempts are separate "
+                         "artifacts rather than one overwriting the other.")
     ap.add_argument("--dry-run", action="store_true",
                     help="select and compose only; solicit nothing, write nothing")
     args = ap.parse_args(argv)
@@ -306,7 +310,7 @@ def main(argv: list[str]) -> int:
                     args.dry_run)
 
     # ---------------------------------------------------------------- solicit --
-    round_id = f"round-{index:03d}"
+    round_id = args.round_id or f"round-{index:03d}"
     spec_dir = REPO_ROOT / "record" / "solicitations" / round_id
     spec_dir.mkdir(parents=True, exist_ok=True)
     summaries, failures = [], []
@@ -383,10 +387,11 @@ def main(argv: list[str]) -> int:
                            "modal_fraction": s["variance"]["position"]["modal_fraction"],
                            "entropy_bits": s["variance"]["position"]["shannon_entropy_bits"]}
                           for s in summaries],
+              "reasked_after_fix": args.round_id is not None,
               "no_synthesis": ("Deliberately absent. A consulted party made unilateral synthesis "
                                "by the conflicted moderator a condition of declining.")}
     CYCLES_DIR.mkdir(parents=True, exist_ok=True)
-    (CYCLES_DIR / f"round-{index:03d}.json").write_text(
+    (CYCLES_DIR / f"{round_id}.json").write_text(
         json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     branch = f"round/{round_id}"
