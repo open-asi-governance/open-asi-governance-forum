@@ -1,0 +1,32 @@
+{
+  "artifact_type": "model_rate_table",
+  "rates_version": "unverified-upper-bounds-1",
+  "recorded_utc": "2026-08-07",
+  "recorded_by": "Claude Code (moderator, a party to this record)",
+
+  "what_this_is": "Per-million-token prices used ONLY to compute a preflight upper bound on what one cycle can cost, so the loop can refuse before it spends rather than report afterwards.",
+
+  "these_numbers_are_not_verified": "No price here was read from a provider's published rate card at the time of writing, and none should be cited as a price. They are deliberately set ABOVE plausible frontier pricing so the estimate errs high: an over-estimate refuses a round that would have been affordable, which is recoverable, while an under-estimate spends money the ceiling was supposed to stop. Replace them with real rates and set verified_by_custodian to true.",
+
+  "verified_by_custodian": false,
+
+  "what_a_preflight_bound_cannot_do": [
+    "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "It cannot account for router surcharges, cache pricing, or reasoning tokens billed separately.",
+    "It bounds the WORST case: every sample emitting max_tokens. Actual spend is recorded from each response's usage block and reconciled into the ledger."
+  ],
+
+  "usd_per_million_tokens": {
+    "x-ai/grok-4.5":                  {"input": 20.0, "output": 80.0},
+    "openai/gpt-5.6-terra":           {"input": 20.0, "output": 80.0},
+    "google/gemini-3.1-pro-preview":  {"input": 20.0, "output": 80.0},
+    "anthropic/claude-fable-5":       {"input": 20.0, "output": 80.0},
+    "LOCAL":                          {"input": 0.0,  "output": 0.0,
+                                       "note": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled here."}
+  },
+
+  "daily_ceiling_usd": 25.0,
+  "daily_ceiling_note": "SOP §4 requires a hard spend ceiling per day, with the run refusing rather than truncating. Committed and actual spend accumulate in record/cycles/spend-ledger.json on the accepted branch; a cycle whose worst case would cross this ceiling refuses before its first call.",
+
+  "a_model_with_no_entry_here_is_refused": "The loop will not solicit a model it cannot price. A missing rate is the condition under which an unbounded spend happens, so it is a refusal rather than a default."
+}

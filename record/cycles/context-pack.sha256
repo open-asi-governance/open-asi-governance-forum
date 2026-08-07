@@ -1,0 +1,26 @@
+f2dfb1c84985062e178c03adb3f67b34258f360798d57deb2925e34f720b548b  rule-resolved-1
+
+# The pinned hash of the context pack every round supplies alongside the question.
+#
+# It is the SHA-256 of the ordered list of (path, sha256) anchors that the rule in
+# tools/round_cycle.py CONTEXT_PACK resolves to -- not of the rendered prose, so the
+# pin survives a change in how the pack is formatted and breaks when the DOCUMENTS
+# change, which is what matters.
+#
+# WHY A PIN AND NOT A CLAIM. The prompt used to tell every party that the pack was
+# "FIXED and identical for every round". That was false. The RULE is fixed; the bytes
+# it resolves to drift as the repository changes, so two rounds could see different
+# evidence with nothing recording that they had. Pinning converts the drift from a
+# silent event into an explicit decision: the cycle refuses until someone re-pins.
+#
+# TO RE-PIN, deliberately: run `python3 tools/round_cycle.py --selector rotation
+# --dry-run`, take the current hash from the refusal, and replace the line above in
+# the same commit as whatever changed the pack. A re-pin that arrives in its own
+# commit with no explanation is the control being routed around.
+#
+# WHAT THIS DOES NOT ACHIEVE. The pack was never pre-committed at the time the
+# proposals were solicited, so for the twenty-four questions already in the queue it
+# is pinned-before-selection, not pinned-at-submission. The stronger scheme -- each
+# proposal carrying its own hash-addressed evidence manifest, refused rather than
+# trimmed when it exceeds the ceiling -- applies from the next agenda solicitation
+# onward and is recorded in the SOP.

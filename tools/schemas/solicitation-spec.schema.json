@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/solicitation-spec.schema.json",
+  "title": "OAGRC solicitation spec — the OUTBOUND artifact, validated before anything is sent",
+  "description": "What a party will be asked, frozen and hashed before a single token is spent. This is NOT solicitation.schema.json, which describes the summary written AFTER a run and requires k_collected, raw_samples and variance — fields that cannot exist yet. Validating an outbound spec against the inbound schema was proposed and rejected in review: it would have failed every spec for lacking fields it is not the spec's job to have, and the natural repair is to weaken the check.",
+  "type": "object",
+  "required": [
+    "spec_version",
+    "artifact_type",
+    "round",
+    "slug",
+    "party_key",
+    "identity",
+    "reached_via",
+    "contribution_class",
+    "contribution_class_note",
+    "question",
+    "question_sha256",
+    "phase",
+    "phase_justification",
+    "seed_base",
+    "schema_name",
+    "schema",
+    "variance_fields",
+    "k_requested",
+    "k_policy",
+    "temperature",
+    "max_tokens",
+    "source_excerpt",
+    "context_pack",
+    "selected_by",
+    "prompt",
+    "prompt_sha256",
+    "arm"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "spec_version": {"const": "oagrc-solicitation-spec-1"},
+    "artifact_type": {"const": "solicitation_spec"},
+    "round": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,62}[a-z0-9]$"},
+    "slug": {"type": "string", "minLength": 1},
+
+    "party_key": {
+      "description": "The short handle used in filenames only. NOT the party's identity.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]{0,15}$"
+    },
+    "identity": {
+      "description": "The canonical identity published in the record. D-09's never-merge rule: a routed API identity is not the chat-surface identity of a similarly named system, and an abbreviation like 'gpt' invites exactly that merge.",
+      "type": "string",
+      "minLength": 8
+    },
+    "reached_via": {"type": "string", "minLength": 1},
+
+    "contribution_class": {"type": "string", "minLength": 1},
+    "contribution_class_note": {"type": "string", "minLength": 1},
+
+    "question": {"type": "string", "minLength": 1},
+    "question_sha256": {
+      "description": "SHA-256 over the EXACT UTF-8 bytes of the proposing party's question, before any normalisation. Whitespace-collapsed lowercased keys were used first; case and spacing can be substantive, so the identity of a question is its bytes.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+
+    "phase": {"type": "string", "minLength": 1},
+    "phase_justification": {"type": "string", "minLength": 1},
+    "seed_base": {"type": "integer"},
+
+    "schema_name": {"type": "string", "minLength": 1},
+    "schema": {"type": "object"},
+    "variance_fields": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+
+    "k_requested": {"type": "integer", "minimum": 5},
+    "k_policy": {"type": "string", "minLength": 1},
+    "temperature": {
+      "description": "Must exceed zero. At temperature 0 the k samples are one sample repeated, and a distribution computed over them is a number that looks like variance and is not.",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "max_tokens": {"type": "integer", "minimum": 1},
+
+    "source_excerpt": {
+      "type": "object",
+      "required": ["path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+
+    "context_pack": {
+      "description": "What the party was shown besides the question, and the hash that makes two rounds' packs comparable after the fact.",
+      "type": "object",
+      "required": ["pack_version", "pack_sha256", "anchors", "resolution"],
+      "additionalProperties": false,
+      "properties": {
+        "pack_version": {"type": "string", "minLength": 1},
+        "pack_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "resolution": {
+          "description": "Rule-resolved, not fixed. The RULE is constant; the bytes it resolves to change as the repository changes, which is why the hash is pinned and checked rather than assumed.",
+          "type": "string",
+          "minLength": 1
+        },
+        "anchors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256"],
+            "additionalProperties": false,
+            "properties": {
+              "path": {"type": "string"},
+              "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      }
+    },
+
+    "selected_by": {
+      "type": "object",
+      "required": ["selector", "proposal", "proposer", "cycle"],
+      "additionalProperties": false,
+      "properties": {
+        "selector": {"type": "string", "enum": ["convergence", "rotation", "portfolio"]},
+        "proposal": {"type": "string"},
+        "proposer": {"type": "string"},
+        "cycle": {"type": "integer", "minimum": 0}
+      }
+    },
+
+    "prompt": {"type": "string", "minLength": 200},
+    "prompt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "arm": {"type": "string", "minLength": 1}
+  }
+}

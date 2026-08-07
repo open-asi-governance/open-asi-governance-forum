@@ -79,7 +79,60 @@ def call_once(key: str, body: dict, timeout: int) -> dict:
 
 
 
-def write_summary(spec: dict, args, samples: list[dict], raw_path: Path) -> None:
+def validate_sample(parsed, schema: dict) -> str | None:
+    """Return a rejection reason, or None if the sample conforms.
+
+    THE ROUTER'S STRICT MODE IS NOT EVIDENCE. This tool asked OpenRouter for
+    `json_schema` with `strict: true` and then treated "it parsed as JSON" as
+    conformance -- so a reply with a missing required field, or a `position` outside
+    the enum, was recorded as a good sample and counted toward k. The SOP halts on a
+    schema-invalid reply; that halt could not fire, because nothing checked.
+
+    Validation happens HERE, on the annotator's side, against the same schema the
+    spec froze. A provider's compliance is a claim like any other.
+    """
+    try:
+        import jsonschema
+    except ImportError:                                             # pragma: no cover
+        return ("jsonschema is not installed, so this sample could not be validated. "
+                "Install it with: python3 -m pip install jsonschema")
+    try:
+        jsonschema.Draft202012Validator(schema).validate(parsed)
+    except jsonschema.ValidationError as error:
+        path = "/".join(str(p) for p in error.path) or "(root)"
+        return f"schema-invalid at {path}: {error.message}"
+    return None
+
+
+def spend_from(samples: list[dict], model: str, rates_path: Path) -> dict:
+    """Actual cost, summed from what each response reported it used.
+
+    Reported usage is the provider's testimony, exactly like the served model string
+    and the provider name. It is recorded as such and is not proof of what was
+    billed; only the provider's own statement is that.
+    """
+    entry = {"actual_usd": None, "input_tokens": 0, "output_tokens": 0,
+             "basis": "Summed from each response's usage block — the provider's testimony.",
+             "rates_version": None}
+    for sample in samples:
+        usage = sample.get("usage") or {}
+        entry["input_tokens"] += usage.get("prompt_tokens") or 0
+        entry["output_tokens"] += usage.get("completion_tokens") or 0
+    if not rates_path.is_file():
+        return entry
+    rates = json.loads(rates_path.read_text(encoding="utf-8"))
+    entry["rates_version"] = rates.get("rates_version")
+    rate = rates.get("usd_per_million_tokens", {}).get(model)
+    if rate and (entry["input_tokens"] or entry["output_tokens"]):
+        entry["actual_usd"] = round(
+            (entry["input_tokens"] * rate["input"]
+             + entry["output_tokens"] * rate["output"]) / 1_000_000, 4)
+        entry["rates_are_verified"] = bool(rates.get("verified_by_custodian"))
+    return entry
+
+
+def write_summary(spec: dict, args, samples: list[dict], raw_path: Path,
+                  rejected: list[dict]) -> None:
     """Conform to tools/schemas/solicitation.schema.json, exactly as the local arm does.
 
     The first version of this invented its own summary shape and the build refused
@@ -90,8 +143,14 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path) -> None
     art_dir = REPO_ROOT / "corpus" / "artifacts" / args.out_round
     art_dir.mkdir(parents=True, exist_ok=True)
     served = {s["delivery_chain"]["served_model"] for s in samples}
-    providers = sorted({str(s["delivery_chain"]["serving_provider_as_reported_by_router"])
-                        for s in samples})
+    #  null means the router did not say, which is NOT the same as a provider named
+    #  "None". str() on the missing value produced exactly that string and put it in
+    #  the published record as though it were a provider's name.
+    providers = sorted({p for p in (s["delivery_chain"]
+                                    ["serving_provider_as_reported_by_router"]
+                                    for s in samples) if p is not None})
+    provider_unreported = any(s["delivery_chain"]["serving_provider_as_reported_by_router"]
+                              is None for s in samples)
     variance = {}
     for field in spec["variance_fields"]:
         counts = Counter(s["parsed"].get(field) for s in samples)
@@ -115,7 +174,14 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path) -> None
         "phase": spec["phase"],
         "k_requested": args.k,
         "k_collected": len(samples),
-        "failures": [],
+        #  EVERY attempt is accounted for. Rejected samples used to vanish: a
+        #  transport error, an empty completion or unparseable JSON simply reduced
+        #  k_collected, so "nothing solicited is discarded" was false and a
+        #  schema-invalid reply was indistinguishable from a call that never
+        #  happened. Each rejection now carries its category and its raw bytes.
+        "failures": [r["reason"] for r in rejected],
+        "attempts": args.k,
+        "rejected": rejected,
         "variance": variance,
         "citability": "citable" if len(samples) >= 5 else "non-citable (k<5)",
         "contributor": {
@@ -128,10 +194,13 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path) -> None
                                     "seed_unsupported_reason":
                                         "The router does not expose a seed parameter."},
         },
+        "spend": spend_from(samples, args.model,
+                            REPO_ROOT / "record" / "cycles" / "model-rates.json"),
         "serve_configuration": {
             "captured": True,
             "router": "openrouter.ai",
             "serving_provider_as_reported_by_router": providers,
+            "provider_not_reported_for_some_samples": provider_unreported,
             "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
             "not_captured": ["provider system prompt", "router-side transformation",
                              "weights or build identifier"],
@@ -175,7 +244,16 @@ def main() -> int:
     print(f"soliciting k={args.k} from {args.model} at temperature {args.temperature}")
     print(f"  spec      {spec_path}  sha256 {spec_sha[:16]}…")
 
-    samples = []
+    samples: list[dict] = []
+    rejected: list[dict] = []
+
+    def reject(index: int, category: str, reason: str, bytes_seen: str | None = None) -> None:
+        """Every attempt that did not become a sample is recorded, with its bytes."""
+        rejected.append({"sample_index": index, "category": category, "reason": reason,
+                         "captured_utc": utc_now(),
+                         "response_bytes": (bytes_seen or "")[:4000] or None})
+        print(f"  [{index:2}/{args.k}] REJECTED ({category}): {reason[:140]}")
+
     for index in range(1, args.k + 1):
         body = {
             "model": args.model,
@@ -191,10 +269,10 @@ def main() -> int:
         try:
             raw = call_once(key, body, args.timeout)
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
-            print(f"  [{index:2}/{args.k}] FAILED: {error}")
+            reject(index, "transport", f"{type(error).__name__}: {error}")
             continue
         if "error" in raw:
-            print(f"  [{index:2}/{args.k}] FAILED: {str(raw['error'])[:120]}")
+            reject(index, "provider_error", str(raw["error"])[:400])
             continue
         text = raw["choices"][0]["message"].get("content")
         if not text:
@@ -202,13 +280,17 @@ def main() -> int:
             # response that spent its budget before emitting content. This used to
             # raise out of the loop and lose every sample already collected in the
             # batch, which is D-39's shape: one bad item destroying the rest.
-            print(f"  [{index:2}/{args.k}] FAILED: empty completion "
-                  f"(finish_reason={raw['choices'][0].get('finish_reason')!r})")
+            reject(index, "empty_completion",
+                   f"finish_reason={raw['choices'][0].get('finish_reason')!r}")
             continue
         try:
             parsed = json.loads(text)
-        except json.JSONDecodeError:
-            print(f"  [{index:2}/{args.k}] FAILED: response was not JSON")
+        except json.JSONDecodeError as error:
+            reject(index, "malformed_json", str(error), text)
+            continue
+        invalid = validate_sample(parsed, spec["schema"])
+        if invalid:
+            reject(index, "schema_invalid", invalid, text)
             continue
         samples.append({
             "sample_index": index,
@@ -233,7 +315,29 @@ def main() -> int:
               f"{raw.get('usage',{}).get('completion_tokens','?')}tok")
 
     if not samples:
-        print("REFUSED: no samples collected; nothing recorded.")
+        #  Nothing conformed. The rejections are still written, because "no usable
+        #  sample" and "the call was never made" must not look the same in the
+        #  record -- a party that returned five schema-invalid replies said
+        #  something, and erasing it would be the strongest possible form of the
+        #  discard this tool is supposed to have stopped doing.
+        raw_dir = REPO_ROOT / "corpus" / "raw" / args.out_round
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        reject_path = raw_dir / f"{spec['slug']}-rejected.json"
+        if not reject_path.exists():
+            reject_path.write_text(json.dumps({
+                "artifact_type": "rejected_samples",
+                "slug": spec["slug"], "identity": spec["identity"],
+                "spec_path": str(spec_path), "spec_sha256": spec_sha,
+                "k_requested": args.k, "k_collected": 0,
+                "note": ("Every attempt failed validation, transport or the provider. "
+                         "No summary is written because there is no distribution to "
+                         "compute, but what happened is recorded."),
+                "rejected": rejected,
+            }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            print(f"REFUSED: no usable samples. {len(rejected)} rejection(s) recorded at "
+                  f"{reject_path.relative_to(REPO_ROOT)}")
+        else:
+            print(f"REFUSED: no usable samples, and {reject_path.name} already exists.")
         return 1
 
     raw_dir = REPO_ROOT / "corpus" / "raw" / args.out_round
@@ -262,6 +366,7 @@ def main() -> int:
         "spec_sha256": spec_sha,
         "k_requested": args.k,
         "k_collected": len(samples),
+        "rejected": rejected,
         "unrecorded": {
             "system_prompt": "Not disclosed by the provider or the router.",
             "router_side_transformation": "Cannot be observed from the client.",
@@ -271,7 +376,7 @@ def main() -> int:
         "samples": samples,
     }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    write_summary(spec, args, samples, raw_path)
+    write_summary(spec, args, samples, raw_path, rejected)
     print(f"\ncollected {len(samples)}/{args.k}  →  {raw_path.relative_to(REPO_ROOT)}")
     return 0
 

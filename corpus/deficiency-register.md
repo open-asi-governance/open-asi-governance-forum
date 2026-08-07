@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 41** classifications have been read by a human against the prose.
+**0 of 48** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,9 +24,9 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 26 |
+| the annotator | 27 |
+| an external reviewer | 9 |
 | a designated review round | 8 |
-| an external reviewer | 3 |
 | human operator | 3 |
 | another contributor | 1 |
 
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 12 |
-| implemented, not validated | 22 |
+| required, not implemented | 14 |
+| implemented, not validated | 27 |
 | validated | 7 |
 
 ### Affected objects
 
-**97 affected-object rows across 41 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**117 affected-object rows across 48 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -671,4 +671,115 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | corpus/raw/sop-consultation-01/sop-consultation-gemini-samples.json <br><sub>Committed at k=4, overwritten in place by a later k=6 run. Restored from git; the k=6 run preserved separately as a second solicitation rather than a correction.</sub> | repairable by supersession | verified |
 | tools/solicit_api.py's write path <br><sub>Modelled on solicit_local.py, which has always refused to overwrite. The new tool reproduced its structure, docstring conventions and variance computation, and dropped its one safety check.</sub> | repairable by supersession | verified |
 | Future writers into corpus/raw/ <br><sub>Nothing checks that a new instrument carries the immutability guard. The controls most likely to be dropped when copying a tool are the ones that do nothing on the happy path.</sub> | partly repairable | not started |
+
+### D-42 — A custodian decision record listed a mitigation that no code enforces
+
+[Full entry](deficiencies.md#d-42--a-custodian-decision-record-listed-a-mitigation-that-no-code-enforces)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review of the round-loop hardening design, comparing the decision record's mitigation list against load_queue()`
+- **Prospective control:** required, not implemented — None. A checker that verified prose claims against code would itself be an unvalidated classifier (D-25). The forward requirement is to read the enforcing code before asserting a control, which is a discipline, not a control.
+- **Effort:** high — The correction is minutes; the missing control depends on a future solicitation the parties must answer.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/decisions/2026-08-07-adopt-rotation.json <br><sub>Corrected by an attached artifact rather than edited, so the fact that the decision rested on a control that did not exist survives.</sub> | repairable by supersession | verified |
+| The one-active-proposal cap itself <br><sub>Cannot honestly be built yet: every mechanical way to pick a party's active proposal is either the moderator choosing which of a party's questions counts, or sampling noise dressed as a ranking. Buildable only after a solicitation asks the parties to name one.</sub> | partly repairable | not started |
+| Every other decision record's claims <br><sub>Nothing cross-examines a decision record against the code it describes. This class will recur and no check here would catch it.</sub> | partly repairable | not started |
+
+### D-43 — The round loop wrote every artifact, and every halt record, onto the base branch
+
+[Full entry](deficiencies.md#d-43--the-round-loop-wrote-every-artifact-and-every-halt-record-onto-the-base-branch)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review; the effect had already been observed by the annotator and misdiagnosed as a git add -A problem`
+- **Prospective control:** implemented, not validated — Post-commit verification that the commit contains exactly the intended path prefixes, matches what was staged, and leaves a clean tree. Exercised by regression cases; never yet exercised by a real live round.
+- **Effort:** medium — The reordering is small. The gates around it -- clean base, safe id, path collision, commit verification -- are the bulk of it.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/round_cycle.py write ordering <br><sub>Branch created and verified before the first write; live operation refuses on a dirty tree, a wrong base branch, an unsafe round id or a pre-existing output path.</sub> | repairable by supersession | verified |
+| The commit boundary of past rounds <br><sub>Artifacts written onto the base branch during earlier runs were carried onto round branches by working-tree state. Which files belonged to which round is reconstructable only from the diffs.</sub> | partly repairable | not started |
+| The annotator's own diagnosis of the sweep <br><sub>git add -A was the mechanism, not the cause. A narrower git add would have stranded the artifacts in the base branch's working tree instead.</sub> | repairable by supersession | verified |
+
+### D-44 — The prompt linter exempted the live template from its own denylist, and had never checked a prompt that was actually sent
+
+[Full entry](deficiencies.md#d-44--the-prompt-linter-exempted-the-live-template-from-its-own-denylist-and-had-never-checked-a-prompt-that-was-actually-sent)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review of tools/check_prompt.py's sent-prompt carve-out`
+- **Prospective control:** implemented, not validated — round_cycle.py runs the same denylist over each composed prompt before it is sent, with hits inside party-authored spans recorded rather than fatal. Validated by regression cases, not by a live round.
+- **Effort:** low — Two small changes. The reason it went unnoticed is that the exemption looked like the D-36 protection working.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/solicitations/excerpts/round-prompt-template.md <br><sub>Excluded from the sent set explicitly. It is a reusable instrument, not a prompt any party received.</sub> | repairable by supersession | verified |
+| Composed prompts already sent <br><sub>They are now checked and their violations reported, but a sent prompt cannot be repaired without falsifying what a party was asked (D-36). Reported as recorded violations.</sub> | not repairable | verified |
+| Novel leading phrasings <br><sub>Permanent. This is a denylist of phrasings already committed here plus a structural check, not a bias detector, and nothing in it measures neutrality.</sub> | not repairable | not started |
+
+### D-45 — Solicitation treated "it parsed as JSON" as schema conformance, and discarded every failed attempt
+
+[Full entry](deficiencies.md#d-45--solicitation-treated-it-parsed-as-json-as-schema-conformance-and-discarded-every-failed-attempt)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review of both solicitation arms`
+- **Prospective control:** implemented, not validated — Validation runs on the annotator's side against the schema the spec froze, so a provider's compliance with a requested grammar is treated as a claim (D-18) rather than as evidence.
+- **Effort:** low — Small in code. Consequential because k_collected was the number every citability judgement rested on and it conflated 'not attempted' with 'returned an invalid reply'.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/solicit_api.py and tools/solicit_local.py <br><sub>Annotator-side schema validation in both arms; every rejected attempt recorded with category and raw bytes; a rejected-samples artifact when nothing conforms.</sub> | repairable by supersession | verified |
+| Samples already recorded in corpus/raw/ <br><sub>Never validated against the frozen schema. Whether any would fail it is unknown without re-checking each one.</sub> | partly repairable | not started |
+| The SOP's schema-invalid halt <br><sub>Specified since the SOP was drafted and unreachable until now, because nothing produced the signal it halts on.</sub> | repairable by supersession | verified |
+
+### D-46 — A commit message asserted a fix that its own diff did not contain
+
+[Full entry](deficiencies.md#d-46--a-commit-message-asserted-a-fix-that-its-own-diff-did-not-contain)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `The annotator, while writing a turnover document and checking a claim it was about to repeat`
+- **Prospective control:** required, not implemented — None. The forward requirement is the ordinary one -- verify the effect before describing it -- which this repository has now failed five times in two days.
+- **Effort:** low — One commit. The cost was that the fix appeared landed and was not, and the next live round would have run against unfixed code.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| commit 0a0923e's message <br><sub>Corrected by superseding commit 6b54ca3 rather than amended. The false message stays in the history where a reader can see it.</sub> | not repairable | verified |
+| Commit messages generally <br><sub>Nothing checks that a message's claims match its diff and nothing plausibly could in general.</sub> | not repairable | not started |
+
+### D-47 — The prompt told every party its context pack was fixed and identical between rounds; it was not
+
+[Full entry](deficiencies.md#d-47--the-prompt-told-every-party-its-context-pack-was-fixed-and-identical-between-rounds-it-was-not)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review, which asked whether a hash would make the pack fixed or merely make its drift visible`
+- **Prospective control:** implemented, not validated — A cycle refuses when the resolved pack's hash differs from the pin, turning drift into an explicit re-pinning decision. From the next agenda solicitation, each proposal carries its own hash-addressed evidence manifest and is refused rather than trimmed when it exceeds the ceiling.
+- **Effort:** medium — The pin is cheap. The submission-time manifest scheme it points at is not, and applies only to proposals not yet solicited.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| The context pack supplied to every party <br><sub>Hashed, pinned at record/cycles/context-pack.sha256, checked every cycle, and recorded in every spec and round record.</sub> | repairable by supersession | verified |
+| The prompt's claim about it <br><sub>Replaced: rule-resolved, not fixed, with the drift stated plainly to the party.</sub> | repairable by supersession | verified |
+| The 24 proposals already queued <br><sub>Solicited before any pin existed. For them the pack is pinned-before-selection and can never be pinned-at-submission.</sub> | not repairable | not started |
+
+### D-48 — Proposal disposition was never persisted, so a live round re-asked a question the record had already put
+
+[Full entry](deficiencies.md#d-48--proposal-disposition-was-never-persisted-so-a-live-round-re-asked-a-question-the-record-had-already-put)
+
+- **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
+  - where: `Codex external review, after the effect had already occurred across two live rounds`
+- **Prospective control:** implemented, not validated — The loop cannot advance past unreviewed output. GOVERNANCE.md section 2 already requires the custodian in this position; this makes the requirement operative rather than nominal.
+- **Effort:** medium — The reader is small. The branch-acceptance gate that makes it meaningful changes how often the loop can run at all.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/agenda_selectors.py load_queue() <br><sub>disposition_from_records() reads what has been asked from committed round records, matching on the SHA-256 of the question's exact bytes.</sub> | repairable by supersession | verified |
+| Round 000b's expenditure <br><sub>Spent re-asking round 000's question at k=5 across five parties. Not recoverable.</sub> | not repairable | not started |
+| Disposition across unmerged round branches <br><sub>Read only from the accepted branch. A cycle halts at exit 8 naming any unaccepted round record rather than reaching across branches for material the custodian has not reviewed.</sub> | partly repairable | applied, not verified |
 

@@ -110,6 +110,15 @@ def sent_prompts() -> set[str]:
 
     Derived, not listed by hand: any prompt an artifact names in prompt_path, or
     whose bytes match a recorded prompt_sha256.
+
+    THE TEMPLATE IS NEVER SENT. It is a reusable instrument, not a prompt that went
+    to a party -- what went to a party is the *composed* text, which the template
+    only supplies part of. But every round spec names the template in
+    `source_excerpt.path`, so the carve-out below was quietly exempting the live
+    template: a future defect introduced into it would have been reported as an
+    unrepairable historical violation instead of failing the build. The instrument
+    that catches prompt defects had granted itself immunity. It is excluded
+    explicitly at the end of this function.
     """
     import hashlib
     import json as _json
@@ -147,6 +156,38 @@ def sent_prompts() -> set[str]:
         for path in d.glob("*.md") if d.is_dir() else []:
             if hashlib.sha256(path.read_bytes()).hexdigest() in hashes:
                 out.add(str(path.relative_to(REPO_ROOT)))
+    out.discard(str(TEMPLATE.relative_to(REPO_ROOT)))
+    return out
+
+
+def composed_prompts() -> list[tuple[str, str]]:
+    """Every prompt actually put to a party, as (label, text).
+
+    These are the bytes the parties received. The denylist had never been run
+    against a single one of them: it checked the markdown template, while every
+    composition defect this project has committed arrived through SUBSTITUTION --
+    a slot that never filled, a value substituted into a party's own question.
+    Checking the instrument and not the output is the same shape as verifying
+    syntax instead of effect.
+
+    A violation here is RECORDED, never fatal, for the same reason a sent prompt's
+    is: these were already sent, and demanding an impossible repair trains people
+    to disable the check. `round_cycle.py` runs the same denylist over each
+    composed prompt BEFORE it is sent, which is where a violation is still fixable.
+    """
+    out = []
+    root = REPO_ROOT / "record" / "solicitations"
+    if not root.is_dir():
+        return out
+    import json as _json
+    for path in sorted(root.rglob("*.json")):
+        try:
+            doc = _json.loads(path.read_text(encoding="utf-8"))
+        except Exception:                                           # noqa: BLE001
+            continue
+        for blob in (doc if isinstance(doc, list) else [doc]):
+            if isinstance(blob, dict) and isinstance(blob.get("prompt"), str):
+                out.append((str(path.relative_to(REPO_ROOT)), blob["prompt"]))
     return out
 
 
@@ -246,6 +287,11 @@ def main(argv: list[str]) -> int:
             all_errors += e
         all_warns += w
 
+    composed = composed_prompts() if not args.paths else []
+    for label, text in composed:
+        e, _ = check_text(text, Path(label), is_template=False)
+        recorded += [f"{x}  (COMPOSED AND SENT — immutable)" for x in e]
+
     for w in all_warns:
         print(f"  warn  {w}")
     for r in recorded:
@@ -259,8 +305,8 @@ def main(argv: list[str]) -> int:
         print("Passing it does not mean a prompt is neutral.")
         return 1
 
-    print(f"{len(files)} prompt(s) checked, {len(all_warns)} warning(s), "
-          f"{len(recorded)} recorded violation(s) in sent prompts.")
+    print(f"{len(files)} prompt file(s) and {len(composed)} composed prompt(s) checked, "
+          f"{len(all_warns)} warning(s), {len(recorded)} recorded violation(s) in sent prompts.")
     print("Denylist and structure only. A NOVEL leading phrasing passes this "
           "unnoticed, and nothing here measures neutrality.")
     return 0

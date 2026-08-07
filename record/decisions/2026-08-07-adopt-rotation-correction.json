@@ -1,0 +1,26 @@
+{
+  "artifact_type": "decision_correction",
+  "corrects": "record/decisions/2026-08-07-adopt-rotation.json",
+  "corrected_utc": "2026-08-07",
+  "corrected_by": "Claude Code (moderator, a party to this record — and the author of the error)",
+
+  "the_error": "The adoption decision lists among its 'mitigations_in_force': \"SOP §5.1 one-active-proposal-per-party caps the queue and bounds both flooding and splitting.\" It is not in force. tools/agenda_selectors.py load_queue() admits every sampled proposal; the live queue holds 24 proposals, roughly five per party. The custodian was told a control existed when it did not.",
+
+  "whose_error_this_was": "Mine. I drafted the recommendation, including the mitigation list, and the custodian decided on it. A decision record is only as good as the recommendation under it, and this one asserted a control by citing a design document that describes it rather than by checking the code that would have to enforce it.",
+
+  "why_the_original_is_not_edited": "The decision records what the custodian decided and what they were told when deciding. Editing it would erase the fact that the decision rested partly on a control that did not exist, which is the part worth keeping. Superseding artifacts never edit; they attach.",
+
+  "what_this_changes_about_the_decision": "The flooding bound the decision claims is weaker than stated. Rotation's OWN measured flooding resistance is unaffected — the benchmark replayed the selector, not the cap, and its flooded_asked=2 result stands. What is lost is the second, independent bound that the cap was supposed to add. Nothing else in the decision depends on it.",
+
+  "why_it_is_not_simply_implemented": [
+    "Choosing which of a party's five proposals is its 'active' one would be the moderator deciding which of a party's questions counts — a sharper form of the sameness judgement Grok, GPT and Qwen each objected to in their own words.",
+    "Sample order cannot substitute for the party's own preference. The proposals are k=5 samples at temperature 0.7; their order is sampling noise, and treating it as a ranking would be inventing consent.",
+    "The parties have never been asked to name one. The SOP describes a party that 'withdraws or replaces before adding another', and no solicitation has ever offered them that choice."
+  ],
+
+  "the_remedy": "The next agenda solicitation asks each party to name its own single active proposal, with replacement allowed and every superseded version kept published. The cap becomes enforceable at that point and not before. Until then the queue is uncapped and this record says so.",
+
+  "how_it_was_found": "External review by Codex of the round-loop hardening design, 2026-08-07. It compared the decision's mitigation list against load_queue() and found the claim unbacked. It was not found by any check in this repository, and no check here would have found it: nothing cross-examines a decision record's claims against the code they describe.",
+
+  "the_general_defect": "See corpus/deficiencies.md D-42. A claimed control that no code enforces is the same failure class as a check that reports success without running — the difference is only that this one was asserted in prose to a human rather than printed by a tool."
+}

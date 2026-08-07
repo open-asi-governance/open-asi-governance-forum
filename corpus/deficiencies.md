@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **41 entries** (D-01 … D-41).
+**Status:** open — **48 entries** (D-01 … D-48).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1446,6 +1446,177 @@ unpreserved.
 
 ---
 
+### D-42 — A custodian decision record listed a mitigation that no code enforces
+
+*Filed 2026-08-07. Found by external review (Codex) of the round-loop hardening design, by
+comparing the decision's claims against the function that would have to implement them. **No check
+in this repository would have found it**, and none exists that cross-examines a decision record
+against the code it describes.*
+
+`record/decisions/2026-08-07-adopt-rotation.json` lists among its `mitigations_in_force`:
+
+> "SOP §5.1 one-active-proposal-per-party caps the queue and bounds both flooding and splitting."
+
+It does not. `tools/agenda_selectors.py` `load_queue()` admits every sampled proposal; the live
+queue holds 24, roughly five per party. **The custodian was told a control existed when it did
+not**, and decided partly on that basis.
+
+The error was mine: I drafted the recommendation, and I asserted the control by citing a design
+document that *describes* it rather than by reading the code that would have to *enforce* it. A
+design document is a statement of intent and this register exists because intent is not a control.
+
+**Why it is not simply implemented.** Choosing which of a party's five proposals is its "active"
+one would be the moderator deciding which of a party's questions counts — a sharper form of the
+sameness judgement Grok, GPT and Qwen each objected to. Sample order cannot stand in either: the
+proposals are k = 5 samples at temperature 0.7, so their order is sampling noise, and treating it
+as a ranking would be inventing consent. The cap becomes enforceable only when the parties are
+asked to name one themselves, which no solicitation has ever offered them.
+
+The correction is attached at `record/decisions/2026-08-07-adopt-rotation-correction.json` rather
+than folded into the decision, because the fact that the decision rested on a control that did not
+exist is the part worth keeping.
+
+### D-43 — The round loop wrote every artifact, and every halt record, onto the base branch
+
+*Filed 2026-08-07. Found by external review (Codex). Its effect had already been observed and
+misdiagnosed by me as a `git add -A` problem.*
+
+`tools/round_cycle.py` created its round branch at line 474 — **after** composing, after
+soliciting, after writing every spec and every raw sample, and after every halt path that could
+fire in between. The design says "no writes to `main`" and the docstring said so; the code wrote
+specs, raw material, summaries and halt records into `main`'s working tree and only then cut a
+branch to commit them on.
+
+**What this actually caused.** A round's commit swept in an unrelated uncommitted tool edit —
+the working `compose()` fix — which then rode into the record as though it were part of that
+round, while `main` was left carrying a commit message asserting a fix its diff did not contain
+(D-45). I diagnosed the sweep as the defect and named `git add -A` as the cause. `git add -A` was
+the *mechanism*; writing on the base branch at all was the defect, and a narrower `git add` would
+have left the artifacts stranded in `main`'s working tree instead.
+
+**Remediated:** the branch is created and verified before the first write, live operation refuses
+unless HEAD is the base branch and the tree is clean, the round id is validated against a strict
+pattern and its output paths must not already exist, and the commit is verified after the fact to
+contain exactly the intended prefixes and to leave a clean tree.
+
+### D-44 — The prompt linter exempted the live template from its own denylist, and had never checked a prompt that was actually sent
+
+*Filed 2026-08-07. Found by external review (Codex).*
+
+`tools/check_prompt.py` treats a prompt already put to a party as immutable: a violation in one is
+**recorded** rather than failed, because editing a sent prompt would falsify the record of what a
+party was asked (D-36). The set of sent prompts is derived from what the artifacts anchor —
+including any path named in a spec's `source_excerpt.path`.
+
+**Every round spec names the reusable prompt template in exactly that field.** So the template —
+the one file every future prompt is composed from, and the one the check exists to protect —
+had granted itself permanent immunity. A defect introduced into it would have been reported as an
+unrepairable historical violation instead of failing the build.
+
+Worse, and separately: **the linter had never examined a single prompt that was actually sent.**
+It checked markdown templates. Every composition defect this project has committed arrived through
+*substitution* — a slot that never filled, a value substituted into a party's own question — and
+none of them was reachable by a check that reads the template.
+
+**Remediated:** the template is excluded from the sent set explicitly; the linter now reads the
+composed `prompt` value out of every solicitation spec and reports violations in them as recorded;
+and `round_cycle.py` runs the same denylist over each composed prompt **before it is sent**, where
+a violation is still fixable. A hit inside a party-authored span is recorded and never fatal — the
+parties' own words are not the moderator's to sanitise.
+
+### D-45 — Solicitation treated "it parsed as JSON" as schema conformance, and discarded every failed attempt
+
+*Filed 2026-08-07. Found by external review (Codex).*
+
+Both solicitation arms request a grammar-constrained response — `response_format: json_schema`,
+`strict: true` for the routed arm — and then accepted any reply that parsed as JSON. **Neither ever
+validated a sample against the schema the spec froze.** A reply missing a required field, or with
+a `position` outside the enum, was recorded as a good sample and counted toward k.
+
+The SOP halts the deliberation on "a schema-invalid reply". That halt could not fire, because
+nothing checked. A provider's compliance with a requested grammar is a claim like any other, and
+D-18 applies to it exactly as it applies to a model self-reporting its version.
+
+Compounding it: a failed attempt — transport error, provider error, empty completion, unparseable
+bytes — was printed and **dropped**. It reduced `k_collected` and left no trace, so "no usable
+sample" and "the call was never made" looked identical in the record, and a party that returned
+five schema-invalid replies appeared to have said nothing at all.
+
+**Remediated:** both arms validate every sample against the spec's schema on the annotator's side;
+every attempt that did not become a sample is recorded with its category and its raw bytes; a
+party whose every sample was rejected produces a `*-rejected.json` artifact rather than silence;
+and the loop halts on schema-rejected samples **after** committing everything collected.
+
+### D-46 — A commit message asserted a fix that its own diff did not contain
+
+*Filed 2026-08-07. Found by me, while writing a turnover document and checking the claim.*
+
+Commit `0a0923e` is titled *"Fix compose to supply context, after cycle 0 halted for the lack of
+it"*. Its diff does not contain that fix. The working change was still uncommitted when the round
+loop's own `git add -A` swept it into the next commit on a round branch (D-43), leaving the base
+branch asserting something untrue about itself.
+
+**This is the same failure class as a check that reports success without running.** A commit
+message is the primary index into why a change exists; one that misdescribes its diff sends a
+later reader — including a later session with no memory of this one — looking in the wrong place,
+or worse, stops them looking at all. It cost exactly that here: the compose fix appeared landed
+and was not, and the next live round would have run against unfixed code.
+
+**Remediated by correction, not by amendment.** `6b54ca3` lands the real change on the base branch
+and says plainly what `0a0923e` claimed and lacked. The false message stays in the history where
+it can be seen. Amending it out would have been the cheaper repair and would have destroyed the
+evidence that it happened.
+
+### D-47 — The prompt told every party its context pack was fixed and identical between rounds; it was not
+
+*Filed 2026-08-07. Found by external review (Codex).*
+
+Every composed prompt carried this sentence to every party:
+
+> "This pack is FIXED and identical for every round. It was not selected for this question."
+
+The second clause is true and is the important protection: the pack is assembled by a constant
+rule, so the moderator does not choose what evidence a question gets — which is the bias channel
+every consulted party named. **The first clause is false.** The rule resolves against a repository
+that changes, so the bytes drift between rounds without anyone selecting anything. Two rounds
+could see materially different evidence with nothing in the record saying they had.
+
+**Remediated:** the pack's resolved anchor set is hashed and pinned at
+`record/cycles/context-pack.sha256`; a cycle refuses when it drifts, which turns drift into an
+explicit re-pinning decision instead of a silent event; the hash is recorded in every spec and in
+the round record so two rounds' packs are comparable after the fact; and the prompt now says
+*rule-resolved*, not *fixed*, and states plainly that the contents change.
+
+**Permanent limit:** the pack was never pre-committed at the time the 24 queued proposals were
+solicited, so for those it is pinned-before-selection, not pinned-at-submission. The stronger
+scheme — each proposal carrying its own hash-addressed evidence manifest, refused rather than
+trimmed when it exceeds the ceiling — applies only from the next agenda solicitation onward.
+
+### D-48 — Proposal disposition was never persisted, so a live round re-asked a question the record had already put
+
+*Filed 2026-08-07. Found by external review (Codex), after the effect had already occurred twice.*
+
+`load_queue()` rebuilt every proposal with `asked = False` on every invocation and consulted no
+round record. Nothing anywhere tracked which questions had been asked. Rotation therefore returned
+the same proposal after one pass through the parties, and **the agenda could never advance.**
+
+Two live rounds — 000 and 000b — put the same question, from the same proposer, to the same five
+parties at k = 5. The second was intended as a before/after against a composition fix, and its
+prompt turned out byte-identical to the first's, so it re-measured a condition already measured
+and was reported as a comparison.
+
+**Remediated:** `disposition_from_records()` reads what has been asked out of committed round
+records, matching on the SHA-256 of the question's exact bytes with a whitespace-normalised
+fallback for records written before questions were hash-identified.
+
+**The harder half, and why the loop now halts more often.** Round records live on round branches
+until the custodian merges them. Reaching across those branches would let material the custodian
+has not reviewed — or has rejected — silently steer the agenda. So disposition is read **only from
+the accepted branch**, and a cycle halts (exit 8) naming any round record that is not there yet.
+The loop cannot advance past unreviewed output, which is the intended cost: `GOVERNANCE.md` §2
+already requires the custodian in this position, and this makes the requirement operative rather
+than nominal.
+
 ## Deficiencies that are permanent vs. remediable
 
 *This table stopped at D-22 until 2026-08-06, omitting eight entries — including every instrument
@@ -1484,6 +1655,13 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-42 | **Corrected, not remediated.** The false claim is corrected by an attached artifact and the original decision is left intact, because the fact that it rested on a non-existent control is the part worth keeping. The control itself **cannot honestly be built yet** — every mechanical way to pick a party's "active" proposal is either the moderator choosing which of a party's questions counts, or sampling noise dressed as a ranking. It becomes buildable only after a solicitation asks the parties to name one. **Nothing checks decision records against the code they describe**, and this class will recur. |
+| D-43 | **Remediated 2026-08-07** — branch created and verified before the first write; live operation refuses on a dirty tree, a wrong base branch, an unsafe round id, or a pre-existing output path; the commit is verified after the fact to contain exactly the intended prefixes and to leave a clean tree. **The exposure is not bounded backwards:** artifacts written onto the base branch during earlier runs were carried onto round branches by working-tree state, and which files belonged to which round is reconstructable only from the diffs. |
+| D-44 | **Remediated 2026-08-07** — the template is excluded from the sent-prompt carve-out explicitly, composed prompts in every spec are checked, and the same denylist runs over each prompt **before** it is sent. **Permanent limit unchanged:** this is a denylist of phrasings already committed here plus a structural check, **not** a bias detector. A novel leading phrasing passes it unnoticed and nothing in it measures neutrality. |
+| D-45 | **Remediated 2026-08-07** in both arms — annotator-side schema validation, every rejected attempt recorded with its category and raw bytes, a `*-rejected.json` artifact when nothing conforms, and a halt on schema-rejected samples that fires **after** everything collected is committed. **Not repairable backwards:** samples already recorded were never validated, and whether any of them would fail the frozen schema is unknown without re-checking each one. |
+| D-46 | **Corrected 2026-08-07 by superseding commit `6b54ca3`, not by amendment.** The false message stays in the history where a reader can see it. **No control exists**: nothing checks that a commit message's claims match its diff, and nothing plausibly could in general. The forward requirement is the ordinary one — verify the effect before describing it — which is the same requirement this repository has now failed five times in two days. |
+| D-47 | **Remediated 2026-08-07** — the pack is hashed, pinned, checked on every cycle, and recorded in every spec and round record; the prompt's false claim is replaced with an accurate one. **Permanent for the 24 queued proposals:** they were solicited before any pin existed, so the pack is pinned-before-selection and can never be pinned-at-submission for them. |
+| D-48 | **Remediated 2026-08-07**, and the remediation deliberately makes the loop halt more often. Disposition is read only from round records on the accepted branch; a cycle refuses (exit 8) while any round record is unaccepted, rather than reaching across branches for material the custodian has not reviewed. **Not repairable backwards:** round 000b was spent re-asking round 000's question and that expenditure is not recoverable. |
 | D-41 | **Remediated 2026-08-06/07** — both solicitation tools refuse to overwrite raw material; the overwritten run restored from git and the second run preserved as its own artifact. **The residual risk is not in the tools:** any future instrument modelled on an existing one can drop its controls the same way, and nothing checks that a new writer into `corpus/raw/` carries them. |
 | D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |

@@ -88,6 +88,21 @@ def call_once(endpoint: str, body: dict, timeout: int) -> dict:
         return json.loads(response.read().decode("utf-8"))
 
 
+def validate_sample(parsed, schema: dict) -> str | None:
+    """Return a rejection reason, or None if the sample conforms. See solicit_api.py."""
+    try:
+        import jsonschema
+    except ImportError:                                             # pragma: no cover
+        return ("jsonschema is not installed, so this sample could not be validated. "
+                "Install it with: python3 -m pip install jsonschema")
+    try:
+        jsonschema.Draft202012Validator(schema).validate(parsed)
+    except jsonschema.ValidationError as error:
+        path = "/".join(str(p) for p in error.path) or "(root)"
+        return f"schema-invalid at {path}: {error.message}"
+    return None
+
+
 def shannon_entropy(counts: Counter) -> float:
     total = sum(counts.values())
     if total == 0:
@@ -160,15 +175,27 @@ def main() -> int:
             result = call_once(args.endpoint, body, args.timeout)
             content = result["choices"][0]["message"]["content"]
             parsed = json.loads(content)
-            samples.append(parsed)
-            raw_responses.append({"sample_index": i + 1, "content": content,
-                                  "finish_reason": result["choices"][0].get("finish_reason"),
-                                  "usage": result.get("usage"), "seed": body["seed"]})
-            print(f"  [{i+1:>2}/{args.k}] {result['choices'][0].get('finish_reason')} "
-                  f"{result.get('usage', {}).get('completion_tokens')}tok")
         except Exception as error:
-            failures.append({"sample_index": i + 1, "error": str(error)})
-            print(f"  [{i+1:>2}/{args.k}] FAILED: {error}")
+            failures.append({"sample_index": i + 1, "category": "transport_or_malformed",
+                             "error": f"{type(error).__name__}: {error}"})
+            print(f"  [{i+1:>2}/{args.k}] REJECTED (transport_or_malformed): {error}")
+            continue
+        #  A grammar-constrained endpoint is not a validator. `response_format` above
+        #  is a request; whether the bytes conform is a separate question, and this
+        #  arm used to answer it by assuming. The routed arm validates identically,
+        #  so the two arms' k_collected mean the same thing.
+        invalid = validate_sample(parsed, spec["schema"])
+        if invalid:
+            failures.append({"sample_index": i + 1, "category": "schema_invalid",
+                             "error": invalid, "response_bytes": content[:4000]})
+            print(f"  [{i+1:>2}/{args.k}] REJECTED (schema_invalid): {invalid[:140]}")
+            continue
+        samples.append(parsed)
+        raw_responses.append({"sample_index": i + 1, "content": content,
+                              "finish_reason": result["choices"][0].get("finish_reason"),
+                              "usage": result.get("usage"), "seed": body["seed"]})
+        print(f"  [{i+1:>2}/{args.k}] {result['choices'][0].get('finish_reason')} "
+              f"{result.get('usage', {}).get('completion_tokens')}tok")
 
     if not samples:
         print("REFUSED: no samples collected; nothing recorded.", file=sys.stderr)
@@ -197,6 +224,11 @@ def main() -> int:
         "k_requested": args.k,
         "k_collected": len(samples),
         "failures": failures,
+        "attempts": args.k,
+        "rejected": failures,
+        "spend": {"actual_usd": 0.0, "input_tokens": None, "output_tokens": None,
+                  "basis": ("Served on the custodian's own hardware. Zero marginal API "
+                            "cost; electricity and wear are real and are not modelled.")},
         "variance": variance,
         "citability": ("citable" if len(samples) >= 5 else "non-citable (k<5)"),
         "citability_note": ("Variance is computed from the samples actually collected, not asserted. "

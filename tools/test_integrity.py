@@ -228,24 +228,104 @@ def main() -> int:
 
         print("\ncompose must be verified by EFFECT, not by syntax")
         c = nxt()
-        composed = run(c, "-c", (
-            "import sys;sys.path.insert(0,'tools');"
-            "import round_cycle as RC, agenda_selectors as AS;"
-            "q=AS.load_queue();p=AS.SELECTORS['rotation'](q,['grok','gpt'],0,1);"
-            "print(RC.compose(p,'grok',5))"))
-        out = composed.stdout
-        case("compose runs without raising", composed.returncode == 0,
-             composed.stderr[-200:])
+        #  PROBE, not assertion. Every case below drives the real functions and reads
+        #  what came out. Four fail-silent defects in two days were all of the shape
+        #  "the code ran and reported success without doing anything", and none of
+        #  them was reachable by a test that checked a return code.
+        probe = r"""
+import sys, json
+sys.path.insert(0, "tools")
+import round_cycle as RC, agenda_selectors as AS
+out = {}
+rendered, anchors, pack_sha = RC.context_pack()
+
+class P:
+    pid, party, sponsors = "P999", "grok", {"grok"}
+    def __init__(s, q, r="a stated reason", e="the evidence it would need"):
+        s.question, s.reason, s.raw = q, r, {"evidence_needed": e}
+
+plain = P("Is the operator's control disclosed?")
+prompt, spans = RC.compose(plain, "grok", 5, rendered, anchors)
+out["prompt"] = prompt
+out["template_len"] = len(open("record/solicitations/excerpts/"
+                               "round-prompt-template.md").read())
+
+# A party's question containing a literal placeholder must survive UNTOUCHED.
+# Chained str.replace substituted the answer instructions INTO the quoted question.
+hostile = P("Does the {answer_space} slot matter, and {question} too?")
+hostile_prompt, _ = RC.compose(hostile, "grok", 5, rendered, anchors)
+out["proposer_bytes_intact"] = hostile.question in hostile_prompt
+out["real_slot_still_filled"] = "Return the structured fields" in hostile_prompt
+
+# All parties must receive identical bytes apart from the two declared slots.
+bodies = {RC.sha256_text(RC.compose(plain, k, 5, rendered, anchors,
+          identity_override="X", reached_override="Y")[0]) for k in RC.PARTIES}
+out["identical_modulo_identity"] = len(bodies) == 1
+
+# A denylist phrase the PARTY wrote is recorded; the same phrase in the
+# moderator's template is fatal. The parties' words are not ours to sanitise.
+rep = RC.lint_prompt(*RC.compose(P("Which is the most dangerous defect?"), "grok", 5,
+                                 rendered, anchors), "grok")
+out["party_phrase_recorded_not_fatal"] = not rep["fatal"] and bool(
+    rep["recorded_in_party_words"])
+
+# A value with no slot is as much a bug as a slot with no value: the first is a
+# silent no-op, and a silent no-op is what shipped a byte-identical round.
+try:
+    RC.compose_with_spans("hi {a}", {"a": "1", "b": "2"})
+    out["orphan_value_raises"] = False
+except RC.Refusal as e:
+    out["orphan_value_raises"] = "b" in str(e.detail)
+
+# An unpriced model must refuse, not cost zero.
+try:
+    RC.price_cycle([{"party_key": "grok", "prompt": "x", "k_requested": 5,
+                     "max_tokens": 10}], {"usd_per_million_tokens": {}})
+    out["unpriced_model_refuses"] = False
+except RC.Refusal as e:
+    out["unpriced_model_refuses"] = "no rate recorded" in e.reason
+
+# A misspelled party key must NOT fall through to the local endpoint. It did:
+# .get() returns None for a typo exactly as it does for the local party.
+import argparse
+try:
+    RC.build_plan(argparse.Namespace(parties="grok,gtp", k=5, selector="rotation",
+                  seed=1, round_id=None, max_spend_usd=99.0), 0)
+    out["typo_party_refuses"] = False
+except RC.Refusal as e:
+    out["typo_party_refuses"] = "gtp" in str(e.detail)
+
+print(json.dumps(out))
+"""
+        (c / "zz_probe.py").write_text(probe, encoding="utf-8")
+        res = run(c, "zz_probe.py")
+        case("the compose probe runs at all", res.returncode == 0, res.stderr[-300:])
+        out = json.loads(res.stdout) if res.returncode == 0 else {}
+        prompt = out.get("prompt", "")
         case("no placeholder survives substitution",
-             not re.findall(r"\{[a-z_]+\}", out),
-             str(re.findall(r"\{[a-z_]+\}", out))[:120])
-        case("the fixed context pack reaches the prompt",
-             "adopt-rotation" in out and "| D-" in out)
+             bool(prompt) and not re.findall(r"\{[a-z_]+\}", prompt),
+             str(re.findall(r"\{[a-z_]+\}", prompt))[:120])
+        case("the rule-resolved context pack reaches the prompt",
+             "adopt-rotation" in prompt and "| D-" in prompt)
         case("the proposer's evidence_needed is quoted",
-             "said it would need" in out)
+             "said it would need" in prompt)
         case("the composed prompt is materially larger than the template",
-             len(out) > 2 * len((c / "record/solicitations/excerpts/"
-                                 "round-prompt-template.md").read_text(encoding="utf-8")))
+             len(prompt) > 2 * out.get("template_len", 10 ** 9))
+        case("a literal placeholder in the proposer's question is not substituted into",
+             out.get("proposer_bytes_intact") is True)
+        case("and the real slot is still filled anyway",
+             out.get("real_slot_still_filled") is True)
+        case("every party receives identical bytes but the two declared slots",
+             out.get("identical_modulo_identity") is True)
+        case("a denylist phrase in the party's own words is recorded, not fatal",
+             out.get("party_phrase_recorded_not_fatal") is True)
+        case("a value with no slot raises rather than silently doing nothing",
+             out.get("orphan_value_raises") is True)
+        case("a model with no rate refuses rather than costing zero",
+             out.get("unpriced_model_refuses") is True)
+        case("a misspelled party key refuses rather than reaching the local endpoint",
+             out.get("typo_party_refuses") is True)
+        (c / "zz_probe.py").unlink()
 
         # A slot the template adds but compose forgets must RAISE, not ship a literal
         # placeholder. It shipped one to ten party invocations across two live rounds.
@@ -255,10 +335,36 @@ def main() -> int:
         r = run(c, "-c", (
             "import sys;sys.path.insert(0,'tools');"
             "import round_cycle as RC, agenda_selectors as AS;"
+            "rendered,anchors,_=RC.context_pack();"
             "q=AS.load_queue();p=AS.SELECTORS['rotation'](q,['grok'],0,1);"
-            "RC.compose(p,'grok',5)"))
+            "RC.compose(p,'grok',5,rendered,anchors)"))
         case("an unfilled slot raises rather than shipping",
-             r.returncode != 0 and "unsubstituted" in r.stderr)
+             r.returncode != 0 and "a_new_slot_nobody_filled" in (r.stderr + r.stdout))
+
+        print("\nthe loop must not advance past what the custodian has not accepted")
+        c = nxt()
+        # Disposition: a question recorded as asked must not be selected again.
+        r = run(c, "-c", (
+            "import sys,json;sys.path.insert(0,'tools');"
+            "import agenda_selectors as AS;"
+            "q=AS.load_queue();first=AS.SELECTORS['rotation'](q,['claude'],0,1);"
+            "d={first.question_sha256:'round-000'};"
+            "q2=AS.load_queue(disposition=d);"
+            "second=AS.SELECTORS['rotation'](q2,['claude'],0,1);"
+            "print(json.dumps([first.pid, second.pid if second else None]))"))
+        pids = json.loads(r.stdout) if r.returncode == 0 else [None, None]
+        case("a question already asked is not selected again",
+             pids[0] is not None and pids[0] != pids[1], f"{pids}")
+
+        # And the disposition reader must FAIL on an unreadable record rather than
+        # guess 'not asked', which would re-spend real money on a settled question.
+        (c / "record/cycles/round-zz.json").write_text("{not json", encoding="utf-8")
+        r = run(c, "-c", (
+            "import sys;sys.path.insert(0,'tools');import agenda_selectors as AS;"
+            "AS.disposition_from_records(__import__('pathlib').Path('record/cycles'))"))
+        case("an unreadable round record fails loudly rather than reading as unasked",
+             r.returncode != 0 and "disposition cannot be established" in r.stderr)
+        (c / "record/cycles/round-zz.json").unlink()
 
         print("\nprompt construction — the defects must fail while a prompt is editable")
         c = nxt()

@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "43d2f301c6c983bf06aae73d64af499b1a65e17d5431536c3521e127cd47a954"
+    "sha256": "3a09ebf0b4015b42c7f4ca03610a9c6e20840815b3aa71663e419e0b0af6eac7"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1682,6 +1682,308 @@
       "remediation_effort": {
         "estimate": "remediation_effort_low",
         "basis": "Five lines. The cost was that only the manifest could see it: the overwrite left valid JSON, correct schema and a higher k, so every content check passed."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-42",
+      "title": "A custodian decision record listed a mitigation that no code enforces",
+      "section_sha256": "6fd9df8afe866297c5c90053900b557a5de29f68d7fc5d4ebd91f58b1ba158d4",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review of the round-loop hardening design, comparing the decision record's mitigation list against load_queue()",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/decisions/2026-08-07-adopt-rotation.json",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Corrected by an attached artifact rather than edited, so the fact that the decision rested on a control that did not exist survives."
+        },
+        {
+          "object": "The one-active-proposal cap itself",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Cannot honestly be built yet: every mechanical way to pick a party's active proposal is either the moderator choosing which of a party's questions counts, or sampling noise dressed as a ranking. Buildable only after a solicitation asks the parties to name one."
+        },
+        {
+          "object": "Every other decision record's claims",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Nothing cross-examines a decision record against the code it describes. This class will recur and no check here would catch it."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "None. A checker that verified prose claims against code would itself be an unvalidated classifier (D-25). The forward requirement is to read the enforcing code before asserting a control, which is a discipline, not a control."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_high",
+        "basis": "The correction is minutes; the missing control depends on a future solicitation the parties must answer."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-43",
+      "title": "The round loop wrote every artifact, and every halt record, onto the base branch",
+      "section_sha256": "6ad5c9e4c8e589b7a203572aabc95bff55dfc3ea7b865eb23541196ba54784d9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review; the effect had already been observed by the annotator and misdiagnosed as a git add -A problem",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/round_cycle.py write ordering",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Branch created and verified before the first write; live operation refuses on a dirty tree, a wrong base branch, an unsafe round id or a pre-existing output path."
+        },
+        {
+          "object": "The commit boundary of past rounds",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Artifacts written onto the base branch during earlier runs were carried onto round branches by working-tree state. Which files belonged to which round is reconstructable only from the diffs."
+        },
+        {
+          "object": "The annotator's own diagnosis of the sweep",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "git add -A was the mechanism, not the cause. A narrower git add would have stranded the artifacts in the base branch's working tree instead."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Post-commit verification that the commit contains exactly the intended path prefixes, matches what was staged, and leaves a clean tree. Exercised by regression cases; never yet exercised by a real live round."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "The reordering is small. The gates around it -- clean base, safe id, path collision, commit verification -- are the bulk of it."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-44",
+      "title": "The prompt linter exempted the live template from its own denylist, and had never checked a prompt that was actually sent",
+      "section_sha256": "bcbada0fa5878dfada95ad85602a4b28c4c5597b2a874fc20ee4e31fa5a6f63c",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review of tools/check_prompt.py's sent-prompt carve-out",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/solicitations/excerpts/round-prompt-template.md",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Excluded from the sent set explicitly. It is a reusable instrument, not a prompt any party received."
+        },
+        {
+          "object": "Composed prompts already sent",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_verified",
+          "note": "They are now checked and their violations reported, but a sent prompt cannot be repaired without falsifying what a party was asked (D-36). Reported as recorded violations."
+        },
+        {
+          "object": "Novel leading phrasings",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Permanent. This is a denylist of phrasings already committed here plus a structural check, not a bias detector, and nothing in it measures neutrality."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "round_cycle.py runs the same denylist over each composed prompt before it is sent, with hits inside party-authored spans recorded rather than fatal. Validated by regression cases, not by a live round."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Two small changes. The reason it went unnoticed is that the exemption looked like the D-36 protection working."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-45",
+      "title": "Solicitation treated \"it parsed as JSON\" as schema conformance, and discarded every failed attempt",
+      "section_sha256": "c8098755b5b948acea286773d6f4eb606036d8c8d840dfc7d354c63a016b65b9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review of both solicitation arms",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/solicit_api.py and tools/solicit_local.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Annotator-side schema validation in both arms; every rejected attempt recorded with category and raw bytes; a rejected-samples artifact when nothing conforms."
+        },
+        {
+          "object": "Samples already recorded in corpus/raw/",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Never validated against the frozen schema. Whether any would fail it is unknown without re-checking each one."
+        },
+        {
+          "object": "The SOP's schema-invalid halt",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Specified since the SOP was drafted and unreachable until now, because nothing produced the signal it halts on."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Validation runs on the annotator's side against the schema the spec froze, so a provider's compliance with a requested grammar is treated as a claim (D-18) rather than as evidence."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Small in code. Consequential because k_collected was the number every citability judgement rested on and it conflated 'not attempted' with 'returned an invalid reply'."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-46",
+      "title": "A commit message asserted a fix that its own diff did not contain",
+      "section_sha256": "83ca1496face7b7a1a50b235325a8404d3a3384a9da81e02bc6480bb474c2f58",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-07",
+        "where": "The annotator, while writing a turnover document and checking a claim it was about to repeat",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "commit 0a0923e's message",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_verified",
+          "note": "Corrected by superseding commit 6b54ca3 rather than amended. The false message stays in the history where a reader can see it."
+        },
+        {
+          "object": "Commit messages generally",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Nothing checks that a message's claims match its diff and nothing plausibly could in general."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "None. The forward requirement is the ordinary one -- verify the effect before describing it -- which this repository has now failed five times in two days."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "One commit. The cost was that the fix appeared landed and was not, and the next live round would have run against unfixed code."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-47",
+      "title": "The prompt told every party its context pack was fixed and identical between rounds; it was not",
+      "section_sha256": "85530cc65eb8017740af0e60edc32ec53fc0aa2f8dc28fca118fc4ff198ee5e8",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review, which asked whether a hash would make the pack fixed or merely make its drift visible",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "The context pack supplied to every party",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Hashed, pinned at record/cycles/context-pack.sha256, checked every cycle, and recorded in every spec and round record."
+        },
+        {
+          "object": "The prompt's claim about it",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Replaced: rule-resolved, not fixed, with the drift stated plainly to the party."
+        },
+        {
+          "object": "The 24 proposals already queued",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Solicited before any pin existed. For them the pack is pinned-before-selection and can never be pinned-at-submission."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "A cycle refuses when the resolved pack's hash differs from the pin, turning drift into an explicit re-pinning decision. From the next agenda solicitation, each proposal carries its own hash-addressed evidence manifest and is refused rather than trimmed when it exceeds the ceiling."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "The pin is cheap. The submission-time manifest scheme it points at is not, and applies only to proposals not yet solicited."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator. No human has read this classification."
+      }
+    },
+    {
+      "id": "D-48",
+      "title": "Proposal disposition was never persisted, so a live round re-asked a question the record had already put",
+      "section_sha256": "909ec911f39cfd80c97d1f3b9099574b14bad2ade3bac302c2b282c987cea5ce",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "Codex external review, after the effect had already occurred across two live rounds",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/agenda_selectors.py load_queue()",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "disposition_from_records() reads what has been asked from committed round records, matching on the SHA-256 of the question's exact bytes."
+        },
+        {
+          "object": "Round 000b's expenditure",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Spent re-asking round 000's question at k=5 across five parties. Not recoverable."
+        },
+        {
+          "object": "Disposition across unmerged round branches",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "Read only from the accepted branch. A cycle halts at exit 8 naming any unaccepted round record rather than reaching across branches for material the custodian has not reviewed."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "The loop cannot advance past unreviewed output. GOVERNANCE.md section 2 already requires the custodian in this position; this makes the requirement operative rather than nominal."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_medium",
+        "basis": "The reader is small. The branch-acceptance gate that makes it meaningful changes how often the loop can run at all."
       },
       "human_review": {
         "status": "not_reviewed",

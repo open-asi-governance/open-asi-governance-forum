@@ -113,7 +113,30 @@ because the prompt asserted one emphatically. A round where everyone agrees is m
 the prompt told them what to say than that a question was settled.
 
 
-## 5.1 Agenda selection — a capped portfolio, after two failed designs
+## 5.1 Agenda selection — ROTATION is adopted; the portfolio below is superseded
+
+> **Operative rule, 2026-08-07.** The custodian adopted **strict rotation**, which is Design 2
+> below — the design this section had already called *refuted before it shipped*. That is not a
+> drafting slip and it is not hidden here: `tools/benchmark_agenda.py` replayed all three
+> mechanisms over the 24 real proposals, and rotation resisted a flooding party 5× better than
+> convergence and 3.5× better than the portfolio, which was the only scenario that separated them.
+> The basis, the evidence, **the benchmark's own conclusion that no mechanism should be adopted on
+> this data**, and the weaknesses accepted with open eyes are all in
+> `record/decisions/2026-08-07-adopt-rotation.json`. The code is
+> `tools/agenda_selectors.py`, `ADOPTED = "rotation"`.
+>
+> **A mitigation that decision names is NOT in force.** It lists "one active proposal per party"
+> as bounding flooding and splitting. The selector does not enforce it and cannot yet do so
+> honestly — see the correction at
+> `record/decisions/2026-08-07-adopt-rotation-correction.json` and §5.1c below.
+>
+> **Review trigger:** re-run the benchmark the moment any proposal has more than one sponsor. The
+> alternatives lost because every proposal was a singleton, which made their ranking channels
+> inert — not because they were beaten on merit.
+
+**The rest of this section is the superseded portfolio proposal, kept because a design that lost
+is evidence about how this project decides, and folding it away would leave the decision above
+looking obvious.**
 
 **This section has now been wrong twice, and both corrections are recorded rather than folded in.**
 
@@ -183,6 +206,39 @@ Where no genuinely non-target prompt author exists, the slot **is labelled an op
 self-audit, not an adversarial control.** An interested party can always write a question that
 sounds adversarial while excluding the dangerous hypothesis, and calling that a control would be
 the legitimacy-laundering Gemini named.
+
+## 5.1c The one-active-proposal cap is not in force, and why it cannot yet be
+
+The adoption decision lists **"one active proposal per party"** among its mitigations. The queue
+holds about five proposals per party and the selector admits all of them.
+
+It is unimplemented because no honest mechanical implementation exists yet. Choosing which of a
+party's five questions is its "active" one would be **the moderator deciding which of a party's
+questions counts** — a sharper version of the sameness judgement Grok, GPT and Qwen each objected
+to. Sample order cannot stand in for the party's preference either: these proposals are k = 5
+samples at temperature 0.7, so their order is sampling noise and dressing it up as a ranking would
+be inventing consent.
+
+**The cap becomes real only when the parties are asked to exercise it.** The next agenda
+solicitation puts the choice where it belongs: each party names its own single active proposal,
+may replace it (which resets its age), and every superseded version stays published. Until that
+round runs, the queue is uncapped and the flooding bound the decision claims is aspirational.
+
+## 5.1d Evidence manifests at submission, not context assembled at round time
+
+The context supplied with a question is **rule-resolved, not fixed**: the rule is constant, the
+bytes it resolves to change as the repository changes. The prompt asserted the stronger claim —
+"FIXED and identical for every round" — and that was false.
+
+The interim control is a pin: `record/cycles/context-pack.sha256` records the hash of the resolved
+anchor set, and a cycle refuses when the pack drifts, so drift becomes an explicit re-pinning
+decision instead of a silent event. **This is pinned-before-selection, not pinned-at-submission**,
+and for the 24 questions already queued it cannot be made retroactive.
+
+From the next agenda solicitation onward, **each proposal carries its own hash-addressed evidence
+manifest at submission time**. A mechanical resolver supplies exactly those artifacts plus a small
+versioned core pack; a proposal whose manifest exceeds the context ceiling is **refused rather than
+trimmed**, because a moderator choosing what to cut is the bias channel by another name.
 
 ## 5.1b This mechanism is untested and should be benchmarked before adoption
 
