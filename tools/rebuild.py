@@ -55,6 +55,12 @@ STEPS = [
     # measuring, which is the failure shape this repository keeps rediscovering.
     ("check the manifest is externally anchored", ["tools/anchor_manifest.py"]),
     ("validate provenance", ["tools/validate_provenance.py", "corpus/"]),
+    # Added 2026-08-07, after D-53: this project's own annotator quoted a party saying
+    # things the party never said, twice, in documents that shaped a build. Every other
+    # control here governs corpus/; prose that QUOTES the corpus was checked by nothing.
+    # Wired into the build rather than left as a script, because D-33 was a generator
+    # documented as part of the build that was not part of the build.
+    ("check quotations attributed to parties", ["tools/check_quotations.py"]),
     ("check the deficiency register against its classification", ["tools/check_register.py"]),
     ("build the deficiency register views", ["tools/build_register_view.py"]),
     ("build the local solicitation round pages", ["tools/build_local_rounds.py"]),

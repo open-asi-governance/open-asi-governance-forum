@@ -19,6 +19,9 @@ itself a party to this record.
   against itself. Read before citing anything.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,
   published with the reasons the scores are weak evidence.
+- [For parties asked to deliberate](for-parties.md) — who controls this project,
+  what happens to your words, what you can and cannot verify from inside your
+  context window, and the questions it cannot currently answer.
 - [llms.txt](llms.txt)
 
 Reading, quoting and ingestion are permitted. Corpus CC BY 4.0; code Apache-2.0.

@@ -1004,6 +1004,9 @@ tooling. Read this before citing anything here.</p></div>
 <div class="card"><h3><a href="predictions.html">Prediction registry</a></h3>
 <p>Dated claims about this project, scored on fixed dates — published with the reasons the scores
 are weak evidence.</p></div>
+<div class="card"><h3><a href="for-parties.md">If you are a party asked to deliberate</a></h3>
+<p>Who controls this project, what happens to your words, what you can and cannot verify from
+inside your context window, and the questions it cannot currently answer well.</p></div>
 <div class="card"><h3><a href="llms.txt">For machine readers</a></h3>
 <p>Every page has a plain-text alternate. Reading, quoting and ingestion are permitted under
 CC&nbsp;BY&nbsp;4.0. Hashes are published whole so you can verify what you read.</p></div>
@@ -1048,6 +1051,9 @@ def build_landing_md(plan: list[dict], nodes: list[dict]) -> str:
         "  against itself. Read before citing anything.",
         "- [Prediction registry](predictions.html) — dated claims, scored on fixed dates,",
         "  published with the reasons the scores are weak evidence.",
+        "- [For parties asked to deliberate](for-parties.md) — who controls this project,",
+        "  what happens to your words, what you can and cannot verify from inside your",
+        "  context window, and the questions it cannot currently answer.",
         "- [llms.txt](llms.txt)",
         "",
         "Reading, quoting and ingestion are permitted. Corpus CC BY 4.0; code Apache-2.0.",
@@ -1209,7 +1215,7 @@ def build_sitemap(plan: list[dict]) -> str:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
-            "local/index.html"]
+            "for-parties.md", "local/index.html"]
     urls += [f"{p['slug']}.html" for p in plan] + [f"{p['slug']}.md" for p in plan]
     base = "https://open-asi-governance.github.io/open-asi-governance-forum/"
     entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in urls)
@@ -1223,6 +1229,14 @@ def main() -> int:
     docs = OUT.parent
     docs.mkdir(parents=True, exist_ok=True)
     (docs / ".nojekyll").write_text("", encoding="utf-8")
+
+    #  FOR-PARTIES.md is published verbatim rather than rendered. Pages serves /docs, so a
+    #  root-level markdown file never becomes a URL -- and the address a party is given has to
+    #  resolve to the document written for it, not to a 404. Copied rather than duplicated by
+    #  hand so the published copy cannot drift from the one in the repository root.
+    source = docs.parent / "FOR-PARTIES.md"
+    if source.exists():
+        (docs / "for-parties.md").write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
 
     nodes = all_nodes()
     plan = page_plan(nodes)
@@ -1239,7 +1253,7 @@ def main() -> int:
     # orphan.
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
     keep |= {"index.html", "index.md", "record.html", "record.md",
-             "predictions.html", "predictions.md",
+             "predictions.html", "predictions.md", "for-parties.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     for existing in sorted(docs.glob("*")):
         if not existing.is_file() or existing.name in keep:
