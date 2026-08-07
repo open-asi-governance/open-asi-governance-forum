@@ -110,6 +110,23 @@ effect* before the first live sample, not assumed from documentation: the accept
 test is that the arm attempts a write into `corpus/` and is refused, with the refusal
 recorded. A read-only claim that has never been violated on purpose is a claim.
 
+> **Amended 2026-08-07, at build time.** The arm runs `sandbox_mode = "workspace-write"`,
+> **not** `read-only`. Codex grants network access only in workspace-write
+> (`[sandbox_workspace_write] network_access`), and a party that cannot fetch a URL cannot
+> attempt the verification this arm exists to enable — that is the whole case for building it,
+> stated at the top of this document.
+>
+> The requirement that carries the weight is unchanged and is met: **a party asked whether the
+> record can be trusted must not be able to write to the record.** Writes are confined to the
+> cwd, which is a scratch directory outside the repository; `writable_roots` is empty. What was
+> given up is the broader claim "this party cannot write anywhere", which was never the thing
+> being protected.
+>
+> This is recorded as an amendment rather than a silent reinterpretation because the sentence
+> above says "read-only" and the running configuration does not, and a scope document that
+> contradicts the harness is exactly the drift this record exists to catch. The acceptance test
+> is unchanged and now matters more: `tools/arm_acceptance.py`, six checks, verified twice.
+
 **2. General web, not the published site only.** This is the stronger choice and it
 carries a consequence worth stating plainly: the party can find material about this
 project that the operator did not put in front of it — the repository itself, its
@@ -145,8 +162,38 @@ prior conditions rather than none.
 
 ## Still open
 
-- The acceptance test for read-only must be written before the harness is trusted.
+- ~~The acceptance test for read-only must be written before the harness is trusted.~~
+  **Done 2026-08-07:** `tools/arm_acceptance.py`, six checks, passing twice against a
+  regenerated profile. It checks the filesystem rather than the party's account of it, and
+  includes a positive read because a refused write proves nothing if the path was absent.
 - Whether the tool log can capture *file reads* as well as fetches, or only what
   Codex chooses to report. If the log is incomplete, the artifact must say which
   parts of the party's activity are unobservable — the same treatment given to the
   routed arms' unrecordable system prompts.
+
+  **Narrowed 2026-08-07.** The honest claim is *"every byte returned to the model by a tool"*,
+  not *"every file the party read"*. A shell command may open many files while only its stdout
+  reaches the model, so the stronger claim was never supportable from command strings alone.
+  The shim's ledger holds the exact command and the exact bytes returned, which is what the
+  round artifacts may assert.
+
+## How the party browses, and what that costs
+
+The intended mechanism was an MCP tool (`tools/fetch_tool_mcp.py`) enforcing http(s)-only,
+refusing loopback and private and metadata addresses, re-resolving every redirect hop, and
+emitting hash-chained receipts with the SHA-256 of the raw bytes. It is written, tested, and
+**works end to end** — but only under `--dangerously-bypass-approvals-and-sandbox`, because
+`codex exec` has no one to approve an MCP tool call and auto-cancels it (openai/codex#24135;
+`default_tools_approval_mode = "auto"` does not suppress it).
+
+That flag also disables the sandbox. **Trading the sandbox for a content hash would forfeit the
+one guarantee that makes this arm's verification mean anything**, so it is not used. Browsing is
+`exec_command` plus the sandbox's network access, and the round record must state the resulting
+provenance honestly: the command and the returned bytes are recorded; there is no SSRF guard and
+no content digest.
+
+Getting there also required fixing routing in the shim, which is worth noting because it was a
+guess-trap: Codex resolves a tool call on the (namespace, name) **pair**, so a flattened MCP tool
+name is unroutable no matter how it is spelled — four spellings were tried and all were rejected
+before the Responses `function_call` item's separate `namespace` field turned out to be the
+missing information.

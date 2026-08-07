@@ -209,6 +209,10 @@ CONTENT_PART_TEXT_TYPES = {"input_text", "output_text", "text"}
 #  shim keeps all of them, and the separator is fixed and recorded so a reader can invert it.
 PART_SEPARATOR = "\n\n"
 
+#  How a namespace member is renamed when flattened. Set from --namespace-flatten and recorded
+#  in the run's translation table, because it changes the name the model sees.
+NAMESPACE_FLATTEN = "member"
+
 
 # ---------------------------------------------------------------------------------------------
 # Ledger
@@ -467,7 +471,7 @@ def translate_input(items, ops: Ops) -> list[dict]:
     return messages
 
 
-def translate_tools(tools, ops: Ops) -> list[dict]:
+def translate_tools(tools, ops: Ops, namespace_map: dict | None = None) -> list[dict]:
     """Convert Responses tool declarations into Chat Completions tool declarations.
 
     Only flat function tools survive. `namespace` and `web_search` are refused on purpose:
@@ -544,18 +548,30 @@ def translate_tools(tools, ops: Ops) -> list[dict]:
                     raise Refusal("R-TOOL-NAMESPACE-004", inner_pointer,
                                   f"namespace member type {inner.get('type')!r} is not a flat "
                                   f"function and has no Chat Completions representation")
-                #  The flat name is the namespace member's OWN name, not a composite. The
-                #  composite `<namespace>__<inner>` was tried first because it reconstructs
-                #  Codex's legacy flat convention, and Codex's router rejected the call it
-                #  produced outright: `error=unsupported call: mcp__oagf_fetch__fetch_url`.
-                #  Determined by effect, not from the schema — which is the whole reason the
-                #  design review required an effect test before permitting any flattening.
+                #  Which flat name to use is an EFFECT question, not a schema question, so it is
+                #  a declared parameter rather than a constant. Codex's router resolves calls by
+                #  exact match on a `ToolName {namespace, name}` struct (openai/codex#20652), and
+                #  a function call arrives as a bare string, so whether any given spelling
+                #  re-resolves has to be discovered by trying it.
                 #
-                #  Using the inner name unchanged also happens to be the smaller transformation:
-                #  the model sees exactly the name the MCP server declared. What is lost is the
-                #  namespace grouping, and `emit()` refuses on any collision, so two namespaces
-                #  offering the same member name fail loudly instead of shadowing each other.
-                flat = inner["name"]
+                #  Measured on Codex 0.146.1, both REJECTED at the router:
+                #    composite, prefixed namespace  -> unsupported call: mcp__oagf_fetch__fetch_url
+                #    member name                    -> unsupported call: fetch_url
+                #
+                #  `member` stays the default because it is the smaller transformation — the
+                #  model sees exactly the name the MCP server declared — and `emit()` refuses on
+                #  collision, so two namespaces offering the same member name fail loudly rather
+                #  than shadowing each other.
+                flat = (inner["name"] if NAMESPACE_FLATTEN == "member"
+                        else f"{namespace}__{inner['name']}")
+                #  Remember which namespace this member came from. Chat Completions has nowhere
+                #  to put it, but the Responses `function_call` item has a separate `namespace`
+                #  field, and the client resolves calls on the (namespace, name) PAIR. Sending
+                #  a bare name is what made every spelling unroutable; this is the information
+                #  that has to survive the round trip, and caching the namespace exactly as
+                #  received beats trying to recover it by splitting on `__` later.
+                if namespace_map is not None:
+                    namespace_map[flat] = (namespace, inner["name"])
                 emit(as_function(inner, inner_pointer, flat), inner_pointer,
                      "R-TOOL-NAMESPACE-FLATTEN-001",
                      f"namespace member {namespace!r}/{inner['name']!r} flattened to {flat!r}; "
@@ -614,7 +630,8 @@ def merge_leading_system(messages: list[dict], ops: Ops) -> list[dict]:
 
 
 def translate_request(body: dict, ops: Ops, *, model: str | None = None,
-                      temperature: float | None = None, seed: int | None = None) -> dict:
+                      temperature: float | None = None, seed: int | None = None,
+                      namespace_map: dict | None = None) -> dict:
     """Translate a whole Responses request, refusing anything not on the table."""
     if not isinstance(body, dict):
         raise Refusal("R-BODY-001", "", "request body must be a JSON object")
@@ -653,7 +670,7 @@ def translate_request(body: dict, ops: Ops, *, model: str | None = None,
             "response object per turn; the Responses event stream back to the client is "
             "synthesised from it")
 
-    tools = translate_tools(body.get("tools"), ops)
+    tools = translate_tools(body.get("tools"), ops, namespace_map)
     if tools:
         chat["tools"] = tools
         #  `tool_choice` without `tools` is a 400 upstream, so it is only ever sent alongside them.
@@ -789,7 +806,8 @@ def split_reasoning(message: dict, finish_reason: str | None, ops: Ops) -> tuple
     return text, ""
 
 
-def build_output_items(choice: dict, ops: Ops, reasoning_out: list | None = None) -> list[dict]:
+def build_output_items(choice: dict, ops: Ops, reasoning_out: list | None = None,
+                       namespace_map: dict | None = None) -> list[dict]:
     """Build Responses output items from one Chat Completions choice.
 
     Tool calls become `function_call` items with their ids intact, because the id is what lets
@@ -800,17 +818,28 @@ def build_output_items(choice: dict, ops: Ops, reasoning_out: list | None = None
 
     for index, call in enumerate(message.get("tool_calls") or []):
         function = call.get("function") or {}
-        items.append({
+        called = function.get("name")
+        item = {
             "id": _new_id("fc"),
             "type": "function_call",
             "status": "completed",
             "call_id": call.get("id") or _new_id("call"),
-            "name": function.get("name"),
+            "name": called,
             "arguments": function.get("arguments") or "{}",
-        })
+        }
+        detail = "parsed tool call returned as a Responses function_call with its id preserved"
+        origin = (namespace_map or {}).get(called)
+        if origin:
+            #  Put the member back in the namespace it was flattened out of. The client resolves
+            #  a call on the (namespace, name) pair, so a bare name is unroutable no matter how
+            #  it is spelled -- which is exactly what four separate spellings demonstrated.
+            item["namespace"], item["name"] = origin[0], origin[1]
+            detail = (f"tool call rehydrated into its namespace: {called!r} -> "
+                      f"namespace={origin[0]!r}, name={origin[1]!r}. The flattening on the way "
+                      f"out is undone on the way back, so the client sees the pair it registered.")
+        items.append(item)
         ops.add("R-OUT-FUNCALL-001", "reversible_frame", "approved_model_visible_adaptation",
-                f"/choices/0/message/tool_calls/{index}", f"/output/{len(items) - 1}",
-                "parsed tool call returned as a Responses function_call with its id preserved")
+                f"/choices/0/message/tool_calls/{index}", f"/output/{len(items) - 1}", detail)
 
     #  The answer goes to the client; the reasoning is handed back to the caller for the ledger
     #  rather than into the output, because Codex would replay any reasoning item on the next
@@ -1120,9 +1149,11 @@ def make_handler(config: dict, ledger: Ledger):
 
             ops = Ops()
             try:
+                namespace_map: dict = {}
                 chat_body = translate_request(
                     body, ops, model=config.get("model"),
-                    temperature=config.get("temperature"), seed=config.get("seed"))
+                    temperature=config.get("temperature"), seed=config.get("seed"),
+                    namespace_map=namespace_map)
             except Refusal as refusal:
                 ledger.append("refusal", {
                     "turn_id": turn, "refusal": refusal.as_dict(),
@@ -1164,7 +1195,7 @@ def make_handler(config: dict, ledger: Ledger):
             response_digest = ledger.blob(chat_response)
             choice = (chat_response.get("choices") or [{}])[0]
             reasoning_parts: list[str] = []
-            items = build_output_items(choice, ops, reasoning_parts)
+            items = build_output_items(choice, ops, reasoning_parts, namespace_map)
             status = "incomplete" if choice.get("finish_reason") == "length" else "completed"
             response_object = build_response_object(chat_response, body, items, status, chat_body)
             returned_digest = ledger.blob(response_object)
@@ -1223,10 +1254,16 @@ def main() -> int:
                         help="spool directory; deliberately outside the repository")
     parser.add_argument("--preflight", action="store_true",
                         help="run the capability gate and exit without serving")
+    parser.add_argument("--namespace-flatten", choices=("member", "composite"), default="member",
+                        help="how to rename a namespace member when flattening: its own name, "
+                             "or <namespace>__<member>")
     parser.add_argument("--allow-untooled", action="store_true",
                         help="serve even if the tool-call gate fails; the failure is recorded and "
                              "no sample taken under it may be reported as tool-using")
     args = parser.parse_args()
+
+    global NAMESPACE_FLATTEN
+    NAMESPACE_FLATTEN = args.namespace_flatten
 
     gate = preflight(args.base_url, args.model or "qwen3.6-35b-a3b", args.timeout)
     print(f"capability gate: {'PASS' if gate['passed'] else 'FAIL'} — {gate.get('diagnosis')}")
@@ -1259,6 +1296,7 @@ def main() -> int:
             "refused_fields": sorted(REFUSED_FIELDS),
             "role_map": ROLE_MAP,
             "part_separator": PART_SEPARATOR,
+            "namespace_flatten": NAMESPACE_FLATTEN,
         }})
 
     server = ShimServer(("127.0.0.1", args.port), make_handler(config, ledger))

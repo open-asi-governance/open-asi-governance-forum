@@ -1,25 +1,35 @@
 #!/usr/bin/env python3
 """An MCP server giving the tool-using party ONE capability: fetch a named URL, with receipts.
 
-STATUS 2026-08-07: WRITTEN, TESTED, AND NOT CURRENTLY IN USE — Codex cannot call it.
---------------------------------------------------------------------------------------
-Codex 0.146.1 advertises MCP tools to the model exclusively inside a `namespace` tool, and its
-own router then refuses to execute the resulting call under either name tried:
+STATUS 2026-08-07: WORKS END TO END, AND DELIBERATELY NOT USED. Read this before re-enabling it.
+------------------------------------------------------------------------------------------------
+Routing is solved. Codex advertises MCP tools only inside a `namespace` tool, and the shim
+flattens the member so a Chat Completions backend can carry it. The return trip then failed under
+every spelling tried — `mcp__oagf_fetch__fetch_url`, `fetch_url`, `oagf_fetch__fetch_url` — all
+`error=unsupported call`, because Codex resolves a call on the (namespace, name) **pair** and a
+flattened function call is a bare string. The Responses `function_call` item has a separate
+`namespace` field; the shim now rehydrates it from the mapping it cached while flattening, and
+the call routes. Verified: `mcp: oagf_fetch/fetch_url (completed)`, with a receipt written
+(status 200, sha256 ff67a9d7…, 559 bytes).
 
-    error=unsupported call: mcp__oagf_fetch__fetch_url      (the composite name)
-    error=unsupported call: fetch_url                        (the member's own name)
+**The blocker is approvals, not routing.** In `codex exec` there is no one to approve an MCP tool
+call, so it is auto-cancelled — `default_tools_approval_mode = "auto"` on the server does not
+suppress it (tried), and openai/codex#24135 records that the only path is
+`--dangerously-bypass-approvals-and-sandbox`. That flag is how the run above succeeded.
 
-Neither `features.tool_namespace=false` nor `features.non_prefixed_mcp_tool_names=true` unwraps
-the namespace. So the tool is offered to the model, the model calls it, and Codex drops the call
-— which is worth recording as a Codex defect in its own right, and is visible in the arm's
-ledger as exactly those lines.
+**So this is not used, and the reason is the whole point of the arm.** Bypassing approvals also
+bypasses the sandbox, and the sandbox is what `tools/arm_acceptance.py` exists to prove is
+holding — a party asked whether the record can be trusted must not be able to write to the
+record. Trading that guarantee for a nicer fetch tool would forfeit the one thing that makes the
+arm's verification mean anything, to gain a content hash. That is a bad trade and it is not
+close.
 
-The arm therefore browses through `exec_command` with sandbox network access instead. That is a
-real loss and it is stated rather than papered over: the SSRF guard below, the content SHA-256,
-and the truncation disclosure are all forfeited, and the provenance narrows to *"the exact
-command issued and the exact bytes returned to the model"*, both of which the shim's ledger
-does capture. This file is kept because the guard and the receipt format are the right design
-and become usable the moment Codex routes namespaced calls.
+The arm therefore browses through `exec_command` with sandbox network access. The loss is real
+and is stated rather than papered over: the SSRF guard below, the content SHA-256 and the
+truncation disclosure are all forfeited, and provenance narrows to *"the exact command issued and
+the exact bytes returned to the model"* — both of which the shim's ledger does capture. The
+moment #24135 lands, this file and the shim's rehydration make the better path available with no
+further work.
 
 
 Why this exists rather than Codex's own `web_search`
