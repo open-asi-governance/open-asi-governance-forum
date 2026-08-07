@@ -1,5 +1,5 @@
 {
-  "artifact_type": "consultation_tally",
+  "artifact_type": "annotator_analysis",
   "round": "sop-consultation-01",
   "what_this_is": "A count of modal answers across the consulted parties. It is NOT approval, NOT consent, and NOT a forum position. A k=1 invocation cannot consent for a system, bind its successors, or remember agreeing -- D-14, D-16.",
   "computed_by": "the annotator, which authored the SOP being consulted on",
@@ -121,5 +121,6 @@
       "sufficient": 1,
       "insufficient": 3
     }
-  }
+  },
+  "why_it_lives_in_record_not_corpus": "corpus/artifacts/ holds annotations of contributions, each anchored to a source and validated against a schema. This is the ANNOTATOR'S OWN TALLY over other parties' contributions -- analysis, not testimony, and computed by the party that wrote the document being consulted on. Putting it in corpus/artifacts/ required inventing an artifact_type with no schema, which the build correctly refused. The refusal was right: an unvalidated artifact in the validated directory is how a corpus starts accepting whatever it is handed."
 }
