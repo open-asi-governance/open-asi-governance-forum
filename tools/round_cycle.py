@@ -162,6 +162,37 @@ PARTIES = {
 LOCAL_ENDPOINT = "http://127.0.0.1:5001/v1/chat/completions"
 LOCAL_RATE_KEY = "LOCAL"
 
+#  CHAT-SURFACE PARTIES. A DIFFERENT PANEL, NEVER THE SAME PARTIES.
+#
+#  A subscription chat window and a routed API invocation are different parties
+#  under D-09, and the resemblance of their names is exactly why the rule exists:
+#  this corpus already merged identities once by trusting a name. They differ in
+#  model version, system prompt, sampling parameters, tooling, memory, and the
+#  intermediaries between the question and the answer -- and for a chat surface,
+#  every one of those is unknown to us and unrecordable.
+#
+#  Kept apart, they are worth something: the same frozen prompt to two panels makes
+#  "the chat surface answered X where the API arm answered Y" a finding. Merged,
+#  that finding is destroyed and replaced by an average of two things.
+CHAT_PARTIES = {
+    "claudeai": {
+        "identity": ("Claude (claude.ai chat surface, custodian's subscription) — NOT "
+                     "anthropic/claude-fable-5 reached via OpenRouter, and NOT Claude Code"),
+        "provider": "Anthropic, via the claude.ai web interface"},
+    "chatgpt": {
+        "identity": ("ChatGPT (chatgpt.com chat surface, custodian's subscription) — NOT "
+                     "openai/gpt-5.6-terra reached via OpenRouter"),
+        "provider": "OpenAI, via the chatgpt.com web interface"},
+    "geminiapp": {
+        "identity": ("Gemini (gemini.google.com chat surface, custodian's subscription) — "
+                     "NOT google/gemini-3.1-pro-preview reached via OpenRouter"),
+        "provider": "Google, via the gemini.google.com web interface"},
+    "grokapp": {
+        "identity": ("Grok (grok.com chat surface, custodian's subscription) — NOT "
+                     "x-ai/grok-4.5 reached via OpenRouter"),
+        "provider": "xAI, via the grok.com web interface"},
+}
+
 K_MIN_FLOOR = 5                     # k>=5 is the corpus rule; below it, variance is decoration.
 TEMPERATURE = 0.7
 
@@ -973,6 +1004,152 @@ def category_unanimous(summaries: list[dict]) -> bool:
     return len(positions) == 1 and len(summaries) > 1
 
 
+def emit_prompts(mirror: str) -> int:
+    """Emit a paid round's EXACT prompt bytes for manual delivery to chat surfaces.
+
+    WHY IT MIRRORS AN EXISTING ROUND RATHER THAN ASKING SOMETHING NEW.
+
+    The value of a chat-surface panel is comparison, and comparison needs the
+    prompts to be identical -- not equivalent, not regenerated from the same
+    template, identical. Recomposing would silently differ the moment the context
+    pack drifted or a party identity changed, and then a difference in answers could
+    not be attributed to the surface. So this reads the frozen `prompt` string out
+    of the mirrored round's committed spec and reproduces it byte for byte, with the
+    hash printed so the custodian can check what they pasted.
+
+    The ONE substitution is the standing slot naming the party, because telling a
+    chat surface it is `anthropic/claude-fable-5 via OpenRouter` would be false. That
+    substitution is recorded per party, and the prompt hash of both versions is
+    written, so nobody has to take this docstring's word for what changed.
+
+    Nothing is solicited, nothing is spent, and no reply is fabricated. The output is
+    text for a human to paste and a ready-made `capture_response.py` command for each
+    reply that comes back -- which refuses, on its own, to mark anything citable at
+    k < 5.
+    """
+    spec_dir = REPO_ROOT / "record" / "solicitations" / mirror
+    if not spec_dir.is_dir():
+        print(f"REFUSED: no committed specs for {mirror!r} at "
+              f"{spec_dir.relative_to(REPO_ROOT)}")
+        return 1
+    record_path = CYCLES_DIR / f"{mirror}.json"
+    if not record_path.is_file():
+        print(f"REFUSED: {mirror!r} has no round record, so it is not an accepted round.")
+        return 1
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+
+    out_round = f"{mirror}-chat"
+    out_dir = REPO_ROOT / "record" / "solicitations" / out_round
+    if out_dir.exists():
+        print(f"REFUSED: {out_dir.relative_to(REPO_ROOT)} already exists.")
+        print("  A second emission is a new artifact, not a correction. Choose a new id.")
+        return 1
+    out_dir.mkdir(parents=True)
+
+    source = sorted(spec_dir.glob(f"{mirror}-*.json"))[0]
+    spec = json.loads(source.read_text(encoding="utf-8"))
+    original_prompt, original_identity = spec["prompt"], spec["identity"]
+
+    index = []
+    for key, party in CHAT_PARTIES.items():
+        prompt = original_prompt.replace(original_identity, party["identity"], 1)
+        if prompt == original_prompt:
+            print(f"REFUSED: the identity string could not be substituted for {key}.")
+            print("  Emitting a prompt that tells a chat surface it is an API invocation")
+            print("  would put a false statement in front of a party. Nothing written.")
+            return 1
+        (out_dir / f"{out_round}-{key}.md").write_text(prompt, encoding="utf-8")
+        index.append({
+            "party_key": key, "identity": party["identity"], "provider": party["provider"],
+            "prompt_file": str((out_dir / f"{out_round}-{key}.md").relative_to(REPO_ROOT)),
+            "prompt_sha256": sha256_text(prompt),
+            "mirrors": {"round": mirror, "spec": str(source.relative_to(REPO_ROOT)),
+                        "prompt_sha256": sha256_text(original_prompt)},
+            "only_difference": ("The standing slot naming the party. Everything else is "
+                                "byte-identical to what the routed panel received."),
+            "capture_command": (
+                f"python3 tools/capture_response.py --round {out_round} "
+                f"--response <file> --prompt {(out_dir / f'{out_round}-{key}.md').relative_to(REPO_ROOT)} "
+                f"--identity {party['identity'].split(' —')[0]!r} "
+                f"--provider {party['provider']!r} --version-unknown "
+                f"'the chat surface does not disclose its build' "
+                f"--sampling-unknown 'not exposed by the chat surface' "
+                f"--effort-unknown 'not exposed' "
+                f"--system-instructions-unknown 'the surface prepends an undisclosed system prompt' "
+                f"--captured-utc <YYYY-MM-DDTHH:MM:SSZ> --phase 'Phase-2 (informed)' "
+                f"--capture-method 'pasted by hand into the subscription web interface' "
+                f"--captured-by 'Stephen Reed' --k 1"),
+        })
+
+    (out_dir / "README.md").write_text(f"""# {out_round} — the same question, a different panel
+
+These are **{record['selected']['id']} from {record['selected']['party']}**, the question round
+`{mirror}` put to the routed API parties, reproduced for delivery to the custodian's
+subscription chat surfaces.
+
+## What this is and is not
+
+**A different panel, not the same parties.** Under D-09 a chat surface is not the API
+identity whose name it resembles: different model version, different system prompt,
+different sampling, different tooling and memory, different intermediaries — and for a
+chat surface every one of those is undisclosed and therefore unrecordable. The two are
+kept in separate rounds so that *"the chat surface answered X where the API arm answered
+Y"* stays a finding instead of becoming an average.
+
+**Each reply is k = 1 and is NOT citable.** The corpus bar is k ≥ 5 with computed
+variance. `capture_response.py` enforces this on its own and will not mark a k = 1
+capture citable. A reply here may be quoted as what one invocation said. It may never be
+reported as that party's position, and it may not enter any variance computation.
+
+## The prompts are byte-identical except for one slot
+
+Each file below is the exact `prompt` string from `{source.relative_to(REPO_ROOT)}`, with
+only the standing slot that names the party substituted — because telling a chat surface
+it was reached via OpenRouter would be false. Both hashes are recorded in `index.json`
+so the substitution is checkable rather than asserted.
+
+Routed prompt sha256: `{sha256_text(original_prompt)}`
+
+| paste into | file | sha256 |
+|---|---|---|
+""" + "\n".join(f"| {e['provider'].split(',')[0]} | `{Path(e['prompt_file']).name}` | `{e['prompt_sha256'][:16]}…` |"
+                for e in index) + f"""
+
+## Capturing a reply
+
+Paste the file's whole contents into a **fresh** conversation — a reused window carries
+context the routed arm never had, which would make the comparison meaningless. Save the
+reply verbatim to a file, then run the party's `capture_command` from `index.json`,
+filling in `--response` and `--captured-utc`.
+
+The unknown-provenance flags in those commands are not boilerplate. A chat surface does
+not disclose its build, its sampling parameters, or the system prompt it prepends, and
+`capture_response.py` refuses to record a null in those fields without a stated reason.
+Recording "unknown" is the honest answer; leaving it blank would not be.
+""", encoding="utf-8")
+
+    (out_dir / "index.json").write_text(json.dumps({
+        "artifact_type": "chat_surface_emission",
+        "round": out_round, "mirrors_round": mirror,
+        "question": record["selected"]["question"],
+        "proposal": record["selected"]["id"], "proposer": record["selected"]["party"],
+        "emitted_utc": utc_now(),
+        "k_policy": ("k=1 per party. NOT citable — the corpus bar is k>=5 with computed "
+                     "variance, and capture_response.py enforces it independently."),
+        "never_merge": ("These parties are not the routed API parties whose names they "
+                        "resemble. D-09. They are recorded in a separate round for that "
+                        "reason and must not be pooled with round " + mirror + "."),
+        "parties": index,
+    }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    print(f"emitted {len(index)} prompt(s) for {out_round}")
+    print(f"  mirrors {mirror} — {record['selected']['id']} from {record['selected']['party']}")
+    print(f"  routed prompt sha256 {sha256_text(original_prompt)[:16]}…")
+    print(f"  {out_dir.relative_to(REPO_ROOT)}/README.md has the paste and capture steps")
+    print("  k=1 per party, NOT citable. A different panel, never merged with the API arms.")
+    return 0
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0],
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -991,9 +1168,16 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--dry-run", action="store_true",
                     help="build and validate the complete plan; solicit nothing, write "
                          "nothing, spend nothing. Every check runs here.")
+    ap.add_argument("--emit-prompts", metavar="ROUND",
+                    help="emit an already-run round's EXACT prompt bytes for manual "
+                         "delivery to chat surfaces, as a separate k=1 non-citable panel. "
+                         "Solicits nothing and spends nothing.")
     ap.add_argument("--print-prompt", metavar="PARTY",
                     help="with --dry-run, print one party's final composed prompt")
     args = ap.parse_args(argv)
+
+    if args.emit_prompts:
+        return emit_prompts(args.emit_prompts)
 
     if not args.dry_run and args.max_spend_usd is None:
         ap.error("--max-spend-usd is required for a live round. There is no default ceiling.")
