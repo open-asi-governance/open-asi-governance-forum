@@ -65,6 +65,10 @@ STEPS = [
     # exited 0 and CI passed. A published instrument carried a hash that did not
     # match the artifact it anchored -- in the page whose entire job is to transport
     # prompts to frontier parties with their hashes. See D-33.
+    # Before anything is built from them. A prompt is the one artifact whose defect
+    # cannot be repaired after it is sent -- D-36 -- so it is checked while it is
+    # still editable.
+    ("check solicitation prompts against known defects", ["tools/check_prompt.py"]),
     ("build the prediction registry view", ["tools/build_predictions_view.py"]),
     ("build capture page", ["tools/build_capture_ui.py"]),
     # LAST, and site-wide. Checking inside any one generator would miss the pages the

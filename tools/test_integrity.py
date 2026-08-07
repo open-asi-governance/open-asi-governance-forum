@@ -226,6 +226,37 @@ def main() -> int:
             case("a wrong declared count fails the build",
                  run(c, "tools/rebuild.py").returncode == 1)
 
+        print("\nprompt construction — the defects must fail while a prompt is editable")
+        c = nxt()
+        bad = c / "record/solicitations/excerpts/zz-lint-probe.md"
+        bad.write_text("Where did the revision OVER-CORRECT?\n", encoding="utf-8")
+        r = run(c, "tools/check_prompt.py")
+        case("a direction-naming prompt fails the check", r.returncode == 1)
+        case("and cites the deficiency it violates", "D-31" in r.stdout)
+        bad.write_text("Disagreement is more useful than endorsement.\n", encoding="utf-8")
+        case("a posture-setting prompt fails too",
+             run(c, "tools/check_prompt.py").returncode == 1)
+        bad.unlink()
+        case("the committed prompts pass",
+             run(c, "tools/check_prompt.py").returncode == 0)
+
+        tpl = c / "record/solicitations/excerpts/round-prompt-template.md"
+        original = tpl.read_text(encoding="utf-8")
+        tpl.write_text(original.replace("<!-- SLOT: answer_space -->", ""), encoding="utf-8")
+        r = run(c, "tools/check_prompt.py")
+        case("a template missing a slot fails", r.returncode == 1)
+        case("and names the missing slot", "answer_space" in r.stdout)
+        tpl.write_text(original.replace("insufficient to decide", "decide"), encoding="utf-8")
+        r = run(c, "tools/check_prompt.py")
+        case("a template with no way to say 'insufficient' fails", r.returncode == 1)
+        tpl.write_text(original, encoding="utf-8")
+
+        # A sent prompt is immutable, so its violation is recorded, never demanded-fixed.
+        r = run(c, "tools/check_prompt.py")
+        case("a violation in a SENT prompt does not fail the build", r.returncode == 0)
+        case("but is reported as a recorded violation",
+             "RECORDED VIOLATION" in r.stdout)
+
         print("\nD-34 — editing raw material and re-anchoring it must not pass")
         c = nxt()
         base = subprocess.run(["git","rev-parse","HEAD"], cwd=c,
