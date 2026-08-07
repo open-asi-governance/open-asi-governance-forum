@@ -13,6 +13,7 @@ Order matters:
   3. index       — corpus/index.md from segments.json
   4. viewer      — docs/index.html, the threaded page served by GitHub Pages
   5. capture     — docs/capture/index.html, the prompt-transport page
+  6. budget      — every published page must fit the reviewer's context
 
 Step 1 VERIFIES. It does not write. Until 2026-08-06 it wrote, which meant the
 maintenance path re-anchored tampered raw material and reported success — see
@@ -65,6 +66,13 @@ STEPS = [
     # match the artifact it anchored -- in the page whose entire job is to transport
     # prompts to frontier parties with their hashes. See D-33.
     ("build capture page", ["tools/build_capture_ui.py"]),
+    # LAST, and site-wide. Checking inside any one generator would miss the pages the
+    # others write -- and the two pages that had already breached the ceiling were
+    # written by a DIFFERENT generator than the one whose page the requirement was
+    # written about. T-03 set "no page exceeds ~20,000 tokens" and nothing enforced
+    # it, so it drifted: the register went from ~14,300 to ~19,000 estimated tokens
+    # in six commits in one day and crossed while nobody was counting.
+    ("check every published page against the token budget", ["tools/check_page_budget.py"]),
 ]
 
 

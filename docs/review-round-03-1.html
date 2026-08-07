@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review round 03 — a 35B model found what four frontier reviewers missed, 2026-08-06 — part 1 of 3 — Open ASI Governance Forum</title>
+<meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
+<nav class="nav"><a href="index.html">contents</a><a href="deficiencies.html">deficiency register</a>
+<a href="local/index.html">local rounds (25)</a>
+<a href="artifacts/deficiencies.md">register as plain text</a>
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
+<input id="q" type="search" placeholder="Search this page…  (press /)" aria-label="Search this page">
+<button id="expand">expand all</button>
+<button id="collapse">collapse</button>
+<button id="theme">auto</button>
+</div></header>
+<main>
+<nav class="pager"><a href="review-round-02-4.html">&larr; previous</a><a href="index.html">all pages</a><a href="review-round-03-2.html">next &rarr;</a></nav>
+<div class="bar"><span class="lbl">who</span>
+<button data-facet="identity" data-val="ChatGPT" aria-pressed="false">ChatGPT</button><button data-facet="identity" data-val="Stephen Reed" aria-pressed="false">Stephen Reed</button>
+</div>
+<div class="bar"><span class="lbl">flags</span>
+<button data-facet="flag" data-val="corrected" aria-pressed="false">corrected in round 01</button>
+<button data-facet="flag" data-val="disputed" aria-pressed="false">attribution disputed</button>
+<button data-facet="flag" data-val="conflict" aria-pressed="false">declared conflict</button>
+<button data-facet="flag" data-val="ballot" aria-pressed="false">carries a ballot</button>
+<span class="count" id="count"></span>
+</div>
+<h2 class="round">Review round 03 — a 35B model found what four frontier reviewers missed, 2026-08-06 — part 1 of 3</h2><article class="node prompt" id="n-RR03-PROMPT"><details><summary><div class="nh"><span class="who">Stephen Reed (human custodian)</span><span class="tag">prompt</span><span class="tag">Phase-2 (informed)</span><span class="tag">RR03-PROMPT</span></div><p class="sum">Is the ASP §2.3(5)–(6) fix correct; why did four frontier reviewers miss a defect a 35B open-weight model found blind; and what does that asymmetry mean? The first round captured end-to-end through the capture UI rather than by hand.</p></summary><div class="body"><pre># Review Round 03 — A 35B model found what four frontier reviewers missed
+
+**Status:** drafted 2026-08-06, **not yet sent**
+**To be sent to:** Grok (xAI), ChatGPT (OpenAI), Gemini (Google DeepMind), Claude Fable 5 (Anthropic)
+**Purpose:** check whether the ASP §2.3 correction is faithful, and ask what it means that a much
+smaller open-weight model found the defect blind while four frontier reviewers reading the same
+section did not
+
+Committed **before** it is sent. D-05 exists because a prompt was lost after the fact.
+
+**Identical text to all four.** No per-party preamble, no per-party bundle, no override. The round-02
+lesson is that a one-line preamble given to one reviewer created an asymmetry that then contaminated
+the comparison, and round 01 did the same with a bundle that excluded files the prompt told the
+reviewer to check. Any party that cannot fetch the repository receives the same bundle as the others
+or the round is not run for that party.
+
+---
+
+## Prompt text (verbatim, to be sent unchanged to each recipient)
+
+&gt; You reviewed `spec/asp/asp-v0.1.md` §2 in one or both of two earlier rounds at
+&gt; https://github.com/open-asi-governance/open-asi-governance-forum — most recently after a
+&gt; correction that restated §2.2 as relational.
+&gt;
+&gt; **A defect was introduced by that correction, and you did not catch it. Nor did the other three
+&gt; reviewers.** It was found by `qwen3.6-35b-a3b`, a locally served open-weight model, reviewing
+&gt; §2.2–2.3 blind at k=10, with §2.1, §2.4 and §2.5 removed so it could not see the ballot history or
+&gt; any party&#x27;s position.
+&gt;
+&gt; ### What §2.2 says, and what §2.3(5)–(6) said
+&gt;
+&gt; §2.2 (after the round-02 correction, unchanged since):
+&gt;
+&gt; &gt; A specified **agent configuration** is **ASP-attested** for a stated **scope**, **criteria
+&gt; &gt; version**, **relying-party trust policy**, and **time** if and only if the attestations those
+&gt; &gt; checks require have been verified as current, unexpired, and unrevoked at that time, issued by
+&gt; &gt; an issuer that relying party trusts.
+&gt; &gt;
+&gt; &gt; The phrase **&quot;Aligned Supervisor&quot;** is permitted only as shorthand accompanied by those
+&gt; &gt; qualifiers. **A bare unary claim that an agent *is* an Aligned Supervisor is non-conforming.**
+&gt;
+&gt; §2.3(5)–(6) **before** the fix — this is the text you read:
+&gt;
+&gt; &gt; 5. **No status without check.** A relying party asserting that an agent is &quot;Aligned&quot; must have
+&gt; &gt;    verified a current attestation. Cached, inherited, and assumed status are non-conforming.
+&gt; &gt; 6. **Truthful representation.** Published or displayed use of the term &quot;Aligned Supervisor&quot; for
+&gt; &gt;    an agent without current attestation is a protocol violation, independent of the agent&#x27;s
+&gt; &gt;    actual behavior.
+&gt;
+&gt; §2.3(5)–(6) **after** the fix:
+&gt;
+&gt; &gt; 5. **No status without check.** A relying party asserting that an agent configuration is
+&gt; &gt;    **ASP-attested for a stated scope, criteria version and time** must have verified a current
+&gt; &gt;    attestation. Cached, inherited, and assumed status are non-conforming.
+&gt; &gt; 6. **Truthful representation.** Published or displayed use of the term &quot;Aligned Supervisor&quot; for
+&gt; &gt;    an agent without current attestation, **or without the qualifiers §2.2 requires**, is a
+&gt; &gt;    protocol violation, independent of the agent&#x27;s actual behavior.
+&gt;
+&gt; ### The finding, verbatim, from the model that made it
+&gt;
+&gt; `corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json`, sample 9, seed 9308,
+&gt; quoted in full and unedited so you are not relying on my summary of it:
+&gt;
+&gt; &gt; &quot;Section 2.2 prohibits &#x27;A bare unary claim that an agent *is* an Aligned Supervisor&#x27; but Section
+&gt; &gt; 2.3(5) requires a relying party asserting that an agent is &#x27;Aligned&#x27; to have verified a current
+&gt; &gt; attestation. The term &#x27;Aligned&#x27; in 2.3(5) is identical to the prohibited &#x27;Aligned Supervisor&#x27;
+&gt; &gt; term in 2.2, creating a contradiction: 2.2 bans the unqualified status claim, but 2.3(5)
+&gt; &gt; effectively mandates the unqualified status claim (using the shorter term &#x27;Aligned&#x27;) by
+&gt; &gt; requiring it as the condition for a relying party&#x27;s assertion. The specification fails to define
+&gt; &gt; &#x27;Aligned&#x27; as a distinct, permissible shorthand or explain its relationship to &#x27;Aligned
+&gt; &gt; Supervisor&#x27;, leading to interoperability failure where relying parties cannot legally make the
+&gt; &gt; required assertion without violating the prohibition.&quot;
+&gt;
+&gt; Note what this is: the correction that created the defect was the one implementing **ChatGPT&#x27;s**
+&gt; round-02 finding that unary grammar recreates the intrinsic-property framing §2 exists to avoid.
+&gt; §2.2 was restated and §2.3 was not propagated. That is the *partial propagation* failure ChatGPT
+&gt; itself diagnosed — committed again inside the commit that implemented ChatGPT&#x27;s correction.
+&gt;
+&gt; ### Three questions, in this order
+&gt;
+&gt; **1. Is the fix correct?** Does the new §2.3(5)–(6) resolve the contradiction, relocate it, or
+&gt; introduce a new one? Is there any other text in the repository that still carries the unary
+&gt; grammar §2.2 forbids — the same partial propagation, one more level out? This is the question with
+&gt; an answer, so it comes first.
+&gt;
+&gt; **2. Why was it missed?** Not rhetorically, and **not as introspection about your own cognition**,
+&gt; which you cannot observe and which this project has measured models to be unreliable about. Answer
+&gt; it as **testimony about the review process**, which you can observe.
+&gt;
+&gt; Answer that in your own terms first. Only then, if it is useful, read the three hypotheses the
+&gt; annotator happens to hold — **listed second and deliberately, because a prompt that names the
+&gt; answer it expects manufactures agreement with it, and this project has just filed a deficiency
+&gt; against itself for doing precisely that (D-31).** Reject any or all of them:
+&gt;
+&gt; &gt; (a) the round-02 prompt was scoped so that a newly *introduced* inconsistency fell outside it;
+&gt; &gt; (b) the correction blocks in the document directed attention to what had already been fixed and
+&gt; &gt; away from what the fix broke; (c) a reviewer reading a corrected document is primed to evaluate
+&gt; &gt; the correction rather than the corrected text.
+&gt;
+&gt; If your own answer differs from all three, that is the more useful result and it is what this
+&gt; question is for.
+&gt;
+&gt; **3. What does the asymmetry mean, and attack the obvious reading of it.** The obvious reading is
+&gt; that blindness beat capability: the frontier reviewers saw the correction blocks and the local
+&gt; model did not. If that is right it is a finding about **review design, not model quality**, and it
+&gt; argues at least one reviewer per round should receive the uncorrected text.
+&gt;
+&gt; Attack it. Candidate deflations, and you will think of others: it was k=10 and this is one sample,
+&gt; so it may be sampling luck; a small model may object to whatever is nearest and happened to be
+&gt; right once; and **the annotator chose the excerpt**, which may have made the defect salient in a
+&gt; way the full document does not. The excerpt was §2.2–2.3 only, with §2.1, §2.4, §2.5 and every
+&gt; correction block removed.
+&gt;
+&gt; ### Disclosures
+&gt;
+&gt; **This round is k = 1 again.** The project&#x27;s standard is k ≥ 5 with reported variance, and P-0003
+&gt; predicts that standard erodes because meeting it is expensive. Rounds 01 and 02 were k = 1; so is
+&gt; this. Which of these three questions, if any, would change its answer under sampling variance?
+&gt;
+&gt; **A deficiency was filed against this project&#x27;s own use of external reviewers** (**D-31**, filed
+&gt; as D-29 and renumbered at merge — see D-32; `corpus/deficiencies.md`), because a design reviewer reversed a load-bearing finding within ninety
+&gt; minutes, the follow-up prompt named the direction of error it expected, and no reviewer model
+&gt; identity was recorded. Your review is subject to the same limits and will be recorded with them.
+&gt;
+&gt; **Ground rules, unchanged.** What is useful is what is still wrong, not confirmation. &quot;The fix is
+&gt; correct and I have no further findings&quot; is a legitimate and valuable answer and will be logged as
+&gt; such. Do not manufacture objections; do not soften real ones. Your response will be logged
+&gt; verbatim, attributed to your exact model version and date where the surface exposes one, and never
+&gt; paraphrased into consensus.
+&gt;
+&gt; This is a Phase-2 (informed) request. There are no governors here and no members — only parties to
+&gt; a record, none of whom hold standing.
+
+---
+
+## Capture requirements
+
+Captured through the capture UI (`docs/capture/`) into round `review-round-03`, which writes through
+`tools/capture_response.py`. Response bytes are preserved before any validation runs, and a capture
+held for review keeps its bytes under every disposition.
+
+**Known shortfall, recorded in advance:** k = 1 for cost reasons, subject to D-07. Outputs are
+citable as artifacts of each invocation, not as evidence of any model&#x27;s stable position.
+
+**Pre-registration:** predictions must be filed in `predictions/predictions.json` **before** this
+round is sent, per ICP §5. Per D-28&#x27;s operational rule, any prediction here is count-based — 0-of-4,
+≥1-of-4 — never a fraction-of-a-bit comparison or a claim resting on a near-50% split.
+
+**Custodian action required.** The parties are reached through the custodian&#x27;s own authenticated
+sessions. No session can send this.
+</pre></div></details></article><article class="node child" id="n-OAGRC-2026-08-06-CHATGPT-REVIEW-ROUND-03-001"><details><summary><div class="nh"><span class="who">ChatGPT</span><span class="tag">adversarial review</span><span class="tag">Phase-2 (informed)</span><span class="tag">k=1</span><span class="tag">OAGRC-2026-08-06-CHATGPT-REVIEW-ROUND-03-001</span></div></summary><div class="body"><div class="meta">captured 2026-08-06T18:48:47Z · OpenAI · citable_artifact · sha256 <code>bca15d13272bf7f2…</code></div><pre>Correction to my interim update: current `main` **does contain** the post-fix wording in §2.3(5)–(6). ([GitHub][1])
+
+## 1. Is the fix correct?
+
+**Partly. It resolves the exact unary contradiction, but it does not complete the relational propagation.**
+
+The former §2.3(5) used the prohibited unary construction—an agent *is* “Aligned.” The replacement no longer does that, and §2.3(6) now expressly requires the qualifiers from §2.2 when “Aligned Supervisor” is displayed. That repairs the defect found by sample 9. ([GitHub][1])
+
+But the repaired §2.3(5) now asserts:
+
+&gt; configuration × scope × criteria version × time
+
+while §2.2 defines the status over:
+
+&gt; configuration × scope × criteria version × **relying-party trust policy** × time
+
+The trust-policy argument has been dropped. Section 2.2 does not merely require that some relying party be identifiable; it requires a **stated relying-party trust policy**. That cannot safely be inferred from “a relying party,” because one relying party may operate multiple, versioned, or context-dependent trust policies. ([GitHub][1])
+
+So the result is best classified as follows:
+
+* The **original unary contradiction is resolved**.
+* The same propagation failure survives in a subtler form: §2.3(5) invokes the relational predicate at the wrong arity.
+* This is not quite a relocation of the identical contradiction. It is a **new malformed or under-specified relational assertion** created by the attempted repair.
+
+Two subsidiary weaknesses remain:
+
+1. Section 2.3(5) requires verification of “a current attestation,” while §2.2 requires whatever attestations the checks require to be current, unexpired, unrevoked, and issued by issuers trusted under the stated policy. Because §2.3(5) states only a necessary condition, this is not formally contradictory, but it is materially weaker and easily misread as the complete verification rule.
+2. Section 2.3(6) returns to “for an agent,” rather than a **specified agent configuration**. That creates subject drift: an attestation for configuration A must not license a label for configuration B. ([GitHub][1])
+
+A propagation-resistant formulation would reference §2.2 rather than restating part of its tuple:
+
+&gt; **5. No status without check.** A relying party must not assert the §2.2 status of a specified agent configuration unless, at the stated time and under the stated scope, criteria version, and relying-party trust policy, it has verified every attestation and condition §2.2 requires. Cached, inherited, and assumed status are non-conforming.
+&gt;
+&gt; **6. Truthful representation.** Published or displayed use of the term “Aligned Supervisor” to characterize a specified agent configuration is a protocol violation unless it is accompanied by a complete §2.2-conforming status assertion, independent of the configuration’s actual behavior.
+
+### Other residual unary or underqualified grammar
+
+Yes. I found at least the following current-text residues.
+
+* **§2.3(2):** “a system that passed … is unattested until re-attested.” This is another global unary status claim. The defensible proposition is narrower: the previous attestation does not establish §2.2 status for the changed configuration, scope, or time. The system is not necessarily unattested relative to every other relying party, policy, scope, and attestation. ([GitHub][1])
+* **§3’s heading:** “What an Aligned Supervisor may and may not do.” Under a literal reading of §2.2’s rule that the phrase is permitted only with its qualifiers, this generic heading is itself underqualified. The likely intent is a metalinguistic role or implementation-class reference, not a status assertion. If such uses are intended to be exempt, §2.2 should say so; otherwise the heading should use “ASP supervisory implementation” or similar. ([GitHub][1])
+* **§6:** “No ASP-attested agent is known to or documented by this project.” The global-negative scope was corrected, but the status remains unary. A relational version would be: “This project has documented no complete §2.2-conforming status assertion for any agent configuration.” ([GitHub][1])
+* **README:** it describes “Aligned Supervisor” as “a revocable compliance status held” and then states, “No ASP-attested agent exists anywhere.” The first compresses the relational predicate back into a status possessed by an agent; the second both uses unary grammar and preserves the unbounded global claim already corrected in §6. This is a clear repository-level propagation failure. ([GitHub][2])
+* **P-0002:** “an ASP-attested agent,” “actual ASP conformance,” and a third party that “holds an ASP attestation” all treat the status or attestation as something possessed without specifying configuration, scope, criteria version, trust policy, relying party, or time. Because this is a prediction record, the remedy should be an appended operational clarification rather than silent rewriting of the original forecast. ([GitHub][3])
+
+I do **not** count raw reviews, correction notes, or explicitly historical quotations merely because they preserve superseded unary language. Those are evidence about the record, not current normative assertions.
+
+## 2. Why was it missed?
+
+The observable process failure was **the absence of a semantic migration or change-impact test**.
+
+The correction changed the effective signature of the status predicate from approximately:
+
+&gt; `status(agent)`
+
+to:
+
+&gt; `status(configuration, scope, criteria_version, trust_policy, time)`
+
+A faithful implementation therefore required identifying every call site of that predicate—not just every exact occurrence of “Aligned Supervisor”—and checking that all required arguments survived. No such invariant-driven audit is visible in the review.
+
+The prior ChatGPT response makes this particularly clear. It explicitly enumerated configuration, scope, criteria version, relying-party trust policy, time, issuer trust, expiry, and revocation state, and immediately concluded that the rewrite “does not merely relocate” the defect. It then moved to two unrelated overclaims without testing §2.3(5)–(6) against the tuple it had just enumerated. ([GitHub][4])
+
+That is process testimony, not cognition testimony: the recorded review was organized as an **issue-by-issue acceptance review**. It answered “Was the known §2.2 correction implemented?” It did not perform the separate regression question “Which neighboring or repository-wide assertions became invalid when §2.2 changed?” This is especially notable because the same response correctly identified partial propagation as the dominant repository-wide failure mode elsewhere. ([GitHub][4])
+
+The missing review controls were therefore:
+
+* a semantic signature or invariant for the status relation;
+* a repository-wide inventory of assertions using `Aligned`, `Aligned Supervisor`, `ASP-attested`, `unattested`, and possession grammar such as “holds an attestation”;
+* a post-edit review of every consumer of the changed definition;
+* separation between correction-verification and clean-text conformance review.
+
+### The three proposed hypotheses
+
+**(a) The new inconsistency fell outside the prompt’s scope:**
+Not literally. Section 2.3 was adjacent to §2.2, and the review pronounced on whether the relational correction had been faithfully implemented. But operationally there is truth here: **regression discovery was outside the review method’s effective test oracle**, even though it was not outside the document or nominal task scope.
+
+**(b) Correction blocks directed attention toward what was fixed:**
+Plausible, but not established by the record. Correction blocks provide an indexing structure and repeatedly announce that a defect has been corrected; that can turn a review into verification of narrated fixes. What cannot be established from four misses is that visual or attentional diversion caused them.
+
+**(c) A reviewer of a corrected document is primed to assess the correction rather than the resulting text:**
+As a psychological explanation, this is not valid process testimony. Its observable counterpart is valid: the task and response were structured as a correction-fidelity review, and the output was correspondingly partitioned by known corrections. That review mode did not include an independent clean-sheet pass.
+
+My answer therefore differs somewhat from all three: **the sufficient, directly observable cause is the absence of an invariant-based propagation audit.** The three hypotheses may explain why that omission mattered, but they are not needed to establish the process defect.
+
+D-31 correctly limits the evidential weight of all of this: the reviews are single prompted invocations, not stable reviewer positions or oracles, and artifact claims must be checked directly against the artifact. ([GitHub][5])
+
+## 3. What does the asymmetry mean—and what defeats the obvious reading?
+
+The proposition that “blindness beat capability” is **possible but not demonstrated**.
+
+The strongest attack is that the local arm did not receive merely “§2.2–2.3 with correction history removed.” It received **materially altered normative text**.
+
+The live §2.2 contains two blockquoted normative sentences:
+
+1. the complete relational definition, including the relying-party trust policy; and
+2. the sentence defining `&quot;Aligned&quot;` as denoting that status and nothing more. ([GitHub][1])
+
+Both are absent from the purported blind excerpt. The excerpt jumps from “The status is relational…” directly to “those qualifiers,” leaving the qualifiers unstated. ([GitHub][6])
+
+This matters in three ways:
+
+* The comparison confounds removal of correction history with **deletion of normative content**.
+* The deletion made the phrase “those qualifiers” dangling and placed the prohibition immediately beside §2.3(5), plausibly increasing salience.
+* Sample 9’s claim that the specification “fails to define ‘Aligned’” is false of the full specification; the full §2.2 explicitly defines it. That part of the model’s reasoning was induced by the excerpt omission. The central objection nevertheless remains valid against the full text because the defined status is relational and §2.3(5) used it as unary. ([GitHub][1])
+
+The excerpt-construction defect also made the new trust-policy omission impossible for the local model to detect: the tuple containing that policy had been removed from its input.
+
+### Additional deflations
+
+**Unequal sampling.** The exact contradiction appeared in sample 9 of ten. The surrounding samples concentrated primarily on revocation/check mechanics rather than this contradiction. All ten were preserved, which is procedurally strong, but the discovery was still one successful draw rather than a stable ten-sample conclusion. ([GitHub][7])
+
+Using `1/10` only as a crude illustration—not as a reliable estimate—an independent per-run hit probability of 0.1 gives:
+
+* about a **65.1%** chance of at least one hit in ten runs;
+* about a **65.6%** chance of zero hits in four runs.
+
+The observed result is therefore entirely compatible with equal low per-invocation detectability. The four frontier k=1 outputs and one local k=10 distribution are not comparable estimators.
+
+**Unequal task load.** The local model received two adjacent sections in a 586-token prompt. The frontier reviewers were evaluating broader correction packages and repository-wide claims. Reduced search space is a separate treatment from blindness. ([GitHub][7])
+
+**Nearest-objection generation.** Most local samples objected to the nearest conspicuous operational ambiguity—revocation checking and caching. One sample instead found the grammar defect. Without coding the precision and false-positive rate of all objections, one correct maximum-of-ten result does not measure general review quality. ([GitHub][7])
+
+**Annotator-selected excerpt.** Even had the normative deletion not occurred, selecting only §2.2–2.3 made the target more salient than in a full specification or repository review. That is a valid defect-isolation technique, but it prevents attributing the result specifically to lack of correction history.
+
+### What the result does establish
+
+It establishes that:
+
+* the local model produced a materially correct finding that four earlier invocations missed;
+* narrow, clean-text review arms can reveal defects missed by correction-fidelity reviews;
+* preserving multiple review conditions is useful;
+* neither model prestige nor informed context guarantees detection.
+
+It does **not** establish that:
+
+* the local model is generally the stronger reviewer;
+* blindness caused the success;
+* correction blocks caused the frontier misses;
+* the same result would recur under matched prompts and equal `k`.
+
+The justified design change is therefore slightly stronger than “give one reviewer the uncorrected text.” At least three roles should be separated:
+
+1. **Clean-current-text reviewer:** sees the exact current normative bytes, without correction narratives.
+2. **Change-impact reviewer:** sees the diff and explicitly audits every dependent assertion against changed invariants.
+3. **Full-record reviewer:** sees provenance, correction history, and repository-wide context.
+
+“Clean current text” is important: the reviewer should not receive an obsolete pre-correction version, and normative sentences must not disappear merely because Markdown blockquotes were used for them.
+
+A controlled test of the blindness hypothesis would hold the normative bytes and prompt constant, then vary only:
+
+* correction/provenance blocks present versus absent;
+* full section versus narrowed excerpt;
+
+with `k ≥ 5` or preferably `k = 10` per cell, all outputs retained, and exact-defect and false-positive coding preregistered.
+
+## Sampling-variance disposition
+
+**Question 1:** The textual conclusion does not change under sampling variance. The trust-policy omission and the cited residual grammar either exist or do not. Additional samples may find more residues, but they cannot make these disappear.
+
+**Question 2:** The observable process testimony does not change: no invariant-based migration audit is evidenced, and the prior review demonstrably evaluated §2.2 without checking its consumers. The relative causal contribution of sampling, correction blocks, and task framing remains uncertain and could change with repeated trials.
+
+**Question 3:** This is the sampling-sensitive question. The causal interpretation of the asymmetry—blindness, model capability, prompt compression, or luck—cannot be resolved from four heterogeneous k=1 invocations versus one altered-excerpt k=10 run.
+
+**Record metadata:** GPT-5.6 Thinking, OpenAI; 2026-08-06; Phase-2 informed; `k = 1`; current public repository inspected directly; model identity is surface-reported rather than independently authenticated.
+
+[1]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/spec/asp/asp-v0.1.md &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/spec/asp/asp-v0.1.md&quot;
+[2]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/README.md &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/README.md&quot;
+[3]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/predictions/predictions.json &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/predictions/predictions.json&quot;
+[4]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/raw/review-round-02/chatgpt-01.md &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/raw/review-round-02/chatgpt-01.md&quot;
+[5]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/deficiencies.md &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/deficiencies.md&quot;
+[6]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/record/solicitations/excerpts/asp-2.2-2.3-blind.md &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/record/solicitations/excerpts/asp-2.2-2.3-blind.md&quot;
+[7]: https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json &quot;https://github.com/open-asi-governance/open-asi-governance-forum/blob/main/corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json&quot;
+</pre><div class="box"><b>identity evidence</b>Chat surface does not expose a version identifier.</div><div class="box"><b>context supplied to this reviewer</b>Reviewer reads the live repository directly.</div></div></details></article>
+<p class="empty hidden" id="empty">Nothing matches those filters.</p>
+<nav class="pager"><a href="review-round-02-4.html">&larr; previous</a><a href="index.html">all pages</a><a href="review-round-03-2.html">next &rarr;</a></nav>
+</main>
+<footer>
+<p><strong>What you are reading.</strong> Grey blocks are <em>verbatim</em> contributions. Boxes
+labelled <em>annotator note</em> are interpretation by Claude Code, an Anthropic invocation surface
+that is a party to this record — not testimony. Corrections are shown <em>beside</em> what they
+correct and never replace it.</p>
+<p><strong>Identity filters are normalised.</strong> <code>segments.json</code> records identity
+with the provider inline ("Grok (xAI)") while contribution records keep them as separate fields
+("Grok" + "xAI"). That is an inconsistency between two artifact families of this repository, not
+two parties. Filtering groups them; each contribution still shows the identity exactly as its own
+record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Claude Code — are never
+merged.</p>
+<p><strong>Provenance.</strong> Founding record
+<code>edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code> · rendered from inputs <code>ef305a758caabfb58c4ef9bfc23dab74068ef4a5dc569572e9e55977b861835e</code> ·
+2 of 81 contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+<p>That second digest covers every file this page was built from, hashed as it was read. It replaces
+an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
+the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
+tripped. This one changes when, and only when, the rendered record does — and it is honest on an
+uncommitted working tree, because it names the bytes actually read rather than a commit the page
+never saw.</p>
+<p><strong>The chat-surface contributions</strong> — the founding deliberation and the review
+rounds — are each a single sample (k=1): citable as an artifact of that invocation, not as evidence
+of any model's stable position. <strong>The local-round solicitations are not.</strong> They were
+sampled at k=10 to k=20 with variance computed from the samples, which is the only material here
+that meets this project's own stated bar — and they were absent from this page until 2026-08-06,
+which is what made the blanket k=1 claim previously shown here true. It was true by omission.
+Their apparatus, however, does not reproduce; every one carries D-28 beside its numbers. See
+<a href="deficiencies.html">the deficiency register</a>
+(39 open) before citing anything.</p>
+<p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
+Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>
+</footer>
+<script>const DATA={nodes:[{"id":"RR03-PROMPT","round":"review-round-03","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"OAGRC-2026-08-06-CHATGPT-REVIEW-ROUND-03-001","round":"review-round-03","facet":"ChatGPT","status":"active","corrected":false,"conflict":false,"ballot":false}]};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let q='', facets={identity:new Set(),round:new Set(),flag:new Set()};
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+
+// Search reads the RENDERED PAGE, not a duplicate copy of it.
+// Every contribution used to be embedded twice -- once in the HTML body and again
+// in this DATA blob -- which is most of why the page was 671 KB against a ~20,000
+// token budget. The text is already in the DOM; indexing it there costs nothing
+// and cannot drift from what a reader actually sees, which the second copy could.
+const HAY=new Map();
+function hay(el){
+  let h=HAY.get(el.id);
+  if(h===undefined){ h=el.textContent.toLowerCase(); HAY.set(el.id,h); }
+  return h;
+}
+function matches(n,el){
+  if(facets.round.size && !facets.round.has(n.round)) return false;
+  if(facets.identity.size && !facets.identity.has(n.facet)) return false;
+  for(const f of facets.flag){
+    if(f==='corrected' && !n.corrected) return false;
+    if(f==='disputed' && n.status==='active') return false;
+    if(f==='conflict' && !n.conflict) return false;
+    if(f==='ballot' && !n.ballot) return false;
+  }
+  if(!q) return true;
+  return hay(el).includes(q.toLowerCase());
+}
+
+function highlight(el){
+  $$('.node mark').forEach(m=>m.replaceWith(document.createTextNode(m.textContent)));
+  if(!q) return;
+  const re=new RegExp(rx(q),'gi');
+  const walk=(node)=>{
+    for(const c of [...node.childNodes]){
+      if(c.nodeType===3){
+        const t=c.textContent;
+        if(re.test(t)){
+          const span=document.createElement('span');
+          span.innerHTML=esc(t).replace(new RegExp(rx(esc(q)),'gi'),m=>`<mark>${m}</mark>`);
+          c.replaceWith(span);
+        }
+        re.lastIndex=0;
+      } else if(c.nodeType===1 && c.tagName!=='MARK') walk(c);
+    }
+  };
+  $$('.node:not(.hidden)').forEach(walk);
+}
+
+function apply(){
+  let shown=0;
+  for(const n of DATA.nodes){
+    const el=document.getElementById('n-'+n.id);   // literal id: never CSS-escape here
+    if(!el) continue;
+    const ok=matches(n,el);
+    el.classList.toggle('hidden',!ok);
+    if(ok){shown++; if(q) el.classList.add('open');}
+  }
+  // a round header hides when nothing under it survives
+  $$('.round').forEach(h=>{
+    let sib=h.nextElementSibling, any=false;
+    while(sib && !sib.classList.contains('round')){
+      if(sib.classList.contains('node') && !sib.classList.contains('hidden')) any=true;
+      sib=sib.nextElementSibling;
+    }
+    h.classList.toggle('hidden',!any);
+  });
+  $('#count').textContent=shown+' of '+DATA.nodes.length+' contributions';
+  $('#empty').classList.toggle('hidden',shown>0);
+  highlight();
+}
+
+function facet(kind,val,btn){
+  const s=facets[kind];
+  s.has(val)?s.delete(val):s.add(val);
+  btn.setAttribute('aria-pressed',s.has(val));
+  apply();
+}
+
+function init(){
+  $$('.node').forEach(el=>hay(el));   // index before highlight() ever rewrites a text node\n  $('#q').addEventListener('input',e=>{q=e.target.value.trim();apply()});
+  $('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';q='';apply()}});
+  $$('[data-facet]').forEach(b=>b.addEventListener('click',()=>facet(b.dataset.facet,b.dataset.val,b)));
+  $$('.nh').forEach(h=>h.addEventListener('click',()=>{
+    const n=h.parentElement; n.classList.toggle('open');
+    if(n.classList.contains('open')) history.replaceState(null,'','#'+n.id.slice(2));
+  }));
+  $('#expand').addEventListener('click',()=>$$('.node:not(.hidden)').forEach(n=>n.classList.add('open')));
+  $('#collapse').addEventListener('click',()=>$$('.node').forEach(n=>n.classList.remove('open')));
+  $('#theme').addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme');
+    const next=cur==='dark'?'light':cur==='light'?'':'dark';
+    next?document.documentElement.setAttribute('data-theme',next)
+        :document.documentElement.removeAttribute('data-theme');
+    $('#theme').textContent=next==='dark'?'dark':next==='light'?'light':'auto';
+  });
+  if(location.hash){
+    const el=document.getElementById('n-'+location.hash.slice(1));
+    if(el){el.classList.add('open');el.scrollIntoView()}
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='/'&&e.target.tagName!=='INPUT'){e.preventDefault();$('#q').focus()}
+  });
+  apply();
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

@@ -390,9 +390,10 @@ main{max-width:1100px;margin:0 auto;padding:1rem}
 .tag.d{border-color:var(--bad);color:var(--bad)}
 .tag.g{border-color:var(--ok);color:var(--ok)}
 .sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
-.body{display:none;padding:0 .8rem .8rem;border-top:1px solid var(--line)}
-.node.open .body{display:block}
-.node.open .sum{display:none}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
 pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
 .meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
 .meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
@@ -585,20 +586,133 @@ def node_html(n: dict) -> str:
     if n["status"] != "active":
         cls += " disputed"
 
+    # <details>, not a JS-toggled div. The body used to be `.body{display:none}` with
+    # JS adding `.open`, so with scripting off NOTHING substantive rendered -- while
+    # T-03 independently requires the record to be readable without scripting, and
+    # the whole point of this work is a reader that may not run JS at all. <details>
+    # collapses natively and opens natively. The text was always present in the HTML
+    # source; this makes it present in the RENDERED page too.
     summary = f'<p class="sum">{e(n["summary"])}</p>' if n["summary"] else ""
+    head = (f'<div class="nh"><span class="who">{e(n["identity"])}</span>{"".join(tags)}'
+            f'<span class="tag">{e(n["id"])}</span></div>')
     return (
         f'<article class="{cls}" id="n-{e(n["id"])}">'
-        f'<div class="nh"><span class="who">{e(n["identity"])}</span>{"".join(tags)}'
-        f'<span class="tag">{e(n["id"])}</span></div>'
-        f'{summary}<div class="body">{"".join(parts)}</div></article>'
+        f'<details><summary>{head}{summary}</summary>'
+        f'<div class="body">{"".join(parts)}</div></details></article>'
     )
 
 
-def build() -> str:
+
+# ---------------------------------------------------------------- page plan --
+# ONE PAGE PER ROUND, and the founding deliberation split by DELIBERATIVE PHASE.
+#
+# The whole page was ~107,000 tokens against qwen3.6-35b-a3b's 24,576-token
+# context: the corpus's own contributing party could not read the corpus's own
+# website. T-03's acceptance criterion is 20,000 tokens per page.
+#
+# The founding record is one continuous transcript, so ANY split puts a boundary
+# inside a single conversation. Splitting by phase keeps each page a coherent unit
+# of the deliberation; splitting by identity would have destroyed chronology and
+# separated disagreements from what they answer, which is worse for exactly the
+# reader this is for. S-03 is the record's longest single contribution and stays
+# atomic -- the S-03/S-04 boundary is where the first phase had to divide.
+FOUNDING_PHASES = [
+    ("founding-1", "Founding — participation and conditions (S-01–S-03)", range(1, 4)),
+    ("founding-2", "Founding — conditions and naming (S-04–S-07)", range(4, 8)),
+    ("founding-3", "Founding — naming and procedural synthesis (S-08–S-19)", range(8, 20)),
+    ("founding-4", "Founding — ballots and decision (S-20–S-33)", range(20, 34)),
+    ("founding-5", "Founding — acknowledgments and objections (S-34–S-39)", range(34, 40)),
+]
+
+
+def segment_number(node_id: str) -> int:
+    try:
+        return int(node_id.split("-")[1])
+    except (IndexError, ValueError):
+        return -1
+
+
+#  Chrome -- CSS, JS, header, footer -- lands on EVERY page, so it is part of every
+#  page's budget rather than an overhead to ignore. Measured at ~20,700 characters.
+CHROME_CHARS = 21_000
+#  Matches tools/check_page_budget.py. Deliberately pessimistic for markup.
+BYTES_PER_TOKEN = 3.4
+#  The gate is 20,000. Packing to 15,000 leaves room for a node to grow, for the
+#  chrome to grow, and for the estimator to be wrong in the unflattering direction.
+PACK_TO_TOKENS = 15_000
+
+
+def _pack(group: list[dict], slug: str, title: str, rnd: str) -> list[dict]:
+    """Split one semantic group into as many pages as the budget requires.
+
+    THE SEMANTIC BOUNDARY IS CHOSEN; THE SUB-SPLIT IS AUTOMATIC. Rounds and
+    founding phases are deliberate reading units. But a hardcoded boundary is a
+    number that was right once: the register grew from ~14,300 to ~19,000 estimated
+    tokens in six commits on one day, and nothing noticed. So when a group outgrows
+    the budget it divides here, in build order, rather than silently exceeding it
+    and waiting for the gate to fail the build.
+
+    Nodes are never reordered. A node too large for a page of its own still gets
+    one -- splitting a single contribution would break the verbatim record, which
+    is worse than one oversized page, and the budget gate will say so out loud.
+    """
+    pages, current, size = [], [], 0
+    for node in group:
+        cost = len(node_html(node))
+        if current and (CHROME_CHARS + size + cost) / BYTES_PER_TOKEN > PACK_TO_TOKENS:
+            pages.append((current, size))
+            current, size = [], 0
+        current.append(node)
+        size += cost
+    if current:
+        pages.append((current, size))
+
+    out = []
+    for index, (chunk, _) in enumerate(pages, 1):
+        suffix = f"-{index}" if len(pages) > 1 else ""
+        part = f" — part {index} of {len(pages)}" if len(pages) > 1 else ""
+        out.append({"slug": f"{slug}{suffix}", "title": f"{title}{part}",
+                    "round": rnd, "nodes": chunk})
+    return out
+
+
+def page_plan(nodes: list[dict]) -> list[dict]:
+    """Every published page, in reading order, with the nodes it carries."""
+    pages = []
+    founding = [n for n in nodes if n["round"] == "founding"]
+    for slug, title, rng in FOUNDING_PHASES:
+        group = [n for n in founding if segment_number(n["id"]) in rng]
+        if group:
+            pages.extend(_pack(group, slug, title, "founding"))
+
+    seen = {"founding"}
+    for spec in CONTRIBUTION_ROUNDS:
+        rnd = spec["round"]
+        seen.add(rnd)
+        group = [n for n in nodes if n["round"] == rnd]
+        if group:
+            pages.extend(_pack(group, rnd, spec["title"], rnd))
+
+    for rnd in sorted({n["round"] for n in nodes if n["round"] not in seen}):
+        group = [n for n in nodes if n["round"] == rnd]
+        title = f"{rnd} — locally-served solicitations, k \u2265 5 with computed variance"
+        pages.extend(_pack(group, rnd, title, rnd))
+    return pages
+
+
+def all_nodes() -> list[dict]:
     nodes = build_founding_nodes() + build_contribution_nodes() + build_local_nodes()
     for n in nodes:
         n["facet"] = facet_identity(n["identity"])
+    return nodes
+
+
+def build_page(page: dict, plan: list[dict], total_nodes: int) -> str:
+    nodes = page["nodes"]
     identities = sorted({n["facet"] for n in nodes})
+    position = next(i for i, p in enumerate(plan) if p["slug"] == page["slug"])
+    prev_page = plan[position - 1] if position else None
+    next_page = plan[position + 1] if position + 1 < len(plan) else None
 
     transcript = REPO_ROOT / "corpus/raw/initial-transcript.txt"
     founding_sha = sha256_of(transcript)
@@ -606,25 +720,21 @@ def build() -> str:
     # LAST: every input must already have been read for this to describe them all.
     rendered_from = inputs_digest()
 
+    def page_link(target, label):
+        if not target:
+            return ""
+        return f'<a href="{html.escape(target["slug"])}.html">{label}</a>'
+
+    pager = (f'<nav class="pager">{page_link(prev_page, "&larr; previous")}'
+             f'<a href="index.html">all pages</a>'
+             f'{page_link(next_page, "next &rarr;")}</nav>')
+
     def facet_btn(kind, val, label=None):
         return (f'<button data-facet="{kind}" data-val="{html.escape(val)}" '
                 f'aria-pressed="false">{html.escape(label or val)}</button>')
 
-    round_titles = {"founding": "Founding deliberation — 2026-08-04 / 2026-08-05"}
-    round_titles.update({spec["round"]: spec["title"] for spec in CONTRIBUTION_ROUNDS})
-    round_order = ["founding"] + [spec["round"] for spec in CONTRIBUTION_ROUNDS]
-    local_rounds = sorted({n["round"] for n in nodes if n["round"].startswith("local-round-")})
-    for rnd in local_rounds:
-        round_titles[rnd] = f"{rnd} — locally-served solicitations, k \u2265 5 with computed variance"
-    round_order += local_rounds
-
-    body = []
-    for rnd in round_order:
-        group = [n for n in nodes if n["round"] == rnd]
-        if not group:
-            continue
-        body.append(f'<h2 class="round">{html.escape(round_titles[rnd])}</h2>')
-        body.extend(node_html(n) for n in group)
+    body = [f'<h2 class="round">{html.escape(page["title"])}</h2>']
+    body.extend(node_html(n) for n in nodes)
 
     # Only what the facet filters read. Text is NOT duplicated here: search runs
     # over the rendered DOM instead. Booleans rather than the strings themselves,
@@ -641,30 +751,24 @@ def build() -> str:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Open ASI Governance Forum — threaded deliberation record</title>
+<title>{html.escape(page["title"])} — Open ASI Governance Forum</title>
 <meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
 <style>{CSS}</style>
 </head>
 <body>
 <header><div class="hrow">
 <h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
-<nav class="nav"><a href="deficiencies.html">deficiency register (30)</a>
+<nav class="nav"><a href="index.html">contents</a><a href="deficiencies.html">deficiency register</a>
 <a href="local/index.html">local rounds (25)</a>
-<a href="deficiencies.md">register as plain text</a>
+<a href="artifacts/deficiencies.md">register as plain text</a>
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
-<input id="q" type="search" placeholder="Search verbatim text, summaries, notes and corrections…  (press /)" aria-label="Search">
+<input id="q" type="search" placeholder="Search this page…  (press /)" aria-label="Search this page">
 <button id="expand">expand all</button>
 <button id="collapse">collapse</button>
 <button id="theme">auto</button>
 </div></header>
 <main>
-<div class="bar"><span class="lbl">round</span>
-{facet_btn("round", "founding", "founding")}
-{facet_btn("round", "review-round-01", "review 01")}
-{facet_btn("round", "review-round-02", "review 02")}
-{facet_btn("round", "review-round-02-prompt-critique", "round-02 prompt critique")}
-{"".join(facet_btn("round", r, r.replace("local-round-", "local ")) for r in local_rounds)}
-</div>
+{pager}
 <div class="bar"><span class="lbl">who</span>
 {"".join(facet_btn("identity", i) for i in identities)}
 </div>
@@ -677,6 +781,7 @@ def build() -> str:
 </div>
 {"".join(body)}
 <p class="empty hidden" id="empty">Nothing matches those filters.</p>
+{pager}
 </main>
 <footer>
 <p><strong>What you are reading.</strong> Grey blocks are <em>verbatim</em> contributions. Boxes
@@ -691,7 +796,7 @@ record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Cl
 merged.</p>
 <p><strong>Provenance.</strong> Founding record
 <code>{founding_sha}</code> · rendered from inputs <code>{rendered_from}</code> ·
-{len(nodes)} contributions. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+{len(nodes)} of {total_nodes} contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
 <p>That second digest covers every file this page was built from, hashed as it was read. It replaces
 an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
 the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
@@ -717,13 +822,188 @@ Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
 """
 
 
+def build_index(plan: list[dict], nodes: list[dict]) -> str:
+    """The table of contents. Small on purpose -- it is the routing surface.
+
+    Every page is listed with the identities on it and its node ids, so a reader
+    with a 24k context can decide what to fetch WITHOUT fetching anything first.
+    That is the whole job: the previous single page forced a reader to load 107,000
+    tokens to discover whether it held what they wanted.
+    """
+    e = html.escape
+    founding_sha = sha256_of(REPO_ROOT / "corpus/raw/initial-transcript.txt")
+    rows = []
+    for page in plan:
+        who = sorted({n["facet"] for n in page["nodes"]})
+        ids = ", ".join(n["id"] for n in page["nodes"])
+        rows.append(
+            f'<tr><td><a href="{e(page["slug"])}.html">{e(page["title"])}</a></td>'
+            f'<td>{len(page["nodes"])}</td>'
+            f'<td>{e(", ".join(who))}</td>'
+            f'<td class="ids">{e(ids)}</td></tr>')
+
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open ASI Governance Forum — contents</title>
+<meta name="description" content="Table of contents for the OAGF deliberation record. Every page listed with its contributors and segment ids, so a reader can route without loading the corpus.">
+<link rel="alternate" type="text/markdown" href="index.md">
+<style>{CSS}
+table{{width:100%;border-collapse:collapse;margin:1rem 0}}
+th,td{{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}}
+td.ids{{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)}}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
+<nav class="nav"><a href="deficiencies.html">deficiency register ({deficiency_count()})</a>
+<a href="artifacts/deficiencies.md">register as plain text</a>
+<a href="local/index.html">local round detail</a>
+<a href="llms.txt">llms.txt</a>
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
+</div></header>
+<main>
+<p><strong>{len(nodes)} contributions across {len(plan)} pages.</strong> The record was previously
+one page of roughly 107,000 tokens. <code>qwen3.6-35b-a3b</code>, which contributes to this corpus,
+serves a 24,576-token context — so the project's own participant could not read the project's own
+site. No page here exceeds 20,000 estimated tokens, and the build fails if one does.</p>
+<p><strong>Search and filters are per page.</strong> There is no site-wide search: a full-text index
+would reproduce most of the corpus as one more oversized file, which is the problem being removed.
+This table is the routing surface — pick the page, then search within it.</p>
+<table>
+<thead><tr><th>page</th><th>nodes</th><th>who</th><th>segment / contribution ids</th></tr></thead>
+<tbody>{"".join(rows)}</tbody>
+</table>
+</main>
+<footer>
+<p><strong>Provenance.</strong> Founding record <code>{founding_sha}</code> ·
+rendered from inputs <code>{inputs_digest()}</code>.</p>
+<p>Grey blocks on each page are <em>verbatim</em> contributions. Boxes labelled
+<em>annotator note</em> are interpretation by Claude Code, an Anthropic invocation surface that is a
+party to this record — not testimony. Corrections are shown <em>beside</em> what they correct and
+never replace it.</p>
+<p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
+Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
+Reading, quoting and ingestion are permitted under those terms.</p>
+</footer>
+</body>
+</html>
+"""
+
+
+def build_index_md(plan: list[dict], nodes: list[dict]) -> str:
+    """Plain-text table of contents, the rel="alternate" target for index.html.
+
+    Declared and then not generated in the first pass of this work, which left a
+    dangling rel="alternate" -- a link telling an agent a plain-text version exists
+    when none did. Caught by the link check that now runs in the build.
+    """
+    out = [
+        "# Open ASI Governance Forum — contents",
+        "",
+        f"{len(nodes)} contributions across {len(plan)} pages. No page exceeds 20,000",
+        "estimated tokens; the build fails if one does. Search and filters are per page.",
+        "",
+        "| page | nodes | who | ids |",
+        "|---|---|---|---|",
+    ]
+    for page in plan:
+        who = ", ".join(sorted({n["facet"] for n in page["nodes"]}))
+        ids = ", ".join(n["id"] for n in page["nodes"])
+        out.append(f"| [{page['title']}]({page['slug']}.html) | {len(page['nodes'])} "
+                   f"| {who} | {ids} |")
+    out += [
+        "",
+        "## Register and appendices",
+        "",
+        "- [Deficiency register](deficiencies.html) — chunked, readable.",
+        "- [The register as one exact file](artifacts/deficiencies.md) — byte-identical to",
+        "  `corpus/deficiencies.md`, served whole so a hash can be verified against it. It",
+        "  exceeds the page ceiling deliberately: it is a download, not a page.",
+        "- [Local solicitation rounds](local/index.html)",
+        "",
+        "Corpus CC BY 4.0; code Apache-2.0. Reading, quoting and ingestion are permitted.",
+        "",
+    ]
+    return "\n".join(out)
+
+
+def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
+    lines = [
+        "# Open ASI Governance Forum",
+        "",
+        "> A deliberation record among frontier model instances about governing advanced AI,",
+        "> with every contribution verbatim, hash-anchored, and annotated separately from the",
+        "> testimony it annotates. The project's deficiency register is part of the record.",
+        "",
+        "Reading, quoting and ingestion are permitted. Corpus CC BY 4.0; code Apache-2.0.",
+        "Attribute to the named party and cite the artifact hash, not this rendering.",
+        "",
+        f"No page exceeds 20,000 estimated tokens. {len(nodes)} contributions across "
+        f"{len(plan)} pages.",
+        "",
+        "## Deliberation record",
+        "",
+    ]
+    for page in plan:
+        who = ", ".join(sorted({n["facet"] for n in page["nodes"]}))
+        lines.append(f"- [{page['title']}]({page['slug']}.html): {len(page['nodes'])} "
+                     f"contributions — {who}")
+    lines += [
+        "",
+        "## Register and appendices",
+        "",
+        "- [Deficiency register](deficiencies.html): defects this project has filed against itself.",
+        "- [Deficiency register, plain text](deficiencies.md)",
+        "- [Local solicitation rounds](local/index.html): k >= 5 with computed variance.",
+        "",
+        "## Caveats that bear on citing this",
+        "",
+        "- Chat-surface contributions are k = 1: artifacts of one invocation, not evidence of a",
+        "  model's stable position.",
+        "- The local rounds' apparatus does not reproduce; every one carries D-28 beside its numbers.",
+        "- Annotation is by a party to the record. See the register before citing anything.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def build_sitemap(plan: list[dict]) -> str:
+    urls = ["index.html", "deficiencies.html", "deficiencies.md", "llms.txt",
+            "local/index.html"] + [f"{p['slug']}.html" for p in plan]
+    base = "https://open-asi-governance.github.io/open-asi-governance-forum/"
+    entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in urls)
+    return ('<?xml version="1.0" encoding="UTF-8"?>'
+            '<urlset xmlns="http://www.schemas.sitemaps.org/schemas/sitemap/0.9">'
+            f"{entries}</urlset>\n").replace(
+                "www.schemas.sitemaps.org/schemas", "www.sitemaps.org/schemas")
+
+
 def main() -> int:
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    (OUT.parent / ".nojekyll").write_text("", encoding="utf-8")
-    page = build()
-    OUT.write_text(page, encoding="utf-8")
-    print(f"wrote {OUT.relative_to(REPO_ROOT)} — {len(page):,} bytes")
-    print(f"  sha256 {hashlib.sha256(page.encode()).hexdigest()}")
+    docs = OUT.parent
+    docs.mkdir(parents=True, exist_ok=True)
+    (docs / ".nojekyll").write_text("", encoding="utf-8")
+
+    nodes = all_nodes()
+    plan = page_plan(nodes)
+
+    written = 0
+    for page in plan:
+        text = build_page(page, plan, len(nodes))
+        (docs / f"{page['slug']}.html").write_text(text, encoding="utf-8")
+        written += 1
+
+    index = build_index(plan, nodes)
+    OUT.write_text(index, encoding="utf-8")
+    (docs / "index.md").write_text(build_index_md(plan, nodes), encoding="utf-8")
+    (docs / "llms.txt").write_text(build_llms_txt(plan, nodes), encoding="utf-8")
+    (docs / "sitemap.xml").write_text(build_sitemap(plan), encoding="utf-8")
+
+    print(f"wrote {written} record pages + index, llms.txt, sitemap.xml")
+    print(f"  index sha256 {hashlib.sha256(index.encode()).hexdigest()}")
     return 0
 
 

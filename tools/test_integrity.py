@@ -391,23 +391,42 @@ def main() -> int:
         print("\nthe published site must not understate the record")
         c = nxt()
         run(c, "tools/rebuild.py")
-        page = (c / "docs/index.html").read_text(encoding="utf-8")
+        # index.html is now the TABLE OF CONTENTS, not the record. The record lives on
+        # per-round pages, so assertions about contributions read the record pages and
+        # assertions about routing read the index. Conflating them is how the previous
+        # version of this block came to assert `const DATA=` against a page that no
+        # longer carries one.
+        index = (c / "docs/index.html").read_text(encoding="utf-8")
+        record = "".join(f.read_text(encoding="utf-8")
+                         for f in sorted((c / "docs").glob("*.html"))
+                         if f.name not in ("index.html",))
+        page = index + record
         summaries = list((c / "corpus/artifacts").glob("local-round-*/*-summary.json"))
         pages = list((c / "docs/local").glob("local-round-*__*.html"))
         case("every solicitation summary has a published page",
              len(pages) == len(summaries), f"{len(pages)} pages vs {len(summaries)} summaries")
         case("local rounds appear in the threaded viewer",
-             'class="round">local-round-01' in page)
+             "local-round-01" in record)
         case("the blanket k=1 claim is gone",
              "Every contribution here is a single sample (k=1)" not in page)
         case("local-round content is searchable in the rendered page",
-             "binds_only_what_may_be_claimed" in page)
-        case("the viewer no longer embeds a second copy of every contribution",
-             '"text":' not in page.split("const DATA=")[1].split("};")[0])
+             "binds_only_what_may_be_claimed" in record)
+        case("record pages do not embed a second copy of every contribution",
+             all('"text":' not in f.read_text(encoding="utf-8").split("const DATA=")[1].split("};")[0]
+                 for f in sorted((c / "docs").glob("*.html"))
+                 if "const DATA=" in f.read_text(encoding="utf-8")))
         case("no page loads an external resource",
              not re.search(r'(?:src|href)="https?://(?!github\.com)', page))
         case("the entry point links forward to the register and the local rounds",
-             'href="deficiencies.html"' in page and 'href="local/index.html"' in page)
+             'href="deficiencies.html"' in index and 'href="local/index.html"' in index)
+        case("every record page is reachable from the index",
+             all(f'href="{f.stem}.html"' in index
+                 for f in sorted((c / "docs").glob("*.html"))
+                 if f.name not in ("index.html",) and not f.stem.startswith("deficiencies")))
+        case("no published page exceeds the token budget",
+             run(c, "tools/check_page_budget.py").returncode == 0)
+        case("the record is readable without scripting",
+             "<details>" in record and ".body{display:none}" not in record)
         case("no generated link points at a /blob/ URL",
              not re.search(r'<a href="https://github\.com/[^"]*/blob/', page))
 

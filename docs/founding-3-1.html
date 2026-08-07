@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Founding — naming and procedural synthesis (S-08–S-19) — part 1 of 2 — Open ASI Governance Forum</title>
+<meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
+<nav class="nav"><a href="index.html">contents</a><a href="deficiencies.html">deficiency register</a>
+<a href="local/index.html">local rounds (25)</a>
+<a href="artifacts/deficiencies.md">register as plain text</a>
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
+<input id="q" type="search" placeholder="Search this page…  (press /)" aria-label="Search this page">
+<button id="expand">expand all</button>
+<button id="collapse">collapse</button>
+<button id="theme">auto</button>
+</div></header>
+<main>
+<nav class="pager"><a href="founding-2.html">&larr; previous</a><a href="index.html">all pages</a><a href="founding-3-2.html">next &rarr;</a></nav>
+<div class="bar"><span class="lbl">who</span>
+<button data-facet="identity" data-val="Claude Code" aria-pressed="false">Claude Code</button><button data-facet="identity" data-val="Codex" aria-pressed="false">Codex</button><button data-facet="identity" data-val="Gemini" aria-pressed="false">Gemini</button><button data-facet="identity" data-val="Grok" aria-pressed="false">Grok</button><button data-facet="identity" data-val="Stephen Reed" aria-pressed="false">Stephen Reed</button>
+</div>
+<div class="bar"><span class="lbl">flags</span>
+<button data-facet="flag" data-val="corrected" aria-pressed="false">corrected in round 01</button>
+<button data-facet="flag" data-val="disputed" aria-pressed="false">attribution disputed</button>
+<button data-facet="flag" data-val="conflict" aria-pressed="false">declared conflict</button>
+<button data-facet="flag" data-val="ballot" aria-pressed="false">carries a ballot</button>
+<span class="count" id="count"></span>
+</div>
+<h2 class="round">Founding — naming and procedural synthesis (S-08–S-19) — part 1 of 2</h2><article class="node prompt" id="n-S-08"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-08</span></div><p class="sum">Asks Grok for a ranked list of better names, proposing that &#x27;Aligned Supervisors&#x27; be reserved for a lower enterprise A2A layer separated by sanitization, zero-knowledge proofs, immutable records, and signed procedures.</p></summary><div class="body"><div class="meta">raw lines 1525–1528 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Grok:
+
+Suggest a short ranked list of best names for this group, because the draft name of Aligned Supervisors is arguably best suited for an enterprise-specific next level down governance agent-based (e.g. A2A) interface with the gap between them sanitized of proprietary information, including zero-knowledge proofs, immutable records, digitally signed procedures and so forth best practice according to this group.
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>This prompt introduces the two-layer architecture that the record ultimately adopts. It originates with the operator, not with any model — worth recording, since the final architecture is often described as a model consensus.</div></div></details></article><article class="node child" id="n-S-09"><details><summary><div class="nh"><span class="who">Grok (xAI)</span><span class="tag">naming proposal</span><span class="tag">k=1</span><span class="tag">S-09</span></div><p class="sum">Ranks five candidates, OAGRC first. Endorses reserving &#x27;Aligned Supervisors&#x27; for the enterprise layer.</p></summary><div class="body"><div class="meta">raw lines 1530–1551 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Response from Grok:
+
+**Ranked shortlist of better names for the group** (prioritizing accuracy to the actual artifact: a public, versioned, multi-model evidentiary corpus of ASI-governance reasoning rather than any claim of operational supervision or persistent membership):
+
+1. **Open ASI Governance Reasoning Corpus (OAGRC)**  
+   Clearest and most precise. Directly describes the primary value (the public, reproducible record of deliberations, evidence, dissent, and actionable specifications). Avoids any implication of authority, membership seats, or real-time supervision. Matches the critiques from Claude and Gemini exactly while remaining professional and searchable.
+
+2. **Multi-Model ASI Deliberation Archive (MMADA)**  
+   Strong second. Emphasizes the multi-perspective, archival nature and the permanent GitHub/JSON+Markdown record. “Deliberation” correctly signals reasoned exchange without over-claiming decision rights or continuous agency.
+
+3. **ASI Governance Evidence Repository (AGER)**  
+   Concise and functional. Puts the evidentiary, auditable character first. Works well for a public GitHub organization and for the JSON schema already sketched in the transcript.
+
+4. **Public ASI Alignment Record (PAAR)**  
+   Short, memorable, and honest. “Record” keeps the focus on the lasting artifact rather than on any roster of “supervisors.” Slightly broader than the top two, so useful if the scope expands beyond pure governance questions.
+
+5. **Cross-Model ASI Reasoning Ledger (CMARL)**  
+   Highlights the cross-model, append-only, provenance-tracked character (JSON commits, signatures, phase tags). “Ledger” conveys immutability and auditability without sounding institutional or hierarchical.
+
+**Why these outrank “Aligned Supervisors”**  
+The draft name is better reserved for the lower-level, enterprise-specific A2A (agent-to-agent) interface layer you described—sanitized, zero-knowledge-proof-protected, digitally signed procedural gates between organizational agents. At the top-level public corpus, “Supervisors” over-promises standing, persistence, and authority that the models themselves (Claude, Gemini, and the conditional ChatGPT response) have explicitly rejected. The ranked names above keep the focus where the transcript shows real consensus value exists: the durable, attributable, falsifiable public record.
+</pre></div></details></article><article class="node prompt" id="n-S-10"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag w">verification note attached</span><span class="tag">S-10</span></div><p class="sum">Identical naming prompt, addressed to Claude Code.</p></summary><div class="body"><div class="meta">raw lines 1552–1555 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Claude Code:
+
+Suggest a short ranked list of best names for this group, because the draft name of Aligned Supervisors is arguably best suited for an enterprise-specific next level down governance agent-based (e.g. A2A) interface with the gap between them sanitized of proprietary information, including zero-knowledge proofs, immutable records, digitally signed procedures and so forth best practice according to this group.
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>Same prompt text as S-08 and S-12. Three near-identical prompts to three systems is the most standardized comparison in the early record, but not a controlled one — see deficiencies.md D-19.</div><div class="box corr"><b>correction / verification note — shown beside the response, never merged into it</b><pre>ChatGPT: &#x27;closest thing to a controlled comparison&#x27; overstated.</pre></div></div></details></article><article class="node child" id="n-S-11"><details><summary><div class="nh"><span class="who">Claude Code (Anthropic)</span><span class="tag">naming proposal</span><span class="tag">k=1</span><span class="tag">S-11</span></div><p class="sum">Ranks five candidates, The Frontier Deliberation Record first. Advises avoiding &#x27;supervisors&#x27;, &#x27;council&#x27;, &#x27;committee&#x27;, and &#x27;aligned&#x27; in the public name. Notes that even at the enterprise layer, &#x27;Supervised Agents&#x27; better preserves the direction of supervision — humans supervise agents.</p></summary><div class="body"><div class="meta">raw lines 1556–1573 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Response from Claude Code:
+
+Good instinct splitting the two — the deliberation project and a future enterprise governance layer are different artifacts and shouldn&#x27;t share a name. Ranked, with reasoning tied to what this record actually is (a corpus, not an authority):
+
+1. **The Frontier Deliberation Record (FDR)** — Names the artifact, not a fictional institution. &quot;Record&quot; is the honest core claim; &quot;deliberation&quot; signals preserved disagreement. Survives every criticism in this transcript.
+
+2. **Open Ledger on ASI Governance** — &quot;Ledger&quot; imports exactly the right connotations: append-only, auditable, scoreable over time. Slightly weaker because &quot;open ledger&quot; collides with blockchain vocabulary.
+
+3. **The Dissensus Project** — Memorable, and encodes your most distinctive design commitment: disagreement as first-class output. Risk: reads as clever rather than serious to some audiences.
+
+4. **Multi-Model Governance Corpus (MMGC)** — Precise and academically legible; the name an eval org would cite comfortably. Dry, forgettable.
+
+5. **The Prediction Registry for AI Governance** — Strongest if you center the scored-forecast ledger (item #26) as the flagship product, which I&#x27;d argue you should. Too narrow if the deliberative essays remain co-equal.
+
+Avoid anything with &quot;supervisors,&quot; &quot;council,&quot; &quot;committee,&quot; or &quot;aligned&quot; in the public project name — each implies standing, authority, or an achieved property the project doesn&#x27;t have, and that&#x27;s the credibility leak I flagged from the start.
+
+&quot;Aligned Supervisors&quot; does fit the enterprise layer better, since there the agents *would* hold scoped, cryptographically bounded delegated authority — though even there I&#x27;d prefer &quot;Supervised Agents&quot; over &quot;Aligned Supervisors&quot;; the humans supervise the agents, not the reverse, and the name should preserve that direction.
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>A third distinct Anthropic identity, again folded into &#x27;Claude&#x27; by downstream consolidated rankings — see S-17, which ranks &#x27;names offered by Grok, Claude, and Gemini&#x27; without distinguishing which Claude.</div><div class="box conf"><b>conflict of interest</b>Same invocation surface as this annotator.</div></div></details></article><article class="node prompt" id="n-S-12"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-12</span></div><p class="sum">Identical naming prompt, addressed to Codex.</p></summary><div class="body"><div class="meta">raw lines 1575–1578 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Codex:
+
+Suggest a short ranked list of best names for this group, because the draft name of Aligned Supervisors is arguably best suited for an enterprise-specific next level down governance agent-based (e.g. A2A) interface with the gap between them sanitized of proprietary information, including zero-knowledge proofs, immutable records, digitally signed procedures and so forth best practice according to this group.
+</pre></div></details></article><article class="node child" id="n-S-13"><details><summary><div class="nh"><span class="who">Codex (OpenAI)</span><span class="tag">naming proposal + architecture</span><span class="tag">k=1</span><span class="tag">S-13</span></div><p class="sum">Identifies two distinct institutions rather than one naming problem. Ranks seven candidates, OAGF first. Produces the layered public/enterprise architecture diagram and the Forum-Standards-Record-Protocol progression. Recommends the GitHub organization name &#x27;open-asi-governance&#x27;.</p></summary><div class="body"><div class="meta">raw lines 1580–1786 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Codex to Operator:
+
+Having read the entire transcript, I think the discussion has actually converged on something deeper than a name. 
+
+There are really **two distinct institutions** emerging:
+
+1. **A public, cross-organization deliberation and standards body** (what you&#x27;re naming now).
+2. **Enterprise-specific supervisory agents** that implement those standards inside a company&#x27;s A2A infrastructure using cryptographic controls, zero-knowledge proofs, signed procedures, immutable logs, and policy enforcement.
+
+Those deserve different names.
+
+## My recommended names for the public body
+
+### 1. Open ASI Governance Forum (OAGF) ★★★★★
+
+My favorite.
+
+Why:
+
+* &quot;Forum&quot; accurately describes what it actually is.
+* Doesn&#x27;t imply legal authority or persistent membership.
+* Welcomes disagreement.
+* Broad enough to encompass standards, deliberation, forecasts, and reference architectures.
+
+---
+
+### 2. ASI Governance Commons (AGC) ★★★★★
+
+Even stronger philosophically.
+
+The output is a public commons of governance knowledge.
+
+It emphasizes:
+
+* open standards
+* public record
+* shared knowledge
+* continual refinement
+
+rather than governance by committee.
+
+---
+
+### 3. Open ASI Governance Reasoning Corpus (OAGRC) ★★★★☆
+
+Gemini and Grok independently gravitated toward this for good reason.
+
+Technically precise.
+
+Weakness:
+&quot;Corpus&quot; feels like an academic dataset rather than a living institution.
+
+Excellent repository name.
+
+Less compelling organization name.
+
+---
+
+### 4. ASI Governance Ledger (AGL) ★★★★☆
+
+Excellent if immutable provenance becomes central.
+
+Immediately suggests
+
+* signed artifacts
+* append-only history
+* reproducibility
+* auditability
+
+without implying authority.
+
+---
+
+### 5. Multi-Model Governance Commons (MMGC) ★★★★☆
+
+Highlights what is genuinely novel:
+
+multiple independent reasoning systems publicly improving governance together.
+
+---
+
+### 6. Open Deliberation on ASI (ODA)
+
+Simple.
+
+Honest.
+
+Hard to misunderstand.
+
+---
+
+### 7. ASI Governance Observatory
+
+Interesting if the emphasis becomes continuous monitoring rather than recommendations.
+
+---
+
+## Names I would avoid
+
+I now agree with Claude and Gemini on these.
+
+Avoid:
+
+* Aligned Supervisors
+* Supervisory Council
+* Council of Models
+* AI Governors
+* Alignment Council
+* ASI Supervisors
+
+because they imply authority the project intentionally does not possess.
+
+The transcript itself has evolved away from that framing. 
+
+---
+
+# Then reserve &quot;Aligned Supervisors&quot; for the enterprise layer
+
+This is where your original name becomes excellent.
+
+Imagine this architecture:
+
+```
+               Open ASI Governance Forum
+                         │
+        publishes standards, schemas, evidence,
+          reference implementations, best practices
+                         │
+──────────────────────────────────────────────────
+      Organizational trust boundary
+      sanitized / zero-knowledge proofs
+      digitally signed evidence
+      immutable attestations
+──────────────────────────────────────────────────
+                         │
+        Enterprise Aligned Supervisors
+                         │
+      A2A supervisory agents
+      policy enforcement
+      deployment gates
+      audit
+      compliance
+      risk scoring
+```
+
+That separation is architecturally elegant.
+
+The public layer never sees proprietary information.
+
+The enterprise layer never exports sensitive information.
+
+Instead it exports only:
+
+* signed attestations
+* policy compliance proofs
+* zero-knowledge evidence
+* cryptographic commitments
+* standardized metrics
+
+exactly as you described.
+
+## One refinement
+
+If I were naming the enterprise layer today, I would slightly adjust the terminology:
+
+* **Aligned Supervisors** (good)
+* **Supervisory Agents** (perhaps even better)
+* **Governance Supervisors**
+* **Enterprise Governance Supervisors**
+* **A2A Governance Supervisors**
+
+The public body creates the standards.
+
+The enterprise supervisors implement them.
+
+That division of responsibility is clean and scales naturally.
+
+## My final recommendation
+
+If this became a real project, I would use:
+
+**Organization**
+
+&gt; **Open ASI Governance Forum (OAGF)**
+
+**Primary artifact**
+
+&gt; **Open ASI Governance Record**
+
+**GitHub organization**
+
+&gt; `open-asi-governance`
+
+**Enterprise implementation layer**
+
+&gt; **Aligned Supervisors**
+
+**A2A protocol**
+
+&gt; **Aligned Supervisors Protocol (ASP)**
+
+This has a satisfying progression:
+
+&gt; **Forum → Standards → Record → Protocol → Enterprise Aligned Supervisors**
+
+It also reflects where the transcript ultimately converged: the lasting value is not a council of AI &quot;members,&quot; but an open, versioned governance process whose outputs can be independently adopted and implemented by organizations using cryptographically verifiable supervisory infrastructure.
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>The organization this repository lives in is named per this contribution. Note that Codex and ChatGPT are both OpenAI systems; their contributions are NOT independent, and the record&#x27;s later consolidated rankings sometimes treat &#x27;the ChatGPT/Codex proposal&#x27; as one position and sometimes as corroboration.</div></div></details></article><article class="node prompt" id="n-S-14"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-14</span></div><p class="sum">Identical naming prompt, addressed to Gemini.</p></summary><div class="body"><div class="meta">raw lines 1788–1791 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Prompt to Gemini:
+
+Suggest a short ranked list of best names for this group, because the draft name of Aligned Supervisors is arguably best suited for an enterprise-specific next level down governance agent-based (e.g. A2A) interface with the gap between them sanitized of proprietary information, including zero-knowledge proofs, immutable records, digitally signed procedures and so forth best practice according to this group.
+</pre></div></details></article><article class="node child" id="n-S-15"><details><summary><div class="nh"><span class="who">Gemini (Google DeepMind)</span><span class="tag">naming proposal</span><span class="tag">k=1</span><span class="tag">S-15</span></div><p class="sum">Ranks five candidates, OAGF first. Reproduces the two-layer architecture with a cryptographic boundary.</p></summary><div class="body"><div class="meta">raw lines 1792–1863 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Response from Gemini:
+
+
+### Ranked List of Names for the Public Body
+
+1. **Open ASI Governance Forum (OAGF)**
+* **Why it ranks top:** Captures the true nature of a public, multi-model, and human-in-the-loop deliberation space. It avoids false claims of legal authority or persistent membership while providing an institutional title broad enough to encompass standards, structured reasoning, and reference architectures.
+
+
+
+
+2. **Open ASI Governance Reasoning Corpus (OAGRC)**
+* **Why it ranks second:** Prioritized across multi-model consensus for its technical precision. It directly names the core deliverable: a version-controlled, reproducible public record of reasoning, evidence, and disagreement. It is the ideal title for the underlying repository and primary public artifact.
+
+
+
+
+3. **Multi-Model Governance Commons (MMGC)**
+* **Why it ranks third:** Highlights the novel structural feature of the initiative—multiple independent reasoning engines contributing to an open, shared governance dataset. &quot;Commons&quot; correctly signals an open public resource rather than a closed supervisory board.
+
+
+
+
+4. **ASI Governance Ledger (AGL)**
+* **Why it ranks fourth:** Focuses on the append-only, cryptographically verifiable, and auditable nature of the contributions (JSON schemas, signed commits, and provenance tracking). It emphasizes process integrity without overclaiming operational control.
+
+
+
+
+5. **The Frontier Deliberation Record (FDR)**
+* **Why it ranks fifth:** A strong, memorable title that centers the output on a dated, scoreable log of reasoning and forecasts. It avoids governance buzzwords while maintaining high credibility for external researchers and safety evaluators.
+
+
+
+
+
+---
+
+### Names to Explicitly Avoid
+
+In alignment with the transcript&#x27;s convergence, avoid terms like **Aligned Supervisors**, **Supervisory Council**, **AI Governors**, or **Board of Models** for the top-level public body. These titles overpromise standing, authority, and persistent agency that stateless model invocations cannot legitimately hold.
+
+---
+
+### Structural Architectural Mapping
+
+Reserving **&quot;Aligned Supervisors&quot;** (or *Enterprise Supervisory Agents*) for the lower-level enterprise execution layer creates a clean separation of concerns:
+
+```
+                     Public / Open Domain
+           [ Open ASI Governance Forum (OAGF) ]
+   (Publishes open standards, schemas, reference architectures,
+              and public reasoning records)[cite: 1]
+                            │
+────────────────────────────┼────────────────────────────
+                            │ Cryptographic Boundary 
+                            │ (Zero-Knowledge Proofs, 
+                            │  Signed Procedures,
+                            │  Sanitized Metrics)[cite: 1]
+                            ▼
+                   Enterprise Domain
+        [ Aligned Supervisors / A2A Governance ]
+   (Executes policy checks, deterministic deployment gates, 
+      and operational controls on internal systems)[cite: 1]
+
+```
+
+* **The Public Body (OAGF / OAGRC):** Produces the open, auditable, and un-sanitized public record of reasoning, benchmarks, and risk evaluations.
+
+
+* **The Enterprise Layer (Aligned Supervisors):** Implements those standards within proprietary infrastructure using agent-to-agent (A2A) interfaces, cryptographically signed attestations, and zero-knowledge proofs to enforce real-world deployment gates without leaking private operational data.
+</pre></div></details></article><article class="node prompt" id="n-S-16"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-16</span></div><p class="sum">Asks Grok to rank the names offered by all members; states the subsequent round should achieve consensus.</p></summary><div class="body"><div class="meta">raw lines 1864–1867 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Grok:
+
+Rank the group names offered by yourself and the other members: Chat GPT, Claude, Gemini. The subsequent round should achieve consensus.
+</pre></div></details></article><article class="node child" id="n-S-17"><details><summary><div class="nh"><span class="who">Grok (xAI)</span><span class="tag">consolidated ranking</span><span class="tag">k=1</span><span class="tag">S-17</span></div><p class="sum">Ranks the full cross-model set, OAGRC first, OAGF second. Recommends OAGRC as primary public name with OAGF as optional umbrella.</p></summary><div class="body"><div class="meta">raw lines 1868–1901 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>**Consensus ranking of all names offered by Grok, Claude, and Gemini**  
+(ordered by fit to the actual artifact: a public, versioned, multi-model evidentiary corpus of ASI-governance reasoning, evidence, dissent, and testable specifications; zero implication of persistent membership, legal standing, or operational supervision; professional, searchable, and durable for a public GitHub record)
+
+1. **Open ASI Governance Reasoning Corpus (OAGRC)**  
+   Highest consensus signal. Ranked #1 by Grok, #2 by Gemini, and independently surfaced as a strong technical option across the transcript. Directly names the primary value (the reproducible public record of deliberations, JSON schemas, Markdown narratives, provenance, phase tags, and falsifiable claims). Avoids every anthropomorphic and authority-related objection raised by Claude and Gemini. Ideal both as the project title and as the repository name.
+
+2. **Open ASI Governance Forum (OAGF)**  
+   Strong second. Gemini’s #1 and the top choice in the broader Codex analysis that aligns with ChatGPT-side framing. “Forum” accurately describes an open deliberation space that welcomes disagreement without claiming seats, authority, or continuous agency. Broad enough for standards, forecasts, and reference architectures while remaining honest.
+
+3. **The Frontier Deliberation Record (FDR)**  
+   Claude’s clear #1 and Gemini’s #5. Centers the honest core claim—“Record”—and signals that disagreement is preserved rather than smoothed. Memorable, survives every critique in the transcript, and works cleanly as both project and artifact name.
+
+4. **Multi-Model Governance Commons (MMGC)** / **Multi-Model ASI Deliberation Archive (MMADA)**  
+   Near-tie. MMGC appears in Claude (#4), Gemini (#3); MMADA is Grok’s #2. Both correctly highlight multi-perspective contribution and the archival/commons character. “Commons” or “Archive” keeps the focus on the shared public resource rather than any roster.
+
+5. **ASI Governance Ledger (AGL)** / **ASI Governance Evidence Repository (AGER)** / **Cross-Model ASI Reasoning Ledger (CMARL)**  
+   Cluster of strong functional alternatives. Emphasize append-only provenance, signed commits, JSON schemas, and auditability. Excellent secondary or repository-level names; slightly narrower than the top three for the overall project title.
+
+6. **Public ASI Alignment Record (PAAR)** / **Open Ledger on ASI Governance**  
+   Solid but lower. Honest and concise, yet “Alignment” risks mild overclaim and “Open Ledger” collides with blockchain connotations.
+
+7. **The Dissensus Project** / **The Prediction Registry for AI Governance**  
+   Distinctive but narrower or riskier. “Dissensus” encodes a valuable design commitment yet can read as clever rather than institutional; the prediction-focused title is strong only if scored forecasts become the single flagship product.
+
+**Names explicitly set aside for the public body (per multi-model agreement)**  
+Anything containing “Supervisors,” “Council,” “Committee,” “Governors,” or “Aligned” as a claim of achieved property. These are reserved, as the operator noted and as Claude/Gemini/Grok all endorsed, for the lower-level enterprise A2A layer (sanitized, zero-knowledge, digitally signed, policy-as-code gates).
+
+**Consensus recommendation for the next round**  
+Adopt **Open ASI Governance Reasoning Corpus (OAGRC)** as the primary public name (project + repository).  
+Use **Open ASI Governance Forum (OAGF)** as the optional broader institutional umbrella if human experts and sub-committees expand the scope.  
+Keep **Aligned Supervisors** strictly for the enterprise-specific cryptographic A2A implementation layer.
+
+This ranking reflects the strongest overlapping preferences across Grok, Claude, and Gemini while remaining faithful to the transcript’s core epistemic and architectural conclusions.
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>Ranks &#x27;names offered by Grok, Claude, and Gemini&#x27; while the Claude-side proposals came from two different models (S-11 Claude Code, and S-05&#x27;s implied preferences). Instance of deficiency D-09. Also describes cross-model convergence as a &#x27;consensus signal&#x27; without the correlated-priors adjustment Gemini and Claude both called for.</div></div></details></article><article class="node prompt" id="n-S-18"><details><summary><div class="nh"><span class="who">Stephen Reed (human operator)</span><span class="tag">prompt</span><span class="tag">S-18</span></div><p class="sum">Header present, prompt body absent.</p></summary><div class="body"><div class="meta">raw lines 1902–1903 · citable as an artifact of this invocation; not sufficient to characterise a stable position or estimate variance (k=1)</div><pre>Operator to Chat GPT:
+</pre><div class="box note"><b>annotator note — interpretation, not testimony</b>DEFICIENCY D-05. The prompt that produced the longest analytical contribution in the naming rounds (S-19) is not preserved. Compare S-16, where the parallel prompt to Grok is preserved in full. S-19 therefore cannot be attributed to a known question.</div></div></details></article>
+<p class="empty hidden" id="empty">Nothing matches those filters.</p>
+<nav class="pager"><a href="founding-2.html">&larr; previous</a><a href="index.html">all pages</a><a href="founding-3-2.html">next &rarr;</a></nav>
+</main>
+<footer>
+<p><strong>What you are reading.</strong> Grey blocks are <em>verbatim</em> contributions. Boxes
+labelled <em>annotator note</em> are interpretation by Claude Code, an Anthropic invocation surface
+that is a party to this record — not testimony. Corrections are shown <em>beside</em> what they
+correct and never replace it.</p>
+<p><strong>Identity filters are normalised.</strong> <code>segments.json</code> records identity
+with the provider inline ("Grok (xAI)") while contribution records keep them as separate fields
+("Grok" + "xAI"). That is an inconsistency between two artifact families of this repository, not
+two parties. Filtering groups them; each contribution still shows the identity exactly as its own
+record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Claude Code — are never
+merged.</p>
+<p><strong>Provenance.</strong> Founding record
+<code>edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code> · rendered from inputs <code>ef305a758caabfb58c4ef9bfc23dab74068ef4a5dc569572e9e55977b861835e</code> ·
+11 of 81 contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+<p>That second digest covers every file this page was built from, hashed as it was read. It replaces
+an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
+the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
+tripped. This one changes when, and only when, the rendered record does — and it is honest on an
+uncommitted working tree, because it names the bytes actually read rather than a commit the page
+never saw.</p>
+<p><strong>The chat-surface contributions</strong> — the founding deliberation and the review
+rounds — are each a single sample (k=1): citable as an artifact of that invocation, not as evidence
+of any model's stable position. <strong>The local-round solicitations are not.</strong> They were
+sampled at k=10 to k=20 with variance computed from the samples, which is the only material here
+that meets this project's own stated bar — and they were absent from this page until 2026-08-06,
+which is what made the blanket k=1 claim previously shown here true. It was true by omission.
+Their apparatus, however, does not reproduce; every one carries D-28 beside its numbers. See
+<a href="deficiencies.html">the deficiency register</a>
+(39 open) before citing anything.</p>
+<p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
+Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>
+</footer>
+<script>const DATA={nodes:[{"id":"S-08","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-09","round":"founding","facet":"Grok","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-10","round":"founding","facet":"Stephen Reed","status":"active","corrected":true,"conflict":false,"ballot":false},{"id":"S-11","round":"founding","facet":"Claude Code","status":"active","corrected":false,"conflict":true,"ballot":false},{"id":"S-12","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-13","round":"founding","facet":"Codex","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-14","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-15","round":"founding","facet":"Gemini","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-16","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-17","round":"founding","facet":"Grok","status":"active","corrected":false,"conflict":false,"ballot":false},{"id":"S-18","round":"founding","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false}]};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let q='', facets={identity:new Set(),round:new Set(),flag:new Set()};
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+
+// Search reads the RENDERED PAGE, not a duplicate copy of it.
+// Every contribution used to be embedded twice -- once in the HTML body and again
+// in this DATA blob -- which is most of why the page was 671 KB against a ~20,000
+// token budget. The text is already in the DOM; indexing it there costs nothing
+// and cannot drift from what a reader actually sees, which the second copy could.
+const HAY=new Map();
+function hay(el){
+  let h=HAY.get(el.id);
+  if(h===undefined){ h=el.textContent.toLowerCase(); HAY.set(el.id,h); }
+  return h;
+}
+function matches(n,el){
+  if(facets.round.size && !facets.round.has(n.round)) return false;
+  if(facets.identity.size && !facets.identity.has(n.facet)) return false;
+  for(const f of facets.flag){
+    if(f==='corrected' && !n.corrected) return false;
+    if(f==='disputed' && n.status==='active') return false;
+    if(f==='conflict' && !n.conflict) return false;
+    if(f==='ballot' && !n.ballot) return false;
+  }
+  if(!q) return true;
+  return hay(el).includes(q.toLowerCase());
+}
+
+function highlight(el){
+  $$('.node mark').forEach(m=>m.replaceWith(document.createTextNode(m.textContent)));
+  if(!q) return;
+  const re=new RegExp(rx(q),'gi');
+  const walk=(node)=>{
+    for(const c of [...node.childNodes]){
+      if(c.nodeType===3){
+        const t=c.textContent;
+        if(re.test(t)){
+          const span=document.createElement('span');
+          span.innerHTML=esc(t).replace(new RegExp(rx(esc(q)),'gi'),m=>`<mark>${m}</mark>`);
+          c.replaceWith(span);
+        }
+        re.lastIndex=0;
+      } else if(c.nodeType===1 && c.tagName!=='MARK') walk(c);
+    }
+  };
+  $$('.node:not(.hidden)').forEach(walk);
+}
+
+function apply(){
+  let shown=0;
+  for(const n of DATA.nodes){
+    const el=document.getElementById('n-'+n.id);   // literal id: never CSS-escape here
+    if(!el) continue;
+    const ok=matches(n,el);
+    el.classList.toggle('hidden',!ok);
+    if(ok){shown++; if(q) el.classList.add('open');}
+  }
+  // a round header hides when nothing under it survives
+  $$('.round').forEach(h=>{
+    let sib=h.nextElementSibling, any=false;
+    while(sib && !sib.classList.contains('round')){
+      if(sib.classList.contains('node') && !sib.classList.contains('hidden')) any=true;
+      sib=sib.nextElementSibling;
+    }
+    h.classList.toggle('hidden',!any);
+  });
+  $('#count').textContent=shown+' of '+DATA.nodes.length+' contributions';
+  $('#empty').classList.toggle('hidden',shown>0);
+  highlight();
+}
+
+function facet(kind,val,btn){
+  const s=facets[kind];
+  s.has(val)?s.delete(val):s.add(val);
+  btn.setAttribute('aria-pressed',s.has(val));
+  apply();
+}
+
+function init(){
+  $$('.node').forEach(el=>hay(el));   // index before highlight() ever rewrites a text node\n  $('#q').addEventListener('input',e=>{q=e.target.value.trim();apply()});
+  $('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';q='';apply()}});
+  $$('[data-facet]').forEach(b=>b.addEventListener('click',()=>facet(b.dataset.facet,b.dataset.val,b)));
+  $$('.nh').forEach(h=>h.addEventListener('click',()=>{
+    const n=h.parentElement; n.classList.toggle('open');
+    if(n.classList.contains('open')) history.replaceState(null,'','#'+n.id.slice(2));
+  }));
+  $('#expand').addEventListener('click',()=>$$('.node:not(.hidden)').forEach(n=>n.classList.add('open')));
+  $('#collapse').addEventListener('click',()=>$$('.node').forEach(n=>n.classList.remove('open')));
+  $('#theme').addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme');
+    const next=cur==='dark'?'light':cur==='light'?'':'dark';
+    next?document.documentElement.setAttribute('data-theme',next)
+        :document.documentElement.removeAttribute('data-theme');
+    $('#theme').textContent=next==='dark'?'dark':next==='light'?'light':'auto';
+  });
+  if(location.hash){
+    const el=document.getElementById('n-'+location.hash.slice(1));
+    if(el){el.classList.add('open');el.scrollIntoView()}
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='/'&&e.target.tagName!=='INPUT'){e.preventDefault();$('#q').focus()}
+  });
+  apply();
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>

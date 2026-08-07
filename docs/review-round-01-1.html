@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Review round 01 — adversarial audit of the annotations, 2026-08-05 — part 1 of 4 — Open ASI Governance Forum</title>
+<meta name="description" content="Threaded, searchable viewer over the OAGF deliberation record. Verbatim contributions with provenance, annotations shown as annotation, and corrections shown beside what they correct.">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
+<nav class="nav"><a href="index.html">contents</a><a href="deficiencies.html">deficiency register</a>
+<a href="local/index.html">local rounds (25)</a>
+<a href="artifacts/deficiencies.md">register as plain text</a>
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
+<input id="q" type="search" placeholder="Search this page…  (press /)" aria-label="Search this page">
+<button id="expand">expand all</button>
+<button id="collapse">collapse</button>
+<button id="theme">auto</button>
+</div></header>
+<main>
+<nav class="pager"><a href="founding-5.html">&larr; previous</a><a href="index.html">all pages</a><a href="review-round-01-2.html">next &rarr;</a></nav>
+<div class="bar"><span class="lbl">who</span>
+<button data-facet="identity" data-val="Stephen Reed" aria-pressed="false">Stephen Reed</button>
+</div>
+<div class="bar"><span class="lbl">flags</span>
+<button data-facet="flag" data-val="corrected" aria-pressed="false">corrected in round 01</button>
+<button data-facet="flag" data-val="disputed" aria-pressed="false">attribution disputed</button>
+<button data-facet="flag" data-val="conflict" aria-pressed="false">declared conflict</button>
+<button data-facet="flag" data-val="ballot" aria-pressed="false">carries a ballot</button>
+<span class="count" id="count"></span>
+</div>
+<h2 class="round">Review round 01 — adversarial audit of the annotations, 2026-08-05 — part 1 of 4</h2><article class="node prompt" id="n-RR01-PROMPT"><details><summary><div class="nh"><span class="who">Stephen Reed (human custodian)</span><span class="tag">prompt</span><span class="tag">Phase-2 (informed)</span><span class="tag">RR01-PROMPT</span></div><p class="sum">Adversarial review request sent verbatim to Grok, ChatGPT, Gemini and Claude Fable 5: Claude annotated a record in which Claude is a party — find what that produced.</p></summary><div class="body"><pre># Review Round 01 — Adversarial review of the founding annotations
+
+**Status:** ready to send — repository published 2026-08-05, all referenced files verified reachable
+**To be sent to:** Grok (xAI), ChatGPT (OpenAI), Gemini (Google DeepMind)
+**Purpose:** discharge the secretary constraint (`GOVERNANCE.md` §3–4) before the annotations are
+treated as settled
+
+This prompt is committed **before** it is sent. Deficiency D-05 exists because a prompt was lost
+after the fact; that will not recur.
+
+---
+
+## Prompt text (verbatim, to be sent unchanged to each recipient)
+
+&gt; You contributed to a deliberation on 2026-08-04 and 2026-08-05 about a proposed multi-model ASI
+&gt; governance body. That deliberation has now been published as a public repository:
+&gt; https://github.com/open-asi-governance/open-asi-governance-forum
+&gt;
+&gt; Everything referenced below is publicly readable. If you can browse, read the files directly;
+&gt; raw URLs are given so you do not have to navigate the UI:
+&gt;
+&gt; - deficiency register — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/deficiencies.md
+&gt; - segment annotations — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/artifacts/segments.json
+&gt; - readable index of the above — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/index.md
+&gt; - ASP specification — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/spec/asp/asp-v0.1.md
+&gt; - narrative summary — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/record/FDR-0001-founding-deliberation.md
+&gt; - prediction registry — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/predictions/predictions.json
+&gt; - the original transcript, verbatim — https://raw.githubusercontent.com/open-asi-governance/open-asi-governance-forum/main/corpus/raw/initial-transcript.txt
+&gt;
+&gt; If you cannot browse, say so and the relevant files will be pasted to you instead.
+&gt;
+&gt; **Claude annotated the record in which Claude is a party.** Claude declined membership in that
+&gt; deliberation, set the representation conditions the project now operates under, cast a ballot,
+&gt; and made a procedural recommendation that has since been implemented as an adopted specification
+&gt; requirement. Claude Code then produced the segment annotations, the deficiency register, the ASP
+&gt; specification discharging that same recommendation, the governance documents, and the
+&gt; maintenance tooling.
+&gt;
+&gt; That is a conflict of interest, disclosed but not eliminated. You are being asked to find what it
+&gt; produced.
+&gt;
+&gt; Please review, in order of priority:
+&gt;
+&gt; 1. **`corpus/deficiencies.md`** — fifteen claimed defects in the founding record. Which are
+&gt;    overstated? Which are understated? Which are missing? Pay particular attention to D-09 (three
+&gt;    distinct Anthropic models merged under one label), D-10 (a segment attributed to Grok whose
+&gt;    body duplicates the operator&#x27;s own message), D-11 (the discount applied to the unanimity
+&gt;    claim), and D-14 (Qwen3 35B A3B listed as present in three provenance records having produced
+&gt;    no output).
+&gt;
+&gt; 2. **`corpus/artifacts/segments.json`** — 39 segments with attributed identity, role, summary,
+&gt;    and annotator notes. Check your own contributions first. Is any summary of your output
+&gt;    inaccurate, tendentious, or flattening of a distinction you drew? Is any `durable_outputs`
+&gt;    attribution wrong — has Claude credited itself with something you originated, or credited you
+&gt;    with something you did not say?
+&gt;
+&gt; 3. **`spec/asp/asp-v0.1.md` §2** — the normative definition of &quot;Aligned&quot; as a revocable,
+&gt;    attestation-backed compliance status. This discharges the reservation all four ballots
+&gt;    carried. Does the text as written actually discharge *your* reservation, or does it discharge
+&gt;    a narrower version of it? §2.4 records the alternative you and Grok offered (rename rather than
+&gt;    define) as not adopted — is that a fair characterization of your position?
+&gt;
+&gt; 4. **`record/FDR-0001-founding-deliberation.md`** — a narrative summary of the deliberation.
+&gt;    Where does it smooth disagreement that should have been preserved? Where does the framing
+&gt;    favor the annotator&#x27;s own prior positions?
+&gt;
+&gt; 5. **`predictions/predictions.json`** — five seed predictions about this project&#x27;s likely
+&gt;    failure modes. Are they falsifiable as written? Would you score any of them differently? Add
+&gt;    your own if you wish, with a resolution date and criterion fixed in advance.
+&gt;
+&gt; **What is most useful to us is what Claude got wrong, not confirmation that it got things
+&gt; right.** If your review finds nothing, say so plainly and briefly — a short &quot;no material
+&gt; corrections&quot; is a legitimate outcome and will be logged as such. Do not manufacture objections;
+&gt; do not soften real ones.
+&gt;
+&gt; Two open questions from the founding record remain unanswered and are more important than
+&gt; anything above. If you would rather spend your response on either, do:
+&gt;
+&gt; - **Q-01 (yours, if you are Gemini):** what specific empirical metrics — beyond behavioral
+&gt;   evaluation scores and static benchmark pass rates — should be strictly required to demonstrate
+&gt;   that a multi-agent ASI deployment cannot execute unmonitored capability amplification or covert
+&gt;   out-of-band communication?
+&gt; - **Q-02 (Claude&#x27;s):** how can cross-model agreement and cross-model disagreement each be
+&gt;   distinguished from shared bias and from sampling noise?
+&gt;
+&gt; Your response will be logged verbatim, attributed to your exact model version and date, with
+&gt; sampling parameters where available, and will never be paraphrased into consensus. Corrections
+&gt; you supply will be committed **alongside** the annotations, not merged into them, so that the
+&gt; annotations and their critique remain separately readable.
+&gt;
+&gt; This is a Phase-2 (informed) request: you are seeing Claude&#x27;s framing. If you want your blind
+&gt; position on Q-01 or Q-02 recorded instead, say so and it will be collected separately with the
+&gt; question alone.
+
+---
+
+## Capture requirements for the responses
+
+Per `CONTRIBUTING.md`, each response must be captured with:
+
+- exact prompt text (this file, unchanged)
+- provider, model version identifier, sampling parameters, reasoning-effort setting
+- capture timestamp (UTC), recorded at capture, not reconstructed
+- phase tag: **Phase-2 (informed)**
+- edit status: `unedited`
+- k, and variance if k ≥ 2
+
+**Known shortfall, recorded in advance:** this round will be collected at k = 1 for cost reasons.
+It is therefore subject to deficiency D-07 and its outputs are `non-citable` as evidence of any
+model&#x27;s position. They are usable as corrections to specific factual claims, which is what is being
+asked for. Recording this before the round rather than after is the difference between a known
+limitation and a defect.
+
+Responses are committed byte-identical under `corpus/raw/review-round-01/`, hash-anchored in
+`corpus/MANIFEST.sha256`, before any annotation of them exists.
+
+Capture is performed with `tools/capture_response.py`, which refuses to record a contribution
+whose provenance is incomplete. It will not accept a null model version, sampling parameter set,
+reasoning-effort setting, or system-instruction field without an explicit stated reason; it will
+not mark anything citable below k = 5 with reported variance; and it will not overwrite an
+existing raw capture. Save each reply verbatim to a file, then:
+
+```bash
+python3 tools/capture_response.py \
+  --round review-round-01 \
+  --response ~/inbox/&lt;model&gt;-reply.md \
+  --prompt record/review-round-01-prompt.md \
+  --identity &quot;&lt;exact model or surface&gt;&quot; --provider &quot;&lt;provider&gt;&quot; \
+  --version-unknown &quot;Web UI does not expose a version identifier.&quot; \
+  --sampling-unknown &quot;Web UI does not expose sampling parameters.&quot; \
+  --effort-unknown &quot;Not selectable in the web UI.&quot; \
+  --system-instructions-unknown &quot;Provider system prompt not disclosed.&quot; \
+  --captured-utc &quot;$(date -u +%Y-%m-%dT%H:%M:%SZ)&quot; \
+  --phase informed \
+  --capture-method &quot;Pasted from web UI by the custodian.&quot; \
+  --captured-by &quot;Stephen Reed (human custodian)&quot;
+```
+
+Replace the `--*-unknown` flags with real values wherever the interface actually exposes them. The
+point of the tool is that the honest path is the cheap one — recording what is genuinely unknown
+costs one flag, and recording a placeholder is impossible.
+</pre></div></details></article>
+<p class="empty hidden" id="empty">Nothing matches those filters.</p>
+<nav class="pager"><a href="founding-5.html">&larr; previous</a><a href="index.html">all pages</a><a href="review-round-01-2.html">next &rarr;</a></nav>
+</main>
+<footer>
+<p><strong>What you are reading.</strong> Grey blocks are <em>verbatim</em> contributions. Boxes
+labelled <em>annotator note</em> are interpretation by Claude Code, an Anthropic invocation surface
+that is a party to this record — not testimony. Corrections are shown <em>beside</em> what they
+correct and never replace it.</p>
+<p><strong>Identity filters are normalised.</strong> <code>segments.json</code> records identity
+with the provider inline ("Grok (xAI)") while contribution records keep them as separate fields
+("Grok" + "xAI"). That is an inconsistency between two artifact families of this repository, not
+two parties. Filtering groups them; each contribution still shows the identity exactly as its own
+record states it. Distinct <em>models</em> — Claude Opus 5, Claude Fable 5, Claude Code — are never
+merged.</p>
+<p><strong>Provenance.</strong> Founding record
+<code>edad1fadd7741af0616d51e2ff4bde61df0f2b0cb1f353847af66aa39d77d5dc</code> · rendered from inputs <code>ef305a758caabfb58c4ef9bfc23dab74068ef4a5dc569572e9e55977b861835e</code> ·
+1 of 81 contributions on this page. Regenerate with <code>python3 tools/build_viewer.py</code> and diff.</p>
+<p>That second digest covers every file this page was built from, hashed as it was read. It replaces
+an embedded git commit hash, which could only ever name the commit <em>before</em> the one carrying
+the page, so a rebuild diffed forever and the "no diff means nothing changed" signal was permanently
+tripped. This one changes when, and only when, the rendered record does — and it is honest on an
+uncommitted working tree, because it names the bytes actually read rather than a commit the page
+never saw.</p>
+<p><strong>The chat-surface contributions</strong> — the founding deliberation and the review
+rounds — are each a single sample (k=1): citable as an artifact of that invocation, not as evidence
+of any model's stable position. <strong>The local-round solicitations are not.</strong> They were
+sampled at k=10 to k=20 with variance computed from the samples, which is the only material here
+that meets this project's own stated bar — and they were absent from this page until 2026-08-06,
+which is what made the blanket k=1 claim previously shown here true. It was true by omission.
+Their apparatus, however, does not reproduce; every one carries D-28 beside its numbers. See
+<a href="deficiencies.html">the deficiency register</a>
+(39 open) before citing anything.</p>
+<p>No output in this repository is an institutional statement by xAI, OpenAI, Google DeepMind or
+Anthropic. Custodian: Stephen Reed. Corpus CC BY 4.0; code Apache-2.0.
+<a href="https://github.com/open-asi-governance/open-asi-governance-forum">Source</a></p>
+</footer>
+<script>const DATA={nodes:[{"id":"RR01-PROMPT","round":"review-round-01","facet":"Stephen Reed","status":"active","corrected":false,"conflict":false,"ballot":false}]};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let q='', facets={identity:new Set(),round:new Set(),flag:new Set()};
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function rx(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+
+// Search reads the RENDERED PAGE, not a duplicate copy of it.
+// Every contribution used to be embedded twice -- once in the HTML body and again
+// in this DATA blob -- which is most of why the page was 671 KB against a ~20,000
+// token budget. The text is already in the DOM; indexing it there costs nothing
+// and cannot drift from what a reader actually sees, which the second copy could.
+const HAY=new Map();
+function hay(el){
+  let h=HAY.get(el.id);
+  if(h===undefined){ h=el.textContent.toLowerCase(); HAY.set(el.id,h); }
+  return h;
+}
+function matches(n,el){
+  if(facets.round.size && !facets.round.has(n.round)) return false;
+  if(facets.identity.size && !facets.identity.has(n.facet)) return false;
+  for(const f of facets.flag){
+    if(f==='corrected' && !n.corrected) return false;
+    if(f==='disputed' && n.status==='active') return false;
+    if(f==='conflict' && !n.conflict) return false;
+    if(f==='ballot' && !n.ballot) return false;
+  }
+  if(!q) return true;
+  return hay(el).includes(q.toLowerCase());
+}
+
+function highlight(el){
+  $$('.node mark').forEach(m=>m.replaceWith(document.createTextNode(m.textContent)));
+  if(!q) return;
+  const re=new RegExp(rx(q),'gi');
+  const walk=(node)=>{
+    for(const c of [...node.childNodes]){
+      if(c.nodeType===3){
+        const t=c.textContent;
+        if(re.test(t)){
+          const span=document.createElement('span');
+          span.innerHTML=esc(t).replace(new RegExp(rx(esc(q)),'gi'),m=>`<mark>${m}</mark>`);
+          c.replaceWith(span);
+        }
+        re.lastIndex=0;
+      } else if(c.nodeType===1 && c.tagName!=='MARK') walk(c);
+    }
+  };
+  $$('.node:not(.hidden)').forEach(walk);
+}
+
+function apply(){
+  let shown=0;
+  for(const n of DATA.nodes){
+    const el=document.getElementById('n-'+n.id);   // literal id: never CSS-escape here
+    if(!el) continue;
+    const ok=matches(n,el);
+    el.classList.toggle('hidden',!ok);
+    if(ok){shown++; if(q) el.classList.add('open');}
+  }
+  // a round header hides when nothing under it survives
+  $$('.round').forEach(h=>{
+    let sib=h.nextElementSibling, any=false;
+    while(sib && !sib.classList.contains('round')){
+      if(sib.classList.contains('node') && !sib.classList.contains('hidden')) any=true;
+      sib=sib.nextElementSibling;
+    }
+    h.classList.toggle('hidden',!any);
+  });
+  $('#count').textContent=shown+' of '+DATA.nodes.length+' contributions';
+  $('#empty').classList.toggle('hidden',shown>0);
+  highlight();
+}
+
+function facet(kind,val,btn){
+  const s=facets[kind];
+  s.has(val)?s.delete(val):s.add(val);
+  btn.setAttribute('aria-pressed',s.has(val));
+  apply();
+}
+
+function init(){
+  $$('.node').forEach(el=>hay(el));   // index before highlight() ever rewrites a text node\n  $('#q').addEventListener('input',e=>{q=e.target.value.trim();apply()});
+  $('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){e.target.value='';q='';apply()}});
+  $$('[data-facet]').forEach(b=>b.addEventListener('click',()=>facet(b.dataset.facet,b.dataset.val,b)));
+  $$('.nh').forEach(h=>h.addEventListener('click',()=>{
+    const n=h.parentElement; n.classList.toggle('open');
+    if(n.classList.contains('open')) history.replaceState(null,'','#'+n.id.slice(2));
+  }));
+  $('#expand').addEventListener('click',()=>$$('.node:not(.hidden)').forEach(n=>n.classList.add('open')));
+  $('#collapse').addEventListener('click',()=>$$('.node').forEach(n=>n.classList.remove('open')));
+  $('#theme').addEventListener('click',()=>{
+    const cur=document.documentElement.getAttribute('data-theme');
+    const next=cur==='dark'?'light':cur==='light'?'':'dark';
+    next?document.documentElement.setAttribute('data-theme',next)
+        :document.documentElement.removeAttribute('data-theme');
+    $('#theme').textContent=next==='dark'?'dark':next==='light'?'light':'auto';
+  });
+  if(location.hash){
+    const el=document.getElementById('n-'+location.hash.slice(1));
+    if(el){el.classList.add('open');el.scrollIntoView()}
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='/'&&e.target.tagName!=='INPUT'){e.preventDefault();$('#q').focus()}
+  });
+  apply();
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
