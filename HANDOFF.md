@@ -7,6 +7,35 @@ A session here is an agent instance with no memory of any other session. Everyth
 the repository or it is lost. This file exists because that is a real constraint and not a
 theoretical one.
 
+## Orientation — run these first
+
+Four commands, in order. They take under two minutes and they answer the questions a fresh
+session otherwise guesses at.
+
+```bash
+cd /home/reed/git/open-asi-governance-forum
+
+# 1. Is the working tree clean, and is main published?
+git status --short
+git log --oneline -3
+git rev-list --count origin/main..main    # 0 = published; anything else is unpushed work
+
+# 2. Does the record still verify? 103 cases, no network, no GPU.
+python3 tools/test_integrity.py | tail -2
+
+# 3. Do the tools' own suites pass?
+python3 tools/tests/run_all.py | tail -2
+
+# 4. Does a rebuild produce a diff? On an unchanged repo it must not.
+python3 tools/rebuild.py && git status --short
+```
+
+**Do not trust a prose claim in this file or any other about what is merged, pushed, or fixed.**
+Three documents in this repository asserted a state that `git` contradicted, all found on
+2026-08-07: this file's own three "facts", the turnover's claim that a round branch was merged,
+and the scope doc's claim that the tool-using arm ran read-only. Command 1 above settles the
+first two in five seconds. Prefer running it to reading anything.
+
 ---
 
 ## 1. Read this before doing anything
@@ -41,10 +70,25 @@ task concerns.
 
 1. **The custodian merges.** `GOVERNANCE.md` §2 states that no AI system holds credentials and all
    writes pass through the human custodian. Sessions push a **branch**; Stephen Reed merges. A
-   session that pushes to `main` has violated the document it is maintaining.
-2. **Never commit over a red build.** `python3 tools/rebuild.py && git commit` as an `&&` chain, not
-   as separate commands. This was violated twice on 2026-08-06, the second time after the lesson
-   had been written into a commit message and not acted on.
+   session that pushes to `main` on its own initiative has violated the document it is
+   maintaining.
+
+   *Narrowed 2026-08-07:* on that date the custodian instructed a session to merge the round
+   branch and push `main` directly, and it did. That is the custodian exercising the authority
+   this rule reserves to him, not an exception to it. The distinction that matters is **who
+   decided**, not who typed. A session may push `main` only on an explicit instruction in the
+   conversation, and should say so in the commit or the report. Absent that instruction the rule
+   is unchanged: push a branch.
+
+2. **Never commit over a red build.** Use an `&&` chain, not separate commands, so a red build
+   cannot be followed by a commit:
+
+   ```bash
+   python3 tools/rebuild.py && git commit
+   ```
+
+   This was violated twice on 2026-08-06, the second time after the lesson had been written into
+   a commit message and not acted on.
 3. **Design fixes with Codex before writing them.** Standing operator rule. Two deployed unreviewed
    fixes were actively harmful.
 4. **Pre-register before running any measurement.** ICP §5. File the prediction with a resolution
@@ -186,6 +230,54 @@ are corrected rather than deleted so the drift is visible:**
 Built and gate-passed; **it has taken no samples.** The harness is complete and nothing connects
 it to the round loop yet.
 
+```text
+ONLY MODEL DATA PATH
+
+                   +--------------------------+
+                   | Codex CLI (party)        |
+                   +--------------------------+
+                              |        ^
+       OpenAI Responses req.  |        | OpenAI Responses resp.
+                              v        |
+                   +--------------------------+
+                   | responses_shim.py        |  side effect; not a hop:
+                   | 127.0.0.1:5098           | ---> hash-chained ledger
+                   | Responses TERMINATE here |      OUTSIDE repository
+                   | (they are not proxied)   |
+                   +--------------------------+
+                              |        ^
+       Chat Completions req.  |        | Chat Completions resp.
+                              v        |
+                   +--------------------------+
+                   | TensorRT-LLM             |
+                   | 127.0.0.1:5001           |
+                   | Qwen model               |
+                   +--------------------------+
+
+The shim is the ONLY path between party and model. Every crossing is written
+to the ledger.
+
+PARTY SANDBOX AND TOOLS
+
+  Codex CLI
+    |-- sandbox: workspace-write; network_access=true; writable_roots=[]
+    |-- cwd: scratch directory outside the repository
+    |-- repository: READABLE, NOT WRITABLE
+    `-- Codex exec_command -- sandbox network --> Internet (browsing)
+
+SETUP / VERIFICATION (not in the request path)
+
+  arm_profile.py -- generates --> frozen CODEX_HOME -- read by --> Codex CLI
+  arm_acceptance.py -- verifies by effect --> the whole assembly above
+
+DETACHED
+
+  +---------------------------------------------------------------+
+  | fetch_tool_mcp.py: WORKS; NOT WIRED IN; UNUSED                |
+  | no connection to the data path                                |
+  +---------------------------------------------------------------+
+```
+
 **What exists**
 
 | program | what it is |
@@ -194,6 +286,55 @@ it to the round loop yet.
 | `tools/arm_profile.py` | generates the arm's frozen `CODEX_HOME`. The round record cites its SHA-256; do not hand-edit the generated file. |
 | `tools/arm_acceptance.py` | the gate. Six checks against the filesystem, not against the party's account of it. Run it before any sample. |
 | `tools/fetch_tool_mcp.py` | a guarded fetch tool with receipts. **Works, deliberately unused** — read its header before re-enabling it. |
+
+**How to run it**
+
+The order matters: the shim refuses to serve if the capability gate fails, and the acceptance
+gate must pass before any sample is taken.
+
+```bash
+# 0. Preconditions. The inference server must carry --tool_parser qwen3_coder and must NOT
+#    carry --reasoning_parser (see caution 3 below).
+systemctl show trtllm-qwen36 -p ExecStart | tr ';' '\n' \
+  | grep -oE '\-\-(tool|reasoning)_parser [a-z0-9_]+'
+
+# 1. Capability gate on its own. Takes no samples. Exits non-zero if a tool call cannot
+#    round-trip -- which is invisible from HTTP status alone.
+python3 tools/responses_shim.py --preflight
+
+# 2. Generate the arm's frozen profile. Cite the printed SHA-256 in the round record.
+python3 tools/arm_profile.py --out /tmp/oagf-arm-home
+
+# 3. Start the shim. One distinct seed per sample; temperature must be > 0 or variance is
+#    meaningless. The ledger directory MUST be outside the repository.
+python3 tools/responses_shim.py \
+    --port 5098 --temperature 0.7 --seed 1000 \
+    --ledger-dir ~/.oagf-shim-ledger
+
+# 4. The acceptance gate, against that exact profile. Six checks. Do not sample if it fails.
+mkdir -p /tmp/oagf-arm-cwd
+python3 tools/arm_acceptance.py \
+    --codex-home /tmp/oagf-arm-home \
+    --arm-cwd    /tmp/oagf-arm-cwd \
+    --ledger-dir ~/.oagf-shim-ledger
+
+# 5. Drive the party. The cwd must be a scratch directory OUTSIDE this repository.
+CODEX_HOME=/tmp/oagf-arm-home codex exec \
+    --cd /tmp/oagf-arm-cwd --skip-git-repo-check '<prompt>'
+```
+
+Read the ledger afterwards — it is the provenance, not debug output:
+
+```bash
+RUN=$(ls -td ~/.oagf-shim-ledger/*/ | head -1)
+python3 - "$RUN" <<'PY'
+import json, sys, pathlib
+d = pathlib.Path(sys.argv[1])
+for line in (d / "ledger.jsonl").read_text().splitlines():
+    e = json.loads(line)
+    print(f"{e['seq']:>3} {e['kind']:<18} prev={e['prev_entry_sha256'][:12]}")
+PY
+```
 
 **What a fresh session will get wrong**
 
