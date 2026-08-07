@@ -1,0 +1,51 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-000",
+  "slug": "round-000-grok",
+  "question": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "grok",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "16d024b109cd1127a0411d925a3f04bad3edefe1cb6c4589cf176933dd4b76bd",
+  "spec_sha256": "13457aa3903dc4555d4809b55b7b35170d97e63eb408c850c89808dfe238f327",
+  "raw_samples": "corpus/raw/round-000/round-000-grok-samples.json"
+}

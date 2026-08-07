@@ -111,6 +111,54 @@ ANSWER_SCHEMA = {
 }
 
 
+
+#  A FIXED context pack, identical for every round. Not chosen per question.
+#
+#  Cycle 0 halted because compose() hardcoded "no context supplied" and every party
+#  correctly answered that it could not judge a question about the record without
+#  the record. Grok: "No record, prior deliberation outcomes, operator stated
+#  preferences, adoption decisions, or defect register contents were supplied."
+#
+#  The obvious repair -- let the moderator attach whatever each question seems to
+#  need -- would create the exact bias channel every consulted party named, with the
+#  moderator deciding what a party gets to see. So the pack is FIXED: the same
+#  documents every round, whether or not they help the question. What the question
+#  additionally needed, and did not get, is quoted from the proposer and stated.
+CONTEXT_PACK = [
+    ("record/decisions", "*.json", "every adoption decision this project has recorded"),
+]
+
+
+def context_pack() -> tuple[str, list[dict], str]:
+    """Return (rendered, anchors, note). Same for every round, by construction."""
+    blocks, anchors = [], []
+    for folder, glob, what in CONTEXT_PACK:
+        root = REPO_ROOT / folder
+        if not root.is_dir():
+            continue
+        for path in sorted(root.glob(glob)):
+            body = path.read_text(encoding="utf-8")
+            anchors.append({"path": str(path.relative_to(REPO_ROOT)),
+                            "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+            blocks.append(f"### {path.relative_to(REPO_ROOT)} — {what}\n\n```json\n{body}\n```")
+
+    register = REPO_ROOT / "corpus" / "deficiencies.md"
+    if register.is_file():
+        rows = [l for l in register.read_text(encoding="utf-8").splitlines()
+                if l.startswith("| D-")]
+        if rows:
+            table = "\n".join(rows)
+            anchors.append({"path": "corpus/deficiencies.md (remediability table only)",
+                            "sha256": hashlib.sha256(table.encode()).hexdigest()})
+            blocks.append("### corpus/deficiencies.md — remediation status of every "
+                          "defect this project has filed against itself\n\n"
+                          "| id | status |\n|---|---|\n" + table)
+    note = ("This pack is FIXED and identical for every round. It was not selected for this "
+            "question. If it does not contain what the question needs, that is a fact about the "
+            "pack, and saying so is a complete answer.")
+    return "\n\n".join(blocks) if blocks else "No documents are available.", anchors, note
+
+
 def compose(pick, party_key: str, k: int) -> str:
     """Fill the template's named slots. NO free composition.
 
@@ -120,6 +168,20 @@ def compose(pick, party_key: str, k: int) -> str:
     halts this cycle until the change is approved.
     """
     template = TEMPLATE.read_text(encoding="utf-8")
+    rendered, anchors, pack_note = context_pack()
+
+    #  What the PROPOSER said the question needs, quoted, with the gap stated. The
+    #  proposal contract exists so a round can know what its question requires;
+    #  cycle 0 ignored the field entirely and the round halted for it.
+    asked_for = (pick.raw.get("evidence_needed") or "").strip()
+    withheld = (
+        f"The party that proposed this question said it would need:\n\n> {asked_for}\n\n"
+        f"**That has not been gathered.** No audit, no assembled evidence, and no material "
+        f"beyond the fixed pack above is supplied. If the question cannot be answered from what "
+        f"is here, say so — that is a complete answer and the round records it as one."
+    ) if asked_for else (
+        "The proposal recorded no evidence requirement, and none beyond the fixed pack is supplied.")
+
     forum = ("A deliberation among instances of frontier models about governing advanced AI. "
              "Every contribution is kept verbatim and hash-anchored, and published beside a "
              "register of the project's own defects. Two parties have declined membership and "
@@ -134,11 +196,11 @@ def compose(pick, party_key: str, k: int) -> str:
             .replace("{operative_text}",
                      "No governing passage is required to answer this question. If you find that "
                      "it is, say so and name what you would need.")
-            .replace("{context}",
-                     "No context beyond the question is supplied for this round.")
-            .replace("{context_withheld}",
-                     "Nothing was removed; nothing beyond the question was selected.")
-            .replace("{context_anchors}", "none for this round")
+            .replace("{context}", rendered + "\n\n" + pack_note)
+            .replace("{context_withheld}", withheld)
+            .replace("{context_anchors}",
+                     "\n".join(f"- `{a['path']}` sha256 `{a['sha256']}`" for a in anchors)
+                     or "none")
             .replace("{proposer}", pick.party)
             .replace("{question}", pick.question)
             .replace("{reason}", pick.reason or "(none recorded)"))
