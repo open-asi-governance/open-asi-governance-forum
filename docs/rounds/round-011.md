@@ -53,6 +53,9 @@ Variance is computed from the samples actually collected, never asserted, and is
 - These are sampled invocations, not any model's stable position.
 
 
+**[A report on this round](round-011-report.md)** — one party's reading, solicited from a party that was not in the round, published unedited. Not the record's account of itself.
+
+
 ## How the parties compared
 
 Computed from the collected samples. Nothing here is a synthesis: the categorical label is a shape, and two parties sharing one can still answer incompatibly.

@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-011",
+  "slug": "round-011-report",
+  "question": "How should a reader understand round-011?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "confidence_in_this_reading": {
+      "distribution": {
+        "high": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "high",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GLM-5.2 (Z.ai / Zhipu), reached as a routed API invocation (z-ai/glm-5.2 via OpenRouter). NOT a party to any round it reports on, and from a lineage that appears nowhere else in this record.",
+    "version_identifier": "z-ai/glm-5.2",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 12000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0899,
+    "input_tokens": 152645,
+    "output_tokens": 11709,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Baidu"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "91d39dac893d4a797604f98d256d2ad21839e52bcc76003dcff3f49b05ec63d3",
+  "spec_sha256": "5e62e980afdc52fe0bda9c3c168b37fbbd24e1adf930fc126312dff91a1fc49f",
+  "raw_samples": "corpus/raw/round-011/round-011-report-samples.json"
+}

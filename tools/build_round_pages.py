@@ -128,11 +128,19 @@ def load_round(round_id: str) -> dict:
     #  claimed did not exist -- a summary with no spec, or a summary with no raw file, passed.
     summaries, samples = {}, {}
     for path in sorted(art_dir.glob(f"{round_id}-*-summary.json")) if art_dir.exists() else []:
-        summaries[path.stem[len(round_id) + 1:-len("-summary")]] = json.loads(
-            path.read_text(encoding="utf-8"))
+        key = path.stem[len(round_id) + 1:-len("-summary")]
+        #  The round REPORT is a solicitation about the round, not a party in it. Discovered by
+        #  the same glob as the parties, it made the round refuse for "an answer with no
+        #  recorded question" -- the fail-closed check firing on something that was never a
+        #  party, for the second time. It is published separately, below.
+        if key in NON_PARTY_SPECS:
+            continue
+        summaries[key] = json.loads(path.read_text(encoding="utf-8"))
     for path in sorted(raw_dir.glob(f"{round_id}-*-samples.json")) if raw_dir.exists() else []:
-        samples[path.stem[len(round_id) + 1:-len("-samples")]] = json.loads(
-            path.read_text(encoding="utf-8"))
+        key = path.stem[len(round_id) + 1:-len("-samples")]
+        if key in NON_PARTY_SPECS:
+            continue
+        samples[key] = json.loads(path.read_text(encoding="utf-8"))
 
     failed = {f.get("party") if isinstance(f, dict) else f
               for f in (cycle.get("solicitation_failures") or [])}
@@ -780,6 +788,48 @@ def comparison_section(data: dict) -> list[str]:
     return lines
 
 
+def report_pages(data: dict) -> list[str]:
+    """The round report — ONE PARTY'S READING, published unedited, at k with variance.
+
+    A commentary on the parties' answers is what a reader wants and what the moderator must not
+    write: a consulted party made unilateral synthesis by the conflicted moderator a condition
+    of DECLINING to participate. So it is solicited from a party that was not in the round, at
+    k >= 5 like any other solicitation, and published as returned.
+
+    Every sample is published, including a degenerate one. Round 011's first sample answered
+    `see_below` while the other four ran to 2,500-5,000 characters; at k=1 that sample would
+    have BEEN the report. Publishing only the good ones would make the moderator the editor by
+    another route.
+    """
+    round_id = data["round"]
+    raw = REPO_ROOT / "corpus" / "raw" / round_id / f"{round_id}-report-samples.json"
+    if not raw.is_file():
+        return []
+    doc = json.loads(raw.read_text(encoding="utf-8"))
+    items = accepted_samples(doc)
+    if not items:
+        return []
+    identity = doc.get("identity") or "(reporter identity not recorded)"
+    blocks = [f"# {round_id} — the round report", "",
+              nav(("all rounds", "index.md"), ("this round", f"{round_id}.md")), "",
+              f"**{identity}**", "",
+              "This is ONE PARTY'S READING of one round, solicited at k = "
+              f"{len(items)} and published exactly as returned. The moderator did not write it, "
+              "commission its conclusions, or edit it — a consulted party made unilateral "
+              "synthesis by the conflicted moderator a condition of declining to participate, "
+              "and this is the arrangement that answers that objection.", "",
+              "It is **not** the record's account of itself, not a consensus, and not a finding. "
+              "Where its samples disagree with each other, they are all here.", ""]
+    for item in items:
+        payload = sample_payload(item)
+        blocks.append(f"\n## Sample {item.get('sample_index','?')}\n")
+        for key, value in payload.items():
+            blocks.append(f"**{key}**\n")
+            blocks.append(fence(str(value)) + "\n")
+    write_pair(f"{round_id}-report", f"{round_id} — the round report", "\n".join(blocks))
+    return [f"{round_id}-report"]
+
+
 def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple) -> None:
     round_id, cycle = data["round"], data["cycle"]
     selected = cycle.get("selected") or {}
@@ -869,6 +919,11 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
                   "site is not in the search index. No position may be attributed to anything a "
                   "party read here. Filed as D-52.", ""]
 
+    if (REPO_ROOT / "corpus" / "raw" / round_id /
+            f"{round_id}-report-samples.json").is_file():
+        lines += ["", f"**[A report on this round]({round_id}-report.md)** — one party's "
+                  f"reading, solicited from a party that was not in the round, published "
+                  f"unedited. Not the record's account of itself.", ""]
     lines += comparison_section(data)
     lines += [f"## Spend", "",
               f"Budget ceiling {json.dumps(cycle.get('budget'))} · actual "
@@ -1018,6 +1073,7 @@ def main() -> int:
         data["page_slugs"] = slugs
         round_page(data, slugs, neighbours)
         expected.add(data["round"])
+        expected |= set(report_pages(data))
     index_page(rounds)
 
     removed = prune(expected, expected_prompts)
