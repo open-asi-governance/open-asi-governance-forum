@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **48 entries** (D-01 … D-48).
+**Status:** open — **50 entries** (D-01 … D-50).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1617,6 +1617,53 @@ The loop cannot advance past unreviewed output, which is the intended cost: `GOV
 already requires the custodian in this position, and this makes the requirement operative rather
 than nominal.
 
+### D-49 — A halt record, specified as a recorded outcome, was written after the commit and left untracked
+
+*Filed 2026-08-07. Found by running the loop's live path for the first time.*
+
+Round 002 halted undersampled. The round's artifacts committed cleanly; the file
+explaining **why it stopped** did not, because `halt()` runs after `commit_exactly()`
+and nothing staged what it wrote.
+
+The design says a halt is a recorded outcome rather than an error, and the whole
+ordering — commit everything solicited first, halt second — exists so that no
+material is discarded because a round was awkward. That ordering is right. What was
+missing is that the halt record is *part of the round*: left untracked it is carried
+around by the next `git checkout`, deleted by the next `git clean`, and absent from
+the branch the custodian actually reviews. **An untracked file is not a record.**
+
+Round 002's halt record was committed by hand. The loop now commits its own.
+
+**What this says about the class:** every control in this loop that was exercised
+only by a regression case behaved correctly, and the one gap appeared in the ordering
+*between* two correct pieces. A test that runs each in isolation cannot see it, which
+is the argument for the live path being run rather than reasoned about.
+
+### D-50 — Rejected samples did not record the one field that distinguishes truncation from refusal
+
+*Filed 2026-08-07. Found by trying to diagnose round 002's undersampling from the
+record it had just written.*
+
+D-45 made every failed attempt a recorded rejection with its category and bytes. Round
+002 then produced four rejections across two parties, all `Unterminated string` or
+`Expecting ',' delimiter` — and the record could not say whether those replies were
+**cut off by `max_tokens`** or malformed for some other reason, because
+**`finish_reason` was not captured on rejections.** That is the field that decides it.
+
+The local arm was worse: it wrapped the transport call and the JSON parse in one
+`try`, so a response that arrived intact and merely failed to parse was recorded with
+`response_bytes: null`. The bytes were in hand and thrown away.
+
+This matters beyond tidiness. This corpus has twice recorded a truncated reply as a
+party declining to answer, and D-45's own remediation note says so. Recording the
+rejection without recording what caused it reproduces the ambiguity one level down.
+
+**Remediated:** both arms record `finish_reason`, `usage`, the response bytes and
+their length on every rejection; the local arm separates transport failure from parse
+failure so each keeps what it has. `max_tokens` was then raised **from the measured
+completion lengths** — Gemini's reasoning tokens count against the ceiling and one
+sample hit 6000 exactly — rather than from a guess.
+
 ## Deficiencies that are permanent vs. remediable
 
 *This table stopped at D-22 until 2026-08-06, omitting eight entries — including every instrument
@@ -1662,6 +1709,8 @@ specified as remaining work for the structured register artifact.
 | D-46 | **Corrected 2026-08-07 by superseding commit `6b54ca3`, not by amendment.** The false message stays in the history where a reader can see it. **No control exists**: nothing checks that a commit message's claims match its diff, and nothing plausibly could in general. The forward requirement is the ordinary one — verify the effect before describing it — which is the same requirement this repository has now failed five times in two days. |
 | D-47 | **Remediated 2026-08-07** — the pack is hashed, pinned, checked on every cycle, and recorded in every spec and round record; the prompt's false claim is replaced with an accurate one. **Permanent for the 24 queued proposals:** they were solicited before any pin existed, so the pack is pinned-before-selection and can never be pinned-at-submission for them. |
 | D-48 | **Remediated 2026-08-07**, and the remediation deliberately makes the loop halt more often. Disposition is read only from round records on the accepted branch; a cycle refuses (exit 8) while any round record is unaccepted, rather than reaching across branches for material the custodian has not reviewed. **Not repairable backwards:** round 000b was spent re-asking round 000's question and that expenditure is not recoverable. |
+| D-49 | **Remediated 2026-08-07** — the loop commits its own halt record on the round branch. **Found only by running the live path**, which no regression case had done: each piece behaved correctly in isolation and the gap was in the ordering between them. |
+| D-50 | **Remediated 2026-08-07** in both arms — `finish_reason`, usage, response bytes and byte length on every rejection, with transport and parse failures separated so each keeps what it holds. **Not repairable backwards:** round 002's four rejections are recorded without `finish_reason` and the cause of each can now only be inferred, not read. |
 | D-41 | **Remediated 2026-08-06/07** — both solicitation tools refuse to overwrite raw material; the overwritten run restored from git and the second run preserved as its own artifact. **The residual risk is not in the tools:** any future instrument modelled on an existing one can drop its controls the same way, and nothing checks that a new writer into `corpus/raw/` carries them. |
 | D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |

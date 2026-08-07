@@ -247,12 +247,25 @@ def main() -> int:
     samples: list[dict] = []
     rejected: list[dict] = []
 
-    def reject(index: int, category: str, reason: str, bytes_seen: str | None = None) -> None:
-        """Every attempt that did not become a sample is recorded, with its bytes."""
+    def reject(index: int, category: str, reason: str, bytes_seen: str | None = None,
+               raw: dict | None = None) -> None:
+        """Every attempt that did not become a sample is recorded, with its bytes.
+
+        `finish_reason` is recorded because it is the field that decides the
+        diagnosis: 'length' means the reply was cut off by max_tokens, and a
+        truncated reply is not a party declining. The first version of this omitted
+        it, and a round then reported two parties as undersampled without recording
+        the one fact that said why.
+        """
+        choice = ((raw or {}).get("choices") or [{}])[0]
         rejected.append({"sample_index": index, "category": category, "reason": reason,
                          "captured_utc": utc_now(),
-                         "response_bytes": (bytes_seen or "")[:4000] or None})
-        print(f"  [{index:2}/{args.k}] REJECTED ({category}): {reason[:140]}")
+                         "finish_reason": choice.get("finish_reason"),
+                         "usage": (raw or {}).get("usage"),
+                         "response_bytes": (bytes_seen or "")[:8000] or None,
+                         "response_byte_length": len(bytes_seen) if bytes_seen else None})
+        print(f"  [{index:2}/{args.k}] REJECTED ({category}, "
+              f"finish={choice.get('finish_reason')!r}): {reason[:120]}")
 
     for index in range(1, args.k + 1):
         body = {
@@ -272,7 +285,7 @@ def main() -> int:
             reject(index, "transport", f"{type(error).__name__}: {error}")
             continue
         if "error" in raw:
-            reject(index, "provider_error", str(raw["error"])[:400])
+            reject(index, "provider_error", str(raw["error"])[:400], raw=raw)
             continue
         text = raw["choices"][0]["message"].get("content")
         if not text:
@@ -281,16 +294,16 @@ def main() -> int:
             # raise out of the loop and lose every sample already collected in the
             # batch, which is D-39's shape: one bad item destroying the rest.
             reject(index, "empty_completion",
-                   f"finish_reason={raw['choices'][0].get('finish_reason')!r}")
+                   f"finish_reason={raw['choices'][0].get('finish_reason')!r}", raw=raw)
             continue
         try:
             parsed = json.loads(text)
         except json.JSONDecodeError as error:
-            reject(index, "malformed_json", str(error), text)
+            reject(index, "malformed_json", str(error), text, raw=raw)
             continue
         invalid = validate_sample(parsed, spec["schema"])
         if invalid:
-            reject(index, "schema_invalid", invalid, text)
+            reject(index, "schema_invalid", invalid, text, raw=raw)
             continue
         samples.append({
             "sample_index": index,

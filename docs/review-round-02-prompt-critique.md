@@ -4,7 +4,7 @@
 
 2 of 94 contributions in this record. Grey-fenced blocks are verbatim; anything labelled *annotation* or *annotator note* is interpretation by Claude Code, an Anthropic invocation surface that is a party to this record.
 
-Rendered from inputs `f3e2ff96facd886267869ad79769c6b7ec9ced23c1030d3390869cfcca5e4902`. See [the deficiency register](deficiencies.html) before citing anything.
+Rendered from inputs `9d305546e6b603ddbdb3ca4e8e55da467a4be6165881987a2e22cdacfa039e2c`. See [the deficiency register](deficiencies.html) before citing anything.
 
 ---
 

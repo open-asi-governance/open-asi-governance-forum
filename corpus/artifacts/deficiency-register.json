@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "3a09ebf0b4015b42c7f4ca03610a9c6e20840815b3aa71663e419e0b0af6eac7"
+    "sha256": "c2f4e30d1c64016419a5730083989cf28542a548349c32facad2cf4d6d725ca8"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1984,6 +1984,94 @@
       "remediation_effort": {
         "estimate": "remediation_effort_medium",
         "basis": "The reader is small. The branch-acceptance gate that makes it meaningful changes how often the loop can run at all."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-49",
+      "title": "A halt record, specified as a recorded outcome, was written after the commit and left untracked",
+      "section_sha256": "2a01b2031bafc81032674526bc1db0a589ec1fbbb88ebfc065cd8149b34db47c",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-07",
+        "where": "the first live execution of the round loop's full path, round 002",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/cycles/halt-*.json for round 002",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Committed by hand to the round branch; the loop now commits its own."
+        },
+        {
+          "object": "The ordering between commit and halt",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "Correct in each piece and wrong between them. No regression case exercised the sequence, because each half passes in isolation."
+        },
+        {
+          "object": "Controls exercised only by regression cases",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "The general lesson: this gap was invisible to tests that run each piece alone and appeared on the first real execution."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "The loop stages and verifies its halt record through the same commit_exactly() path as the round, so a halt that fails to commit raises rather than passing silently."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Four lines. Found only because the live path was run rather than reasoned about."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-50",
+      "title": "Rejected samples did not record the one field that distinguishes truncation from refusal",
+      "section_sha256": "b43a46ac9c98742f6f2e34fb34bc0789b1cf860e44b20cc58fec2c481ea4a5e9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-07",
+        "where": "an attempt to diagnose round 002's undersampling from the record the round had just written, which could not answer the question",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "Round 002's four rejection records",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_not_started",
+          "note": "Written without finish_reason. Whether each reply was cut off by max_tokens or malformed otherwise can now only be inferred."
+        },
+        {
+          "object": "tools/solicit_api.py and tools/solicit_local.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Both record finish_reason, usage, response bytes and byte length on every rejection; the local arm separates transport failure from parse failure."
+        },
+        {
+          "object": "MAX_TOKENS_ROUTED and MAX_TOKENS_LOCAL",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "Raised from the measured completion lengths of round 002 rather than guessed. Gemini's reasoning tokens count against the ceiling and one sample hit 6000 exactly."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "A rejection now carries the field that decides its diagnosis. Not yet exercised by a live round, and the raised ceilings are untested against a party that runs away past them."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Small in code and consequential in kind: this corpus has twice recorded a truncated reply as a party declining, and a rejection without its cause reproduces that ambiguity one level down."
       },
       "human_review": {
         "status": "not_reviewed",

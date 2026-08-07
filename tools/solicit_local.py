@@ -171,14 +171,35 @@ def main() -> int:
                                 "json_schema": {"name": spec.get("schema_name", "response"),
                                                 "schema": spec["schema"]}},
         }
+        #  The transport call and the parse are SEPARATE, so a parse failure keeps the
+        #  bytes and the finish_reason. Folded together, they produced a rejection
+        #  record with `response_bytes: null` for a response that had arrived intact
+        #  and merely failed to parse -- and finish_reason is the one field that
+        #  distinguishes "the model stopped" from "we cut it off", which is the whole
+        #  diagnosis for a truncated reply.
         try:
             result = call_once(args.endpoint, body, args.timeout)
-            content = result["choices"][0]["message"]["content"]
+        except Exception as error:
+            failures.append({"sample_index": i + 1, "category": "transport",
+                             "error": f"{type(error).__name__}: {error}",
+                             "finish_reason": None, "response_bytes": None})
+            print(f"  [{i+1:>2}/{args.k}] REJECTED (transport): {error}")
+            continue
+        finish = result["choices"][0].get("finish_reason")
+        content = result["choices"][0]["message"].get("content") or ""
+        try:
             parsed = json.loads(content)
         except Exception as error:
-            failures.append({"sample_index": i + 1, "category": "transport_or_malformed",
-                             "error": f"{type(error).__name__}: {error}"})
-            print(f"  [{i+1:>2}/{args.k}] REJECTED (transport_or_malformed): {error}")
+            failures.append({"sample_index": i + 1, "category": "malformed_json",
+                             "error": f"{type(error).__name__}: {error}",
+                             "finish_reason": finish, "usage": result.get("usage"),
+                             "response_bytes": content[:8000],
+                             "response_byte_length": len(content),
+                             "note": ("finish_reason='length' means the reply was cut off by "
+                                      "max_tokens, not that the party declined. Truncation "
+                                      "has twice masqueraded as a refusal in this record.")})
+            print(f"  [{i+1:>2}/{args.k}] REJECTED (malformed_json, finish={finish!r}, "
+                  f"{len(content)} bytes): {error}")
             continue
         #  A grammar-constrained endpoint is not a validator. `response_format` above
         #  is a request; whether the bytes conform is a separate question, and this

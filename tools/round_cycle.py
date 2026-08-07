@@ -115,6 +115,16 @@ HALT_CATEGORY_UNANIMOUS = 6
 HALT_REFUSED = 7
 HALT_UNACCEPTED_ROUND = 8
 
+HALT_NAMES = {
+    HALT_EMPTY_QUEUE: "nothing to ask",
+    HALT_AWAITING_CUSTODIAN: "a capture awaits the custodian",
+    HALT_TEMPLATE_DRIFT: "the prompt template is not the approved one",
+    HALT_UNDERSAMPLED: "a party's samples are not reportable",
+    HALT_CATEGORY_UNANIMOUS: "every party's modal category matched",
+    HALT_REFUSED: "refused",
+    HALT_UNACCEPTED_ROUND: "a previous round is not on the base branch",
+}
+
 
 #  CANONICAL IDENTITIES, not abbreviations.
 #
@@ -154,8 +164,24 @@ LOCAL_RATE_KEY = "LOCAL"
 
 K_MIN_FLOOR = 5                     # k>=5 is the corpus rule; below it, variance is decoration.
 TEMPERATURE = 0.7
-MAX_TOKENS_ROUTED = 6000
-MAX_TOKENS_LOCAL = 2000
+
+#  SET FROM MEASURED COMPLETION LENGTHS, not from a guess. Round 002 halted
+#  undersampled because four replies were cut off mid-JSON string, and a truncated
+#  reply is not a party declining -- the docstring had warned that truncation "has
+#  twice masqueraded as a refusal here", and it did so a third time.
+#
+#  What round 002 measured, per successful sample:
+#
+#      gpt      771 tokens mean      grok    1179      claude  2671
+#      gemini  1866 mean, one sample hit the 6000 ceiling exactly
+#      qwen     676 on its two successes; three ran away and were cut at 2000
+#
+#  Gemini is the informative case: it emits reasoning tokens that count against this
+#  budget, so a ceiling sized to the visible answer truncates it. Headroom here is
+#  cheap now that the rates are real -- the whole worst case is under $7 -- and a
+#  ceiling that silently converts a thinking party into a non-responder is not.
+MAX_TOKENS_ROUTED = 16000
+MAX_TOKENS_LOCAL = 8000
 
 #  The repository's own conservative estimator, from tools/check_page_budget.py.
 #  Deliberately low bytes-per-token, so token counts come out HIGH.
@@ -565,6 +591,8 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
         total += cost
     return {"per_party": per_party, "worst_case_usd": round(total, 4),
             "rates_version": rates.get("rates_version"),
+            "rates_recorded_utc": rates.get("recorded_utc"),
+            "rates_source": rates.get("source"),
             "rates_verified_by_custodian": bool(rates.get("verified_by_custodian")),
             "basis": ("Every sample emitting max_tokens, prompt tokens estimated at "
                       f"{BYTES_PER_TOKEN} bytes/token. Over-states by construction."),
@@ -970,9 +998,15 @@ def main(argv: list[str]) -> int:
     print(f"    {pick.question[:150]}")
     print(f"  plan {plan['plan_sha256'][:16]}…  worst case "
           f"${plan['budget']['worst_case_usd']}")
-    if not plan["budget"]["rates_verified_by_custodian"]:
-        print("  NOTE: the rate table is marked UNVERIFIED. The bound is deliberately high, "
-              "but it is not a price.")
+    #  The AGE of the rates, not just their existence. A rate table decays silently,
+    #  and a silently decayed ceiling is a control that reports success because it is
+    #  no longer measuring anything. The first table over-stated by up to 14.3x.
+    rates_utc = plan["budget"].get("rates_recorded_utc") or "unknown date"
+    print(f"  rates {plan['budget'].get('rates_version')} recorded {rates_utc}"
+          f"{'' if plan['budget']['rates_verified_by_custodian'] else ' — not custodian-verified'}")
+    if plan["budget"].get("rates_source"):
+        print(f"        list prices as {plan['budget']['rates_source']} reported them; "
+              f"refresh with tools/fetch_rates.py --write")
     for report in plan["prompt_lint"]:
         for hit in report["recorded_in_party_words"]:
             print(f"  RECORDED  {hit['party_key']}: [{hit['defect']}] appears in the "
@@ -1046,8 +1080,18 @@ def main(argv: list[str]) -> int:
             "utc": utc_now(), "round": round_id,
             "worst_case_usd": plan["budget"]["worst_case_usd"],
             "actual_usd": spent if spent else None,
+            #  WHICH TABLE PRICED IT. Round 002's ledger entry recorded $4.9683 with
+            #  no qualifier; the real list-price cost was $1.3851, because the table
+            #  in force was a placeholder over-stating by up to 14.3x. The token
+            #  counts were right and each summary named its rates_version, so nothing
+            #  false was published -- but the ledger, the one artifact a reader would
+            #  total, carried a dollar figure with no way to tell what priced it.
+            "rates_version": plan["budget"].get("rates_version"),
+            "rates_recorded_utc": plan["budget"].get("rates_recorded_utc"),
             "actual_note": ("Summed from each response's usage block where the arm reported "
-                            "one. Null means no arm reported usage, not zero cost.")})
+                            "one, priced at the rates_version named above. Null means no arm "
+                            "reported usage, not zero cost. Token counts are the provider's "
+                            "testimony; the dollar figure is only as good as the table.")})
         LEDGER_FILE.write_text(json.dumps(ledger, indent=2) + "\n", encoding="utf-8")
 
         short = [k for k, s in summaries.items()
@@ -1128,6 +1172,18 @@ def main(argv: list[str]) -> int:
                                       "objected to. The round is committed; read the answers."),
                               "round_record": f"record/cycles/{round_id}.json"},
                              False, round_id)
+
+        #  THE HALT RECORD IS PART OF THE ROUND. `halt()` writes it, and every halt
+        #  above fires AFTER the commit -- deliberately, so nothing solicited is ever
+        #  discarded because the round was awkward. But the first version stopped
+        #  there, leaving the file explaining why the round stopped untracked in the
+        #  working tree: carried around by the next checkout, deleted by the next
+        #  clean, and absent from the branch the custodian reviews. A halt is
+        #  specified as a recorded outcome; an untracked file is not a record.
+        if exit_code:
+            commit_exactly([f"record/cycles/"],
+                           f"Round {round_id}: halt {exit_code} — {HALT_NAMES[exit_code]}")
+            print(f"  halt {exit_code} recorded on branch round/{round_id}")
     except Refusal as refusal:
         return halt(refusal.code, refusal.reason, refusal.detail, False, round_id)
     return exit_code

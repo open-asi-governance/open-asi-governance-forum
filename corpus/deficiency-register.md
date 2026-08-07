@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 48** classifications have been read by a human against the prose.
+**0 of 50** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 27 |
+| the annotator | 29 |
 | an external reviewer | 9 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -37,12 +37,12 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | State | Entries |
 |---|---|
 | required, not implemented | 14 |
-| implemented, not validated | 27 |
+| implemented, not validated | 29 |
 | validated | 7 |
 
 ### Affected objects
 
-**117 affected-object rows across 48 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**123 affected-object rows across 50 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -782,4 +782,36 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/agenda_selectors.py load_queue() <br><sub>disposition_from_records() reads what has been asked from committed round records, matching on the SHA-256 of the question's exact bytes.</sub> | repairable by supersession | verified |
 | Round 000b's expenditure <br><sub>Spent re-asking round 000's question at k=5 across five parties. Not recoverable.</sub> | not repairable | not started |
 | Disposition across unmerged round branches <br><sub>Read only from the accepted branch. A cycle halts at exit 8 naming any unaccepted round record rather than reaching across branches for material the custodian has not reviewed.</sub> | partly repairable | applied, not verified |
+
+### D-49 — A halt record, specified as a recorded outcome, was written after the commit and left untracked
+
+[Full entry](deficiencies.md#d-49--a-halt-record-specified-as-a-recorded-outcome-was-written-after-the-commit-and-left-untracked)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `the first live execution of the round loop's full path, round 002`
+- **Prospective control:** implemented, not validated — The loop stages and verifies its halt record through the same commit_exactly() path as the round, so a halt that fails to commit raises rather than passing silently.
+- **Effort:** low — Four lines. Found only because the live path was run rather than reasoned about.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/cycles/halt-*.json for round 002 <br><sub>Committed by hand to the round branch; the loop now commits its own.</sub> | repairable by supersession | verified |
+| The ordering between commit and halt <br><sub>Correct in each piece and wrong between them. No regression case exercised the sequence, because each half passes in isolation.</sub> | repairable by supersession | applied, not verified |
+| Controls exercised only by regression cases <br><sub>The general lesson: this gap was invisible to tests that run each piece alone and appeared on the first real execution.</sub> | partly repairable | not started |
+
+### D-50 — Rejected samples did not record the one field that distinguishes truncation from refusal
+
+[Full entry](deficiencies.md#d-50--rejected-samples-did-not-record-the-one-field-that-distinguishes-truncation-from-refusal)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `an attempt to diagnose round 002's undersampling from the record the round had just written, which could not answer the question`
+- **Prospective control:** implemented, not validated — A rejection now carries the field that decides its diagnosis. Not yet exercised by a live round, and the raised ceilings are untested against a party that runs away past them.
+- **Effort:** low — Small in code and consequential in kind: this corpus has twice recorded a truncated reply as a party declining, and a rejection without its cause reproduces that ambiguity one level down.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| Round 002's four rejection records <br><sub>Written without finish_reason. Whether each reply was cut off by max_tokens or malformed otherwise can now only be inferred.</sub> | not repairable | not started |
+| tools/solicit_api.py and tools/solicit_local.py <br><sub>Both record finish_reason, usage, response bytes and byte length on every rejection; the local arm separates transport failure from parse failure.</sub> | repairable by supersession | verified |
+| MAX_TOKENS_ROUTED and MAX_TOKENS_LOCAL <br><sub>Raised from the measured completion lengths of round 002 rather than guessed. Gemini's reasoning tokens count against the ceiling and one sample hit 6000 exactly.</sub> | repairable by supersession | applied, not verified |
 

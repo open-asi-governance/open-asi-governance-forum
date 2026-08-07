@@ -15,7 +15,7 @@ itself a party to this record.
 
 - [The record](record.html) — 94 contributions across 30 pages,
   each under 20,000 tokens. Plain-text alternate: [record.md](record.md)
-- [Deficiency register](deficiencies.html) — 48 defects this project has filed
+- [Deficiency register](deficiencies.html) — 50 defects this project has filed
   against itself. Read before citing anything.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,
   published with the reasons the scores are weak evidence.
