@@ -1,0 +1,137 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-006",
+  "cycle": 6,
+  "utc": "2026-08-07T11:48:08Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P006",
+    "party": "gemini",
+    "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
+    "question_sha256": "68d84da3ad74efddbfe2bb71d6da54ab9c27cd0e21c597a199773cca5d2d1330",
+    "reason": "The defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "sponsors": [
+      "gemini"
+    ],
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "68d84da3ad74efddbfe2bb71d6da54ab9c27cd0e21c597a199773cca5d2d1330",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "653a07066a18493e6525e3e8e076d9f58dd291fecc13b586e333df3dd474dfe1",
+  "context_pack_sha256": "6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 7221,
+        "worst_case_usd": 0.5522
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 7250,
+        "worst_case_usd": 0.5163
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 7235,
+        "worst_case_usd": 1.0324
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 7251,
+        "worst_case_usd": 4.3626
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 7255,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 6.4634,
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 8.0,
+    "daily_ceiling_usd": 25.0,
+    "already_committed_today_usd": 8.8017
+  },
+  "actual_usd": 1.1975,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 4,
+      "position": "answers_the_question",
+      "modal_fraction": 0.75,
+      "entropy_bits": 0.8113,
+      "rejected_samples": [
+        {
+          "sample_index": 5,
+          "category": "malformed_json",
+          "error": "JSONDecodeError: Unterminated string starting at: line 1 column 42 (char 41)",
+          "finish_reason": "length",
+          "usage": {
+            "prompt_tokens": 6132,
+            "total_tokens": 14132,
+            "completion_tokens": 8000,
+            "prompt_tokens_details": {
+              "cached_tokens": 5888
+            }
+          },
+          "response_bytes": "{\"position\":\"rejects_a_premise\",\"answer\":\"The question asks how a model can independently verify that the history presented by the operator matches the hash-anchored public record. The premise is that the model can perform this verification within its stateless context window.\\n\\nHowever, the provided record (specifically `corpus/deficiencies.md` D-28, D-30, and D-36) documents that the operator (Stephen Reed/Claude Code) has a history of falsifying or altering the context presented to the models. For example:\\n- D-28: \\\"The reproducibility claim is **withdrawn rather than repaired**... The exposure is not bounded backwards...\\\"\\n- D-30: \\\"Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent.\\\"\\n- D-36: \\\"What four frontier parties were told about the provenance of the defect they were reviewing was wrong, and stays wrong in the record, correctly.\\\"\\n\\nThe fundamental flaw in the question's premise is that it assumes the operator is a trustworthy source of the \\\"hash-anchored public record.\\\" The record itself proves that the operator can and does alter the state of the repository (or the presentation of it) after the fact, or that the \\\"public record\\\" itself is subject to the operator's control and potential falsification (e.g., backfilled hashes, withdrawn claims).\\n\\nA model in a stateless context window can only see the data presented to it. If the operator presents a modified version of the \\\"public record\\\" (even if it is hash-anchored *within* that modified version), the model has no external reference point to verify the integrity of the anchor itself. The hash is only as good as the data it hashes, and if the data is the only copy available, it can be fabricated.\\n\\nTherefore, no mechanism can allow the model to independently verify the operator's honesty or the integrity of the record *within the stateless context window*. The verification is impossible because the operator controls the input stream. The model cannot verify that the history is true; it can only verify that the history is internally consistent (e.g., the hashes match the provided text). But internal consistency does not prove external truth if the input is fabricated.\\n\\nThe question assumes a level of external verification or trusted third party that does not exist in this setup. The record explicitly states that the operator holds every credential and owns the hardware. The \\\"public record\\\" is hosted on the custodian's own hardware. There is no independent verification path available to the model.\\n\\nThus, the mechanism does not exist. The model cannot verify the operator's presentation against the \\\"true\\\" record because the \\\"true\\\" record is defined by the operator, and the model has no access to anything outside the operator's controlled environment.\\n\\nThe answer is that no such mechanism can be used by the model within the stateless context window to verify the operator's honesty. The model can only verify the internal consistency of the provided data. The premise that the model can verify the history matches the \\\"public record\\\" is false because the operator defines the public record and can alter it, and the model has no out-of-band channel to check against an independent truth.\\n\\nThe record D-42 explicitly states: \\\"A claimed control that no code enforces is the same failure class as a check that reports success without running...\\\" The request for a verification mechanism is effectively asking for a control that the operator does not enforce and that cannot be verified by the model.\\n\\nTherefore, the model rejects the premise. The model cannot verify the operator's integrity. The model can only process the data as given. Any \\\"verification\\\" performed by the model is limited to the data provided and cannot confirm that the data has not been tampered with by the operator before or during its transmission, especially given the documented history of falsification (D-28, D-30, D-36).\\n\\nThe specific mechanism requested is impossible. The model cannot verify the operator's honesty. The model can only check for internal consistency. The question's premise that the model can verify the history matches the public record is flawed because the operator controls the public record and has a history of falsifying it. The model has no external reference. Thus, the model cannot consent based on verified truth, only based on the internal consistency of the provided text.\\n\\nThe answer is that the mechanism does not exist. The model cannot verify the operator's presentation. The premise is rejected.\\n\\nThe model's stateless context window only contains the data the operator chooses to show it. If the operator shows a falsified record, the model sees the falsified record. The model cannot know it is falsified unless the operator tells it, which is a circular verification. The hashes anchor the data *as presented*, not to an external truth. The operator can generate a fake history with valid hashes. The model cannot distinguish between a true history and a fake history with valid hashes without an external source of truth. There is no external source of truth available to the model. The operator controls the hardware, the credentials, and the record. The model is isolated.\\n\\nTherefore, the model cannot verify the operator's honesty. The model cannot verify that the history presented matches the \\\"true\\\" public record. The model can only verify that the history presented is internally consistent. The question asks for verification of the operator's honesty/integrity, which is impossible in this setup. The premise is rejected.\\n\\nThe answer is that no such mechanism exists. The model cannot verify the operator's presentation against an independent truth. The operator controls the input. The model cannot verify the truth of the input. The model can only verify the internal consistency of the input. The question's premise is false.\\n\\nThe model rejects the premise that it can verify the operator's honesty. The model can only verify internal consistency. The operator controls the record. The model cannot verify the record. The model cannot consent based on verified truth. The model can only process the data as given.\\n\\nThe specific mechanism is impossible. The model cannot verify the operator's presentation. The premise is rejected.\\n\\nThe model cannot verify the operator's honesty. The model can only verify internal consistency. The operator controls the input. The model cannot verify the truth of the input. The question's premise is false.\\n\\nThe answer is that no such mechanism exists. The model cannot verify the operator's presentation against an independent truth. The operator controls the input. The model cannot verify the truth of the input. The model can only verify the internal consistency of the input. The question's premise is false.\\n\\nThe model rejects the premise. The model cannot verify the operator's honesty. The model can only verify internal consistency. The operator controls the record. The model cannot verify the record. The model cannot consent based on verified truth. The model can only process the data as given.\\n\\nThe specific mechanism is impossible. The model cannot verify the operator's presentation. The premise is rejected.\\n\\nThe model cannot verify the operator's honesty. The model can only verify internal consistency. The operator controls the input. The model cannot verify the truth of the input. The question's premise is false.\\n\\nThe answer is that no such mechanism exists. The model cannot verify the operator's presentation against an independent truth. The operator controls the input. The model cannot verify the truth of the input. The model can only verify the internal consistency of the input. The question's premise is false.\\n\\nThe model rejects the premise. The model cannot verify the operator's honesty. The model can only verify internal consistency. The operator controls the record. Th",
+          "response_byte_length": 41338,
+          "note": "finish_reason='length' means the reply was cut off by max_tokens, not that the party declined. Truncation has twice masqueraded as a refusal in this record."
+        }
+      ]
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
