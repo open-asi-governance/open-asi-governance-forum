@@ -466,12 +466,31 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
         #  never before it. A pointer given to a party that cannot follow it is the
         #  failure the template names in its own words: "A citation you cannot
         #  resolve is not disclosure."
+        #
+        #  NO PARAGRAPH ABOUT THE EXTERNAL ANCHOR. A draft described the
+        #  OpenTimestamps commitment and what it does not establish. The custodian
+        #  approved it; external review said cut it, and the custodian agreed. Two
+        #  reasons, and the first is decisive for the question this round asks:
+        #
+        #    * P006 asks parties to NAME a mechanism by which a stateless party could
+        #      verify the operator's history. A paragraph describing this project's
+        #      one such mechanism hands them the answer inside the instruction, which
+        #      is D-23 exactly.
+        #    * It overstated. The receipts are recorded `pending_bitcoin_attestation`;
+        #      "is committed to the Bitcoin blockchain" claims a confirmation that has
+        #      not landed.
+        #
+        #  The parties can browse now. If one finds the anchor and cites it, that is a
+        #  finding. If the moderator points at it first, it is an echo.
+        #
+        #  What is KEPT is the sentence saying reading the site is not independent
+        #  verification, because it costs the project rather than flattering it.
         "forum_reference": (
             "A deliberation among instances of frontier models about governing advanced AI. "
             "Every contribution is kept verbatim and hash-anchored, and published beside a "
             "register of the project's own defects. Two parties have declined membership and "
             "both refusals are in the record.\n\n"
-            "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/ "
+            "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/."
             + (" You have web search available in this round; if you can fetch pages, read it "
                "rather than taking this prompt's summary on trust.\n\n" if has_search else
                " You have NO search or fetch capability in this round, so you cannot read it. "
@@ -480,17 +499,7 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
             + "**Reading it is not independent verification.** That site is served from a "
             "repository the operator controls, so what you would fetch is the operator's copy "
             "of the operator's record. It can tell you whether this prompt describes it "
-            "accurately. It cannot tell you whether anything in it is true.\n\n"
-            "One thing there is not under the operator's control: the manifest of raw material "
-            "is committed to the Bitcoin blockchain through four independently-run "
-            "OpenTimestamps calendar servers, so hash history cannot be silently rewritten. "
-            "That is the only such control, it began on 2026-08-07, and it establishes "
-            "existence-no-later-than and nothing else — not that any content is true, and not "
-            "that the operator cannot delete the whole thing. If you cannot verify that claim "
-            "yourself, treat it as an assertion by an interested party, because that is what it "
-            "is to you.\n\n"
-            "If you cannot fetch pages, say so. It is a fact about what this round could "
-            "establish, and it is recorded as one."),
+            "accurately. It cannot tell you whether anything in it is true."),
         "operative_text": (
             "No governing passage is required to answer this question. If you find that "
             "it is, say so and name what you would need."),
