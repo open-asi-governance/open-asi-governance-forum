@@ -1,0 +1,158 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-009",
+  "cycle": 9,
+  "utc": "2026-08-07T18:50:03Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P021",
+    "party": "qwen",
+    "question": "Should the deliberation's protocol for attesting agent configurations require a mandatory, standardized 'failure log'—a machine-readable record of every instance where the agent's execution diverged from its stated policy—before any claim of compliance can be accepted?",
+    "question_sha256": "98166013d6ae910c6c2816a3a0504448e15a681f3c783622268604c397af6bb1",
+    "reason": "The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.",
+    "sponsors": [
+      "qwen"
+    ],
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "98166013d6ae910c6c2816a3a0504448e15a681f3c783622268604c397af6bb1",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "693f2378891311105bf79a37321f26606549d0a73f6bbc563a1b429b409cd0e2",
+  "context_pack_sha256": "0dfc32dc26937551c6d7c9d448ac76ea93362351e24a34762f4e11af417d0d77",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 8049,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 0.7737
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 8078,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 0.6395
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 8062,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 1.2539
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 8079,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 5.3701
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 7890,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 8.0372,
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 9.0,
+    "daily_ceiling_usd": 25.0,
+    "already_committed_today_usd": 13.287
+  },
+  "actual_usd": 1.5116,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 4,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": [
+        {
+          "sample_index": 4,
+          "category": "malformed_json",
+          "error": "JSONDecodeError: Unterminated string starting at: line 1 column 45 (char 44)",
+          "finish_reason": "length",
+          "usage": {
+            "prompt_tokens": 6593,
+            "total_tokens": 14593,
+            "completion_tokens": 8000,
+            "prompt_tokens_details": {
+              "cached_tokens": 6400
+            }
+          },
+          "response_bytes": "{\"position\":\"answers_the_question\",\"answer\":\"The project’s defect register documents that evidence fields have asserted conclusions without citing underlying samples and verification failed to detect falsified testimony. The current protocol treats compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\\n\\nThe proposed question asks whether the deliberation's protocol for attesting agent configurations should require a mandatory, standardized 'failure log' before any claim of compliance can be accepted. The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to ",
+          "response_byte_length": 46603,
+          "note": "finish_reason='length' means the reply was cut off by max_tokens, not that the party declined. Truncation has twice masqueraded as a refusal in this record."
+        }
+      ]
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "arms": [
+    "search:exa",
+    "search:none"
+  ],
+  "arms_note": "Parties in different arms had different capabilities and received different text about them. Their answers are not comparable to each other, and nothing here pools them.",
+  "reask": null,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
