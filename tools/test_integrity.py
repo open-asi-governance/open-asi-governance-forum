@@ -226,6 +226,40 @@ def main() -> int:
             case("a wrong declared count fails the build",
                  run(c, "tools/rebuild.py").returncode == 1)
 
+        print("\ncompose must be verified by EFFECT, not by syntax")
+        c = nxt()
+        composed = run(c, "-c", (
+            "import sys;sys.path.insert(0,'tools');"
+            "import round_cycle as RC, agenda_selectors as AS;"
+            "q=AS.load_queue();p=AS.SELECTORS['rotation'](q,['grok','gpt'],0,1);"
+            "print(RC.compose(p,'grok',5))"))
+        out = composed.stdout
+        case("compose runs without raising", composed.returncode == 0,
+             composed.stderr[-200:])
+        case("no placeholder survives substitution",
+             not re.findall(r"\{[a-z_]+\}", out),
+             str(re.findall(r"\{[a-z_]+\}", out))[:120])
+        case("the fixed context pack reaches the prompt",
+             "adopt-rotation" in out and "| D-" in out)
+        case("the proposer's evidence_needed is quoted",
+             "said it would need" in out)
+        case("the composed prompt is materially larger than the template",
+             len(out) > 2 * len((c / "record/solicitations/excerpts/"
+                                 "round-prompt-template.md").read_text(encoding="utf-8")))
+
+        # A slot the template adds but compose forgets must RAISE, not ship a literal
+        # placeholder. It shipped one to ten party invocations across two live rounds.
+        tpl = c / "record/solicitations/excerpts/round-prompt-template.md"
+        tpl.write_text(tpl.read_text(encoding="utf-8") + "\n{a_new_slot_nobody_filled}\n",
+                       encoding="utf-8")
+        r = run(c, "-c", (
+            "import sys;sys.path.insert(0,'tools');"
+            "import round_cycle as RC, agenda_selectors as AS;"
+            "q=AS.load_queue();p=AS.SELECTORS['rotation'](q,['grok'],0,1);"
+            "RC.compose(p,'grok',5)"))
+        case("an unfilled slot raises rather than shipping",
+             r.returncode != 0 and "unsubstituted" in r.stderr)
+
         print("\nprompt construction — the defects must fail while a prompt is editable")
         c = nxt()
         bad = c / "record/solicitations/excerpts/zz-lint-probe.md"

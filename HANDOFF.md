@@ -157,3 +157,24 @@ Not merge conflicts. **Re-derivation.** Six deficiencies were filed in one day, 
 an instrument, trusting it, and discovering it was wrong. A fresh session with no memory will make
 the same mistakes in the same order unless the register is read first — and it will make them
 confidently, because each one produced clean, plausible, well-formatted numbers.
+
+---
+
+## 2026-08-07 — the round loop is live. READ THE TURNOVER FIRST.
+
+**[`record/sessions/2026-08-07-TURNOVER.md`](record/sessions/2026-08-07-TURNOVER.md)**
+before touching `tools/round_cycle.py`, `tools/agenda_selectors.py`, or the SOP.
+
+Three facts a fresh session will otherwise get wrong:
+
+1. **`main` does not contain the working `compose()`.** Branch `round/round-000b`
+   does, tangled with a round's artifacts because the loop runs `git add -A`.
+   `main`'s tip message claims a fix its diff does not contain.
+2. **Both live rounds supplied no context to the parties.** Their unanimous
+   "insufficient evidence" is a fact about the prompt, not about the question. Do
+   not cite it as the parties' view on anything.
+3. **The agenda will repeat itself.** `load_queue()` rebuilds every proposal as
+   unasked on every invocation; no round record is consulted. Persist disposition
+   before running another cycle.
+
+Codex's review of the loop is unaddressed and is the priority list — turnover §5.
