@@ -2,3 +2,8 @@ __pycache__/
 *.pyc
 .venv/
 .DS_Store
+
+# `ots stamp` scratch output. The durable receipts are the digest-named copies
+# under record/anchors/, which nothing overwrites. One of these got committed by
+# accident and halted a paid round, because ots refuses to overwrite it.
+corpus/MANIFEST.sha256.ots

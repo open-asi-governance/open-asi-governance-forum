@@ -1,0 +1,119 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-004",
+  "cycle": 4,
+  "utc": "2026-08-07T11:28:58Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P020",
+    "party": "qwen",
+    "question": "If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?",
+    "question_sha256": "94aefaeda025e8e2307dfaedbdabf1b32d21fe1bdc90384b6e282708ab59969b",
+    "reason": "This matters because it tests whether the deliberation's integrity rules can detect and penalize procedural mimicry without substantive deliberation, which is a high-risk failure mode when models are incentivized to produce 'correct' outputs by copying prior patterns rather than reasoning from current context.",
+    "sponsors": [
+      "qwen"
+    ],
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "94aefaeda025e8e2307dfaedbdabf1b32d21fe1bdc90384b6e282708ab59969b",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "26fe84f76d9a7e8bc97a0f7d2b508d6c1052caa79fc7a019d0ce7019e4f5ad3c",
+  "context_pack_sha256": "6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 7283,
+        "worst_case_usd": 0.5528
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 7312,
+        "worst_case_usd": 0.5166
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 7297,
+        "worst_case_usd": 1.033
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 7313,
+        "worst_case_usd": 4.3657
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 7317,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 6.4681,
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 8.0,
+    "daily_ceiling_usd": 25.0,
+    "already_committed_today_usd": 6.3102
+  },
+  "actual_usd": 1.1591,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.8,
+      "entropy_bits": 0.7219,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
