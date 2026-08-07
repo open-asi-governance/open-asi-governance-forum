@@ -144,8 +144,12 @@ refuses("a non-text content part refuses", "R-CONTENT-PART",
             {"type": "input_image", "image_url": "http://x/y.png"}]}], Ops()))
 refuses("a function_call missing its call_id refuses", "R-FUNCALL",
         lambda: translate_input([{"type": "function_call", "name": "f", "arguments": "{}"}], Ops()))
-refuses("a namespace tool refuses", "R-TOOL-NAMESPACE",
+refuses("an EMPTY namespace refuses — it would advertise a capability that is not there",
+        "R-TOOL-NAMESPACE-003",
         lambda: translate_tools([{"type": "namespace", "name": "ns", "tools": []}], Ops()))
+refuses("a namespace member that is not a flat function refuses", "R-TOOL-NAMESPACE-004",
+        lambda: translate_tools([{"type": "namespace", "name": "ns", "tools": [
+            {"type": "namespace", "name": "inner", "tools": []}]}], Ops()))
 refuses("the hosted web_search tool refuses", "R-TOOL-WEBSEARCH",
         lambda: translate_tools([{"type": "web_search", "external_web_access": True}], Ops()))
 refuses("an unknown tool type refuses", "R-TOOL-TYPE",
@@ -179,6 +183,46 @@ refuses("an unknown output format refuses", "R-TEXT-FORMAT",
 #  this arm exists to expose.
 check("web_search refuses even though upstream's schema accepts it", True,
       "verified 2026-08-07: POST /v1/responses with a web_search tool returns 200")
+
+
+# ---------------------------------------------------------------------------------------------
+# 2b. Namespace flattening — permitted only because it is REQUIRED, and only on the design
+#     review's terms: deterministic, collision-safe, recorded, and effect-tested.
+#
+#     MCP is the only way to hand this party an executable tool, and Codex emits MCP tools
+#     exclusively as a namespace; neither features.tool_namespace nor
+#     features.non_prefixed_mcp_tool_names unwraps it. The flat name is the member's OWN name
+#     because the composite `<namespace>__<member>` was tried first and Codex's router rejected
+#     the resulting call ("unsupported call: mcp__oagf_fetch__fetch_url").
+# ---------------------------------------------------------------------------------------------
+
+MCP_NAMESPACE = {"type": "namespace", "name": "mcp__oagf_fetch",
+                 "description": "Tools in the mcp__oagf_fetch namespace.", "tools": [
+                     {"type": "function", "name": "fetch_url", "description": "Fetch a URL",
+                      "strict": False,
+                      "parameters": {"type": "object",
+                                     "properties": {"url": {"type": "string"}},
+                                     "required": ["url"]}}]}
+
+ops = Ops()
+flattened = translate_tools([MCP_NAMESPACE], ops)
+check("a namespace member is flattened to its own name",
+      flattened[0]["function"]["name"] == "fetch_url", flattened[0]["function"]["name"])
+check("the member's schema survives flattening unchanged",
+      flattened[0]["function"]["parameters"]["required"] == ["url"])
+check("the member's description survives flattening",
+      flattened[0]["function"]["description"] == "Fetch a URL")
+check("the flattening is recorded as model-visible, not as free",
+      ops_with(ops, "R-TOOL-NAMESPACE-FLATTEN")[0]["classification"]
+      == "approved_model_visible_adaptation")
+check("the record names both endpoints so the mapping can be inverted",
+      ops_with(ops, "R-TOOL-NAMESPACE-FLATTEN")[0]["source_pointer"] == "/tools/0/tools/0"
+      and ops_with(ops, "R-TOOL-NAMESPACE-FLATTEN")[0]["target_pointer"] == "/tools/0")
+
+refuses("a name collision refuses rather than letting one tool shadow another",
+        "R-TOOL-COLLIDE",
+        lambda: translate_tools([{"type": "function", "name": "fetch_url", "parameters": {}},
+                                 MCP_NAMESPACE], Ops()))
 
 
 # =============================================================================================
@@ -388,7 +432,8 @@ REAL_CODEX_REQUEST = {
     "tools": [
         {"type": "function", "name": "exec_command", "description": "…", "strict": False,
          "parameters": {"type": "object", "properties": {}}},
-        {"type": "namespace", "name": "mcp__codex_apps__sites", "description": "…", "tools": []},
+        {"type": "namespace", "name": "mcp__codex_apps__sites", "description": "…", "tools": [
+            {"type": "function", "name": "search_sites", "parameters": {"type": "object"}}]},
         {"type": "web_search", "external_web_access": True},
     ],
     "tool_choice": "auto",
@@ -401,8 +446,10 @@ REAL_CODEX_REQUEST = {
     "client_metadata": {"thread_id": "019fdc97-7194-7e23-b2a7-defec44f9a3c"},
 }
 
-refuses("the stock Codex tool profile refuses — the profile must be narrowed first",
-        "R-TOOL-", lambda: translate_request(REAL_CODEX_REQUEST, Ops()))
+#  The stock profile still refuses, but now on `web_search` rather than on the namespace:
+#  namespaces are carried, and a hosted tool with no executor behind it is not.
+refuses("the stock Codex tool profile still refuses, on the unbacked web_search tool",
+        "R-TOOL-WEBSEARCH", lambda: translate_request(REAL_CODEX_REQUEST, Ops()))
 
 #  With plugins and MCP apps disabled, the same request must translate cleanly. This is the
 #  configuration the arm actually runs under, so this is the case that has to hold.

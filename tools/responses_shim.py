@@ -482,6 +482,29 @@ def translate_tools(tools, ops: Ops) -> list[dict]:
                       f"tools must be a list, got {type(tools).__name__}")
 
     out = []
+    seen: dict[str, str] = {}
+
+    def emit(function: dict, pointer: str, rule: str, detail: str) -> None:
+        if function["name"] in seen:
+            raise Refusal("R-TOOL-COLLIDE-001", pointer,
+                          f"tool name {function['name']!r} is already taken by "
+                          f"{seen[function['name']]}. Two tools the model cannot tell apart is a "
+                          f"worse failure than refusing the request.")
+        seen[function["name"]] = pointer
+        out.append({"type": "function", "function": function})
+        ops.add(rule, "reversible_frame", "approved_model_visible_adaptation",
+                pointer, f"/tools/{len(out) - 1}", detail)
+
+    def as_function(tool: dict, pointer: str, name: str) -> dict:
+        if "name" not in tool:
+            raise Refusal("R-TOOL-002", pointer, "function tool has no name")
+        function = {"name": name, "parameters": tool.get("parameters") or {}}
+        if tool.get("description"):
+            function["description"] = tool["description"]
+        if tool.get("strict") is not None:
+            function["strict"] = tool["strict"]
+        return function
+
     for index, tool in enumerate(tools):
         pointer = f"/tools/{index}"
         if not isinstance(tool, dict):
@@ -489,24 +512,56 @@ def translate_tools(tools, ops: Ops) -> list[dict]:
         tool_type = tool.get("type")
 
         if tool_type == "function":
-            if "name" not in tool:
-                raise Refusal("R-TOOL-002", pointer, "function tool has no name")
-            function = {"name": tool["name"], "parameters": tool.get("parameters") or {}}
-            if tool.get("description"):
-                function["description"] = tool["description"]
-            if tool.get("strict") is not None:
-                function["strict"] = tool["strict"]
-            out.append({"type": "function", "function": function})
-            ops.add("R-TOOL-FLAT-001", "reversible_frame", "approved_model_visible_adaptation",
-                    pointer, f"/tools/{len(out) - 1}",
-                    "Responses flat function tool reframed as a Chat Completions function tool; "
-                    "name, description and parameter schema unchanged")
+            emit(as_function(tool, pointer, tool["name"]), pointer, "R-TOOL-FLAT-001",
+                 "Responses flat function tool reframed as a Chat Completions function tool; "
+                 "name, description and parameter schema unchanged")
 
         elif tool_type == "namespace":
-            raise Refusal("R-TOOL-NAMESPACE-001", pointer,
-                          f"namespace tool {tool.get('name')!r} would have to be flattened into "
-                          f"renamed function tools, changing the names the model sees. Remove it "
-                          f"from the arm's tool profile instead of translating it.")
+            #  Flattening a namespace changes the names the model sees, so it was refused
+            #  outright at first. It is permitted now because it turned out to be REQUIRED: MCP
+            #  is the only way to hand this party a tool Codex will actually execute, and Codex
+            #  emits MCP tools exclusively as a namespace — neither `features.tool_namespace`
+            #  nor `features.non_prefixed_mcp_tool_names` unwraps it (both tried, 2026-08-07).
+            #  Without this the arm has no browsing capability at all, which is the one thing it
+            #  exists for.
+            #
+            #  The conditions the design review set are met: the mapping is deterministic and
+            #  reversible (`<namespace>__<inner>`, which reconstructs Codex's own legacy flat
+            #  name), collisions refuse rather than silently shadow, and every flattening is
+            #  recorded with both endpoints. It is still model-visible and still recorded as
+            #  such — a namespace is not free, it is merely necessary.
+            namespace = tool.get("name")
+            if not namespace:
+                raise Refusal("R-TOOL-NAMESPACE-002", pointer, "namespace tool has no name")
+            inner_tools = tool.get("tools") or []
+            if not inner_tools:
+                raise Refusal("R-TOOL-NAMESPACE-003", pointer,
+                              f"namespace {namespace!r} declares no tools; offering an empty "
+                              f"namespace tells the model it has a capability it does not have")
+            for inner_index, inner in enumerate(inner_tools):
+                inner_pointer = f"{pointer}/tools/{inner_index}"
+                if inner.get("type") != "function":
+                    raise Refusal("R-TOOL-NAMESPACE-004", inner_pointer,
+                                  f"namespace member type {inner.get('type')!r} is not a flat "
+                                  f"function and has no Chat Completions representation")
+                #  The flat name is the namespace member's OWN name, not a composite. The
+                #  composite `<namespace>__<inner>` was tried first because it reconstructs
+                #  Codex's legacy flat convention, and Codex's router rejected the call it
+                #  produced outright: `error=unsupported call: mcp__oagf_fetch__fetch_url`.
+                #  Determined by effect, not from the schema — which is the whole reason the
+                #  design review required an effect test before permitting any flattening.
+                #
+                #  Using the inner name unchanged also happens to be the smaller transformation:
+                #  the model sees exactly the name the MCP server declared. What is lost is the
+                #  namespace grouping, and `emit()` refuses on any collision, so two namespaces
+                #  offering the same member name fail loudly instead of shadowing each other.
+                flat = inner["name"]
+                emit(as_function(inner, inner_pointer, flat), inner_pointer,
+                     "R-TOOL-NAMESPACE-FLATTEN-001",
+                     f"namespace member {namespace!r}/{inner['name']!r} flattened to {flat!r}; "
+                     f"the model sees the composite name, and a call to it is returned to the "
+                     f"client under that same name. Schema and description unchanged.")
+
         elif tool_type in ("web_search", "web_search_preview"):
             raise Refusal("R-TOOL-WEBSEARCH-001", pointer,
                           "the hosted web_search tool has no executor behind this endpoint. "
