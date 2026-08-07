@@ -100,8 +100,18 @@ spec/asp/        Aligned Supervisors Protocol — the enterprise layer specifica
 spec/icp/        Implementer Contribution Protocol — how an implementer supplies
                  evidence without capturing the standard
 docs/            the threaded viewer, generated — served by GitHub Pages
-tools/           deterministic maintenance code (no LLM in the maintenance path)
+tools/           three kinds of program, kept apart on purpose:
+                   maintenance — deterministic, no LLM in the path, reproducible
+                   solicitation — asks a party a question (solicit_api, solicit_local,
+                     solicit_tools); an LLM is in the path by definition
+                   the tool-using arm's harness — responses_shim, arm_profile,
+                     arm_acceptance, fetch_tool_mcp
 ```
+
+The separation is load-bearing. A maintenance path that calls a model cannot be reproduced, so
+every program under `tools/` that talks to a model says so in its own docstring and is excluded
+from `rebuild.py`. Solicitation programs *generate* the record; maintenance programs only
+*derive* from it.
 
 Regenerate every derived artifact with one command:
 
@@ -189,6 +199,18 @@ Licensing is a legal act performed by the human custodian on his own authority.
 ## Status
 
 **Bootstrap.** One deliberation, two completed adversarial review rounds, eight local measurement
-rounds, thirty known deficiencies, no external contributors, no independent mirrors, no signed
+rounds, **nine merged deliberation rounds** driven by the round loop, fifty-two known
+deficiencies, no external contributors, no independent mirrors, no signed
 commits yet. Everything above is a claim about intent; the record
 is the only claim about fact.
+
+**The finding that governs the rest, as of 2026-08-07: no party has ever read this record.**
+Three rounds asked the same question and gave the parties the record's address. Round 007 allowed
+open search and produced a hundred citations, none of them of this record. Round 008 pinned the
+search to the record's own host and produced zero citations, because the site is not in any
+index. Whatever moved a party between those rounds was the prompt text, not the record. Filed as
+D-52, and no round in this repository may be reported as a party responding to the record's
+contents.
+
+That is what the tool-using arm is being built to repair — a party that can resolve a citation
+rather than search for one. Its harness passes its acceptance gate; it has taken no samples yet.

@@ -50,8 +50,10 @@ task concerns.
 4. **Pre-register before running any measurement.** ICP §5. File the prediction with a resolution
    criterion and a stated resolution limit *before* the run. A result reported afterward can be
    framed.
-5. **No LLM in the maintenance path.** `tools/` is deterministic. Generation tools
-   (`solicit_local.py`) are labelled as such and are not part of the build.
+5. **No LLM in the maintenance path.** `tools/` is deterministic. Generation tools — the
+   `solicit_*.py` family and the tool-using arm's harness (`responses_shim.py`,
+   `arm_acceptance.py`, `fetch_tool_mcp.py`) — are labelled as such in their own docstrings and
+   are not part of the build.
 6. **Raw material is immutable.** Corrections are superseding artifacts, never edits.
 
 ## 3. Resource claims — the part that causes real damage
@@ -162,19 +164,53 @@ confidently, because each one produced clean, plausible, well-formatted numbers.
 
 ## 2026-08-07 — the round loop is live. READ THE TURNOVER FIRST.
 
-> **Current handoff: `record/sessions/2026-08-07-TURNOVER-2.md`.** Read it first. It supersedes `2026-08-07-TURNOVER.md`, whose open items are all closed. Next action: build the Responses-API shim (§5), designed with Codex before writing.
-before touching `tools/round_cycle.py`, `tools/agenda_selectors.py`, or the SOP.
+> **Current handoff: `record/sessions/2026-08-07-TURNOVER-2.md`.** Read it first. It supersedes
+> `2026-08-07-TURNOVER.md`, whose open items are all closed.
 
-Three facts a fresh session will otherwise get wrong:
+**The three "facts a fresh session will get wrong" that stood here are themselves now wrong, and
+are corrected rather than deleted so the drift is visible:**
 
-1. **`main` does not contain the working `compose()`.** Branch `round/round-000b`
-   does, tangled with a round's artifacts because the loop runs `git add -A`.
-   `main`'s tip message claims a fix its diff does not contain.
-2. **Both live rounds supplied no context to the parties.** Their unanimous
-   "insufficient evidence" is a fact about the prompt, not about the question. Do
-   not cite it as the parties' view on anything.
-3. **The agenda will repeat itself.** `load_queue()` rebuilds every proposal as
-   unasked on every invocation; no round record is consulted. Persist disposition
-   before running another cycle.
+1. ~~`main` does not contain the working `compose()`.~~ It does. `main` was fast-forwarded to
+   the round branch on 2026-08-07 and pushed.
+2. ~~Both live rounds supplied no context to the parties.~~ Rounds now carry a context pack and
+   are recorded as `Phase-2 (informed)`. The old unanimous "insufficient evidence" result still
+   must not be cited as the parties' view on anything, for the original reason.
+3. ~~The agenda will repeat itself.~~ Disposition is persisted and enforced:
+   `AS.disposition_from_records()` feeds `load_queue()`, and `pending_dispositions()` blocks a
+   cycle whose predecessor is undisposed (halt code 8).
 
-Codex's review of the loop is unaddressed and is the priority list — turnover §5.
+---
+
+## 2026-08-07 (later) — the tool-using arm
+
+Built and gate-passed; **it has taken no samples.** The harness is complete and nothing connects
+it to the round loop yet.
+
+**What exists**
+
+| program | what it is |
+|---|---|
+| `tools/responses_shim.py` | terminates Codex's Responses API, speaks Chat Completions upstream, and records every transformation as a typed ledger op. Refuses anything not on its translation table *before* the model is invoked. `--preflight` runs the capability gate alone. |
+| `tools/arm_profile.py` | generates the arm's frozen `CODEX_HOME`. The round record cites its SHA-256; do not hand-edit the generated file. |
+| `tools/arm_acceptance.py` | the gate. Six checks against the filesystem, not against the party's account of it. Run it before any sample. |
+| `tools/fetch_tool_mcp.py` | a guarded fetch tool with receipts. **Works, deliberately unused** — read its header before re-enabling it. |
+
+**What a fresh session will get wrong**
+
+1. **The tools arm has no solicitation driver.** `round_cycle.py`'s `PARTIES` table has five
+   entries and the local one routes to `solicit_local.py`, a single-shot chat completion with no
+   tools. Rounds 007 and 008 ran routed-only for exactly this reason. Running a tools round means
+   writing `solicit_tools.py` first, on the `round-NNN-chat` precedent — its own round id, its own
+   prompt (the party must be told what tools it has), never pooled with `qwen`.
+2. **The arm is `workspace-write`, not `read-only`.** Codex grants network only in that mode. The
+   requirement that matters — the party cannot write to the record — holds via an empty
+   `writable_roots` and a scratch cwd, and `arm_acceptance.py` proves it. The scope doc carries
+   the amendment.
+3. **Do not set `--reasoning_parser` on the inference server.** It breaks every
+   `enable_thinking:false` caller on that host. The shim splits reasoning client-side instead.
+   `--tool_parser qwen3_coder` is required and costs nothing measurable.
+4. **MCP tool calls cannot be approved in `codex exec`.** The only workaround disables the
+   sandbox, which is the thing the gate exists to prove. That trade was declined.
+
+**Standing:** the arm can read the record, cannot write to it, and can fetch a named URL — the
+capability the whole arm exists to provide, and the one no party has ever had.
