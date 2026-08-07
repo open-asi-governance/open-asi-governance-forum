@@ -1415,11 +1415,20 @@ from the enum alone it would have been published as a disagreement that did not 
 returned `failed` at 100% on the same prediction, agreeing with the record and with Qwen's prose.
 Two independent lines now say the enum was the artifact.
 
-**Remediation, and its limit.** `evidence` should cite the raw artifact by path and hash rather than
-restating its numbers. That is mechanical and is not done here — the thirteen existing entries would
-each need their supporting samples identified, which is a judgement about which artifact supports
-which claim and cannot be derived. **Filed rather than fixed**, with the scope stated so the gap is
-visible.
+**Remediated 2026-08-07, and the "cannot be derived" claim above was wrong.** This entry first said
+the supporting samples could not be identified mechanically. They can. The `scored_by` backfill
+records the commit that first applied each outcome, and **that commit is the one that added the
+samples** — so the candidate set is `git show --diff-filter=A <commit>` filtered to
+`corpus/raw/**-samples.json`. All 15 scored predictions now carry `supporting_artifacts` with 95
+path-and-hash references, none unresolvable. `check_register.py` R12 fails the build when a scored
+prediction cites nothing, cites a missing file, or cites a hash that no longer matches.
+
+**What is still owed, and it is the harder half.** The citations are a **candidate set, not a
+per-claim mapping**. Where one commit scored several predictions they share a set, because they were
+scored from one round. **Nobody has verified that these specific samples establish this specific
+criterion.** That judgement is what the two external parties actually asked for, and it remains
+undone. What changed is that a reader can now reach the material without trusting the summary —
+which is the precondition for the verification, not the verification.
 
 **Standing caution this run establishes.** A categorical field from a model is not evidence until
 its free text has been read against it. The corpus has now been bitten by this twice, in unrelated

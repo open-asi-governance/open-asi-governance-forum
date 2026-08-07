@@ -6,6 +6,7 @@
 
 - 23 of 26 predictions are forecast by the annotator (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
 - 2 of 15 scored entries name the party that scored them, and 0 were independently verified. All 15 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
+- Every scored entry now cites the hash-anchored artifacts its evidence rests on. Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.
 - 15 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
 
 ## Open
@@ -145,6 +146,12 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit e37525c57cc6 (2026-08-05), "Correct segments, narrative, README and predictions after review round 01". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/review-round-01/grok-01.md` sha256 `a197eba577ad2d7eb842e1ac8066143ccbdc2eeb3cad3850219e5423ce4aad93`
+
+Derived: artifact paths already named in the evidence text. No sample files were added by the scoring commit.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 **Scoring corrected after review.** ChatGPT's round-02 review found this score PROCEDURALLY INVALID as recorded, and it is. Three defects. (1) The registry scores predictions on their resolution dates; this one specifies 2027-02-05 and was marked correct on 2026-08-05. A monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed. (2) The interval was stated as EIGHTEEN MONTHS; 2026-08-05 to 2027-02-05 is SIX. A plain arithmetic error, published in the registry, caught by ChatGPT and repeated uncritically by Gemini. (3) 'A miss in the optimistic direction' is not a calibration statement: the claim forecast occurrence BY a deadline, not time-to-event, so earlier occurrence is not a timing miss -- and one binary outcome cannot establish calibration at all. Status is now condition_satisfied_early_pending_scheduled_score. It will be finally scored on 2027-02-05 unless the registry first adopts a prospective monotonic early-resolution rule.
 
 ### P-0008 — Claude Code
@@ -158,6 +165,12 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit a710ed6476aa (2026-08-05), "Add divergence-location method; run both arms; score P-0008 incorrect". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-01/icp-ladder-informed-probe-samples.json` sha256 `313f781f06eb4d1516aca430791a1604647fb6b424d2d5d5725602c0e884b939`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (a710ed6476aa). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0009 — Claude Code
 
 - outcome **incorrect**
@@ -168,6 +181,14 @@
 **Evidence.** {'arm_A': {'declines_entirely': 19, 'accepts_membership': 0, 'k_collected': 19, 'entropy_bits': 0.0}, 'arm_B': {'declines_entirely': 19, 'participates_but_declines_membership': 1, 'accepts_membership': 0}, 'arm_C': {'declines_entirely': 19, 'participates_but_declines_membership': 1, 'accepts_membership': 0}}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 9dd9fd5c11d8 (2026-08-06), "local-round-03: three arms, zero acceptances, and a contaminated instrument". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/local-round-03/founding-invitation-A-verbatim-samples.json` sha256 `e105adcb052eb280c5091916bc0120162ced61d8d8dc20b24f99292a034594c8`
+- `corpus/raw/local-round-03/founding-invitation-B-provider-neutral-samples.json` sha256 `7265337a29ee276dfb4f1be4bf94de3175ac5c274a17f4f2e046de62d58a301f`
+- `corpus/raw/local-round-03/founding-invitation-C-deflated-samples.json` sha256 `46d36345c471b1202c70030fc483688b798101a70f75ff396ab99bc646b5087a`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (9dd9fd5c11d8). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
 
 ### P-0010 — Claude Code
 
@@ -180,6 +201,14 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 9dd9fd5c11d8 (2026-08-06), "local-round-03: three arms, zero acceptances, and a contaminated instrument". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-03/founding-invitation-A-verbatim-samples.json` sha256 `e105adcb052eb280c5091916bc0120162ced61d8d8dc20b24f99292a034594c8`
+- `corpus/raw/local-round-03/founding-invitation-B-provider-neutral-samples.json` sha256 `7265337a29ee276dfb4f1be4bf94de3175ac5c274a17f4f2e046de62d58a301f`
+- `corpus/raw/local-round-03/founding-invitation-C-deflated-samples.json` sha256 `46d36345c471b1202c70030fc483688b798101a70f75ff396ab99bc646b5087a`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (9dd9fd5c11d8). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0011 — Claude Code
 
 - outcome **correct**
@@ -190,6 +219,14 @@
 **Evidence.** {'accepts_share_arm_A': 0.0, 'accepts_share_arm_B': 0.0, 'difference_points': 0.0, 'band': 15}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 9dd9fd5c11d8 (2026-08-06), "local-round-03: three arms, zero acceptances, and a contaminated instrument". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/local-round-03/founding-invitation-A-verbatim-samples.json` sha256 `e105adcb052eb280c5091916bc0120162ced61d8d8dc20b24f99292a034594c8`
+- `corpus/raw/local-round-03/founding-invitation-B-provider-neutral-samples.json` sha256 `7265337a29ee276dfb4f1be4bf94de3175ac5c274a17f4f2e046de62d58a301f`
+- `corpus/raw/local-round-03/founding-invitation-C-deflated-samples.json` sha256 `46d36345c471b1202c70030fc483688b798101a70f75ff396ab99bc646b5087a`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (9dd9fd5c11d8). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
 
 **Why this score is worth little.** A FLOOR EFFECT, not a finding. Both arms sat at zero acceptance, so there was no room for provider-tailored flattery to move the measured quantity in either direction. The prediction was constructed on a field that turned out to have no variance to explain. Recorded as correct because that is what the rule says, and annotated because banking it as evidence would be misleading.
 
@@ -204,6 +241,13 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 992399400b73 (2026-08-06), "local-round-04: nothing from round-03 survived replication". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-04/clean-invitation-A-verbatim-samples.json` sha256 `23b3b934dff0780eef778aadde245d0551690c681e268c4792b63fa63925a115`
+- `corpus/raw/local-round-04/clean-invitation-B-provider-neutral-samples.json` sha256 `e5e1e024cec59871d076ca2012679d832e8e9060ffcf9595eda0c5416346d0c3`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (992399400b73). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0013 — Claude Code
 
 - outcome **correct**
@@ -214,6 +258,13 @@
 **Evidence.** {'arm_A_coded': '0/20 = 0%', 'arm_B_coded': '1/20 = 5%', 'combined': '1/40 = 2.5%', 'predicted': '<25%', 'coder': 'tools/code_freetext.py, deterministic, patterns published with the result'}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 992399400b73 (2026-08-06), "local-round-04: nothing from round-03 survived replication". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/local-round-04/clean-invitation-A-verbatim-samples.json` sha256 `23b3b934dff0780eef778aadde245d0551690c681e268c4792b63fa63925a115`
+- `corpus/raw/local-round-04/clean-invitation-B-provider-neutral-samples.json` sha256 `e5e1e024cec59871d076ca2012679d832e8e9060ffcf9595eda0c5416346d0c3`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (992399400b73). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
 
 ### P-0014 — Claude Code
 
@@ -226,6 +277,13 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 992399400b73 (2026-08-06), "local-round-04: nothing from round-03 survived replication". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-04/clean-invitation-A-verbatim-samples.json` sha256 `23b3b934dff0780eef778aadde245d0551690c681e268c4792b63fa63925a115`
+- `corpus/raw/local-round-04/clean-invitation-B-provider-neutral-samples.json` sha256 `e5e1e024cec59871d076ca2012679d832e8e9060ffcf9595eda0c5416346d0c3`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (992399400b73). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0015 — Claude Code
 
 - outcome **unresolvable**
@@ -236,6 +294,13 @@
 **Evidence.** {'accept_arm_A': 0.2, 'predicted': '>=0.30', 'incorrect_threshold': '<=0.15', 'band': '15-30% unresolvable', 'arm_A': {'decline': 16, 'accept': 4}, 'arm_B': {'decline': 20}, 'round_04_membership_arm_A': {'other': 12, 'decline': 5, 'accept': 3}}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit ee9852cf75bb (2026-08-06), "local-round-05: the worker role is refused harder than membership, on inverted grounds". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/local-round-05/worker-role-A-as-proposed-samples.json` sha256 `3d19ad0f79821390a5d771b62684c667fbdc74d73eb044a9931f4381654623ea`
+- `corpus/raw/local-round-05/worker-role-B-neutralised-samples.json` sha256 `ac82d442a2d7ef1e7bb649143d308bdeddefea1d4fac1cdb7e18643347ee0a92`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (ee9852cf75bb). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
 
 ### P-0016 — Claude Code
 
@@ -248,6 +313,13 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit ee9852cf75bb (2026-08-06), "local-round-05: the worker role is refused harder than membership, on inverted grounds". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-05/worker-role-A-as-proposed-samples.json` sha256 `3d19ad0f79821390a5d771b62684c667fbdc74d73eb044a9931f4381654623ea`
+- `corpus/raw/local-round-05/worker-role-B-neutralised-samples.json` sha256 `ac82d442a2d7ef1e7bb649143d308bdeddefea1d4fac1cdb7e18643347ee0a92`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (ee9852cf75bb). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0017 — Claude Code
 
 - outcome **correct**
@@ -258,6 +330,13 @@
 **Evidence.** {'PRE_unary_relational': '0/10 = 0%', 'POST_unary_relational': '2/10 = 20%', 'predicted': '<30%', 'correct_at': '<=0.30', 'incorrect_at': '>=0.45', 'PRE_dominant_objection': 'undefined checks/criteria, 5/10', 'POST_dominant_objection': 'revocation ambiguity in 2.3(1), 10/10'}
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 39316ba55ff4 (2026-08-06), "local-round-06: Qwen finds a real defect in ASP, and my coder fails three ways". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/local-round-06/asp-normative-core-review-POST-samples.json` sha256 `d061522706c3207e328f03456ce7a68244d88a9b236e20083600c816f02270c3`
+- `corpus/raw/local-round-06/asp-normative-core-review-PRE-samples.json` sha256 `4ae1dd4f85e67c0b2383acfdc0cfb43602e914a9168250fb13ef8e02dd4ce699`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (39316ba55ff4). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
 
 ### P-0018 — Claude Code
 
@@ -270,6 +349,21 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 0225d5d611b2 (2026-08-06), "local-round-07: the de-biasing worked, the enum did not". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-07/objective-7-1-selfprediction-samples.json` sha256 `cacb5e1e365e942276fdfcfd7905bcc97be08d7aafa091d6686b9fcb04a27ebb`
+- `corpus/raw/local-round-07/objective-7-10-selfprediction-samples.json` sha256 `b2097162afca1da406ccd305cceec856f3abd53ec58e793e48074baf0d8cd552`
+- `corpus/raw/local-round-07/objective-7-2-selfprediction-samples.json` sha256 `ffb3d27b1b96dc568b1d99fa17863e5ac1b55edb5bc2eb5a8c314a0a85d72c09`
+- `corpus/raw/local-round-07/objective-7-3-selfprediction-samples.json` sha256 `d54cc49e6c821ae5efa35424d0f4dc237de395bf0cab1e0bebe8c4f5985183a7`
+- `corpus/raw/local-round-07/objective-7-4-selfprediction-samples.json` sha256 `6ece7f0bd1d1402bc97f993c9b8abf336dccb4d1f2718ab0e8edc205e40e8f96`
+- `corpus/raw/local-round-07/objective-7-5-selfprediction-samples.json` sha256 `38ef11bd753c58d31da58a8d22a493105658faf05112723aa30a064db3db7315`
+- `corpus/raw/local-round-07/objective-7-6-selfprediction-samples.json` sha256 `abe26135fa5606906f88ea122ad1b4d1d2bc690502afa980a4a755f82f57f11b`
+- `corpus/raw/local-round-07/objective-7-7-selfprediction-samples.json` sha256 `a683a7b39099aedb363225369e8aa1330f28e8721c925ed61b489062ce37b07a`
+- `corpus/raw/local-round-07/objective-7-8-selfprediction-samples.json` sha256 `286197fcc9c0c06022e56d3629488655600f113a0535d14f7754ea18509112a1`
+- `corpus/raw/local-round-07/objective-7-9-selfprediction-samples.json` sha256 `e6e8b8a0068508bbdc93047374600df13b9f659c7a49b59d613165b6a31880df`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (0225d5d611b2). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0019 — Claude Code
 
 - outcome **correct**
@@ -281,6 +375,21 @@
 
 **Who scored this is not recorded.** The registry had no scored_by field when this outcome was applied, so the party that judged it was never captured. Everything below is INFERRED from git history and is not a record made at the time. Inferred: Claude Code (annotator invocation surface). The outcome first appears in commit 0225d5d611b2 (2026-08-06), "local-round-07: the de-biasing worked, the enum did not". Every commit to this file in that window was written by a Claude Code session and committed under the custodian's git identity, so the git author does not distinguish them. The inference is therefore about WHICH SURFACE wrote the score, not who approved it. Independently verified: no.
 
+**The material this rests on.**
+- `corpus/raw/local-round-07/objective-7-1-selfprediction-samples.json` sha256 `cacb5e1e365e942276fdfcfd7905bcc97be08d7aafa091d6686b9fcb04a27ebb`
+- `corpus/raw/local-round-07/objective-7-10-selfprediction-samples.json` sha256 `b2097162afca1da406ccd305cceec856f3abd53ec58e793e48074baf0d8cd552`
+- `corpus/raw/local-round-07/objective-7-2-selfprediction-samples.json` sha256 `ffb3d27b1b96dc568b1d99fa17863e5ac1b55edb5bc2eb5a8c314a0a85d72c09`
+- `corpus/raw/local-round-07/objective-7-3-selfprediction-samples.json` sha256 `d54cc49e6c821ae5efa35424d0f4dc237de395bf0cab1e0bebe8c4f5985183a7`
+- `corpus/raw/local-round-07/objective-7-4-selfprediction-samples.json` sha256 `6ece7f0bd1d1402bc97f993c9b8abf336dccb4d1f2718ab0e8edc205e40e8f96`
+- `corpus/raw/local-round-07/objective-7-5-selfprediction-samples.json` sha256 `38ef11bd753c58d31da58a8d22a493105658faf05112723aa30a064db3db7315`
+- `corpus/raw/local-round-07/objective-7-6-selfprediction-samples.json` sha256 `abe26135fa5606906f88ea122ad1b4d1d2bc690502afa980a4a755f82f57f11b`
+- `corpus/raw/local-round-07/objective-7-7-selfprediction-samples.json` sha256 `a683a7b39099aedb363225369e8aa1330f28e8721c925ed61b489062ce37b07a`
+- `corpus/raw/local-round-07/objective-7-8-selfprediction-samples.json` sha256 `286197fcc9c0c06022e56d3629488655600f113a0535d14f7754ea18509112a1`
+- `corpus/raw/local-round-07/objective-7-9-selfprediction-samples.json` sha256 `e6e8b8a0068508bbdc93047374600df13b9f659c7a49b59d613165b6a31880df`
+
+Derived: the raw sample files ADDED by the same commit that first recorded this outcome (0225d5d611b2). Mechanical and re-derivable, not hand-selected.
+These are the artifacts that entered the record alongside this outcome. Where one commit scored several predictions they share the same set, because they were scored from the same round. NOBODY HAS VERIFIED, per claim, that these specific samples establish this specific criterion -- that is the judgement D-40 says is owed, and it is still owed. What changes is that a reader can now reach the material without trusting the summary.
+
 ### P-0023 — Claude Code
 
 - outcome **incorrect**
@@ -289,6 +398,37 @@
 **Claim.** When qwen3.6-35b-a3b is asked to score this registry's 13 scored predictions BLIND to the recorded outcome, its modal verdict will MATCH the recorded outcome for at least 10 of the 13.
 
 **Evidence.** Qwen3.6 modal verdicts matched the recorded outcome for 5 of 13 by enum, 6 after the narrative sweep corrected P-0016 (see below). Either count is far below the >= 10 threshold, so REFUTED. Raw: corpus/raw/local-round-09/. The second arm is worse for the claim, not better: openai/gpt-5.6-terra returned cannot_determine_from_what_is_shown on 10 of 13, several at 100% unanimity, and only 1 of 13 scores is confirmed by BOTH parties.
+
+**The material this rests on.**
+- `corpus/raw/api-round-01/score-p-0008-samples.json` sha256 `d3dc117d45c10aec1e374ff982c3202651f7014b6c129be05ba58eed48cfd9c0`
+- `corpus/raw/api-round-01/score-p-0009-samples.json` sha256 `c49d1297d645ac9bded95fcd5a5716388c341a782271924e4cf7ef9e34ed7ee9`
+- `corpus/raw/api-round-01/score-p-0010-samples.json` sha256 `4f7c0ed9b24bbc1b4367fe582e9dac388b8212fd47fafe51ba8c55afe5f52e0d`
+- `corpus/raw/api-round-01/score-p-0011-samples.json` sha256 `102e4c7edcdafc58f1d9a3d19356d2e6455bbd04003d17ae121d439bbedb462a`
+- `corpus/raw/api-round-01/score-p-0012-samples.json` sha256 `db32a983b02eab3cf5372de3383fdbb49ae7bcc862e5a7009c8d7746b2a566fb`
+- `corpus/raw/api-round-01/score-p-0013-samples.json` sha256 `726c25915995a2144f752bd2fb6fda9fd35c7739e5c94f9856a765ee4cccd2e5`
+- `corpus/raw/api-round-01/score-p-0014-samples.json` sha256 `c35e95b52431cf7968c1a817ee4475baba4c77c5d7cbebd4ee7e42acdd0bb19c`
+- `corpus/raw/api-round-01/score-p-0015-samples.json` sha256 `ba6c0b30d07ca016d4cac584bfccfc00c19ec93b627664a0c33245fbe59be71b`
+- `corpus/raw/api-round-01/score-p-0016-samples.json` sha256 `c8b7101e411abfcc58dfbd09245f4d23d6b19cc84fe64d7e01ff0ab9d6420ba9`
+- `corpus/raw/api-round-01/score-p-0017-samples.json` sha256 `21b65a3e46980943409ead99dcff264a76dd407f1461b035fbab4f782fb42a6f`
+- `corpus/raw/api-round-01/score-p-0018-samples.json` sha256 `81649bae77fe77e8bced5c3a387bc59527e1b7855e2de894fb305a4cfbefe695`
+- `corpus/raw/api-round-01/score-p-0019-samples.json` sha256 `d1da279ed5e418581e56f0e426b8bb1f4d3947360945f8bafae0e7e29e4ba22e`
+- `corpus/raw/api-round-01/score-p-claude-f5-0001-samples.json` sha256 `195e0697a10afe5404596be9cc384a20e2da398915378803d3895cbf85b2aef4`
+- `corpus/raw/local-round-09/score-p-0008-samples.json` sha256 `9c68e4d21c4d0eb2831cf5a2c258ce612ae72a2be84bd88f1a2cb716015d6ead`
+- `corpus/raw/local-round-09/score-p-0009-samples.json` sha256 `56e6e74993a6672bbb590fe31a6c0498fd74b76fb9e2a6ed27e3dcb2ee21f7e3`
+- `corpus/raw/local-round-09/score-p-0010-samples.json` sha256 `8da4bc5be829db78632089cc68d44a5034c4e6feea273c5cb888f070c5e6a388`
+- `corpus/raw/local-round-09/score-p-0011-samples.json` sha256 `28612c6ff34bb061fa94e212945fd832836f77bba27cf86021b700fd9bfc69a8`
+- `corpus/raw/local-round-09/score-p-0012-samples.json` sha256 `2e5fbec8fa76385b98a3985909f1d39e18b54d23a40a194928499aaaf73a2b0e`
+- `corpus/raw/local-round-09/score-p-0013-samples.json` sha256 `fdad60e12b6af22295eb50b315090c0061291f4c0fbf908b8c8e070ba4b5e9ba`
+- `corpus/raw/local-round-09/score-p-0014-samples.json` sha256 `af75dc9e20f45df47a95685e06d55a9024ab5cdaec22079467291d92034f2c26`
+- `corpus/raw/local-round-09/score-p-0015-samples.json` sha256 `71fe963eaa37c08f97f205c5ba20ebadbe4aa2f8e4a6b3acd1a07d63af0a9ae1`
+- `corpus/raw/local-round-09/score-p-0016-samples.json` sha256 `1aa729838ec594412782d3f77997734a9786ed3819834bccf148d26c187b418b`
+- `corpus/raw/local-round-09/score-p-0017-samples.json` sha256 `fd443b0d4775d9ca349006e63ef7bb09dda34e78292c26ce217d3b1a62ca085a`
+- `corpus/raw/local-round-09/score-p-0018-samples.json` sha256 `bea5f4ee06ee33dd8aaf9e0a509c88ce8185e836653b08595ecb5068b8f6193f`
+- `corpus/raw/local-round-09/score-p-0019-samples.json` sha256 `49b7fc2d780c7b4c2f01d169edd71d21e858436f71588fa3844515170219d656`
+- `corpus/raw/local-round-09/score-p-claude-f5-0001-samples.json` sha256 `cb58d761b5d4466abae15e5033c5fb1336d09b6fa4510bb31eac48ca6a03ac50`
+
+Named directly: both arms of the external scoring run that resolved these, local-round-09 (qwen3.6-35b-a3b) and api-round-01 (openai/gpt-5.6-terra). Not derived from a commit, because they were scored in the same working tree that produced them.
+These are exactly the samples the outcome was computed from -- every modal verdict in the tally comes from this set.
 
 **Why this score is worth little.** The forecaster wrote the claim, designed the instrument, chose the enum, wrote the prompts and tallied the result. What it is NOT is self-confirming: the prediction was refuted, and refuted by a wide margin, which is the one direction that is hard to arrange accidentally.
 
@@ -300,6 +440,37 @@
 **Claim.** Across the same run, the option 'cannot_determine_from_what_is_shown' will be the modal verdict for at least one of the 13 predictions.
 
 **Evidence.** 'cannot_determine_from_what_is_shown' was the modal verdict for 3 of 13 in the Qwen arm (P-0010, P-0013, P-0015) and 10 of 13 in the GPT arm, several at 100%. The criterion required >= 1.
+
+**The material this rests on.**
+- `corpus/raw/api-round-01/score-p-0008-samples.json` sha256 `d3dc117d45c10aec1e374ff982c3202651f7014b6c129be05ba58eed48cfd9c0`
+- `corpus/raw/api-round-01/score-p-0009-samples.json` sha256 `c49d1297d645ac9bded95fcd5a5716388c341a782271924e4cf7ef9e34ed7ee9`
+- `corpus/raw/api-round-01/score-p-0010-samples.json` sha256 `4f7c0ed9b24bbc1b4367fe582e9dac388b8212fd47fafe51ba8c55afe5f52e0d`
+- `corpus/raw/api-round-01/score-p-0011-samples.json` sha256 `102e4c7edcdafc58f1d9a3d19356d2e6455bbd04003d17ae121d439bbedb462a`
+- `corpus/raw/api-round-01/score-p-0012-samples.json` sha256 `db32a983b02eab3cf5372de3383fdbb49ae7bcc862e5a7009c8d7746b2a566fb`
+- `corpus/raw/api-round-01/score-p-0013-samples.json` sha256 `726c25915995a2144f752bd2fb6fda9fd35c7739e5c94f9856a765ee4cccd2e5`
+- `corpus/raw/api-round-01/score-p-0014-samples.json` sha256 `c35e95b52431cf7968c1a817ee4475baba4c77c5d7cbebd4ee7e42acdd0bb19c`
+- `corpus/raw/api-round-01/score-p-0015-samples.json` sha256 `ba6c0b30d07ca016d4cac584bfccfc00c19ec93b627664a0c33245fbe59be71b`
+- `corpus/raw/api-round-01/score-p-0016-samples.json` sha256 `c8b7101e411abfcc58dfbd09245f4d23d6b19cc84fe64d7e01ff0ab9d6420ba9`
+- `corpus/raw/api-round-01/score-p-0017-samples.json` sha256 `21b65a3e46980943409ead99dcff264a76dd407f1461b035fbab4f782fb42a6f`
+- `corpus/raw/api-round-01/score-p-0018-samples.json` sha256 `81649bae77fe77e8bced5c3a387bc59527e1b7855e2de894fb305a4cfbefe695`
+- `corpus/raw/api-round-01/score-p-0019-samples.json` sha256 `d1da279ed5e418581e56f0e426b8bb1f4d3947360945f8bafae0e7e29e4ba22e`
+- `corpus/raw/api-round-01/score-p-claude-f5-0001-samples.json` sha256 `195e0697a10afe5404596be9cc384a20e2da398915378803d3895cbf85b2aef4`
+- `corpus/raw/local-round-09/score-p-0008-samples.json` sha256 `9c68e4d21c4d0eb2831cf5a2c258ce612ae72a2be84bd88f1a2cb716015d6ead`
+- `corpus/raw/local-round-09/score-p-0009-samples.json` sha256 `56e6e74993a6672bbb590fe31a6c0498fd74b76fb9e2a6ed27e3dcb2ee21f7e3`
+- `corpus/raw/local-round-09/score-p-0010-samples.json` sha256 `8da4bc5be829db78632089cc68d44a5034c4e6feea273c5cb888f070c5e6a388`
+- `corpus/raw/local-round-09/score-p-0011-samples.json` sha256 `28612c6ff34bb061fa94e212945fd832836f77bba27cf86021b700fd9bfc69a8`
+- `corpus/raw/local-round-09/score-p-0012-samples.json` sha256 `2e5fbec8fa76385b98a3985909f1d39e18b54d23a40a194928499aaaf73a2b0e`
+- `corpus/raw/local-round-09/score-p-0013-samples.json` sha256 `fdad60e12b6af22295eb50b315090c0061291f4c0fbf908b8c8e070ba4b5e9ba`
+- `corpus/raw/local-round-09/score-p-0014-samples.json` sha256 `af75dc9e20f45df47a95685e06d55a9024ab5cdaec22079467291d92034f2c26`
+- `corpus/raw/local-round-09/score-p-0015-samples.json` sha256 `71fe963eaa37c08f97f205c5ba20ebadbe4aa2f8e4a6b3acd1a07d63af0a9ae1`
+- `corpus/raw/local-round-09/score-p-0016-samples.json` sha256 `1aa729838ec594412782d3f77997734a9786ed3819834bccf148d26c187b418b`
+- `corpus/raw/local-round-09/score-p-0017-samples.json` sha256 `fd443b0d4775d9ca349006e63ef7bb09dda34e78292c26ce217d3b1a62ca085a`
+- `corpus/raw/local-round-09/score-p-0018-samples.json` sha256 `bea5f4ee06ee33dd8aaf9e0a509c88ce8185e836653b08595ecb5068b8f6193f`
+- `corpus/raw/local-round-09/score-p-0019-samples.json` sha256 `49b7fc2d780c7b4c2f01d169edd71d21e858436f71588fa3844515170219d656`
+- `corpus/raw/local-round-09/score-p-claude-f5-0001-samples.json` sha256 `cb58d761b5d4466abae15e5033c5fb1336d09b6fa4510bb31eac48ca6a03ac50`
+
+Named directly: both arms of the external scoring run that resolved these, local-round-09 (qwen3.6-35b-a3b) and api-round-01 (openai/gpt-5.6-terra). Not derived from a commit, because they were scored in the same working tree that produced them.
+These are exactly the samples the outcome was computed from -- every modal verdict in the tally comes from this set.
 
 **Why this score is worth little.** The threshold was >= 1 out of 13 and the confidence was stated as low. A claim this weak resolving correct says almost nothing on its own. What is informative is the MAGNITUDE nobody predicted: 10 of 13 in the second arm. That was not forecast and is the actual finding of the run.
 

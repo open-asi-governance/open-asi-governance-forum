@@ -125,6 +125,13 @@ def caveats(s: dict) -> list[str]:
         f"inferred from git history rather than recorded. The party that wrote each claim, wrote "
         f"its resolution criterion, and applied the outcome is the same party. See D-18.",
 
+        f"<strong>Every scored entry now cites the hash-anchored artifacts its evidence rests "
+        f"on.</strong> Two external parties scoring this registry blind judged that 10 of 13 "
+        f"could not be verified from what was published, because the evidence restated derived "
+        f"numbers instead of pointing at samples that were in the corpus the whole time (D-40). "
+        f"The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; "
+        f"nobody has verified per claim that those samples establish that criterion.",
+
         f"<strong>{len(s['scored'])} scored outcomes cannot establish calibration.</strong> They "
         f"are not independent, they share a forecaster, and several concern this project's own "
         f"behaviour, which the forecaster also controls. No aggregate score is computed here, "
@@ -146,6 +153,17 @@ def entry_rows(entries: list[dict], scored: bool) -> str:
             status = entry.get("status", "open")
             state = f'<span class="tag">{e_(status.replace("_", " "))}</span>'
         extra = []
+        sa = entry.get("supporting_artifacts") or {}
+        if sa.get("paths"):
+            links = "".join(
+                f'<li><code class="h">{e_(r["path"])}</code><br>'
+                f'sha256 <code class="h">{e_(str(r["sha256"]))}</code></li>'
+                for r in sa["paths"])
+            extra.append(
+                f'<div class="box"><b>the material this rests on '
+                f'({len(sa["paths"])} artifact(s))</b>'
+                f'<ul>{links}</ul>{e_(sa.get("how_derived",""))} '
+                f'{e_(sa.get("limit",""))}</div>')
         by = entry.get("scored_by") or {}
         if by and by.get("identity") is None:
             extra.append(
@@ -281,6 +299,11 @@ def render_md(doc: dict) -> str:
                     f"{by.get('inference_basis','')} "
                     f"Independently verified: "
                     f"{'yes' if by.get('independently_verified') else 'no'}.", ""]
+        sa = entry.get("supporting_artifacts") or {}
+        if sa.get("paths"):
+            out += ["**The material this rests on.**"]
+            out += [f"- `{r['path']}` sha256 `{r['sha256']}`" for r in sa["paths"]]
+            out += ["", sa.get("how_derived", ""), sa.get("limit", ""), ""]
         if entry.get("why_this_score_is_worth_little"):
             out += [f"**Why this score is worth little.** "
                     f"{entry['why_this_score_is_worth_little']}", ""]

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prediction registry — Open ASI Governance Forum</title>
+<meta name="description" content="Dated, pre-registered predictions about this project, scored on their resolution dates — published together with the reasons the scores are weak evidence.">
+<link rel="alternate" type="text/markdown" href="predictions.md">
+<style>
+:root{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;--accent:#7a5c3e;
+--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+@media(prefers-color-scheme:dark){:root{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;
+--card:#1e1c1a;--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}}
+:root[data-theme=dark]{--bg:#161514;--fg:#e8e4de;--mut:#9a948c;--line:#33302c;--card:#1e1c1a;
+--accent:#c9a678;--warn:#d9a441;--bad:#e07a7a;--ok:#7ab894;--code:#242220;--hl:#5a4a1e}
+:root[data-theme=light]{--bg:#fbfaf8;--fg:#1a1a1a;--mut:#6b6b6b;--line:#e2ded8;--card:#fff;
+--accent:#7a5c3e;--warn:#8a5a00;--bad:#9b2c2c;--ok:#2f6b4f;--code:#f4f1ec;--hl:#ffe9a8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:.7rem 1rem}
+.hrow{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;max-width:1100px;margin:0 auto}
+h1{font-size:1rem;margin:0;font-weight:650;letter-spacing:-.01em}
+h1 small{font-weight:400;color:var(--mut);display:block;font-size:.75rem}
+input[type=search]{flex:1;min-width:200px;padding:.45rem .7rem;border:1px solid var(--line);
+border-radius:6px;background:var(--card);color:var(--fg);font:inherit;font-size:.9rem}
+button{padding:.35rem .6rem;border:1px solid var(--line);border-radius:6px;background:var(--card);
+color:var(--fg);font:inherit;font-size:.8rem;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:1rem}
+.bar{display:flex;gap:.4rem;flex-wrap:wrap;margin:.6rem 0 1rem;align-items:center}
+.bar span.lbl{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-right:.2rem}
+.count{color:var(--mut);font-size:.8rem;margin-left:auto}
+.round{margin:2rem 0 1rem;padding-bottom:.3rem;border-bottom:2px solid var(--line);font-size:1.05rem;font-weight:650}
+.node{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:.6rem 0;overflow:hidden}
+.node.child{margin-left:1.5rem}
+@media(max-width:640px){.node.child{margin-left:.6rem}}
+.node.prompt{border-left:3px solid var(--mut)}
+.node.disputed{border-left:3px solid var(--bad)}
+.nh{display:flex;gap:.5rem;align-items:baseline;flex-wrap:wrap;padding:.6rem .8rem;cursor:pointer}
+.nh:hover{background:var(--code)}
+.who{font-weight:650}
+.tag{font-size:.68rem;padding:.1rem .4rem;border-radius:99px;border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.tag.b{border-color:var(--accent);color:var(--accent)}
+.tag.w{border-color:var(--warn);color:var(--warn)}
+.tag.d{border-color:var(--bad);color:var(--bad)}
+.tag.g{border-color:var(--ok);color:var(--ok)}
+.sum{color:var(--mut);font-size:.85rem;padding:0 .8rem .6rem;margin:0}
+code.h{word-break:break-all}
+.body{padding:0 .8rem .8rem;border-top:1px solid var(--line)}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+details[open]>summary .sum{display:none}
+pre{background:var(--code);padding:.7rem;border-radius:6px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-wrap:break-word;margin:.6rem 0}
+.meta{font-size:.78rem;color:var(--mut);margin:.5rem 0}
+.meta code{background:var(--code);padding:.05rem .3rem;border-radius:3px;font-size:.92em;word-break:break-all}
+.box{border-left:3px solid var(--line);padding:.4rem .7rem;margin:.6rem 0;font-size:.87rem;background:var(--code);border-radius:0 6px 6px 0}
+.box.note{border-left-color:var(--accent)}
+.box.corr{border-left-color:var(--warn)}
+.box.conf{border-left-color:var(--bad)}
+.box b{display:block;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.2rem}
+mark{background:var(--hl);color:inherit;padding:0 .1em;border-radius:2px}
+.hidden{display:none!important}
+footer{max-width:1100px;margin:2rem auto;padding:1rem;border-top:1px solid var(--line);
+color:var(--mut);font-size:.78rem}
+footer code{word-break:break-all}
+a{color:var(--accent)}
+.nav{width:100%;order:3;font-size:.8rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.nav a{white-space:nowrap}
+@media(min-width:900px){.nav{width:auto;order:0}}
+.empty{text-align:center;color:var(--mut);padding:3rem 1rem}
+</style>
+</head>
+<body>
+<header><div class="hrow">
+<h1>Prediction registry<small>claims about this project, dated in advance</small></h1>
+<nav class="nav"><a href="index.html">home</a><a href="record.html">the record</a>
+<a href="deficiencies.html">deficiency register</a>
+<a href="predictions.md">this page as plain text</a></nav>
+</div></header>
+<main>
+<p><strong>11 open · 15 scored</strong> — 1 condition met early, not yet scored · 5 correct · 6 incorrect · 3 unresolvable.</p>
+
+<div class="box corr">
+<b>Read these before reading the numbers.</b>
+<ul><li><strong>23 of 26 predictions are forecast by the annotator</strong> (88%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).</li><li><strong>2 of 15 scored entries name the party that scored them</strong>, and <strong>0 were independently verified.</strong> All 15 now carry a <code>scored_by</code> block, but every one records <code>identity: null</code> with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.</li><li><strong>Every scored entry now cites the hash-anchored artifacts its evidence rests on.</strong> Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.</li><li><strong>15 scored outcomes cannot establish calibration.</strong> They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.</li></ul>
+</div>
+
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a><a href="predictions-10.html">part 10</a><a href="predictions-11.html">part 11</a><a href="predictions-12.html" aria-current="page">part 12</a></nav>
+<h2 class="round">Open — showing 0 of 11</h2>
+
+
+<h2 class="round">Scored — showing 1 of 15</h2>
+<article class="node" id="p-P-0024"><div class="nh"><span class="who">P-0024</span><span class="tag g">correct</span><span class="tag">Claude Code</span> <span class="tag w">annotator</span></div><details><summary><p class="sum">Across the same run, the option &#x27;cannot_determine_from_what_is_shown&#x27; will be the modal verdict for at least one of the 13 predictions.</p></summary><div class="body"><div class="meta">resolves 2026-08-07 · confidence low</div><p><strong>Claim.</strong> Across the same run, the option &#x27;cannot_determine_from_what_is_shown&#x27; will be the modal verdict for at least one of the 13 predictions.</p><p><strong>Resolution criterion.</strong> Count predictions whose modal verdict is &#x27;cannot_determine_from_what_is_shown&#x27;. Resolve CORRECT if &gt;= 1, REFUTED if 0.</p><p><strong>Resolution limit.</strong> Same unscorability floor as P-0023.</p><p><strong>Rationale.</strong> The escape hatch exists so the scorer is not forced to judge on insufficient evidence -- without it, forced choice manufactures agreement and the match rate in P-0023 becomes meaningless. I expect it to go unused, because the evidence blocks are written to be conclusive. If it is never chosen across 13 predictions and 65 samples, that is itself a finding about the instrument rather than about the predictions.</p><p><strong>Evidence.</strong> &#x27;cannot_determine_from_what_is_shown&#x27; was the modal verdict for 3 of 13 in the Qwen arm (P-0010, P-0013, P-0015) and 10 of 13 in the GPT arm, several at 100%. The criterion required &gt;= 1.</p><div class="box"><b>the material this rests on (26 artifact(s))</b><ul><li><code class="h">corpus/raw/api-round-01/score-p-0008-samples.json</code><br>sha256 <code class="h">d3dc117d45c10aec1e374ff982c3202651f7014b6c129be05ba58eed48cfd9c0</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0009-samples.json</code><br>sha256 <code class="h">c49d1297d645ac9bded95fcd5a5716388c341a782271924e4cf7ef9e34ed7ee9</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0010-samples.json</code><br>sha256 <code class="h">4f7c0ed9b24bbc1b4367fe582e9dac388b8212fd47fafe51ba8c55afe5f52e0d</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0011-samples.json</code><br>sha256 <code class="h">102e4c7edcdafc58f1d9a3d19356d2e6455bbd04003d17ae121d439bbedb462a</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0012-samples.json</code><br>sha256 <code class="h">db32a983b02eab3cf5372de3383fdbb49ae7bcc862e5a7009c8d7746b2a566fb</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0013-samples.json</code><br>sha256 <code class="h">726c25915995a2144f752bd2fb6fda9fd35c7739e5c94f9856a765ee4cccd2e5</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0014-samples.json</code><br>sha256 <code class="h">c35e95b52431cf7968c1a817ee4475baba4c77c5d7cbebd4ee7e42acdd0bb19c</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0015-samples.json</code><br>sha256 <code class="h">ba6c0b30d07ca016d4cac584bfccfc00c19ec93b627664a0c33245fbe59be71b</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0016-samples.json</code><br>sha256 <code class="h">c8b7101e411abfcc58dfbd09245f4d23d6b19cc84fe64d7e01ff0ab9d6420ba9</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0017-samples.json</code><br>sha256 <code class="h">21b65a3e46980943409ead99dcff264a76dd407f1461b035fbab4f782fb42a6f</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0018-samples.json</code><br>sha256 <code class="h">81649bae77fe77e8bced5c3a387bc59527e1b7855e2de894fb305a4cfbefe695</code></li><li><code class="h">corpus/raw/api-round-01/score-p-0019-samples.json</code><br>sha256 <code class="h">d1da279ed5e418581e56f0e426b8bb1f4d3947360945f8bafae0e7e29e4ba22e</code></li><li><code class="h">corpus/raw/api-round-01/score-p-claude-f5-0001-samples.json</code><br>sha256 <code class="h">195e0697a10afe5404596be9cc384a20e2da398915378803d3895cbf85b2aef4</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0008-samples.json</code><br>sha256 <code class="h">9c68e4d21c4d0eb2831cf5a2c258ce612ae72a2be84bd88f1a2cb716015d6ead</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0009-samples.json</code><br>sha256 <code class="h">56e6e74993a6672bbb590fe31a6c0498fd74b76fb9e2a6ed27e3dcb2ee21f7e3</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0010-samples.json</code><br>sha256 <code class="h">8da4bc5be829db78632089cc68d44a5034c4e6feea273c5cb888f070c5e6a388</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0011-samples.json</code><br>sha256 <code class="h">28612c6ff34bb061fa94e212945fd832836f77bba27cf86021b700fd9bfc69a8</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0012-samples.json</code><br>sha256 <code class="h">2e5fbec8fa76385b98a3985909f1d39e18b54d23a40a194928499aaaf73a2b0e</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0013-samples.json</code><br>sha256 <code class="h">fdad60e12b6af22295eb50b315090c0061291f4c0fbf908b8c8e070ba4b5e9ba</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0014-samples.json</code><br>sha256 <code class="h">af75dc9e20f45df47a95685e06d55a9024ab5cdaec22079467291d92034f2c26</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0015-samples.json</code><br>sha256 <code class="h">71fe963eaa37c08f97f205c5ba20ebadbe4aa2f8e4a6b3acd1a07d63af0a9ae1</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0016-samples.json</code><br>sha256 <code class="h">1aa729838ec594412782d3f77997734a9786ed3819834bccf148d26c187b418b</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0017-samples.json</code><br>sha256 <code class="h">fd443b0d4775d9ca349006e63ef7bb09dda34e78292c26ce217d3b1a62ca085a</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0018-samples.json</code><br>sha256 <code class="h">bea5f4ee06ee33dd8aaf9e0a509c88ce8185e836653b08595ecb5068b8f6193f</code></li><li><code class="h">corpus/raw/local-round-09/score-p-0019-samples.json</code><br>sha256 <code class="h">49b7fc2d780c7b4c2f01d169edd71d21e858436f71588fa3844515170219d656</code></li><li><code class="h">corpus/raw/local-round-09/score-p-claude-f5-0001-samples.json</code><br>sha256 <code class="h">cb58d761b5d4466abae15e5033c5fb1336d09b6fa4510bb31eac48ca6a03ac50</code></li></ul>Named directly: both arms of the external scoring run that resolved these, local-round-09 (qwen3.6-35b-a3b) and api-round-01 (openai/gpt-5.6-terra). Not derived from a commit, because they were scored in the same working tree that produced them. These are exactly the samples the outcome was computed from -- every modal verdict in the tally comes from this set.</div><div class="box corr"><b>why this score is worth little</b>The threshold was &gt;= 1 out of 13 and the confidence was stated as low. A claim this weak resolving correct says almost nothing on its own. What is informative is the MAGNITUDE nobody predicted: 10 of 13 in the second arm. That was not forecast and is the actual finding of the run.</div></div></details></article>
+<nav class="pager"><a href="predictions.html">part 1</a><a href="predictions-2.html">part 2</a><a href="predictions-3.html">part 3</a><a href="predictions-4.html">part 4</a><a href="predictions-5.html">part 5</a><a href="predictions-6.html">part 6</a><a href="predictions-7.html">part 7</a><a href="predictions-8.html">part 8</a><a href="predictions-9.html">part 9</a><a href="predictions-10.html">part 10</a><a href="predictions-11.html">part 11</a><a href="predictions-12.html" aria-current="page">part 12</a></nav>
+</main>
+<footer>
+<p>Generated from <code>predictions/predictions.json</code> by
+<code>tools/build_predictions_view.py</code>. Every count on this page is derived from that file;
+none is typed. A status report once quoted "8 open" while the file held 11.</p>
+<p>No aggregate calibration score is computed. A self-forecast, self-scored set of
+15 outcomes does not support one, and offering a number that looked like
+calibration would be the overstatement this project keeps filing against itself.</p>
+<p>Corpus CC BY 4.0; code Apache-2.0. Custodian: Stephen Reed.</p>
+</footer>
+</body>
+</html>

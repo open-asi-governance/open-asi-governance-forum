@@ -36,9 +36,9 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 13 |
+| required, not implemented | 12 |
 | implemented, not validated | 21 |
-| validated | 6 |
+| validated | 7 |
 
 ### Affected objects
 
@@ -646,13 +646,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 - **First articulated:** an external reviewer, 2026-08-07 · evidence: *preserved artifact*
   - where: `the first external scoring of this registry: qwen3.6-35b-a3b and openai/gpt-5.6-terra, k=5 each, blind to the recorded outcome`
-- **Prospective control:** required, not implemented — An evidence field cites the raw artifact by path and hash rather than restating its numbers. Separately: a categorical field from a model is not evidence until its free text has been read against it.
+- **Prospective control:** validated — R12 fails the build when a scored prediction cites no artifacts, cites a missing file, or cites a hash that no longer matches. Both paths tested. Separately: a categorical field from a model is not evidence until its free text has been read against it.
 - **Effort:** medium — Mechanical in form, but deciding which samples support which claim is a per-entry judgement that cannot be derived.
 - **Human review:** not_reviewed
 
 | Affected object | Repairable? | Remediation |
 |---|---|---|
-| The evidence field on all 13 previously-scored predictions <br><sub>States derived numbers and conclusions rather than citing the hash-anchored raw samples that would support them. 10 of 13 could not be verified by a frontier party from what is published; only 1 of 13 was confirmed by both external arms.</sub> | repairable by supersession | not started |
+| The evidence field on all 13 previously-scored predictions <br><sub>Now carries supporting_artifacts: 95 path-and-hash references across 15 scored predictions, derived mechanically from each outcome's own commit and enforced by check_register.py R12. STILL OWED: the citations are a candidate set, not a verified per-claim mapping, which is what the external parties actually asked for.</sub> | repairable by supersession | partly applied |
 | P-0011's resolution criterion <br><sub>Both parties independently returned criterion_cannot_be_applied where the record says correct. Convergent, from unrelated lineages, neither seeing the other.</sub> | partly repairable | not started |
 | The scoring instrument's categorical field <br><sub>P-0016's Qwen enum contradicted its own free text in 4 of 5 samples -- D-24 reproducing in a new instrument one day after D-24 was cited in its design. Caught by the narrative sweep, not by the numbers; corrected before publication.</sub> | repairable by supersession | verified |
 

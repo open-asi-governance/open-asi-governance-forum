@@ -21,6 +21,7 @@ repository keeps filing against itself:
   R4  no id is skipped between D-01 and the highest id present
   R5  the OTHER serially-numbered namespaces -- P-NNNN, T-NN -- are also unique
   R11 every scored prediction records who scored it, or a reason it is unrecorded
+  R12 every scored prediction cites supporting artifacts that exist and still hash
   R6  corpus/artifacts/deficiency-register.json validates against its schema
   R7  entries and headings are one-to-one -- no entry without a heading, no
       heading without an entry
@@ -128,6 +129,31 @@ def check_predictions() -> list[str]:
             problems.append(
                 f"R11 {entry.get('id', '?')} has scored_by.identity null with no "
                 f"identity_unrecorded_reason. An unexplained null is a gap, not a record.")
+
+    # R12 -- a scored prediction must cite the artifacts its evidence rests on, and
+    # every cited path must exist and match its recorded hash. Two external parties
+    # judged 10 of 13 scores unverifiable from what the registry published, because
+    # the evidence restated derived numbers instead of pointing at the hash-anchored
+    # samples that were sitting in corpus/raw/ the whole time. See D-40.
+    for entry in scored:
+        if not isinstance(entry, dict):
+            continue
+        sa = entry.get("supporting_artifacts")
+        if not sa or not sa.get("paths"):
+            problems.append(
+                f"R12 {entry.get('id','?')} is scored but cites no supporting artifacts. "
+                f"An evidence field that restates numbers without pointing at the material "
+                f"asks to be trusted. See D-40.")
+            continue
+        for ref in sa["paths"]:
+            target = REPO_ROOT / ref["path"]
+            if not target.is_file():
+                problems.append(f"R12 {entry.get('id','?')} cites a missing artifact: "
+                                f"{ref['path']}")
+            elif ref.get("sha256") and hashlib.sha256(
+                    target.read_bytes()).hexdigest() != ref["sha256"]:
+                problems.append(f"R12 {entry.get('id','?')} cites {ref['path']} at a hash "
+                                f"that no longer matches the file.")
 
     ids = [entry["id"] for entry in entries]
     return problems + [

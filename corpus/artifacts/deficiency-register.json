@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "d2c63e21500404bc5ec415d821a1228b0ac334d85ff4f6fdf2791dd39d1d48eb"
+    "sha256": "d98fe0f59ae8b8c40fea3444321003cc84f50e61c0f21dc2170991e62ec59b2a"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1603,7 +1603,7 @@
     {
       "id": "D-40",
       "title": "The registry's evidence blocks assert conclusions the raw samples could support and do not contain",
-      "section_sha256": "b9067e3145b7a20cca8f01bb7890b3b96e26d166acdc3ea5ee45d3358a010df2",
+      "section_sha256": "844c63b52db91ba1a24453977a9007d54599d5a158c86acf1ec65ab8359f4c9f",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -1615,8 +1615,8 @@
         {
           "object": "The evidence field on all 13 previously-scored predictions",
           "repairability": "affected_object_fully_repairable_by_supersession",
-          "remediation_state": "remediation_not_started",
-          "note": "States derived numbers and conclusions rather than citing the hash-anchored raw samples that would support them. 10 of 13 could not be verified by a frontier party from what is published; only 1 of 13 was confirmed by both external arms."
+          "remediation_state": "remediation_partially_applied",
+          "note": "Now carries supporting_artifacts: 95 path-and-hash references across 15 scored predictions, derived mechanically from each outcome's own commit and enforced by check_register.py R12. STILL OWED: the citations are a candidate set, not a verified per-claim mapping, which is what the external parties actually asked for."
         },
         {
           "object": "P-0011's resolution criterion",
@@ -1632,8 +1632,8 @@
         }
       ],
       "prospective_control": {
-        "state": "prospective_control_required_not_implemented",
-        "mechanism": "An evidence field cites the raw artifact by path and hash rather than restating its numbers. Separately: a categorical field from a model is not evidence until its free text has been read against it."
+        "state": "prospective_control_validated",
+        "mechanism": "R12 fails the build when a scored prediction cites no artifacts, cites a missing file, or cites a hash that no longer matches. Both paths tested. Separately: a categorical field from a model is not evidence until its free text has been read against it."
       },
       "remediation_effort": {
         "estimate": "remediation_effort_medium",
