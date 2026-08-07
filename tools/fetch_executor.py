@@ -65,6 +65,7 @@ import hashlib
 import http.client
 import ipaddress
 import json
+import pathlib
 import re
 import socket
 import ssl
@@ -99,9 +100,16 @@ TOOL_SCHEMA = {
 
 
 def profile_sha256() -> str:
-    """Hash of the frozen capability, for the round record to cite."""
+    """Hash of the frozen capability, for the round record to cite.
+
+    Binds the EXECUTOR SOURCE as well as the constants. The docstring says a change to the loop
+    or the limits is a new profile and therefore a new party; hashing only the constants left
+    that claim unenforced, so an executor rewrite could have kept the same profile id.
+    """
+    source = pathlib.Path(__file__).read_bytes()
     frozen = {"profile": PROFILE, "tool": TOOL_SCHEMA, "max_body_bytes": MAX_BODY_BYTES,
-              "max_redirects": MAX_REDIRECTS, "deadline_seconds": DEADLINE_SECONDS}
+              "max_redirects": MAX_REDIRECTS, "deadline_seconds": DEADLINE_SECONDS,
+              "executor_sha256": hashlib.sha256(source).hexdigest()}
     return hashlib.sha256(json.dumps(frozen, sort_keys=True).encode()).hexdigest()
 
 
@@ -274,6 +282,20 @@ def fetch(url: str) -> dict:
             "text": text,
         }
     raise Blocked("redirect loop")                                        # pragma: no cover
+
+
+def record_delivery(receipts: list, delivered: str) -> None:
+    """Record the bytes the CALLER actually put in the tool message.
+
+    The executor returns full text; the solicitation tool serialises it into a tool message and
+    caps that. Without this the receipt claimed to hold "the exact text handed to the model"
+    while the model saw less — a difference invisible to any reader.
+    """
+    if receipts and receipts[-1].get("outcome") == "FETCHED":
+        receipts[-1]["delivered_char_length"] = len(delivered)
+        receipts[-1]["delivered_sha256"] = hashlib.sha256(delivered.encode("utf-8")).hexdigest()
+        receipts[-1]["delivered_in_full"] = (
+            len(delivered) >= len(receipts[-1].get("text_given_to_model") or ""))
 
 
 def run_tool_call(url, receipts: list) -> dict:

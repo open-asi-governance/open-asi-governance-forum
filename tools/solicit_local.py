@@ -45,6 +45,8 @@ import subprocess
 import sys
 import urllib.request
 from collections import Counter
+
+import fetch_executor as fx
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -158,8 +160,15 @@ def main() -> int:
     print(f"  spec      {spec_path.relative_to(REPO_ROOT)}  sha256 {sha256_text(spec_path.read_text())[:16]}…")
     print(f"  serve cfg {'captured' if serve.get('captured') else serve.get('reason')}")
 
+    #  fetch-url-v1 comes from the FROZEN SPEC, exactly as it does for the routed arms, and it
+    #  is the SAME executor. Comparability across arms requires literally the same code: two
+    #  implementations that agree today are not a shared capability.
+    fetch_enabled = bool((spec.get("capability") or {}).get("fetch_url"))
+    max_tool_calls = int((spec.get("capability") or {}).get("max_tool_calls", 6))
+
     samples, raw_responses, failures = [], [], []
     for i in range(args.k):
+        receipts: list = []
         body = {
             "model": args.model,
             "messages": [{"role": "user", "content": prompt}],
@@ -177,13 +186,69 @@ def main() -> int:
         #  and merely failed to parse -- and finish_reason is the one field that
         #  distinguishes "the model stopped" from "we cut it off", which is the whole
         #  diagnosis for a truncated reply.
-        try:
-            result = call_once(args.endpoint, body, args.timeout)
-        except Exception as error:
+        if fetch_enabled:
+            body["tools"] = [fx.TOOL_SCHEMA]
+            body["tool_choice"] = "auto"
+            #  Grammar-constrained output cannot be demanded while the party still needs turns to
+            #  call tools; the schema is re-imposed on the final turn below.
+            response_format = body.pop("response_format", None)
+            body["messages"] = list(body["messages"])
+
+        transport_error = None
+        calls_made = 0
+        for _turn in range(max_tool_calls + 2 if fetch_enabled else 1):
+            try:
+                result = call_once(args.endpoint, body, args.timeout)
+            except Exception as error:                                    # noqa: BLE001
+                transport_error = error
+                break
+            message = result["choices"][0].get("message") or {}
+            calls = message.get("tool_calls") or []
+            if not (fetch_enabled and calls):
+                #  A party that answers WITHOUT fetching still owes a schema-valid answer. The
+                #  format was popped so the tool turns could run unconstrained; if it was never
+                #  re-applied, the final answer came back as prose and was rejected as malformed
+                #  -- punishing a party for declining to use a tool.
+                if fetch_enabled and response_format and "response_format" not in body:
+                    body["response_format"] = response_format
+                    body.pop("tools", None)
+                    body["tool_choice"] = "none"
+                    continue
+                break
+            if calls_made + len(calls) > max_tool_calls:
+                receipts.append({"outcome": "BUDGET_EXHAUSTED",
+                                 "reason": f"more than {max_tool_calls} fetches requested; the "
+                                           f"loop stopped and asked for an answer"})
+                body["messages"].append(message)
+                for call in calls:
+                    body["messages"].append({"role": "tool", "tool_call_id": call["id"],
+                                             "content": json.dumps({"ok": False,
+                                                 "error": "tool budget exhausted"})})
+                body.pop("tools", None); body["tool_choice"] = "none"
+                if response_format:
+                    body["response_format"] = response_format
+                continue
+            body["messages"].append(message)
+            for call in calls:
+                try:
+                    arguments = json.loads(call["function"].get("arguments") or "{}")
+                except json.JSONDecodeError:
+                    arguments = {}
+                tool_result = fx.run_tool_call(arguments.get("url"), receipts)
+                calls_made += 1
+                delivered = json.dumps(tool_result, ensure_ascii=False)[:60000]
+                fx.record_delivery(receipts, delivered)
+                body["messages"].append({"role": "tool", "tool_call_id": call["id"],
+                                         "content": delivered})
+            if response_format:
+                body["response_format"] = response_format
+
+        if transport_error is not None:
             failures.append({"sample_index": i + 1, "category": "transport",
-                             "error": f"{type(error).__name__}: {error}",
-                             "finish_reason": None, "response_bytes": None})
-            print(f"  [{i+1:>2}/{args.k}] REJECTED (transport): {error}")
+                             "error": f"{type(transport_error).__name__}: {transport_error}",
+                             "finish_reason": None, "response_bytes": None,
+                             "fetch_receipts": receipts or None})
+            print(f"  [{i+1:>2}/{args.k}] REJECTED (transport): {transport_error}")
             continue
         finish = result["choices"][0].get("finish_reason")
         content = result["choices"][0]["message"].get("content") or ""
@@ -195,6 +260,7 @@ def main() -> int:
                              "finish_reason": finish, "usage": result.get("usage"),
                              "response_bytes": content[:8000],
                              "response_byte_length": len(content),
+                             "fetch_receipts": receipts or None,
                              "note": ("finish_reason='length' means the reply was cut off by "
                                       "max_tokens, not that the party declined. Truncation "
                                       "has twice masqueraded as a refusal in this record.")})
@@ -208,11 +274,21 @@ def main() -> int:
         invalid = validate_sample(parsed, spec["schema"])
         if invalid:
             failures.append({"sample_index": i + 1, "category": "schema_invalid",
-                             "error": invalid, "response_bytes": content[:4000]})
+                             "error": invalid, "response_bytes": content[:4000],
+                             "fetch_receipts": receipts or None})
             print(f"  [{i+1:>2}/{args.k}] REJECTED (schema_invalid): {invalid[:140]}")
             continue
         samples.append(parsed)
         raw_responses.append({"sample_index": i + 1, "content": content,
+                              "fetch": ({"profile": fx.PROFILE,
+                                         "profile_sha256": fx.profile_sha256(),
+                                         "receipts": receipts,
+                                         "fetched": sum(1 for r in receipts
+                                                        if r.get("outcome") == "FETCHED"),
+                                         "sources_check": fx.sources_supported_by_receipts(
+                                             parsed.get("sources") if isinstance(parsed, dict)
+                                             else None, receipts)}
+                                        if fetch_enabled else None),
                               "finish_reason": result["choices"][0].get("finish_reason"),
                               "usage": result.get("usage"), "seed": body["seed"]})
         print(f"  [{i+1:>2}/{args.k}] {result['choices'][0].get('finish_reason')} "

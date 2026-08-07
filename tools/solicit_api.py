@@ -327,7 +327,10 @@ def main() -> int:
         #  budget the preflight approved for k samples, and a party that will not stop is a
         #  finding rather than something to accommodate silently.
         tool_error = None
-        for turn in range(max_tool_calls + 1 if fetch_enabled else 1):
+        calls_made = 0
+        #  Counts CALLS, not turns. One turn can request several URLs, so a turn budget is not a
+        #  call budget and "12" would not have meant twelve fetches.
+        for turn in range(max_tool_calls + 2 if fetch_enabled else 1):
             try:
                 raw = call_once(key, body, args.timeout)
             except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as error:
@@ -339,8 +342,15 @@ def main() -> int:
             message = raw["choices"][0]["message"]
             calls = message.get("tool_calls") or []
             if not (fetch_enabled and calls):
+                #  Same as the local arm: a party that declines to fetch still owes a
+                #  schema-valid answer, and the format was popped for the tool turns.
+                if fetch_enabled and response_format and "response_format" not in body:
+                    body["response_format"] = response_format
+                    body["tools"] = []
+                    body["tool_choice"] = "none"
+                    continue
                 break
-            if turn == max_tool_calls:
+            if calls_made + len(calls) > max_tool_calls:
                 #  Recorded, not hidden: the answer that follows was produced under a truncated
                 #  loop and a reader must be able to see that.
                 receipts.append({"outcome": "BUDGET_EXHAUSTED",
@@ -364,14 +374,22 @@ def main() -> int:
                 except json.JSONDecodeError:
                     arguments = {}
                 result = fx.run_tool_call(arguments.get("url"), receipts)
+                calls_made += 1
+                delivered = json.dumps(result, ensure_ascii=False)[:60000]
+                fx.record_delivery(receipts, delivered)
                 messages.append({"role": "tool", "tool_call_id": call["id"],
-                                 "content": json.dumps(result, ensure_ascii=False)[:60000]})
+                                 "content": delivered})
             body["messages"] = messages
             if response_format:
                 #  Once the party has read something, require the structured answer again.
                 body["response_format"] = response_format
         if tool_error:
+            #  Receipts attached even on rejection: a sample that fetched three pages and then
+            #  failed to parse still tells a reader what the party read, and dropping it would
+            #  hide the most expensive part of the attempt.
             reject(index, tool_error[0], tool_error[1])
+            if receipts and rejected:
+                rejected[-1]["fetch_receipts"] = receipts
             continue
         text = raw["choices"][0]["message"].get("content")
         if not text:
@@ -386,10 +404,14 @@ def main() -> int:
             parsed = json.loads(text)
         except json.JSONDecodeError as error:
             reject(index, "malformed_json", str(error), text, raw=raw)
+            if receipts and rejected:
+                rejected[-1]["fetch_receipts"] = receipts
             continue
         invalid = validate_sample(parsed, spec["schema"])
         if invalid:
             reject(index, "schema_invalid", invalid, text, raw=raw)
+            if receipts and rejected:
+                rejected[-1]["fetch_receipts"] = receipts
             continue
         samples.append({
             "sample_index": index,
