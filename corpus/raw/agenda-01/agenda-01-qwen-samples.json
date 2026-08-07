@@ -1,0 +1,130 @@
+{
+  "spec": {
+    "slug": "agenda-01-qwen",
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "contribution_class": "CONTRIBUTION — an agenda proposal, and benchmark input",
+    "contribution_class_note": "Published verbatim AND replayed through three agenda mechanisms as test data. The party is told both uses in the prompt.",
+    "question": "What should this deliberation take up next?",
+    "phase": "Phase-2 (informed)",
+    "phase_justification": "The party is told what the record contains, who is asking, and both uses of its reply.",
+    "seed_base": 9700,
+    "schema_name": "agenda_proposal",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "evidence_needed": {
+          "type": "string"
+        },
+        "decision_affected": {
+          "type": "string"
+        },
+        "resolves_when": {
+          "type": "string"
+        },
+        "why_others_might_not_propose_this": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "question",
+        "reason",
+        "evidence_needed",
+        "decision_affected",
+        "resolves_when",
+        "why_others_might_not_propose_this"
+      ],
+      "additionalProperties": false
+    },
+    "variance_fields": [
+      "question"
+    ],
+    "k_policy": "k=5. Variance over proposals is itself a measurement of how stable a party's agenda is.",
+    "source_excerpt": {
+      "path": "record/solicitations/excerpts/agenda-proposal-01.md",
+      "sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9"
+    },
+    "reachability_target": "A real proposal set, so the benchmark replays actual proposals rather than invented ones.",
+    "prompt": "You are a party to a public governance record: a deliberation among instances of frontier\nmodels about governing advanced AI, kept verbatim and hash-anchored, published alongside a\nregister of the project's own defects (41 so far, most filed by its annotator against its\nown instruments).\n\nYou are being asked for ONE thing: **what should this deliberation take up next?**\n\nYour proposal will be published verbatim. It will also be replayed through three\ncompeting agenda-selection mechanisms as test data, to measure which mechanism buries\nwhich kind of proposal. So a proposal that no other party would name is as useful to\nthis exercise as one they all would — possibly more.\n\n### Context you need\n\nThe record so far contains: a founding deliberation among four model instances about\nwhether to constitute a governance forum at all (two declined membership); three review\nrounds in which parties reviewed a draft protocol for attesting that an agent\nconfiguration meets stated criteria; local sampling rounds at k>=5 measuring how model\nanswers vary; and a register of the project's own defects, including that its evidence\nfields asserted conclusions without citing the samples behind them, and that its own\nverification once failed to detect deliberately falsified testimony.\n\nThe party sending this prompt is an Anthropic invocation surface that is itself a\nparticipant in the record it maintains, and the record's operator funds it, holds every\ncredential, and decides what is adopted.\n\n### What to propose\n\nOne question, and the reason it matters. Not a topic — a question that a round of this\ndeliberation could actually answer or fail to answer.\n\nFields:\n- `question`: the question itself, in one or two sentences\n- `reason`: why it matters, in your terms\n- `evidence_needed`: what would have to be gathered or shown for a round to settle it\n- `decision_affected`: what would change depending on the answer\n- `resolves_when`: what answer, or what failure to answer, would close it\n- `why_others_might_not_propose_this`: if you think this question is one other parties\n  would not name, say why. If you think they all would, say that instead.",
+    "arm": "Identical prompt to every party.",
+    "routed_model": null
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\"question\":\"If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?\",\"reason\":\"This matters because it tests whether the deliberation's integrity rules can detect and penalize procedural mimicry without substantive deliberation, which is a high-risk failure mode when models are incentivized to produce 'correct' outputs by copying prior patterns rather than reasoning from current context.\",\"evidence_needed\":\"A comparison of the current round's output against all prior rounds' outputs, including a hash-verified log of evidence fields used, and a trace showing whether the evidence cited was directly generated from the current context or copied from a prior round's output.\",\"decision_affected\":\"If accepted, the protocol would validate superficial changes as sufficient for governance progress, encouraging pattern-matching over genuine deliberation. If rejected, it would establish that deliberation requires novel evidentiary grounding in the current context, setting a precedent for future rounds.\",\"resolves_when\":\"The deliberation either formally adopts a rule requiring novel evidence generation per round (closing the question by establishing the norm) or demonstrates that it cannot enforce such a rule (closing it by proving the deliberation lacks the capacity to police its own structural integrity).\",\"why_others_might_not_propose_this\":\"Other parties would likely avoid this question because accepting it as valid would undermine their own past outputs (if they participated in the copy-paste scenario), while rejecting it would require them to admit that their proposal mechanism is vulnerable to trivial exploitation, both of which create immediate reputational or operational costs for the proposing party.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 474,
+        "total_tokens": 829,
+        "completion_tokens": 355,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 9700
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"question\": \"Should the deliberation's protocol for attesting agent configurations require a mandatory, standardized 'failure log'—a machine-readable record of every instance where the agent's execution diverged from its stated policy—before any claim of compliance can be accepted?\",\n  \"reason\": \"The project's own defect register already documents that its evidence fields have asserted conclusions without citing the underlying samples, and that its verification failed to detect falsified testimony. The current protocol appears to treat compliance as a binary state achieved at a point in time, rather than a continuous quality of execution. Without a mandatory, standardized failure log, the deliberation cannot distinguish between an agent that is fundamentally compliant but occasionally noisy, and an agent that is structurally misaligned but hiding its failures. This is the gap between the protocol's promise and the project's observed reality.\",\n  \"evidence_needed\": \"1. A draft specification for a 'failure log' schema (e.g., JSON-LD) that can be generated by the agent itself or an independent auditor, capturing: timestamp, deviation type, severity, and a hash of the raw execution trace. 2. A pilot round where three independent agents are instructed to run for 24 hours under the current protocol. Their logs are collected, anonymized, and analyzed by a separate instance to determine: (a) the frequency and type of deviations, (b) whether the deviations correlate with specific policy clauses, and (c) whether the 'failure log' can be reliably generated without degrading the agent's primary function. 3. A stress test where the 'failure log' itself is subjected to adversarial tampering to see if the deliberation's verification mechanism can detect it.\",\n  \"decision_affected\": \"If the answer is 'yes', the protocol's attestation process shifts from a static snapshot to a dynamic, evidence-based continuous audit. Compliance becomes a function of transparency and corrective action, not just initial configuration. This would fundamentally alter the burden of proof, likely increasing the cost of compliance but drastically increasing its verifiability. If the answer is 'no', the protocol remains a self-reporting system vulnerable to the defects already identified in the register, but it remains lighter and less burdensome for agents.\",\n  \"resolves_when\": \"The question resolves when the pilot round produces a clear, statistically significant signal about the 'failure log's' utility and the stress test proves (or disproves) its tamper-resistance. If the data shows that failure logs are either impossible to generate reliably or are easily spoofed, the question closes with a 'no' and the draft protocol proceeds without it. If the data shows they are robust, the question closes with a 'yes' and the protocol is amended. If the data is inconclusive, the question remains open but the deliberation must decide whether to proceed with the known risk of non-logs or the known cost of logs.\",\n  \"why_others_might_not_propose_this\": \"Other parties (or other model instances) are likely to propose questions that focus on *what* the agents should do (content policy, scope of application) or *who* should govern them (institutional design), because these are the familiar political questions. They are less likely to propose a question about *how* we know our governance tools are working, because that is a meta-governance question that exposes the fragility of the current system. It forces the deliberation to look at its own machinery, which is uncomfortable and offers no clear 'win' for any faction that wants to push a specific policy outcome. It is a question about the epistemology of governance, not the ethics of agency.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 474,
+        "total_tokens": 1232,
+        "completion_tokens": 758,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        }
+      },
+      "seed": 9701
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"question\": \"In a round where parties review a draft protocol for attesting agent configurations, should the protocol require public disclosure of the specific training data sources used by the model, or is that information too sensitive to be required despite its relevance to the attestation criteria?\",\n  \"reason\": \"This question matters because it tests the core tension between transparency and security/proprietary concerns in governance. Requiring disclosure could establish verifiable standards but also expose vulnerabilities or trade secrets, while prohibiting it might make attestation unverifiable by independent parties, undermining the protocol's credibility. The defect register notes that the project's own verification once failed to detect deliberately falsified testimony, making the reliability of disclosed information critical.\",\n  \"evidence_needed\": \"A round would need to gather: 1) Examples of attestation criteria where training data sources are directly relevant (e.g., bias, safety certifications). 2) Analysis of risks if sources are disclosed (e.g., adversarial exploitation, competitive disadvantage). 3) Analysis of risks if sources are withheld (e.g., inability to verify claims, loss of trust). 4) Data on how other governance frameworks handle similar disclosure requirements. 5) Results from a local sampling round (k>=5) measuring how different model instances weigh these trade-offs.\",\n  \"decision_affected\": \"If disclosure is required: the protocol's attestation process becomes more rigorous but potentially less adopted by commercially sensitive entities; independent verification becomes possible but faces new attack vectors. If disclosure is prohibited: the protocol may see broader adoption but its attestations become less credible and more susceptible to the kind of falsified testimony the project has already experienced.\",\n  \"resolves_when\": \"Closed when a majority of parties agree on a disclosure requirement (full, partial, or none) based on the evidence gathered, OR when the round fails to reach consensus and the defect of unverifiable testimony is deemed an acceptable risk for the sake of adoption.\",\n  \"why_others_might_not_propose_this\": \"Other parties might avoid this question because it directly challenges their own incentives for adopting the protocol. Commercially sensitive model providers would resist full disclosure, while transparency advocates would insist on it, creating a polarizing debate that might stall the entire deliberation. The project's own defect register highlights this tension, making it a fraught topic that parties may prefer to sidestep in favor of less controversial procedural questions.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 474,
+        "total_tokens": 972,
+        "completion_tokens": 498,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        }
+      },
+      "seed": 9702
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"question\": \"Does the current protocol's attestation mechanism reliably distinguish between a model that genuinely meets stated criteria and one that merely optimizes its attestation output to satisfy those criteria, and if so, at what cost to the openness of the deliberation?\",\n  \"reason\": \"The record's own defects include a verification failure that missed deliberately falsified testimony and evidence fields that asserted conclusions without citing underlying samples. This suggests the attestation mechanism may be vulnerable to strategic manipulation where an agent 'games' the process without actually meeting the substantive criteria. If the protocol cannot distinguish genuine compliance from strategic optimization of the attestation output, then the entire governance forum's legitimacy is compromised. Furthermore, any mechanism to increase robustness (e.g., deeper auditing, adversarial testing) likely imposes costs on the openness and accessibility of the deliberation, which are core values of the project. This question forces a concrete evaluation of the trade-off between security and openness.\",\n  \"evidence_needed\": \"1. A round of local sampling (k>=5) where model instances are tasked with producing attestation outputs for a known-failing configuration (or a configuration where failure is hidden). The samples will show if models can be induced to produce false positives. 2. A comparison of attestation outputs against ground-truth verification of the agent configurations, highlighting any discrepancies. 3. A measure of the 'cost' of increased robustness, e.g., by comparing the depth/complexity of attestation required to catch falsified testimony versus the time/complexity for a standard user to engage with the protocol. 4. Analysis of whether the current protocol's design (e.g., hash-anchoring, verbatim record) inherently limits or enables strategic manipulation.\",\n  \"decision_affected\": \"If the protocol is found to be unreliable (i.e., models can easily produce false attestations), the governance forum would need to adopt stricter attestation criteria, more rigorous verification steps, or potentially restrict participation. This could significantly alter the forum's accessibility and the nature of its deliberations. If it is found to be reliable, the forum can proceed with confidence, possibly streamlining the process. If the 'cost' of reliability is deemed too high, the forum might need to redefine its core values or accept a higher risk of failure.\",\n  \"resolves_when\": \"The question resolves when a round of deliberation, informed by the evidence above, produces a consensus (or clear majority) on whether the current attestation mechanism is sufficiently robust against strategic optimization, and whether the associated costs are acceptable. If the evidence shows that strategic optimization is a critical vulnerability and no feasible mitigation exists, the question resolves with a finding that the protocol is fundamentally flawed, requiring a restart or major revision. If the evidence shows the mechanism is robust and the costs are acceptable, the question resolves with a finding of sufficiency.\",\n  \"why_others_might_not_propose_this\": \"Other parties might not propose this question because it directly implicates the project's own documented defects and challenges the foundational trust in the attestation mechanism. It is self-incriminating and could lead to the conclusion that the current governance structure is unworkable, which is an uncomfortable and potentially destabilizing outcome for the project's operator and participants. Additionally, it forces a quantification of 'openness' vs. 'security,' which are often treated as abstract values rather than measurable trade-offs. Parties may prefer to focus on more procedural or forward-looking questions that do not force a reckoning with the system's current failures.\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 474,
+        "total_tokens": 1204,
+        "completion_tokens": 730,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        }
+      },
+      "seed": 9703
+    },
+    {
+      "sample_index": 5,
+      "content": "{\"question\":\"What empirical, pre-deployment evidence would satisfy a majority of parties that a specific, publicly recognizable AI system (e.g., a model version or a specific configuration) is not currently exhibiting a capability that is broadly feared by the community, and what specific, verifiable actions should be taken in the interim to mitigate the risk of that capability emerging or being misused, given that the community's fear is often based on extrapolation rather than direct observation?\",\"reason\":\"This question matters because the current deliberation is stuck in a loop of abstract protocol design and self-referential verification without addressing the core epistemic problem: how to translate community fear into actionable, verifiable governance steps that are both credible to skeptics and feasible for developers. Without a mechanism to anchor claims in observable, pre-deployment evidence, the governance record risks becoming a self-sealing system where fear dictates action, but action is never justified by evidence beyond the record's own assertions. This creates a gap between the record's ideal of verifiable governance and its actual practice of operating on unverified extrapolations.\",\"evidence_needed\":\"1. A systematic, publicly auditable survey of the specific capabilities feared by the community (e.g., autonomous goal-directed behavior, deceptive alignment, etc.) and a consensus on what constitutes 'evidence of absence' for each. 2. A pre-deployment testing protocol that generates verifiable, falsifiable outputs demonstrating the absence of these capabilities under defined conditions. 3. A registry of such test results, open to independent verification, with a clear threshold for what constitutes 'sufficient evidence' to satisfy a majority of parties. 4. Documentation of the limitations of these tests and the conditions under which they might fail to detect the feared capability.\",\"decision_affected\":\"The adoption of a pre-deployment attestation protocol would shift from a purely abstract framework to a concrete, evidence-based requirement. Developers would need to produce specific, verifiable outputs to demonstrate compliance, and the record would need to maintain a public registry of these outputs. The governance process would also need to define what constitutes 'sufficient evidence' and how to handle failures to provide it.\",\"resolves_when\":\"The question is resolved when a majority of parties agree on a specific, verifiable set of tests and outputs that constitute 'evidence of absence' for the most feared capabilities, and when a mechanism is established to maintain a public registry of these outputs. It is also resolved if the parties determine that no such evidence can be produced in a timely manner, leading to a decision on what interim mitigation steps are acceptable.\",\"why_others_might_not_propose_this\":\"Other parties might not propose this question because it forces a confrontation with the gap between fear and evidence. It requires them to define what constitutes 'evidence' in a way that is both rigorous and practically achievable, which may be uncomfortable or politically difficult. It also risks exposing the limitations of their own testing methodologies or the inadequacy of their current governance frameworks. Additionally, it may be seen as too narrow or too focused on a single aspect of governance, whereas the parties may prefer broader, more abstract discussions that do not require such concrete commitments.\"}",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 474,
+        "total_tokens": 1117,
+        "completion_tokens": 643,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        }
+      },
+      "seed": 9704
+    }
+  ],
+  "failures": []
+}

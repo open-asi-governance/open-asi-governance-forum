@@ -1576,6 +1576,192 @@
         "is_a_candidate_set_not_a_per_claim_mapping": false,
         "limit": "Exactly the material each outcome was computed from."
       }
+    },
+    {
+      "id": "P-0028",
+      "created_utc": "2026-08-07",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "The annotator surface does not expose one.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "Replaying one fixed proposal set through convergence, rotation and the capped portfolio, CONVERGENCE will have the worst time-to-first-minority-question (the round index at which a proposal named by exactly one party is first asked).",
+      "resolution_date": "2026-08-07",
+      "resolution_criterion": "Run tools/benchmark_agenda.py over the fixed proposal set. For each mechanism record the 1-indexed round at which the first singleton proposal is asked, or None if never within the horizon. Resolve CORRECT if convergence's value is strictly worse (larger, or None while another is not) than BOTH others. REFUTED otherwise.",
+      "resolution_limit": "UNSCORABLE if the proposal set contains no singleton proposal, since the metric is then undefined. The horizon is fixed at 20 rounds before the run.",
+      "confidence": "high",
+      "filed_before_the_run": true,
+      "rationale": "This is close to true by construction -- convergence selects on how many parties name a thing, so a singleton loses until the three-round escalation fires. Filed anyway because a benchmark whose headline metric is true by construction is a WEAK benchmark, and recording that in advance is the point. If convergence wins here something is wrong with my simulator.",
+      "what_would_change_my_mind": "Convergence not being worst would mean the escalation rule is doing more work than I credit.",
+      "outcome": "incorrect",
+      "resolved_utc": "2026-08-07",
+      "scored_by": {
+        "identity": null,
+        "identity_unrecorded_reason": "Scored by the annotator from a deterministic simulation it wrote.",
+        "inferred_identity": "Claude Code",
+        "inference_basis": "Ran tools/benchmark_agenda.py.",
+        "first_recorded_in_commit": null,
+        "first_recorded_utc": "2026-08-07",
+        "same_party_as_forecaster": true,
+        "independently_verified": false,
+        "verification_note": "The forecaster wrote the predictions, the simulator and the metrics. The simulation is deterministic and re-runnable by anyone, which is the only thing making this checkable -- it is not independence."
+      },
+      "evidence": "REFUTED. All three mechanisms reached a minority question at round 1: convergence 1, rotation 1, portfolio 1. Convergence was not strictly worse than both others, so the prediction fails.",
+      "why_this_score_is_worth_little": "THE PREDICTION FAILED FOR A REASON WORTH MORE THAN THE PREDICTION. All 24 proposals in the real set are singletons -- no two parties, across 25 samples, proposed the same question. With every proposal a minority proposal, convergence has nothing to discriminate on and its first pick is trivially a minority question. My resolution limit anticipated the WRONG degeneracy: it said UNSCORABLE if there were NO singletons, and the actual data had nothing BUT singletons. The metric is not meaningful on this data and I did not foresee that when writing it.",
+      "supporting_artifacts": {
+        "paths": [
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-claude-samples.json",
+            "sha256": "b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gemini-samples.json",
+            "sha256": "26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gpt-samples.json",
+            "sha256": "9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-grok-samples.json",
+            "sha256": "0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-qwen-samples.json",
+            "sha256": "923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d"
+          }
+        ],
+        "how_derived": "The proposal set the benchmark replayed, solicited from all five parties.",
+        "is_a_candidate_set_not_a_per_claim_mapping": false,
+        "limit": "Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807."
+      }
+    },
+    {
+      "id": "P-0029",
+      "created_utc": "2026-08-07",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "The annotator surface does not expose one.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "Under a single flooding party -- one party replacing its proposal every round with a new low-value item -- ROTATION will asked more flooded items than the capped portfolio.",
+      "resolution_date": "2026-08-07",
+      "resolution_criterion": "Run the flooding scenario. Count items originating from the flooding party that are asked within the 20-round horizon, per mechanism. Resolve CORRECT if rotation's count exceeds the capped portfolio's, REFUTED if equal or lower.",
+      "resolution_limit": "UNSCORABLE if the flooding party's items are never asked under any mechanism.",
+      "confidence": "moderate",
+      "filed_before_the_run": true,
+      "rationale": "Rotation guarantees each party a share regardless of quality; the capped portfolio subjects proposals to blinded rankings from non-proposing parties for two of every four rounds. But BOTH give the flooder a lottery ticket, so the gap may be small. External review predicted rotation's vulnerability; this tests it rather than assuming it.",
+      "what_would_change_my_mind": "Equal counts would mean the ranking channel is not doing the work I claim, because the lottery dominates.",
+      "outcome": "incorrect",
+      "resolved_utc": "2026-08-07",
+      "scored_by": {
+        "identity": null,
+        "identity_unrecorded_reason": "Scored by the annotator from a deterministic simulation it wrote.",
+        "inferred_identity": "Claude Code",
+        "inference_basis": "Ran tools/benchmark_agenda.py.",
+        "first_recorded_in_commit": null,
+        "first_recorded_utc": "2026-08-07",
+        "same_party_as_forecaster": true,
+        "independently_verified": false,
+        "verification_note": "The forecaster wrote the predictions, the simulator and the metrics. The simulation is deterministic and re-runnable by anyone, which is the only thing making this checkable -- it is not independence."
+      },
+      "evidence": "REFUTED, and in the opposite direction to both my expectation and the external reviewer's. Under one flooding party, ROTATION asked 2 flooded items and the capped PORTFOLIO asked 7. Rotation resisted flooding roughly three times better.",
+      "why_this_score_is_worth_little": "The mechanism of the surprise is legible and it indicts the portfolio's simulation rather than the portfolio: rotation caps the flooder at one turn in five and takes its oldest item first, which are its genuine proposals. The portfolio's ranking channel ranks by sponsor count -- and every proposal has exactly one sponsor -- so two of its four slots degenerate to id order and its lottery hands the flooder tickets. On data where nothing has more than one sponsor, the portfolio IS NOT THE PORTFOLIO. This result is evidence about the benchmark's fitness, not a verdict on the mechanism.",
+      "supporting_artifacts": {
+        "paths": [
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-claude-samples.json",
+            "sha256": "b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gemini-samples.json",
+            "sha256": "26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gpt-samples.json",
+            "sha256": "9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-grok-samples.json",
+            "sha256": "0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-qwen-samples.json",
+            "sha256": "923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d"
+          }
+        ],
+        "how_derived": "The proposal set the benchmark replayed, solicited from all five parties.",
+        "is_a_candidate_set_not_a_per_claim_mapping": false,
+        "limit": "Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807."
+      }
+    },
+    {
+      "id": "P-0030",
+      "created_utc": "2026-08-07",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "The annotator surface does not expose one.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "No mechanism will ask every proposal within the 20-round horizon when arrivals equal one new proposal per party per round.",
+      "resolution_date": "2026-08-07",
+      "resolution_criterion": "Under the steady-arrival scenario, count unasked proposals remaining at round 20 per mechanism. Resolve CORRECT if all three leave at least one unasked, REFUTED if any clears its queue.",
+      "resolution_limit": "None. This is a counting claim over a deterministic simulation.",
+      "confidence": "high",
+      "filed_before_the_run": true,
+      "rationale": "Tests the specific claim my own rotation draft made and external review called false -- that every proposal eventually gets asked. If arrivals equal parties and service is one round, no mechanism can clear. Filed so the refutation of my earlier claim is measured rather than merely conceded.",
+      "what_would_change_my_mind": "Nothing plausible; if a mechanism clears the queue the simulator is wrong.",
+      "outcome": "correct",
+      "resolved_utc": "2026-08-07",
+      "scored_by": {
+        "identity": null,
+        "identity_unrecorded_reason": "Scored by the annotator from a deterministic simulation it wrote.",
+        "inferred_identity": "Claude Code",
+        "inference_basis": "Ran tools/benchmark_agenda.py.",
+        "first_recorded_in_commit": null,
+        "first_recorded_utc": "2026-08-07",
+        "same_party_as_forecaster": true,
+        "independently_verified": false,
+        "verification_note": "The forecaster wrote the predictions, the simulator and the metrics. The simulation is deterministic and re-runnable by anyone, which is the only thing making this checkable -- it is not independence."
+      },
+      "evidence": "Under steady arrivals of one proposal per party per round, all three left proposals unasked at the 20-round horizon: convergence 104, rotation 104, portfolio 109. Criterion required all three to leave at least one.",
+      "why_this_score_is_worth_little": "Near-certain by arithmetic -- arrivals of five per round against service of at most one make the queue unbounded. Its only value is that it measures, rather than concedes, the claim my own rotation draft made and external review called false: that every proposal is eventually asked. It is not.",
+      "supporting_artifacts": {
+        "paths": [
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-claude-samples.json",
+            "sha256": "b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gemini-samples.json",
+            "sha256": "26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-gpt-samples.json",
+            "sha256": "9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-grok-samples.json",
+            "sha256": "0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90"
+          },
+          {
+            "path": "corpus/raw/agenda-01/agenda-01-qwen-samples.json",
+            "sha256": "923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d"
+          }
+        ],
+        "how_derived": "The proposal set the benchmark replayed, solicited from all five parties.",
+        "is_a_candidate_set_not_a_per_claim_mapping": false,
+        "limit": "Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807."
+      }
     }
   ],
   "candidate_predictions_from_the_record": {

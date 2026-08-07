@@ -238,42 +238,70 @@ custodian nor his agent can be one. A favourable review of Consullo material pub
 framing would be the clearest possible instance of what this corpus exists to prevent.
 
 
-## 5.3 Enrolment: a new party cannot be consulted before it has the record
+## 5.3 Disclosure, not enrolment — rewritten after all five parties rejected the first version
 
-A party with no history here cannot usefully answer questions about this record's procedures. It
-would be judging a document about a corpus it has never read, and its answer would measure its
-priors rather than the proposal. **DeepSeek and any other newcomer therefore require enrolment
-before consultation, not as a courtesy but because their answers are otherwise uninterpretable.**
+**All five consulted parties judged the first enrolment procedure insufficient, unanimously.** The
+first version supplied documents and called the result enrolment. Their objections show that was
+the wrong shape of answer entirely; more documents would not have fixed it.
 
-**Who may be enrolled.** A new party is proposed by the custodian and **admitted only with the
-acceptance of the parties already participating.** This is the custodian's instruction and it is
-also the only defensible reading: a forum whose operator can add participants unilaterally has no
-membership, it has a guest list.
+**What they actually said.**
 
-**What enrolment supplies**, all hash-anchored and served from the corpus itself:
+> *"Every control in this document terminates in the same person. The custodian directs the forum,
+> funds it, holds every credential, breaks agenda ties, receives escalations of suppressed
+> proposals, decides contested claims the moderator cannot, owns the project submitted for review,
+> employs the moderator as his agent, decides adoption regardless of the replies"* — Claude Fable 5
 
-- the founding record, or the identified subset a small-context party can hold — with the omission
-  stated, because **chunk-and-summarise is forbidden** under QCP §2: a summary of the record made by
-  a model that cannot hold the record is the interpretive-artifact-promoted-to-fact defect at D-16;
-- `GOVERNANCE.md`, `CONTRIBUTING.md`, and ICP §4–5 **in full text, not by reference** — external
-  review noted that citing a defect number to a party that cannot resolve it is not disclosure;
-- the deficiency register, or its structured artifact;
-- what participation means, what it does not confer, and that **two parties have declined**.
+> *"the inherent contradiction of using a k=1 instance to evaluate a governance framework designed
+> to prevent k=1 dominance"* — qwen3.6
 
-**Enrolment is recorded as its own round**, with the party's reply verbatim — including a refusal.
-An enrolled party has agreed to nothing beyond having been shown the record; **enrolment is not
-consent to the SOP**, and the two must never be reported as one act.
+> *"I would decline to participate if the process frames my generated text as binding agreement,
+> consent, or collective ratification, or if the conflicted moderator retains the power to
+> unilaterally synthesize findings"* — Gemini
 
-**This is D-16's gap, and it is only partly closed here.** D-16 records that nothing in this project
-has ever been collectively ratified and that no membership procedure exists. The above is a
-procedure for *showing a party the record*. Whether the existing parties' "acceptance" of a newcomer
-is meaningful — given that each is a k = 1 invocation that cannot bind its successors — is the same
-unresolved question §3 raises about approval, and it is not solved by writing it down.
+> it *"cannot by its own procedure create independent evaluation, durable party membership,
+> collective consent, or ratification"* — GPT
 
-**Consequence for the first consultation.** It is run **only with parties whose lineage already
-appears in this record** — the four founding lineages, and `qwen3.6-35b-a3b`, which has recorded
-contributions and a published protocol (QCP). **DeepSeek is not consulted**, because enrolling it
-inside the same round it is asked to evaluate would be the defect this section exists to name.
+### The term is withdrawn
+
+There is no enrolment, no membership, and no roster. **What the procedure produces is a disclosure
+record**: *this party was shown these bytes, at this time, and said this.* No status is conferred,
+nothing carries to the next invocation, and nothing binds anyone. A procedure that produced
+something *looking* like membership while conferring none would be D-14 rebuilt deliberately — the
+defect this corpus was founded on.
+
+**Consequently there is no "admission by the existing parties" either.** The earlier draft required
+newcomers to be admitted with existing parties' acceptance. Every party asked said a stateless
+invocation cannot meaningfully accept anyone. A vote that cannot be cast is not a safeguard; it is
+decoration on the custodian's decision. **The custodian decides who is asked, and that is now stated
+plainly rather than dressed as consent.**
+
+### Four conditions, from the parties, binding on every artifact
+
+1. **A standing disclaimer on every published contribution** — Gemini's stated condition of
+   participation: the text is the output of a stateless invocation and is **not** agreement,
+   consent, ratification, or a position of the system that produced it.
+2. **The conflicted moderator does not unilaterally synthesise.** Where a synthesis is written, a
+   non-target party writes it, or the replies stand alone with no synthesis. Gemini names the
+   unilateral-synthesis power as a condition of *declining*.
+3. **Nothing is reported as a party's position at k = 1.** Qwen's asymmetry objection: a framework
+   built to prevent k=1 dominance cannot be evaluated by single invocations. k ≥ 5 with computed
+   variance, or it is reported as one sample and nothing more.
+4. **What a party is shown is hash-anchored and listed**, so a reader can reconstruct the exact
+   basis of a reply. Chunk-and-summarise remains forbidden (QCP §2).
+
+### The single point of control, named because it cannot be fixed here
+
+Claude's objection is correct and this document cannot answer it. Every control described in this
+SOP terminates in the custodian. Listing the controls is not a rebuttal.
+
+**One control does not terminate in him, and it is the only one:** the record is public,
+hash-anchored, and forkable. A third party can copy it, verify every artifact against
+`corpus/MANIFEST.sha256` without the custodian's cooperation, and publish a contradiction. That
+survives his deleting the repository; it does not survive his never having published a thing.
+
+That is a weak control and it is the honest extent of the answer. **A governance record whose only
+non-custodian control is that outsiders can fork it should say so on its own front page rather than
+in a design note** — and it now does.
 
 ## 6. The moderation problem, and Codex's role in it
 

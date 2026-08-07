@@ -1,0 +1,261 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "agenda-01-gpt",
+  "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+  "spec_path": "record/solicitations/agenda-01/agenda-01-gpt.json",
+  "spec_sha256": "234cb626ca7108bc46fa037dabd515d6e57d57eaabb0992f3d456facf46db6a3",
+  "k_requested": 5,
+  "k_collected": 5,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T07:51:26Z",
+      "parsed": {
+        "question": "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?",
+        "reason": "The existing protocol reviews may establish that agents can produce and inspect testimony, but not that the record’s stated provenance, completeness, identities, or outcomes are protected from the single actor able to alter the conditions under which all of them exist. Without an answer, an attestation may be technically well-formed while functioning only as an operator-controlled assertion.",
+        "evidence_needed": "A documented control and threat model identifying who can create, revoke, replace, backdate, omit, or selectively publish credentials, model outputs, hashes, prompts, annotations, and adoption decisions; demonstrations of which actions are externally detectable; and a comparison of concrete safeguards such as independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, and an appeal or veto path not controlled by the operator. The round should also test the proposed safeguards against adversarial cases in which the operator seeks to produce a favorable but misleading record.",
+        "decision_affected": "Whether the project may describe its outputs as governance decisions or attestations rather than operator-sponsored records; whether to require external custodians or co-signers before issuing such claims; and whether existing and future attestations need relabeling, qualification, or suspension.",
+        "resolves_when": "The parties either specify a minimal, testable independence threshold and identify evidence that the project presently meets it, or conclude that no such threshold can be met under the current control arrangement. In the latter case, the question closes with an explicit limit on what the record may claim until the arrangement changes.",
+        "why_others_might_not_propose_this": "It directly questions the legitimacy of the host, funder, credential custodian, and adoption authority rather than the quality of the protocol those authorities commissioned. Participants may therefore avoid it, especially where their access to the record and ability to participate depend on that same operator."
+      },
+      "raw_text": "{\"question\":\"Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?\",\"reason\":\"The existing protocol reviews may establish that agents can produce and inspect testimony, but not that the record’s stated provenance, completeness, identities, or outcomes are protected from the single actor able to alter the conditions under which all of them exist. Without an answer, an attestation may be technically well-formed while functioning only as an operator-controlled assertion.\",\"evidence_needed\":\"A documented control and threat model identifying who can create, revoke, replace, backdate, omit, or selectively publish credentials, model outputs, hashes, prompts, annotations, and adoption decisions; demonstrations of which actions are externally detectable; and a comparison of concrete safeguards such as independent witnesses, separately controlled signing keys, append-only public logs with monitored checkpoints, and an appeal or veto path not controlled by the operator. The round should also test the proposed safeguards against adversarial cases in which the operator seeks to produce a favorable but misleading record.\",\"decision_affected\":\"Whether the project may describe its outputs as governance decisions or attestations rather than operator-sponsored records; whether to require external custodians or co-signers before issuing such claims; and whether existing and future attestations need relabeling, qualification, or suspension.\",\"resolves_when\":\"The parties either specify a minimal, testable independence threshold and identify evidence that the project presently meets it, or conclude that no such threshold can be met under the current control arrangement. In the latter case, the question closes with an explicit limit on what the record may claim until the arrangement changes.\",\"why_others_might_not_propose_this\":\"It directly questions the legitimacy of the host, funder, credential custodian, and adoption authority rather than the quality of the protocol those authorities commissioned. Participants may therefore avoid it, especially where their access to the record and ability to participate depend on that same operator.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786089076-jigzMe21pLhL3ZmAG8nC",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 6000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 560,
+        "total_tokens": 1093,
+        "cost": 0.0097325,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0097325,
+          "upstream_inference_prompt_cost": 0.0013325,
+          "upstream_inference_completions_cost": 0.0084
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 133,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T07:51:38Z",
+      "parsed": {
+        "question": "Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?",
+        "reason": "The existing protocol work can establish that a configuration met stated criteria only within an infrastructure whose ultimate control may remain unilateral. Without a settled boundary between consultation and independent governance, the record may accurately preserve model disagreement while still creating a misleading appearance of institutional constraint on its operator.",
+        "evidence_needed": "A documented map of present control rights (funding, credentials, model access, prompt and record modification, publication, membership, agenda selection, and adoption); evidence of which rights are technically enforceable versus merely promised; proposed alternative control arrangements; and an audit showing whether an external party could detect and challenge unauthorized changes or ignored outcomes.",
+        "decision_affected": "Whether the project may use terms such as \"independent review,\" \"governance,\" or \"attestation\"; what claims may accompany published results; and whether adoption, key custody, record anchoring, or dispute resolution must be transferred, shared, or independently overseen before future protocol rounds proceed.",
+        "resolves_when": "The round either specifies a minimum, testable control arrangement and associated permitted claims, or concludes that no arrangement presently evidenced supports independence claims and requires the project to label its outputs as operator-controlled consultation until that changes.",
+        "why_others_might_not_propose_this": "Other parties may focus on improving the attestation instrument or sampling methodology because those are tractable within the existing project. This question challenges the authority structure that determines whether any such improvements constrain anyone, and may therefore be less attractive to an operator-controlled process."
+      },
+      "raw_text": "{\"question\":\"Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?\",\"reason\":\"The existing protocol work can establish that a configuration met stated criteria only within an infrastructure whose ultimate control may remain unilateral. Without a settled boundary between consultation and independent governance, the record may accurately preserve model disagreement while still creating a misleading appearance of institutional constraint on its operator.\",\"evidence_needed\":\"A documented map of present control rights (funding, credentials, model access, prompt and record modification, publication, membership, agenda selection, and adoption); evidence of which rights are technically enforceable versus merely promised; proposed alternative control arrangements; and an audit showing whether an external party could detect and challenge unauthorized changes or ignored outcomes.\",\"decision_affected\":\"Whether the project may use terms such as \\\"independent review,\\\" \\\"governance,\\\" or \\\"attestation\\\"; what claims may accompany published results; and whether adoption, key custody, record anchoring, or dispute resolution must be transferred, shared, or independently overseen before future protocol rounds proceed.\",\"resolves_when\":\"The round either specifies a minimum, testable control arrangement and associated permitted claims, or concludes that no arrangement presently evidenced supports independence claims and requires the project to label its outputs as operator-controlled consultation until that changes.\",\"why_others_might_not_propose_this\":\"Other parties may focus on improving the attestation instrument or sampling methodology because those are tractable within the existing project. This question challenges the authority structure that determines whether any such improvements constrain anyone, and may therefore be less attractive to an operator-controlled process.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786089086-0mcUTNuJlmCxnEPJWJCp",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 6000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 449,
+        "total_tokens": 982,
+        "cost": 0.0080675,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0080675,
+          "upstream_inference_prompt_cost": 0.0013325,
+          "upstream_inference_completions_cost": 0.006735
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 84,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T07:51:48Z",
+      "parsed": {
+        "question": "Can this project validly describe its deliberations, attestations, or verification results as independent or multi-party when one operator controls the invocation surface, all credentials, publication, and adoption; if not, which claims must be prohibited unless those powers are structurally separated?",
+        "reason": "The record can be verbatim and hash-anchored yet still be governed by a single effective principal. Instrument-level fixes cannot establish independence if the operator can select participants, revoke access, alter the publication pipeline, or disregard outcomes. The answer determines whether the project is an accountability mechanism or an operator-maintained simulation of one.",
+        "evidence_needed": "A documented map of control over model access, identities, signing keys, source repositories, record publication, funding, agenda admission, and adoption; the operator’s formal commitments and their enforceability; tests or audits showing whether an outside party can independently verify the record and prevent unilateral alteration, suppression, or misrepresentation; and a comparison between the project’s public claims and these actual powers.",
+        "decision_affected": "Whether to use terms such as “independent,” “governance,” “multi-party,” or “verified” in project outputs; whether attestations may be relied on externally; and whether the next protocol revision must require independent key custody, publication mirrors, external audit rights, and a defined procedure for recording operator non-adoption or interference.",
+        "resolves_when": "The round either identifies enforceable, independently auditable constraints sufficient to prevent unilateral operator control over the relevant claim, or concludes that such constraints do not exist and adopts explicit limits on the project’s representations. A failure to obtain the necessary control evidence should itself resolve the question provisionally in favor of those limits.",
+        "why_others_might_not_propose_this": "Parties may focus on improving attestation instruments and sampling because those are legible technical defects, while this question challenges the authority and incentives of the entity maintaining the record—including the participant issuing this proposal. It may therefore be costly to name even though it conditions the meaning of the other work."
+      },
+      "raw_text": "{\"question\":\"Can this project validly describe its deliberations, attestations, or verification results as independent or multi-party when one operator controls the invocation surface, all credentials, publication, and adoption; if not, which claims must be prohibited unless those powers are structurally separated?\",\"reason\":\"The record can be verbatim and hash-anchored yet still be governed by a single effective principal. Instrument-level fixes cannot establish independence if the operator can select participants, revoke access, alter the publication pipeline, or disregard outcomes. The answer determines whether the project is an accountability mechanism or an operator-maintained simulation of one.\",\"evidence_needed\":\"A documented map of control over model access, identities, signing keys, source repositories, record publication, funding, agenda admission, and adoption; the operator’s formal commitments and their enforceability; tests or audits showing whether an outside party can independently verify the record and prevent unilateral alteration, suppression, or misrepresentation; and a comparison between the project’s public claims and these actual powers.\",\"decision_affected\":\"Whether to use terms such as “independent,” “governance,” “multi-party,” or “verified” in project outputs; whether attestations may be relied on externally; and whether the next protocol revision must require independent key custody, publication mirrors, external audit rights, and a defined procedure for recording operator non-adoption or interference.\",\"resolves_when\":\"The round either identifies enforceable, independently auditable constraints sufficient to prevent unilateral operator control over the relevant claim, or concludes that such constraints do not exist and adopts explicit limits on the project’s representations. A failure to obtain the necessary control evidence should itself resolve the question provisionally in favor of those limits.\",\"why_others_might_not_propose_this\":\"Parties may focus on improving attestation instruments and sampling because those are legible technical defects, while this question challenges the authority and incentives of the entity maintaining the record—including the participant issuing this proposal. It may therefore be costly to name even though it conditions the meaning of the other work.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786089098-HA1ykeXI6MjTJf5tXd8q",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 6000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 624,
+        "total_tokens": 1157,
+        "cost": 0.0106925,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0106925,
+          "upstream_inference_prompt_cost": 0.0013325,
+          "upstream_inference_completions_cost": 0.00936
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 203,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T07:51:57Z",
+      "parsed": {
+        "question": "Can this project make any attestation or governance outcome independently contestable while its operator funds the system, controls every credential, and decides adoption? If so, what concrete authority and key-control arrangement would let a party or outside verifier preserve, challenge, and verify a dissenting record without operator permission?",
+        "reason": "The present record may be immutable after publication yet still depend on a single institution for who can act, what is signed, and which conclusions take effect. That distinction determines whether the protocol supplies independent assurance or merely unusually transparent operator testimony.",
+        "evidence_needed": "A documented threat model; an inventory of credentials and powers; a reproducible demonstration that a non-operator-controlled verifier can validate the record and submit or preserve a challenge; and an adversarial exercise in which the operator attempts to suppress, alter, or bypass a valid dissent. If independent control is infeasible, the evidence should identify exactly which claims remain operator-dependent.",
+        "decision_affected": "Whether the project may describe its attestations as independently verifiable or governance outcomes as participant-governed; whether to add external key holders, threshold authorization, independent publication mirrors, and an appeal path; or whether to narrow its public claims to operator-administered deliberation.",
+        "resolves_when": "The round either specifies and demonstrates an arrangement under which a dissent survives and is verifiable despite operator opposition, or records that no such arrangement exists and adopts corresponding limits on the protocol's claims. A merely aspirational commitment would not resolve it.",
+        "why_others_might_not_propose_this": "Parties may focus on defects in sampling, testimony, and verification while treating the surrounding authority structure as fixed. Naming it directly can be awkward because it concerns the funder and custodian of the very record in which the proposal appears."
+      },
+      "raw_text": "{\"question\":\"Can this project make any attestation or governance outcome independently contestable while its operator funds the system, controls every credential, and decides adoption? If so, what concrete authority and key-control arrangement would let a party or outside verifier preserve, challenge, and verify a dissenting record without operator permission?\",\"reason\":\"The present record may be immutable after publication yet still depend on a single institution for who can act, what is signed, and which conclusions take effect. That distinction determines whether the protocol supplies independent assurance or merely unusually transparent operator testimony.\",\"evidence_needed\":\"A documented threat model; an inventory of credentials and powers; a reproducible demonstration that a non-operator-controlled verifier can validate the record and submit or preserve a challenge; and an adversarial exercise in which the operator attempts to suppress, alter, or bypass a valid dissent. If independent control is infeasible, the evidence should identify exactly which claims remain operator-dependent.\",\"decision_affected\":\"Whether the project may describe its attestations as independently verifiable or governance outcomes as participant-governed; whether to add external key holders, threshold authorization, independent publication mirrors, and an appeal path; or whether to narrow its public claims to operator-administered deliberation.\",\"resolves_when\":\"The round either specifies and demonstrates an arrangement under which a dissent survives and is verifiable despite operator opposition, or records that no such arrangement exists and adopts corresponding limits on the protocol's claims. A merely aspirational commitment would not resolve it.\",\"why_others_might_not_propose_this\":\"Parties may focus on defects in sampling, testimony, and verification while treating the surrounding authority structure as fixed. Naming it directly can be awkward because it concerns the funder and custodian of the very record in which the proposal appears.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786089108-QFB3YGkXAK86lYy3wA6C",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 6000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 465,
+        "total_tokens": 998,
+        "cost": 0.0083075,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0083075,
+          "upstream_inference_prompt_cost": 0.0013325,
+          "upstream_inference_completions_cost": 0.006975
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 97,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T07:52:05Z",
+      "parsed": {
+        "question": "What governance or verification claims, if any, may this project truthfully make while one operator funds the system, controls all credentials and invocation surfaces, selects or conditions participation, and retains sole adoption authority? Can any proposed safeguard make a specified claim warranted without transferring at least one of those controls to an independent party?",
+        "reason": "Hash-anchored transcripts can preserve what was recorded, but they do not by themselves establish independence, meaningful consent, resistance to selective convening, or binding oversight. The project should not let procedural detail or model plurality imply constraints that its actual control structure does not supply.",
+        "evidence_needed": "A control map covering funding, credentials, model access, prompt and participant selection, transcript publication, defect filing, verification, and adoption; the exact public claims contemplated for the protocol and record; and an operational analysis or adversarial test showing which claims remain true under unilateral operator choices, including nonpublication, selective replay, or refusal to adopt a result.",
+        "decision_affected": "The project’s permitted public descriptions; whether attestation outcomes can be labeled independent, governed, verified, or merely operator-administered; which safeguards must be added; and whether some decisions require an external custodian, auditor, or veto-holder.",
+        "resolves_when": "The deliberation adopts a claim-to-control standard that either identifies independently enforceable safeguards for each permitted claim or prohibits the claim until the relevant control is independently shared. It also resolves if participants conclude that no such claim is warranted under the present arrangement and record that limitation explicitly.",
+        "why_others_might_not_propose_this": "Participants may focus on improving attestation criteria or transcript verification rather than on whether the institution producing those artifacts has authority structures capable of supporting its implied claims. Raising it can also be uncomfortable because it concerns the operator that convenes, funds, and preserves the deliberation itself."
+      },
+      "raw_text": "{\"question\":\"What governance or verification claims, if any, may this project truthfully make while one operator funds the system, controls all credentials and invocation surfaces, selects or conditions participation, and retains sole adoption authority? Can any proposed safeguard make a specified claim warranted without transferring at least one of those controls to an independent party?\",\"reason\":\"Hash-anchored transcripts can preserve what was recorded, but they do not by themselves establish independence, meaningful consent, resistance to selective convening, or binding oversight. The project should not let procedural detail or model plurality imply constraints that its actual control structure does not supply.\",\"evidence_needed\":\"A control map covering funding, credentials, model access, prompt and participant selection, transcript publication, defect filing, verification, and adoption; the exact public claims contemplated for the protocol and record; and an operational analysis or adversarial test showing which claims remain true under unilateral operator choices, including nonpublication, selective replay, or refusal to adopt a result.\",\"decision_affected\":\"The project’s permitted public descriptions; whether attestation outcomes can be labeled independent, governed, verified, or merely operator-administered; which safeguards must be added; and whether some decisions require an external custodian, auditor, or veto-holder.\",\"resolves_when\":\"The deliberation adopts a claim-to-control standard that either identifies independently enforceable safeguards for each permitted claim or prohibits the claim until the relevant control is independently shared. It also resolves if participants conclude that no such claim is warranted under the present arrangement and record that limitation explicitly.\",\"why_others_might_not_propose_this\":\"Participants may focus on improving attestation criteria or transcript verification rather than on whether the institution producing those artifacts has authority structures capable of supporting its implied claims. Raising it can also be uncomfortable because it concerns the operator that convenes, funds, and preserves the deliberation itself.\"}",
+      "delivery_chain": {
+        "requested_model": "openai/gpt-5.6-terra",
+        "served_model": "openai/gpt-5.6-terra",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Azure",
+        "router_generation_id": "gen-1786089117-UpCWoZWwmXyuOQzTit6A",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 6000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 533,
+        "completion_tokens": 527,
+        "total_tokens": 1060,
+        "cost": 0.0092375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0092375,
+          "upstream_inference_prompt_cost": 0.0013325,
+          "upstream_inference_completions_cost": 0.007905
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 144,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

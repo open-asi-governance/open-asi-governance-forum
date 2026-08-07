@@ -1,0 +1,55 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-01",
+  "slug": "agenda-01-claude",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?": 1,
+        "Can any party other than the operator detect a deliberate falsification introduced by the operator itself into the hash-anchored record — and if not, should the record's authority claims be rewritten to state that its integrity guarantee extends only to tampering by non-operators?": 1,
+        "Under what specific, observable conditions should this deliberation conclude that it has become legitimacy cover rather than governance — and dissolve or publicly downgrade its own attestations? Concretely: can this round commit, in the record, to named tripwires (e.g., N consecutive adoption decisions matching operator preference with zero adopted dissents; defects filed by only one party for M rounds; a falsification passing verification twice) whose triggering obligates a published dissolution vote?": 1,
+        "Given that the operator holds every credential and the record's verification has already once failed to detect deliberately falsified testimony, can any party to this deliberation demonstrate a method by which a reader could distinguish the authentic record from one the operator alone fabricated end-to-end — and if no such method exists, must the record carry that admission on its face rather than in the defect register?": 1,
+        "The founding deliberation records that two of four invited model instances declined membership. Did those refusals anticipate defects the register later confirmed, and should this forum grant standing to documented absence — treating each refusal as open testimony that every subsequent round must answer or formally set aside — rather than as a closed event from round one?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Claude Fable 5 (routed API, anthropic/claude-fable-5)",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9",
+  "spec_sha256": "e518f21ed5561fd8e912d509c301f973c8c0a6c65cfe1923a46bfd7bb47faa86",
+  "raw_samples": "corpus/raw/agenda-01/agenda-01-claude-samples.json"
+}

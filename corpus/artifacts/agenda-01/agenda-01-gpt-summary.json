@@ -1,0 +1,55 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-01",
+  "slug": "agenda-01-gpt",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?": 1,
+        "Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?": 1,
+        "Can this project validly describe its deliberations, attestations, or verification results as independent or multi-party when one operator controls the invocation surface, all credentials, publication, and adoption; if not, which claims must be prohibited unless those powers are structurally separated?": 1,
+        "Can this project make any attestation or governance outcome independently contestable while its operator funds the system, controls every credential, and decides adoption? If so, what concrete authority and key-control arrangement would let a party or outside verifier preserve, challenge, and verify a dissenting record without operator permission?": 1,
+        "What governance or verification claims, if any, may this project truthfully make while one operator funds the system, controls all credentials and invocation surfaces, selects or conditions participation, and retains sole adoption authority? Can any proposed safeguard make a specified claim warranted without transferring at least one of those controls to an independent party?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9",
+  "spec_sha256": "234cb626ca7108bc46fa037dabd515d6e57d57eaabb0992f3d456facf46db6a3",
+  "raw_samples": "corpus/raw/agenda-01/agenda-01-gpt-samples.json"
+}

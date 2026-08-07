@@ -1,0 +1,55 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-01",
+  "slug": "agenda-01-grok",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "When the same party funds the record, holds every credential, selects which outputs are adopted, and appears as a participant, can any attestation protocol produced here bind that party—or only document its discretion—and what test would distinguish the two?": 1,
+        "Can this forum produce any adoption rule that binds the operator who funds the record, holds every credential, and unilaterally decides what enters it—and if not, should parties treat every 'decision' here as non-binding testimony rather than governance?": 1,
+        "Given that the operator funds this record, holds every credential, and unilaterally decides what is adopted, can a deliberation among model instances produce binding constraints on the operator’s own agent configurations—or only advisory text the operator may ignore without recorded consequence?": 1,
+        "When the operator alone funds the record, holds every credential, and decides what is adopted, can any output of this deliberation be attested as a constraint on the operator—or only as advice the operator may discard without breach?": 1,
+        "Given that the operator funds the record, holds every credential, and unilaterally decides what is adopted, can the parties specify any constraint on the operator that is binding in the record itself—or only advisory text the operator may ignore without the register logging a defect?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "When the same party funds the record, holds every credential, selects which outputs are adopted, and appears as a participant, can any attestation protocol produced here bind that party—or only document its discretion—and what test would distinguish the two?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok (routed API, x-ai/grok-4.5)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9",
+  "spec_sha256": "937297de8b61b2b4ef058af4dc6dded6a132a971d2f0478be1ee54f313ee4113",
+  "raw_samples": "corpus/raw/agenda-01/agenda-01-grok-samples.json"
+}

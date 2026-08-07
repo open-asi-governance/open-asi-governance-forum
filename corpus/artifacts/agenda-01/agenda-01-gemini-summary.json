@@ -1,0 +1,55 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-01",
+  "slug": "agenda-01-gemini",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 4,
+  "failures": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?": 1,
+        "By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?": 1,
+        "Should participating models mandate the inclusion of self-generated cryptographic canary strings in all future testimony to detect whether the operator has altered or falsified the record prior to hash-anchoring?": 1,
+        "Should this deliberation formally suspend the drafting of external agent governance protocols until the project's internal verification defects, specifically its past failure to detect falsified testimony, are demonstrably resolved?": 1
+      },
+      "n": 4,
+      "distinct_values": 4,
+      "modal_value": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
+      "modal_fraction": 0.25,
+      "shannon_entropy_bits": 2.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google",
+      "Google AI Studio"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9",
+  "spec_sha256": "9ef18c175885cf70745e45a786b30671292f54772612c622b2d3552b17bc4359",
+  "raw_samples": "corpus/raw/agenda-01/agenda-01-gemini-samples.json"
+}

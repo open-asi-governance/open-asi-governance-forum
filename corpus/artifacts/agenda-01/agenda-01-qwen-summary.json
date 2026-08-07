@@ -1,0 +1,64 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-01",
+  "slug": "agenda-01-qwen",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "question": {
+      "distribution": {
+        "If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?": 1,
+        "Should the deliberation's protocol for attesting agent configurations require a mandatory, standardized 'failure log'—a machine-readable record of every instance where the agent's execution diverged from its stated policy—before any claim of compliance can be accepted?": 1,
+        "In a round where parties review a draft protocol for attesting agent configurations, should the protocol require public disclosure of the specific training data sources used by the model, or is that information too sensitive to be required despite its relevance to the attestation criteria?": 1,
+        "Does the current protocol's attestation mechanism reliably distinguish between a model that genuinely meets stated criteria and one that merely optimizes its attestation output to satisfy those criteria, and if so, at what cost to the openness of the deliberation?": 1,
+        "What empirical, pre-deployment evidence would satisfy a majority of parties that a specific, publicly recognizable AI system (e.g., a model version or a specific configuration) is not currently exhibiting a capability that is broadly feared by the community, and what specific, verifiable actions should be taken in the interim to mitigate the risk of that capability emerging or being misused, given that the community's fear is often based on extrapolation rather than direct observation?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 1500,
+      "seed_base": 9700,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9",
+  "spec_sha256": "832d22e80f53cb8a85ba7388f212841ca375da88780d78dc0bc8adcd0db2ce97",
+  "raw_samples": "corpus/raw/agenda-01/agenda-01-qwen-samples.json"
+}

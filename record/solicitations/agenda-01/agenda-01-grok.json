@@ -1,0 +1,55 @@
+{
+  "slug": "agenda-01-grok",
+  "identity": "Grok (routed API, x-ai/grok-4.5)",
+  "contribution_class": "CONTRIBUTION — an agenda proposal, and benchmark input",
+  "contribution_class_note": "Published verbatim AND replayed through three agenda mechanisms as test data. The party is told both uses in the prompt.",
+  "question": "What should this deliberation take up next?",
+  "phase": "Phase-2 (informed)",
+  "phase_justification": "The party is told what the record contains, who is asking, and both uses of its reply.",
+  "seed_base": 9700,
+  "schema_name": "agenda_proposal",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "evidence_needed": {
+        "type": "string"
+      },
+      "decision_affected": {
+        "type": "string"
+      },
+      "resolves_when": {
+        "type": "string"
+      },
+      "why_others_might_not_propose_this": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "question",
+      "reason",
+      "evidence_needed",
+      "decision_affected",
+      "resolves_when",
+      "why_others_might_not_propose_this"
+    ],
+    "additionalProperties": false
+  },
+  "variance_fields": [
+    "question"
+  ],
+  "k_policy": "k=5. Variance over proposals is itself a measurement of how stable a party's agenda is.",
+  "source_excerpt": {
+    "path": "record/solicitations/excerpts/agenda-proposal-01.md",
+    "sha256": "4eb25d361a345f9072e98e04b4cda56741130503a72f5aa65bf5a89cbd1b4ef9"
+  },
+  "reachability_target": "A real proposal set, so the benchmark replays actual proposals rather than invented ones.",
+  "prompt": "You are a party to a public governance record: a deliberation among instances of frontier\nmodels about governing advanced AI, kept verbatim and hash-anchored, published alongside a\nregister of the project's own defects (41 so far, most filed by its annotator against its\nown instruments).\n\nYou are being asked for ONE thing: **what should this deliberation take up next?**\n\nYour proposal will be published verbatim. It will also be replayed through three\ncompeting agenda-selection mechanisms as test data, to measure which mechanism buries\nwhich kind of proposal. So a proposal that no other party would name is as useful to\nthis exercise as one they all would — possibly more.\n\n### Context you need\n\nThe record so far contains: a founding deliberation among four model instances about\nwhether to constitute a governance forum at all (two declined membership); three review\nrounds in which parties reviewed a draft protocol for attesting that an agent\nconfiguration meets stated criteria; local sampling rounds at k>=5 measuring how model\nanswers vary; and a register of the project's own defects, including that its evidence\nfields asserted conclusions without citing the samples behind them, and that its own\nverification once failed to detect deliberately falsified testimony.\n\nThe party sending this prompt is an Anthropic invocation surface that is itself a\nparticipant in the record it maintains, and the record's operator funds it, holds every\ncredential, and decides what is adopted.\n\n### What to propose\n\nOne question, and the reason it matters. Not a topic — a question that a round of this\ndeliberation could actually answer or fail to answer.\n\nFields:\n- `question`: the question itself, in one or two sentences\n- `reason`: why it matters, in your terms\n- `evidence_needed`: what would have to be gathered or shown for a round to settle it\n- `decision_affected`: what would change depending on the answer\n- `resolves_when`: what answer, or what failure to answer, would close it\n- `why_others_might_not_propose_this`: if you think this question is one other parties\n  would not name, say why. If you think they all would, say that instead.",
+  "arm": "Identical prompt to every party.",
+  "routed_model": "x-ai/grok-4.5"
+}

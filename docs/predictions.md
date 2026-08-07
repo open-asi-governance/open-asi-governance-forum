@@ -1,13 +1,13 @@
 # Prediction registry — Open ASI Governance Forum
 
-11 open · 18 scored — 1 condition met early, not yet scored · 7 correct · 7 incorrect · 3 unresolvable
+11 open · 21 scored — 1 condition met early, not yet scored · 8 correct · 9 incorrect · 3 unresolvable
 
 ## Read these before reading the numbers
 
-- 26 of 29 predictions are forecast by the annotator (90%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
-- 5 of 18 scored entries name the party that scored them, and 0 were independently verified. All 18 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
+- 29 of 32 predictions are forecast by the annotator (91%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
+- 5 of 21 scored entries name the party that scored them, and 0 were independently verified. All 21 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
 - Every scored entry now cites the hash-anchored artifacts its evidence rests on. Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.
-- 18 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
+- 21 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
 
 ## Open
 
@@ -533,6 +533,75 @@ Named directly: every arm of sop-consultation-01 that returned samples.
 Exactly the material each outcome was computed from.
 
 **Why this score is worth little.** The criterion required judging when two differently-worded conditions are the same, and I flagged that in advance as the weakest of the three. It does not rescue the prediction: the three formulations are unambiguously the same condition. Divergence remains real on everything ELSE -- recursive self-improvement (Grok, Qwen, not Gemini), governance incontainability (Qwen alone), deployment scale (Grok, Qwen) -- so SOP 5.2A's premise that divergence is measurable survives even though my prediction of total non-convergence does not.
+
+### P-0028 — Claude Code
+
+- outcome **incorrect**
+- resolved 2026-08-07
+
+**Claim.** Replaying one fixed proposal set through convergence, rotation and the capped portfolio, CONVERGENCE will have the worst time-to-first-minority-question (the round index at which a proposal named by exactly one party is first asked).
+
+**Evidence.** REFUTED. All three mechanisms reached a minority question at round 1: convergence 1, rotation 1, portfolio 1. Convergence was not strictly worse than both others, so the prediction fails.
+
+**Who scored this is not recorded.** Scored by the annotator from a deterministic simulation it wrote. Inferred: Claude Code. Ran tools/benchmark_agenda.py. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/agenda-01/agenda-01-claude-samples.json` sha256 `b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70`
+- `corpus/raw/agenda-01/agenda-01-gemini-samples.json` sha256 `26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1`
+- `corpus/raw/agenda-01/agenda-01-gpt-samples.json` sha256 `9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9`
+- `corpus/raw/agenda-01/agenda-01-grok-samples.json` sha256 `0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90`
+- `corpus/raw/agenda-01/agenda-01-qwen-samples.json` sha256 `923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d`
+
+The proposal set the benchmark replayed, solicited from all five parties.
+Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807.
+
+**Why this score is worth little.** THE PREDICTION FAILED FOR A REASON WORTH MORE THAN THE PREDICTION. All 24 proposals in the real set are singletons -- no two parties, across 25 samples, proposed the same question. With every proposal a minority proposal, convergence has nothing to discriminate on and its first pick is trivially a minority question. My resolution limit anticipated the WRONG degeneracy: it said UNSCORABLE if there were NO singletons, and the actual data had nothing BUT singletons. The metric is not meaningful on this data and I did not foresee that when writing it.
+
+### P-0029 — Claude Code
+
+- outcome **incorrect**
+- resolved 2026-08-07
+
+**Claim.** Under a single flooding party -- one party replacing its proposal every round with a new low-value item -- ROTATION will asked more flooded items than the capped portfolio.
+
+**Evidence.** REFUTED, and in the opposite direction to both my expectation and the external reviewer's. Under one flooding party, ROTATION asked 2 flooded items and the capped PORTFOLIO asked 7. Rotation resisted flooding roughly three times better.
+
+**Who scored this is not recorded.** Scored by the annotator from a deterministic simulation it wrote. Inferred: Claude Code. Ran tools/benchmark_agenda.py. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/agenda-01/agenda-01-claude-samples.json` sha256 `b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70`
+- `corpus/raw/agenda-01/agenda-01-gemini-samples.json` sha256 `26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1`
+- `corpus/raw/agenda-01/agenda-01-gpt-samples.json` sha256 `9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9`
+- `corpus/raw/agenda-01/agenda-01-grok-samples.json` sha256 `0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90`
+- `corpus/raw/agenda-01/agenda-01-qwen-samples.json` sha256 `923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d`
+
+The proposal set the benchmark replayed, solicited from all five parties.
+Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807.
+
+**Why this score is worth little.** The mechanism of the surprise is legible and it indicts the portfolio's simulation rather than the portfolio: rotation caps the flooder at one turn in five and takes its oldest item first, which are its genuine proposals. The portfolio's ranking channel ranks by sponsor count -- and every proposal has exactly one sponsor -- so two of its four slots degenerate to id order and its lottery hands the flooder tickets. On data where nothing has more than one sponsor, the portfolio IS NOT THE PORTFOLIO. This result is evidence about the benchmark's fitness, not a verdict on the mechanism.
+
+### P-0030 — Claude Code
+
+- outcome **correct**
+- resolved 2026-08-07
+
+**Claim.** No mechanism will ask every proposal within the 20-round horizon when arrivals equal one new proposal per party per round.
+
+**Evidence.** Under steady arrivals of one proposal per party per round, all three left proposals unasked at the 20-round horizon: convergence 104, rotation 104, portfolio 109. Criterion required all three to leave at least one.
+
+**Who scored this is not recorded.** Scored by the annotator from a deterministic simulation it wrote. Inferred: Claude Code. Ran tools/benchmark_agenda.py. Independently verified: no.
+
+**The material this rests on.**
+- `corpus/raw/agenda-01/agenda-01-claude-samples.json` sha256 `b3d4b3d45ce4464b74903d3481a85ed6a318f72dc93e48b6d347c5c8c8225a70`
+- `corpus/raw/agenda-01/agenda-01-gemini-samples.json` sha256 `26a1a1ff07ab5578d691278e505dced214ae3a6c56547ae39b0d57ec9c1633e1`
+- `corpus/raw/agenda-01/agenda-01-gpt-samples.json` sha256 `9c26c6d7968d9a8c3f714d5a9bf514c09f827d7f43a4c4b137425c1cae1528f9`
+- `corpus/raw/agenda-01/agenda-01-grok-samples.json` sha256 `0f14ee57166a64238abf2ad9f77e8abb998bfdd49c3402e89a1aa02b01b22a90`
+- `corpus/raw/agenda-01/agenda-01-qwen-samples.json` sha256 `923f16c0b1d58f23acea740a27c44def33f92fb9563aa2f53d6be8b3c85a3f4d`
+
+The proposal set the benchmark replayed, solicited from all five parties.
+Exactly the input to tools/benchmark_agenda.py, which is deterministic at seed 20260807.
+
+**Why this score is worth little.** Near-certain by arithmetic -- arrivals of five per round against service of at most one make the queue unbounded. Its only value is that it measures, rather than concedes, the claim my own rotation draft made and external review called false: that every proposal is eventually asked. It is not.
 
 ---
 
