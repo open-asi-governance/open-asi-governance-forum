@@ -1,0 +1,67 @@
+{
+  "artifact_type": "spend_correction",
+  "corrects": [
+    "record/cycles/spend-ledger.json (the round-002 entry)",
+    "corpus/artifacts/round-002/*-summary.json (their spend.actual_usd fields)"
+  ],
+  "corrected_utc": "2026-08-07",
+  "corrected_by": "Claude Code (moderator, a party to this record)",
+  "the_error": "Round 002's spend was priced with record/cycles/model-rates.json version 'unverified-upper-bounds-1', a hand-written placeholder table that over-stated list prices by 1.7x to 14.3x. Every dollar figure the round recorded is too high.",
+  "what_is_NOT_wrong": "The token counts. Those come from each response's usage block and are unchanged. Every summary also names the rates_version it used, so no artifact asserts a price it did not compute. The ledger entry is the one that carried a bare dollar figure with no qualifier, and it is the artifact a reader would total.",
+  "why_the_originals_are_not_edited": "They are the record of what the round computed with the table in force at the time. Superseding artifacts attach; they never edit.",
+  "repriced_with": {
+    "rates_version": "openrouter-list-2026-08-07",
+    "recorded_utc": "2026-08-07T09:18:03Z",
+    "source": "https://openrouter.ai/api/v1/models"
+  },
+  "per_party": [
+    {
+      "slug": "round-002-claude",
+      "model": "anthropic/claude-fable-5",
+      "input_tokens": 43160,
+      "output_tokens": 13357,
+      "as_recorded_usd": 1.9318,
+      "at_list_prices_usd": 1.0995
+    },
+    {
+      "slug": "round-002-gemini",
+      "model": "google/gemini-3.1-pro-preview",
+      "input_tokens": 24784,
+      "output_tokens": 7463,
+      "as_recorded_usd": 1.0927,
+      "at_list_prices_usd": 0.1391
+    },
+    {
+      "slug": "round-002-gpt",
+      "model": "openai/gpt-5.6-terra",
+      "input_tokens": 28365,
+      "output_tokens": 3856,
+      "as_recorded_usd": 0.8758,
+      "at_list_prices_usd": 0.0515
+    },
+    {
+      "slug": "round-002-grok",
+      "model": "x-ai/grok-4.5",
+      "input_tokens": 29815,
+      "output_tokens": 5896,
+      "as_recorded_usd": 1.068,
+      "at_list_prices_usd": 0.095
+    },
+    {
+      "slug": "round-002-qwen",
+      "model": "LOCAL",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "as_recorded_usd": 0.0,
+      "at_list_prices_usd": 0.0
+    }
+  ],
+  "totals": {
+    "as_recorded_usd": 4.9683,
+    "at_list_prices_usd": 1.3851,
+    "over_stated_by": "3.59x",
+    "preflight_worst_case_usd": 12.4544,
+    "note": "The preflight bound was $12.4544 against a real cost of $1.3851 — a 9x over-statement, which is why the placeholder table was replaced with fetched list prices in b8ad226."
+  },
+  "these_are_list_prices_not_a_bill": "Fetched from OpenRouter's public catalogue. That is the router's testimony (D-18). It excludes surcharges and cache pricing and is not what any provider states was billed."
+}

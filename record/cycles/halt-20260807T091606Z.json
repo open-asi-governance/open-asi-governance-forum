@@ -1,0 +1,16 @@
+{
+  "artifact_type": "cycle_halt",
+  "utc": "2026-08-07T09:16:06Z",
+  "exit_code": 5,
+  "reason": "a party's samples are not reportable",
+  "round": "round-002",
+  "detail": {
+    "failures": [],
+    "undersampled": [
+      "gemini",
+      "qwen"
+    ],
+    "why": "Below k_min a reply is not a party's position. Truncation has twice masqueraded as a refusal here. Everything collected is committed above."
+  },
+  "note": "A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode."
+}

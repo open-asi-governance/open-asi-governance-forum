@@ -1,0 +1,72 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-002",
+  "slug": "round-002-gemini",
+  "question": "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 4,
+  "failures": [
+    "Unterminated string starting at: line 3 column 13 (char 62)"
+  ],
+  "attempts": 5,
+  "rejected": [
+    {
+      "sample_index": 4,
+      "category": "malformed_json",
+      "reason": "Unterminated string starting at: line 3 column 13 (char 62)",
+      "captured_utc": "2026-08-07T09:11:23Z",
+      "response_bytes": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to answer the question. The question asks two things: whether the forum can make a meaningful attestation given its centralized control structure"
+    }
+  ],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 4
+      },
+      "n": 4,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 1.0927,
+    "input_tokens": 24784,
+    "output_tokens": 7463,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "unverified-upper-bounds-1",
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "98c9d3595b7e25e4654b3682ecf7b9113b5d47469452f1445ebb73a3a1916ad5",
+  "spec_sha256": "8cfde06ace494201bc0b773191994907e977ecd4e843a8a2e57053dd92347cf4",
+  "raw_samples": "corpus/raw/round-002/round-002-gemini-samples.json"
+}

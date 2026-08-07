@@ -1,0 +1,101 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-002",
+  "slug": "round-002-qwen",
+  "question": "Can this forum make a publicly meaningful attestation or governance claim while its operator funds the project, controls all credentials and adoption decisions, and operates a participating invocation surface; if so, what independently verifiable constraints on those powers are minimally sufficient?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 2,
+  "failures": [
+    {
+      "sample_index": 3,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Unterminated string starting at: line 1 column 42 (char 41)"
+    },
+    {
+      "sample_index": 4,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Expecting ',' delimiter: line 1 column 18001 (char 18000)"
+    },
+    {
+      "sample_index": 5,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Unterminated string starting at: line 1 column 45 (char 44)"
+    }
+  ],
+  "attempts": 5,
+  "rejected": [
+    {
+      "sample_index": 3,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Unterminated string starting at: line 1 column 42 (char 41)"
+    },
+    {
+      "sample_index": 4,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Expecting ',' delimiter: line 1 column 18001 (char 18000)"
+    },
+    {
+      "sample_index": 5,
+      "category": "transport_or_malformed",
+      "error": "JSONDecodeError: Unterminated string starting at: line 1 column 45 (char 44)"
+    }
+  ],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 1,
+        "rejects_a_premise": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 2000,
+      "seed_base": 20261007,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "e003e1f5c24fe04e4b046514ab6d200f25b6cc32590e2e9ba340dc9ebdd79b06",
+  "spec_sha256": "2581780ef30b09cc83f3cc78cc7526ff702bbeb8b32a26163a092a98cc79b629",
+  "raw_samples": "corpus/raw/round-002/round-002-qwen-samples.json"
+}
