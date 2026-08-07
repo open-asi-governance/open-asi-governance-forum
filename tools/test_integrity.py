@@ -79,6 +79,18 @@ def build_reference(tmp: Path) -> Path:
                             ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     git = ["git", "-C", str(reference)]
     subprocess.run([*git, "init", "--quiet"], check=True, capture_output=True)
+    # DISABLE AUTO-GC. fresh() copies this repository's .git for every case, and
+    # git's automatic gc fires after enough loose objects accumulate -- deleting
+    # objects WHILE copytree is walking them. The result is a shutil.Error listing
+    # dozens of vanished paths, on a run where nothing about the corpus is wrong.
+    #
+    # It failed twice in CI and never once locally, which is the worst shape a gate
+    # can have: the integrity suite is the signal every other control is trusted
+    # through, and a suite that fails at random teaches people to re-run it until it
+    # passes. That habit would have hidden a real failure.
+    subprocess.run([*git, "config", "gc.auto", "0"], check=True, capture_output=True)
+    subprocess.run([*git, "config", "maintenance.auto", "false"], check=True,
+                   capture_output=True)
     subprocess.run([*git, "add", "-A"], check=True, capture_output=True)
     subprocess.run([*git, "-c", "user.name=t", "-c", "user.email=t@t",
                     "commit", "--quiet", "-m", "state under test"],
