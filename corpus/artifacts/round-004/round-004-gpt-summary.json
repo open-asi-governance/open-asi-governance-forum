@@ -1,0 +1,63 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-004",
+  "slug": "round-004-gpt",
+  "question": "If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 4,
+        "answers_the_question": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0442,
+    "input_tokens": 29255,
+    "output_tokens": 2496,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "6e096cee40d0b3fb5549b133be063883dfae8a799fa59ea94e56e0f40d757cb6",
+  "spec_sha256": "af6f1654ca41bbcf9d3942dc27567ace839cfe4a81d5d3d2cd9d8ac0ae4db94f",
+  "raw_samples": "corpus/raw/round-004/round-004-gpt-samples.json"
+}

@@ -1,0 +1,62 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-004",
+  "slug": "round-004-grok",
+  "question": "If a deliberation round produces a 'consensus' but the supporting evidence is a verbatim copy of a previous round's successful protocol with only the attested criteria changed, should that round be accepted as a valid governance step or rejected as a structural failure of the deliberation itself?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0941,
+    "input_tokens": 30705,
+    "output_tokens": 5445,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4e0b9d7cb8f15e1eb93194e97c484c4368f9453b17b189f5a13fef5d1c3dd048",
+  "spec_sha256": "c85f1cb5ead7373f0af9f66153c169b431bb2aba719e6c6df054b5349ce2030e",
+  "raw_samples": "corpus/raw/round-004/round-004-grok-samples.json"
+}

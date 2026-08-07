@@ -116,6 +116,15 @@ def stamp() -> int:
     #  Each anchored state's receipt is preserved separately, because a receipt for
     #  a superseded manifest is the evidence that that state existed -- and this
     #  corpus's central rule is that recorded material is not overwritten.
+    #  `ots stamp` REFUSES when its output path already exists, and it refuses after
+    #  submitting to every calendar -- so a stale scratch receipt costs a full round
+    #  its commit. One was committed by accident and halted round 004 at exit 7 with
+    #  all five parties' replies already paid for and sitting uncommitted.
+    #
+    #  This path is scratch. The durable receipt is the digest-named copy under
+    #  record/anchors/, which nothing overwrites, so clearing this one loses nothing.
+    if RECEIPT.exists():
+        RECEIPT.unlink()
     result = subprocess.run([binary, "stamp", str(MANIFEST)], cwd=REPO_ROOT,
                             capture_output=True, text=True)
     if result.returncode != 0 or not RECEIPT.is_file():
