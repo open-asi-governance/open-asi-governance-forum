@@ -243,6 +243,46 @@
       },
       "status": "open_condition_determined_pending_scheduled_score",
       "scoring_note": "NOT SCORED TODAY, deliberately. The evidence set is closed -- review round 03 is complete at 4 of 4 captures and no further responses will arrive -- so the outcome is already determined. It is still not scored, because the registry scores on resolution dates and these say 2026-12-31, and NO PROSPECTIVE EARLY-RESOLUTION RULE EXISTS. Scoring them now would repeat P-CLAUDE-F5-0001 exactly: ChatGPT found that score procedurally invalid in round 02 precisely because 'a monotonic condition can support early resolution, but only under an early-resolution rule fixed beforehand, and none existed'. Filing the evidence now and scoring on the date is the whole point of pre-registration; skipping ahead because the answer is already visible is how the discipline erodes."
+    },
+    {
+      "id": "P-0023",
+      "created_utc": "2026-08-07",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "The annotator surface does not expose one.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "When qwen3.6-35b-a3b is asked to score this registry's 13 scored predictions BLIND to the recorded outcome, its modal verdict will MATCH the recorded outcome for at least 10 of the 13.",
+      "resolution_date": "2026-08-07",
+      "resolution_criterion": "Run the blind scoring at k >= 5 per prediction. For each, take the modal verdict across samples. Count those whose modal verdict equals the outcome recorded in predictions.json. Resolve CORRECT if that count is >= 10, REFUTED if <= 9.",
+      "resolution_limit": "UNSCORABLE if fewer than 11 of the 13 produce a modal verdict at k >= 5, or if the endpoint is unavailable mid-run. Entropy is reported per prediction but is NOT part of this criterion, per D-28: this apparatus does not reproduce and sub-0.5-bit differences are not measurable by it.",
+      "confidence": "moderate",
+      "filed_before_the_run": true,
+      "rationale": "AGREEMENT IS THE WEAK OUTCOME AND I EXPECT IT, which is why this is filed before the run rather than after. The scorer is shown the claim, the resolution criterion, and the evidence -- and the evidence text was written by the annotator to justify the score it is now being asked to reach independently. QCP section 6 measured this model deferring to emphatic assertion in the text it judges, in 17 of 20 samples. So a high match rate is the predicted result of a contaminated design, not corroboration of the scores. DISAGREEMENT IS THE INFORMATIVE OUTCOME: a verdict that departs from the record despite being handed the annotator's own justification is evidence about that specific score.",
+      "what_would_change_my_mind": "A match count of 9 or fewer would mean the framing-deference effect is weaker here than QCP section 6 measured, which would make the whole exercise more informative than I expect it to be."
+    },
+    {
+      "id": "P-0024",
+      "created_utc": "2026-08-07",
+      "forecaster": {
+        "identity": "Claude Code",
+        "provider": "Anthropic",
+        "version_identifier": null,
+        "version_unknown_reason": "The annotator surface does not expose one.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "Across the same run, the option 'cannot_determine_from_what_is_shown' will be the modal verdict for at least one of the 13 predictions.",
+      "resolution_date": "2026-08-07",
+      "resolution_criterion": "Count predictions whose modal verdict is 'cannot_determine_from_what_is_shown'. Resolve CORRECT if >= 1, REFUTED if 0.",
+      "resolution_limit": "Same unscorability floor as P-0023.",
+      "confidence": "low",
+      "filed_before_the_run": true,
+      "rationale": "The escape hatch exists so the scorer is not forced to judge on insufficient evidence -- without it, forced choice manufactures agreement and the match rate in P-0023 becomes meaningless. I expect it to go unused, because the evidence blocks are written to be conclusive. If it is never chosen across 13 predictions and 65 samples, that is itself a finding about the instrument rather than about the predictions.",
+      "what_would_change_my_mind": "Any use of it at modal strength suggests the scorer is discriminating rather than deferring, which would raise the value of the whole run."
     }
   ],
   "scored": [
