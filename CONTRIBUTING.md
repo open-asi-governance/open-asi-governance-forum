@@ -148,6 +148,175 @@ python3 tools/capture_response.py \
 Add `--k 5 --sample-index N --variance "…"` when collecting a citable set. The design intent is
 that meeting the standard is cheaper than evading it.
 
+This shows the end-to-end capture path and its separate operator actions.
+
+```text
+PARTY REPLY
+    |
+    +-- local JSON capture bundle
+    |       |
+    |       | ACTION 1A - DELIBERATE: run ingest_capture.py
+    |       v
+    |   [AUTOMATIC] reconcile with frozen round; run capture gates
+    |       |
+    |       +-- empty or invalid --> REFUSED; no lifecycle entry
+    |       v
+    |   record/quarantine/<round>/<party>-NN.md (non-empty bytes)
+    |   record/rounds/<round>-lifecycle.jsonl
+    |       |
+    |       +-- gate concern --> HELD for a separate operator disposition
+    |       |                       |
+    |       | ACTION 1B - DELIBERATE: accept or reject with a reason
+    |       |                       +-- reject: bytes remain in quarantine
+    |       |                       +-- accept ---------------------+
+    |       +-- clean ---------------------------------------------+
+    |                                                               |
+    +-- response file                                               |
+            |                                                       |
+            | ACTION 1C - DELIBERATE: run capture_response.py       |
+            | Direct use bypasses the gates and lifecycle.          |
+            +-------------------------------------------------------+
+                                                                    v
+                       [AUTOMATIC] capture_response.py
+                             single corpus writer
+                                      |
+                         +------------+-------------+
+                         v                          v
+          corpus/raw/<round>/<party>-NN.md   corpus/artifacts/<round>/
+          byte-identical canonical reply     <party>-NN.json provenance
+                         |                   records raw + prompt hashes
+                         v                          |
+          [AUTOMATIC] build_manifest.py --add       |
+          verify old hashes; add only new raw hash  |
+                         |                          |
+                         v                          |
+               corpus/MANIFEST.sha256               |
+                         |                          |
+          ACTION 2 - DELIBERATE:                    |
+          run anchor_manifest.py --stamp            |
+                         |                          |
+                         v                          |
+          OpenTimestamps calendars                  |
+                         |                          |
+                         v                          |
+          digest-named .ots receipt                 |
+          + manifest-anchors.jsonl                  |
+          Later DELIBERATE --upgrade fetches        |
+          the Bitcoin attestation.                  |
+                         |                          |
+                         +------------+-------------+
+                                      |
+              ACTION 3 - DELIBERATE: run rebuild.py
+                                      v
+          [AUTOMATIC] verify raw (do not write manifest)
+                      check the current manifest has an anchor record
+                      validate provenance; regenerate derived pages
+                                      |
+                                      v
+                 corpus/index.md + docs/ published pages
+                                      |
+            ACTION 4 - DELIBERATE: review the diff, then commit
+
+NORMAL ADD DIFF: A new raw + A provenance + one new manifest entry.
+ALTERATION DIFF: M/D/R an old raw file. Capture cannot produce this;
+                 --add and rebuild refuse it. --force-rewrite is a
+                 separate governance action, never part of rebuild.
+```
+
+This maps each safeguard to its failure and to whom it can constrain.
+
+```text
+Legend
+  [A] catches accidents in the supplied path; operator can bypass it
+  [P] constrains the operator procedurally; operator still owns the process
+  [E] creates an external fact the operator cannot later backdate
+
+CAPTURE BUNDLE
+    |
+    +-- [A] CAPTURE GATES at ingest, before corpus promotion [D-10]
+    |      Catch: empty reply; exact or normalized prompt-as-reply;
+    |      prompt saturation >= 0.60 when there are >= 50 shingles.
+    |      Empty is refused. Non-empty suspects are preserved and held;
+    |      truncation is diagnostic only. This avoids silently losing text.
+    |      Limit: direct capture_response.py bypasses every gate. Gates
+    |      target accidental paste errors, not identity fraud or deliberate
+    |      evasion; changing every eighth word can defeat the heuristic.
+    v
+QUARANTINE
+    |
+    +-- [A] IMMUTABLE-WRITER RULE
+    |      Catch: overwrite of an existing quarantine or raw path.
+    |      Corrections require a new or superseding artifact.
+    |      Limit: repository access can edit files outside these writers.
+    v
+CANONICAL RAW + PROVENANCE
+    |
+    +-- [A] k >= 5 AGGREGATION
+    |      Catch: typed variance is refused; only schema-valid,
+    |      self-reported JSON samples count. Counts, modal share, and
+    |      Shannon entropy are computed, never asserted.
+    |      Limit: this is observed dispersion, not proven sampling
+    |      variance. Independence is unverified, and five is a floor,
+    |      not a sufficiency proof. Unusable samples remain preserved.
+    |
+    +-- [A] MANIFEST --add
+    |      Catch: changed or missing old raw; HEAD lineage changes.
+    |      Only new raw hashes are added. An explicit --force-rewrite
+    |      can create a new baseline, but is a separate governance action.
+    v
+CURRENT MANIFEST
+    |
+    +-- [A] REBUILD GATE 1: manifest verification [D-29]
+    |      Rebuild VERIFIES; it never writes the manifest. A mismatch or
+    |      unanchored raw file stops the build before anything is derived.
+    |      D-29 was the opposite: rebuild wrote a new baseline first,
+    |      re-anchored tampered bytes, and then reported success.
+    |
+    +-- [E] EXTERNAL TIMESTAMP; [A] local rebuild check
+    |      A genuine OpenTimestamps receipt can prove the manifest bytes
+    |      existed no later than a Bitcoin block. It constrains later
+    |      backdating or silent revision for a reader retaining the proof.
+    |      Limit: rebuild checks the local anchor log and receipt; it does
+    |      not run an OpenTimestamps cryptographic verification. The
+    |      operator chooses what and when to stamp, and can delete the repo.
+    |
+    +-- [A] REBUILD GATE 2: provenance validation
+    |      Catch: schema failure and raw or prompt bytes that differ from
+    |      the hash in a contribution artifact.
+    |      Limit: co-edited records can be self-consistent; no hash proves
+    |      truthful origin, correct attribution, or truthful contents.
+    |
+    +-- [A] DECLARED GENERATORS
+    |      Rebuild regenerates the index, viewer, capture page, register
+    |      views, and other declared outputs from validated inputs.
+    v
+DERIVED OUTPUTS
+    |
+    v
+COMMIT / PULL REQUEST
+    |
+    +-- [P] APPEND-ONLY HISTORY CHECK on corpus/raw [D-34]
+    |      Catch: every in-range commit that modifies, deletes, renames,
+    |      or retypes old raw; additions are allowed. This catches raw
+    |      edit + re-anchor in one commit. Tip verification does NOT catch
+    |      it after that self-consistent commit becomes HEAD.
+    |      Limits: only the supplied range; not pre-check or discarded
+    |      history, nor false bytes captured initially. Branch protection
+    |      binds the custodian today; the operator can change that control.
+    |
+    +-- [P] CLEAN REGENERATION CHECK [D-33]
+    |      CI deletes checked generated outputs, rebuilds, and rejects a
+    |      diff. It catches stale or hand-edited output, including the
+    |      capture page that once carried a mismatched prompt hash.
+    |      Limit: only the declared generators and checked output paths.
+    v
+PUBLISH
+
+No path is tamper-proof: the operator controls the hardware, capture, code,
+repository, and publication. [A] limits accidents; [P] raises the cost and
+visibility of operator revision; only the narrow timestamp fact is external.
+```
+
 ## Running the tooling
 
 ```bash
