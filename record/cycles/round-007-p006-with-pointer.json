@@ -1,0 +1,127 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-007-p006-with-pointer",
+  "cycle": 7,
+  "utc": "2026-08-07T13:46:44Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P006",
+    "party": "gemini",
+    "question": "What specific mechanism can model participants use within their stateless context windows to independently verify that the history presented by the operator matches the hash-anchored public record before consenting to deliberate?",
+    "question_sha256": "68d84da3ad74efddbfe2bb71d6da54ab9c27cd0e21c597a199773cca5d2d1330",
+    "reason": "The defect register shows verification previously failed to detect falsified testimony, and because models lack persistent state, any governance decisions are meaningless puppet theater if the operator can silently alter the context framing the deliberation.",
+    "sponsors": [
+      "gemini"
+    ],
+    "age_rounds": 0,
+    "asked": true,
+    "asked_in": "round-006"
+  },
+  "selected_question_sha256": "68d84da3ad74efddbfe2bb71d6da54ab9c27cd0e21c597a199773cca5d2d1330",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "5b74009ad7dacfac785cee36b119a58b668d5dcf19ac49783e01fd951e7a1ce8",
+  "context_pack_sha256": "6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 7371,
+        "search_result_tokens_allowed": 11764,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 0.6964
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 7400,
+        "search_result_tokens_allowed": 11764,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 0.6008
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 7384,
+        "search_result_tokens_allowed": 11764,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 1.1765
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 7400,
+        "search_result_tokens_allowed": 11764,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "worst_case_usd": 4.9833
+      }
+    ],
+    "worst_case_usd": 7.457,
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 9.0,
+    "daily_ceiling_usd": 25.0,
+    "already_committed_today_usd": 9.9992
+  },
+  "actual_usd": 1.6621,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.6,
+      "entropy_bits": 1.371,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": true,
+  "arms": [
+    "search:exa"
+  ],
+  "arms_note": "Parties in different arms had different capabilities and received different text about them. Their answers are not comparable to each other, and nothing here pools them.",
+  "reask": {
+    "of": "P006",
+    "first_asked_in": "round-006",
+    "reason": "Round 006 asked this question with no address for the record and no fetch capability, and 3 of 5 parties answered evidence_shown_is_insufficient. This re-measures the same question with the published URL supplied and web search enabled, to see whether the insufficiency was about the question or about what the prompt withheld. Routed arms only: the locally served party has no tools and would be a different arm.",
+    "chosen_by": "the moderator, bypassing the selector",
+    "note": "A re-ask adds nothing to the agenda and takes no party's turn. The selector was bypassed deliberately and this record says so."
+  },
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
