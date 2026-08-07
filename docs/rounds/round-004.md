@@ -6,7 +6,11 @@ Cycle 4 · selector `rotation` · 2026-08-07T11:28:58Z
 
 > **HALTED — exit 7: the round's manifest could not be anchored**
 >
-> {'branch': 'round/round-004', 'tail': ['Submitting to remote calendar https://a.pool.eternitywall.com', 'Submitting to remote calendar https://ots.btc.catallaxy.com', "Failed to create timestamp '/home/reed/git/open-asi-governance-forum/corpus/MANIFEST.sha256.ots': [Errno 17] File exists: '/home/reed/git/open-asi-gov"], 'why': 'Every solicited byte is preserved in the working tree on the round branch. An unanchored round is not committed, because a record whose hash history the operator can silently revise is the thing the parties refused to treat as evidence.'}
+> **branch:** round/round-004
+>
+> **tail:** Submitting to remote calendar https://a.pool.eternitywall.com, Submitting to remote calendar https://ots.btc.catallaxy.com, Failed to create timestamp '/home/reed/git/open-asi-governance-forum/corpus/MANIFEST.sha256.ots': [Errno 17] File exists: '/home/reed/git/open-asi-gov
+>
+> **why:** Every solicited byte is preserved in the working tree on the round branch. An unanchored round is not committed, because a record whose hash history the operator can silently revise is the thing the parties refused to treat as evidence.
 >
 > A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode.
 

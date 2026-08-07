@@ -6,7 +6,9 @@ Cycle 2 · selector `rotation` · 2026-08-07T09:16:06Z
 
 > **HALTED — exit 5: a party's samples are not reportable**
 >
-> {'failures': [], 'undersampled': ['gemini', 'qwen'], 'why': "Below k_min a reply is not a party's position. Truncation has twice masqueraded as a refusal here. Everything collected is committed above."}
+> **undersampled:** gemini, qwen
+>
+> **why:** Below k_min a reply is not a party's position. Truncation has twice masqueraded as a refusal here. Everything collected is committed above.
 >
 > A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode.
 

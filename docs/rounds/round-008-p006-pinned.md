@@ -1,6 +1,6 @@
 # round-008-p006-pinned
 
-[all rounds](index.md) · [previous](round-007-p006-with-pointer.md)
+[all rounds](index.md) · [previous](round-007-p006-with-pointer.md) · [next](round-009.md)
 
 Cycle 8 · selector `rotation` · 2026-08-07T14:02:16Z
 
@@ -52,4 +52,4 @@ Budget ceiling {"per_party": [{"party_key": "grok", "model": "x-ai/grok-4.5", "p
 - context pack `6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874`
 - [every prompt, verbatim](round-008-p006-pinned-prompts.md)
 
-[all rounds](index.md) · [previous](round-007-p006-with-pointer.md)
+[all rounds](index.md) · [previous](round-007-p006-with-pointer.md) · [next](round-009.md)

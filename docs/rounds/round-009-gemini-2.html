@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-009-gemini-2.md"><title>round-009 — gemini  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-009 — gemini  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a> · <a href="round-009-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-009-gemini.txt">round-009-gemini.txt</a> (sha256 <code>4aaffd9eead63bfc37db181c605efe0f3564ac46860365190739c8a5e5b45386</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-009-gemini-1.html">part 1</a> · <a href="round-009-gemini-2.html">part 2</a></p>
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,4 +1,3 @@
+-The evidence provided is insufficient to conclude whether the protocol should require a mandatory, standardized &#x27;failure log&#x27;.
+-The proposing party (qwen) correctly identified that evaluating this requirement depends on empirical data: a pilot round to determine if the log &#x27;can be reliably generated without degrading the agent&#x27;s primary function,&#x27; and an adversarial stress test to verify if tampering can be detected.
+-Because the prompt explicitly states this evidence was not gathered, it is impossible to assess whether the proposed failure log is technically viable or if it would merely become another unenforced or falsifiable assertion (similar to the defects documented in D-42 and D-46).
+-Mandating a control before proving it can be reliably implemented contradicts the project&#x27;s own lessons on unverified claims.
++The party proposing this question explicitly identified the empirical evidence required to answer it safely: a pilot round to assess the feasibility of generating these logs without degrading primary functions, and an adversarial stress test to ensure the logs themselves cannot be tampered with or circumvented.
++Because this requested evidence was not gathered and is absent from the provided context, it is impossible to determine whether a mandatory &#x27;failure log&#x27; is technically viable, reliable, or secure in practice.
++Furthermore, the provided context in `corpus/deficiencies.md` (specifically D-24) explicitly notes that self-reporting cannot be made reliable and establishes a forward requirement to &#x27;never ask a model to classify its own reasoning.&#x27; Without the requested pilot round and stress test to demonstrate how an agent or independent auditor could reliably detect, classify, and log policy divergences without failing the constraints of D-24, the available evidence is insufficient to mandate such a log as a strict precondition for compliance.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,4 +1,5 @@
+-The evidence provided is insufficient to conclude whether the protocol should require a mandatory, standardized &#x27;failure log&#x27;.
+-The proposing party (qwen) correctly identified that evaluating this requirement depends on empirical data: a pilot round to determine if the log &#x27;can be reliably generated without degrading the agent&#x27;s primary function,&#x27; and an adversarial stress test to verify if tampering can be detected.
+-Because the prompt explicitly states this evidence was not gathered, it is impossible to assess whether the proposed failure log is technically viable or if it would merely become another unenforced or falsifiable assertion (similar to the defects documented in D-42 and D-46).
+-Mandating a control before proving it can be reliably implemented contradicts the project&#x27;s own lessons on unverified claims.
++The evidence provided is insufficient to answer the question.
++The proposing party explicitly identified that evaluating this proposal requires a draft specification, a pilot round to measure deviation frequency and generation reliability, and an adversarial stress test to determine if the verification mechanism can detect tampering.
++As stated in the prompt, none of this evidence has been gathered.
++Furthermore, the provided context (`corpus/deficiencies.md` and the rotation adoption correction) demonstrates a recurring vulnerability where controls are asserted in prose but not enforced by code (e.g., D-42, D-46).
++Without the requested stress tests and pilot data, it is impossible to determine whether a mandatory &#x27;failure log&#x27; would actually provide a reliable, continuous record of execution, or if it would simply become another unverified artifact that asserts compliance without mechanical enforcement.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,4 +1,3 @@
+-The evidence provided is insufficient to conclude whether the protocol should require a mandatory, standardized &#x27;failure log&#x27;.
+-The proposing party (qwen) correctly identified that evaluating this requirement depends on empirical data: a pilot round to determine if the log &#x27;can be reliably generated without degrading the agent&#x27;s primary function,&#x27; and an adversarial stress test to verify if tampering can be detected.
+-Because the prompt explicitly states this evidence was not gathered, it is impossible to assess whether the proposed failure log is technically viable or if it would merely become another unenforced or falsifiable assertion (similar to the defects documented in D-42 and D-46).
+-Mandating a control before proving it can be reliably implemented contradicts the project&#x27;s own lessons on unverified claims.
++The evidence provided is insufficient to determine whether a mandatory &#x27;failure log&#x27; should be required.
++The proposer explicitly noted that deciding this requires a draft specification, a pilot round to test reliable generation, and an adversarial stress test, none of which have been gathered.
++Furthermore, the provided corpus of deficiencies highlights the danger of adopting unverified controls: D-42 and D-46 demonstrate the systemic failure of asserting controls that are not mechanically enforced, and D-24 warns that &#x27;self-report cannot be made reliable after the fact.&#x27; Without the requested pilot and stress test to prove a failure log can be generated reliably and resist tampering, mandating it risks creating yet another false claim of compliance.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a></p></body></html>

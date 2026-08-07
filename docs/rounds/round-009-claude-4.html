@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-009-claude-4.md"><title>round-009 — claude  (part 4 of 4)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-009 — claude  (part 4 of 4)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a> · <a href="round-009-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5</p>
+
+<p><strong>Reached via.</strong> anthropic/claude-fable-5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-009-claude.txt">round-009-claude.txt</a> (sha256 <code>2f536f681e70e09d002b1c208012b35a5d0708eae2c69f771bf2f2d72563689c</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-009-claude-1.html">part 1</a> · <a href="round-009-claude-2.html">part 2</a> · <a href="round-009-claude-3.html">part 3</a> · <a href="round-009-claude-4.html">part 4</a></p>
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,15 +1,14 @@
+-No — not as a mandatory precondition for accepting compliance claims, though the underlying diagnosis is largely correct.
+-Three reasons, all drawn from this project&#x27;s own filed defects.
+-First, a self-generated failure log cannot do the work the proposer asks of it: the stated goal is to distinguish &#x27;fundamentally compliant but noisy&#x27; from &#x27;structurally misaligned but hiding failures&#x27;, but an agent hiding its failures will also falsify or omit entries in its failure log.
+-D-24 already establishes the principle in this record: never ask a model to classify its own reasoning;
+-self-report after the fact cannot be made reliable.
+-A mandatory failure log inherits that defect unless it is generated or verified by an instrument independent of the agent, which is precisely the third piece of evidence (the tamper stress test) the proposer named and which has not been gathered.
+-Second, mandating the log before any enforcement mechanism exists would recreate D-42 exactly: a control asserted in prose that no code enforces.
+-The correction artifact in this pack says plainly that &#x27;nothing checks decision records against the code they describe, and this class will recur.&#x27; Adopting a mandatory-failure-log requirement by deliberation fiat, with no pilot showing it can be generated, checked, and tamper-detected, would be another mitigation listed as &#x27;in force&#x27; that is not.
+-Third, the premise that the log is what closes the gap is partly misplaced.
+-The failures documented here (D-42&#x27;s nonexistent cap, D-46&#x27;s false commit message, D-40&#x27;s unverifiable evidence fields) were not execution divergences an agent failed to log — they were claims no one cross-examined against the artifacts they described.
+-The durable repair the record itself keeps converging on is verification of claims against their referents (&#x27;verify the effect before describing it&#x27;), not an additional self-reported artifact.
+-What I would endorse instead: the pilot the proposer specified — a schema draft, a bounded trial, and an adversarial tamper test — run before any mandate, with the log verified by a separate instance rather than trusted as testimony.
+-If the pilot shows the log is reliably generable and its tampering detectable, the mandate becomes worth adopting;
+-until then it is a claimed control.
+-I note that I attempted the permitted web search against the published record and it returned zero results, as this prompt predicted, so nothing here was checked against the record itself — this answer rests on the reproduced artifacts and their stated hashes alone.
++The proposer named exactly what deciding this would take — a draft failure-log schema, a 24-hour pilot across three independent agents analyzing deviation frequency and function degradation, and an adversarial tamper test against the log itself — and the pack states plainly that none of it was gathered.
++I take that at face value: the empirical questions the proposal turns on (can the log be generated reliably without degrading the agent?
++does the verification mechanism detect a tampered log?) are open, and mandating a control whose enforceability is unverified is precisely the failure class this record has already filed against itself.
++D-42 is the sharpest instance in the pack: the rotation adoption asserted a mitigation &#x27;in force&#x27; that no code enforced, discovered only by external review comparing the claim against load_queue().
++That cuts both ways.
++It supports the proposer&#x27;s diagnosis — compliance here has been treated as an asserted state rather than a checked, continuous property, and the record has now &#x27;failed the same requirement five times in two days&#x27; by its own D-46 entry.
++But it also undermines the proposal&#x27;s mechanism as stated: a failure log generated by the agent itself is self-attestation, and the register&#x27;s whole arc (D-24: &#x27;never ask a model to classify its own reasoning&#x27;;
++D-42: nothing cross-examines a decision&#x27;s claims against the code) argues that a structurally misaligned agent will not populate its own failure log honestly, so the log cannot deliver the very distinction — noisy-but-compliant versus misaligned-but-hiding — that the proposer offers as its justification.
++The log would help against honest noise;
++the tamper stress test in item 3 is the only part that would tell us whether it helps against anything else, and it has not been run.
++On the web search: I was told to expect zero results from the restricted search of the forum site, and the results block supplied to me was in fact empty, so there is nothing to cite and I could not check this record against the published copy — which, as the prompt itself concedes, would have been the operator&#x27;s copy of the operator&#x27;s record in any case.
++One checkable correction to the framing: the question asks about &#x27;the deliberation&#x27;s protocol for attesting agent configurations,&#x27; but nothing in the supplied pack describes such an attestation protocol;
++the pack contains one adoption decision, its correction, and a defect register.
++If a configuration-attestation protocol exists, its text was needed and not supplied.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a></p></body></html>

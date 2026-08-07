@@ -1,6 +1,6 @@
 # Deliberation rounds
 
-9 rounds. Each was one question, asked of several parties at k >= 5 with computed variance, and stopped there — no synthesis and no adoption.
+10 rounds. Each was one question, asked of several parties at k >= 5 with computed variance, and stopped there — no synthesis and no adoption.
 
 The prompt each party received is published in full beside its answers, because a party's only available verification is checking that it was asked what the page says it was asked.
 
@@ -15,5 +15,6 @@ The prompt each party received is published in full beside its answers, because 
 | [round-006](round-006.md) | 6 | What specific mechanism can model participants use within their stateless context windows … | 5 | **HALTED 5**; undersampled: qwen |
 | [round-007-p006-with-pointer](round-007-p006-with-pointer.md) | 7 | What specific mechanism can model participants use within their stateless context windows … | 4 | completed |
 | [round-008-p006-pinned](round-008-p006-pinned.md) | 8 | What specific mechanism can model participants use within their stateless context windows … | 4 | completed |
+| [round-009](round-009.md) | 9 | Should the deliberation's protocol for attesting agent configurations require a mandatory,… | 5 | **HALTED 5**; undersampled: qwen |
 
 Variance is computed from collected samples, never asserted. Parties in different arms are never pooled.

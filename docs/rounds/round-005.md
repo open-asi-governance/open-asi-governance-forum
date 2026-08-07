@@ -6,7 +6,9 @@ Cycle 5 · selector `rotation` · 2026-08-07T11:39:39Z
 
 > **HALTED — exit 7: the working tree is not clean after the commit**
 >
-> {'entries': ['M record/anchors/manifest-anchors.jsonl', '?? record/anchors/MANIFEST-26ab9874bffc5755.ots'], 'why': 'A subset check alone misses an artifact that was written and never staged. Cleanliness is what closes that gap.'}
+> **entries:** M record/anchors/manifest-anchors.jsonl, ?? record/anchors/MANIFEST-26ab9874bffc5755.ots
+>
+> **why:** A subset check alone misses an artifact that was written and never staged. Cleanliness is what closes that gap.
 >
 > A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode.
 

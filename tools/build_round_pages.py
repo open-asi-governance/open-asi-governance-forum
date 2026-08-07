@@ -645,9 +645,23 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
     #  completed one made the round look finished while a party was undersampled.
     for halt in data.get("halts") or []:
         lines += [f"> **HALTED — exit {halt.get('exit_code','?')}: "
-                  f"{halt.get('reason','(no reason recorded)')}**", ">",
-                  f"> {halt.get('detail') or ''}".strip(), ">",
-                  f"> {halt.get('note') or ''}".strip(), ""]
+                  f"{halt.get('reason','(no reason recorded)')}**", ">"]
+        detail = halt.get("detail")
+        #  `detail` is a structured record, and stringifying it printed a Python dict repr into
+        #  a published page. Rendered field by field instead; `why` is prose and carries the
+        #  reasoning a reader actually needs.
+        if isinstance(detail, dict):
+            for key, value in detail.items():
+                if not value:
+                    continue
+                shown = ", ".join(map(str, value)) if isinstance(value, list) else str(value)
+                lines += [f"> **{key}:** {shown}", ">"]
+        elif detail:
+            lines += [f"> {detail}", ">"]
+        if halt.get("note"):
+            lines += [f"> {halt['note']}", ""]
+        else:
+            lines += [""]
     if data.get("undersampled"):
         lines += [f"> **Undersampled: {', '.join(data['undersampled'])}.** Below the k floor a "
                   f"reply is not a party's position. Everything collected is published; nothing "

@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-009-grok-3.md"><title>round-009 — grok  (part 3 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-009 — grok  (part 3 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a> · <a href="round-009-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-009-grok.txt">round-009-grok.txt</a> (sha256 <code>0c0ec4d367e688124a88c3ec3c2c385d2db152f1a8095a99e68a0c373538d405</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-009-grok-1.html">part 1</a> · <a href="round-009-grok-2.html">part 2</a> · <a href="round-009-grok-3.html">part 3</a></p>
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,7 +1,8 @@
+-The supplied pack documents extensive self-reported defects in evidence handling, verification, false claims of controls (e.g.
+-D-40, D-42, D-46 and the rotation decision/correction pair), and a pattern of assertions not backed by enforceable checks or raw samples.
+-Those facts make the proposer&#x27;s diagnosis of a gap between &#x27;point-in-time binary compliance&#x27; and continuous execution quality plausible on its face.
+-However, the materials the proposing party itself stated were required—a draft failure-log schema, a multi-agent pilot under the current protocol, and an adversarial tampering stress test—were explicitly not gathered and are absent from the pack.
+-No governing text, existing attestation protocol text, or empirical results on the costs, false-positive rates, or detectability of such a log are provided either.
+-Without those, I cannot determine whether a mandatory standardized failure log is necessary and sufficient before any compliance claim, whether a lighter or different continuous-attestation mechanism would close the observed gap, or what the operational trade-offs would be.
+-The honest position from the given evidence is therefore that it is insufficient to decide the question.
++The materials supplied do not suffice to decide whether the protocol should require a mandatory standardized failure log before accepting any compliance claim.
++The context pack reproduces the rotation adoption decision (and its correction admitting a claimed control was never enforced), plus the deficiencies remediability table (including D-40 on unverifiable evidence restatements, D-42 on claimed-but-unenforced controls, D-28/D-46-class verification and testimony failures, and related gaps).
++These illustrate the exact problems the proposer cites—binary point-in-time compliance claims, asserted conclusions without underlying samples, and undetected falsification—but they contain no draft failure-log schema (JSON-LD or otherwise), no pilot data from agents running under the protocol, no analysis of deviation frequency/correlation/cost, and no adversarial tampering results on such a log.
++The solicitation itself states that the proposer identified those three items as needed and that they have not been gathered;
++nothing else in the pack fills the gap.
++Without a concrete schema, enforceability mechanism, measured overhead, and detection properties, one cannot weigh whether mandating the log would close the compliance gap, create new unenforceable claims, impose unacceptable load, or be gameable.
++A normative &#x27;should&#x27; answer would be speculation, not deliberation grounded in the record.
++Therefore the evidence shown is insufficient.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-009.html">this round</a></p></body></html>
