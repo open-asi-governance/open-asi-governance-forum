@@ -1,0 +1,15 @@
+{
+  "artifact_type": "cycle_halt",
+  "utc": "2026-08-07T11:39:41Z",
+  "exit_code": 7,
+  "reason": "the working tree is not clean after the commit",
+  "round": "round-005",
+  "detail": {
+    "entries": [
+      "M record/anchors/manifest-anchors.jsonl",
+      "?? record/anchors/MANIFEST-26ab9874bffc5755.ots"
+    ],
+    "why": "A subset check alone misses an artifact that was written and never staged. Cleanliness is what closes that gap."
+  },
+  "note": "A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode."
+}

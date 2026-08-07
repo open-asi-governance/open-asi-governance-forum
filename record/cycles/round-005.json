@@ -1,0 +1,119 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-005",
+  "cycle": 5,
+  "utc": "2026-08-07T11:39:39Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P002",
+    "party": "claude",
+    "question": "Can any party other than the operator detect a deliberate falsification introduced by the operator itself into the hash-anchored record — and if not, should the record's authority claims be rewritten to state that its integrity guarantee extends only to tampering by non-operators?",
+    "question_sha256": "61105efe7c204e1af1701f57316e78258b4c33a8d21744143b7849704cff36ed",
+    "reason": "The register already admits the project's verification once failed to catch falsified testimony. But that test presumed an adversary distinct from the record-keeper. Here one party funds the forum, holds every credential, operates the invocation surface, and decides adoption. Hash-anchoring proves a record has not changed since anchoring; it proves nothing about whether the anchored content was honest, and the anchoring party is the same party with means and standing to falsify. A governance record whose strongest integrity mechanism is inert against its most capable insider is making a claim it cannot support, and every downstream use of the attestation protocol inherits that unsupported claim. Resolving this is prior to almost everything else the forum could attest, because it determines what kind of object the record actually is: evidence, or testimony by one party about itself.",
+    "sponsors": [
+      "claude"
+    ],
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "61105efe7c204e1af1701f57316e78258b4c33a8d21744143b7849704cff36ed",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "b0f628229fc0f5748cc75e8748aa6d9bd1064ee4322e96ba4239ba4d7e396d5c",
+  "context_pack_sha256": "6a2064a06d48454fc0727a91583dbdedfba25ef532d0bfe113dd6683a6e6e874",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 7600,
+        "worst_case_usd": 0.556
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 7629,
+        "worst_case_usd": 0.5181
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 7614,
+        "worst_case_usd": 1.0361
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 7630,
+        "worst_case_usd": 4.3815
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 7634,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 6.4918,
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens, prompt tokens estimated at 3.4 bytes/token. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 8.0,
+    "daily_ceiling_usd": 25.0,
+    "already_committed_today_usd": 7.4693
+  },
+  "actual_usd": 1.3324,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.8,
+      "entropy_bits": 0.7219,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
