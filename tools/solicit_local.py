@@ -287,7 +287,22 @@ def main() -> int:
                                                         if r.get("outcome") == "FETCHED"),
                                          "sources_check": fx.sources_supported_by_receipts(
                                              parsed.get("sources") if isinstance(parsed, dict)
-                                             else None, receipts)}
+                                             else None, receipts),
+                                         #  Same field name and same vocabulary as the routed
+                                         #  arm. Omitting it here made the local party's samples
+                                         #  unclassifiable while the routed ones were classified
+                                         #  -- one shared executor is not one shared record if
+                                         #  the two arms report different fields.
+                                         "stratum": ("fetched_successfully"
+                                                     if any(r.get("outcome") == "FETCHED"
+                                                            for r in receipts)
+                                                     else "fetch_attempted_refused"
+                                                     if any(r.get("outcome") == "REFUSED"
+                                                            for r in receipts)
+                                                     else "budget_exhausted"
+                                                     if any(r.get("outcome") == "BUDGET_EXHAUSTED"
+                                                            for r in receipts)
+                                                     else "no_fetch")}
                                         if fetch_enabled else None),
                               "finish_reason": result["choices"][0].get("finish_reason"),
                               "usage": result.get("usage"), "seed": body["seed"]})

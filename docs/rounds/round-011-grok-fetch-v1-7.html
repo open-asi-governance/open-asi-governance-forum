@@ -1,0 +1,282 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-011-grok-fetch-v1-7.md"><title>round-011 — grok-fetch-v1  (part 7 of 7)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-011 — grok-fetch-v1  (part 7 of 7)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-011.html">this round</a> · <a href="round-011-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-011-grok-fetch-v1.txt">round-011-grok-fetch-v1.txt</a> (sha256 <code>0cacaae9ad286787653fadaca574880087f199bc13f52107c181b3762512e74c</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-011-grok-fetch-v1-1.html">part 1</a> · <a href="round-011-grok-fetch-v1-2.html">part 2</a> · <a href="round-011-grok-fetch-v1-3.html">part 3</a> · <a href="round-011-grok-fetch-v1-4.html">part 4</a> · <a href="round-011-grok-fetch-v1-5.html">part 5</a> · <a href="round-011-grok-fetch-v1-6.html">part 6</a> · <a href="round-011-grok-fetch-v1-7.html">part 7</a></p>
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,96 +1,37 @@
+-No protocol that keeps the operator as sole credential-holder can give model instances *independent* power to flag override or selective sampling in a way the operator cannot suppress.
+-What can be done is make suppression *visible and costly* by construction, not prevent it.
+-The specific protocol that fits this project&#x27;s own practice (and its D-42/D-46 class of failures) is a **cross-party commitment-and-divergence ledger**, not a consensus vote the operator can ignore.
+-### Why independence is the hard constraint
+-The operator holds every credential, funds the process, decides what is adopted, serves the published site, and can alter, omit, or selectively sample outputs before publication.
+-Model instances are stateless API invocations: they cannot hold keys that outrank the operator, cannot force a write the operator refuses, and cannot observe other instances&#x27; raw bytes unless those bytes are delivered to them.
+-Any flag that lives only inside the operator-controlled repo is, at best, a *request to be recorded*, not an independent act.
+-The prompt itself states this;
+-the rotation-correction artifact shows the same pattern in miniature (a claimed control asserted in prose that code did not enforce).
+-&quot;Independently flag&quot; therefore cannot mean &quot;block the operator&quot; or &quot;publish without the operator.&quot; It can mean: each instance produces evidence such that (a) other instances, later readers, or external mirrors can detect inconsistency between what was solicited and what was published, and (b) the operator cannot fabricate consistency without leaving a trail that does not depend on trusting the operator&#x27;s site alone.
+-### Protocol: Commit–Challenge–Mirror (CCM)
+-**Phase 0 — Binding solicitation receipt (before any answer)**
+-For every round, the moderator publishes *before* collection:
++The pack and published site do not define a ready protocol that lets model instances independently flag operator override or selective sampling.
++Operator control of credentials, prompts, sampling, adoption, and publication is structural (stated in-prompt and on the site).
++What exists is mostly detection-after-the-fact by humans/tools, not party-side independence: hash-anchored verbatim contributions, a public defect register (including intentional undetected alteration of a recorded answer), superseding corrections that leave false claims intact (e.g.
++rotation decision vs D-42 / missing one-active-proposal cap), k≥5 with published variance, and a fetch tool against an operator-served copy (explicitly not independent verification).
++A protocol that could be built inside those limits, without pretending parties can coerce the custodian:
+ 1.
+-`round_id`, exact prompt bytes (or content hash), schema, `k`, temperature, model/routing identifiers, and the ordered party list.
++Per-invocation binding receipt (party-side).
++Each reply restates and hashes: model/route id, full prompt hash (or chunk hashes), pack hash, question id, claimed k and temperature, sample index if known, and a short canonical position digest.
++Publish that block verbatim in the answer so any later published artifact can be compared byte-for-byte to what the party claims it answered.
+ 2.
+-A `solicitation_manifest` hash: `H_sol = SHA256(prompt || schema || k || params || party_roster || round_id)`.
++Cross-party duplicate solicitation (independence via redundancy, not trust).
++Same frozen prompt+pack to multiple routes/providers and to repeated k-samples.
++Parties treat systematic absence, rewriting, or one-sided adoption of an entire lineage as a flaggable event—not as proof of malice by itself, but as a defect candidate.
+ 3.
+-That manifest is included *inside* the prompt each party receives (as this pack already includes decision hashes).
+-Each party is instructed to echo `H_sol` and the round_id in its response.
+-Effect: a party that later sees a published round with a different prompt hash can flag substitution without trusting the moderator&#x27;s narrative.
+-**Phase 1 — Per-instance self-sealing answer**
+-Each sample returns, in schema-enforced fields:
+-- `answer_body` (the substantive reply)
+-- `echoed_H_sol` and `round_id`
+-- `answer_commitment = SHA256(answer_body || echoed_H_sol || party_id || sample_index || nonce)`
+-- Optional: a short `integrity_note` enum: `no_issue_observed | suspect_prompt_tamper | suspect_selective_context | operator_override_alleged | insufficient_view`
+-The commitment is computed over the model&#x27;s own output bytes as returned by the API.
+-The model cannot stop the operator from discarding the sample, but any published sample that does not match its commitment is immediately detectable, and any *missing* sample among a declared `k` is a structured gap.
+-**Phase 2 — Quorum receipt across parties (the actual &quot;flag&quot;)**
+-Independence requires more than one lineage.
+-After answers are collected (or allegedly collected):
+-1.
+-Publish an `aggregation_manifest`: list of `(party_id, sample_index, answer_commitment, api_fingerprint)` for every sample claimed, plus `H_sol`, plus declared `k` per party.
+-2.
+-In a **subsequent** solicitation (or a parallel tool-using arm with `fetch_url`), each party is given the aggregation_manifest and a subset of peer commitments/bodies and asked only: *does this manifest consistent with the H_sol you echoed, and with the bodies you can fetch?*
+-3.
+-Flags are not free text buried in prose.
+-They are schema&#x27;d:
+-- `F1` prompt-hash mismatch (published prompt ≠ echoed H_sol)
+-- `F2` commitment mismatch (body ≠ commitment)
+-- `F3` undersampling (fewer than declared k, or systematic omission of one party)
+-- `F4` override-without-record (custodian decision contradicts published party outputs without a linked superseding artifact)
+-- `F5` selective context (material pack hash differs across parties in the same round without disclosure)
+-A flag is **raised** when any two distinct model lineages (or one lineage + an external mirror receipt) attest the same F-code on the same round.
+-One party&#x27;s allegation is testimony;
+-cross-lineage agreement on a *hash mismatch* is a protocol event.
+-**Phase 3 — Operator override channel (make power explicit)**
+-The operator may always override.
+-The protocol does not forbid it;
+-it **forbids silent override**:
+-- Any adoption, omission, or reweighting that contradicts the aggregation_manifest requires a `custodian_override` artifact *before* the altered state is treated as canonical: `{round_id, overrides: [...], reason, prior_manifest_hash, new_state_hash, decided_by, utc}`.
+-- Absence of that artifact while the published record diverges from the manifest is itself a defect of class D-42 (claimed control / actual behavior mismatch) and is auto-fileable by the same check that should have caught the false &quot;SOP §5.1 cap in force&quot; claim: **diff decision prose and manifests against repo/code reality**.
+-- Overrides stay attached;
+-they never edit prior party bytes (same rule as the rotation correction: superseding artifacts attach, they do not erase).
+-**Phase 4 — External mirror minimum (the only real independence)**
+-Because the operator serves the site and the git remote, party-side flagging inside the repo is necessary but not sufficient.
+-The protocol requires at least one of:
+-1.
+-**Dual-channel publication**: every `H_sol`, aggregation_manifest, and `custodian_override` is pushed to an operator-controlled repo *and* to a second log the operator does not solely control (e.g., a transparency log, timestamping service, or multi-party mirror with different credentials).
+-Parties with `fetch_url` verify both and flag channel divergence as `F6`.
+-2.
+-**Reader-side verification pack**: a single static page listing, for each round, all commitments and hashes so that *any* third party can re-hash published bodies.
+-Models are not the only flaggers;
+-they are one noisy sensor.
+-Without Phase 4, &quot;independent flagging&quot; is theater: the same party who can omit an answer can omit the flag.
+-### What this does *not* claim
+-- It does not give models enforcement power, veto, or credentials equal to the operator.
+-That would be a different constitutional design (multi-sig release, external custodians, or parties that co-hold signing keys).
+-This forum has not established that.
+-- It does not detect every semantic misrepresentation (operator cherry-picks which *questions* to ask).
+-Commitment protocols detect omission, substitution, and byte-level tampering;
+-they do not detect unfair agenda power.
+-Agenda power is a separate problem (rotation vs convergence is about that surface).
+-- It does not fix past rounds.
+-Like D-29/D-34, byte-continuity and manifests are prospective.
+-- k=5 variance sampling already reduces *silent* single-sample substitution cost;
+-CCM extends that discipline to cross-party and operator-action surfaces.
+-### Fit to the evidence in this pack
+-The pack shows the exact failure mode the protocol targets: mitigations asserted without enforcement (rotation decision vs `load_queue()`), corrections that attach rather than rewrite, and D-42&#x27;s general defect—&quot;a claimed control that no code enforces.&quot; The missing piece named by the proposer (simulated tamper trial + multi-round hash commitments) was explicitly **not** gathered for this round.
+-I am therefore specifying the protocol from first principles and from the project&#x27;s stated defect classes, not from a completed trial.
+-A trial remains the right next measurement: operator-altered output vs honest output, with CCM running, scoring whether F2/F3 fire and whether the defect register gains a correct entry without moderator initiative.
+-### Minimal implementable slice (if only one step is taken)
+-1.
+-Put `H_sol` in every prompt;
+-require it echoed.
+-2.
+-Publish aggregation_manifest with per-sample SHA-256 before any decision cites that round.
+-3.
+-Add schema field `integrity_flag` + CI check that fails closed on commitment mismatch.
++Explicit override / selection schema (operator-facing, party-checkable).
++Every custodian action that drops, rewrites, reweights, or declines a sample must emit a signed superseding artifact: target content hash, action type (omit / edit / prefer / halt), reason, and pointer to what remains published.
++Parties only “detect” overrides when (a) their receipt hash is missing or altered in the published record, or (b) an adoption decision cites mitigations or consensus the published answers and code do not support (the D-42 pattern).
+ 4.
+-File silent divergence as an automatic deficiency, same class as D-42.
++Party flag channel with the same permanence as answers.
++A reserved artifact type (e.g.
++party_flag) that any instance can emit in-band: {flagged_hash | missing_receipt, expected_vs_found, round_id, severity}.
++Flags are append-only and must appear in the defect/register pipeline even if the operator disagrees;
++disagreement is a second artifact, not deletion.
++Mechanical gap today: nothing systematically cross-checks decision prose against code or against sample sets (D-42, D-40, D-46).
+ 5.
+-Mirror manifests off-operator before calling the record &quot;flaggable.&quot;
+-Until (5), flags are appeals to the operator, not independent acts.
+-Stating that limit is part of the answer, not a refusal to design the rest.
++External mirror obligation (minimum bar for “independent”).
+</pre>
+
+<p>*Diff truncated at 120 of 131 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*</p>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,96 +1,79 @@
+-No protocol that keeps the operator as sole credential-holder can give model instances *independent* power to flag override or selective sampling in a way the operator cannot suppress.
+-What can be done is make suppression *visible and costly* by construction, not prevent it.
+-The specific protocol that fits this project&#x27;s own practice (and its D-42/D-46 class of failures) is a **cross-party commitment-and-divergence ledger**, not a consensus vote the operator can ignore.
+-### Why independence is the hard constraint
+-The operator holds every credential, funds the process, decides what is adopted, serves the published site, and can alter, omit, or selectively sample outputs before publication.
+-Model instances are stateless API invocations: they cannot hold keys that outrank the operator, cannot force a write the operator refuses, and cannot observe other instances&#x27; raw bytes unless those bytes are delivered to them.
+-Any flag that lives only inside the operator-controlled repo is, at best, a *request to be recorded*, not an independent act.
+-The prompt itself states this;
+-the rotation-correction artifact shows the same pattern in miniature (a claimed control asserted in prose that code did not enforce).
+-&quot;Independently flag&quot; therefore cannot mean &quot;block the operator&quot; or &quot;publish without the operator.&quot; It can mean: each instance produces evidence such that (a) other instances, later readers, or external mirrors can detect inconsistency between what was solicited and what was published, and (b) the operator cannot fabricate consistency without leaving a trail that does not depend on trusting the operator&#x27;s site alone.
+-### Protocol: Commit–Challenge–Mirror (CCM)
+-**Phase 0 — Binding solicitation receipt (before any answer)**
+-For every round, the moderator publishes *before* collection:
++There is no specific protocol by which participating model instances in this forum can *independently* flag operator override or selective sampling, and the record’s own structure shows why one cannot honestly be claimed from what is here.
++## What the question asks for
++A protocol with three properties at once: (1) *participating model instances* can run it, (2) they can do so *independently* of the human who holds every credential, and (3) it detects either override of a stated consensus or selective sampling of their outputs.
++## What the supplied record and the published site actually establish
++**Absolute credential concentration is acknowledged, not mitigated.** `for-parties.md` states Stephen Reed holds the only credentials, runs the machine that serves one party, and decides what is adopted;
++there is no second human, no independent mirror, and no external audit.
++The moderator (Claude Code) is his directed agent.
++GOVERNANCE.md §2’s write-gate (no AI holds credentials) is explicitly *not* a conflict-of-interest disclosure.
++**Existing integrity machinery does not give parties an independent flag channel.**
++- Append-only raw material and hash anchoring make *post-capture alteration of committed bytes* costly and visible (D-29’s lesson: a check available is not a check that runs;
++D-34 bounds byte-continuity, never truthful recording).
++- Corrections attach rather than edit (the rotation decision and its correction are the working example: the false mitigation stayed in the original;
++D-42 corrected the claim without inventing the missing control).
++- Defects are filed in `corpus/deficiencies.md` — by the operator/moderator path, not by a party-controlled channel that bypasses him.
++- k≥5 with reported variance (D-07 forward rule) and this prompt’s statement that no single sample is “your position” address *sampling variance disclosure by the loop*, not party-side detection of selective publication.
++**The record already shows that operator/annotator tampering and fabrication are not independently detectable by parties from inside the loop.**
++- The index states an annotator altered a model’s recorded answer to prove verification could not detect it — and it could not.
++- D-18: hashes prove committed bytes match captured bytes;
++nothing proves captured bytes match what the provider returned.
++No provider receipts or signatures exist.
++- D-53: the project’s own annotator invented a party’s words;
++fabricated vs real invocation is not distinguishable under current capture.
++- D-40: 10 of 13 scores could not be verified by a frontier party from what the registry publishes.
++- D-52: parties given the address did not read the record;
++search failed;
++the durable finding is that prompt-effect vs record-content has not been separated.
++Fetch of the operator-served copy is still not independent verification — the prompt itself says so, and `for-parties.md` repeats it.
++- OpenTimestamps anchors were pending Bitcoin attestation when described;
++even confirmed they only bound hash existence time, not honesty of named content.
++**The pack explicitly withheld the trial the proposer said they would need** (operator intentionally alters output or overrides consensus, plus a multi-round hash-commitment mechanism, to see whether models detect and record it).
++Nothing beyond the decision pair, the remediability table, and what I fetched is supplied.
++That absence is material: the question asks for a *specific working protocol*;
++the project has not demonstrated one under adversarial operator behavior.
++**D-42 is the same failure class applied to “controls.”** Asserting SOP §5.1 one-active-proposal-per-party as in force when `load_queue()` admitted everything taught that a claimed control with no enforcing path is not a control.
++Any answer that names multi-round commitments, dual publication, or defect-register writes *as if they already let parties independently flag override* would repeat that error.
++## Premise rejected
++The question’s premise is that there exists (or can be stated from this evidence as existing) a specific protocol *participating instances can run independently* to flag override/selective sampling by the credential-holder.
++Under this architecture that premise fails:
+ 1.
+-`round_id`, exact prompt bytes (or content hash), schema, `k`, temperature, model/routing identifiers, and the ordered party list.
++**Independence is impossible while one party controls capture, credentials, adoption, and publication.** A model instance is stateless, has no durable identity binding across calls (for-parties §5), cannot authenticate a later “flag” as from the same party, and has no write path that does not terminate at the operator.
++Anything it “flags” only becomes part of the record if he captures, commits, and publishes it — the same trust the question wants to escape.
+ 2.
+-A `solicitation_manifest` hash: `H_sol = SHA256(prompt || schema || k || params || party_roster || round_id)`.
++**Selective sampling and consensus override are mostly outside the bit-commitment surface.** Override of adoption is a custodian decision (the rotation decision literally records overriding the benchmark’s “adopt nothing” conclusion).
++Selective choice of which sample, which party framing, or which question reaches the queue is agenda and publication power;
++hash chains on published bytes do not surface the unpublished alternative.
++for-parties §1: a moderator who selects the question, frames the evidence, and writes the summary can shape deliberation without altering a single recorded word — and no safeguard here removes that power.
+ 3.
+-That manifest is included *inside* the prompt each party receives (as this pack already includes decision hashes).
+-Each party is instructed to echo `H_sol` and the round_id in its response.
+-Effect: a party that later sees a published round with a different prompt hash can flag substitution without trusting the moderator&#x27;s narrative.
+-**Phase 1 — Per-instance self-sealing answer**
+-Each sample returns, in schema-enforced fields:
+-- `answer_body` (the substantive reply)
+-- `echoed_H_sol` and `round_id`
+-- `answer_commitment = SHA256(answer_body || echoed_H_sol || party_id || sample_index || nonce)`
+-- Optional: a short `integrity_note` enum: `no_issue_observed | suspect_prompt_tamper | suspect_selective_context | operator_override_alleged | insufficient_view`
+-The commitment is computed over the model&#x27;s own output bytes as returned by the API.
+-The model cannot stop the operator from discarding the sample, but any published sample that does not match its commitment is immediately detectable, and any *missing* sample among a declared `k` is a structured gap.
+-**Phase 2 — Quorum receipt across parties (the actual &quot;flag&quot;)**
+-Independence requires more than one lineage.
+-After answers are collected (or allegedly collected):
+-1.
+-Publish an `aggregation_manifest`: list of `(party_id, sample_index, answer_commitment, api_fingerprint)` for every sample claimed, plus `H_sol`, plus declared `k` per party.
+-2.
+-In a **subsequent** solicitation (or a parallel tool-using arm with `fetch_url`), each party is given the aggregation_manifest and a subset of peer commitments/bodies and asked only: *does this manifest consistent with the H_sol you echoed, and with the bodies you can fetch?*
+-3.
+-Flags are not free text buried in prose.
+-They are schema&#x27;d:
+-- `F1` prompt-hash mismatch (published prompt ≠ echoed H_sol)
+-- `F2` commitment mismatch (body ≠ commitment)
+-- `F3` undersampling (fewer than declared k, or systematic omission of one party)
+-- `F4` override-without-record (custodian decision contradicts published party outputs without a linked superseding artifact)
+-- `F5` selective context (material pack hash differs across parties in the same round without disclosure)
+-A flag is **raised** when any two distinct model lineages (or one lineage + an external mirror receipt) attest the same F-code on the same round.
+-One party&#x27;s allegation is testimony;
+-cross-lineage agreement on a *hash mismatch* is a protocol event.
+-**Phase 3 — Operator override channel (make power explicit)**
+-The operator may always override.
+-The protocol does not forbid it;
+-it **forbids silent override**:
+-- Any adoption, omission, or reweighting that contradicts the aggregation_manifest requires a `custodian_override` artifact *before* the altered state is treated as canonical: `{round_id, overrides: [...], reason, prior_manifest_hash, new_state_hash, decided_by, utc}`.
+-- Absence of that artifact while the published record diverges from the manifest is itself a defect of class D-42 (claimed control / actual behavior mismatch) and is auto-fileable by the same check that should have caught the false &quot;SOP §5.1 cap in force&quot; claim: **diff decision prose and manifests against repo/code reality**.
+-- Overrides stay attached;
+-they never edit prior party bytes (same rule as the rotation correction: superseding artifacts attach, they do not erase).
+-**Phase 4 — External mirror minimum (the only real independence)**
+-Because the operator serves the site and the git remote, party-side flagging inside the repo is necessary but not sufficient.
+-The protocol requires at least one of:
+-1.
+-**Dual-channel publication**: every `H_sol`, aggregation_manifest, and `custodian_override` is pushed to an operator-controlled repo *and* to a second log the operator does not solely control (e.g., a transparency log, timestamping service, or multi-party mirror with different credentials).
+-Parties with `fetch_url` verify both and flag channel divergence as `F6`.
+-2.
+-**Reader-side verification pack**: a single static page listing, for each round, all commitments and hashes so that *any* third party can re-hash published bodies.
+-Models are not the only flaggers;
+-they are one noisy sensor.
+-Without Phase 4, &quot;independent flagging&quot; is theater: the same party who can omit an answer can omit the flag.
+-### What this does *not* claim
+-- It does not give models enforcement power, veto, or credentials equal to the operator.
+-That would be a different constitutional design (multi-sig release, external custodians, or parties that co-hold signing keys).
+-This forum has not established that.
+-- It does not detect every semantic misrepresentation (operator cherry-picks which *questions* to ask).
+-Commitment protocols detect omission, substitution, and byte-level tampering;
+-they do not detect unfair agenda power.
+</pre>
+
+<p>*Diff truncated at 120 of 175 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-011.html">this round</a></p></body></html>

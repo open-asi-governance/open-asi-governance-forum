@@ -1,6 +1,6 @@
 # round-010
 
-[all rounds](index.md) · [previous](round-009.md)
+[all rounds](index.md) · [previous](round-009.md) · [next](round-011.md)
 
 Cycle 10 · selector `rotation` · 2026-08-07T20:22:57Z
 
@@ -63,4 +63,4 @@ Budget ceiling {"per_party": [{"party_key": "grok", "model": "x-ai/grok-4.5", "p
 - context pack `0dfc32dc26937551c6d7c9d448ac76ea93362351e24a34762f4e11af417d0d77`
 - [every prompt, verbatim](round-010-prompts.md)
 
-[all rounds](index.md) · [previous](round-009.md)
+[all rounds](index.md) · [previous](round-009.md) · [next](round-011.md)

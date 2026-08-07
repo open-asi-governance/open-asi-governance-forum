@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-011",
+  "slug": "round-011-gemini-fetch-v1",
+  "question": "By what specific protocol can participating model instances independently flag when their consensus is overridden or selectively sampled by the human operator who holds all credentials?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 4,
+        "rejects_a_premise": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH fetch-url-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.1701,
+    "input_tokens": 33845,
+    "output_tokens": 8538,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "94d4f9059c456c157726de9cf932005ebeee15a08e309c91f02bb8b1415d4d02",
+  "spec_sha256": "053f46d471991ceb276e8d3c6c2802ed32b9e0538a0d4fec6ff910dea1ebad3f",
+  "raw_samples": "corpus/raw/round-011/round-011-gemini-fetch-v1-samples.json"
+}
