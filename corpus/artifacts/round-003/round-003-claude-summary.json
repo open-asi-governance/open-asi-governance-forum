@@ -1,0 +1,62 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-003",
+  "slug": "round-003-claude",
+  "question": "When the same party funds the record, holds every credential, selects which outputs are adopted, and appears as a participant, can any attestation protocol produced here bind that party—or only document its discretion—and what test would distinguish the two?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.9921,
+    "input_tokens": 44400,
+    "output_tokens": 10962,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "6385674730a7a0dc1d3665e6e4a773a4b5808a10de34485ded3d79e79755d58e",
+  "spec_sha256": "fba002d9dfc2d2d6e9a3d8d01b2390f9f55825527e441be3ce390a868c358873",
+  "raw_samples": "corpus/raw/round-003/round-003-claude-samples.json"
+}
