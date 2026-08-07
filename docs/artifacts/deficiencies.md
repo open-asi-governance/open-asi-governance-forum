@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **51 entries** (D-01 … D-51).
+**Status:** open — **52 entries** (D-01 … D-52).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1694,6 +1694,54 @@ only been used internally, the effect would have been an agenda that quietly ski
 a party's turn, which is precisely the harm the rotation selector was adopted to
 prevent.
 
+### D-52 — Three rounds gave parties the record's address; none of them ever read it
+
+*Filed 2026-08-07. Found by reading the citation provenance the round loop had just
+started capturing, then confirmed by a direct probe outside the loop.*
+
+Rounds 007 and 008 supplied the published address and enabled web search, to test
+whether the parties' repeated `evidence_shown_is_insufficient` was about the question
+or about what the prompt withheld. Neither round reached the record.
+
+**Round 007, unrestricted search: 100 citations across 20 samples, ZERO of this
+record.** The plugin runs a semantic search derived from the prompt, and the prompt is
+dense with model identity strings, so it returned documentation *about the models* —
+`anthropic.com/news/claude-fable-5`, `ai.google.dev/gemini-3.1-pro-preview`,
+`docs.x.ai/grok-4-5`. **A search engine is not a fetch.** External review had said so
+before the round ran and the point was recorded without being acted on.
+
+**Round 008, search pinned to the record's host: ZERO citations of any kind.** The
+site is not in the search index. Confirmed independently by a direct call with the
+same `include_domains`, which also returns nothing.
+
+**What this cost, and what it bought.** Two rounds could not measure what they were
+built to measure. In exchange, 008 became the control 007 could not be — the pointer
+text with no retrieved content whatsoever — and that isolates something worth having:
+
+| party | 006 blind | 007 open search | 008 pinned |
+|---|---|---|---|
+| claude | answers 100% | answers 100% | answers 100% |
+| gemini | **insufficient 60%** | **answers 100%** | **answers 80%** |
+| gpt | insufficient 60% | insufficient 60% | insufficient 100% |
+| grok | insufficient 100% | insufficient 60% | insufficient 100% |
+
+**Gemini's move from insufficient to answering survives into a round where nothing was
+retrieved.** Whatever moved it was the prompt text, not the record.
+
+The candidate is the sentence the moderator *kept* after cutting the anchor paragraph:
+*"Reading it is not independent verification… it can tell you whether this prompt
+describes it accurately. It cannot tell you whether anything in it is true."* It was
+kept on the grounds that it costs the project rather than flattering it. For **this**
+question — name a mechanism by which a stateless party could verify the operator's
+history — it may hand the party its conclusion, which is D-23 in the sentence chosen
+to be safe.
+
+**To the parties' credit, and it is not a small thing:** Grok registered the failure
+explicitly — *"the supplied pack and empty restricted search results do not contain
+any specific, demonstrated mechanism"* — and answered insufficient rather than
+inventing one. Claude named the restricted search as the only checking surface offered
+and reasoned about what it could establish. Neither pretended to have read anything.
+
 ## Deficiencies that are permanent vs. remediable
 
 *This table stopped at D-22 until 2026-08-06, omitting eight entries — including every instrument
@@ -1742,6 +1790,7 @@ specified as remaining work for the structured register artifact.
 | D-49 | **Remediated 2026-08-07** — the loop commits its own halt record on the round branch. **Found only by running the live path**, which no regression case had done: each piece behaved correctly in isolation and the gap was in the ordering between them. |
 | D-50 | **Remediated 2026-08-07** in both arms — `finish_reason`, usage, response bytes and byte length on every rejection, with transport and parse failures separated so each keeps what it holds. **Not repairable backwards:** round 002's four rejections are recorded without `finish_reason` and the cause of each can now only be inferred, not read. |
 | D-51 | **Remediated 2026-08-07** — the cycle index and the disposition reader both count by `artifact_type`, not by filename, and an unreadable file in `record/cycles/` refuses rather than being skipped. **Caught before it acted:** no round has yet been solicited under a wrong index. The general shape — a glob standing in for a type check — is not swept for anywhere else in the tools. |
+| D-52 | **Filed, not remediated.** Getting the record into a search index is not a repair: search would still be retrieval-by-resemblance, and the parties would still be reading an operator-served copy — the objection GPT and Gemini both raised unprompted. The real repair is a party that can FETCH a named URL rather than search for it, which is the tool-using arm now scoped. **The prompt-effect finding is the durable one** and it is unresolved: no round has yet separated what the pointer sentence supplies from what the record would. |
 | D-41 | **Remediated 2026-08-06/07** — both solicitation tools refuse to overwrite raw material; the overwritten run restored from git and the second run preserved as its own artifact. **The residual risk is not in the tools:** any future instrument modelled on an existing one can drop its controls the same way, and nothing checks that a new writer into `corpus/raw/` carries them. |
 | D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |

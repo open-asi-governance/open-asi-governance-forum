@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 51** classifications have been read by a human against the prose.
+**0 of 52** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 30 |
+| the annotator | 31 |
 | an external reviewer | 9 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 14 |
+| required, not implemented | 15 |
 | implemented, not validated | 30 |
 | validated | 7 |
 
 ### Affected objects
 
-**126 affected-object rows across 51 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**129 affected-object rows across 52 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -830,4 +830,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/round_cycle.py cycle_index() <br><sub>Counts round records by artifact_type; verified to read 3 for the three rounds recorded.</sub> | repairable by supersession | verified |
 | record/cycles/round-002-spend-correction.json <br><sub>Renamed to spend-correction-round-002.json. The rename alone would have been treating the symptom.</sub> | repairable by supersession | verified |
 | Other globs standing in for type checks across tools/ <br><sub>Not swept for. The disposition reader one function away was already correct because it filtered on artifact_type, which is the pattern the rest should follow.</sub> | partly repairable | not started |
+
+### D-52 — Three rounds gave parties the record's address; none of them ever read it
+
+[Full entry](deficiencies.md#d-52--three-rounds-gave-parties-the-records-address-none-of-them-ever-read-it)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `reading the citation provenance the loop had just begun capturing, then a direct probe outside the loop`
+- **Prospective control:** required, not implemented — A party that can FETCH a named URL rather than search for it. That is the tool-using local arm, scoped and not built.
+- **Effort:** high — Indexing the site is cheap and does not repair it: search remains retrieval-by-resemblance and the copy remains operator-served.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| rounds 007 and 008 <br><sub>Neither measured what it was built to measure. The samples are real and are kept; what they cannot support is any claim that a party read the record.</sub> | not repairable | impossible |
+| tools/round_cycle.py WEB_SEARCH <br><sub>Pinned to the record's host, which makes a citation meaningful but cannot conjure an index entry that does not exist.</sub> | partly repairable | applied, not verified |
+| the pointer sentence's effect on answers <br><sub>Gemini's flip survives a round with zero retrieval, so the prompt text is the candidate cause. No round has separated it from what the record would supply.</sub> | partly repairable | not started |
 
