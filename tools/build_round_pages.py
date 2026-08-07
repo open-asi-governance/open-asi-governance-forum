@@ -731,6 +731,8 @@ def round_page(data: dict, party_slugs: dict[str, list[str]], neighbours: tuple)
 
 def index_page(rounds: list[dict]) -> None:
     lines = ["# Deliberation rounds", "",
+             nav(("home", "../index.html"), ("the record", "../record.html"),
+                 ("deficiency register", "../deficiencies.html")), "",
              f"{len(rounds)} rounds. Each was one question, asked of several parties at k >= 5 "
              "with computed variance, and stopped there — no synthesis and no adoption.", "",
              "The prompt each party received is published in full beside its answers, because a "

@@ -272,6 +272,7 @@ def render_solicitation(doc: dict) -> str:
 
     nav = ('<a href="index.html">all local rounds</a>'
            '<a href="../index.html">threaded record</a>'
+           '<a href="../rounds/index.html">deliberation rounds</a>'
            '<a href="../deficiencies.html">deficiency register</a>')
     return shell(f"{doc['round']} · {doc['slug']}",
                  f"locally-served solicitation, k={doc['k_collected']} · {doc['phase']}",
@@ -317,6 +318,7 @@ def render_index(docs: list[dict]) -> str:
                      f'<th>k</th><th>Under D-28</th></tr>{"".join(rows)}</table></div>')
 
     nav = ('<a href="../index.html">threaded record</a>'
+           '<a href="../rounds/index.html">deliberation rounds</a>'
            '<a href="../deficiencies.html">deficiency register</a>'
            '<a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a>')
     return shell("Local solicitation rounds — Open ASI Governance Forum",

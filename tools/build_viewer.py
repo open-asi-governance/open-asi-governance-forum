@@ -779,6 +779,7 @@ def build_page(page: dict, plan: list[dict], total_nodes: int) -> str:
 <header><div class="hrow">
 <h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
 <nav class="nav"><a href="index.html">home</a><a href="record.html">contents</a><a href="deficiencies.html">deficiency register</a>
+<a href="rounds/index.html">deliberation rounds</a>
 <a href="local/index.html">local rounds (25)</a>
 <a href="artifacts/deficiencies.md">register as plain text</a>
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
@@ -958,6 +959,7 @@ def build_landing(plan: list[dict], nodes: list[dict]) -> str:
     could not do.
     """
     defects = deficiency_count()
+    rounds = round_count()
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -977,6 +979,7 @@ def build_landing(plan: list[dict], nodes: list[dict]) -> str:
 <header><div class="hrow">
 <h1>Open ASI Governance Forum<small>a deliberation record · annotation is not testimony</small></h1>
 <nav class="nav"><a href="record.html">the record</a>
+<a href="rounds/index.html">rounds ({rounds})</a>
 <a href="deficiencies.html">deficiencies ({defects})</a>
 <a href="predictions.html">predictions</a>
 <a href="llms.txt">llms.txt</a>
@@ -1106,6 +1109,7 @@ td.ids{{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mu
 <header><div class="hrow">
 <h1>Open ASI Governance Forum<small>threaded deliberation record · annotation is not testimony</small></h1>
 <nav class="nav"><a href="deficiencies.html">deficiency register ({deficiency_count()})</a>
+<a href="rounds/index.html">deliberation rounds ({round_count()})</a>
 <a href="artifacts/deficiencies.md">register as plain text</a>
 <a href="local/index.html">local round detail</a>
 <a href="llms.txt">llms.txt</a>
@@ -1175,6 +1179,11 @@ def build_record_md(plan: list[dict], nodes: list[dict]) -> str:
         "",
     ]
     return "\n".join(out)
+
+
+def round_count() -> int:
+    """Deliberation rounds, counted from the cycle records that produce them."""
+    return len([q for q in (REPO_ROOT / "record" / "cycles").glob("round-*.json")])
 
 
 def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:

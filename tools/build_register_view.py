@@ -366,7 +366,7 @@ def render_html(doc: dict, subset: list[dict] | None = None,
 <body>
 <header><div class="hrow">
 <h1>Deficiency register<small>{len(entries)} entries · classification is annotation, not testimony</small></h1>
-<nav><a href="index.html">threaded record</a><a href="artifacts/deficiencies.md">register as plain text</a>
+<nav><a href="index.html">threaded record</a><a href="rounds/index.html">deliberation rounds</a><a href="artifacts/deficiencies.md">register as plain text</a>
 <a href="https://github.com/open-asi-governance/open-asi-governance-forum">source</a></nav>
 <button id="theme" style="margin-left:auto">auto</button>
 </div></header>

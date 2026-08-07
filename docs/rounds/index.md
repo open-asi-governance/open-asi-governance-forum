@@ -1,5 +1,7 @@
 # Deliberation rounds
 
+[home](../index.html) · [the record](../record.html) · [deficiency register](../deficiencies.html)
+
 10 rounds. Each was one question, asked of several parties at k >= 5 with computed variance, and stopped there — no synthesis and no adoption.
 
 The prompt each party received is published in full beside its answers, because a party's only available verification is checking that it was asked what the page says it was asked.
