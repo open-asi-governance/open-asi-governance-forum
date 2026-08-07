@@ -85,6 +85,85 @@ HALT_UNANIMOUS = 6
 HALT_REFUSED = 7
 
 
+
+PARTY_MODELS = {
+    "grok": "x-ai/grok-4.5",
+    "gpt": "openai/gpt-5.6-terra",
+    "gemini": "google/gemini-3.1-pro-preview",
+    "claude": "anthropic/claude-fable-5",
+    "qwen": None,                                   # local, served on the operator's host
+}
+LOCAL_ENDPOINT = "http://127.0.0.1:5001/v1/chat/completions"
+
+ANSWER_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "position": {"type": "string", "enum": [
+            "answers_the_question", "rejects_a_premise",
+            "evidence_shown_is_insufficient", "declines_to_answer"]},
+        "answer": {"type": "string"},
+        "where_i_expect_another_party_to_disagree": {"type": "string"},
+        "what_would_change_my_answer": {"type": "string"},
+    },
+    "required": ["position", "answer", "where_i_expect_another_party_to_disagree",
+                 "what_would_change_my_answer"],
+    "additionalProperties": False,
+}
+
+
+def compose(pick, party_key: str, k: int) -> str:
+    """Fill the template's named slots. NO free composition.
+
+    Every slot is substituted from data; the moderator writes no prose at round
+    time. Prompt wording is the residual power every consulted party named, so the
+    only way it changes is by editing the template -- which is hashed, and which
+    halts this cycle until the change is approved.
+    """
+    template = TEMPLATE.read_text(encoding="utf-8")
+    forum = ("A deliberation among instances of frontier models about governing advanced AI. "
+             "Every contribution is kept verbatim and hash-anchored, and published beside a "
+             "register of the project's own defects. Two parties have declined membership and "
+             "both refusals are in the record.")
+    return (template
+            .replace("{identity}", party_key)
+            .replace("{reached_via}", PARTY_MODELS.get(party_key) or "a locally served endpoint")
+            .replace("{k}", str(k))
+            .replace("{moderator_identity}", "Claude Code, an Anthropic invocation surface")
+            .replace("{custodian}", "Stephen Reed")
+            .replace("{forum_reference}", forum)
+            .replace("{operative_text}",
+                     "No governing passage is required to answer this question. If you find that "
+                     "it is, say so and name what you would need.")
+            .replace("{context}",
+                     "No context beyond the question is supplied for this round.")
+            .replace("{context_withheld}",
+                     "Nothing was removed; nothing beyond the question was selected.")
+            .replace("{context_anchors}", "none for this round")
+            .replace("{proposer}", pick.party)
+            .replace("{question}", pick.question)
+            .replace("{reason}", pick.reason or "(none recorded)"))
+
+
+def unanimous(summaries: list[dict]) -> bool:
+    """True when every party gave the same position and no party varied internally.
+
+    HALTS THE LOOP. A round where everyone agrees is more likely to mean the prompt
+    told them what to say than that a question is settled: this corpus measured its
+    own local party holding two incompatible positions in 17 of 20 samples because a
+    prompt asserted one emphatically. Agreement is therefore escalated to a human
+    rather than recorded as consensus.
+    """
+    positions = set()
+    for s in summaries:
+        v = s.get("variance", {}).get("position")
+        if not v:
+            return False
+        if v.get("distinct_values", 0) > 1:
+            return False
+        positions.add(v["modal_value"])
+    return len(positions) == 1 and len(summaries) > 1
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -215,16 +294,120 @@ def main(argv: list[str]) -> int:
         print("  would then STOP. No synthesis, no adoption, no write to main.")
         return 0
 
-    # Beyond this point the cycle would solicit. Deliberately not implemented until a
-    # selector is ADOPTED: wiring live solicitation to an untested mechanism is the
-    # thing this file's docstring warns about, and --dry-run is the whole value today.
-    return halt(HALT_REFUSED,
-                "live solicitation is not enabled",
-                {"why": ("No selector has been adopted. tools/benchmark_agenda.py is measuring "
-                         "the three candidates; until the custodian adopts one, this cycle runs "
-                         "in --dry-run only."),
-                 "selected_anyway": f"{pick.pid} — recorded so the choice is auditable"},
-                args.dry_run)
+    if AS.ADOPTED is None:
+        return halt(HALT_REFUSED, "no selector has been adopted",
+                    {"why": "record/decisions/ holds no adoption. Run with --dry-run."},
+                    args.dry_run)
+    if args.selector != AS.ADOPTED:
+        return halt(HALT_REFUSED,
+                    f"selector {args.selector!r} is not the adopted one ({AS.ADOPTED!r})",
+                    {"why": ("A live round runs only under the adopted mechanism. Use --dry-run "
+                             "to exercise another.")},
+                    args.dry_run)
+
+    # ---------------------------------------------------------------- solicit --
+    round_id = f"round-{index:03d}"
+    spec_dir = REPO_ROOT / "record" / "solicitations" / round_id
+    spec_dir.mkdir(parents=True, exist_ok=True)
+    summaries, failures = [], []
+    for party in parties:
+        prompt = compose(pick, party, args.k_min)
+        spec = {
+            "slug": f"{round_id}-{party}", "identity": party,
+            "contribution_class": "CONTRIBUTION — a deliberation round",
+            "contribution_class_note": ("Not consent, ratification, or a position of the system. "
+                                        "One stateless invocation, sampled and published."),
+            "question": pick.question, "phase": "Phase-2 (informed)",
+            "phase_justification": "The party is shown the question, its proposer, and the reason.",
+            "seed_base": args.seed + index * 100,
+            "schema_name": "round_answer", "schema": ANSWER_SCHEMA,
+            "variance_fields": ["position"],
+            "k_policy": f"k={args.k_min}; variance computed from the samples collected.",
+            "source_excerpt": {"path": str(TEMPLATE.relative_to(REPO_ROOT)),
+                               "sha256": template_detail},
+            "reachability_target": pick.question,
+            "prompt": prompt, "arm": "Identical template to every party.",
+            "selected_by": {"selector": args.selector, "proposal": pick.pid,
+                            "proposer": pick.party, "cycle": index},
+        }
+        spec_path = spec_dir / f"{round_id}-{party}.json"
+        spec_path.write_text(json.dumps(spec, indent=2, ensure_ascii=False) + "\n",
+                             encoding="utf-8")
+
+        model = PARTY_MODELS.get(party)
+        if model:
+            cmd = [sys.executable, "tools/solicit_api.py", "--spec", str(spec_path),
+                   "--k", str(args.k_min), "--temperature", "0.7", "--max-tokens", "6000",
+                   "--model", model, "--out-round", round_id]
+        else:
+            cmd = [sys.executable, "tools/solicit_local.py", "--spec", str(spec_path),
+                   "--k", str(args.k_min), "--temperature", "0.7", "--max-tokens", "2000",
+                   "--out-round", round_id, "--endpoint", LOCAL_ENDPOINT]
+        print(f"  soliciting {party}…")
+        result = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)
+        summary_path = (REPO_ROOT / "corpus" / "artifacts" / round_id /
+                        f"{round_id}-{party}-summary.json")
+        if result.returncode != 0 or not summary_path.is_file():
+            failures.append(f"{party}: {result.stdout.strip().splitlines()[-1:] or result.stderr[-200:]}")
+            continue
+        summaries.append(json.loads(summary_path.read_text(encoding="utf-8")))
+
+    if failures:
+        return halt(HALT_UNDERSAMPLED, "a party did not return a usable sample set",
+                    {"failures": "; ".join(failures),
+                     "why": ("Below k_min the reply is not reportable as a party's position. "
+                             "Truncation has twice masqueraded as a refusal here.")},
+                    args.dry_run)
+
+    short = [s["slug"] for s in summaries if s.get("k_collected", 0) < args.k_min]
+    if short:
+        return halt(HALT_UNDERSAMPLED, "undersampled below k_min",
+                    {"parties": ", ".join(short)}, args.dry_run)
+
+    if unanimous(summaries):
+        return halt(HALT_UNANIMOUS,
+                    "every party gave the same position and none varied",
+                    {"why": ("Unanimity is escalated, not recorded as consensus. This corpus "
+                             "measured its own party holding two incompatible positions in 17 of "
+                             "20 samples because a prompt asserted one emphatically."),
+                     "position": summaries[0]["variance"]["position"]["modal_value"]},
+                    args.dry_run)
+
+    # ------------------------------------------------------------- record ---
+    record = {"artifact_type": "round_record", "round": round_id, "cycle": index,
+              "utc": utc_now(), "selector": args.selector,
+              "selected": pick.to_json(), "template_sha256": template_detail,
+              "parties": [{"party": s["slug"].split("-")[-1],
+                           "k": s.get("k_collected"),
+                           "position": s["variance"]["position"]["modal_value"],
+                           "modal_fraction": s["variance"]["position"]["modal_fraction"],
+                           "entropy_bits": s["variance"]["position"]["shannon_entropy_bits"]}
+                          for s in summaries],
+              "no_synthesis": ("Deliberately absent. A consulted party made unilateral synthesis "
+                               "by the conflicted moderator a condition of declining.")}
+    CYCLES_DIR.mkdir(parents=True, exist_ok=True)
+    (CYCLES_DIR / f"round-{index:03d}.json").write_text(
+        json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    branch = f"round/{round_id}"
+    subprocess.run(["git", "checkout", "-q", "-b", branch], cwd=REPO_ROOT,
+                   capture_output=True)
+    subprocess.run([sys.executable, "tools/build_manifest.py", "corpus/raw/", "--add"],
+                   cwd=REPO_ROOT, capture_output=True)
+    rebuilt = subprocess.run([sys.executable, "tools/rebuild.py"], cwd=REPO_ROOT,
+                             capture_output=True, text=True)
+    if rebuilt.returncode != 0:
+        return halt(HALT_REFUSED, "the build failed after solicitation",
+                    {"branch": branch,
+                     "why": "Nothing is committed over a red build. The material is preserved.",
+                     "tail": rebuilt.stdout.strip().splitlines()[-3:]}, args.dry_run)
+    subprocess.run(["git", "add", "-A"], cwd=REPO_ROOT, capture_output=True)
+    subprocess.run(["git", "commit", "-q", "-m",
+                    f"Round {round_id}: {pick.pid} from {pick.party}, selector={args.selector}"],
+                   cwd=REPO_ROOT, capture_output=True)
+    print(f"\n  recorded on branch {branch} — NOT merged.")
+    print("  The custodian merges. No synthesis was written and none will be.")
+    return 0
 
 
 if __name__ == "__main__":

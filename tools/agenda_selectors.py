@@ -177,6 +177,16 @@ SELECTORS = {
     "portfolio": select_portfolio,
 }
 
-#  Deliberately not a default. `round_cycle.py` requires --selector to be named
-#  explicitly, so no mechanism becomes the winner by being the one nobody changed.
-ADOPTED: str | None = None
+#  ADOPTED by the custodian on 2026-08-07. The basis, the evidence, the objection it
+#  overrides and the accepted weaknesses are in
+#  record/decisions/2026-08-07-adopt-rotation.json.
+#
+#  `round_cycle.py` still REQUIRES --selector explicitly. Naming the adopted one here
+#  records the decision; it does not make it the silent default, because a mechanism
+#  that runs because nobody typed anything is the failure this constant was created
+#  to prevent.
+#
+#  REVIEW TRIGGER: re-run tools/benchmark_agenda.py as soon as any proposal has more
+#  than one sponsor. The alternatives lost because every proposal was a singleton,
+#  which made their ranking channels inert — not because they were beaten on merit.
+ADOPTED: str | None = "rotation"
