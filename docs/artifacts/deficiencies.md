@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **40 entries** (D-01 … D-40).
+**Status:** open — **41 entries** (D-01 … D-41).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1484,6 +1484,7 @@ specified as remaining work for the structured register artifact.
 | D-29 | **Remediated 2026-08-06**, verified by re-running the original tamper experiment. The repair is prospective only: it **cannot** establish that raw material was unmodified during the period the check did not run. That gap is permanent. |
 | D-30 | **Not remediated** — needs a schema change in Track D's territory. Repair is specified in the entry. Backfilled hashes will certify bytes **as of the backfill**, never as of capture; that limit is permanent. |
 | D-31 | **Open, forward only.** The five requirements bind reviews solicited from here. The reviews that already shaped ASP, ICP and the T-13 design were collected under none of them and **cannot** be retrofitted: the reviewer model identity was never captured and is not recoverable. Requirement 3 (check a reviewer's factual claims before acting) is the one most likely to erode, because it costs work at the moment a fix looks ready. |
+| D-41 | **Remediated 2026-08-06/07** — both solicitation tools refuse to overwrite raw material; the overwritten run restored from git and the second run preserved as its own artifact. **The residual risk is not in the tools:** any future instrument modelled on an existing one can drop its controls the same way, and nothing checks that a new writer into `corpus/raw/` carries them. |
 | D-40 | **Filed, not remediated.** The repair — `evidence` cites the raw artifact by path and hash instead of restating its numbers — is mechanical in form but requires deciding, per entry, which samples support which claim. That is a judgement and is not derivable, so it is scoped and left open rather than half-done. **The finding stands on its own**: 10 of 13 scores could not be verified by a frontier party from what the registry publishes, and only 1 of 13 was confirmed by both external arms. |
 | D-39 | **Remediated 2026-08-06.** Batch containment scoped to the READ only — writes still crash, because invariants are uncertain after a partial write — with `input_error` distinguished from `refused`. Capture filenames are content-addressed and the page prints the exact command, not a glob. 15 regression cases. **Permanent limit:** `a.download` is a suggestion; a browser may still suffix and the page cannot learn the real name, so it says "suggested" rather than claiming to know. |
 | D-38 | **Remediated 2026-08-06** — `resolve_held_capture.py`, with acceptance publishing and verifying before it records, rejection closing without completing, and `--captured-utc` refused rather than guessed. 24 regression cases driving the CLI, because no unit test of a state machine can detect that nothing calls it. **Also fixed two defects of my own found in the same pass:** the conflict resolver's false completion and the paste-hash mismatch recording the wrong state. **Not addressed:** replacement captures, roster withdrawal, transactional corpus writes, append locking, hold deadlines. |
@@ -1548,3 +1549,44 @@ reviewer, which is why that review supplements rather than substitutes for the o
 line; ranges quoted in this document's prose are inclusive of the last content line. The two
 therefore differ by one at some boundaries (1343 vs 1344). Flagged by Claude Fable 5; the
 convention is now stated rather than corrected, since both are internally consistent.
+
+### D-41 — A new solicitation tool overwrote already-committed raw material, because it copied a working tool and dropped its guard
+
+*Filed 2026-08-07. Caught by `build_manifest.py` reporting `MODIFIED`, which is the control working.
+The bytes were already gone from the working tree by then and existed only in git.*
+
+`tools/solicit_api.py`, written earlier the same day to reach routed API parties, wrote its raw
+samples with a bare `write_text`. Re-soliciting the same party wrote **over an already-committed
+sample file**: a Gemini run at k = 4 was replaced in place by a later run at k = 6.
+
+**That is the corpus's central rule, broken by one of its own instruments.** "Raw material is never
+edited after commit" is the claim every other control here exists to make checkable.
+
+**The specific failure is not that the guard was missing. It is that it was DELETED.**
+`tools/solicit_local.py` — the older tool this one was modelled on — has carried the check since it
+was written:
+
+```
+if raw_path.exists():
+    print(f"REFUSED: {raw_path} exists. Raw material is immutable.", file=sys.stderr)
+```
+
+The new tool reproduced that file's structure, its docstring conventions, and its variance
+computation, **and did not reproduce its one safety check.** Copying a working instrument is not the
+same as inheriting its controls, and the parts most likely to be dropped are the ones that do
+nothing on the happy path.
+
+**Why the manifest caught it and nothing else did.** The overwrite left a self-consistent file: valid
+JSON, correct schema, higher k. Every content check passed. Only the hash comparison against
+committed history saw it — the same class of control as D-34, and the reason that entry insisted the
+manifest must be checked against history rather than against the tree.
+
+**Remediated.** Both solicitation tools now refuse to write over an existing raw file. The
+overwritten k = 4 run is restored from git and kept; the k = 6 run is preserved as a **separate
+artifact** with a note recording that it is a second solicitation and not a correction. Deleting the
+first would have hidden that `max_tokens` was the reason the first run fell below this project's own
+k ≥ 5 bar — which is a finding about the instrument, not noise.
+
+**What this cost, honestly.** Nothing, this time, because git had the bytes and the manifest fired
+within minutes. Had the overwrite happened before the first commit, the earlier samples would be
+unrecoverable and nothing would have reported their absence.

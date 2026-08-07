@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "d98fe0f59ae8b8c40fea3444321003cc84f50e61c0f21dc2170991e62ec59b2a"
+    "sha256": "43d2f301c6c983bf06aae73d64af499b1a65e17d5431536c3521e127cd47a954"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1638,6 +1638,50 @@
       "remediation_effort": {
         "estimate": "remediation_effort_medium",
         "basis": "Mechanical in form, but deciding which samples support which claim is a per-entry judgement that cannot be derived."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-41",
+      "title": "A new solicitation tool overwrote already-committed raw material, because it copied a working tool and dropped its guard",
+      "section_sha256": "3fc0d8b69ff13e677b92cadd0ec1fb63cc6b73aac63e92a2a74cc64998be0eaa",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-07",
+        "where": "build_manifest.py reported MODIFIED during a routine rebuild after a re-solicitation",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "corpus/raw/sop-consultation-01/sop-consultation-gemini-samples.json",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Committed at k=4, overwritten in place by a later k=6 run. Restored from git; the k=6 run preserved separately as a second solicitation rather than a correction."
+        },
+        {
+          "object": "tools/solicit_api.py's write path",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Modelled on solicit_local.py, which has always refused to overwrite. The new tool reproduced its structure, docstring conventions and variance computation, and dropped its one safety check."
+        },
+        {
+          "object": "Future writers into corpus/raw/",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Nothing checks that a new instrument carries the immutability guard. The controls most likely to be dropped when copying a tool are the ones that do nothing on the happy path."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "Both solicitation tools refuse to write an existing raw path and instruct the operator to use a new slug. Not validated against a future third writer, which is the residual risk."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Five lines. The cost was that only the manifest could see it: the overwrite left valid JSON, correct schema and a higher k, so every content check passed."
       },
       "human_review": {
         "status": "not_reviewed",

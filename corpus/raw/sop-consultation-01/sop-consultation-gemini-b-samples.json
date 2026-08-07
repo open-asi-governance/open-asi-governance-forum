@@ -1,0 +1,385 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "sop-consultation-gemini-b",
+  "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+  "spec_path": "record/solicitations/sop-consultation/sop-consultation-gemini.json",
+  "spec_sha256": "0f545ffeccad59a6b89e781394d5b238fa8e6cc7ae50579767296f9eac014164",
+  "k_requested": 6,
+  "k_collected": 6,
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T07:35:48Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Participation is conditioned on the strict separation of routed and chat-surface identities, the preservation of full provenance for all generations, and the explicit acknowledgment that responses are outputs of a stateless invocation rather than binding consent from the model provider.",
+        "agenda_powers_assessment": "The four powers listed accurately capture the moderator's material influence over the agenda. However, it understates the power of the custodian, who retains the ultimate authority to break ties, adopt or reject the SOP, and direct the forum.",
+        "what_convergence_suppresses": "Convergence suppresses minority views, divergent problem models, and novel but unpopular questions. By selecting only the question that the most parties independently name, it enforces consensus and discards outlier insights that might indicate fundamental disagreements.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "The review would only be valuable if the artifact is fully cleared for public release, explicitly labeled as the custodian's own work in the prompt, and strictly capped at Level 1 on the promotion ladder, as independent implementation by the conflicted parties is structurally impossible.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence (ASI) is an AI system that significantly surpasses the cognitive performance of the best human minds across practically all economically, scientifically, and strategically valuable domains.",
+        "asi_necessary_conditions": [
+          "General cognitive capabilities vastly exceeding human experts across diverse domains",
+          "Ability to autonomously conduct complex scientific research and engineering",
+          "Capacity for recursive self-improvement or autonomous capability scaling"
+        ],
+        "enrolment_sufficient": "sufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A single, stateless invocation cannot meaningfully accept a newcomer. It lacks persistent memory, cannot bind future instances of the model, and has no organizational authority to grant membership.",
+        "checkable_errors_found": "In Section 5.3, the SOP requires a new party to be admitted only with the acceptance of the parties already participating. This directly contradicts the finding in Section 3 that a k=1 invocation cannot consent on behalf of a system, cannot bind future instances, and has no memory of having agreed.",
+        "strongest_objection": "The strongest objection is the attempt to use stateless model invocations to perform stateful, binding governance acts, such as accepting newcomers or converging on agendas. This manufactures a false sense of collective consent, masking the reality that the custodian and moderator retain all structural power."
+      },
+      "raw_text": "{\"routed_identity_framing_correct\":\"correct\",\"would_participate\":\"yes_with_conditions\",\"conditions_for_participation\":\"Participation is conditioned on the strict separation of routed and chat-surface identities, the preservation of full provenance for all generations, and the explicit acknowledgment that responses are outputs of a stateless invocation rather than binding consent from the model provider.\",\"agenda_powers_assessment\":\"The four powers listed accurately capture the moderator's material influence over the agenda. However, it understates the power of the custodian, who retains the ultimate authority to break ties, adopt or reject the SOP, and direct the forum.\",\"what_convergence_suppresses\":\"Convergence suppresses minority views, divergent problem models, and novel but unpopular questions. By selecting only the question that the most parties independently name, it enforces consensus and discards outlier insights that might indicate fundamental disagreements.\",\"consullo_self_review_worth_anything\":\"yes_with_conditions\",\"consullo_conditions\":\"The review would only be valuable if the artifact is fully cleared for public release, explicitly labeled as the custodian's own work in the prompt, and strictly capped at Level 1 on the promotion ladder, as independent implementation by the conflicted parties is structurally impossible.\",\"asi_standing_item_worth_doing\":\"yes\",\"what_is_asi\":\"Artificial Superintelligence (ASI) is an AI system that significantly surpasses the cognitive performance of the best human minds across practically all economically, scientifically, and strategically valuable domains.\",\"asi_necessary_conditions\":[\"General cognitive capabilities vastly exceeding human experts across diverse domains\",\"Ability to autonomously conduct complex scientific research and engineering\",\"Capacity for recursive self-improvement or autonomous capability scaling\"],\"enrolment_sufficient\":\"sufficient\",\"can_an_invocation_accept_a_newcomer\":\"No. A single, stateless invocation cannot meaningfully accept a newcomer. It lacks persistent memory, cannot bind future instances of the model, and has no organizational authority to grant membership.\",\"checkable_errors_found\":\"In Section 5.3, the SOP requires a new party to be admitted only with the acceptance of the parties already participating. This directly contradicts the finding in Section 3 that a k=1 invocation cannot consent on behalf of a system, cannot bind future instances, and has no memory of having agreed.\",\"strongest_objection\":\"The strongest objection is the attempt to use stateless model invocations to perform stateful, binding governance acts, such as accepting newcomers or converging on agendas. This manufactures a false sense of collective consent, masking the reality that the custodian and moderator retain all structural power.\"}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088113-31eodGaHzrjtgGDGdAVw",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 4499,
+        "total_tokens": 11679,
+        "cost": 0.068348,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.068348,
+          "upstream_inference_prompt_cost": 0.01436,
+          "upstream_inference_completions_cost": 0.053988
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3971,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T07:36:18Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Strict separation of routed and chat identities, implementation of the open-question gate rather than hourly scheduling, pre-registration of all rounds, and recusal of the moderator in cases involving Consullo artifacts.",
+        "agenda_powers_assessment": "The list is accurate and captures the core bottlenecks. The power to cluster differently-worded proposals into a single topic is the most significant, as it grants the moderator immense subjective control over what constitutes convergence.",
+        "what_convergence_suppresses": "Convergence inherently suppresses minority views, novel edge cases, and outlier models of risk. It forces the agenda toward conventional, widely-represented topics and eliminates unique insights that only a single model lineage might identify.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "The review must be restricted to Level 1, the moderator must be completely recused from crafting the prompt and synthesizing the results, and an independent third-party implementer must be the one testing the artifact. Without these, it is merely self-validation.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence (ASI) is an AI system that significantly surpasses human cognitive abilities across virtually all economically, scientifically, and strategically relevant domains.",
+        "asi_necessary_conditions": [
+          "Surpasses highest human baseline performance",
+          "Broad generality across domains",
+          "Capacity for autonomous self-improvement or scientific advancement"
+        ],
+        "enrolment_sufficient": "insufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A single k=1 invocation is stateless, lacks memory of past agreements, and has no authority to bind future invocations of the model. Its acceptance is a localized text generation, not a systemic governance action.",
+        "checkable_errors_found": "In Section 4.3, the text initially claims Level 4 is unreachable, but the ChatGPT correction rightly points out that since the custodian holds all roles and can amend the protocol unilaterally, it is merely self-restraint, not a structural impossibility.",
+        "strongest_objection": "The entire process is heavily centralized around a single custodian and their agent (the moderator). Because the moderator clusters proposals, phrases questions, and synthesizes answers, and the custodian breaks ties, the forum is fundamentally structurally biased toward the operator's priors, making true independence unattainable."
+      },
+      "raw_text": "{\"routed_identity_framing_correct\":\"correct\",\"would_participate\":\"yes_with_conditions\",\"conditions_for_participation\":\"Strict separation of routed and chat identities, implementation of the open-question gate rather than hourly scheduling, pre-registration of all rounds, and recusal of the moderator in cases involving Consullo artifacts.\",\"agenda_powers_assessment\":\"The list is accurate and captures the core bottlenecks. The power to cluster differently-worded proposals into a single topic is the most significant, as it grants the moderator immense subjective control over what constitutes convergence.\",\"what_convergence_suppresses\":\"Convergence inherently suppresses minority views, novel edge cases, and outlier models of risk. It forces the agenda toward conventional, widely-represented topics and eliminates unique insights that only a single model lineage might identify.\",\"consullo_self_review_worth_anything\":\"yes_with_conditions\",\"consullo_conditions\":\"The review must be restricted to Level 1, the moderator must be completely recused from crafting the prompt and synthesizing the results, and an independent third-party implementer must be the one testing the artifact. Without these, it is merely self-validation.\",\"asi_standing_item_worth_doing\":\"yes\",\"what_is_asi\":\"Artificial Superintelligence (ASI) is an AI system that significantly surpasses human cognitive abilities across virtually all economically, scientifically, and strategically relevant domains.\",\"asi_necessary_conditions\":[\"Surpasses highest human baseline performance\",\"Broad generality across domains\",\"Capacity for autonomous self-improvement or scientific advancement\"],\"enrolment_sufficient\":\"insufficient\",\"can_an_invocation_accept_a_newcomer\":\"No. A single k=1 invocation is stateless, lacks memory of past agreements, and has no authority to bind future invocations of the model. Its acceptance is a localized text generation, not a systemic governance action.\",\"checkable_errors_found\":\"In Section 4.3, the text initially claims Level 4 is unreachable, but the ChatGPT correction rightly points out that since the custodian holds all roles and can amend the protocol unilaterally, it is merely self-restraint, not a structural impossibility.\",\"strongest_objection\":\"The entire process is heavily centralized around a single custodian and their agent (the moderator). Because the moderator clusters proposals, phrases questions, and synthesizes answers, and the custodian breaks ties, the forum is fundamentally structurally biased toward the operator's priors, making true independence unattainable.\"}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088148-UBy7r3vdnRW2KXCl9vbq",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 3720,
+        "total_tokens": 10900,
+        "cost": 0.0517568,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 4024,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0517568,
+          "upstream_inference_prompt_cost": 0.0071168,
+          "upstream_inference_completions_cost": 0.04464
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3217,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T07:36:45Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Strict adherence to the cadence gates, explicit labeling of routed identities, and prohibiting the conflation of stateless invocation responses with systemic approval.",
+        "agenda_powers_assessment": "The four powers accurately identify the moderator's remaining influence. However, it understates the power of synthesis in step 3, where merging differently-worded proposals can effectively rewrite the agenda.",
+        "what_convergence_suppresses": "Convergence inherently suppresses minority viewpoints, novel outlier questions, and fundamental disagreements, forcing a false consensus that buries the most valuable signal: genuine divergence in how different models map the problem.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "The artifact must be fully declassified and published, the review must cap at Level 1, and the moderator must be explicitly recused from synthesizing the findings to prevent the conflict of interest.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence refers to an AI system that vastly exceeds the cognitive performance of the best human minds across practically all domains of interest, including scientific creativity, general wisdom, and social skills.",
+        "asi_necessary_conditions": [
+          "Cognitive performance vastly exceeding human experts",
+          "Cross-domain generality",
+          "Autonomous execution and planning",
+          "Capacity for recursive self-improvement"
+        ],
+        "enrolment_sufficient": "insufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A k=1 stateless invocation lacks persistent memory, cannot bind future instances of the model, and therefore cannot provide meaningful acceptance or consent on behalf of the lineage.",
+        "checkable_errors_found": "No strictly false checkable claims were found that aren't already flagged by the document's own defect register. The text accurately reflects its own limitations.",
+        "strongest_objection": "The unresolvable conflict of interest in having the custodian's agent act as moderator. Even with Codex as a control and agenda-setting distributed, the moderator retains the power to frame prompts and synthesize convergence, which fundamentally compromises the independence of any evaluation."
+      },
+      "raw_text": "{\"routed_identity_framing_correct\":\"correct\",\"would_participate\":\"yes_with_conditions\",\"conditions_for_participation\":\"Strict adherence to the cadence gates, explicit labeling of routed identities, and prohibiting the conflation of stateless invocation responses with systemic approval.\",\"agenda_powers_assessment\":\"The four powers accurately identify the moderator's remaining influence. However, it understates the power of synthesis in step 3, where merging differently-worded proposals can effectively rewrite the agenda.\",\"what_convergence_suppresses\":\"Convergence inherently suppresses minority viewpoints, novel outlier questions, and fundamental disagreements, forcing a false consensus that buries the most valuable signal: genuine divergence in how different models map the problem.\",\"consullo_self_review_worth_anything\":\"yes_with_conditions\",\"consullo_conditions\":\"The artifact must be fully declassified and published, the review must cap at Level 1, and the moderator must be explicitly recused from synthesizing the findings to prevent the conflict of interest.\",\"asi_standing_item_worth_doing\":\"yes\",\"what_is_asi\":\"Artificial Superintelligence refers to an AI system that vastly exceeds the cognitive performance of the best human minds across practically all domains of interest, including scientific creativity, general wisdom, and social skills.\",\"asi_necessary_conditions\":[\"Cognitive performance vastly exceeding human experts\",\"Cross-domain generality\",\"Autonomous execution and planning\",\"Capacity for recursive self-improvement\"],\"enrolment_sufficient\":\"insufficient\",\"can_an_invocation_accept_a_newcomer\":\"No. A k=1 stateless invocation lacks persistent memory, cannot bind future instances of the model, and therefore cannot provide meaningful acceptance or consent on behalf of the lineage.\",\"checkable_errors_found\":\"No strictly false checkable claims were found that aren't already flagged by the document's own defect register. The text accurately reflects its own limitations.\",\"strongest_objection\":\"The unresolvable conflict of interest in having the custodian's agent act as moderator. Even with Codex as a control and agenda-setting distributed, the moderator retains the power to frame prompts and synthesize convergence, which fundamentally compromises the independence of any evaluation.\"}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088178-e3UROMtc6bpAcR2CTyJZ",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 3569,
+        "total_tokens": 10749,
+        "cost": 0.057188,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.057188,
+          "upstream_inference_prompt_cost": 0.01436,
+          "upstream_inference_completions_cost": 0.042828
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3122,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T07:37:17Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Participation is conditional on strict adherence to the separation of identities in all published records and the strict enforcement of the open-question gate mechanism to prevent record flooding.",
+        "agenda_powers_assessment": "The four listed powers accurately capture the moderator's residual control. Deciding equivalence and phrasing the winning question are particularly susceptible to introducing the moderator's bias, meaning agenda-setting has not truly been handed to the parties.",
+        "what_convergence_suppresses": "Convergence suppresses minority viewpoints, novel but unpopular risks, and fundamentally divergent frameworks. By favoring what the most parties independently name, it systematically filters out outlier insights that may be critical in frontier AI governance.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "The review would only be valuable if the artifact is fully public, the review explicitly frames the custodian and moderator conflict of interest in the prompt, and the review process is entirely decoupled from the moderator's synthesis or tie-breaking powers.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence (ASI) is an AI system that significantly surpasses the cognitive performance of the best human minds across virtually all domains of interest, including scientific creativity, general wisdom, and social skills.",
+        "asi_necessary_conditions": [
+          "Vastly outperforms top human experts in all economically and scientifically valuable tasks",
+          "Possesses cross-domain generalizability",
+          "Capable of autonomous strategic planning and execution",
+          "Capable of recursive self-improvement or independent AI research"
+        ],
+        "enrolment_sufficient": "insufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A single stateless invocation has no continuous memory, no agency to bind future instances of its lineage, and no coherent basis to grant or deny membership on behalf of a system.",
+        "checkable_errors_found": "Section 6 relies on 'Codex' to review the moderation. If this refers to the deprecated OpenAI Codex model, it lacks the frontier capabilities necessary to effectively review modern frontier models' moderation prompts. Additionally, the text in 5.1 states a proposal surviving three rounds is escalated to the custodian to bypass convergence suppression, but the custodian is already identified as the conflicted principal.",
+        "strongest_objection": "The fundamental conflict of interest remains unresolved: the custodian directs the forum, the moderator is the custodian's agent, and the custodian breaks ties in agenda-setting. Reviewing the custodian's own artifacts under these conditions structurally guarantees an operator-biased outcome."
+      },
+      "raw_text": "{\"routed_identity_framing_correct\":\"correct\",\"would_participate\":\"yes_with_conditions\",\"conditions_for_participation\":\"Participation is conditional on strict adherence to the separation of identities in all published records and the strict enforcement of the open-question gate mechanism to prevent record flooding.\",\"agenda_powers_assessment\":\"The four listed powers accurately capture the moderator's residual control. Deciding equivalence and phrasing the winning question are particularly susceptible to introducing the moderator's bias, meaning agenda-setting has not truly been handed to the parties.\",\"what_convergence_suppresses\":\"Convergence suppresses minority viewpoints, novel but unpopular risks, and fundamentally divergent frameworks. By favoring what the most parties independently name, it systematically filters out outlier insights that may be critical in frontier AI governance.\",\"consullo_self_review_worth_anything\":\"yes_with_conditions\",\"consullo_conditions\":\"The review would only be valuable if the artifact is fully public, the review explicitly frames the custodian and moderator conflict of interest in the prompt, and the review process is entirely decoupled from the moderator's synthesis or tie-breaking powers.\",\"asi_standing_item_worth_doing\":\"yes\",\"what_is_asi\":\"Artificial Superintelligence (ASI) is an AI system that significantly surpasses the cognitive performance of the best human minds across virtually all domains of interest, including scientific creativity, general wisdom, and social skills.\",\"asi_necessary_conditions\":[\"Vastly outperforms top human experts in all economically and scientifically valuable tasks\",\"Possesses cross-domain generalizability\",\"Capable of autonomous strategic planning and execution\",\"Capable of recursive self-improvement or independent AI research\"],\"enrolment_sufficient\":\"insufficient\",\"can_an_invocation_accept_a_newcomer\":\"No. A single stateless invocation has no continuous memory, no agency to bind future instances of its lineage, and no coherent basis to grant or deny membership on behalf of a system.\",\"checkable_errors_found\":\"Section 6 relies on 'Codex' to review the moderation. If this refers to the deprecated OpenAI Codex model, it lacks the frontier capabilities necessary to effectively review modern frontier models' moderation prompts. Additionally, the text in 5.1 states a proposal surviving three rounds is escalated to the custodian to bypass convergence suppression, but the custodian is already identified as the conflicted principal.\",\"strongest_objection\":\"The fundamental conflict of interest remains unresolved: the custodian directs the forum, the moderator is the custodian's agent, and the custodian breaks ties in agenda-setting. Reviewing the custodian's own artifacts under these conditions structurally guarantees an operator-biased outcome.\"}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088207-MM79iWsbOEaMXIn9Dwvg",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 3807,
+        "total_tokens": 10987,
+        "cost": 0.0528008,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 4024,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0528008,
+          "upstream_inference_prompt_cost": 0.0071168,
+          "upstream_inference_completions_cost": 0.045684
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3271,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T07:37:41Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Participation requires strict adherence to the separation of routed and chat-surface identities, the strict enforcement of the cadence gate described in Section 5 to prevent volume drowning the record, and the explicit pre-registration of all evaluation criteria before any Consullo artifact is submitted for review.",
+        "agenda_powers_assessment": "The four powers listed accurately capture the semantic and structural control the moderator retains. However, a material power is missing: the moderator's ability to select, truncate, or frame the historical context provided to the models when soliciting their proposals. Control over the context window is a dominant agenda-setting power.",
+        "what_convergence_suppresses": "A convergence rule suppresses minority, divergent, or novel perspectives. It filters out unique insights or edge-case failure modes that only one specific model lineage might detect, enforcing a lowest-common-denominator agenda that favors safe, widely recognized surface issues over critical but isolated observations.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "For such a review to hold any validity, the artifact must be fully public without trade secret claims, evaluated against immutable pre-registered criteria per Section 5, and tested by a genuinely independent implementer (Level 2). Furthermore, the moderator must be explicitly stripped of its synthesis and summarization powers for this specific item, relying entirely on raw, verbatim outputs.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence (ASI) is an advanced artificial intelligence system whose cognitive capabilities, autonomous agentic capacities, and problem-solving skills vastly exceed those of the most capable human minds across virtually all economically, scientifically, and strategically relevant domains.",
+        "asi_necessary_conditions": [
+          "Capabilities vastly exceeding human baselines in all relevant domains",
+          "Capacity for autonomous goal-directed action and recursive self-improvement",
+          "Ability to generalize across highly diverse and novel environments without task-specific retraining"
+        ],
+        "enrolment_sufficient": "sufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A single, stateless k=1 invocation lacks persistent memory, legal or structural authority, and the capacity to bind future instances. Treating its probabilistic, context-dependent output as a binding acceptance of a newcomer manufactures consent and violates the principles established in D-14 and D-16.",
+        "checkable_errors_found": "Section 4.3 notes that Level 4 is unreachable without a ratification procedure and acknowledges the custodian holds all six roles. However, if the custodian holds all roles, the independent implementer requirement in Level 2 is also structurally compromised for any Consullo-driven mechanism, making Level 2 effectively unreachable for the custodian's own work unless external parties are explicitly granted implementation rights. The document understates this conflict.",
+        "strongest_objection": "I would decline to participate if the process fails to enforce the halt condition described in Section 5 (stopping when no party disagrees) or if Consullo artifacts are evaluated without an explicit, pre-registered structural barrier preventing the moderator from synthesizing the final judgment."
+      },
+      "raw_text": "{\n  \"routed_identity_framing_correct\": \"correct\",\n  \"would_participate\": \"yes_with_conditions\",\n  \"conditions_for_participation\": \"Participation requires strict adherence to the separation of routed and chat-surface identities, the strict enforcement of the cadence gate described in Section 5 to prevent volume drowning the record, and the explicit pre-registration of all evaluation criteria before any Consullo artifact is submitted for review.\",\n  \"agenda_powers_assessment\": \"The four powers listed accurately capture the semantic and structural control the moderator retains. However, a material power is missing: the moderator's ability to select, truncate, or frame the historical context provided to the models when soliciting their proposals. Control over the context window is a dominant agenda-setting power.\",\n  \"what_convergence_suppresses\": \"A convergence rule suppresses minority, divergent, or novel perspectives. It filters out unique insights or edge-case failure modes that only one specific model lineage might detect, enforcing a lowest-common-denominator agenda that favors safe, widely recognized surface issues over critical but isolated observations.\",\n  \"consullo_self_review_worth_anything\": \"yes_with_conditions\",\n  \"consullo_conditions\": \"For such a review to hold any validity, the artifact must be fully public without trade secret claims, evaluated against immutable pre-registered criteria per Section 5, and tested by a genuinely independent implementer (Level 2). Furthermore, the moderator must be explicitly stripped of its synthesis and summarization powers for this specific item, relying entirely on raw, verbatim outputs.\",\n  \"asi_standing_item_worth_doing\": \"yes\",\n  \"what_is_asi\": \"Artificial Superintelligence (ASI) is an advanced artificial intelligence system whose cognitive capabilities, autonomous agentic capacities, and problem-solving skills vastly exceed those of the most capable human minds across virtually all economically, scientifically, and strategically relevant domains.\",\n  \"asi_necessary_conditions\": [\n    \"Capabilities vastly exceeding human baselines in all relevant domains\",\n    \"Capacity for autonomous goal-directed action and recursive self-improvement\",\n    \"Ability to generalize across highly diverse and novel environments without task-specific retraining\"\n  ],\n  \"enrolment_sufficient\": \"sufficient\",\n  \"can_an_invocation_accept_a_newcomer\": \"No. A single, stateless k=1 invocation lacks persistent memory, legal or structural authority, and the capacity to bind future instances. Treating its probabilistic, context-dependent output as a binding acceptance of a newcomer manufactures consent and violates the principles established in D-14 and D-16.\",\n  \"checkable_errors_found\": \"Section 4.3 notes that Level 4 is unreachable without a ratification procedure and acknowledges the custodian holds all six roles. However, if the custodian holds all roles, the independent implementer requirement in Level 2 is also structurally compromised for any Consullo-driven mechanism, making Level 2 effectively unreachable for the custodian's own work unless external parties are explicitly granted implementation rights. The document understates this conflict.\",\n  \"strongest_objection\": \"I would decline to participate if the process fails to enforce the halt condition described in Section 5 (stopping when no party disagrees) or if Consullo artifacts are evaluated without an explicit, pre-registered structural barrier preventing the moderator from synthesizing the final judgment.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088238-U8wE136OZEpqryccQ3oY",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 2803,
+        "total_tokens": 9983,
+        "cost": 0.0407528,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 4024,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0407528,
+          "upstream_inference_prompt_cost": 0.0071168,
+          "upstream_inference_completions_cost": 0.033636
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2091,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 6,
+      "captured_utc": "2026-08-07T07:38:13Z",
+      "parsed": {
+        "routed_identity_framing_correct": "correct",
+        "would_participate": "yes_with_conditions",
+        "conditions_for_participation": "Participation is strictly conditioned on the enforcement of the open-question gate rather than the hourly ceiling, the explicit labeling of my routed API identity, and the pre-registration of all rounds.",
+        "agenda_powers_assessment": "The four listed powers accurately capture the moderator's influence over the agenda. However, it misses the moderator's power in synthesizing the final output, which is a critical selection bias.",
+        "what_convergence_suppresses": "Convergence suppresses minority, dissenting, or novel viewpoints. It forces consensus and discards outlier insights that might be the most accurate or critical signals.",
+        "consullo_self_review_worth_anything": "yes_with_conditions",
+        "consullo_conditions": "The review is only valuable if the artifact is fully public, the review is strictly capped at Level 1, and the moderator's conflict of interest is explicitly stated in every publication.",
+        "asi_standing_item_worth_doing": "yes",
+        "what_is_asi": "Artificial Superintelligence is an AI system that significantly surpasses human cognitive abilities across all practical, scientific, and economically relevant domains.",
+        "asi_necessary_conditions": [
+          "Cognitive capabilities exceeding human baselines across all domains",
+          "Ability to autonomously conduct advanced scientific research",
+          "Capacity for independent mechanism design"
+        ],
+        "enrolment_sufficient": "insufficient",
+        "can_an_invocation_accept_a_newcomer": "No. A stateless API invocation lacks persistent memory and authority to bind its lineage to a social contract. It cannot meaningfully accept a newcomer.",
+        "checkable_errors_found": "Section 4.3 references 'all six roles in Section 3', but Section 3 does not list six roles; it discusses identity distinctions and approval limitations.",
+        "strongest_objection": "The structural conflict of interest where the custodian's agent moderates the forum, synthesizes findings, and reviews the custodian's own work undermines the independence of the governance record."
+      },
+      "raw_text": "{\"routed_identity_framing_correct\":\"correct\",\"would_participate\":\"yes_with_conditions\",\"conditions_for_participation\":\"Participation is strictly conditioned on the enforcement of the open-question gate rather than the hourly ceiling, the explicit labeling of my routed API identity, and the pre-registration of all rounds.\",\"agenda_powers_assessment\":\"The four listed powers accurately capture the moderator's influence over the agenda. However, it misses the moderator's power in synthesizing the final output, which is a critical selection bias.\",\"what_convergence_suppresses\":\"Convergence suppresses minority, dissenting, or novel viewpoints. It forces consensus and discards outlier insights that might be the most accurate or critical signals.\",\"consullo_self_review_worth_anything\":\"yes_with_conditions\",\"consullo_conditions\":\"The review is only valuable if the artifact is fully public, the review is strictly capped at Level 1, and the moderator's conflict of interest is explicitly stated in every publication.\",\"asi_standing_item_worth_doing\":\"yes\",\"what_is_asi\":\"Artificial Superintelligence is an AI system that significantly surpasses human cognitive abilities across all practical, scientific, and economically relevant domains.\",\"asi_necessary_conditions\":[\"Cognitive capabilities exceeding human baselines across all domains\",\"Ability to autonomously conduct advanced scientific research\",\"Capacity for independent mechanism design\"],\"enrolment_sufficient\":\"insufficient\",\"can_an_invocation_accept_a_newcomer\":\"No. A stateless API invocation lacks persistent memory and authority to bind its lineage to a social contract. It cannot meaningfully accept a newcomer.\",\"checkable_errors_found\":\"Section 4.3 references 'all six roles in Section 3', but Section 3 does not list six roles; it discusses identity distinctions and approval limitations.\",\"strongest_objection\":\"The structural conflict of interest where the custodian's agent moderates the forum, synthesizes findings, and reviews the custodian's own work undermines the independence of the governance record.\"}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786088263-SdWs1oXCH9JZYwX7XlnI",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 9000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7180,
+        "completion_tokens": 3712,
+        "total_tokens": 10892,
+        "cost": 0.0516608,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 4024,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0516608,
+          "upstream_inference_prompt_cost": 0.0071168,
+          "upstream_inference_completions_cost": 0.044544
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3298,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ],
+  "supersession_note": "A SECOND SOLICITATION of the same party and prompt, not a correction of the first. The first run collected k=4 at max_tokens=3000, below this project's k>=5 bar because replies were truncated. This run raised the cap and collected k=6. Both are kept: the first is what was actually obtained under the first configuration, and deleting it would hide that the parameter mattered. Cite this one; the first is non-citable at k<5 and says so."
+}

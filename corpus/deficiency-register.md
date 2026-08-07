@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 40** classifications have been read by a human against the prose.
+**0 of 41** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 25 |
+| the annotator | 26 |
 | a designated review round | 8 |
 | an external reviewer | 3 |
 | human operator | 3 |
@@ -37,12 +37,12 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | State | Entries |
 |---|---|
 | required, not implemented | 12 |
-| implemented, not validated | 21 |
+| implemented, not validated | 22 |
 | validated | 7 |
 
 ### Affected objects
 
-**94 affected-object rows across 40 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**97 affected-object rows across 41 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -655,4 +655,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | The evidence field on all 13 previously-scored predictions <br><sub>Now carries supporting_artifacts: 95 path-and-hash references across 15 scored predictions, derived mechanically from each outcome's own commit and enforced by check_register.py R12. STILL OWED: the citations are a candidate set, not a verified per-claim mapping, which is what the external parties actually asked for.</sub> | repairable by supersession | partly applied |
 | P-0011's resolution criterion <br><sub>Both parties independently returned criterion_cannot_be_applied where the record says correct. Convergent, from unrelated lineages, neither seeing the other.</sub> | partly repairable | not started |
 | The scoring instrument's categorical field <br><sub>P-0016's Qwen enum contradicted its own free text in 4 of 5 samples -- D-24 reproducing in a new instrument one day after D-24 was cited in its design. Caught by the narrative sweep, not by the numbers; corrected before publication.</sub> | repairable by supersession | verified |
+
+### D-41 — A new solicitation tool overwrote already-committed raw material, because it copied a working tool and dropped its guard
+
+[Full entry](deficiencies.md#d-41--a-new-solicitation-tool-overwrote-already-committed-raw-material-because-it-copied-a-working-tool-and-dropped-its-guard)
+
+- **First articulated:** the annotator, 2026-08-07 · evidence: *preserved artifact*
+  - where: `build_manifest.py reported MODIFIED during a routine rebuild after a re-solicitation`
+- **Prospective control:** implemented, not validated — Both solicitation tools refuse to write an existing raw path and instruct the operator to use a new slug. Not validated against a future third writer, which is the residual risk.
+- **Effort:** low — Five lines. The cost was that only the manifest could see it: the overwrite left valid JSON, correct schema and a higher k, so every content check passed.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| corpus/raw/sop-consultation-01/sop-consultation-gemini-samples.json <br><sub>Committed at k=4, overwritten in place by a later k=6 run. Restored from git; the k=6 run preserved separately as a second solicitation rather than a correction.</sub> | repairable by supersession | verified |
+| tools/solicit_api.py's write path <br><sub>Modelled on solicit_local.py, which has always refused to overwrite. The new tool reproduced its structure, docstring conventions and variance computation, and dropped its one safety check.</sub> | repairable by supersession | verified |
+| Future writers into corpus/raw/ <br><sub>Nothing checks that a new instrument carries the immutability guard. The controls most likely to be dropped when copying a tool are the ones that do nothing on the happy path.</sub> | partly repairable | not started |
 

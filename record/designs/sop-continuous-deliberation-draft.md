@@ -113,40 +113,86 @@ because the prompt asserted one emphatically. A round where everyone agrees is m
 the prompt told them what to say than that a question was settled.
 
 
-## 5.1 The agenda is solicited from the parties, not set by the moderator
+## 5.1 Agenda selection — a capped portfolio, after two failed designs
 
-**This is the custodian's amendment and it moves the worst defect in §6 without dissolving it.** In
-the first draft the moderator drafted the agenda outright. Now the parties propose it.
+**This section has now been wrong twice, and both corrections are recorded rather than folded in.**
 
-**But "the moderator does not choose" would be false, and an earlier version of this section said
-it.** Corrected after external review. The moderator retains four powers, named here because an
-understated conflict is worse than a disclosed one:
+**Design 1, convergence.** The next round's question was the one the most parties independently
+named. **All five consulted parties objected**, and between them named eight distinct failure modes
+in their own words:
 
-1. It writes the **solicitation prompt**, and wording shapes what gets proposed.
-2. It **phrases the winning question** from the proposals.
-3. It decides **when two differently-worded proposals are the same thing**, which is what
-   "the most parties independently name" turns on.
-4. It decides whether a reply **created an open question** at all — the gate in §5.
+| | |
+|---|---|
+| frequency is not importance | *"low-base-rate catastrophic risks"* lose (GPT) |
+| single-lineage insight is filtered | *"the defect only one model surface can see"* (Grok); *"unique findings from specific model lineages"* (Gemini) |
+| the moderator's sameness judgement | collapses or splits proposals (Grok, GPT) |
+| correlated output read as support | *"correlated blind spots look like consensus"* (Grok) |
+| self-implicating items are never proposed | *"agenda items that threaten the moderator/custodian frame"* (Grok) |
+| ontological disagreement loses | parties must name *the same* thing to win, so disagreement about problem-**formation** is filtered (Grok, Qwen) |
+| convergence masks divergent reasons | *"if three parties agree on a mechanism but for different reasons, convergence treats them as identical"* (Qwen) |
+| novel framings cannot cluster | they lack shared vocabulary (Grok, Qwen) |
 
-And the tie-break goes to the **custodian**, who is the conflicted principal, not to the parties.
-So this is a transfer of agenda power from the moderator to a mix of the parties, the moderator's
-classification judgement, and the custodian — not its removal. The mechanism:
+**Design 2, strict rotation — proposed by the moderator and refuted before it shipped.** Every
+proposal queued verbatim, nothing merged, rounds drawn in strict rotation by proposing party.
+External review found it **worse than what it replaced**:
 
-1. Each party proposes, in its own words, what the deliberation should take up next and why.
-2. **All proposals are published**, including ones no other party shares.
-3. The next round's question is the one **the most parties independently name**. Ties are broken by
-   the custodian, not the moderator, and the tie is recorded.
-4. A proposal named by only one party is not discarded — it carries to the next solicitation, and
-   **a proposal that survives three rounds unaddressed is escalated to the custodian** as evidence
-   that the convergence rule is suppressing something.
+- **Allocation without evaluation.** A party submitting one consequential question gets the same
+  agenda share as one emitting cheap questions continuously.
+- **Its central promise was false.** "Every proposal eventually gets asked" cannot hold when
+  arrivals exceed service. Publishing queue ages makes starvation *visible*, not *cured*.
+- **It contradicted itself.** Rule R4 measured when several parties proposed "similar things" —
+  **recreating the exact sameness judgement rule R1 claimed to abolish.**
+- Duplication burning scarce rounds; no severity or urgency ordering; no expiry; strategic
+  splitting of one campaign into many proposals; and a fixed 25% of rounds consumed by the
+  self-critique slot whether or not there was an institutional question worth asking.
 
-**Divergence in the agenda is itself a finding.** If four parties propose four unrelated questions,
-that is a measurement about how much shared model of the problem exists — and it is the kind of
-result this corpus has no other way to obtain. It must not be smoothed into a synthesis.
+### The mechanism adopted instead
 
-The moderator's remaining agenda power is real and must be named: it writes the *prompt* that
-solicits proposals, and prompt wording shapes what gets proposed. That is what Codex reviews (§6),
-and the solicitation prompt is the one most worth reviewing.
+1. **One active proposal per party.** A party withdraws or replaces before adding another;
+   replacement resets its age. Flooding cannot enlarge the queue.
+2. **A proposal contract**, verbatim: the question, the reason, the evidence needed, the decision
+   it affects, and what answer would resolve it. Qwen's point — reasons, not just proposals.
+3. **Voluntary co-sponsorship only.** A party may explicitly join another's proposal and attach its
+   own distinct reason. **The moderator never infers that two proposals are the same.** One shared
+   question consumes one round.
+4. **A four-round cycle:** two questions chosen by **blinded rankings from the non-proposing
+   parties**; one by **lottery** among remaining active proposals, one ticket per party; one
+   **institutional challenge** (§5.1a).
+5. **Rankings and reasons published**, and treated as *correlated judgement*, never as independent
+   votes.
+6. **Custodian urgency override**, with a published rationale. It may prepend a question; it may
+   **not** delete or demote another invisibly. The funding authority is exposed rather than
+   pretended away.
+7. **Expiry and renewal.** An unresolved proposal requires affirmative renewal after a fixed
+   period. Expired versions stay published.
+
+The lottery is what protects the singleton, novel, and ontologically awkward question that
+convergence filtered — every party holds a ticket regardless of whether anyone else understood its
+proposal.
+
+## 5.1a The institutional-challenge round, and what it is honestly worth
+
+**The moderator and the custodian may not write or select questions about themselves.** Other
+parties nominate them verbatim; selection is mechanical — random from those nominations and from
+unresolved public defects, with the seed published; the context is a fixed pre-registered template
+supplying primary artifacts rather than the moderator's characterisation; recusals, replies and
+refusals are all published; and a **non-target party drafts the synthesis**, or no synthesis is
+written and the replies stand alone.
+
+Where no genuinely non-target prompt author exists, the slot **is labelled an operator-framed
+self-audit, not an adversarial control.** An interested party can always write a question that
+sounds adversarial while excluding the dangerous hypothesis, and calling that a control would be
+the legitimacy-laundering Gemini named.
+
+## 5.1b This mechanism is untested and should be benchmarked before adoption
+
+Neither convergence, rotation, nor this hybrid has been run. Adopting a third untested intuition
+because two previous ones were criticised is how a project mistakes iteration for progress.
+
+**Before adoption: replay one fixed proposal set through all three mechanisms**, pre-registering
+queue growth, duplicated rounds, time-to-minority-question, agenda value, prompt-rewrite
+distortion, and behaviour under a single flooding party. That is a bounded experiment this project
+can actually run, and it would make agenda design a reusable result rather than a preference.
 
 ## 5.2 Standing items: the fundamentals, the news, and Consullo's own artifacts
 

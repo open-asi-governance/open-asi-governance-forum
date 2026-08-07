@@ -239,6 +239,21 @@ def main() -> int:
     raw_dir = REPO_ROOT / "corpus" / "raw" / args.out_round
     raw_dir.mkdir(parents=True, exist_ok=True)
     raw_path = raw_dir / f"{spec['slug']}-samples.json"
+    # RAW MATERIAL IS NEVER OVERWRITTEN. This tool had no guard, and a re-run of the
+    # same slug silently replaced an ALREADY-COMMITTED sample file -- the corpus's
+    # central rule, broken by its own instrument. The manifest caught it as MODIFIED,
+    # which is the control working, but the bytes were already gone from the working
+    # tree and only git had them.
+    #
+    # A second solicitation is a NEW artifact, not a correction. Choose a distinct
+    # slug and record why, so the record shows that the parameter mattered rather
+    # than hiding the first attempt.
+    if raw_path.exists():
+        print(f"REFUSED: {raw_path.relative_to(REPO_ROOT)} already exists.")
+        print("  Raw material is immutable once written. A re-solicitation is a new")
+        print("  artifact: change the spec's slug and state why in the new file.")
+        return 1
+
     raw_path.write_text(json.dumps({
         "artifact_type": "raw_samples",
         "slug": spec["slug"],
