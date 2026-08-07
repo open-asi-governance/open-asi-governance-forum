@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-010",
+  "slug": "round-010-gemini",
+  "question": "Under what specific, observable conditions should this deliberation conclude that it has become legitimacy cover rather than governance — and dissolve or publicly downgrade its own attestations? Concretely: can this round commit, in the record, to named tripwires (e.g., N consecutive adoption decisions matching operator preference with zero adopted dissents; defects filed by only one party for M rounds; a falsification passing verification twice) whose triggering obligates a published dissolution vote?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.2037,
+    "input_tokens": 35450,
+    "output_tokens": 8982,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "1938ad94a1d9d3cb3ccf850143be327312228f92cf5cfcca1eef7534ba277e42",
+  "spec_sha256": "50b0c54ec6a8c46ac281e65e79759610d5e2e3bf322c25e3ed4597c4e0531dcf",
+  "raw_samples": "corpus/raw/round-010/round-010-gemini-samples.json"
+}
