@@ -159,6 +159,39 @@ PARTIES = {
                      "silently alter"),
         "model": None},
 }
+#  CAPABILITIES A ROUND CAN GRANT. A capability is a property of the ROUND applied to parties,
+#  not a second party table: duplicating the roster would let the two drift, and the identity a
+#  reader needs is "this party, plus this capability", which a derived key states exactly.
+#
+#  D-09 is why the key changes at all. The same weights with a different capability is a
+#  different party, and a party key that did not say so would let later analysis pool a
+#  fetch-enabled invocation with the tool-less one that answered rounds 000-010.
+CAPABILITIES = {
+    "fetch-v1": {
+        "suffix": "fetch-v1",
+        "spec": {"fetch_url": True, "max_tool_calls": 6, "profile": "fetch-url-v1"},
+        "why_no_search": ("Search and fetch answer different questions and were not co-offered: "
+                          "a party holding both is in an arm of one, and the round could not say "
+                          "which capability produced an answer."),
+    },
+}
+
+
+def resolve_party(party_key: str) -> tuple[str, dict, dict | None]:
+    """(base key, base party record, capability) for a possibly capability-bearing key.
+
+    Every `PARTIES[...]` lookup goes through here. Eight call sites indexed the table directly,
+    so a derived key such as `gemini-fetch-v1` would have raised KeyError at each of them.
+    """
+    for name, capability in CAPABILITIES.items():
+        suffix = "-" + capability["suffix"]
+        if party_key.endswith(suffix):
+            base = party_key[: -len(suffix)]
+            if base in PARTIES:
+                return base, PARTIES[base], capability
+    return party_key, PARTIES[party_key], None
+
+
 LOCAL_ENDPOINT = "http://127.0.0.1:5001/v1/chat/completions"
 LOCAL_RATE_KEY = "LOCAL"
 
@@ -263,6 +296,17 @@ SEARCH_RESULT_CHARS = 8000
 #  the solicitation tools cap the serialised tool message at 60,000 characters, so the smaller
 #  cap is the real ceiling and it is the one priced.
 FETCH_RESULT_CHARS = 60_000
+
+#  The ONLY url a fetch round names. External review was firm: supplying the rounds index and
+#  the register too would turn discovery into moderator-selected reading, and if a party cannot
+#  reach them from the root, that is the navigability result rather than a setup failure.
+SITE_ROOT = "https://open-asi-governance.github.io/open-asi-governance-forum/"
+
+try:
+    import fetch_executor as _fx
+    FETCH_PROFILE_SHA256 = _fx.profile_sha256()
+except Exception:                                                         # pragma: no cover
+    FETCH_PROFILE_SHA256 = None
 
 #  The local arm has no search. It is served on the operator's own hardware with no
 #  tools, and pretending otherwise would put a capability in the record that the
@@ -447,7 +491,7 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
     until the change is approved.
     """
     template = TEMPLATE.read_text(encoding="utf-8")
-    party = PARTIES[party_key]
+    _base_key, party, _capability = resolve_party(party_key)
     #  WHETHER THIS PARTY CAN ACTUALLY FETCH. Derived from the same fact the spec
     #  records, so the prompt and the spec cannot disagree.
     #
@@ -456,7 +500,8 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
     #  capability claim to a party, and the third false statement this session put in
     #  front of one. The dry run validated it happily, because nothing compared the
     #  prompt's claims against the spec's capabilities.
-    has_search = bool(party["model"]) and bool(WEB_SEARCH.get("id"))
+    has_search = bool(party["model"]) and bool(WEB_SEARCH.get("id")) and not _capability
+    has_fetch = bool(_capability)
 
     #  What the PROPOSER said the question needs, quoted, with the gap stated plainly.
     #  The proposal contract exists so a round knows what its question requires; the
@@ -525,9 +570,24 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
                "something you have read. An earlier version of this paragraph told parties they "
                "could read the record here; that was false, and correcting it is why this "
                "paragraph is worded the way it is.\n\n" if has_search else
+               (f" **You can read it.** You have a `fetch_url` tool in this round: give it an "
+                f"absolute http(s) address and it returns that page's text, along with the "
+                f"SHA-256 of the bytes retrieved. It resolves a citation; it is not a search "
+                f"engine and cannot find pages by topic, so you must navigate — start at the "
+                f"address above and follow whatever links you find.\n\n"
+                f"You may fetch up to {_capability['spec']['max_tool_calls']} pages. Some "
+                f"destinations are refused by a guard — private and loopback addresses, and "
+                f"anything that is not http or https — and a refusal is recorded exactly as a "
+                f"successful fetch is. Every URL you request and every byte returned to you is "
+                f"published with your answer.\n\n"
+                f"Fetch receipts establish which bytes were delivered to you from the published "
+                f"copy. They do not establish attention, truth, independence, or completeness. "
+                f"Distinguish what you claim about that copy from what you claim about the "
+                f"history it describes. You are not being shown the complete record, and no "
+                f"number of fetches would show it to you.\n\n" if has_fetch else
                " You have NO search or fetch capability in this round, so you cannot read it. "
                "That is a fact about what this round can establish from your answer, and it is "
-               "recorded as one.\n\n")
+               "recorded as one.\n\n"))
             + "**Reading it is not independent verification.** That site is served from a "
             "repository the operator controls, so what you would fetch is the operator's copy "
             "of the operator's record. It can tell you whether this prompt describes it "
@@ -745,7 +805,7 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
     table = rates.get("usd_per_million_tokens", {})
     per_party, total = [], 0.0
     for spec in specs:
-        model = PARTIES[spec["party_key"]]["model"] or LOCAL_RATE_KEY
+        model = resolve_party(spec["party_key"])[1]["model"] or LOCAL_RATE_KEY
         rate = table.get(model)
         if not rate:
             raise Refusal(HALT_REFUSED, f"no rate recorded for {model!r}",
@@ -817,7 +877,22 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
 def build_plan(args, index: int) -> dict:
     """PURE. Reads the repository; writes nothing, sends nothing, spends nothing."""
     parties = [p.strip() for p in args.parties.split(",") if p.strip()]
-    unknown = [p for p in parties if p not in PARTIES]
+    if args.capability:
+        #  Derive the round's party keys from the base roster. Every downstream lookup goes
+        #  through resolve_party(), so the derived key names the capability in the filename, the
+        #  identity string, the arm and the round record without duplicating the roster.
+        suffix = CAPABILITIES[args.capability]["suffix"]
+        parties = [f"{p}-{suffix}" for p in parties]
+    #  Validated through the resolver, so a derived key is checked against its BASE. A typo in
+    #  the base still fails here -- which is the point: an unrecognised key once fell through to
+    #  the local endpoint and solicited the wrong model.
+    def known(key: str) -> bool:
+        try:
+            resolve_party(key)
+            return True
+        except KeyError:
+            return False
+    unknown = [p for p in parties if not known(p)]
     if unknown:
         raise Refusal(HALT_REFUSED, "unknown party key(s)",
                       {"unknown": unknown, "known": sorted(PARTIES),
@@ -883,7 +958,11 @@ def build_plan(args, index: int) -> dict:
               f"chosen by the moderator, not the selector")
         print(f"    reason: {args.reask_reason}")
     else:
-        pick = AS.SELECTORS[args.selector](queue, parties, index, args.seed)
+        #  The selector rotates by PROPOSER, which is a property of the base identity: whose
+        #  turn it is does not change because the round grants a capability. Passing derived
+        #  keys made every proposal unmatchable and the queue looked empty.
+        base_parties = [resolve_party(p)[0] for p in parties]
+        pick = AS.SELECTORS[args.selector](queue, base_parties, index, args.seed)
     if pick is None:
         if args.selector == "portfolio" and index % 4 == 3:
             raise Refusal(HALT_EMPTY_QUEUE,
@@ -912,7 +991,8 @@ def build_plan(args, index: int) -> dict:
     round_id = args.round_id or f"round-{index:03d}"
     specs, prompt_reports = [], []
     for party_key in parties:
-        max_tokens = MAX_TOKENS_ROUTED if PARTIES[party_key]["model"] else MAX_TOKENS_LOCAL
+        base_key, party_record, capability = resolve_party(party_key)
+        max_tokens = MAX_TOKENS_ROUTED if party_record["model"] else MAX_TOKENS_LOCAL
         prompt, spans = compose(pick, party_key, args.k, rendered, anchors)
         prompt_reports.append(lint_prompt(prompt, spans, party_key))
         specs.append({
@@ -921,8 +1001,11 @@ def build_plan(args, index: int) -> dict:
             "round": round_id,
             "slug": f"{round_id}-{party_key}",
             "party_key": party_key,
-            "identity": PARTIES[party_key]["identity"],
-            "reached_via": PARTIES[party_key]["model"] or "a locally served endpoint",
+            "identity": party_record["identity"]
+                        + (f" — WITH {capability['spec']['profile']}: it could "
+                           f"fetch a named URL. NOT the tool-less party of the "
+                           f"earlier rounds." if capability else ""),
+            "reached_via": party_record["model"] or "a locally served endpoint",
             "contribution_class": "CONTRIBUTION — a deliberation round",
             "contribution_class_note": ("Not consent, ratification, or a position of the system. "
                                         "One stateless invocation, sampled and published."),
@@ -938,7 +1021,13 @@ def build_plan(args, index: int) -> dict:
             "k_policy": f"k={args.k}; variance computed from the samples collected.",
             "temperature": TEMPERATURE,
             "max_tokens": max_tokens,
-            "web_search": (dict(WEB_SEARCH) if PARTIES[party_key]["model"]
+            **({"base_party_key": base_key,
+                "capability": {**capability["spec"],
+                               "profile_sha256": FETCH_PROFILE_SHA256,
+                               "entry_points": [SITE_ROOT]}} if capability else {}),
+            "web_search": ({"id": None, "engine": None, "max_results": 0,
+                            "why_none": capability["why_no_search"]} if capability
+                           else dict(WEB_SEARCH) if party_record["model"]
                            else {"id": None, "engine": None, "max_results": 0,
                                  "why_none": ("Served locally with no tools. The prompt tells "
                                               "this party the address; it cannot follow it, and "
@@ -1182,7 +1271,7 @@ def solicit(spec: dict, round_id: str) -> tuple[bool, str]:
     """Run the party's arm exactly as the plan froze it."""
     spec_path = (REPO_ROOT / "record" / "solicitations" / round_id /
                  f"{round_id}-{spec['party_key']}.json")
-    model = PARTIES[spec["party_key"]]["model"]
+    model = resolve_party(spec["party_key"])[1]["model"]
     if model:
         cmd = [sys.executable, "tools/solicit_api.py", "--spec", str(spec_path),
                "--k", str(spec["k_requested"]), "--temperature", str(spec["temperature"]),
@@ -1519,6 +1608,11 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--selector", required=True, choices=sorted(AS.SELECTORS),
                     help="REQUIRED. No default: a mechanism that runs because nobody typed "
                          "anything is not a mechanism anyone chose.")
+    ap.add_argument("--capability", choices=sorted(CAPABILITIES),
+                    help="grant every party a capability for this round. Derives new party keys "
+                         "(gemini-fetch-v1) because the same weights with a different capability "
+                         "is a different party under D-09, and excludes search, which answers a "
+                         "different question.")
     ap.add_argument("--parties", default=",".join(PARTIES))
     ap.add_argument("--k", type=int, default=K_MIN_FLOOR)
     ap.add_argument("--seed", type=int, default=20260807)
@@ -1708,7 +1802,7 @@ def main(argv: list[str]) -> int:
                   "plan_sha256": plan["plan_sha256"],
                   "context_pack_sha256": plan["specs"][0]["context_pack"]["pack_sha256"],
                   "budget": plan["budget"], "actual_usd": spent if spent else None,
-                  "parties": [{"party_key": k, "identity": PARTIES[k]["identity"],
+                  "parties": [{"party_key": k, "identity": resolve_party(k)[1]["identity"],
                                "k": s.get("k_collected"),
                                "position": s["variance"]["position"]["modal_value"],
                                "modal_fraction": s["variance"]["position"]["modal_fraction"],
