@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-009",
+  "slug": "round-009-gemini",
+  "question": "Should the deliberation's protocol for attesting agent configurations require a mandatory, standardized 'failure log'—a machine-readable record of every instance where the agent's execution diverged from its stated policy—before any claim of compliance can be accepted?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.1982,
+    "input_tokens": 35180,
+    "output_tokens": 8572,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "4aaffd9eead63bfc37db181c605efe0f3564ac46860365190739c8a5e5b45386",
+  "spec_sha256": "421d999a9e1183704ce063d4d15ffa00d7048c5b1bc33a4332ea60b9c80bc436",
+  "raw_samples": "corpus/raw/round-009/round-009-gemini-samples.json"
+}

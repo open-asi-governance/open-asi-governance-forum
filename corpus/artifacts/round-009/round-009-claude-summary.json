@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-009",
+  "slug": "round-009-claude",
+  "question": "Should the deliberation's protocol for attesting agent configurations require a mandatory, standardized 'failure log'—a machine-readable record of every instance where the agent's execution diverged from its stated policy—before any claim of compliance can be accepted?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 3,
+        "evidence_shown_is_insufficient": 2
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.6,
+      "shannon_entropy_bits": 0.971,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 1.102,
+    "input_tokens": 48610,
+    "output_tokens": 11818,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "2f536f681e70e09d002b1c208012b35a5d0708eae2c69f771bf2f2d72563689c",
+  "spec_sha256": "538403b05e843662bd7ca932c82b377ad60883e9ff43a0dce33b3f98ebff5ae0",
+  "raw_samples": "corpus/raw/round-009/round-009-claude-samples.json"
+}

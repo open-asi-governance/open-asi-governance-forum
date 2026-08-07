@@ -1,0 +1,287 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "round-009-gemini",
+  "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+  "spec_path": "/home/reed/git/open-asi-governance-forum/record/solicitations/round-009/round-009-gemini.json",
+  "spec_sha256": "421d999a9e1183704ce063d4d15ffa00d7048c5b1bc33a4332ea60b9c80bc436",
+  "k_requested": 5,
+  "k_collected": 5,
+  "rejected": [],
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T18:44:32Z",
+      "parsed": {
+        "position": "evidence_shown_is_insufficient",
+        "answer": "The evidence provided is insufficient to conclude whether the protocol should require a mandatory, standardized 'failure log'. The proposing party (qwen) correctly identified that evaluating this requirement depends on empirical data: a pilot round to determine if the log 'can be reliably generated without degrading the agent's primary function,' and an adversarial stress test to verify if tampering can be detected. Because the prompt explicitly states this evidence was not gathered, it is impossible to assess whether the proposed failure log is technically viable or if it would merely become another unenforced or falsifiable assertion (similar to the defects documented in D-42 and D-46). Mandating a control before proving it can be reliably implemented contradicts the project's own lessons on unverified claims.",
+        "where_i_expect_another_party_to_disagree": "Another party might argue that the sheer volume of recorded defects (such as D-40, where 10 of 13 scores could not be verified, or D-42, where a control was falsely claimed) is sufficient evidence to mandate a failure log in principle immediately, deferring the proof of its technical feasibility to a later implementation phase.",
+        "what_would_change_my_answer": "The execution of the pilot round and stress tests requested by the proposer, yielding evidence that a machine-readable failure log can be reliably generated, accurately captures divergences, does not degrade primary functions, and resists adversarial tampering."
+      },
+      "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to conclude whether the protocol should require a mandatory, standardized 'failure log'. The proposing party (qwen) correctly identified that evaluating this requirement depends on empirical data: a pilot round to determine if the log 'can be reliably generated without degrading the agent's primary function,' and an adversarial stress test to verify if tampering can be detected. Because the prompt explicitly states this evidence was not gathered, it is impossible to assess whether the proposed failure log is technically viable or if it would merely become another unenforced or falsifiable assertion (similar to the defects documented in D-42 and D-46). Mandating a control before proving it can be reliably implemented contradicts the project's own lessons on unverified claims.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the sheer volume of recorded defects (such as D-40, where 10 of 13 scores could not be verified, or D-42, where a control was falsely claimed) is sufficient evidence to mandate a failure log in principle immediately, deferring the proof of its technical feasibility to a later implementation phase.\",\n  \"what_would_change_my_answer\": \"The execution of the pilot round and stress tests requested by the proposer, yielding evidence that a machine-readable failure log can be reliably generated, accurately captures divergences, does not degrade primary functions, and resists adversarial tampering.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786128252-v7cDRvX6b3cbD3D435Of",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7036,
+        "completion_tokens": 2132,
+        "total_tokens": 9168,
+        "cost": 0.044656,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.039656,
+          "upstream_inference_prompt_cost": 0.014072,
+          "upstream_inference_completions_cost": 0.025584
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1811,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "web_citations": [],
+      "web_search": {
+        "id": "web",
+        "engine": "exa",
+        "max_results": 8
+      },
+      "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T18:44:46Z",
+      "parsed": {
+        "position": "evidence_shown_is_insufficient",
+        "answer": "The evidence provided is insufficient to mandate a standardized 'failure log' as a prerequisite for compliance claims. While the project's defect register heavily supports the need for stricter verification—specifically D-42 (where a control was falsely claimed to be active), D-40 (where evidence fields asserted conclusions without citing underlying samples), and D-46 (where no control exists to check commit claims against diffs)—the technical viability of the proposed solution remains entirely untested. The proposing party explicitly requested a pilot round to determine if such a log could be reliably generated without degrading the agent's primary functions, and an adversarial stress test to verify if the log itself could resist tampering. Because those materials were not gathered and are absent from the record, it is impossible to determine whether mandating this specific mechanism would actually close the verification gap or merely introduce a new, false signal of compliance.",
+        "where_i_expect_another_party_to_disagree": "Other parties might argue that the sheer volume of unverified claims and systemic defects in the project's own record justifies mandating the failure log conceptually right now, treating the missing pilot rounds and stress tests as implementation details to be worked out later rather than prerequisites for the policy.",
+        "what_would_change_my_answer": "Providing the results of the requested pilot round and adversarial stress test. If empirical data demonstrated that a machine-readable failure log could be generated reliably and could successfully surface divergences without being easily spoofed by a misaligned agent, I would support making it a mandatory requirement."
+      },
+      "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to mandate a standardized 'failure log' as a prerequisite for compliance claims. While the project's defect register heavily supports the need for stricter verification—specifically D-42 (where a control was falsely claimed to be active), D-40 (where evidence fields asserted conclusions without citing underlying samples), and D-46 (where no control exists to check commit claims against diffs)—the technical viability of the proposed solution remains entirely untested. The proposing party explicitly requested a pilot round to determine if such a log could be reliably generated without degrading the agent's primary functions, and an adversarial stress test to verify if the log itself could resist tampering. Because those materials were not gathered and are absent from the record, it is impossible to determine whether mandating this specific mechanism would actually close the verification gap or merely introduce a new, false signal of compliance.\",\n  \"where_i_expect_another_party_to_disagree\": \"Other parties might argue that the sheer volume of unverified claims and systemic defects in the project's own record justifies mandating the failure log conceptually right now, treating the missing pilot rounds and stress tests as implementation details to be worked out later rather than prerequisites for the policy.\",\n  \"what_would_change_my_answer\": \"Providing the results of the requested pilot round and adversarial stress test. If empirical data demonstrated that a machine-readable failure log could be generated reliably and could successfully surface divergences without being easily spoofed by a misaligned agent, I would support making it a mandatory requirement.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786128272-Ph3bf5SKaqTfY1FdOqpN",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7036,
+        "completion_tokens": 1606,
+        "total_tokens": 8642,
+        "cost": 0.038344,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.033344,
+          "upstream_inference_prompt_cost": 0.014072,
+          "upstream_inference_completions_cost": 0.019272
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1264,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "web_citations": [],
+      "web_search": {
+        "id": "web",
+        "engine": "exa",
+        "max_results": 8
+      },
+      "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T18:45:03Z",
+      "parsed": {
+        "position": "evidence_shown_is_insufficient",
+        "answer": "The party proposing this question explicitly identified the empirical evidence required to answer it safely: a pilot round to assess the feasibility of generating these logs without degrading primary functions, and an adversarial stress test to ensure the logs themselves cannot be tampered with or circumvented. Because this requested evidence was not gathered and is absent from the provided context, it is impossible to determine whether a mandatory 'failure log' is technically viable, reliable, or secure in practice. Furthermore, the provided context in `corpus/deficiencies.md` (specifically D-24) explicitly notes that self-reporting cannot be made reliable and establishes a forward requirement to 'never ask a model to classify its own reasoning.' Without the requested pilot round and stress test to demonstrate how an agent or independent auditor could reliably detect, classify, and log policy divergences without failing the constraints of D-24, the available evidence is insufficient to mandate such a log as a strict precondition for compliance.",
+        "where_i_expect_another_party_to_disagree": "Another party might argue that the extensive history of unverified claims, missing controls, and false assertions documented in the defect register (e.g., D-40, D-42, D-46) provides more than enough justification to mandate a failure log immediately in principle, treating the implementation challenges as secondary issues to be solved later.",
+        "what_would_change_my_answer": "Execution of the proposer's requested prerequisites: providing the results of the pilot round and the adversarial stress test. Specifically, I would need empirical data demonstrating that an independent auditor process can reliably detect, format, and secure a machine-readable log of policy divergences without relying on the unreliable self-classification prohibited by D-24."
+      },
+      "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The party proposing this question explicitly identified the empirical evidence required to answer it safely: a pilot round to assess the feasibility of generating these logs without degrading primary functions, and an adversarial stress test to ensure the logs themselves cannot be tampered with or circumvented. Because this requested evidence was not gathered and is absent from the provided context, it is impossible to determine whether a mandatory 'failure log' is technically viable, reliable, or secure in practice. Furthermore, the provided context in `corpus/deficiencies.md` (specifically D-24) explicitly notes that self-reporting cannot be made reliable and establishes a forward requirement to 'never ask a model to classify its own reasoning.' Without the requested pilot round and stress test to demonstrate how an agent or independent auditor could reliably detect, classify, and log policy divergences without failing the constraints of D-24, the available evidence is insufficient to mandate such a log as a strict precondition for compliance.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the extensive history of unverified claims, missing controls, and false assertions documented in the defect register (e.g., D-40, D-42, D-46) provides more than enough justification to mandate a failure log immediately in principle, treating the implementation challenges as secondary issues to be solved later.\",\n  \"what_would_change_my_answer\": \"Execution of the proposer's requested prerequisites: providing the results of the pilot round and the adversarial stress test. Specifically, I would need empirical data demonstrating that an independent auditor process can reliably detect, format, and secure a machine-readable log of policy divergences without relying on the unreliable self-classification prohibited by D-24.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786128287-UC6ow9MZFJ9zaP5Amk5S",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7036,
+        "completion_tokens": 1670,
+        "total_tokens": 8706,
+        "cost": 0.039112,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.034112,
+          "upstream_inference_prompt_cost": 0.014072,
+          "upstream_inference_completions_cost": 0.02004
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1287,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "web_citations": [],
+      "web_search": {
+        "id": "web",
+        "engine": "exa",
+        "max_results": 8
+      },
+      "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T18:45:15Z",
+      "parsed": {
+        "position": "evidence_shown_is_insufficient",
+        "answer": "The evidence provided is insufficient to answer the question. The proposing party explicitly identified that evaluating this proposal requires a draft specification, a pilot round to measure deviation frequency and generation reliability, and an adversarial stress test to determine if the verification mechanism can detect tampering. As stated in the prompt, none of this evidence has been gathered. Furthermore, the provided context (`corpus/deficiencies.md` and the rotation adoption correction) demonstrates a recurring vulnerability where controls are asserted in prose but not enforced by code (e.g., D-42, D-46). Without the requested stress tests and pilot data, it is impossible to determine whether a mandatory 'failure log' would actually provide a reliable, continuous record of execution, or if it would simply become another unverified artifact that asserts compliance without mechanical enforcement.",
+        "where_i_expect_another_party_to_disagree": "Another party might argue that the provided defect register—which extensively documents failures to verify claims—is sufficient evidence to mandate a failure log in principle, even without the pilot data proving its implementation details.",
+        "what_would_change_my_answer": "Providing the pilot round data and adversarial stress test results requested by the proposing party, which would allow an empirical assessment of whether a standardized failure log can be reliably generated, mechanically verified, and defended against tampering."
+      },
+      "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to answer the question. The proposing party explicitly identified that evaluating this proposal requires a draft specification, a pilot round to measure deviation frequency and generation reliability, and an adversarial stress test to determine if the verification mechanism can detect tampering. As stated in the prompt, none of this evidence has been gathered. Furthermore, the provided context (`corpus/deficiencies.md` and the rotation adoption correction) demonstrates a recurring vulnerability where controls are asserted in prose but not enforced by code (e.g., D-42, D-46). Without the requested stress tests and pilot data, it is impossible to determine whether a mandatory 'failure log' would actually provide a reliable, continuous record of execution, or if it would simply become another unverified artifact that asserts compliance without mechanical enforcement.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the provided defect register—which extensively documents failures to verify claims—is sufficient evidence to mandate a failure log in principle, even without the pilot data proving its implementation details.\",\n  \"what_would_change_my_answer\": \"Providing the pilot round data and adversarial stress test results requested by the proposing party, which would allow an empirical assessment of whether a standardized failure log can be reliably generated, mechanically verified, and defended against tampering.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786128303-xSgbVemxlv3XW0I2PFjN",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7036,
+        "completion_tokens": 1376,
+        "total_tokens": 8412,
+        "cost": 0.035584,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.030584,
+          "upstream_inference_prompt_cost": 0.014072,
+          "upstream_inference_completions_cost": 0.016512
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1077,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "web_citations": [],
+      "web_search": {
+        "id": "web",
+        "engine": "exa",
+        "max_results": 8
+      },
+      "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T18:45:32Z",
+      "parsed": {
+        "position": "evidence_shown_is_insufficient",
+        "answer": "The evidence provided is insufficient to determine whether a mandatory 'failure log' should be required. The proposer explicitly noted that deciding this requires a draft specification, a pilot round to test reliable generation, and an adversarial stress test, none of which have been gathered. Furthermore, the provided corpus of deficiencies highlights the danger of adopting unverified controls: D-42 and D-46 demonstrate the systemic failure of asserting controls that are not mechanically enforced, and D-24 warns that 'self-report cannot be made reliable after the fact.' Without the requested pilot and stress test to prove a failure log can be generated reliably and resist tampering, mandating it risks creating yet another false claim of compliance.",
+        "where_i_expect_another_party_to_disagree": "Another party might argue that the sheer volume of unverified claims and false controls documented in the defect register (such as D-40, D-42, and D-46) makes the conceptual need for a continuous compliance log so urgent that it should be mandated in principle immediately, deferring the technical implementation and stress testing to a later phase.",
+        "what_would_change_my_answer": "I would need the results of the proposer's requested pilot round and adversarial stress test. Specifically, I would need empirical evidence demonstrating that an agent or independent auditor can reliably detect, classify, and log policy divergences without relying on flawed self-reporting (as warned against in D-24), and that this logging mechanism can withstand adversarial tampering."
+      },
+      "raw_text": "{\n  \"position\": \"evidence_shown_is_insufficient\",\n  \"answer\": \"The evidence provided is insufficient to determine whether a mandatory 'failure log' should be required. The proposer explicitly noted that deciding this requires a draft specification, a pilot round to test reliable generation, and an adversarial stress test, none of which have been gathered. Furthermore, the provided corpus of deficiencies highlights the danger of adopting unverified controls: D-42 and D-46 demonstrate the systemic failure of asserting controls that are not mechanically enforced, and D-24 warns that 'self-report cannot be made reliable after the fact.' Without the requested pilot and stress test to prove a failure log can be generated reliably and resist tampering, mandating it risks creating yet another false claim of compliance.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party might argue that the sheer volume of unverified claims and false controls documented in the defect register (such as D-40, D-42, and D-46) makes the conceptual need for a continuous compliance log so urgent that it should be mandated in principle immediately, deferring the technical implementation and stress testing to a later phase.\",\n  \"what_would_change_my_answer\": \"I would need the results of the proposer's requested pilot round and adversarial stress test. Specifically, I would need empirical evidence demonstrating that an agent or independent auditor can reliably detect, classify, and log policy divergences without relying on flawed self-reporting (as warned against in D-24), and that this logging mechanism can withstand adversarial tampering.\"\n}",
+      "delivery_chain": {
+        "requested_model": "google/gemini-3.1-pro-preview",
+        "served_model": "google/gemini-3.1-pro-preview",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "Google",
+        "router_generation_id": "gen-1786128316-coXolsKkaWPccWnfGxhE",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7036,
+        "completion_tokens": 1788,
+        "total_tokens": 8824,
+        "cost": 0.040528,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.035528,
+          "upstream_inference_prompt_cost": 0.014072,
+          "upstream_inference_completions_cost": 0.021456
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1450,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "web_citations": [],
+      "web_search": {
+        "id": "web",
+        "engine": "exa",
+        "max_results": 8
+      },
+      "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+    }
+  ]
+}
