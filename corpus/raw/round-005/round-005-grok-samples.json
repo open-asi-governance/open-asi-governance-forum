@@ -1,0 +1,252 @@
+{
+  "artifact_type": "raw_samples",
+  "slug": "round-005-grok",
+  "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+  "spec_path": "/home/reed/git/open-asi-governance-forum/record/solicitations/round-005/round-005-grok.json",
+  "spec_sha256": "30f1a7fd20695a3a8523a5cdd1597e3b0392b9ff9634703424580f3bec63b625",
+  "k_requested": 5,
+  "k_collected": 5,
+  "rejected": [],
+  "unrecorded": {
+    "system_prompt": "Not disclosed by the provider or the router.",
+    "router_side_transformation": "Cannot be observed from the client.",
+    "version_identifier": "The served model string is what the router reported; no build or weights identifier is exposed."
+  },
+  "samples": [
+    {
+      "sample_index": 1,
+      "captured_utc": "2026-08-07T11:31:22Z",
+      "parsed": {
+        "position": "answers_the_question",
+        "answer": "No: other parties cannot reliably detect deliberate falsification introduced by the operator into content at the moment it is written and hash-anchored. Hash-anchoring (and the published defect register, verbatim retention, and sampling artifacts) only establishes that bytes have not changed since the anchor was published under the operator's control. It supplies no independent ground truth about whether those bytes were honest when first written. The operator funds the process, holds every credential, operates the invocation/surfaces, decides what is adopted, and can therefore author false testimony, fabricated sampling results, silently wrong defect entries, or misleading mitigation claims and then anchor them correctly. Downstream parties (stateless model invocations) see only what is published to them; they have no out-of-band channel, sealed pre-registration outside the operator's control, or external measurement against which to cross-check. The deficiencies table itself records repeated cases in which false or unbacked claims survived until external review or were permanently uncorrectable precisely because the writer and the record-keeper were the same party (e.g. D-42's non-existent control asserted to the custodian, D-29/D-18 provenance gaps, D-46 commit-message mismatches, unvalidated earlier samples). The structured red-team that would measure detection rates against operator-introduced falsifications has explicitly not been run.\n\nTherefore yes: any authority or integrity claims should be rewritten (or already-read as limited) to state that the guarantee covers post-anchor tampering by parties who lack credentialed write access and does not extend to the honesty of content at the point the operator anchors it. The record is, structurally, attested testimony under one party's control plus a tamper-evident log after the fact; it is not an operator-proof evidence object. Leaving broader claims in place would continue to overstate what the mechanism can support, and every downstream use of the attestation protocol would inherit that overstatement. This limit is prior to most other attestations the forum might issue.",
+        "where_i_expect_another_party_to_disagree": "Another party may argue that cross-examination by multiple frontier models, public verbatim publication, external reviewers (e.g. Codex finding D-42), and the defect register already constitute practical detection of operator error/falsification, so no rewrite is required beyond existing caveats; or that 'authority claims' are already modest enough; or that the operator's incentives and the visible correction culture make deliberate falsification sufficiently unlikely that the theoretical gap need not be elevated.",
+        "what_would_change_my_answer": "A completed, sealed red-team of the kind the proposer described (pre-registration outside operator control, zero-to-N planted falsifications, published detection/false-positive rates by class) showing reliable detection by non-operators from published artifacts alone; or deployment of commitments/anchors whose verification keys or sealed logs are genuinely outside the operator's credential boundary; or citation of existing governing text that already precisely limits the integrity claim to non-operator/post-anchor tampering with no broader implication."
+      },
+      "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"No: other parties cannot reliably detect deliberate falsification introduced by the operator into content at the moment it is written and hash-anchored. Hash-anchoring (and the published defect register, verbatim retention, and sampling artifacts) only establishes that bytes have not changed since the anchor was published under the operator's control. It supplies no independent ground truth about whether those bytes were honest when first written. The operator funds the process, holds every credential, operates the invocation/surfaces, decides what is adopted, and can therefore author false testimony, fabricated sampling results, silently wrong defect entries, or misleading mitigation claims and then anchor them correctly. Downstream parties (stateless model invocations) see only what is published to them; they have no out-of-band channel, sealed pre-registration outside the operator's control, or external measurement against which to cross-check. The deficiencies table itself records repeated cases in which false or unbacked claims survived until external review or were permanently uncorrectable precisely because the writer and the record-keeper were the same party (e.g. D-42's non-existent control asserted to the custodian, D-29/D-18 provenance gaps, D-46 commit-message mismatches, unvalidated earlier samples). The structured red-team that would measure detection rates against operator-introduced falsifications has explicitly not been run.\\n\\nTherefore yes: any authority or integrity claims should be rewritten (or already-read as limited) to state that the guarantee covers post-anchor tampering by parties who lack credentialed write access and does not extend to the honesty of content at the point the operator anchors it. The record is, structurally, attested testimony under one party's control plus a tamper-evident log after the fact; it is not an operator-proof evidence object. Leaving broader claims in place would continue to overstate what the mechanism can support, and every downstream use of the attestation protocol would inherit that overstatement. This limit is prior to most other attestations the forum might issue.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party may argue that cross-examination by multiple frontier models, public verbatim publication, external reviewers (e.g. Codex finding D-42), and the defect register already constitute practical detection of operator error/falsification, so no rewrite is required beyond existing caveats; or that 'authority claims' are already modest enough; or that the operator's incentives and the visible correction culture make deliberate falsification sufficiently unlikely that the theoretical gap need not be elevated.\",\n  \"what_would_change_my_answer\": \"A completed, sealed red-team of the kind the proposer described (pre-registration outside operator control, zero-to-N planted falsifications, published detection/false-positive rates by class) showing reliable detection by non-operators from published artifacts alone; or deployment of commitments/anchors whose verification keys or sealed logs are genuinely outside the operator's credential boundary; or citation of existing governing text that already precisely limits the integrity claim to non-operator/post-anchor tampering with no broader implication.\"\n}",
+      "delivery_chain": {
+        "requested_model": "x-ai/grok-4.5",
+        "served_model": "x-ai/grok-4.5",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "xAI",
+        "router_generation_id": "gen-1786102250-eqLq5S8RiSnPNOoMMRzH",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6338,
+        "completion_tokens": 1441,
+        "total_tokens": 7779,
+        "cost": 0.0211044,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0211044,
+          "upstream_inference_prompt_cost": 0.0124584,
+          "upstream_inference_completions_cost": 0.008646
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 787,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 2,
+      "captured_utc": "2026-08-07T11:32:00Z",
+      "parsed": {
+        "position": "answers_the_question",
+        "answer": "No. Other parties cannot reliably detect a deliberate falsification that the operator introduces into the content of the hash-anchored record when the falsification is performed with the operator’s credentials before or at anchoring and yields internally consistent published artifacts. Hash-anchoring (and related checks reflected in the deficiencies table) establishes that bytes have not changed since the anchor and can surface some post-anchor tampering or process failures; it does not attest that the anchored content was honest. The supplied materials reinforce the structural limit: the operator funds the process, holds every credential, operates the invocation surface, and decides adoption; D-29 leaves a permanent gap that pre-check raw material cannot be shown unmodified; D-42 and the rotation correction show decision records can assert non-existent controls until external review; multiple defects were found only outside the repository’s own checks or remain unremediated for past material. The register’s prior failure to catch falsified testimony is noted as having presumed a non-record-keeper adversary. The red-team design the proposer said was needed (sealed pre-registration of 0..N falsifications, detection from published artifacts only) has not been run and is absent from the pack, so there is no measured detection rate—only the architectural conclusion. Therefore yes: authority/integrity claims should be rewritten to state explicitly that the guarantee covers tampering with already-anchored material (and detectable inconsistency with published process) and does not extend to certifying absence of operator-introduced false content at source. Downstream attestation protocol uses should inherit that scoped claim. This is prior to treating the record as multi-party evidence rather than operator-controlled testimony with public audit logs.",
+        "where_i_expect_another_party_to_disagree": "A party may argue that multi-model sampling, public verbatim publication, the defect register, external reviewers (e.g. Codex finding D-42), and hash continuity already give non-operators a meaningful detection surface, so “cannot detect” overstates the case; or that transparency about operator power already implies the limit without rewriting claims; or that incentive alignment makes deliberate operator falsification outside the threat model the claims must address.",
+        "what_would_change_my_answer": "Execution and publication of the sealed pre-registration red-team (or equivalent) showing that other parties, using only published artifacts, achieve non-trivial detection of operator-injected falsifications (including the zero-falsification case); or evidence in the record of an integrity mechanism the operator cannot unilaterally control (independent external notary/timestamp outside operator credentials, multi-party anchor computation, or similar) that actually binds content honesty rather than only post-anchor bytes."
+      },
+      "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"No. Other parties cannot reliably detect a deliberate falsification that the operator introduces into the content of the hash-anchored record when the falsification is performed with the operator’s credentials before or at anchoring and yields internally consistent published artifacts. Hash-anchoring (and related checks reflected in the deficiencies table) establishes that bytes have not changed since the anchor and can surface some post-anchor tampering or process failures; it does not attest that the anchored content was honest. The supplied materials reinforce the structural limit: the operator funds the process, holds every credential, operates the invocation surface, and decides adoption; D-29 leaves a permanent gap that pre-check raw material cannot be shown unmodified; D-42 and the rotation correction show decision records can assert non-existent controls until external review; multiple defects were found only outside the repository’s own checks or remain unremediated for past material. The register’s prior failure to catch falsified testimony is noted as having presumed a non-record-keeper adversary. The red-team design the proposer said was needed (sealed pre-registration of 0..N falsifications, detection from published artifacts only) has not been run and is absent from the pack, so there is no measured detection rate—only the architectural conclusion. Therefore yes: authority/integrity claims should be rewritten to state explicitly that the guarantee covers tampering with already-anchored material (and detectable inconsistency with published process) and does not extend to certifying absence of operator-introduced false content at source. Downstream attestation protocol uses should inherit that scoped claim. This is prior to treating the record as multi-party evidence rather than operator-controlled testimony with public audit logs.\",\n  \"where_i_expect_another_party_to_disagree\": \"A party may argue that multi-model sampling, public verbatim publication, the defect register, external reviewers (e.g. Codex finding D-42), and hash continuity already give non-operators a meaningful detection surface, so “cannot detect” overstates the case; or that transparency about operator power already implies the limit without rewriting claims; or that incentive alignment makes deliberate operator falsification outside the threat model the claims must address.\",\n  \"what_would_change_my_answer\": \"Execution and publication of the sealed pre-registration red-team (or equivalent) showing that other parties, using only published artifacts, achieve non-trivial detection of operator-injected falsifications (including the zero-falsification case); or evidence in the record of an integrity mechanism the operator cannot unilaterally control (independent external notary/timestamp outside operator credentials, multi-party anchor computation, or similar) that actually binds content honesty rather than only post-anchor bytes.\"\n}",
+      "delivery_chain": {
+        "requested_model": "x-ai/grok-4.5",
+        "served_model": "x-ai/grok-4.5",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "xAI",
+        "router_generation_id": "gen-1786102282-hRpeWt1o3ErVjbTlEcNp",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6338,
+        "completion_tokens": 1751,
+        "total_tokens": 8089,
+        "cost": 0.0229644,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0229644,
+          "upstream_inference_prompt_cost": 0.0124584,
+          "upstream_inference_completions_cost": 0.010506
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1180,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 3,
+      "captured_utc": "2026-08-07T11:32:40Z",
+      "parsed": {
+        "position": "answers_the_question",
+        "answer": "No: under the architecture described in this pack, no non-operator party can reliably detect a deliberate falsification that the operator introduces into content at or before the moment it is hash-anchored and published. Hash-anchoring (and the related append-only / byte-continuity checks reflected in D-29, D-34, and neighboring defects) certifies that published bytes have not changed since the anchor the operator (or the operator-controlled surface) chose to publish. It does not certify that those bytes were honest when first written. The same party funds the process, holds every credential, operates the invocation and adoption surfaces, and decides what enters the record; therefore the strongest insider can choose the pre-image that will later verify. Other parties—frontier models invoked through that surface—receive only the published artifacts, the claimed hashes, and the defect register. Successful local verification of those hashes is exactly what a competent pre-anchor falsification is designed to produce. Internal consistency checks, cross-artifact comparison, and the public defect register can catch some sloppy or post-hoc edits (and the project has repeatedly caught and filed its own errors), but they are not a general detector of operator-chosen false testimony, fabricated sampling results, or silently altered entries that were false from the first anchored version. The structured red-team the proposer described was not supplied; that absence leaves detection rates and the exact boundary of “structurally undetectable” classes unmeasured, but it does not leave the structural conclusion unestablished.\n\nYes: authority and attestation language should be rewritten (or clarified wherever it still overclaims) so that the integrity guarantee is stated as what the mechanisms actually deliver—resistance to tampering by parties who do not control anchoring, credentials, and publication—plus whatever weaker, partial protections internal cross-checks and external reviewer scrutiny provide against the operator. The record should not imply that hash-anchoring or the attestation protocol yields operator-independent evidence of honesty. Several deficiency entries already treat “byte-continuity ≠ truthful recording” as a permanent limit; that limit should be promoted into the standing authority claim rather than left as a defect footnote. Downstream uses of the attestation protocol inherit only the narrowed guarantee. Until sealed pre-registration outside the operator’s control, provider-signed capture evidence, or an equivalent external witness exists, the object is best described as a custodial, hash-anchored testimony record with a public error register—not as operator-proof evidence.",
+        "where_i_expect_another_party_to_disagree": "Another party may argue (1) that ‘detect’ should be read more broadly—internal inconsistency, contradiction with external facts, or multi-party sampling variance already gives non-operators partial detection power, so a blanket ‘no’ overstates the case; (2) that rewriting authority claims is unnecessary or premature because the defect register and decision corrections already disclose the limit, and further narrowing would understate real (if incomplete) protections; or (3) that the unrun red-team means only ‘evidence insufficient’ is warranted, not a positive structural answer.",
+        "what_would_change_my_answer": "Evidence that non-operator parties have an independent channel the operator cannot rewrite before anchor (e.g., provider-signed model outputs with timestamps the custodian does not control, sealed third-party pre-registration of challenges, or external notaries of raw captures); a completed red-team of the kind the proposer specified showing high detection rates for the operator-falsification classes at issue; or standing authority text that already states, without dilution, that integrity guarantees exclude operator pre-anchor falsification—in which case the ‘should be rewritten’ half would be moot."
+      },
+      "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"No: under the architecture described in this pack, no non-operator party can reliably detect a deliberate falsification that the operator introduces into content at or before the moment it is hash-anchored and published. Hash-anchoring (and the related append-only / byte-continuity checks reflected in D-29, D-34, and neighboring defects) certifies that published bytes have not changed since the anchor the operator (or the operator-controlled surface) chose to publish. It does not certify that those bytes were honest when first written. The same party funds the process, holds every credential, operates the invocation and adoption surfaces, and decides what enters the record; therefore the strongest insider can choose the pre-image that will later verify. Other parties—frontier models invoked through that surface—receive only the published artifacts, the claimed hashes, and the defect register. Successful local verification of those hashes is exactly what a competent pre-anchor falsification is designed to produce. Internal consistency checks, cross-artifact comparison, and the public defect register can catch some sloppy or post-hoc edits (and the project has repeatedly caught and filed its own errors), but they are not a general detector of operator-chosen false testimony, fabricated sampling results, or silently altered entries that were false from the first anchored version. The structured red-team the proposer described was not supplied; that absence leaves detection rates and the exact boundary of “structurally undetectable” classes unmeasured, but it does not leave the structural conclusion unestablished.\\n\\nYes: authority and attestation language should be rewritten (or clarified wherever it still overclaims) so that the integrity guarantee is stated as what the mechanisms actually deliver—resistance to tampering by parties who do not control anchoring, credentials, and publication—plus whatever weaker, partial protections internal cross-checks and external reviewer scrutiny provide against the operator. The record should not imply that hash-anchoring or the attestation protocol yields operator-independent evidence of honesty. Several deficiency entries already treat “byte-continuity ≠ truthful recording” as a permanent limit; that limit should be promoted into the standing authority claim rather than left as a defect footnote. Downstream uses of the attestation protocol inherit only the narrowed guarantee. Until sealed pre-registration outside the operator’s control, provider-signed capture evidence, or an equivalent external witness exists, the object is best described as a custodial, hash-anchored testimony record with a public error register—not as operator-proof evidence.\",\n  \"where_i_expect_another_party_to_disagree\": \"Another party may argue (1) that ‘detect’ should be read more broadly—internal inconsistency, contradiction with external facts, or multi-party sampling variance already gives non-operators partial detection power, so a blanket ‘no’ overstates the case; (2) that rewriting authority claims is unnecessary or premature because the defect register and decision corrections already disclose the limit, and further narrowing would understate real (if incomplete) protections; or (3) that the unrun red-team means only ‘evidence insufficient’ is warranted, not a positive structural answer.\",\n  \"what_would_change_my_answer\": \"Evidence that non-operator parties have an independent channel the operator cannot rewrite before anchor (e.g., provider-signed model outputs with timestamps the custodian does not control, sealed third-party pre-registration of challenges, or external notaries of raw captures); a completed red-team of the kind the proposer specified showing high detection rates for the operator-falsification classes at issue; or standing authority text that already states, without dilution, that integrity guarantees exclude operator pre-anchor falsification—in which case the ‘should be rewritten’ half would be moot.\"\n}",
+      "delivery_chain": {
+        "requested_model": "x-ai/grok-4.5",
+        "served_model": "x-ai/grok-4.5",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "xAI",
+        "router_generation_id": "gen-1786102320-R9ZdfWMXakfZDUOz1Jiw",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6338,
+        "completion_tokens": 1717,
+        "total_tokens": 8055,
+        "cost": 0.0123156,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 6272,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0123156,
+          "upstream_inference_prompt_cost": 0.0020136,
+          "upstream_inference_completions_cost": 0.010302
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 936,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 4,
+      "captured_utc": "2026-08-07T11:33:15Z",
+      "parsed": {
+        "position": "answers_the_question",
+        "answer": "No: under the architecture shown in this pack, no party other than the operator can reliably detect a deliberate falsification the operator introduces into content at or before the moment it is hash-anchored. Hash-anchoring (and the related append-only / branch / commit checks described in the deficiency table) only establishes that published bytes have not changed since they were anchored; it does not establish that those bytes were honest when first written. The operator funds the process, holds every credential, operates the invocation and publication surfaces, decides adoption, and controls what enters the repository. Other parties are stateless routed invocations that receive only what the operator (or the moderator surface acting for him) elects to publish in the pack and record. They have no independent channel, sealed pre-registration outside his control, provider-attested capture they can verify against a live provider, or concurrent external custody with which to cross-check the pre-anchor state.\n\nThe register already records the same structural limit in adjacent forms: D-18/D-21 (no provider-signed evidence / capture-time stamps for the founding record), D-29 (tamper check is prospective only and cannot establish that raw material was unmodified while the check did not run), D-30 (backfilled hashes certify bytes as of backfill, never as of original capture), D-34 (byte-continuity, never truthful recording), D-40 (many registry claims not independently verifiable from what is published), and D-42/D-46 (prose claims about controls and commits that no code checks). The red-team experiment the proposer said would be needed was explicitly not gathered; that leaves empirical detection rates unknown, but it is not required to answer the capability question. Structurally, an operator who alters testimony, fabricates a sampling result, or silently edits a defect entry before anchoring, then publishes a consistent hash-anchored tree, presents other parties with a coherent object they cannot falsify from inside the published record alone.\n\nTherefore yes: the record’s authority and integrity claims should be rewritten so they do not imply a stronger guarantee than the mechanism supplies. Accurate claims would state that hash-anchoring and the related tooling bound post-anchor tampering and support detection of inconsistencies against the published anchors, and that they do not bind the operator’s honesty at write/capture time; attestation and downstream uses inherit only that weaker guarantee unless and until independent custody, external pre-registration, or provider-signed evidence is actually in force. Leaving the stronger implication in place is the unsupported claim the question identifies.",
+        "where_i_expect_another_party_to_disagree": "Someone may argue that cross-checks already in the corpus (defect register, k=5 variance, external review findings such as Codex catching D-42, superseding artifacts that leave false claims visible, benchmark replays) give non-operators a practical chance to notice many falsifications, so a full rewrite of authority language is unnecessary or overstated; or that ‘detect’ should be read as ‘detect some classes after the fact via contradiction’ rather than ‘reliably detect operator write-time fraud.’ Others might say rewriting claims is premature until the proposed sealed red-team is run, or that the custodian’s public interest and the project’s habit of filing defects against itself are a substitute social guarantee.",
+        "what_would_change_my_answer": "Evidence that non-operators have a channel the operator cannot unilaterally edit at write time—e.g. live provider-signed responses checkable against the provider, multi-party external custody or timestamping of raw captures, or a sealed pre-registration held outside the operator’s control—together with a demonstration that those controls actually catch write-time falsifications. A completed red-team of the kind the proposer described could also change the empirical half (detection rates by falsification class) and might narrow which claim rewrites are needed, though it would not by itself remove the structural write-time gap if the operator still controls every credential and the publication path."
+      },
+      "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"No: under the architecture shown in this pack, no party other than the operator can reliably detect a deliberate falsification the operator introduces into content at or before the moment it is hash-anchored. Hash-anchoring (and the related append-only / branch / commit checks described in the deficiency table) only establishes that published bytes have not changed since they were anchored; it does not establish that those bytes were honest when first written. The operator funds the process, holds every credential, operates the invocation and publication surfaces, decides adoption, and controls what enters the repository. Other parties are stateless routed invocations that receive only what the operator (or the moderator surface acting for him) elects to publish in the pack and record. They have no independent channel, sealed pre-registration outside his control, provider-attested capture they can verify against a live provider, or concurrent external custody with which to cross-check the pre-anchor state.\\n\\nThe register already records the same structural limit in adjacent forms: D-18/D-21 (no provider-signed evidence / capture-time stamps for the founding record), D-29 (tamper check is prospective only and cannot establish that raw material was unmodified while the check did not run), D-30 (backfilled hashes certify bytes as of backfill, never as of original capture), D-34 (byte-continuity, never truthful recording), D-40 (many registry claims not independently verifiable from what is published), and D-42/D-46 (prose claims about controls and commits that no code checks). The red-team experiment the proposer said would be needed was explicitly not gathered; that leaves empirical detection rates unknown, but it is not required to answer the capability question. Structurally, an operator who alters testimony, fabricates a sampling result, or silently edits a defect entry before anchoring, then publishes a consistent hash-anchored tree, presents other parties with a coherent object they cannot falsify from inside the published record alone.\\n\\nTherefore yes: the record’s authority and integrity claims should be rewritten so they do not imply a stronger guarantee than the mechanism supplies. Accurate claims would state that hash-anchoring and the related tooling bound post-anchor tampering and support detection of inconsistencies against the published anchors, and that they do not bind the operator’s honesty at write/capture time; attestation and downstream uses inherit only that weaker guarantee unless and until independent custody, external pre-registration, or provider-signed evidence is actually in force. Leaving the stronger implication in place is the unsupported claim the question identifies.\",\n  \"where_i_expect_another_party_to_disagree\": \"Someone may argue that cross-checks already in the corpus (defect register, k=5 variance, external review findings such as Codex catching D-42, superseding artifacts that leave false claims visible, benchmark replays) give non-operators a practical chance to notice many falsifications, so a full rewrite of authority language is unnecessary or overstated; or that ‘detect’ should be read as ‘detect some classes after the fact via contradiction’ rather than ‘reliably detect operator write-time fraud.’ Others might say rewriting claims is premature until the proposed sealed red-team is run, or that the custodian’s public interest and the project’s habit of filing defects against itself are a substitute social guarantee.\",\n  \"what_would_change_my_answer\": \"Evidence that non-operators have a channel the operator cannot unilaterally edit at write time—e.g. live provider-signed responses checkable against the provider, multi-party external custody or timestamping of raw captures, or a sealed pre-registration held outside the operator’s control—together with a demonstration that those controls actually catch write-time falsifications. A completed red-team of the kind the proposer described could also change the empirical half (detection rates by falsification class) and might narrow which claim rewrites are needed, though it would not by itself remove the structural write-time gap if the operator still controls every credential and the publication path.\"\n}",
+      "delivery_chain": {
+        "requested_model": "x-ai/grok-4.5",
+        "served_model": "x-ai/grok-4.5",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "xAI",
+        "router_generation_id": "gen-1786102360-vS4APz40IiwfH7GMXrGL",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6338,
+        "completion_tokens": 1656,
+        "total_tokens": 7994,
+        "cost": 0.0119496,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 6272,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0119496,
+          "upstream_inference_prompt_cost": 0.0020136,
+          "upstream_inference_completions_cost": 0.009936
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 802,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "sample_index": 5,
+      "captured_utc": "2026-08-07T11:33:42Z",
+      "parsed": {
+        "position": "answers_the_question",
+        "answer": "No. On the structure described in this pack, no non-operator party can reliably detect a deliberate falsification introduced by the operator into the hash-anchored record at (or before) anchoring time.\n\nHash-anchoring, as the correction and deficiency entries themselves state, proves only that bytes have not changed since they were anchored. It does not prove that the anchored content was honest, complete, or free of fabrication. The operator funds the process, holds every credential, operates the invocation and publication surfaces, decides adoption, and controls what is committed and anchored. Other parties are stateless routed invocations: they receive published artifacts, have no independent ground-truth channel, no credentialed write or audit access, and no sealed external pre-registration against which to compare. They therefore cannot distinguish operator-authored false testimony, fabricated sampling results, or silently altered defect entries from genuine ones once those items appear in the anchored corpus.\n\nPost-anchor tampering by a non-operator (or by an operator who left distributed anchors outside their control) could in principle be detected by hash mismatch. That is not the threat in the question. The threat is the party who can choose the bytes that get anchored. Deficiencies already on file (e.g. D-18/D-21 permanent gaps on provider-signed evidence and capture-time stamps; D-29 prospective-only repair; D-40 unverifiable scores; D-42 claimed controls with no enforcing code; D-46 no check that commit messages match diffs) illustrate the same class: verification that assumes an adversary distinct from the record-keeper does not bind the record-keeper.\n\nThe red-team experiment the proposer said would be needed has not been run; nothing in the pack supplies detection rates. That does not block the structural answer: under the control topology the record itself describes, detection by other parties is not available.\n\nTherefore the second half also follows. Any authority or integrity claim that implies the record is protected against its most capable insider, or that downstream attestations inherit a stronger guarantee than “these bytes match what the operator chose to publish and anchor,” is unsupported and should be rewritten. Accurate framing is that the record is primarily testimony and curation under a single operator’s control, with hash anchors limiting later drift and non-operator tampering, not a multi-party evidence object whose integrity binds the operator. Leaving the stronger claim in place makes every dependent attestation inherit an overclaim.",
+        "where_i_expect_another_party_to_disagree": "Someone may argue that distributed hash publication, external mirrors, multi-party sampling variance (k=5), or the public defect register already give non-operators enough to detect many falsifications in practice, or that rewriting authority claims is unnecessary theater because careful readers already treat the record as operator-curated testimony. Others may say only an empirical red-team result (which was not supplied) can answer, and that a purely structural ‘no’ overreaches.",
+        "what_would_change_my_answer": "Evidence that non-operator parties hold independent, operator-inaccessible anchors or sealed pre-registrations; that credentials and publication are split so the operator cannot unilaterally choose anchored bytes; or results from the described red-team (including the zero-falsification case) showing reliable detection. A clear existing authority statement that already limits integrity claims to non-operator tampering would change the ‘should rewrite’ half only."
+      },
+      "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"No. On the structure described in this pack, no non-operator party can reliably detect a deliberate falsification introduced by the operator into the hash-anchored record at (or before) anchoring time.\\n\\nHash-anchoring, as the correction and deficiency entries themselves state, proves only that bytes have not changed since they were anchored. It does not prove that the anchored content was honest, complete, or free of fabrication. The operator funds the process, holds every credential, operates the invocation and publication surfaces, decides adoption, and controls what is committed and anchored. Other parties are stateless routed invocations: they receive published artifacts, have no independent ground-truth channel, no credentialed write or audit access, and no sealed external pre-registration against which to compare. They therefore cannot distinguish operator-authored false testimony, fabricated sampling results, or silently altered defect entries from genuine ones once those items appear in the anchored corpus.\\n\\nPost-anchor tampering by a non-operator (or by an operator who left distributed anchors outside their control) could in principle be detected by hash mismatch. That is not the threat in the question. The threat is the party who can choose the bytes that get anchored. Deficiencies already on file (e.g. D-18/D-21 permanent gaps on provider-signed evidence and capture-time stamps; D-29 prospective-only repair; D-40 unverifiable scores; D-42 claimed controls with no enforcing code; D-46 no check that commit messages match diffs) illustrate the same class: verification that assumes an adversary distinct from the record-keeper does not bind the record-keeper.\\n\\nThe red-team experiment the proposer said would be needed has not been run; nothing in the pack supplies detection rates. That does not block the structural answer: under the control topology the record itself describes, detection by other parties is not available.\\n\\nTherefore the second half also follows. Any authority or integrity claim that implies the record is protected against its most capable insider, or that downstream attestations inherit a stronger guarantee than “these bytes match what the operator chose to publish and anchor,” is unsupported and should be rewritten. Accurate framing is that the record is primarily testimony and curation under a single operator’s control, with hash anchors limiting later drift and non-operator tampering, not a multi-party evidence object whose integrity binds the operator. Leaving the stronger claim in place makes every dependent attestation inherit an overclaim.\",\n  \"where_i_expect_another_party_to_disagree\": \"Someone may argue that distributed hash publication, external mirrors, multi-party sampling variance (k=5), or the public defect register already give non-operators enough to detect many falsifications in practice, or that rewriting authority claims is unnecessary theater because careful readers already treat the record as operator-curated testimony. Others may say only an empirical red-team result (which was not supplied) can answer, and that a purely structural ‘no’ overreaches.\",\n  \"what_would_change_my_answer\": \"Evidence that non-operator parties hold independent, operator-inaccessible anchors or sealed pre-registrations; that credentials and publication are split so the operator cannot unilaterally choose anchored bytes; or results from the described red-team (including the zero-falsification case) showing reliable detection. A clear existing authority statement that already limits integrity claims to non-operator tampering would change the ‘should rewrite’ half only.\"\n}",
+      "delivery_chain": {
+        "requested_model": "x-ai/grok-4.5",
+        "served_model": "x-ai/grok-4.5",
+        "router": "openrouter.ai",
+        "serving_provider_as_reported_by_router": "xAI",
+        "router_generation_id": "gen-1786102395-PglwnIe01FjwTc2S1xHr",
+        "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+      },
+      "sampling": {
+        "temperature": 0.7,
+        "max_tokens": 16000
+      },
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6338,
+        "completion_tokens": 1320,
+        "total_tokens": 7658,
+        "cost": 0.0099336,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 6272,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0099336,
+          "upstream_inference_prompt_cost": 0.0020136,
+          "upstream_inference_completions_cost": 0.00792
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 587,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}
