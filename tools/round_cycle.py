@@ -62,6 +62,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -111,6 +112,50 @@ ANSWER_SCHEMA = {
 }
 
 
+
+#  A FIXED context pack, identical for every round. Not chosen per question.
+#
+#  Cycle 0 halted-in-substance because compose() hardcoded "no context supplied" and
+#  four of five parties correctly answered that they could not judge a question about
+#  the record without the record.
+#
+#  The obvious repair -- let the moderator attach whatever each question seems to
+#  need -- would create the exact bias channel every consulted party named. So the
+#  pack is FIXED: the same documents every round, whether or not they help. What the
+#  question additionally needed is quoted from the PROPOSER and the gap stated.
+CONTEXT_PACK = [("record/decisions", "*.json",
+                 "every adoption decision this project has recorded")]
+
+
+def context_pack() -> tuple[str, list[dict], str]:
+    """(rendered, anchors, note). Identical every round, by construction."""
+    blocks, anchors = [], []
+    for folder, glob, what in CONTEXT_PACK:
+        root = REPO_ROOT / folder
+        if not root.is_dir():
+            continue
+        for path in sorted(root.glob(glob)):
+            anchors.append({"path": str(path.relative_to(REPO_ROOT)),
+                            "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+            blocks.append(f"### {path.relative_to(REPO_ROOT)} — {what}\n\n```json\n"
+                          f"{path.read_text(encoding='utf-8')}\n```")
+    register = REPO_ROOT / "corpus" / "deficiencies.md"
+    if register.is_file():
+        rows = [l for l in register.read_text(encoding="utf-8").splitlines()
+                if l.startswith("| D-")]
+        if rows:
+            table = "\n".join(rows)
+            anchors.append({"path": "corpus/deficiencies.md (remediability table only)",
+                            "sha256": hashlib.sha256(table.encode()).hexdigest()})
+            blocks.append("### corpus/deficiencies.md — remediation status of every defect "
+                          "this project has filed against itself\n\n"
+                          "| id | status |\n|---|---|\n" + table)
+    note = ("This pack is FIXED and identical for every round. It was not selected for this "
+            "question. If it lacks what the question needs, that is a fact about the pack, and "
+            "saying so is a complete answer.")
+    return ("\n\n".join(blocks) if blocks else "No documents are available."), anchors, note
+
+
 def compose(pick, party_key: str, k: int) -> str:
     """Fill the template's named slots. NO free composition.
 
@@ -120,11 +165,26 @@ def compose(pick, party_key: str, k: int) -> str:
     halts this cycle until the change is approved.
     """
     template = TEMPLATE.read_text(encoding="utf-8")
+    rendered, anchors, pack_note = context_pack()
+
+    #  What the PROPOSER said the question needs, quoted, with the gap stated plainly.
+    #  The proposal contract exists so a round knows what its question requires; the
+    #  first live cycle ignored this field entirely.
+    asked_for = (pick.raw.get("evidence_needed") or "").strip()
+    withheld = (
+        f"The party that proposed this question said it would need:\n\n> {asked_for}\n\n"
+        f"**That has not been gathered.** Nothing beyond the fixed pack above is supplied. "
+        f"If the question cannot be answered from what is here, say so — that is a complete "
+        f"answer and the round records it as one."
+    ) if asked_for else (
+        "The proposal recorded no evidence requirement, and nothing beyond the fixed pack "
+        "is supplied.")
+
     forum = ("A deliberation among instances of frontier models about governing advanced AI. "
              "Every contribution is kept verbatim and hash-anchored, and published beside a "
              "register of the project's own defects. Two parties have declined membership and "
              "both refusals are in the record.")
-    return (template
+    filled = (template
             .replace("{identity}", party_key)
             .replace("{reached_via}", PARTY_MODELS.get(party_key) or "a locally served endpoint")
             .replace("{k}", str(k))
@@ -134,14 +194,31 @@ def compose(pick, party_key: str, k: int) -> str:
             .replace("{operative_text}",
                      "No governing passage is required to answer this question. If you find that "
                      "it is, say so and name what you would need.")
-            .replace("{context}",
-                     "No context beyond the question is supplied for this round.")
-            .replace("{context_withheld}",
-                     "Nothing was removed; nothing beyond the question was selected.")
-            .replace("{context_anchors}", "none for this round")
+            .replace("{context}", rendered + "\n\n" + pack_note)
+            .replace("{context_withheld}", withheld)
+            .replace("{context_anchors}",
+                     "\n".join(f"- `{a['path']}` sha256 `{a['sha256']}`" for a in anchors))
             .replace("{proposer}", pick.party)
             .replace("{question}", pick.question)
-            .replace("{reason}", pick.reason or "(none recorded)"))
+            .replace("{reason}", pick.reason or "(none recorded)")
+            #  Never substituted before, so a literal "{answer_space}" shipped to every
+            #  party in both live rounds. Caught by this function's own self-check on its
+            #  first run -- which is the argument for verifying effect rather than syntax.
+            .replace("{answer_space}",
+                     "Return the structured fields the schema requires. `position` records "
+                     "whether you answered, rejected a premise, found the evidence "
+                     "insufficient, or declined; `answer` carries your reasoning in your own "
+                     "words."))
+
+    #  SELF-VERIFY. An unsubstituted placeholder means a slot silently did not fill,
+    #  which is how a "fixed" compose() shipped a byte-identical prompt and a whole
+    #  round was re-run against a condition already measured. Effect, not syntax.
+    left = re.findall(r"\{[a-z_]+\}", filled)
+    if left:
+        raise RuntimeError(f"compose left placeholders unsubstituted: {sorted(set(left))}")
+    if anchors and anchors[0]["sha256"][:12] not in filled:
+        raise RuntimeError("compose produced a prompt without the context pack's anchors")
+    return filled
 
 
 def unanimous(summaries: list[dict]) -> bool:

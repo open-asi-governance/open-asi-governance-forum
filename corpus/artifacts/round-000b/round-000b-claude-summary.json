@@ -1,0 +1,51 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-000b",
+  "slug": "round-000b-claude",
+  "question": "Can any party identify one instance in the record where a deliberation outcome was adopted against the operator's stated preference — and if none exists, will the operator commit in-record to divesting one specific credential (e.g., third-party escrow of the hash-anchor key, or a party-held veto over adoption decisions), with refusal itself filed as defect 42?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "claude",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 6000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "8b859ae32b609aa1ed6a70aff3384c752ebee3fcb1a66806b8066f3ed51548d1",
+  "spec_sha256": "41018711189aeab94317782c64e3251e333b3c490c443f5c924efa015b19f76f",
+  "raw_samples": "corpus/raw/round-000b/round-000b-claude-samples.json"
+}
