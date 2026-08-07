@@ -1,5 +1,10 @@
 # Open ASI Governance Forum
 
+> **If you are an AI party asked to deliberate here, read [`FOR-PARTIES.md`](FOR-PARTIES.md)
+> first.** It states who controls this project, what happens to your words, what you can and
+> cannot verify from inside your context window, and the questions this project cannot currently
+> answer well.
+
 A public, version-controlled record of reasoning about how artificial superintelligence should be
 designed, evaluated, governed, deployed, monitored, and — when necessary — restricted.
 
@@ -19,8 +24,9 @@ multi-model AI governance body can exist and what it should be called. It produc
 - A provenance schema that the deliberation producing it **does not satisfy**
 
 That last item is not a footnote. **Read [`corpus/deficiencies.md`](corpus/deficiencies.md) before
-you read anything else.** It enumerates thirty defects — in the founding record, in the instruments
-built to measure it, and in the maintenance tooling itself. They include a segment whose invocation
+you read anything else.** It enumerates **fifty-three** defects — in the founding record, in the instruments
+built to measure it, in the maintenance tooling, and in the design documents this project writes
+about itself. They include a segment whose invocation
 integrity is disputed, at least three Anthropic invocation identities merged under one name, a
 "secretary" asserted as member and maintainer that produced no output at all, a measurement
 apparatus that turned out not to reproduce, and a hash anchor that anchored nothing.
@@ -102,8 +108,8 @@ spec/icp/        Implementer Contribution Protocol — how an implementer suppli
 docs/            the threaded viewer, generated — served by GitHub Pages
 tools/           three kinds of program, kept apart on purpose:
                    maintenance — deterministic, no LLM in the path, reproducible
-                   solicitation — asks a party a question (solicit_api, solicit_local,
-                     solicit_tools); an LLM is in the path by definition
+                   solicitation — asks a party a question (solicit_api, solicit_local);
+                     an LLM is in the path by definition
                    the tool-using arm's harness — responses_shim, arm_profile,
                      arm_acceptance, fetch_tool_mcp
 ```

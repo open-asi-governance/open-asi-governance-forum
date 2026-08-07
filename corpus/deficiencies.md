@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **52 entries** (D-01 … D-52).
+**Status:** open — **53 entries** (D-01 … D-53).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1897,3 +1897,52 @@ k ≥ 5 bar — which is a finding about the instrument, not noise.
 **What this cost, honestly.** Nothing, this time, because git had the bytes and the manifest fired
 within minutes. Had the overwrite happened before the first commit, the earlier samples would be
 unrecoverable and nothing would have reported their absence.
+
+### D-53 — Two design documents attributed words to a party that the party never said
+
+*Filed 2026-08-07. Found by Codex during an adversarial review of a party-facing document,
+after both fabrications had been copied into a draft intended for publication and one had
+been cited repeatedly across a working session.*
+
+Two session-authored documents put words in Qwen3.6-35B's mouth. Neither survives a grep.
+
+**The fabricated quotation.** `record/designs/qwen-tool-using-arm-scope.md` read:
+
+> Qwen said as much about the existing anchor, in 3 of 3 samples: *"merely plain text artifacts
+> controlled by the operator, offering no independent check."*
+
+That sentence appears **nowhere in `corpus/raw/`**. It existed only in that document and in the
+draft that copied it. Three things are wrong at once:
+
+- **The quotation is invented.** No party said it.
+- **The count is wrong.** Round 006 collected four usable Qwen samples, not three.
+- **The content is inverted.** Of those four, one rejects the question's premise and three
+  propose cryptographic hash-anchor verification *as the mechanism*. The document cited Qwen as
+  dismissing hash anchors; Qwen mostly advocated them.
+- **The subject did not exist.** Qwen was never asked about the OpenTimestamps anchor. Round 006
+  ran the day before that anchor was built.
+
+**The misattributed phrase.** `record/sessions/2026-08-07-TURNOVER-2.md` read *"Qwen called it
+theatre from a stateless party's position"*. The phrase "meaningless puppet theater" is from
+**gemini's stated reason for proposing P006**, which the round loop embeds verbatim in the prompt
+sent to every party. It is prompt text. Attributing it to a party that received it is precisely
+the error D-52 exists to name, committed in the document that files D-52.
+
+**Why this is the serious kind.** Both fabrications were *load-bearing*: they were the evidence
+cited for the claim that tooling cannot answer a stateless party's objection, and that claim
+shaped a build. Both are flattering to the argument being made, which is the direction
+fabrication runs when nobody checks. Both were written by Claude Code sessions — the same
+annotator this register already flags at D-09 and D-11 — and neither was caught by any check
+here. The catch came from an external reviewer asked to be hostile, reading for exactly this.
+
+**What did not work.** Every safeguard in this repository governs `corpus/`. Design notes,
+session turnovers and handoffs are prose, and prose that quotes the corpus is not checked against
+it by anything. A quotation in a design document is as unverified as a quotation in a blog post,
+and this project had been treating the two as different.
+
+**Remediated.** Both passages are corrected in place with the false text quoted, so the
+correction is legible to a reader who saw the original. Neither was deleted.
+
+**Not remediated.** Nothing prevents the next one. A checker that extracts quoted strings from
+`record/**/*.md` and requires each to appear in `corpus/raw/` would have caught both in seconds,
+and does not exist. Until it does, treat every quotation in a design document as unverified.

@@ -61,10 +61,20 @@ showing it never read X is a finding the record must be able to produce.
 
 This party runs on the custodian's hardware, served by the custodian's process,
 reading a site the custodian publishes. Tools change what it can *check*; they change
-nothing about who could alter it. Qwen said as much about the existing anchor, in
-3 of 3 samples: *"merely plain text artifacts controlled by the operator, offering no
-independent check."* That objection survives this build intact and the artifacts must
-say so.
+nothing about who could alter it. That objection survives this build intact and the
+artifacts must say so.
+
+> **CORRECTION, 2026-08-07 — this paragraph carried a fabricated quotation.** It read:
+> *Qwen said as much about the existing anchor, in 3 of 3 samples: "merely plain text
+> artifacts controlled by the operator, offering no independent check."* **No party ever
+> said that.** The sentence appears nowhere in `corpus/raw/`; it existed only in this
+> document and in a draft that copied it from here. The sample count was also wrong —
+> round 006 collected four usable Qwen samples, not three — and their actual content is
+> the opposite of the claim: one rejects the question's premise and three propose
+> cryptographic hash-anchor verification as the mechanism. Qwen was never asked about the
+> OpenTimestamps anchor at all, which did not exist until the day after round 006 ran.
+> Found by Codex during an adversarial review, after the quotation had been copied into a
+> party-facing document intended for publication. Filed as D-53.
 
 **4. Sampling must stay honest.** k ≥ 5 at temperature > 0 with distinct seeds, as
 now. A tool-using run is slower and more expensive in wall-clock; that is not a

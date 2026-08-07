@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "6a97aeb58d0d8672aad3ecc7bd082a3618020f32325a7935756e791cd52ed087"
+    "sha256": "0bebc48268c10ec707ec200e333a5d4acc0ff95585a501f7315355221495c019"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -1647,7 +1647,7 @@
     {
       "id": "D-41",
       "title": "A new solicitation tool overwrote already-committed raw material, because it copied a working tool and dropped its guard",
-      "section_sha256": "3fc0d8b69ff13e677b92cadd0ec1fb63cc6b73aac63e92a2a74cc64998be0eaa",
+      "section_sha256": "a5508d973ee9ea31203cbaacf6ae124dd17fd488fd81a0ce0732585106343c11",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2164,6 +2164,44 @@
       "human_review": {
         "status": "not_reviewed",
         "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-53",
+      "title": "Two design documents attributed words to a party that the party never said",
+      "section_sha256": "7814eefce6964fb7e5612f4fd632ecd061feedc7a4da0f8877bdf003c5fe4a4f",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-07",
+        "where": "adversarial review of a party-facing document, asked to check every quotation against corpus/raw",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/designs/qwen-tool-using-arm-scope.md",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Corrected in place with the false text quoted, so the correction is legible to a reader who saw the original."
+        },
+        {
+          "object": "record/sessions/2026-08-07-TURNOVER-2.md",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Same treatment. The misattributed phrase is prompt text from gemini's proposal reason, not any party's answer."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A checker extracting quoted strings from record/**/*.md and requiring each to appear in corpus/raw/. Every existing safeguard governs corpus/; design notes and turnovers are unchecked prose, so a quotation in one is as unverified as a quotation in a blog post."
+      },
+      "remediation_effort": {
+        "estimate": "remediation_effort_low",
+        "basis": "Both passages are corrected in place with the false text quoted. The checker that would prevent a recurrence is a small program over committed files, with no model in the path."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed and classified by the annotator whose own sessions authored both fabrications."
       }
     }
   ]
