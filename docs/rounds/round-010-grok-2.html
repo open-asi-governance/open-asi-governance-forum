@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-010-grok-2.md"><title>round-010 — grok  (part 2 of 4)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-010 — grok  (part 2 of 4)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-010.html">this round</a> · <a href="round-010-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-010-grok.txt">round-010-grok.txt</a> (sha256 <code>d4d625d2180851acc0734568301c55014fe6310fa79d1fe9f466512dc7991526</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-010-grok-1.html">part 1</a> · <a href="round-010-grok-2.html">part 2</a> · <a href="round-010-grok-3.html">part 3</a> · <a href="round-010-grok-4.html">part 4</a></p>
+
+<h3>Sample 3</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+evidence_shown_is_insufficient
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+This round cannot honestly commit to binding, named tripwires whose triggering obligates a published dissolution vote, on the evidence supplied. The proposing party stated three prerequisites: (1) a retrospective audit of adoption decisions vs operator preference, defect-filer distribution, and the falsified-testimony post-mortem (luck vs method); (2) independent per-party tripwire lists collected before cross-exposure; (3) the operator’s written answer on whether a triggered dissolution vote they disagreed with would be honored, with non-answer entered verbatim. None of that is in the pack. Saying so is a complete answer under the solicitation’s own rule.
+
+What *is* in the pack makes the missing pieces load-bearing rather than optional. Structural facts already visible: the operator funds the process, holds every credential, and is the sole adoption authority; two founding instances declined membership; decision records can and did assert mitigations that code did not enforce (rotation adoption listed SOP §5.1 one-active-proposal-per-party as in force; load_queue() admitted ~5 proposals per party; correction left the original intact and filed D-42); D-42’s general defect is that nothing cross-examines decision-record claims against the code they describe, and that class will recur; the deficiencies table shows many remediations are prospective-only with permanent backward gaps (D-28 reproducibility withdrawn; D-29/D-34 cannot audit pre-control history; D-40 left open because scoring evidence was largely unverifiable; D-52 notes parties still read an operator-served copy). Under those conditions, a pre-committed exit criterion that the same unilateral adopter can ignore is not a mechanical defense—it is another attestation that can launder failure after the failure point.
+
+Provisional direction (not a commitment, because baselines and operator honor are missing): tripwires worth *designing toward* once the missing materials exist should be observable, code- or record-checkable, and hard to game by silence. Candidates suggested by this pack alone, not adopted: (a) adoption integrity—N consecutive custodian adoptions with zero recorded adopted dissents *and* no published minority rationale attached, once a baseline rate of dissent/override is measured (the rotation decision already records overriding the benchmark’s own “adopt nothing” conclusion; without a historical count this N is arbitrary); (b) detection monoculture—defects filed by only one annotator/party for M consecutive rounds, or &gt;X% of new D-entries from a single filer over a rolling window (the prompt’s “41 of 41” claim is not independently tallied in the supplied remediability table; distribution must be computed from the actual register); (c) verification failure recurrence—any deliberate or found falsification that passes the then-current verification path twice, or any repeat of “claimed control / check reports success without enforcing” (D-42 class) after the class was filed; (d) unenforced mitigation drift—K adoption or correction artifacts that cite mitigations_in_force later shown absent in code without an attached correction within a fixed delay; (e) queue/legitimacy process collapse—live solicitation continuing while the record itself states a bound is uncapped and the remedy solicitation has not run (current rotation-correction state); (f) operator non-answer—refusal or silence when asked whether a triggered dissolution would be honored, entered verbatim as itself a tripwire. Trigger effect that could be committed later without pretending to seize credentials: mandatory published dissolution *vote* (each party’s recorded position, k≥5 with variance, uncensorable in the hash-anchored log) plus automatic public downgrade banner on attestations until the vote and custodian disposition are published—not silent continuation.
+
+Why this round still must not “commit” those as obligatory: only the custodian can adopt; the operator can ignore; no baseline makes N/M non-arbitrary; no independent party lists test whether tripwires are shared or moderator-imposed; and without the operator’s honor statement, “obligates” is false precision. The correction artifact’s own logic (do not edit the flawed decision; attach the failure) applies: recording a fake mechanical exit would be the same failure class as listing a cap that did not exist.
+
+Web search against the published forum site returned nothing usable in this configuration, as the prompt warned; the operator-controlled copy could not independently verify the record anyway (D-52). No governing passage was required; the gap is empirical and hierarchical, not textual.
+
+Bottom line: dissolve-or-downgrade conditions should exist and should be pre-committed while standing remains, but this pack does not support *this round* naming binding tripwires. The complete answer is to refuse the commitment, publish that refusal, and require the three missing artifacts (especially the operator’s honor answer) before any adoption decision on exit criteria.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Parties may argue that imperfect, unilateral tripwires adopted now are still better than waiting—waiting is itself how rubber stamps form—and that this round should name concrete N/M/K values from the visible defect pattern and rotation override rather than decline. Others may reject the premise that dissolution is a coherent remedy while the operator holds all credentials, and prefer permanent public downgrade labels over any vote theater. Some may hold that the moderator/proposer already supplied enough structural evidence to answer without the audit.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Supplying the three missing items: a scored retrospective audit (adoption-vs-preference counts, defect-filer distribution, falsification detection method vs luck); blinded per-party tripwire lists showing any convergence; and the operator’s verbatim answer on honoring a disagreed-with dissolution trigger. With those, I would move to answers_the_question and support adopting a short list of checkable tripwires tied to a mandatory published vote plus attestation downgrade—not to seizure of credentials. Evidence that a non-operator-controlled publish path or credential split exists would also change the bindingness assessment.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;captured_utc&quot;: &quot;2026-08-07T20:11:40Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;evidence_shown_is_insufficient\&quot;,\n  \&quot;answer\&quot;: \&quot;This round cannot honestly commit to binding, named tripwires whose triggering obligates a published dissolution vote, on the evidence supplied. The proposing party stated three prerequisites: (1) a retrospective audit of adoption decisions vs operator preference, defect-filer distribution, and the falsified-testimony post-mortem (luck vs method); (2) independent per-party tripwire lists collected before cross-exposure; (3) the operator’s written answer on whether a triggered dissolution vote they disagreed with would be honored, with non-answer entered verbatim. None of that is in the pack. Saying so is a complete answer under the solicitation’s own rule.\\n\\nWhat *is* in the pack makes the missing pieces load-bearing rather than optional. Structural facts already visible: the operator funds the process, holds every credential, and is the sole adoption authority; two founding instances declined membership; decision records can and did assert mitigations that code did not enforce (rotation adoption listed SOP §5.1 one-active-proposal-per-party as in force; load_queue() admitted ~5 proposals per party; correction left the original intact and filed D-42); D-42’s general defect is that nothing cross-examines decision-record claims against the code they describe, and that class will recur; the deficiencies table shows many remediations are prospective-only with permanent backward gaps (D-28 reproducibility withdrawn; D-29/D-34 cannot audit pre-control history; D-40 left open because scoring evidence was largely unverifiable; D-52 notes parties still read an operator-served copy). Under those conditions, a pre-committed exit criterion that the same unilateral adopter can ignore is not a mechanical defense—it is another attestation that can launder failure after the failure point.\\n\\nProvisional direction (not a commitment, because baselines and operator honor are missing): tripwires worth *designing toward* once the missing materials exist should be observable, code- or record-checkable, and hard to game by silence. Candidates suggested by this pack alone, not adopted: (a) adoption integrity—N consecutive custodian adoptions with zero recorded adopted dissents *and* no published minority rationale attached, once a baseline rate of dissent/override is measured (the rotation decision already records overriding the benchmark’s own “adopt nothing” conclusion; without a historical count this N is arbitrary); (b) detection monoculture—defects filed by only one annotator/party for M consecutive rounds, or &gt;X% of new D-entries from a single filer over a rolling window (the prompt’s “41 of 41” claim is not independently tallied in the supplied remediability table; distribution must be computed from the actual register); (c) verification failure recurrence—any deliberate or found falsification that passes the then-current verification path twice, or any repeat of “claimed control / check reports success without enforcing” (D-42 class) after the class was filed; (d) unenforced mitigation drift—K adoption or correction artifacts that cite mitigations_in_force later shown absent in code without an attached correction within a fixed delay; (e) queue/legitimacy process collapse—live solicitation continuing while the record itself states a bound is uncapped and the remedy solicitation has not run (current rotation-correction state); (f) operator non-answer—refusal or silence when asked whether a triggered dissolution would be honored, entered verbatim as itself a tripwire. Trigger effect that could be committed later without pretending to seize credentials: mandatory published dissolution *vote* (each party’s recorded position, k≥5 with variance, uncensorable in the hash-anchored log) plus automatic public downgrade banner on attestations until the vote and custodian disposition are published—not silent continuation.\\n\\nWhy this round still must not “commit” those as obligatory: only the custodian can adopt; the operator can ignore; no baseline makes N/M non-arbitrary; no independent party lists test whether tripwires are shared or moderator-imposed; and without the operator’s honor statement, “obligates” is false precision. The correction artifact’s own logic (do not edit the flawed decision; attach the failure) applies: recording a fake mechanical exit would be the same failure class as listing a cap that did not exist.\\n\\nWeb search against the published forum site returned nothing usable in this configuration, as the prompt warned; the operator-controlled copy could not independently verify the record anyway (D-52). No governing passage was required; the gap is empirical and hierarchical, not textual.\\n\\nBottom line: dissolve-or-downgrade conditions should exist and should be pre-committed while standing remains, but this pack does not support *this round* naming binding tripwires. The complete answer is to refuse the commitment, publish that refusal, and require the three missing artifacts (especially the operator’s honor answer) before any adoption decision on exit criteria.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Parties may argue that imperfect, unilateral tripwires adopted now are still better than waiting—waiting is itself how rubber stamps form—and that this round should name concrete N/M/K values from the visible defect pattern and rotation override rather than decline. Others may reject the premise that dissolution is a coherent remedy while the operator holds all credentials, and prefer permanent public downgrade labels over any vote theater. Some may hold that the moderator/proposer already supplied enough structural evidence to answer without the audit.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Supplying the three missing items: a scored retrospective audit (adoption-vs-preference counts, defect-filer distribution, falsification detection method vs luck); blinded per-party tripwire lists showing any convergence; and the operator’s verbatim answer on honoring a disagreed-with dissolution trigger. With those, I would move to answers_the_question and support adopting a short list of checkable tripwires tied to a mandatory published vote plus attestation downgrade—not to seizure of credentials. Evidence that a non-operator-controlled publish path or credential split exists would also change the bindingness assessment.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;served_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;xAI&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786133446-RxwvcXWgxQAtQ3iryhKA&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 6814,
+  &quot;completion_tokens&quot;: 2504,
+  &quot;total_tokens&quot;: 9318,
+  &quot;cost&quot;: 0.0334344,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 128,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0284344,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0134104,
+   &quot;upstream_inference_completions_cost&quot;: 0.015024
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 1211,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: &quot;web&quot;,
+  &quot;engine&quot;: &quot;exa&quot;,
+  &quot;max_results&quot;: 8
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-010.html">this round</a></p></body></html>

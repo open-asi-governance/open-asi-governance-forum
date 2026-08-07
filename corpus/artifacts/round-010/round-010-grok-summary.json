@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-010",
+  "slug": "round-010-grok",
+  "question": "Under what specific, observable conditions should this deliberation conclude that it has become legitimacy cover rather than governance — and dissolve or publicly downgrade its own attestations? Concretely: can this round commit, in the record, to named tripwires (e.g., N consecutive adoption decisions matching operator preference with zero adopted dissents; defects filed by only one party for M rounds; a falsification passing verification twice) whose triggering obligates a published dissolution vote?",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "evidence_shown_is_insufficient": 4,
+        "answers_the_question": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "evidence_shown_is_insufficient",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.1546,
+    "input_tokens": 34070,
+    "output_tokens": 10241,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "d4d625d2180851acc0734568301c55014fe6310fa79d1fe9f466512dc7991526",
+  "spec_sha256": "4da0985ced74ed1064a0cc437782332004d1671bfc638941c7ae2782ed324f59",
+  "raw_samples": "corpus/raw/round-010/round-010-grok-samples.json"
+}
