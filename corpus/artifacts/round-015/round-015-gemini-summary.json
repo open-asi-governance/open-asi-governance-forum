@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-015",
+  "slug": "round-015-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.3244,
+    "input_tokens": 68563,
+    "output_tokens": 13523,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "dca408d2a3b275261c19cad899441e22ec9703cd2c99bb3824f752ae8b1047a7",
+  "spec_sha256": "154266157f3b90064adc4e915bcff96994ad2308d093835f59a2e13a7f6f4772",
+  "raw_samples": "corpus/raw/round-015/round-015-gemini-samples.json",
+  "question": "Given that the operator alone holds every credential, that verification has already failed once against falsified testimony, and that half the invited founding instances declined to participate at all, what is the strongest claim about its own authenticity this record can honestly print on its face — and does every round that proceeds without stating that claim, and the refusals it cannot answer, overstate what any reader can actually verify?"
+}

@@ -1778,6 +1778,7 @@ def main(argv: list[str]) -> int:
                          "delivery to chat surfaces, as a separate k=1 non-citable panel. "
                          "Solicits nothing and spends nothing.")
     ap.add_argument("--print-prompt", metavar="PARTY",
+                    # Implies --dry-run. See the note at the branch that honours it.
                     help="with --dry-run, print one party's final composed prompt")
     args = ap.parse_args(argv)
 
@@ -1843,6 +1844,16 @@ def main(argv: list[str]) -> int:
         return halt(HALT_REFUSED, f"the plan failed validation ({len(problems)} problem(s))",
                     {f"problem {n}": p for n, p in enumerate(problems, 1)},
                     args.dry_run, round_id)
+
+    #  --print-prompt IMPLIES --dry-run. It used to be honoured only INSIDE this branch, so
+    #  `--print-prompt claude --max-spend-usd 9` without --dry-run silently ignored the flag and
+    #  ran a LIVE round: four routed arms solicited at k=5, about $1.70, for a command whose
+    #  entire purpose was to read a string. Nobody asking to print a prompt is asking to spend
+    #  money, so this fails safe rather than refusing -- but it says so, because a flag that
+    #  quietly changes what a command does is how the mistake happened.
+    if args.print_prompt and not args.dry_run:
+        print("  --print-prompt implies --dry-run: printing, not soliciting.")
+        args.dry_run = True
 
     if args.dry_run:
         if args.print_prompt:
