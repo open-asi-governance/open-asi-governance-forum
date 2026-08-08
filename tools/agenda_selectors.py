@@ -144,7 +144,8 @@ def disposition_from_records(cycles_dir: Path) -> dict[str, str]:
     return seen
 
 
-def active_proposals(artifacts_dir: Path | None = None) -> dict[str, str | None]:
+def active_proposals(artifacts_dir: Path | None = None,
+                     asked: set[str] | None = None) -> dict[str, str | None]:
     """Each party's active proposal id, from every authorization record in date order.
 
     THE CAP THIS IMPLEMENTS was claimed as a mitigation in force by the rotation adoption
@@ -164,6 +165,13 @@ def active_proposals(artifacts_dir: Path | None = None) -> dict[str, str | None]
     chose -- and then extinguishes something five unanimous samples had established. D-55.
 
     A party with no authorization has NO active proposal. Absent is not "all of them".
+
+    SPENT ON BEING ASKED. `asked` is the set of proposal ids a round has already put to the
+    parties. An authorization means "this is the one in line to be asked"; once it HAS been
+    asked, its purpose is discharged and the party holds nothing again. Without this the
+    function kept reporting claude P004 and grok P019 as active after rounds 013 and 012 asked
+    them, and any instrument reading it would have offered a party a proposal it had already
+    answered. The authorization stays in the record as history; it stops being live.
     """
     root = artifacts_dir or (REPO_ROOT / "corpus" / "artifacts")
     active: dict[str, str | None] = {}
@@ -194,6 +202,13 @@ def active_proposals(artifacts_dir: Path | None = None) -> dict[str, str | None]
                 #  ruling declines to do. setdefault registers the party without changing a
                 #  value already there.
                 active.setdefault(entry["party"], None)
+    #  Discharge an authorization the moment its proposal has been asked. The party remains
+    #  PRESENT in the mapping with None -- balloted and holding nothing -- never absent, which
+    #  would mean never balloted and would leave it uncapped.
+    if asked:
+        for party, pid in list(active.items()):
+            if pid is not None and pid in asked:
+                active[party] = None
     return active
 
 
@@ -239,7 +254,7 @@ def load_queue(round_dir: Path | None = None,
             item.asked, item.asked_in = True, asked_in
 
     if enforce_cap:
-        active = active_proposals()
+        active = active_proposals(asked={p.pid for p in out if p.asked})
         #  FAIL CLOSED on an authorization naming something this queue does not contain. It
         #  would mean a party activated a candidate written in a later cohort, which does not
         #  enter rotation -- and dropping it silently would publish a queue that quietly

@@ -1,0 +1,21 @@
+{
+  "artifact_type": "decision_correction",
+  "corrects": "record/decisions/2026-08-08-adopt-singleton-ratification.json",
+  "corrected_utc": "2026-08-08",
+  "corrected_by": "Claude Code (moderator, a party to this record — and the author of the error)",
+  "found_by": "Codex, reviewing the first instrument built under the rule, before it was run",
+
+  "the_error": "The adopted decision accepts agenda luck as a weakness and then bounds it: 'This is bounded rather than permanent — a different candidate is drawn each cycle.' That is FALSE for a party whose eligible set holds one proposal. claude's eligible set is exactly [P005]. Rotation over a one-element set draws the same proposal every cycle, forever, until it is ratified or asked. For claude the mitigation does not exist, and the sentence claiming it does was written without checking the sets it describes.",
+
+  "how_far_it_extends": "It is also weaker than stated for small or changing sets. Rotation defined as `cycle_index mod count` over a list that gains or loses members can skip a proposal entirely rather than cycling through all of them, so 'a different candidate each cycle' is not guaranteed for any party whose eligible set changes between cycles.",
+
+  "what_this_changes_about_the_decision": "The rule stands. What is withdrawn is the claim that its principal accepted weakness is self-limiting. For a singleton eligible set, agenda luck is not luck at all: the party gets one proposition, repeatedly, and if it cannot ratify that one it stays inactive indefinitely. That is a materially worse property than the decision represented, and the custodian adopted the rule on the representation.",
+
+  "what_is_NOT_done_about_it": "No retry, no advancing the cursor after a failure, and no special case for singleton sets. Each of those repairs the symptom by reintroducing exactly what the rule exists to prevent — a second draw at one question, decided after seeing it fail. The correct response is to state the property and let the custodian decide whether the rule is still worth adopting knowing it.",
+
+  "the_remedy_that_would_work": "A party's eligible set grows when new proposals are admitted. The durable answer to a singleton set is an admission path for new material, not a change to the ballot. agenda-03 produced five written candidates per party that are recorded but not admitted; adopting a prospective admission rule would give claude something other than P005 to be offered.",
+
+  "a_second_gap_in_the_same_decision": "The decision says 'failure leaves the party inactive for that cycle'. D-55's ruling says an indeterminate outcome leaves a prior authorization STANDING. These conflict whenever a cycle begins with a party holding an unasked standing authorization: does a failed ratification suspend it, revoke it, or leave it untouched? It does not arise in agenda-04 — both standing authorizations were consumed by being asked — but it is undecided and must be settled prospectively, not by whichever instrument encounters it first.",
+
+  "why_the_original_is_not_edited": "It records what the custodian decided and what they were told when deciding. Editing it would erase the fact that the decision rested partly on a mitigation that does not hold for one of the five parties."
+}

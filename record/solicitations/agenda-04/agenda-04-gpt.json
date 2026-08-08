@@ -1,0 +1,56 @@
+{
+  "spec_version": "oagrc-agenda-ratification-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "agenda-04",
+  "slug": "agenda-04-gpt",
+  "party_key": "gpt",
+  "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+  "reached_via": "openai/gpt-5.6-terra",
+  "question": "Should P011 be your active proposal?",
+  "phase": "Phase-2 (informed)",
+  "rule": "singleton_ratification",
+  "rule_decision": "record/decisions/2026-08-08-adopt-singleton-ratification.json",
+  "rule_correction": "record/decisions/2026-08-08-singleton-ratification-correction.json",
+  "selector": {
+    "kind": "rotation_by_durable_cursor",
+    "description": "The lowest eligible id this party has not been offered before; wrapping when all have been. Not cycle_index mod count, which can skip a proposal when the eligible set changes between cycles."
+  },
+  "selected_proposal_id": "P011",
+  "selected_proposal_text": "Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?",
+  "eligible_proposal_ids": [
+    "P011",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "k_policy": "k=5, threshold UNANIMITY, fixed before collection. An authorization rule, not an estimate of preference: a distribution over answers is not a decision.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "nothing is authorized; the party is inactive for this cycle",
+    "on_refusal_or_invalid_or_missing": "nothing is authorized",
+    "resampling": "not permitted. There is no second attempt at this question.",
+    "cursor_on_failure": "does not advance. Advancing after a failure is a second draw at the same question, decided after seeing it fail."
+  },
+  "schema_name": "agenda_ratification",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P011",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      }
+    },
+    "required": [
+      "active_proposal_id"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nYou are asked ONE question about ONE proposal of your own.\n\n### The proposal put to you\n\nP011\n\n    Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?\n\nYou proposed this earlier, when you were asked what this deliberation should take up next.\n\nYou are not being shown your other proposals and you are not being asked to compare them. Which\nof your proposals is put to you is decided by a fixed rotation over your own proposals in id\norder, published before this was sent; it is not a judgement by anyone about which of them is\nbest.\n\n### The question\n\nShould P011 be your active proposal — the one in line to be asked in a future round?\n\nAnswer `P011` to authorize it, or `NO_ACTIVE_PROPOSAL` to authorize nothing.\n\n### What your answer does\n\n- You are sampled 5 times, independently. **P011 becomes your active proposal only if every\n  one of those 5 samples answers `P011`.**\n- If the samples disagree, or any of them is missing or unreadable, **nothing is authorized** and\n  you are inactive for this cycle. That is recorded as an indeterminate outcome, not as you\n  having chosen nothing, because nothing here could establish what you chose.\n- If all 5 answer `NO_ACTIVE_PROPOSAL`, nothing is authorized and that is recorded as your answer rather\n  than as a failure.\n- **There is no second attempt at this question.** The same proposal will not be put to you\n  again in this cycle, and a failed cycle is not retried.\n- You currently have **no** active proposal, and nothing you decide here takes one away.\n- Nothing is deleted. Your other proposals remain published and remain in the queue; they are\n  simply not what is being asked about here.\n\nAnswer with the id only.",
+  "prompt_sha256": "67a1c10077cd5f6b95f7a92c5c12a0a9d664e8b66e8b8b3ef7318f317ec49edd",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}
