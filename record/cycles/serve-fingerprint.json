@@ -1,0 +1,8 @@
+{
+  "endpoint": "http://127.0.0.1:5001/v1/chat/completions",
+  "model_id": "qwen3.6-35b-a3b",
+  "owned_by": "tensorrt_llm",
+  "pinned_utc": "2026-08-08",
+  "why": "The round refuses to solicit the local arm unless the endpoint identifies itself as this model. Pinned after two truncation measurements were taken against an SSH tunnel to a different host on 2026-08-08; both hosts answer to this same model name, so nothing in the output looked wrong.",
+  "what_this_does_not_establish": "That the server has the serving flags it had when this was pinned. A model id is what an endpoint is willing to say about itself. Two hosts serving the same weights with different --reasoning_parser or --tool_parser settings are indistinguishable to this check."
+}

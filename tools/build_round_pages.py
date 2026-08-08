@@ -182,8 +182,12 @@ def load_round(round_id: str) -> dict:
         h = json.loads(path.read_text(encoding="utf-8"))
         if h.get("round") == round_id:
             halts.append(h)
+    #  Against the USABLE floor, not against attempts scheduled. A party solicited at k=6 to
+    #  absorb a known loss rate is not undersampled at 5 usable, and labelling it so on the
+    #  published page would contradict the gate that let the round proceed.
     undersampled = sorted(p for p, sm in summaries.items()
-                          if (sm.get("k_collected") or 0) < (sm.get("k_requested") or 0))
+                          if (sm.get("k_collected") or 0)
+                          < (sm.get("k_min_usable") or sm.get("k_requested") or 0))
     return {"round": round_id, "cycle": cycle, "specs": specs, "summaries": summaries,
             "samples": samples, "failed": failed, "halts": halts,
             "undersampled": undersampled}

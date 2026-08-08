@@ -1,0 +1,36 @@
+{
+  "artifact_type": "custodian_decision",
+  "decision": "Solicit SIX attempts from the local arm and five from the routed arms. The citability floor stays at five USABLE samples for every party.",
+  "decided_by": "Stephen Reed, custodian",
+  "decided_utc": "2026-08-08",
+  "recommended_by": "Claude Code (moderator, a party to this record)",
+  "external_review": "Codex. It accepted the policy and rejected the annotator's first implementation, in which the gate compared usable samples against attempts SCHEDULED — so five usable of six would have halted exactly as four of five did, and the spare attempt would have bought nothing.",
+
+  "the_evidence": {
+    "defect": "D-56. The local arm truncates a sample when a reasoning run fails to terminate and consumes the whole token ceiling.",
+    "measured_with_the_fix": "1 truncation in 120 samples (~0.8%)",
+    "measured_without_it": "14 in 120 (~11.7%)",
+    "rounds_halted_by_it": ["round-006", "round-009", "round-010", "round-012", "round-013"],
+    "endpoint_measured": "127.0.0.1:5001, the endpoint round_cycle.py actually solicits — two earlier probes measured an SSH tunnel to a different host and were reported as a controlled experiment"
+  },
+
+  "the_projection_and_its_uncertainty": "A plug-in estimate at p=1/120 puts the chance of losing two of six below 0.1%. That is an observed-rate projection, NOT an established bound: one observed loss gives a very uncertain p, whose approximate 95% upper bound is ~4.6% — implying a halt risk nearer 2.7%. The lower figure was stated first and is corrected here rather than quietly replaced.",
+
+  "what_this_does_not_fix": "Truncation is length-dependent, so a longer answer is likelier to be the one lost and the surviving set remains informatively censored. k=6 reduces halts. It does not make the published distribution unbiased, and nothing should claim it does.",
+
+  "the_implementation_this_requires": {
+    "k_solicited": "How many attempts are scheduled. Per-arm: 6 local, 5 routed.",
+    "k_min_usable": "The citability floor. 5 for every party, unchanged.",
+    "why_they_must_be_separate_fields": "They were one number, k_requested, and overloading it is what made the first implementation useless. Both the undersample gate and the published round page now test against k_min_usable."
+  },
+
+  "all_six_are_published": "Every attempt is preserved: usable responses enter the distribution, truncated or schema-invalid ones enter the rejection artifact with the mechanical reason predeclared. No sample is discarded for its content and none is dropped to reach a round number. Variance is computed over every usable sample — six if six survive.",
+
+  "known_weaknesses_accepted": [
+    "The local party's distribution is over n=6 while every routed party's is over n=5. Entropy estimates carry different small-sample bias at the two sizes, and the two must not be pooled. The round already declares these as separate arms and already states they are not comparable.",
+    "Re-soliciting a lost sample was rejected as post-hoc resampling — the same objection this project raised against retrying agenda-03, and it does not become acceptable here merely because the loss is inconvenient."
+  ],
+
+  "also_adopted": "A fail-closed serve-configuration preflight. The round refuses to solicit the local arm unless the endpoint's model identity matches a pinned fingerprint. This exists because two measurements were taken against the wrong machine on 2026-08-08 and nothing in the output looked wrong: both hosts answer to the same model name.",
+  "review_trigger": "If a round halts on local undersampling again, the measured rate is wrong and the number of attempts is not the remedy."
+}

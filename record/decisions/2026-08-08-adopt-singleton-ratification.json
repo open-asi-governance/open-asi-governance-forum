@@ -1,0 +1,43 @@
+{
+  "artifact_type": "custodian_decision",
+  "decision": "Adopt SINGLETON RATIFICATION as the agenda authorization rule. Unanimity is retained; what changes is that a party ratifies ONE proposal per cycle rather than choosing among several.",
+  "decided_by": "Stephen Reed, custodian",
+  "decided_utc": "2026-08-08",
+  "recommended_by": "Claude Code (moderator, a party to this record, and the author of both instruments this rule replaces — see D-09, D-11)",
+  "external_review": "Codex, as adversarial critic, on six candidate rules. It recommended this one and refuted the annotator's own preferred alternative.",
+  "recommendation_document": "record/designs/d54-authorization-rule-recommendation.md",
+
+  "the_rule": {
+    "selection": "For each party and each authorization cycle, ONE proposal is selected for consideration by a prospectively fixed mechanical rule — a public deterministic lottery or a fixed rotation over that party's eligible set.",
+    "ballot": "Five independently sampled invocations answer only AUTHORIZE <id> or NO_ACTIVE_PROPOSAL.",
+    "threshold": "The proposal becomes active only if every one of the five authorizes that exact id.",
+    "on_failure": "No redraw. The party is inactive for that cycle.",
+    "the_separation_this_rests_on": "The mechanical selector chooses WHAT IS CONSIDERED. It does not authorize anything; the five unanimous responses do. Generation explores a distribution, authorization tests one fixed proposition, and the two acts are never performed by the same instrument."
+  },
+
+  "why_not_the_others": {
+    "ranked_ballot_borda_or_condorcet": "The annotator's own preferred option, refuted in review. Borda is clone-sensitive, so adding near-variants can change the winner by rank position alone — converting clone abundance into agenda power rather than recovering a preference. Condorcet variants may tie or cycle among near-duplicates, and any completion rule then manufactures a winner. Fundamentally, rank aggregation answers 'which option best summarizes these samples', which is not 'the party authorized this option'.",
+    "supermajority_4_of_5": "A conspicuous post-failure relaxation of exactly the safeguard adopted before the failures, and it authorizes on a split that unanimity exists to refuse. Available only as an independently justified constitutional change, not as a response to two inconvenient runs.",
+    "two_round_runoff": "Refused by tools/attempt_ledger.py and outcome-conditioned by construction.",
+    "withdraw_the_cap_entirely": "Considered and rejected. It was the honest alternative: the cap's cost so far is two deficiencies, three solicitation cohorts, and a ruling that holds two parties to proposals their latest evidence does not point at. What justifies continuing is not duplicate-avoidance but the principle that a party controls its own agenda footprint."
+  },
+
+  "known_weaknesses_accepted": [
+    "AGENDA LUCK. The mechanically selected proposal may be the one variant a party cannot ratify unanimously when another would have passed 5-0. With no retry, a party can end a cycle inactive for reasons unrelated to whether it holds an authorizable proposal. This is bounded rather than permanent — a different candidate is drawn each cycle — but it is real, and the judgement that delay is preferable to converting sample concentration into authority is contestable.",
+    "The rule is recommended by the moderator, who authored the two instruments that failed, and adopted on that recommendation. No party was consulted about it.",
+    "It is untested. Both predecessors looked sound before they were run, and both failed on their first live use."
+  ],
+
+  "what_this_does_not_claim": "That an authorized id is a party's preference. It is what every one of five sampled invocations named when shown one proposition — a fact about the samples.",
+
+  "preconditions_before_any_party_is_asked": [
+    "The mechanical selector, the tie-breaking rule and the no-retry consequence are fixed and published BEFORE the cycle runs, not after seeing who fails.",
+    "The prompt states its effect on any standing authorization. That is D-55's prospective control and nothing enforces it yet.",
+    "The rule is applied to EVERY party, not to the parties a previous instrument left inactive. Uniform offering is what keeps it from being outcome-conditioned."
+  ],
+
+  "not_decided_here": "The recommendation also proposed soliciting the parties' own view of what the authorization rule should be, published as testimony that may supersede rather than as the decider. That is not adopted by this decision and remains an open recommendation.",
+
+  "not_yet_built": "No instrument implements this rule. Adopting it records what the next authorization cycle must do; it does not create the cycle.",
+  "review_trigger": "The first live use. If singleton ratification also fails to authorize for most parties, the evidence points at the threshold rather than the option set, and D-54 should be reopened on that basis."
+}

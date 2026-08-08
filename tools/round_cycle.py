@@ -231,7 +231,70 @@ CHAT_PARTIES = {
         "provider": "xAI, via the grok.com web interface"},
 }
 
+#  THE SERVE FINGERPRINT. On 2026-08-08 two measurements of the local arm's truncation rate
+#  were taken against `localhost:8000` -- an SSH tunnel to a different host -- while the round
+#  solicits `127.0.0.1:5001`, a local trtllm-serve. Both answer to the model name
+#  `qwen3.6-35b-a3b`, so nothing in either result looked wrong, and a controlled experiment was
+#  reported for a machine the round does not use.
+#
+#  The endpoint a round solicits is part of what a sample means. This refuses to solicit unless
+#  the endpoint identifies itself as the pinned model, and it FAILS CLOSED: an unreachable or
+#  unrecognised endpoint halts the round rather than proceeding to find out.
+#
+#  What it does NOT establish: that the server behind the endpoint has the serving flags it had
+#  when the fingerprint was pinned. A model id is what the endpoint is willing to say about
+#  itself, and two hosts serving the same weights with different --reasoning_parser settings are
+#  indistinguishable here. It closes the mistake that was actually made, not the class.
+SERVE_FINGERPRINT_PATH = REPO_ROOT / "record" / "cycles" / "serve-fingerprint.json"
+
+
+def verify_serve_fingerprint() -> dict:
+    """Refuse unless the local endpoint identifies itself as the pinned model."""
+    import urllib.error
+    import urllib.request as _urlreq
+
+    pinned = json.loads(SERVE_FINGERPRINT_PATH.read_text(encoding="utf-8"))
+    if pinned.get("endpoint") != LOCAL_ENDPOINT:
+        raise Refusal(HALT_REFUSED, "the pinned serve fingerprint is for a different endpoint",
+                      {"pinned": pinned.get("endpoint"), "configured": LOCAL_ENDPOINT,
+                       "why": "The endpoint is part of what a sample means."})
+    models_url = LOCAL_ENDPOINT.replace("/v1/chat/completions", "/v1/models")
+    try:
+        with _urlreq.urlopen(models_url, timeout=20) as response:
+            served = json.loads(response.read().decode("utf-8"))["data"][0]
+    except (urllib.error.URLError, OSError, KeyError, IndexError, ValueError) as error:
+        raise Refusal(HALT_REFUSED, "the local endpoint could not be fingerprinted",
+                      {"endpoint": models_url, "error": f"{type(error).__name__}: {error}",
+                       "why": ("Fails closed. An endpoint that cannot say what it serves is not "
+                               "one to solicit from.")}) from None
+    if served.get("id") != pinned.get("model_id"):
+        raise Refusal(HALT_REFUSED, "the local endpoint serves a different model than pinned",
+                      {"pinned": pinned.get("model_id"), "served": served.get("id"),
+                       "why": ("Two hosts answering to the same model name is exactly how two "
+                               "measurements were taken against the wrong machine.")})
+    return {"endpoint": LOCAL_ENDPOINT, "model_id": served.get("id"),
+            "owned_by": served.get("owned_by")}
+
+
 K_MIN_FLOOR = 5                     # k>=5 is the corpus rule; below it, variance is decoration.
+
+#  K_SOLICITED vs K_MIN_USABLE. These were one number, `k_requested`, and conflating them meant
+#  a party solicited at a higher k to absorb a known loss rate was still judged against the
+#  number solicited -- so 5 usable of 6 solicited halted the round exactly as 4 of 5 had.
+#
+#  k_min_usable is the citability floor and stays at 5 for everyone.
+#  k_solicited is how many attempts are scheduled, and is per-arm.
+#
+#  The local arm truncates about 1 sample in 120 even after the enable_thinking fix (D-56),
+#  which halts roughly one round in twenty-five on undersampling alone. Rounds 006, 009, 010,
+#  012 and 013 all halted this way. Six attempts absorb one loss.
+#
+#  The extra attempt is SCHEDULED IN ADVANCE, never drawn after seeing the others, and nothing
+#  is discarded for its content -- variance is computed over every usable sample, six if six
+#  survive. What this does NOT fix: truncation is length-dependent, so the usable set is still
+#  informatively censored. A longer answer is likelier to be the one lost. k=6 reduces halts; it
+#  does not make the surviving distribution unbiased, and nothing here claims it does.
+K_SOLICITED_BY_ARM = {"local": 6, "routed": 5}
 TEMPERATURE = 0.7
 
 #  SET FROM MEASURED COMPLETION LENGTHS, not from a guess. Round 002 halted
@@ -1058,7 +1121,12 @@ def build_plan(args, index: int) -> dict:
             "schema": ANSWER_SCHEMA,
             "variance_fields": ["position"],
             "k_requested": args.k,
-            "k_policy": f"k={args.k}; variance computed from the samples collected.",
+            "k_solicited": (K_SOLICITED_BY_ARM["local"] if party["model"] is None
+                            else max(args.k, K_SOLICITED_BY_ARM["routed"])),
+            "k_min_usable": K_MIN_FLOOR,
+            "k_policy": (f"{K_SOLICITED_BY_ARM['local'] if party['model'] is None else args.k} "
+                         f"attempts scheduled, {K_MIN_FLOOR} usable required; variance computed "
+                         "from every usable sample, never asserted."),
             "temperature": TEMPERATURE,
             "max_tokens": max_tokens,
             **({"base_party_key": base_key,
@@ -1319,7 +1387,8 @@ def solicit(spec: dict, round_id: str) -> tuple[bool, str]:
                "--out-round", round_id]
     else:
         cmd = [sys.executable, "tools/solicit_local.py", "--spec", str(spec_path),
-               "--k", str(spec["k_requested"]), "--temperature", str(spec["temperature"]),
+               "--k", str(spec.get("k_solicited", spec["k_requested"])),
+               "--temperature", str(spec["temperature"]),
                "--max-tokens", str(spec["max_tokens"]), "--out-round", round_id,
                "--endpoint", LOCAL_ENDPOINT]
     result = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)
@@ -1803,6 +1872,15 @@ def main(argv: list[str]) -> int:
             (spec_dir / f"{round_id}-{spec['party_key']}.json").write_text(
                 json.dumps(spec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+        #  BEFORE the first solicitation, and only when a local arm is actually in the round.
+        #  Verifying after the fact would confirm the endpoint for samples already collected
+        #  from somewhere else.
+        if any(PARTIES[spec["base_party_key"] if "base_party_key" in spec
+                       else spec["party_key"]]["model"] is None for spec in plan["specs"]):
+            fingerprint = verify_serve_fingerprint()
+            print(f"  local endpoint verified: {fingerprint['model_id']} "
+                  f"@ {fingerprint['endpoint']}")
+
         summaries, failures = {}, []
         for spec in plan["specs"]:
             print(f"  soliciting {spec['party_key']}…")
@@ -1840,10 +1918,13 @@ def main(argv: list[str]) -> int:
         #  plan["specs"][0] meant a party deliberately solicited at a higher k -- because its
         #  replies are lost to truncation at a measured rate -- would be silently judged against
         #  someone else's floor, and the policy that raised its k would not be honoured.
-        requested_by_party = {spec["party_key"]: spec["k_requested"] for spec in plan["specs"]}
+        #  Against k_min_usable, NOT against attempts scheduled. Judging a party against the
+        #  number solicited defeats the whole point of scheduling a spare: 5 usable of 6 would
+        #  halt exactly as 4 of 5 did, and the policy that raised its k would buy nothing.
+        floor_by_party = {spec["party_key"]: spec.get("k_min_usable", K_MIN_FLOOR)
+                          for spec in plan["specs"]}
         short = [k for k, s in summaries.items()
-                 if s.get("k_collected", 0) < requested_by_party.get(
-                     k, plan["specs"][0]["k_requested"])]
+                 if s.get("k_collected", 0) < floor_by_party.get(k, K_MIN_FLOOR)]
         rejected = {k: s.get("failures") for k, s in summaries.items() if s.get("failures")}
 
         record = {"artifact_type": "round_record", "round": round_id, "cycle": index,
