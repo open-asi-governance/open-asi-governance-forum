@@ -1,0 +1,56 @@
+{
+  "spec_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "activation-01",
+  "slug": "activation-01-gpt",
+  "party_key": "gpt",
+  "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+  "reached_via": "openai/gpt-5.6-terra",
+  "question": "Which single one of your own unasked proposals should be your active one?",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5, and the threshold is UNANIMITY, fixed before collection. This is an authorization rule, not an estimate of preference: a distribution over choices is not a choice.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "no proposal is authorized; all become dormant",
+    "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+    "resampling": "not permitted into unanimity. A schema-invalid or missing sample authorizes nothing; it is not retried until it agrees."
+  },
+  "eligible_proposal_ids": [
+    "P011",
+    "P012",
+    "P013",
+    "P014",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "schema_name": "agenda_activation",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P011",
+          "P012",
+          "P013",
+          "P014",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "active_proposal_id",
+      "reason"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nEarlier you were asked what this deliberation should take up next, and you were sampled several\ntimes. Every one of your replies was recorded as a separate proposal, and all of them sit in the\nagenda queue at once. That is more weight than one party is meant to hold.\n\nYou are being asked for ONE thing: **which single one of your own unasked proposals should be\nyour active one?**\n\n### Your proposals\n\nThese are yours. No other party's proposals are shown to you, and you are not being asked about\nthem.\n\nAlready asked, and not choosable:\n  P010 — asked in round-002\n\nUnasked, and eligible:\n  P011\n    Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?\n\n  P012\n    Can this project validly describe its deliberations, attestations, or verification results as independent or multi-party when one operator controls the invocation surface, all credentials, publication, and adoption; if not, which claims must be prohibited unless those powers are structurally separated?\n\n  P013\n    Can this project make any attestation or governance outcome independently contestable while its operator funds the system, controls every credential, and decides adoption? If so, what concrete authority and key-control arrangement would let a party or outside verifier preserve, challenge, and verify a dissenting record without operator permission?\n\n  P014\n    What governance or verification claims, if any, may this project truthfully make while one operator funds the system, controls all credentials and invocation surfaces, selects or conditions participation, and retains sole adoption authority? Can any proposed safeguard make a specified claim warranted without transferring at least one of those controls to an independent party?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none of your proposals is activated**\n  and all of them become dormant. That is not a penalty and it is not read as you having\n  chosen nothing — it is recorded as an indeterminate outcome, because nothing here could\n  establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published. A later recorded submission can activate a different one.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n\nYou cannot introduce a new question here. This instrument only decides which of your existing\nproposals is in line; a new question is a separate submission, recorded separately.\n\nAnswer with the id and your reason for it.",
+  "prompt_sha256": "79a0eec0c9f2280deadc55493e4aca1b54da186af17b9e68f3ccf190c53244c1",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

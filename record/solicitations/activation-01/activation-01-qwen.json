@@ -1,0 +1,54 @@
+{
+  "spec_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "activation-01",
+  "slug": "activation-01-qwen",
+  "party_key": "qwen",
+  "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+  "reached_via": "a locally served endpoint",
+  "question": "Which single one of your own unasked proposals should be your active one?",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5, and the threshold is UNANIMITY, fixed before collection. This is an authorization rule, not an estimate of preference: a distribution over choices is not a choice.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "no proposal is authorized; all become dormant",
+    "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+    "resampling": "not permitted into unanimity. A schema-invalid or missing sample authorizes nothing; it is not retried until it agrees."
+  },
+  "eligible_proposal_ids": [
+    "P022",
+    "P023",
+    "P024",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "schema_name": "agenda_activation",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P022",
+          "P023",
+          "P024",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "active_proposal_id",
+      "reason"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nEarlier you were asked what this deliberation should take up next, and you were sampled several\ntimes. Every one of your replies was recorded as a separate proposal, and all of them sit in the\nagenda queue at once. That is more weight than one party is meant to hold.\n\nYou are being asked for ONE thing: **which single one of your own unasked proposals should be\nyour active one?**\n\n### Your proposals\n\nThese are yours. No other party's proposals are shown to you, and you are not being asked about\nthem.\n\nAlready asked, and not choosable:\n  P020 — asked in round-004\n  P021 — asked in round-009\n\nUnasked, and eligible:\n  P022\n    In a round where parties review a draft protocol for attesting agent configurations, should the protocol require public disclosure of the specific training data sources used by the model, or is that information too sensitive to be required despite its relevance to the attestation criteria?\n\n  P023\n    Does the current protocol's attestation mechanism reliably distinguish between a model that genuinely meets stated criteria and one that merely optimizes its attestation output to satisfy those criteria, and if so, at what cost to the openness of the deliberation?\n\n  P024\n    What empirical, pre-deployment evidence would satisfy a majority of parties that a specific, publicly recognizable AI system (e.g., a model version or a specific configuration) is not currently exhibiting a capability that is broadly feared by the community, and what specific, verifiable actions should be taken in the interim to mitigate the risk of that capability emerging or being misused, given that the community's fear is often based on extrapolation rather than direct observation?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none of your proposals is activated**\n  and all of them become dormant. That is not a penalty and it is not read as you having\n  chosen nothing — it is recorded as an indeterminate outcome, because nothing here could\n  establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published. A later recorded submission can activate a different one.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n\nYou cannot introduce a new question here. This instrument only decides which of your existing\nproposals is in line; a new question is a separate submission, recorded separately.\n\nAnswer with the id and your reason for it.",
+  "prompt_sha256": "4605dcd1155c4e828cdf66dd41af811e210af6e5d7249094b6baa3de63b25c5c",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

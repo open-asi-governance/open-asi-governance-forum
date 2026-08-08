@@ -82,6 +82,7 @@ SCHEMA_FOR_TYPE = {
     "contribution": "contribution.schema.json",
     "solicitation_summary": "solicitation.schema.json",
     "agenda_cohort_exposure": "cohort-exposure.schema.json",
+    "agenda_activation_record": "agenda-activation.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
     "deficiency_register": "deficiency-register.schema.json",
@@ -152,7 +153,7 @@ def check_source_hash(document: dict, report: Report) -> None:
         if key in document:
             anchors.append((key, document[key]))
 
-    if document.get("artifact_type") == "agenda_cohort_exposure":
+    if document.get("artifact_type") in ("agenda_cohort_exposure", "agenda_activation_record"):
         #  Anchors EVERY raw sample file it was computed from, like a finding_coding, not one
         #  source: a record describing four parties' deliveries that anchored only the first
         #  could drift from three of them without any check noticing.

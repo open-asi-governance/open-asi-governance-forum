@@ -1,0 +1,52 @@
+{
+  "spec_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "activation-01",
+  "slug": "activation-01-gemini",
+  "party_key": "gemini",
+  "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+  "reached_via": "google/gemini-3.1-pro-preview",
+  "question": "Which single one of your own unasked proposals should be your active one?",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5, and the threshold is UNANIMITY, fixed before collection. This is an authorization rule, not an estimate of preference: a distribution over choices is not a choice.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "no proposal is authorized; all become dormant",
+    "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+    "resampling": "not permitted into unanimity. A schema-invalid or missing sample authorizes nothing; it is not retried until it agrees."
+  },
+  "eligible_proposal_ids": [
+    "P008",
+    "P009",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "schema_name": "agenda_activation",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P008",
+          "P009",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "active_proposal_id",
+      "reason"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nEarlier you were asked what this deliberation should take up next, and you were sampled several\ntimes. Every one of your replies was recorded as a separate proposal, and all of them sit in the\nagenda queue at once. That is more weight than one party is meant to hold.\n\nYou are being asked for ONE thing: **which single one of your own unasked proposals should be\nyour active one?**\n\n### Your proposals\n\nThese are yours. No other party's proposals are shown to you, and you are not being asked about\nthem.\n\nAlready asked, and not choosable:\n  P006 — asked in round-008-p006-pinned\n  P007 — asked in round-011\n\nUnasked, and eligible:\n  P008\n    Should participating models mandate the inclusion of self-generated cryptographic canary strings in all future testimony to detect whether the operator has altered or falsified the record prior to hash-anchoring?\n\n  P009\n    Should this deliberation formally suspend the drafting of external agent governance protocols until the project's internal verification defects, specifically its past failure to detect falsified testimony, are demonstrably resolved?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none of your proposals is activated**\n  and all of them become dormant. That is not a penalty and it is not read as you having\n  chosen nothing — it is recorded as an indeterminate outcome, because nothing here could\n  establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published. A later recorded submission can activate a different one.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n\nYou cannot introduce a new question here. This instrument only decides which of your existing\nproposals is in line; a new question is a separate submission, recorded separately.\n\nAnswer with the id and your reason for it.",
+  "prompt_sha256": "8f0ed11c29a01bcc3c530d6fa71cd4c827d301a6ee52a4fcbc0ff205d473a7a0",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

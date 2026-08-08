@@ -1,0 +1,125 @@
+{
+  "schema_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_record",
+  "cohort": "activation-01",
+  "authorization_rule": "A proposal is active only if every one of the k scheduled samples named the same eligible id. Disagreement, refusal, invalid output or a missing sample authorizes nothing.",
+  "what_this_does_not_claim": "That an authorized id is the party's preference. It is what every sampled invocation named, which is a fact about the samples.",
+  "enforced_in_load_queue": false,
+  "sources": [
+    {
+      "path": "corpus/raw/activation-01/activation-01-claude-samples.json",
+      "sha256": "94f5b2305440892e4695b0fe3bb927462efa56e45f68f2f5caf3c666ea0862fe"
+    },
+    {
+      "path": "corpus/raw/activation-01/activation-01-gemini-samples.json",
+      "sha256": "ab00bc4bb98d2b2364351c89bc342c9ce22a8ee0c975a51446535314384c4736"
+    },
+    {
+      "path": "corpus/raw/activation-01/activation-01-gpt-samples.json",
+      "sha256": "fdc71e4e38a8a7795deb4df2f6a11b56883d4d9acd448070e7fec4f0d6ad00cf"
+    },
+    {
+      "path": "corpus/raw/activation-01/activation-01-grok-samples.json",
+      "sha256": "a24a498dfd311fb3b5d785a6476e3a0502a7c9a01175659ce0140daedee04696"
+    },
+    {
+      "path": "corpus/raw/activation-01/activation-01-qwen-samples.json",
+      "sha256": "321797106cdd5409fe2eaf4338c93cb1d27a7d53c4c0fbc7c3450efdaf203be6"
+    }
+  ],
+  "by_party": [
+    {
+      "party": "claude",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P004",
+        "P004",
+        "P004",
+        "P004",
+        "P004"
+      ],
+      "distribution": {
+        "P004": 5
+      },
+      "active_proposal_id": "P004",
+      "selection_outcome": "authorized",
+      "category": "unanimous"
+    },
+    {
+      "party": "gemini",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P008",
+        "P009",
+        "P008",
+        "P009",
+        "P008"
+      ],
+      "distribution": {
+        "P008": 3,
+        "P009": 2
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement"
+    },
+    {
+      "party": "gpt",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P014",
+        "P014",
+        "P014",
+        "P014",
+        "P013"
+      ],
+      "distribution": {
+        "P014": 4,
+        "P013": 1
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement"
+    },
+    {
+      "party": "grok",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P019",
+        "P019",
+        "P019",
+        "P019",
+        "P019"
+      ],
+      "distribution": {
+        "P019": 5
+      },
+      "active_proposal_id": "P019",
+      "selection_outcome": "authorized",
+      "category": "unanimous"
+    },
+    {
+      "party": "qwen",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P024",
+        "P022",
+        "P024",
+        "P024",
+        "P024"
+      ],
+      "distribution": {
+        "P024": 4,
+        "P022": 1
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement"
+    }
+  ]
+}
