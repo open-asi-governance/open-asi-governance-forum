@@ -1121,10 +1121,14 @@ def build_plan(args, index: int) -> dict:
             "schema": ANSWER_SCHEMA,
             "variance_fields": ["position"],
             "k_requested": args.k,
-            "k_solicited": (K_SOLICITED_BY_ARM["local"] if party["model"] is None
+            #  party_record, not `party`. The name does not exist in this scope, and the
+            #  NameError went unseen because the only dry run since had halted on the
+            #  unmerged-round gate BEFORE build_plan was ever reached -- a green dry run that
+            #  proved the gate worked and nothing about the code behind it.
+            "k_solicited": (K_SOLICITED_BY_ARM["local"] if party_record["model"] is None
                             else max(args.k, K_SOLICITED_BY_ARM["routed"])),
             "k_min_usable": K_MIN_FLOOR,
-            "k_policy": (f"{K_SOLICITED_BY_ARM['local'] if party['model'] is None else args.k} "
+            "k_policy": (f"{K_SOLICITED_BY_ARM['local'] if party_record['model'] is None else args.k} "
                          f"attempts scheduled, {K_MIN_FLOOR} usable required; variance computed "
                          "from every usable sample, never asserted."),
             "temperature": TEMPERATURE,

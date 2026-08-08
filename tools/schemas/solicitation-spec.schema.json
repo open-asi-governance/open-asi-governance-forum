@@ -294,6 +294,16 @@
           "description": "URLs named in the prompt. Anything else the party reached, it found."
         }
       }
+    },
+    "k_solicited": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Attempts SCHEDULED for this arm. Distinct from k_min_usable: the local arm schedules 6 for a floor of 5 because it loses ~1 sample in 120 (D-56). Overloading one number is what made the spare attempt buy nothing."
+    },
+    "k_min_usable": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Usable samples required. The citability floor, 5 for every party. The undersample gate and the published round page both test THIS, not k_solicited."
     }
   }
 }
