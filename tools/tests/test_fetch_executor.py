@@ -237,8 +237,11 @@ check("capability forbids undeclared fields",
 
 _rc = (ROOT / "tools" / "round_cycle.py").read_text()
 check("undersampling is judged per party, not against the first spec",
-      "requested_by_party" in _rc,
+      "floor_by_party" in _rc,
       "a party solicited at a higher k must not be judged against someone else's floor")
+check("...and against the USABLE floor, not against attempts scheduled",
+      "k_min_usable" in _rc,
+      "k_solicited=6 with k_min_usable=5 must not halt at 5 usable")
 check("arms are classified by capability, not by search alone",
       'bool((spec.get("capability") or {}).get("fetch_url"))), set())' in _rc,
       "a fetch-enabled party and a tool-less one must not share an arm")

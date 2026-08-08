@@ -84,10 +84,19 @@ capped = [p for p in AS.load_queue(disposition=disp, enforce_cap=True) if not p.
 check("the default call is unaffected by the cap", len(uncapped) > len(capped))
 
 print("\non the live record")
-check("exactly the two authorized proposals survive the cap",
-      sorted(p.pid for p in capped) == ["P004", "P019"])
-check("every surviving proposal is its party's authorized one",
-      all(AS.active_proposals().get(p.party) == p.pid for p in capped))
+#  ASSERT THE RULE, NOT THE DAY'S CONTENTS. This used to assert `== ["P004","P019"]`, the two
+#  proposals authorized on 2026-08-08. Rounds 012 and 013 then ASKED both, which discharges an
+#  authorization, so the assertion failed on a queue behaving exactly as designed. A test that
+#  pins today's queue contents fails every time the queue advances, which is always.
+asked_now = {p.pid for p in AS.load_queue(disposition=disp) if p.asked}
+live = AS.active_proposals(asked=asked_now)
+check("every surviving proposal is its party's live authorized one",
+      all(live.get(p.party) == p.pid for p in capped))
+check("no party holding nothing keeps a proposal through the cap",
+      not any(live.get(p.party) is None for p in capped))
+check("the capped set is exactly the live authorizations that are still unasked",
+      sorted(p.pid for p in capped)
+      == sorted(pid for pid in live.values() if pid and pid not in asked_now))
 check("no party balloted without an authorization keeps anything",
       not any(p.party in ("gemini", "gpt", "qwen") for p in capped))
 check("an ASKED proposal is not removed by the cap — history is not rewritten",
