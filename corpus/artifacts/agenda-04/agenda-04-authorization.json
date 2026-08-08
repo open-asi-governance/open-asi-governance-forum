@@ -1,0 +1,136 @@
+{
+  "schema_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_record",
+  "cohort": "agenda-04",
+  "rule": "singleton_ratification",
+  "authorization_rule": "One proposal is put to each party by a fixed rotation over its own proposals. It is authorized only if every sample answers with its id. Disagreement, refusal, invalid output or a missing sample authorizes nothing.",
+  "what_this_does_not_claim": "That an authorized id is the party's preference, or that it is the best of that party's proposals. It is what every sampled invocation answered when shown one proposition.",
+  "the_confound_in_this_cycle": "This cycle balloted NEWLY ADMITTED material, not the blind queue: every party was offered a saw_own_queue proposition (P025-P045) admitted hours earlier under record/agenda/admission-agenda-03.json. So agenda-04 differs from agenda-03 in TWO ways at once -- the ballot went from 8-10 options to 2, AND the material went from a mix to the party's own recently written questions. It therefore CANNOT isolate which change produced the result. Read it as evidence that the two together work, not that singleton ratification alone does.",
+  "enforced_in_load_queue": false,
+  "sources": [
+    {
+      "path": "corpus/raw/agenda-04/agenda-04-claude-samples.json",
+      "sha256": "aa90d99e13052acd5ca9200db78739ebc638aeb41c4b20d67260be5699fe5b84"
+    },
+    {
+      "path": "corpus/raw/agenda-04/agenda-04-gemini-samples.json",
+      "sha256": "934f1a990fbd440045c4fcfab6a6af93697adbd6042341ff4ccca829331a0425"
+    },
+    {
+      "path": "corpus/raw/agenda-04/agenda-04-gpt-samples.json",
+      "sha256": "853c6cb6ea5728e199d01362cfad5b7109d12aa19192fa424fe8eed13f7dfa01"
+    },
+    {
+      "path": "corpus/raw/agenda-04/agenda-04-grok-samples.json",
+      "sha256": "7fc6fa7ba3434eda04807ea97c070141486c465b95ff19b6efd5e3f4d1a8012f"
+    },
+    {
+      "path": "corpus/raw/agenda-04/agenda-04-qwen-samples.json",
+      "sha256": "670376d45495ce1e85feefc4482ddfe89cc2d23e6aa41a96bd5d6a8a5e69cdad"
+    }
+  ],
+  "by_party": [
+    {
+      "party": "claude",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P025",
+        "P025",
+        "P025",
+        "P025",
+        "P025"
+      ],
+      "distribution": {
+        "P025": 5
+      },
+      "active_proposal_id": "P025",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P025",
+      "k_scheduled": 5
+    },
+    {
+      "party": "gemini",
+      "k_required": 5,
+      "k_collected": 4,
+      "samples": [
+        "P030",
+        "P030",
+        "P030",
+        "P030"
+      ],
+      "distribution": {
+        "P030": 4
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "missing",
+      "offered_proposal_id": "P030",
+      "k_scheduled": 4
+    },
+    {
+      "party": "gpt",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P035",
+        "P035",
+        "P035",
+        "P035",
+        "P035"
+      ],
+      "distribution": {
+        "P035": 5
+      },
+      "active_proposal_id": "P035",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P035",
+      "k_scheduled": 5
+    },
+    {
+      "party": "grok",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P040",
+        "P040",
+        "P040",
+        "P040",
+        "P040"
+      ],
+      "distribution": {
+        "P040": 5
+      },
+      "active_proposal_id": "P040",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P040",
+      "k_scheduled": 5
+    },
+    {
+      "party": "qwen",
+      "k_required": 5,
+      "k_collected": 6,
+      "samples": [
+        "P045",
+        "P045",
+        "P045",
+        "P045",
+        "P045",
+        "P045"
+      ],
+      "distribution": {
+        "P045": 6
+      },
+      "active_proposal_id": "P045",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P045",
+      "k_scheduled": 6
+    }
+  ],
+  "the_confound_in_this_cycle_AS_WRITTEN": "The admitted queue is corpus/raw/agenda-01 — questions written BLIND, before any party could read the record. agenda-03's written candidates are recorded and not admitted. 23 of 25 ballot samples there named a newly written question and 2 named a blind proposal, so this cycle ballots the material the parties prefer least. A poor result here is evidence about the material as much as about the rule.",
+  "correction": "The confound text this artifact was first written with described balloting the BLIND queue and said 'a poor result here is evidence about the material'. It was a stale string in the generator, written before the admission landed, and it describes a cycle that did not happen -- every proposition offered was newly admitted. The original wording is kept above it because a good result misattributed to blind material is the error worth being able to see."
+}

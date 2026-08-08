@@ -120,12 +120,24 @@ check("the instrument states the legacy-material confound",
       "blind" in ar.__doc__ and "23 of 25" in ar.__doc__)
 
 print("\nspent authorizations are discharged")
+#  AGAINST A SYNTHETIC TREE. These used to assert that claude's live authorization is P004,
+#  which agenda-04 then replaced with P025 -- a test failing because the project advanced
+#  exactly as designed. Assert the transition, not whose turn it happens to be.
+import shutil as _sh, tempfile as _tf                                     # noqa: E402
+_root = Path(_tf.mkdtemp()); _d = _root / "c01"; _d.mkdir(parents=True)
+(_d / "c01-authorization.json").write_text(json.dumps(
+    {"artifact_type": "agenda_activation_record",
+     "by_party": [{"party": "alpha", "selection_outcome": "authorized",
+                   "active_proposal_id": "P900"}]}))
 check("an authorization whose proposal has been asked is no longer active",
-      AS.active_proposals(asked={"P004", "P019"}).get("claude") is None)
+      AS.active_proposals(_root, asked={"P900"}).get("alpha") is None)
 check("...and the party stays PRESENT in the mapping, holding nothing",
-      "claude" in AS.active_proposals(asked={"P004", "P019"}))
-check("without the asked set the raw authorization still reads active",
-      AS.active_proposals().get("claude") == "P004")
+      "alpha" in AS.active_proposals(_root, asked={"P900"}))
+check("with the proposal unasked it still reads active",
+      AS.active_proposals(_root).get("alpha") == "P900")
+check("a party never balloted is absent, not None",
+      "beta" not in AS.active_proposals(_root, asked={"P900"}))
+_sh.rmtree(_root, ignore_errors=True)
 
 
 print("\ncondition-balanced exposure, and the cursor amendment")

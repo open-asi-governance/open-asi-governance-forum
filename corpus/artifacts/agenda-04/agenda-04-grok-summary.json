@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-04",
+  "slug": "agenda-04-grok",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "active_proposal_id": {
+      "distribution": {
+        "P040": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "P040",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 200,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.016,
+    "input_tokens": 3795,
+    "output_tokens": 1410,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "df10e29e180438269d7211fdb28db3ededc62beb91ea801262cb60b15f90b735",
+  "spec_sha256": "a62095725929bc519e4f718d27b6f0dde44846ad6b897887470d86d4193c6ab7",
+  "raw_samples": "corpus/raw/agenda-04/agenda-04-grok-samples.json",
+  "question": "Should P040 be your active proposal?"
+}

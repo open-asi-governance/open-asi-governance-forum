@@ -97,20 +97,35 @@ check("no party holding nothing keeps a proposal through the cap",
 check("the capped set is exactly the live authorizations that are still unasked",
       sorted(p.pid for p in capped)
       == sorted(pid for pid in live.values() if pid and pid not in asked_now))
-check("no party balloted without an authorization keeps anything",
-      not any(p.party in ("gemini", "gpt", "qwen") for p in capped))
+#  Named parties were a snapshot of who had failed that morning; agenda-04 then authorized
+#  three of them. The rule is what holds: nothing survives the cap unless it IS the party's
+#  live authorization.
+check("nothing survives the cap that is not the party's live authorization",
+      all(live.get(p.party) == p.pid for p in capped))
 check("an ASKED proposal is not removed by the cap — history is not rewritten",
       len([p for p in AS.load_queue(disposition=disp, enforce_cap=True) if p.asked]) ==
       len([p for p in AS.load_queue(disposition=disp) if p.asked]))
 
 print("\nan authorization the queue cannot honour fails closed")
+#  Injected, not borrowed from another cohort's directory. The previous form loaded
+#  corpus/raw/agenda-02 and relied on its ids not matching any authorization -- which stopped
+#  being true the moment agenda-04 authorized P025/P035/P040/P045, ids the admitted queue now
+#  contains. The guard then silently stopped being exercised while the test still passed.
+ghost = tree([entry("claude", "authorized", "P999")])
 raised = False
 try:
-    AS.load_queue(round_dir=REPO_ROOT / "corpus" / "raw" / "agenda-02",
-                  disposition=disp, enforce_cap=True)
+    AS.load_queue(disposition=disp, enforce_cap=True, artifacts_dir=ghost)
 except ValueError:
     raised = True
 check("an authorized id absent from the queue raises rather than being ignored", raised)
+shutil.rmtree(ghost, ignore_errors=True)
+
+real = tree([entry("claude", "authorized", "P001")])
+survived = [p for p in AS.load_queue(disposition=disp, enforce_cap=True, artifacts_dir=real)
+            if not p.asked]
+check("an authorized id the queue DOES contain does not raise",
+      all(p.pid == "P001" or p.party != "claude" for p in survived))
+shutil.rmtree(real, ignore_errors=True)
 
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)

@@ -237,7 +237,8 @@ def admitted_manifests() -> list[dict]:
 
 def load_queue(round_dir: Path | None = None,
                disposition: dict[str, str] | None = None,
-               enforce_cap: bool = False) -> list[Proposal]:
+               enforce_cap: bool = False,
+               artifacts_dir: Path | None = None) -> list[Proposal]:
     """Build the queue from solicited proposals, deduplicating by exact question text.
 
     `enforce_cap` is OFF by default and every caller must ask for it by name. A cap that
@@ -312,7 +313,11 @@ def load_queue(round_dir: Path | None = None,
             item.asked, item.asked_in = True, asked_in
 
     if enforce_cap:
-        active = active_proposals(asked={p.pid for p in out if p.asked})
+        #  artifacts_dir is injectable so the fail-closed branch below is REACHABLE in a test.
+        #  It was not: every authorization named an id the live queue contained, so the guard
+        #  could never fire under test and nothing verified it works. D-33's lesson is that a
+        #  check outside the runnable path is a check nobody can verify.
+        active = active_proposals(artifacts_dir, asked={p.pid for p in out if p.asked})
         #  FAIL CLOSED on an authorization naming something this queue does not contain. It
         #  would mean a party activated a candidate written in a later cohort, which does not
         #  enter rotation -- and dropping it silently would publish a queue that quietly

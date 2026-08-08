@@ -1,0 +1,100 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-04",
+  "slug": "agenda-04-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 4,
+  "failures": [
+    "Expecting value: line 1 column 1 (char 0)"
+  ],
+  "attempts": 5,
+  "rejected": [
+    {
+      "sample_index": 2,
+      "category": "malformed_json",
+      "reason": "Expecting value: line 1 column 1 (char 0)",
+      "captured_utc": "2026-08-08T21:34:45Z",
+      "finish_reason": "length",
+      "usage": {
+        "prompt_tokens": 551,
+        "completion_tokens": 196,
+        "total_tokens": 747,
+        "cost": 0.003454,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.003454,
+          "upstream_inference_prompt_cost": 0.001102,
+          "upstream_inference_completions_cost": 0.002352
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 188,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "response_bytes": "Here is the JSON requested:\n```",
+      "response_byte_length": 31
+    }
+  ],
+  "variance": {
+    "active_proposal_id": {
+      "distribution": {
+        "P030": 4
+      },
+      "n": 4,
+      "distinct_values": 1,
+      "modal_value": "P030",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 200,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0107,
+    "input_tokens": 2204,
+    "output_tokens": 528,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "cd84d390d4370a0cc746d7d1e2e506536622903a6e1ef868fa2fd1d03755f3a3",
+  "spec_sha256": "0d4295422639c444a58ee53124bf22b051e390974915c2179eb1a35748026359",
+  "raw_samples": "corpus/raw/agenda-04/agenda-04-gemini-samples.json",
+  "question": "Should P030 be your active proposal?"
+}

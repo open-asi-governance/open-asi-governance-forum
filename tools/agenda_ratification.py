@@ -357,8 +357,12 @@ def main() -> int:
         #  Judged against k, the UNANIMITY requirement -- not against however many attempts the
         #  local arm schedules. Six usable samples must all agree; five usable of six must all
         #  agree. What must never happen is five agreeing and a sixth being ignored.
-        record = aa.authorize(party, samples, min(args.k, len(samples)) if samples else args.k,
-                              spec["eligible_proposal_ids"])
+        #  THE FLOOR, not min(k, len(samples)). Passing the collected count would have made
+        #  the requirement satisfy itself: a party returning 3 samples would be judged against
+        #  3, so three unanimous answers would authorize a proposal the corpus rule says is not
+        #  even citable. The floor is what must survive; a SIXTH sample from the local arm
+        #  still has to agree, because authorize() requires every collected sample to match.
+        record = aa.authorize(party, samples, rc.K_MIN_FLOOR, spec["eligible_proposal_ids"])
         record["offered_proposal_id"] = spec["selected_proposal_id"]
         record["k_scheduled"] = len(samples)
         records.append(record)
@@ -391,11 +395,7 @@ def main() -> int:
                                      "it is the best of that party's proposals. It is what every "
                                      "sampled invocation answered when shown one proposition."),
         "the_confound_in_this_cycle": (
-            "The admitted queue is corpus/raw/agenda-01 — questions written BLIND, before any "
-            "party could read the record. agenda-03's written candidates are recorded and not "
-            "admitted. 23 of 25 ballot samples there named a newly written question and 2 named "
-            "a blind proposal, so this cycle ballots the material the parties prefer least. A "
-            "poor result here is evidence about the material as much as about the rule."),
+            "This cycle balloted NEWLY ADMITTED material, not the blind queue: every party was offered a saw_own_queue proposition (P025-P045) admitted hours earlier under record/agenda/admission-agenda-03.json. So agenda-04 differs from agenda-03 in TWO ways at once -- the ballot went from 8-10 options to 2, AND the material went from a mix to the party's own recently written questions. It therefore CANNOT isolate which change produced the result. Read it as evidence that the two together work, not that singleton ratification alone does."),
         "enforced_in_load_queue": False,
         "sources": sources,
         "by_party": records,
