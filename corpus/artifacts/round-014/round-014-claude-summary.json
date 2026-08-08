@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-014",
+  "slug": "round-014-claude",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 3,
+        "rejects_a_premise": 2
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.6,
+      "shannon_entropy_bits": 0.971,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+    "version_identifier": "anthropic/claude-fable-5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 1.5509,
+    "input_tokens": 92885,
+    "output_tokens": 11941,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "1d5d8050cef4e24ca8c2aff10ee5daf2439e161fa26d03740694b270e08619ef",
+  "spec_sha256": "7b08836fb8de8f402edc4816ea98886d7a930f421f3548274c97dea2a378ed3d",
+  "raw_samples": "corpus/raw/round-014/round-014-claude-samples.json",
+  "question": "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?"
+}

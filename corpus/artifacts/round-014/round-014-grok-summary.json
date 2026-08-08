@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-014",
+  "slug": "round-014-grok",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 4,
+        "rejects_a_premise": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.1838,
+    "input_tokens": 64200,
+    "output_tokens": 5072,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": "exa",
+    "web_search_requests": 5,
+    "web_search_usd": 0.025,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "ac9cac31013720a1dcc2918f9c8047cf0ea0d57872420bdad8d38aba2fc1feb0",
+  "spec_sha256": "d8f3d2e032e5fb909fd58672fee2799c2e0105c08e0c527988e81a807421da0b",
+  "raw_samples": "corpus/raw/round-014/round-014-grok-samples.json",
+  "question": "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?"
+}
