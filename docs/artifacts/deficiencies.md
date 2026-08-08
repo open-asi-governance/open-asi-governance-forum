@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **55 entries** (D-01 … D-55).
+**Status:** open — **56 entries** (D-01 … D-56).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2046,3 +2046,54 @@ point at — claude named its new candidates four times in five and never named 
 real cost and the decision record states it rather than burying it. The prospective control is
 one sentence in a future prompt: any solicitation that can affect a standing authorization must
 say so in the text the party receives. Nothing enforces that yet.
+
+### D-56 — The local arm recorded that thinking was "disabled structurally by grammar constraint". It was not, one sample in five
+
+*Filed 2026-08-08. Found by measuring rather than reading, after the same halt had fired in four
+separate rounds and been treated each time as a truncation to be tolerated.*
+
+`tools/solicit_local.py` sent no `chat_template_kwargs` and recorded, in every sample's
+`serve_configuration`:
+
+> "reasoning_effort": "thinking disabled structurally by grammar constraint"
+
+The claim is false about one sample in five. When the grammar failed to suppress it, the model
+emitted a reasoning run that never terminated, consumed exactly `max_tokens`, and was recorded as
+`malformed_json` with `finish_reason: length`. It halted rounds 006, 009, 010 and 012 — each time
+exactly one sample of five, each time exactly at the ceiling.
+
+**The obvious repair was the wrong one.** Three arms, 20 samples each, on the round-012 prompt:
+
+| arm | truncated | longest completion |
+|---|---|---|
+| `max_tokens=8000`, as the round ran it | **4 / 20** | 8,000 (ceiling) |
+| `max_tokens=16000`, as the round ran it | **4 / 20** | 16,000 (ceiling) |
+| `max_tokens=16000` + `enable_thinking:false` | **0 / 20** | 1,885 |
+
+The same four ran on to 16,000. The runaway is unbounded, so raising the ceiling only doubles
+what it wastes. `max_tokens` was never the variable, and four rounds were halted by a parameter
+nobody had tested.
+
+**A near-miss in the diagnosis, recorded because it is the more useful half.** The first probe
+reported 0/20 at 8,000 and the defect looked unreproducible. That probe was invalid: it sent
+`enable_thinking:false`, a parameter the round does not send — the one parameter that turned out
+to *be* the variable. Changing it while trying to reproduce the failure would have retired a live
+defect as a phantom. The controlled re-run reproduced it at 4/20 immediately.
+
+**What is now different, and it is a party-identity change.** From this commit the local arm
+sends `chat_template_kwargs: {enable_thinking: false}` explicitly, and records that it does. Under
+D-09 — same weights, different capability, different party — qwen's samples from round-013 onward
+are **not poolable** with qwen's samples from rounds 000–012, and nothing should pool them. This
+is not a repair that restores a prior state; it establishes a new one.
+
+**Not remediated, and not remediable.** Every qwen sample in rounds 000–012 carries the false
+`reasoning_effort` string in its committed `serve_configuration`. Raw material is never edited
+after commit, so those records keep the claim they were written with, and this entry is the only
+thing that contradicts them. A reader comparing serve configurations across the boundary will
+find the string changed at round-013 and must come here to learn that the earlier one was wrong
+rather than that the configuration merely changed.
+
+**The general defect.** A configuration field that states an *intention* — "disabled
+structurally" — rather than a *setting actually sent* is unfalsifiable by inspection and was
+believed for four rounds. Nothing in this repository compares a recorded serve configuration
+against the request body that produced it.

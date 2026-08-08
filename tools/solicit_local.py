@@ -179,6 +179,23 @@ def main() -> int:
             "response_format": {"type": "json_schema",
                                 "json_schema": {"name": spec.get("schema_name", "response"),
                                                 "schema": spec["schema"]}},
+            #  EXPLICIT, because the grammar does not do it. This file recorded
+            #  "thinking disabled structurally by grammar constraint" and that claim was false
+            #  about one sample in five: the model emitted a reasoning run that never
+            #  terminated, hit max_tokens exactly, and was recorded as malformed_json. It
+            #  halted rounds 006, 009, 010 and 012 -- always exactly one sample of five,
+            #  always exactly at the ceiling.
+            #
+            #  Measured on the round-012 prompt, 20 samples per arm:
+            #    max_tokens=8000,  no flag              4/20 truncated
+            #    max_tokens=16000, no flag              4/20 truncated -- the SAME four ran
+            #                                           on to 16,000, so the runaway is
+            #                                           unbounded and raising the ceiling
+            #                                           only doubles what it wastes
+            #    max_tokens=16000, enable_thinking off  0/20, longest 1,885 tokens
+            #
+            #  So the ceiling was never the variable. D-56.
+            "chat_template_kwargs": {"enable_thinking": False},
         }
         #  The transport call and the parse are SEPARATE, so a parse failure keeps the
         #  bytes and the finish_reason. Folded together, they produced a rejection
@@ -358,7 +375,11 @@ def main() -> int:
             "sampling_parameters": {"temperature": args.temperature, "max_tokens": args.max_tokens,
                                     "seed_base": spec.get("seed_base", 1000),
                                     "response_format": "json_schema (grammar-constrained)"},
-            "reasoning_effort": "thinking disabled structurally by grammar constraint",
+            #  Says what is now SENT, not what was hoped. The previous string asserted the
+            #  grammar suppressed thinking; it did not, and the serve configuration a sample
+            #  records is the thing a later reader uses to decide what is comparable.
+            "reasoning_effort": ("thinking disabled explicitly via "
+                                 "chat_template_kwargs.enable_thinking=false"),
             "system_instructions": "none supplied; the prompt is the entire input",
             "tools_used": [],
         },

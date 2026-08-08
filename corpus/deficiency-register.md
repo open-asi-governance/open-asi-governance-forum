@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 55** classifications have been read by a human against the prose.
+**0 of 56** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 33 |
+| the annotator | 34 |
 | an external reviewer | 10 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 17 |
+| required, not implemented | 18 |
 | implemented, not validated | 31 |
 | validated | 7 |
 
 ### Affected objects
 
-**135 affected-object rows across 55 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**137 affected-object rows across 56 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -889,4 +889,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/agenda_replacement.py <br><sub>The prompt is already sent and cannot be repaired (D-36). The ruling in record/decisions/2026-08-08-agenda-03-revocation-invalid.json declines to give its revocatory effect force; the prompt text itself stands as written.</sub> | partly repairable | partly applied |
 | corpus/artifacts/agenda-03/agenda-03-authorization.json <br><sub>The record is accurate: all five parties were indeterminate. What changed is what that outcome does to a prior authorization, which is a ruling attached to it and not an edit of it.</sub> | not applicable | verified |
+
+### D-56 — The local arm recorded that thinking was "disabled structurally by grammar constraint". It was not, one sample in five
+
+[Full entry](deficiencies.md#d-56--the-local-arm-recorded-that-thinking-was-disabled-structurally-by-grammar-constraint-it-was-not-one-sample-in-five)
+
+- **First articulated:** the annotator, 2026-08-08 · evidence: *preserved artifact*
+  - where: `a three-arm controlled experiment on the round-012 prompt, run after the same halt had fired in four rounds and been tolerated each time`
+- **Prospective control:** required, not implemented — Compare a recorded serve_configuration against the request body that produced it. A field stating an intention rather than a setting actually sent is unfalsifiable by inspection, and this one was believed for four rounds.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/solicit_local.py <br><sub>Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 0/20 truncations against 4/20 before.</sub> | repairable by supersession | verified |
+| corpus/raw/round-002 … round-012 qwen samples <br><sub>Every one carries the false reasoning_effort string in its committed serve_configuration. Raw is never edited after commit, so this register entry is the only thing that contradicts them.</sub> | not repairable | impossible |
 

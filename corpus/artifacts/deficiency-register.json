@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "5d173359116c3298a7a7a5a1b73a13062844be68b8d80758039b29ea5f9c6ba7"
+    "sha256": "8da2c655559750d3dcbf481eff398f5f08896f1259c09b8fe100ef5891e7d4de"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2241,7 +2241,7 @@
     {
       "id": "D-55",
       "title": "A ballot silently put a party's standing authorization at risk, and called the outcome \"not a penalty\"",
-      "section_sha256": "029cf472456c9fd6c8c492011d43456a9731a6a457394449e577e860fe56be48",
+      "section_sha256": "ce23c831cdb0210a8e6d8ebfa3376cd1786b2ce21da03eb006cbf6679e12828b",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2266,6 +2266,40 @@
       "prospective_control": {
         "state": "prospective_control_required_not_implemented",
         "mechanism": "Any solicitation that can affect a standing authorization must say so in the prompt the party receives. Nothing checks that a prompt discloses its own effect on prior state."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-56",
+      "title": "The local arm recorded that thinking was \"disabled structurally by grammar constraint\". It was not, one sample in five",
+      "section_sha256": "80327b5a6d7306cd287142b518af96d840c67c7648767201d98926cdfceff89e",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-08",
+        "where": "a three-arm controlled experiment on the round-012 prompt, run after the same halt had fired in four rounds and been tolerated each time",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/solicit_local.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 0/20 truncations against 4/20 before."
+        },
+        {
+          "object": "corpus/raw/round-002 … round-012 qwen samples",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Every one carries the false reasoning_effort string in its committed serve_configuration. Raw is never edited after commit, so this register entry is the only thing that contradicts them."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Compare a recorded serve_configuration against the request body that produced it. A field stating an intention rather than a setting actually sent is unfalsifiable by inspection, and this one was believed for four rounds."
       },
       "human_review": {
         "status": "not_reviewed",
