@@ -57,8 +57,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 class Proposal:
     """One agenda proposal, as a party wrote it."""
 
+    #  `cohort` and `condition` are set by load_queue from the admission manifest, so a
+    #  proposition carries the information condition it was written under. They are NOT
+    #  constructor arguments: a Proposal built by a selector's probe has no cohort, and
+    #  defaulting one would invent provenance.
     __slots__ = ("pid", "party", "question", "reason", "sponsors", "age", "asked",
-                 "asked_in", "raw")
+                 "asked_in", "raw", "cohort", "condition")
 
     def __init__(self, pid, party, question, reason="", sponsors=None, raw=None):
         self.pid, self.party = pid, party
@@ -91,6 +95,8 @@ class Proposal:
         return {"id": self.pid, "party": self.party, "question": self.question,
                 "question_sha256": self.question_sha256,
                 "reason": self.reason, "sponsors": sorted(self.sponsors),
+                "cohort": getattr(self, "cohort", None),
+                "condition": getattr(self, "condition", None),
                 "age_rounds": self.age, "asked": self.asked, "asked_in": self.asked_in}
 
     def __repr__(self):
@@ -212,6 +218,23 @@ def active_proposals(artifacts_dir: Path | None = None,
     return active
 
 
+def admitted_manifests() -> list[dict]:
+    """Every published admission manifest, in effective order. Explicit acts only.
+
+    A cohort NEVER enters the queue by a broadened glob or a new literal path. It enters by a
+    manifest that declares, prospectively, who was eligible, under what information condition,
+    with what budget, and against which source hashes. See
+    record/decisions/2026-08-08-agenda-admission-protocol.json.
+    """
+    root = REPO_ROOT / "record" / "agenda"
+    out = []
+    for path in sorted(root.glob("admission-*.json")) if root.exists() else []:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        if manifest.get("artifact_type") == "agenda_admission_manifest":
+            out.append(manifest)
+    return out
+
+
 def load_queue(round_dir: Path | None = None,
                disposition: dict[str, str] | None = None,
                enforce_cap: bool = False) -> list[Proposal]:
@@ -247,7 +270,42 @@ def load_queue(round_dir: Path | None = None,
                             parsed.get("reason", ""), raw=parsed)
             index[item.key] = item
             out.append(item)
+    #  ADMITTED COHORTS. Appended after agenda-01, each proposition carrying the id bound to
+    #  its question bytes in the registry -- never an id derived from position in this list,
+    #  which is what would renumber existing propositions and invalidate the ratification
+    #  cursor, the authorization records and the dispositions that reference them.
+    registry_path = REPO_ROOT / "record" / "agenda" / "proposition-ids.json"
+    registry = (json.loads(registry_path.read_text(encoding="utf-8"))
+                if registry_path.is_file() else {"by_question_sha256": {}})
+    known_ids = {p.pid for p in out}
+    for manifest in admitted_manifests():
+        for entry in manifest.get("admitted") or []:
+            probe = Proposal("", entry["party"], entry["question"])
+            if probe.key in index:
+                #  Exact-text join. The SUBMISSION is recorded in the manifest either way; what
+                #  is joined here is the proposition, and no submission is discarded.
+                index[probe.key].sponsors.add(entry["party"])
+                continue
+            registered = (registry.get("by_question_sha256") or {}).get(probe.question_sha256)
+            if not registered:
+                raise ValueError(
+                    f"{entry.get('id')} in {manifest['cohort']} has no registered id. An id is "
+                    "bound to the question bytes by record/agenda/proposition-ids.json; "
+                    "admitting a proposition without one would let its id come from list "
+                    "position.")
+            if registered["id"] in known_ids:
+                raise ValueError(f"{registered['id']} is already in the queue; ids must be unique")
+            item = Proposal(registered["id"], entry["party"], entry["question"],
+                            entry.get("reason", ""), raw=entry)
+            item.cohort = manifest["cohort"]
+            item.condition = manifest["information_condition"]
+            index[item.key] = item
+            known_ids.add(item.pid)
+            out.append(item)
+
     for item in out:
+        if not hasattr(item, "cohort"):
+            item.cohort, item.condition = "agenda-01", "blind"
         asked_in = (disposition or {}).get(item.question_sha256) or \
             (disposition or {}).get(item.key)
         if asked_in:

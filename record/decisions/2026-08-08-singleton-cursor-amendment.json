@@ -1,0 +1,28 @@
+{
+  "artifact_type": "custodian_decision",
+  "decision": "AMEND singleton ratification: after a failed ratification the cursor ADVANCES to the party's next unoffered proposition. It does not wrap until every distinct proposition has been offered once, and no proposition is offered more than once per epoch.",
+  "amends": "record/decisions/2026-08-08-adopt-singleton-ratification.json",
+  "decided_by": "Stephen Reed, custodian",
+  "decided_utc": "2026-08-08",
+  "recommended_by": "Claude Code (moderator, a party to this record — and the author of the rule being amended)",
+  "external_review": "Codex, which required that admission and failure progression be decided together rather than one at a time.",
+
+  "the_defect_this_repairs": "The instrument built this morning states that the cursor does not advance on failure, on the reasoning that advancing after a failure is a second draw decided after seeing it fail. That reasoning is backwards. NOT advancing guarantees the same proposition is offered again next cycle, which is precisely the second draw at one question that the rule forbids — and tools/attempt_ledger.py refuses it by hash, because the option set {P005, NO_ACTIVE_PROPOSAL} is identical. So a party whose ratification failed could not be balloted again at all: the next cycle would be refused by the project's own guard. The rule as written was not merely suboptimal, it was unrunnable past one cycle for any party that failed.",
+
+  "why_this_is_not_outcome_conditioned": "The advance is fixed BEFORE the epoch, applies to every party, and does not depend on which parties failed or on what they answered. A rule that says 'on failure, offer the next proposition' is a schedule. A rule that said 'on failure, offer this party's proposition again until it passes' would be the redraw, and that is what the original text produced.",
+
+  "what_is_unchanged": [
+    "Unanimity over the scheduled samples remains the threshold.",
+    "There is still no second attempt at the SAME proposition within an epoch.",
+    "A failed ratification still leaves the party inactive for that cycle. It does not become active by persistence."
+  ],
+
+  "the_epoch": "One pass through a party's distinct propositions. Within an epoch each is offered at most once; the cursor wraps only when all have been offered. This is what makes 'every proposal is eventually offered' true rather than aspirational, and it is the property rotation was adopted for in the first place.",
+
+  "known_weaknesses_accepted": [
+    "A party with a singleton eligible set gains nothing from this: claude's set is [P005], so advancing has nowhere to advance to and the same proposition is offered every epoch. That is the false-mitigation problem recorded in record/decisions/2026-08-08-singleton-ratification-correction.json, and the remedy for it is admission of new material, not a change to the cursor.",
+    "Advancing after failure means a proposition a party might ratify next time is not re-offered until the epoch turns over. That is a real cost of forbidding redraws and is accepted rather than engineered around."
+  ],
+
+  "found_how": "By testing whether the guard would permit the second cycle, before running the first — not by running two cycles and discovering the second was refused."
+}

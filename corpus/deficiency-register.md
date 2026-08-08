@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 56** classifications have been read by a human against the prose.
+**0 of 57** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -25,7 +25,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Where | Entries |
 |---|---|
 | the annotator | 34 |
-| an external reviewer | 10 |
+| an external reviewer | 11 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 18 |
+| required, not implemented | 19 |
 | implemented, not validated | 31 |
 | validated | 7 |
 
 ### Affected objects
 
-**137 affected-object rows across 56 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**139 affected-object rows across 57 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -903,4 +903,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/solicit_local.py <br><sub>Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 1/120 truncations with the flag against 14/120 without -- a ~14x reduction, NOT an elimination. An earlier note here claimed 0/20 and a verified remediation; that was underpowered AND measured a different server than the round uses. See the correction.</sub> | repairable by supersession | partly applied |
 | corpus/raw/round-002 … round-012 qwen samples <br><sub>Every one carries the false reasoning_effort string in its committed serve_configuration. Raw is never edited after commit, so this register entry is the only thing that contradicts them.</sub> | not repairable | impossible |
+
+### D-57 — The ratification cursor's no-advance rule made the second cycle unrunnable, and its stated reason was backwards
+
+[Full entry](deficiencies.md#d-57--the-ratification-cursors-no-advance-rule-made-the-second-cycle-unrunnable-and-its-stated-reason-was-backwards)
+
+- **First articulated:** an external reviewer, 2026-08-08 · evidence: *preserved artifact*
+  - where: `review of an admission rule, which required admission and failure progression to be considered together; confirmed by testing the redraw guard before the first cycle was run`
+- **Prospective control:** required, not implemented — A check that an instrument's stated rule is executable under the guards this repository enforces. Three artifacts were each self-consistent and jointly contradictory, and nothing reads across them.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/agenda_ratification.py <br><sub>The cursor now advances after a failed ratification. Not verified in the field: no ratification cycle has been run.</sub> | repairable by supersession | applied, not verified |
+| record/decisions/2026-08-08-adopt-singleton-ratification.json <br><sub>Silent on cursor progression, which is why the contradiction was invisible to a review of the instrument against the decision. Amended, not edited.</sub> | partly repairable | applied, not verified |
 

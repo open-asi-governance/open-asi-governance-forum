@@ -127,5 +127,62 @@ check("...and the party stays PRESENT in the mapping, holding nothing",
 check("without the asked set the raw authorization still reads active",
       AS.active_proposals().get("claude") == "P004")
 
+
+print("\ncondition-balanced exposure, and the cursor amendment")
+class Q:
+    def __init__(self, pid, cond): self.pid, self.condition = pid, cond
+    question, party = "q", "x"
+pool = [Q("P001","blind"), Q("P002","blind"), Q("P025","saw_own_queue"), Q("P026","saw_own_queue")]
+
+empty = {"offered": {}, "prior_exposure": {}}
+check("with equal exposure the tie-break is the condition sorting first",
+      ar.select_for("x", pool, empty).pid == "P001")
+
+seeded = {"offered": {}, "prior_exposure": {"x": {"blind": 4}}}
+check("a condition with prior agenda exposure yields to one with none",
+      ar.select_for("x", pool, seeded).pid == "P025")
+
+r = ar.exposure_rates("x", pool, seeded)
+check("the rate is offers divided by admitted, per condition",
+      r["blind"]["rate"] == 2.0 and r["saw_own_queue"]["rate"] == 0.0)
+check("the scheduler's whole state is recomputable from cursor and queue",
+      set(r["blind"]) == {"offers", "admitted", "rate", "unoffered"})
+
+after = {"offered": {"x": ["P025"]}, "prior_exposure": {"x": {"blind": 4}}}
+check("THE CURSOR ADVANCES: an offered proposition is not offered again",
+      ar.select_for("x", pool, after).pid == "P026")
+check("...which is what stops the redraw the ledger refuses by hash",
+      ar.select_for("x", pool, after).pid != "P025")
+
+allof = {"offered": {"x": ["P001","P002","P025","P026"]}, "prior_exposure": {}}
+pick = ar.select_for("x", pool, allof)
+check("when every proposition has been offered the epoch turns over",
+      pick.pid == "P001" and allof["offered"]["x"] == [])
+check("...and the epoch count advances", allof["epochs"]["x"] == 2)
+
+print("\nadmission is explicit and ids are stable")
+import agenda_selectors as _AS                                            # noqa: E402
+mans = _AS.admitted_manifests()
+check("at least one admission manifest is published", len(mans) >= 1)
+check("the manifest declares its information condition",
+      all(m.get("information_condition") for m in mans))
+check("the manifest declares an admission budget",
+      all(m.get("admission_budget_per_party") for m in mans))
+check("the manifest anchors its sources by hash",
+      all(m.get("sources") and all(x.get("sha256") for x in m["sources"]) for m in mans))
+reg = json.loads((REPO_ROOT / "record" / "agenda" / "proposition-ids.json").read_text())
+check("every admitted proposition has a registered id",
+      all(a["question_sha256"] in reg["by_question_sha256"]
+          for m in mans for a in m["admitted"]))
+live = _AS.load_queue()
+check("the original 24 ids are unchanged by the admission",
+      [p.pid for p in live if p.condition == "blind"][:3] == ["P001", "P002", "P003"])
+check("ids are unique across cohorts",
+      len({p.pid for p in live}) == len(live))
+check("a proposition carries the condition it was written under",
+      {p.condition for p in live} == {"blind", "saw_own_queue"})
+check("to_json publishes cohort and condition",
+      "cohort" in live[0].to_json() and "condition" in live[0].to_json())
+
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)

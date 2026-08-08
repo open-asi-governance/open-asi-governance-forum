@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **56 entries** (D-01 … D-56).
+**Status:** open — **57 entries** (D-01 … D-57).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2124,3 +2124,43 @@ already differed from the round twice.
 twenty-five. Soliciting k=6 from the local arm, pre-registered and publishing all six, would put
 the probability of losing two below 0.1%; that is a change to the round protocol and is not made
 here.
+
+### D-57 — The ratification cursor's no-advance rule made the second cycle unrunnable, and its stated reason was backwards
+
+*Filed 2026-08-08. Found the same day the instrument was built, by asking whether the project's
+own redraw guard would permit a second cycle — before running the first.*
+
+`tools/agenda_ratification.py` shipped with this in its authorization rule:
+
+> `cursor_on_failure`: "does not advance. Advancing after a failure is a second draw at the same
+> question, decided after seeing it fail."
+
+**The reasoning is inverted.** Not advancing is what produces the second draw. If a party's
+ratification of `P005` fails and the cursor stays put, the next cycle offers `P005` again — the
+same question, re-asked after seeing it fail, which is exactly what the rule forbids.
+
+**And it is mechanically impossible, which is how it was caught.** `tools/attempt_ledger.py`
+refuses a repeat of an `(instrument, party, option set)` triple by hash. The option set is
+`{P005, NO_ACTIVE_PROPOSAL}` both times. So the next cycle would be refused by this project's own
+guard, and a party whose ratification failed could never be balloted again. The rule was not
+merely suboptimal; past one cycle it was unrunnable for any party that failed.
+
+**Why it survived review until now.** The instrument was reviewed against the adopted decision,
+and the decision is silent on cursor progression — it says only "no redraw" and "failure leaves
+the party inactive for that cycle". The contradiction lives between three artifacts (the
+decision, the instrument, the ledger) and is invisible in any one of them. External review found
+it only when asked to consider admission and failure progression *together*.
+
+**Remediated** by `record/decisions/2026-08-08-singleton-cursor-amendment.json`: the cursor
+advances to the next unoffered proposition, wraps only when every distinct proposition has been
+offered once, and offers none more than once per epoch. Fixed before the epoch and applied to
+every party, so it is a schedule rather than an outcome-conditioned redraw.
+
+**Not remediated.** A party with one eligible proposition gains nothing — advancing has nowhere
+to go, and claude's set is exactly `[P005]`. That is the same false-mitigation problem recorded
+against the adopting decision, and its remedy is admitting new material, not another change to
+the cursor.
+
+**The general defect.** Three artifacts each self-consistent and jointly contradictory, with no
+check that reads across them. Nothing in this repository verifies that an instrument's stated
+rule is executable under the guards the same repository enforces.

@@ -129,21 +129,67 @@ def load_cursor() -> dict:
     return {"schema_version": "oagrc-ratification-cursor-0.1", "offered": {}}
 
 
+def exposure_rates(party: str, eligible: list, cursor: dict) -> dict:
+    """Offers per admitted proposition, per information condition, for one party.
+
+    The scheduler's whole state, computed rather than stored, so it can be audited from the
+    cursor and the queue alone.
+    """
+    offered = set((cursor.get("offered") or {}).get(party) or [])
+    prior = (cursor.get("prior_exposure") or {}).get(party) or {}
+    rates = {}
+    for condition in sorted({getattr(p, "condition", "blind") for p in eligible}):
+        pool = [p for p in eligible if getattr(p, "condition", "blind") == condition]
+        offers = sum(1 for p in pool if p.pid in offered) + prior.get(condition, 0)
+        rates[condition] = {"offers": offers, "admitted": len(pool),
+                            "rate": offers / len(pool) if pool else 0.0,
+                            "unoffered": [p.pid for p in pool if p.pid not in offered]}
+    return rates
+
+
 def select_for(party: str, eligible: list, cursor: dict) -> object | None:
-    """The one proposal put to this party. Rotation by a durable per-party cursor.
+    """The one proposal put to this party. CONDITION-BALANCED EXPOSURE, then stable order.
 
-    Offers the lowest eligible id this party has NOT been offered before. When every eligible id
-    has been offered, the cursor wraps and offering begins again from the lowest.
+    Offer from whichever information condition has the lowest exposure rate -- offers divided by
+    admitted propositions in that condition -- and within it, the lowest unoffered id.
 
-    Not `cycle_index mod len(eligible)`: that indexes a list whose membership changes as
-    proposals are asked or admitted, so a proposal can be skipped entirely between cycles and
-    "every proposal is eventually offered" stops being true.
+    Why not newest-first, which was the first proposal: recency is a proxy for information
+    rather than information, it lets every new cohort jump the backlog, and it rewards flooding.
+    Why not oldest-first: the blind backlog would systematically precede everything admitted
+    later whatever its merit, which is the objection external review raised when it first refused
+    ingestion.
+
+    This is still a moderator-chosen policy. What makes it different from a bias channel is that
+    its objective, its state and its tie-break are public, mechanically recomputable from the
+    cursor and the queue, and it optimises equal opportunity between conditions rather than
+    anyone's judgement of merit. `prior_exposure` seeds the blind condition with the agenda
+    exposure it has ALREADY had -- nine rounds of it -- so newly admitted material is offered
+    first without any claim that it is intrinsically better.
+
+    TIE-BREAK, fixed prospectively and independent of proposal content: the condition whose name
+    sorts first. Then the lowest unoffered id within it.
+
+    THE CURSOR ADVANCES AFTER A FAILURE. Not advancing was the original rule and it was
+    backwards: it guarantees the same proposition is re-offered next cycle, which is the second
+    draw the rule forbids, and tools/attempt_ledger.py refuses that option set by hash -- so a
+    party that failed could never be balloted again. See D-57 and
+    record/decisions/2026-08-08-singleton-cursor-amendment.json.
     """
     if not eligible:
         return None
-    offered = set((cursor.get("offered") or {}).get(party) or [])
-    fresh = [p for p in eligible if p.pid not in offered]
-    return (fresh or eligible)[0]
+    rates = exposure_rates(party, eligible, cursor)
+    live = {c: r for c, r in rates.items() if r["unoffered"]}
+    if not live:
+        #  Every proposition has been offered: the epoch turns over and offering begins again
+        #  from the lowest id, across all conditions.
+        offered = set((cursor.get("offered") or {}).get(party) or [])
+        cursor.setdefault("epochs", {}).setdefault(party, 1)
+        cursor["epochs"][party] += 1
+        (cursor.get("offered") or {})[party] = []
+        return sorted(eligible, key=lambda p: p.pid)[0]
+    condition = min(live, key=lambda c: (live[c]["rate"], c))
+    return next(p for p in sorted(eligible, key=lambda p: p.pid)
+                if p.pid in live[condition]["unoffered"])
 
 
 def standing_clause(party: str, standing: dict) -> str:
@@ -205,8 +251,14 @@ def build_spec(party: str, cohort: str, k: int, pick, standing: dict) -> dict:
             "on_disagreement": "nothing is authorized; the party is inactive for this cycle",
             "on_refusal_or_invalid_or_missing": "nothing is authorized",
             "resampling": "not permitted. There is no second attempt at this question.",
-            "cursor_on_failure": ("does not advance. Advancing after a failure is a second draw "
-                                  "at the same question, decided after seeing it fail."),
+            "cursor_on_failure": (
+                "ADVANCES to this party's next unoffered proposition. The original rule said it "
+                "does not advance, which was backwards: holding the cursor guarantees the same "
+                "proposition is re-offered next cycle -- the second draw the rule forbids, and "
+                "one attempt_ledger.py refuses by hash. See D-57 and "
+                "record/decisions/2026-08-08-singleton-cursor-amendment.json."),
+            "epoch": ("Each proposition is offered at most once per epoch; the cursor wraps only "
+                      "when every distinct proposition has been offered."),
         },
         "schema_name": "agenda_ratification",
         #  EXACTLY the two adopted outputs. No `reason` field: the adopted rule specifies an

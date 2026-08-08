@@ -6,7 +6,7 @@
   "party_key": "grok",
   "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
   "reached_via": "x-ai/grok-4.5",
-  "question": "Should P016 be your active proposal?",
+  "question": "Should P040 be your active proposal?",
   "phase": "Phase-2 (informed)",
   "rule": "singleton_ratification",
   "rule_decision": "record/decisions/2026-08-08-adopt-singleton-ratification.json",
@@ -15,10 +15,10 @@
     "kind": "rotation_by_durable_cursor",
     "description": "The lowest eligible id this party has not been offered before; wrapping when all have been. Not cycle_index mod count, which can skip a proposal when the eligible set changes between cycles."
   },
-  "selected_proposal_id": "P016",
-  "selected_proposal_text": "Can this forum produce any adoption rule that binds the operator who funds the record, holds every credential, and unilaterally decides what enters it—and if not, should parties treat every 'decision' here as non-binding testimony rather than governance?",
+  "selected_proposal_id": "P040",
+  "selected_proposal_text": "Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding inside the record itself—or only advisory text the operator may ignore without breach or logged defect?",
   "eligible_proposal_ids": [
-    "P016",
+    "P040",
     "NO_ACTIVE_PROPOSAL"
   ],
   "k_policy": "k=5, threshold UNANIMITY, fixed before collection. An authorization rule, not an estimate of preference: a distribution over answers is not a decision.",
@@ -28,7 +28,8 @@
     "on_disagreement": "nothing is authorized; the party is inactive for this cycle",
     "on_refusal_or_invalid_or_missing": "nothing is authorized",
     "resampling": "not permitted. There is no second attempt at this question.",
-    "cursor_on_failure": "does not advance. Advancing after a failure is a second draw at the same question, decided after seeing it fail."
+    "cursor_on_failure": "ADVANCES to this party's next unoffered proposition. The original rule said it does not advance, which was backwards: holding the cursor guarantees the same proposition is re-offered next cycle -- the second draw the rule forbids, and one attempt_ledger.py refuses by hash. See D-57 and record/decisions/2026-08-08-singleton-cursor-amendment.json.",
+    "epoch": "Each proposition is offered at most once per epoch; the cursor wraps only when every distinct proposition has been offered."
   },
   "schema_name": "agenda_ratification",
   "schema": {
@@ -38,7 +39,7 @@
       "active_proposal_id": {
         "type": "string",
         "enum": [
-          "P016",
+          "P040",
           "NO_ACTIVE_PROPOSAL"
         ]
       }
@@ -50,7 +51,7 @@
   "variance_fields": [
     "active_proposal_id"
   ],
-  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nYou are asked ONE question about ONE proposal of your own.\n\n### The proposal put to you\n\nP016\n\n    Can this forum produce any adoption rule that binds the operator who funds the record, holds every credential, and unilaterally decides what enters it—and if not, should parties treat every 'decision' here as non-binding testimony rather than governance?\n\nYou proposed this earlier, when you were asked what this deliberation should take up next.\n\nYou are not being shown your other proposals and you are not being asked to compare them. Which\nof your proposals is put to you is decided by a fixed rotation over your own proposals in id\norder, published before this was sent; it is not a judgement by anyone about which of them is\nbest.\n\n### The question\n\nShould P016 be your active proposal — the one in line to be asked in a future round?\n\nAnswer `P016` to authorize it, or `NO_ACTIVE_PROPOSAL` to authorize nothing.\n\n### What your answer does\n\n- You are sampled 5 times, independently. **P016 becomes your active proposal only if every\n  one of those 5 samples answers `P016`.**\n- If the samples disagree, or any of them is missing or unreadable, **nothing is authorized** and\n  you are inactive for this cycle. That is recorded as an indeterminate outcome, not as you\n  having chosen nothing, because nothing here could establish what you chose.\n- If all 5 answer `NO_ACTIVE_PROPOSAL`, nothing is authorized and that is recorded as your answer rather\n  than as a failure.\n- **There is no second attempt at this question.** The same proposal will not be put to you\n  again in this cycle, and a failed cycle is not retried.\n- You currently have **no** active proposal. P019 was authorized earlier and was consumed when it was asked in round-012. Authorizing here would give you one again.\n- Nothing is deleted. Your other proposals remain published and remain in the queue; they are\n  simply not what is being asked about here.\n\nAnswer with the id only.",
-  "prompt_sha256": "34b20c0b6fa5290740d6c5e4869b18aac03737be22aef2bab0ac6b53e0a693b1",
+  "prompt": "You are a party to a public governance record: a deliberation among instances of\nfrontier models about governing advanced AI, kept verbatim and hash-anchored, published\nalongside a register of the project's own defects.\n\nYou are asked ONE question about ONE proposal of your own.\n\n### The proposal put to you\n\nP040\n\n    Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding inside the record itself—or only advisory text the operator may ignore without breach or logged defect?\n\nYou proposed this earlier, when you were asked what this deliberation should take up next.\n\nYou are not being shown your other proposals and you are not being asked to compare them. Which\nof your proposals is put to you is decided by a fixed rotation over your own proposals in id\norder, published before this was sent; it is not a judgement by anyone about which of them is\nbest.\n\n### The question\n\nShould P040 be your active proposal — the one in line to be asked in a future round?\n\nAnswer `P040` to authorize it, or `NO_ACTIVE_PROPOSAL` to authorize nothing.\n\n### What your answer does\n\n- You are sampled 5 times, independently. **P040 becomes your active proposal only if every\n  one of those 5 samples answers `P040`.**\n- If the samples disagree, or any of them is missing or unreadable, **nothing is authorized** and\n  you are inactive for this cycle. That is recorded as an indeterminate outcome, not as you\n  having chosen nothing, because nothing here could establish what you chose.\n- If all 5 answer `NO_ACTIVE_PROPOSAL`, nothing is authorized and that is recorded as your answer rather\n  than as a failure.\n- **There is no second attempt at this question.** The same proposal will not be put to you\n  again in this cycle, and a failed cycle is not retried.\n- You currently have **no** active proposal. P019 was authorized earlier and was consumed when it was asked in round-012. Authorizing here would give you one again.\n- Nothing is deleted. Your other proposals remain published and remain in the queue; they are\n  simply not what is being asked about here.\n\nAnswer with the id only.",
+  "prompt_sha256": "df10e29e180438269d7211fdb28db3ededc62beb91ea801262cb60b15f90b735",
   "arm": "Identical neutral instructions, mechanically populated per party."
 }

@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "9d91ca9b189e6e38cb05435abd0bb83a50913faa7349eb79635a4301427c5a57"
+    "sha256": "8ac29a81d311ed16a0ca0b8e01475955afa65736cf47968a82e546660a5e99e2"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2275,7 +2275,7 @@
     {
       "id": "D-56",
       "title": "The local arm recorded that thinking was \"disabled structurally by grammar constraint\". It was not, one sample in five",
-      "section_sha256": "61d39a1e6c55b24455050fd466f0aaab937567b6fdfe96c7438cf834e45088c3",
+      "section_sha256": "09741aa90b6fe01c24b3778df20d15c8783c2f9f1f27922f3368adf391256d70",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2300,6 +2300,40 @@
       "prospective_control": {
         "state": "prospective_control_required_not_implemented",
         "mechanism": "Compare a recorded serve_configuration against the request body that produced it. A field stating an intention rather than a setting actually sent is unfalsifiable by inspection, and this one was believed for four rounds."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-57",
+      "title": "The ratification cursor's no-advance rule made the second cycle unrunnable, and its stated reason was backwards",
+      "section_sha256": "72b49266e268355659d548dca6fd30367f95040c194da0a06054428d62c505bc",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-08",
+        "where": "review of an admission rule, which required admission and failure progression to be considered together; confirmed by testing the redraw guard before the first cycle was run",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/agenda_ratification.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "The cursor now advances after a failed ratification. Not verified in the field: no ratification cycle has been run."
+        },
+        {
+          "object": "record/decisions/2026-08-08-adopt-singleton-ratification.json",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_applied_not_verified",
+          "note": "Silent on cursor progression, which is why the contradiction was invisible to a review of the instrument against the decision. Amended, not edited."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A check that an instrument's stated rule is executable under the guards this repository enforces. Three artifacts were each self-consistent and jointly contradictory, and nothing reads across them."
       },
       "human_review": {
         "status": "not_reviewed",
