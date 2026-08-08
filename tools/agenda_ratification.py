@@ -281,7 +281,15 @@ def main() -> int:
     parser.add_argument("--cohort", default="agenda-04")
     parser.add_argument("--k", type=int, default=5)
     parser.add_argument("--temperature", type=float, default=0.7)
-    parser.add_argument("--max-tokens", type=int, default=200)
+    #  3000, not 200. A ratification answer is ~15 tokens of visible JSON, so 200 looked like
+    #  thirteen times the headroom needed. It is not: REASONING TOKENS ARE INVISIBLE IN THE
+    #  OUTPUT AND COUNTED AGAINST max_tokens. In agenda-04 gemini spent 188 of 196 completion
+    #  tokens on reasoning and emitted 8 tokens of text -- "Here is the JSON requested:\n```" --
+    #  then hit the ceiling. That cost the sample, and with it the whole arm, because four
+    #  usable is below the floor. Rounds were never exposed: MAX_TOKENS_ROUTED is 16000 against
+    #  a measured maximum of ~2800 reasoning tokens. The ballot was sized as though the visible
+    #  answer were the whole cost.
+    parser.add_argument("--max-tokens", type=int, default=3000)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
