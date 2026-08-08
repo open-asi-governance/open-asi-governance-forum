@@ -901,6 +901,6 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Affected object | Repairable? | Remediation |
 |---|---|---|
-| tools/solicit_local.py <br><sub>Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 0/20 truncations against 4/20 before.</sub> | repairable by supersession | verified |
+| tools/solicit_local.py <br><sub>Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 1/120 truncations with the flag against 14/120 without -- a ~14x reduction, NOT an elimination. An earlier note here claimed 0/20 and a verified remediation; that was underpowered AND measured a different server than the round uses. See the correction.</sub> | repairable by supersession | partly applied |
 | corpus/raw/round-002 … round-012 qwen samples <br><sub>Every one carries the false reasoning_effort string in its committed serve_configuration. Raw is never edited after commit, so this register entry is the only thing that contradicts them.</sub> | not repairable | impossible |
 

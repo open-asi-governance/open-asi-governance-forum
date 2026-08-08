@@ -2097,3 +2097,30 @@ rather than that the configuration merely changed.
 structurally" — rather than a *setting actually sent* is unfalsifiable by inspection and was
 believed for four rounds. Nothing in this repository compares a recorded serve configuration
 against the request body that produced it.
+
+**CORRECTION, same day.** The table above and the claim of a verified remediation were both
+overstated, and the error is the one this register exists to name.
+
+*What was claimed:* "0 / 20" truncations with `enable_thinking:false`, and
+`remediation_verified`.
+
+*What is true:* pooled over every sample measured, **1 of 120** with the flag and **14 of 120**
+without. The flag reduces the rate about fourteenfold — from ~11.7% to ~0.8% — and does **not**
+eliminate it. At 0.8% per sample there is a ~4% chance of losing at least one sample in a k=5
+round, and round-013 lost one, halting the first round run after the "fix".
+
+*Two separate errors produced the overclaim.* First, 0/20 was treated as proof of absence; zero
+in twenty is consistent with a rate up to ~14%, which is most of the effect being claimed.
+Second, and worse, **the first two probes measured the wrong server.** `round_cycle.py` solicits
+the local arm at `127.0.0.1:5001`, a local `trtllm-serve`. `solicit_local.py`'s default, which
+the probes inherited, is `localhost:8000` — an SSH tunnel to a different host. Both answer to the
+same model name, so nothing in either probe's output looked wrong.
+
+*The measurement that settled it exercised the real code path* — `solicit_local.py` itself at
+k=20 against the round's own spec and endpoint — rather than a hand-written request that had
+already differed from the round twice.
+
+*Remaining exposure.* A ~0.8% per-sample rate still fires a halt in about one round in
+twenty-five. Soliciting k=6 from the local arm, pre-registered and publishing all six, would put
+the probability of losing two below 0.1%; that is a change to the round protocol and is not made
+here.

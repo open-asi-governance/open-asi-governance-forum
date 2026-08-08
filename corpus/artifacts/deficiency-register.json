@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "8da2c655559750d3dcbf481eff398f5f08896f1259c09b8fe100ef5891e7d4de"
+    "sha256": "9d91ca9b189e6e38cb05435abd0bb83a50913faa7349eb79635a4301427c5a57"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2275,7 +2275,7 @@
     {
       "id": "D-56",
       "title": "The local arm recorded that thinking was \"disabled structurally by grammar constraint\". It was not, one sample in five",
-      "section_sha256": "80327b5a6d7306cd287142b518af96d840c67c7648767201d98926cdfceff89e",
+      "section_sha256": "61d39a1e6c55b24455050fd466f0aaab937567b6fdfe96c7438cf834e45088c3",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2287,8 +2287,8 @@
         {
           "object": "tools/solicit_local.py",
           "repairability": "affected_object_fully_repairable_by_supersession",
-          "remediation_state": "remediation_verified",
-          "note": "Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 0/20 truncations against 4/20 before."
+          "remediation_state": "remediation_partially_applied",
+          "note": "Sends chat_template_kwargs.enable_thinking=false explicitly and records what it sends. Measured 1/120 truncations with the flag against 14/120 without -- a ~14x reduction, NOT an elimination. An earlier note here claimed 0/20 and a verified remediation; that was underpowered AND measured a different server than the round uses. See the correction."
         },
         {
           "object": "corpus/raw/round-002 … round-012 qwen samples",
