@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **54 entries** (D-01 … D-54).
+**Status:** open — **55 entries** (D-01 … D-55).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1995,3 +1995,54 @@ should be decided prospectively, before another party is asked anything, rather 
 from two runs that both came out inconvenient. What is recorded is that the agenda queue
 currently has **two** authorized active proposals, both from `activation-01`, and that
 `agenda-03` added none.
+
+### D-55 — A ballot silently put a party's standing authorization at risk, and called the outcome "not a penalty"
+
+*Filed 2026-08-08. Found by the annotator while preparing to enforce the cap, and confirmed by
+Codex on a narrow question put to it. Found one day after the instrument was built, by trying
+to use its output rather than by reading it.*
+
+`activation-01` recorded two authorizations: claude's P004 and grok's P019, each unanimous
+across five samples. `agenda-03` then balloted every party over a wider set — its existing
+unasked proposals **including the authorized one** plus five newly written candidates. Every
+party came back non-unanimous.
+
+The ballot text every party received says:
+
+> If the samples disagree, or if any of them declines, **none is activated** and all of them
+> become dormant. That is not a penalty and it is not read as you having chosen nothing — it is
+> recorded as an indeterminate outcome, because nothing here could establish what you chose.
+
+P004 was in claude's option set. P019 was in grok's. Read literally, agenda-03 revoked both, and
+enforcing the queue cap would empty the agenda and halt the deliberation at round-012.
+
+**The defect is not the literal reading; it is that the sentence contradicts itself.** The same
+clause calls the outcome "not a penalty" on the ground that "nothing here could establish what
+you chose" — and then uses that established-nothing to extinguish something five unanimous
+samples had established. A party offered "the chance to write a replacement question" was never
+told that failing to converge over the wider set would cost it what it already held. The risk
+existed, was material, and appeared nowhere in the prompt as a risk.
+
+**What made it visible.** Nothing in the repository. The two authorizations were still sitting
+in `activation-01`'s artifact looking valid; `load_queue()` knows nothing about authorization at
+all, so no check could have contradicted them. It surfaced only because enforcing the cap
+required asking which proposals were active, and the honest answer turned out to be "none".
+
+**The near-miss worth recording.** A preview of the enforcement consequence — two proposals,
+rounds 012 and 013, halt at 014 — had already been put to the custodian and approved before the
+revocation was noticed. Had the check come after implementation rather than before, the custodian
+would have been reported an outcome they had approved on a false premise. The approval was
+re-taken on corrected facts.
+
+**Remediated by ruling, not by code.** `record/decisions/2026-08-08-agenda-03-revocation-invalid.json`
+declines to give the revocation effect, on the ground that an undisclosed consequence does not
+bind — explicitly not on the ground that the result is inconvenient, which it also is. The ruling
+is asymmetric on purpose: an *indeterminate* outcome leaves a prior authorization standing, while
+a unanimous `NO_ACTIVE_PROPOSAL` still clears it, because that is an establishment rather than
+the absence of one.
+
+**Not remediated.** The ruling holds claude and grok to proposals their latest samples do not
+point at — claude named its new candidates four times in five and never named P004. That is a
+real cost and the decision record states it rather than burying it. The prospective control is
+one sentence in a future prompt: any solicitation that can affect a standing authorization must
+say so in the text the party receives. Nothing enforces that yet.

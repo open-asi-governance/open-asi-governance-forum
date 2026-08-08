@@ -962,7 +962,10 @@ def build_plan(args, index: int) -> dict:
                                "It does not reach across branches for unreviewed material.")})
 
     disposition = AS.disposition_from_records(REPO_ROOT / "record" / "cycles")
-    queue = AS.load_queue(disposition=disposition)
+    #  BY FLAG, never by default. The cap decides which question the next round asks, and a
+    #  cap that switched itself on would change that without anyone typing anything -- the
+    #  failure the ADOPTED selector constant was written to prevent, one mechanism over.
+    queue = AS.load_queue(disposition=disposition, enforce_cap=args.enforce_cap)
     if not queue:
         raise Refusal(HALT_EMPTY_QUEUE, "no proposals in the queue",
                       {"why": "Silence is a legitimate output. The loop does not invent questions."})
@@ -1645,6 +1648,11 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--selector", required=True, choices=sorted(AS.SELECTORS),
                     help="REQUIRED. No default: a mechanism that runs because nobody typed "
                          "anything is not a mechanism anyone chose.")
+    ap.add_argument("--enforce-cap", action="store_true",
+                    help="Restrict the queue to each party's ONE authorized active proposal. "
+                         "Off by default. A party balloted without an authorization holds "
+                         "nothing; a party never balloted is unaffected. See "
+                         "record/decisions/2026-08-08-agenda-03-revocation-invalid.json.")
     ap.add_argument("--capability", choices=sorted(CAPABILITIES),
                     help="grant every party a capability for this round. Derives new party keys "
                          "(gemini-fetch-v1) because the same weights with a different capability "

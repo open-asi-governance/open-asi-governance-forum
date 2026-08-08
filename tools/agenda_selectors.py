@@ -144,9 +144,68 @@ def disposition_from_records(cycles_dir: Path) -> dict[str, str]:
     return seen
 
 
+def active_proposals(artifacts_dir: Path | None = None) -> dict[str, str | None]:
+    """Each party's active proposal id, from every authorization record in date order.
+
+    THE CAP THIS IMPLEMENTS was claimed as a mitigation in force by the rotation adoption
+    decision and was not. See record/decisions/2026-08-07-adopt-rotation-correction.json.
+
+    The state machine, and its asymmetry, come from a custodian ruling rather than from the
+    ballots themselves -- record/decisions/2026-08-08-agenda-03-revocation-invalid.json:
+
+        authorized      -> replaces this party's active proposal
+        explicit_none   -> CLEARS it. A unanimous NO_ACTIVE_PROPOSAL is an establishment.
+        indeterminate   -> leaves it UNCHANGED, and this is the ruling.
+
+    Read literally, agenda-03's ballots revoked both standing authorizations: each party's
+    authorized proposal was in the option set, and the text said that on disagreement "all of
+    them become dormant". The ruling declines to give that effect, because the same sentence
+    calls the outcome "not a penalty" on the ground that nothing could establish what the party
+    chose -- and then extinguishes something five unanimous samples had established. D-55.
+
+    A party with no authorization has NO active proposal. Absent is not "all of them".
+    """
+    root = artifacts_dir or (REPO_ROOT / "corpus" / "artifacts")
+    active: dict[str, str | None] = {}
+    #  Sorted by PATH, which sorts the cohort ids (activation-01, agenda-03) into the order they
+    #  were run. A later record supersedes an earlier one for the same party.
+    for path in sorted(root.glob("*/*-authorization.json")):
+        record = json.loads(path.read_text(encoding="utf-8"))
+        if record.get("artifact_type") != "agenda_activation_record":
+            continue
+        for entry in record.get("by_party") or []:
+            outcome = entry.get("selection_outcome")
+            if outcome == "authorized":
+                active[entry["party"]] = entry.get("active_proposal_id")
+            elif outcome == "none_authorized":
+                active[entry["party"]] = None
+            elif outcome == "indeterminate":
+                #  setdefault, NOT assignment. THREE states have to stay distinct and the first
+                #  implementation collapsed two of them:
+                #
+                #    never balloted            -> absent from this mapping, and NOT capped
+                #    balloted, holds X         -> X
+                #    balloted, holds nothing   -> None
+                #
+                #  Writing nothing here left gemini, gpt and qwen absent, so the cap treated
+                #  three parties that WERE balloted as though they never had been and let all
+                #  nine of their proposals through. Assigning None instead would revoke
+                #  claude's and grok's standing authorizations, which is exactly what the
+                #  ruling declines to do. setdefault registers the party without changing a
+                #  value already there.
+                active.setdefault(entry["party"], None)
+    return active
+
+
 def load_queue(round_dir: Path | None = None,
-               disposition: dict[str, str] | None = None) -> list[Proposal]:
-    """Build the queue from solicited proposals, deduplicating by exact question text."""
+               disposition: dict[str, str] | None = None,
+               enforce_cap: bool = False) -> list[Proposal]:
+    """Build the queue from solicited proposals, deduplicating by exact question text.
+
+    `enforce_cap` is OFF by default and every caller must ask for it by name. A cap that
+    silently switched on would change which question the next round asks without anyone
+    typing anything, which is the failure the ADOPTED constant below was written to prevent.
+    """
     root = round_dir or (REPO_ROOT / "corpus" / "raw" / "agenda-01")
     out: list[Proposal] = []
     index: dict[str, Proposal] = {}
@@ -178,6 +237,25 @@ def load_queue(round_dir: Path | None = None,
             (disposition or {}).get(item.key)
         if asked_in:
             item.asked, item.asked_in = True, asked_in
+
+    if enforce_cap:
+        active = active_proposals()
+        #  FAIL CLOSED on an authorization naming something this queue does not contain. It
+        #  would mean a party activated a candidate written in a later cohort, which does not
+        #  enter rotation -- and dropping it silently would publish a queue that quietly
+        #  ignores an authorization the record says is in force.
+        known = {p.pid for p in out}
+        for party, pid in active.items():
+            if pid is not None and pid not in known:
+                raise ValueError(
+                    f"{party} has authorized {pid}, which is not in the queue built from "
+                    f"{root}. An authorization must not be silently ignored: either the "
+                    f"queue is built from the wrong material or the id is stale.")
+        #  A party with no entry at all is NOT capped -- it was never balloted. A party
+        #  balloted with no authorization holds nothing. The two are different and the
+        #  `in active` test is what keeps them apart.
+        out = [p for p in out
+               if p.asked or p.party not in active or active[p.party] == p.pid]
     return out
 
 

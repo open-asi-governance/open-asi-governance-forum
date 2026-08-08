@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "f579139db5da2efa3c58c0cae73e7def15e856d83af4d2f94d3e1780909d78f5"
+    "sha256": "5d173359116c3298a7a7a5a1b73a13062844be68b8d80758039b29ea5f9c6ba7"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2207,7 +2207,7 @@
     {
       "id": "D-54",
       "title": "The unanimity threshold gets harder as the option set grows, so widening choice can only ever reduce what is authorized",
-      "section_sha256": "cba6336932251cf54c8606b74dd507a2dd5246f4da5123e4159715fc9caec0aa",
+      "section_sha256": "a6a89b050de85ae11ad3da5cbfbcc0100da778730b574d0328d94b8700a5fef8",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2232,6 +2232,40 @@
       "prospective_control": {
         "state": "prospective_control_implemented_not_validated",
         "mechanism": "tools/attempt_ledger.py refuses, by hash, a second ballot over an option set a party has already answered. That blocks the specific p-hacking route -- re-ask until unanimous -- but nothing prevents redesigning the instrument after each failure, which is the same thing more slowly."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-55",
+      "title": "A ballot silently put a party's standing authorization at risk, and called the outcome \"not a penalty\"",
+      "section_sha256": "029cf472456c9fd6c8c492011d43456a9731a6a457394449e577e860fe56be48",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-08",
+        "where": "preparing to enforce the queue cap; surfaced by asking which proposals were active, and confirmed by an external reviewer on a narrow question",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/agenda_replacement.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "The prompt is already sent and cannot be repaired (D-36). The ruling in record/decisions/2026-08-08-agenda-03-revocation-invalid.json declines to give its revocatory effect force; the prompt text itself stands as written."
+        },
+        {
+          "object": "corpus/artifacts/agenda-03/agenda-03-authorization.json",
+          "repairability": "affected_object_repairability_not_applicable",
+          "remediation_state": "remediation_verified",
+          "note": "The record is accurate: all five parties were indeterminate. What changed is what that outcome does to a prior authorization, which is a ruling attached to it and not an edit of it."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Any solicitation that can affect a standing authorization must say so in the prompt the party receives. Nothing checks that a prompt discloses its own effect on prior state."
       },
       "human_review": {
         "status": "not_reviewed",

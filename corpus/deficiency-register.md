@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 54** classifications have been read by a human against the prose.
+**0 of 55** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 32 |
+| the annotator | 33 |
 | an external reviewer | 10 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 16 |
+| required, not implemented | 17 |
 | implemented, not validated | 31 |
 | validated | 7 |
 
 ### Affected objects
 
-**133 affected-object rows across 54 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**135 affected-object rows across 55 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -875,4 +875,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/agenda_activation.py <br><sub>The unanimity rule is sound and is not withdrawn -- it is what stops a 3-2 split being reported as a decision. What is undetermined is whether the threshold, the option set, or the k=5 generator that builds the option set is the thing to change.</sub> | partly repairable | not started |
 | tools/agenda_replacement.py <br><sub>Two-stage generation feeds the ballot near-variants of one question, so the instrument built to repair sampling-induced duplication is fed by sampling-induced duplication.</sub> | partly repairable | not started |
+
+### D-55 — A ballot silently put a party's standing authorization at risk, and called the outcome "not a penalty"
+
+[Full entry](deficiencies.md#d-55--a-ballot-silently-put-a-partys-standing-authorization-at-risk-and-called-the-outcome-not-a-penalty)
+
+- **First articulated:** the annotator, 2026-08-08 · evidence: *preserved artifact*
+  - where: `preparing to enforce the queue cap; surfaced by asking which proposals were active, and confirmed by an external reviewer on a narrow question`
+- **Prospective control:** required, not implemented — Any solicitation that can affect a standing authorization must say so in the prompt the party receives. Nothing checks that a prompt discloses its own effect on prior state.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/agenda_replacement.py <br><sub>The prompt is already sent and cannot be repaired (D-36). The ruling in record/decisions/2026-08-08-agenda-03-revocation-invalid.json declines to give its revocatory effect force; the prompt text itself stands as written.</sub> | partly repairable | partly applied |
+| corpus/artifacts/agenda-03/agenda-03-authorization.json <br><sub>The record is accurate: all five parties were indeterminate. What changed is what that outcome does to a prior authorization, which is a ruling attached to it and not an edit of it.</sub> | not applicable | verified |
 
