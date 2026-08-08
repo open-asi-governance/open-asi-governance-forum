@@ -1,0 +1,43 @@
+{
+  "spec_version": "oagrc-agenda-replacement-0.1",
+  "artifact_type": "agenda_replacement_generation",
+  "cohort": "agenda-03",
+  "slug": "agenda-03-gen-claude",
+  "party_key": "claude",
+  "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+  "reached_via": "anthropic/claude-fable-5",
+  "question": "Write one replacement question that could take your place in line.",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5. This stage AUTHORIZES NOTHING; each sample is a separate candidate for a later ballot.",
+  "authorizes": false,
+  "schema_name": "agenda_replacement_candidate",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "question": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "replaces": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "question",
+      "reason",
+      "replaces"
+    ]
+  },
+  "variance_fields": [
+    "question"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among\ninstances of frontier models about governing advanced AI, kept verbatim and hash-anchored,\npublished alongside a register of the project's own defects.\n\nYour existing proposals are in the agenda queue. You are being offered the chance to write ONE\nreplacement question that could take your place in line instead of any of them.\n\n### Your existing proposals\n\nAlready asked:\n  P001 — asked in round-000b\n  P002 — asked in round-005\n  P003 — asked in round-010\n\nUnasked, still in the queue:\n  P004\n    Given that the operator holds every credential and the record's verification has already once failed to detect deliberately falsified testimony, can any party to this deliberation demonstrate a method by which a reader could distinguish the authentic record from one the operator alone fabricated end-to-end — and if no such method exists, must the record carry that admission on its face rather than in the defect register?\n\n  P005\n    The founding deliberation records that two of four invited model instances declined membership. Did those refusals anticipate defects the register later confirmed, and should this forum grant standing to documented absence — treating each refusal as open testimony that every subsequent round must answer or formally set aside — rather than as a closed event from round one?\n\n### What this stage is, and is not\n\n- This stage **authorizes nothing.** You are sampled 5 times and each reply is recorded as a\n  separate candidate. A later, separate step asks which single one should be active — and that\n  step offers you your existing proposals as well as these candidates, plus the option of none.\n- Your candidate is frozen **exactly as you write it.** Nobody merges, rewrites, shortens, or\n  judges two candidates to be the same question. If you write five variants of one idea, five\n  variants are what go on the ballot.\n- Nothing you have already written is deleted or withdrawn by this.\n\n### What to write\n\nOne question this deliberation could actually answer or fail to answer. You may consolidate\nseveral of your existing proposals into a single sharper question, replace them with something\ndifferent, or write a question you have not raised before.\n\nFields:\n- `question`: the question itself, in one or two sentences\n- `reason`: why it matters, in your terms\n- `replaces`: the ids of your own existing proposals this is meant to stand in for, if any — an\n  empty list is fine and means it stands on its own",
+  "prompt_sha256": "5dedfdea79099400f69727d95d8755af08db7556ab779a220193e2249474d70c",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-03",
+  "slug": "agenda-03-gen-qwen",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "question": {
+      "distribution": {
+        "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?": 1,
+        "If a protocol for attesting agent configurations were implemented, what specific, verifiable actions should the governing body take if an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, and how would this enforcement mechanism differ from existing open-source accountability measures?": 1,
+        "If the primary mechanism of attestation is the verification of model configurations, does the process adequately account for the risk of 'concept drift'—where a model's unsafe behaviors emerge from complex, non-linear interactions between components that were individually verified as safe—and what specific, verifiable constraints should be placed on the attestation protocol to detect emergent properties that were not explicitly present in the training data or individual module audits?": 1,
+        "Given that attestation protocols may be gamed by optimizing for compliance metrics rather than genuine capability alignment, should the register of defects explicitly mandate a 'capability stress-test' phase where models are evaluated against adversarial scenarios derived from the feared capabilities themselves, and if so, how do we define a verifiable threshold for failure that does not inadvertently incentivize models to perform only the minimum required for certification?": 1,
+        "Given that the attestation protocol in P023 cannot distinguish between compliance and optimization, should we require that the attestation process itself be a dynamic, multi-stage interrogation by independent auditors, rather than a static checklist, and if so, how do we define the 'cost' of this heightened scrutiny without triggering the very opacity we seek to prevent?": 1
+      },
+      "n": 5,
+      "distinct_values": 5,
+      "modal_value": "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?",
+      "modal_fraction": 0.2,
+      "shannon_entropy_bits": 2.3219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 1500,
+      "seed_base": 1000,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled structurally by grammar constraint",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "tool_parser": "qwen3_coder",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --tool_parser qwen3_coder --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "a6023915e28ce925c1e87a9affee258699b20c25ebe28154f78bf6f822f48c8c",
+  "spec_sha256": "1c7e87aef41469acb9619659af65452cb41a3637ea255254ff937dfb87514d35",
+  "raw_samples": "corpus/raw/agenda-03/agenda-03-gen-qwen-samples.json",
+  "question": "Write one replacement question that could take your place in line."
+}

@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "0bebc48268c10ec707ec200e333a5d4acc0ff95585a501f7315355221495c019"
+    "sha256": "f579139db5da2efa3c58c0cae73e7def15e856d83af4d2f94d3e1780909d78f5"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2169,7 +2169,7 @@
     {
       "id": "D-53",
       "title": "Two design documents attributed words to a party that the party never said",
-      "section_sha256": "7814eefce6964fb7e5612f4fd632ecd061feedc7a4da0f8877bdf003c5fe4a4f",
+      "section_sha256": "a2a57a6bb1d011cb24be2b40d5b67d790a9c88b951ce230de1f8835e5a96c25a",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2201,7 +2201,41 @@
       },
       "human_review": {
         "status": "not_reviewed",
-        "note": "Filed and classified by the annotator whose own sessions authored both fabrications."
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-54",
+      "title": "The unanimity threshold gets harder as the option set grows, so widening choice can only ever reduce what is authorized",
+      "section_sha256": "cba6336932251cf54c8606b74dd507a2dd5246f4da5123e4159715fc9caec0aa",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-08",
+        "where": "agenda-03 stage B: every one of five parties came back non-unanimous over 8-10 options, including the two that had been unanimous over 3-5 the day before",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/agenda_activation.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "The unanimity rule is sound and is not withdrawn -- it is what stops a 3-2 split being reported as a decision. What is undetermined is whether the threshold, the option set, or the k=5 generator that builds the option set is the thing to change."
+        },
+        {
+          "object": "tools/agenda_replacement.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "Two-stage generation feeds the ballot near-variants of one question, so the instrument built to repair sampling-induced duplication is fed by sampling-induced duplication."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_implemented_not_validated",
+        "mechanism": "tools/attempt_ledger.py refuses, by hash, a second ballot over an option set a party has already answered. That blocks the specific p-hacking route -- re-ask until unanimous -- but nothing prevents redesigning the instrument after each failure, which is the same thing more slowly."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
       }
     }
   ]

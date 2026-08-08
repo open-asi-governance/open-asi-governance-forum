@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **53 entries** (D-01 … D-53).
+**Status:** open — **54 entries** (D-01 … D-54).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -1946,3 +1946,52 @@ correction is legible to a reader who saw the original. Neither was deleted.
 **Not remediated.** Nothing prevents the next one. A checker that extracts quoted strings from
 `record/**/*.md` and requires each to appear in `corpus/raw/` would have caught both in seconds,
 and does not exist. Until it does, treat every quotation in a design document as unverified.
+
+### D-54 — The unanimity threshold gets harder as the option set grows, so widening choice can only ever reduce what is authorized
+
+*Filed 2026-08-08. Found by running the instrument, one day after building it. Predicted in
+outline by Codex during design review ("may recreate vote-splitting among near-duplicates") and
+recorded here because the measurement is sharper than the prediction was.*
+
+`activation-01` and `agenda-03` use the same authorization rule: a proposal is a party's active
+one only if all five sampled invocations name the same id. The rule is sound — it is what stops
+a 3-2 split being reported as a decision — but it has a property nobody stated when it was
+adopted.
+
+**It is not scale-free.**
+
+| instrument | options per party | parties reaching unanimity |
+|---|---|---|
+| `activation-01` | 3–5 | **2 of 5** |
+| `agenda-03` | 8–10 | **0 of 5** |
+
+Widening a party's choice made it strictly less able to authorize anything. `agenda-03` offered
+each party five questions it had just written *plus* everything it already had, and every party
+came back split — including `claude` and `grok`, both of which had been unanimous the day before
+over a smaller set. Giving parties more of what they asked for reduced the queue to nothing.
+
+**The mechanism is the same defect one level up.** The candidates are generated at k=5,
+temperature 0.7, so a party's five candidates are near-variants of each other, and the ballot
+then splits among them. The instrument built to repair sampling-induced duplication is fed by
+sampling-induced duplication.
+
+**What the round nonetheless measured, and it is not nothing.** Of 25 ballot samples, **23 named
+a question the party had just written** and only 2 named one of its blind proposals. No sample
+declined. Every party, nearly every time, preferred a question written after seeing its own queue
+over the questions it wrote before it could read the record. That is a clean result about the
+value of the informed condition — and the instrument authorized none of it.
+
+**What must not be done about it.** The tempting repair is another ballot over a narrower set —
+the top two candidates, say. That is a third draw at one question, chosen after seeing two
+failures, on an option set pruned by the moderator. Both halves are disqualifying:
+`tools/attempt_ledger.py` refuses the redraw by hash, and the pruning would be the moderator
+deciding which of a party's questions counts, which is the judgement this whole line of work
+exists to avoid. **Chasing unanimity by redesigning the instrument after each failure is
+p-hacking with extra steps.**
+
+**Not remediated, and deliberately so.** No fix is proposed here. A threshold that cannot be met
+is evidence about the threshold, the option set, or the generator — and which of those it is
+should be decided prospectively, before another party is asked anything, rather than inferred
+from two runs that both came out inconvenient. What is recorded is that the agenda queue
+currently has **two** authorized active proposals, both from `activation-01`, and that
+`agenda-03` added none.

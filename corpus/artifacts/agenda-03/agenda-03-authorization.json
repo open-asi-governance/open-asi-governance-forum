@@ -1,0 +1,153 @@
+{
+  "schema_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_record",
+  "cohort": "agenda-03",
+  "authorization_rule": "A proposal is active only if every one of the k scheduled samples named the same eligible id. Disagreement, refusal, invalid output or a missing sample authorizes nothing.",
+  "what_this_does_not_claim": "That an authorized id is the party's preference. It is what every sampled invocation named, which is a fact about the samples.",
+  "why_this_is_not_a_second_attempt": "activation-01's result stands as final for ITS question. This ballot ranges over a different option set -- each party's own stage-A candidates as well as its existing proposals -- and it was offered to every party, not only to the three that came back indeterminate. Uniform offering is what removes the outcome-conditioning; the changed option set is enforced by attempt_ledger.py.",
+  "enforced_in_load_queue": false,
+  "sources": [
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-act-claude-samples.json",
+      "sha256": "9fb12a8d370ea42377044e6521957d4a4d859a8585f12e4eb72f6e206ac38f92"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-act-gemini-samples.json",
+      "sha256": "3c3ef4afd04b29141663ffaad65738697f75587c5d436dcecb02e01468104d23"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-act-gpt-samples.json",
+      "sha256": "f72679f6a6ecbb037f30c0767c0ad8cf0b303fb1bef17e1bbf6af1627dcf8451"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-act-grok-samples.json",
+      "sha256": "57b8f9d75646e74d914d2d65336d969b552b40206f305d13f92eedde781eea7d"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-act-qwen-samples.json",
+      "sha256": "8ae10eba2ade833a012d5616ce235886f69d0ccc19114e9962800b0ec6bfc00e"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-gen-claude-samples.json",
+      "sha256": "f3f28929e102b7a9005601cf901417876f80c953777b482a78d440d533aac3b1"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-gen-gemini-samples.json",
+      "sha256": "9d630f816f2203b63184b7bb77677eb66271ce306d2fff109ac61ad7c11f1819"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-gen-gpt-samples.json",
+      "sha256": "d6b682e2ce79f921e2c7a1efd11e17604f98a4d2c93f3d7baa50eb3b8f0c21ad"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-gen-grok-samples.json",
+      "sha256": "fe35cd16d964c0c10651fd0a34e587085a53f6802dd4e8a6dcb63ef55f1ddf7a"
+    },
+    {
+      "path": "corpus/raw/agenda-03/agenda-03-gen-qwen-samples.json",
+      "sha256": "65e8314732ae6825964ac73311c31aead004965755eb9b206783a6c668ee471c"
+    }
+  ],
+  "by_party": [
+    {
+      "party": "claude",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "C04",
+        "C04",
+        "C05",
+        "C04",
+        "C04"
+      ],
+      "distribution": {
+        "C04": 4,
+        "C05": 1
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement",
+      "active_is_new_candidate": false
+    },
+    {
+      "party": "gemini",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "C03",
+        "C03",
+        "C03",
+        "C03",
+        "C04"
+      ],
+      "distribution": {
+        "C03": 4,
+        "C04": 1
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement",
+      "active_is_new_candidate": false
+    },
+    {
+      "party": "gpt",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "C02",
+        "C02",
+        "C01",
+        "C01",
+        "C02"
+      ],
+      "distribution": {
+        "C02": 3,
+        "C01": 2
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement",
+      "active_is_new_candidate": false
+    },
+    {
+      "party": "grok",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "C03",
+        "C02",
+        "C02",
+        "C03",
+        "C03"
+      ],
+      "distribution": {
+        "C03": 3,
+        "C02": 2
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement",
+      "active_is_new_candidate": false
+    },
+    {
+      "party": "qwen",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "C01",
+        "C01",
+        "P024",
+        "P024",
+        "C01"
+      ],
+      "distribution": {
+        "C01": 3,
+        "P024": 2
+      },
+      "active_proposal_id": null,
+      "selection_outcome": "indeterminate",
+      "category": "sample_disagreement",
+      "active_is_new_candidate": false
+    }
+  ]
+}

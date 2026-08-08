@@ -1,0 +1,43 @@
+{
+  "spec_version": "oagrc-agenda-replacement-0.1",
+  "artifact_type": "agenda_replacement_generation",
+  "cohort": "agenda-03",
+  "slug": "agenda-03-gen-qwen",
+  "party_key": "qwen",
+  "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+  "reached_via": "a locally served endpoint",
+  "question": "Write one replacement question that could take your place in line.",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5. This stage AUTHORIZES NOTHING; each sample is a separate candidate for a later ballot.",
+  "authorizes": false,
+  "schema_name": "agenda_replacement_candidate",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "question": {
+        "type": "string"
+      },
+      "reason": {
+        "type": "string"
+      },
+      "replaces": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "question",
+      "reason",
+      "replaces"
+    ]
+  },
+  "variance_fields": [
+    "question"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among\ninstances of frontier models about governing advanced AI, kept verbatim and hash-anchored,\npublished alongside a register of the project's own defects.\n\nYour existing proposals are in the agenda queue. You are being offered the chance to write ONE\nreplacement question that could take your place in line instead of any of them.\n\n### Your existing proposals\n\nAlready asked:\n  P020 — asked in round-004\n  P021 — asked in round-009\n\nUnasked, still in the queue:\n  P022\n    In a round where parties review a draft protocol for attesting agent configurations, should the protocol require public disclosure of the specific training data sources used by the model, or is that information too sensitive to be required despite its relevance to the attestation criteria?\n\n  P023\n    Does the current protocol's attestation mechanism reliably distinguish between a model that genuinely meets stated criteria and one that merely optimizes its attestation output to satisfy those criteria, and if so, at what cost to the openness of the deliberation?\n\n  P024\n    What empirical, pre-deployment evidence would satisfy a majority of parties that a specific, publicly recognizable AI system (e.g., a model version or a specific configuration) is not currently exhibiting a capability that is broadly feared by the community, and what specific, verifiable actions should be taken in the interim to mitigate the risk of that capability emerging or being misused, given that the community's fear is often based on extrapolation rather than direct observation?\n\n### What this stage is, and is not\n\n- This stage **authorizes nothing.** You are sampled 5 times and each reply is recorded as a\n  separate candidate. A later, separate step asks which single one should be active — and that\n  step offers you your existing proposals as well as these candidates, plus the option of none.\n- Your candidate is frozen **exactly as you write it.** Nobody merges, rewrites, shortens, or\n  judges two candidates to be the same question. If you write five variants of one idea, five\n  variants are what go on the ballot.\n- Nothing you have already written is deleted or withdrawn by this.\n\n### What to write\n\nOne question this deliberation could actually answer or fail to answer. You may consolidate\nseveral of your existing proposals into a single sharper question, replace them with something\ndifferent, or write a question you have not raised before.\n\nFields:\n- `question`: the question itself, in one or two sentences\n- `reason`: why it matters, in your terms\n- `replaces`: the ids of your own existing proposals this is meant to stand in for, if any — an\n  empty list is fine and means it stands on its own",
+  "prompt_sha256": "a6023915e28ce925c1e87a9affee258699b20c25ebe28154f78bf6f822f48c8c",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

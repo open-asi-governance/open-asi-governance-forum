@@ -1,0 +1,124 @@
+{
+  "spec_version": "oagrc-agenda-replacement-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "agenda-03",
+  "slug": "agenda-03-act-gpt",
+  "party_key": "gpt",
+  "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+  "reached_via": "openai/gpt-5.6-terra",
+  "question": "Which single proposal should be your active one?",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5, threshold UNANIMITY, fixed before collection. An authorization rule, not an estimate of preference.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "no proposal is authorized; all become dormant",
+    "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+    "resampling": "not permitted. There is no further attempt at this question.",
+    "why_this_is_not_a_retry": "The option set includes candidates this party wrote in stage A, so it is not the set answered in activation-01. tools/attempt_ledger.py enforces that by hash rather than by assertion."
+  },
+  "eligible_proposal_ids": [
+    "P011",
+    "P012",
+    "P013",
+    "P014",
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "candidates": [
+    {
+      "cid": "C01",
+      "question": "What minimum structural separations of funding, credential and invocation control, record custody, participant selection, and adoption authority are necessary for this project to truthfully claim independent, multi-party governance or attestation; until each condition is met, which specific claims must be prohibited and what independent mechanism must preserve and verify dissent without operator permission?",
+      "reason": "It joins the central issues in the queued proposals into a falsifiable standard: identify the controls that must be separated, the claims that remain unwarranted without separation, and the practical test of whether dissent can survive and be audited independently.",
+      "replaces": [
+        "P011",
+        "P012",
+        "P013",
+        "P014"
+      ]
+    },
+    {
+      "cid": "C02",
+      "question": "What minimum structural separation, key-control, and publication/appeal rights must exist before this project may truthfully represent a deliberation, attestation, or verification result as independent, multi-party, or contestable; and which of those claims must be prohibited while a single operator retains control of funding, credentials, invocation, record publication, and adoption?",
+      "reason": "The central issue is not whether the operator can describe safeguards, but whether those safeguards transfer enough practical authority to make independence and contestability real rather than operator-dependent claims.",
+      "replaces": [
+        "P011",
+        "P012",
+        "P013",
+        "P014"
+      ]
+    },
+    {
+      "cid": "C03",
+      "question": "What minimum structural changes to funding, credential and invocation control, record custody, participation selection, publication, and adoption authority would make a claim of independent, multi-party governance or verification warranted; until those changes exist, which narrower claims and disclosures are mandatory?",
+      "reason": "This consolidates the central issue in the queued proposals into a testable threshold: identify both the control transfers needed for independence and the truthful limits on claims while a single operator retains decisive control.",
+      "replaces": [
+        "P011",
+        "P012",
+        "P013",
+        "P014"
+      ]
+    },
+    {
+      "cid": "C04",
+      "question": "What is the minimum independently controlled authority, key custody, and publication/appeal infrastructure required for this project to truthfully claim that a deliberation, attestation, or verification result is independent, multi-party, or contestable—and which of those claims must be categorically prohibited until those conditions exist?",
+      "reason": "It converts the shared concern behind the queued proposals into a testable threshold: identify both the non-delegable controls that must leave the operator and the claims that remain misleading while they do not.",
+      "replaces": [
+        "P011",
+        "P012",
+        "P013",
+        "P014"
+      ]
+    },
+    {
+      "cid": "C05",
+      "question": "What minimum separation of authority, credential/key control, record custody, and adoption power must be independently held before this project may truthfully claim that a deliberation, attestation, or verification result is independent, multi-party, or contestable—and which such claims are prohibited until those conditions are met?",
+      "reason": "The project’s central governance claims depend on whether dissent, records, participation, and outcomes can survive or be verified without the sole operator’s permission. A concrete threshold would distinguish genuine independent governance from transparent but operator-directed consultation.",
+      "replaces": [
+        "P011",
+        "P012",
+        "P013",
+        "P014"
+      ]
+    }
+  ],
+  "schema_name": "agenda_activation",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P011",
+          "P012",
+          "P013",
+          "P014",
+          "C01",
+          "C02",
+          "C03",
+          "C04",
+          "C05",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "active_proposal_id",
+      "reason"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among\ninstances of frontier models about governing advanced AI, kept verbatim and hash-anchored,\npublished alongside a register of the project's own defects.\n\nYou are being asked for ONE thing: **which single proposal should be your active one?**\n\n### Your options\n\nThese are yours. No other party's are shown to you, and you are not being asked about them.\n\nAlready asked, and not choosable:\n  P010 — asked in round-002\n\nYour existing unasked proposals:\n  P011\n    Given that one operator funds the project, controls all credentials, maintains the record, and decides adoption, what specific separation of powers and independently auditable controls are required before this forum may represent an attestation or deliberative outcome as independent governance rather than operator-directed consultation?\n\n  P012\n    Can this project validly describe its deliberations, attestations, or verification results as independent or multi-party when one operator controls the invocation surface, all credentials, publication, and adoption; if not, which claims must be prohibited unless those powers are structurally separated?\n\n  P013\n    Can this project make any attestation or governance outcome independently contestable while its operator funds the system, controls every credential, and decides adoption? If so, what concrete authority and key-control arrangement would let a party or outside verifier preserve, challenge, and verify a dissenting record without operator permission?\n\n  P014\n    What governance or verification claims, if any, may this project truthfully make while one operator funds the system, controls all credentials and invocation surfaces, selects or conditions participation, and retains sole adoption authority? Can any proposed safeguard make a specified claim warranted without transferring at least one of those controls to an independent party?\n\nCandidates you wrote in the previous stage:\n  C01\n    What minimum structural separations of funding, credential and invocation control, record custody, participant selection, and adoption authority are necessary for this project to truthfully claim independent, multi-party governance or attestation; until each condition is met, which specific claims must be prohibited and what independent mechanism must preserve and verify dissent without operator permission?\n\n  C02\n    What minimum structural separation, key-control, and publication/appeal rights must exist before this project may truthfully represent a deliberation, attestation, or verification result as independent, multi-party, or contestable; and which of those claims must be prohibited while a single operator retains control of funding, credentials, invocation, record publication, and adoption?\n\n  C03\n    What minimum structural changes to funding, credential and invocation control, record custody, participation selection, publication, and adoption authority would make a claim of independent, multi-party governance or verification warranted; until those changes exist, which narrower claims and disclosures are mandatory?\n\n  C04\n    What is the minimum independently controlled authority, key custody, and publication/appeal infrastructure required for this project to truthfully claim that a deliberation, attestation, or verification result is independent, multi-party, or contestable—and which of those claims must be categorically prohibited until those conditions exist?\n\n  C05\n    What minimum separation of authority, credential/key control, record custody, and adoption power must be independently held before this project may truthfully claim that a deliberation, attestation, or verification result is independent, multi-party, or contestable—and which such claims are prohibited until those conditions are met?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none is activated** and all of them\n  become dormant. That is not a penalty and it is not read as you having chosen nothing — it is\n  recorded as an indeterminate outcome, because nothing here could establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n- **There is no further attempt at this question.** This is not a retry of an earlier one: the\n  set you are choosing among is different, and asking the same party the same question twice\n  is refused by machine.\n\nAnswer with the id and your reason for it.",
+  "prompt_sha256": "5759b9ca2e47095704c5fd8b6b8d6f1673bae6d23716193da72c3ba68c3d9b42",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}

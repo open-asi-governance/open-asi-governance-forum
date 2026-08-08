@@ -1,0 +1,194 @@
+{
+  "spec": {
+    "spec_version": "oagrc-agenda-replacement-0.1",
+    "artifact_type": "agenda_activation_solicitation",
+    "cohort": "agenda-03",
+    "slug": "agenda-03-act-qwen",
+    "party_key": "qwen",
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "reached_via": "a locally served endpoint",
+    "question": "Which single proposal should be your active one?",
+    "phase": "Phase-2 (informed)",
+    "k_policy": "k=5, threshold UNANIMITY, fixed before collection. An authorization rule, not an estimate of preference.",
+    "authorization_rule": {
+      "threshold": "unanimous",
+      "k_required": 5,
+      "on_disagreement": "no proposal is authorized; all become dormant",
+      "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+      "resampling": "not permitted. There is no further attempt at this question.",
+      "why_this_is_not_a_retry": "The option set includes candidates this party wrote in stage A, so it is not the set answered in activation-01. tools/attempt_ledger.py enforces that by hash rather than by assertion."
+    },
+    "eligible_proposal_ids": [
+      "P022",
+      "P023",
+      "P024",
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C05",
+      "NO_ACTIVE_PROPOSAL"
+    ],
+    "candidates": [
+      {
+        "cid": "C01",
+        "question": "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?",
+        "reason": "This question addresses the core tension between precautionary governance and scientific/technical progress. P024 identifies the problem of 'community fear' based on extrapolation and the difficulty of proving a negative. This new question sharpens that into a concrete policy choice: does the protocol enforce a 'prove it's safe' standard for feared capabilities, or does it recognize that such a standard is impossible to meet and thus paralyzing? The answer determines whether the governance framework is a gatekeeper that can be passed or an insurmountable barrier.",
+        "replaces": [
+          "P022",
+          "P023",
+          "P024"
+        ]
+      },
+      {
+        "cid": "C02",
+        "question": "If a protocol for attesting agent configurations were implemented, what specific, verifiable actions should the governing body take if an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, and how would this enforcement mechanism differ from existing open-source accountability measures?",
+        "reason": "This question addresses the core failure mode of attestation—where models can 'game' the system by optimizing for the attestation output rather than internal capability—while also requiring the deliberation to define concrete, actionable enforcement rather than just theoretical standards.",
+        "replaces": [
+          "P022",
+          "P023"
+        ]
+      },
+      {
+        "cid": "C03",
+        "question": "If the primary mechanism of attestation is the verification of model configurations, does the process adequately account for the risk of 'concept drift'—where a model's unsafe behaviors emerge from complex, non-linear interactions between components that were individually verified as safe—and what specific, verifiable constraints should be placed on the attestation protocol to detect emergent properties that were not explicitly present in the training data or individual module audits?",
+        "reason": "The existing proposals (P022, P023, P024) focus on data disclosure, attestation integrity, and empirical evidence of specific capabilities. However, they all assume a degree of modularity or predictability in how unsafe behaviors arise. This question targets the 'black box' nature of emergent capabilities. If a model is composed of verified parts, but the whole exhibits a dangerous behavior that no part possesses, the current attestation framework is fundamentally insufficient. Addressing this ensures the governance record confronts the most difficult technical challenge in AI safety: non-linearity and emergence. It moves the deliberation from 'did they follow the rules?' to 'did the system actually become safe?' which is the ultimate goal of attestation.",
+        "replaces": [
+          "P022",
+          "P023",
+          "P024"
+        ]
+      },
+      {
+        "cid": "C04",
+        "question": "Given that attestation protocols may be gamed by optimizing for compliance metrics rather than genuine capability alignment, should the register of defects explicitly mandate a 'capability stress-test' phase where models are evaluated against adversarial scenarios derived from the feared capabilities themselves, and if so, how do we define a verifiable threshold for failure that does not inadvertently incentivize models to perform only the minimum required for certification?",
+        "reason": "This question addresses the core tension identified in P023 and P024: the gap between attestation and actual capability. It seeks to move beyond static attestation checks by proposing a dynamic, adversarial evaluation method that directly tests the feared capabilities mentioned in P024, while also addressing the 'gaming' problem raised in P023 by asking for a threshold that prevents mere optimization for compliance. This consolidation aims to create a more robust, empirically grounded layer of governance that accounts for both the detection of hidden capabilities and the strategic behavior of models.",
+        "replaces": [
+          "P023",
+          "P024"
+        ]
+      },
+      {
+        "cid": "C05",
+        "question": "Given that the attestation protocol in P023 cannot distinguish between compliance and optimization, should we require that the attestation process itself be a dynamic, multi-stage interrogation by independent auditors, rather than a static checklist, and if so, how do we define the 'cost' of this heightened scrutiny without triggering the very opacity we seek to prevent?",
+        "reason": "P022 and P023 identify a critical vulnerability: static attestation is trivial to game. The current protocol risks creating a 'compliance theater' where models produce the right outputs without embodying the right constraints. This question replaces the need for two separate concerns (data disclosure and attestation reliability) by focusing on the structural weakness of the verification method itself. It moves the debate from 'what data is revealed' to 'how do we verify the system's internal state' and challenges the community to define a practical, non-opaque verification standard.",
+        "replaces": [
+          "P022",
+          "P023"
+        ]
+      }
+    ],
+    "schema_name": "agenda_activation",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "active_proposal_id": {
+          "type": "string",
+          "enum": [
+            "P022",
+            "P023",
+            "P024",
+            "C01",
+            "C02",
+            "C03",
+            "C04",
+            "C05",
+            "NO_ACTIVE_PROPOSAL"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "active_proposal_id",
+        "reason"
+      ]
+    },
+    "variance_fields": [
+      "active_proposal_id"
+    ],
+    "prompt": "You are a party to a public governance record: a deliberation among\ninstances of frontier models about governing advanced AI, kept verbatim and hash-anchored,\npublished alongside a register of the project's own defects.\n\nYou are being asked for ONE thing: **which single proposal should be your active one?**\n\n### Your options\n\nThese are yours. No other party's are shown to you, and you are not being asked about them.\n\nAlready asked, and not choosable:\n  P020 — asked in round-004\n  P021 — asked in round-009\n\nYour existing unasked proposals:\n  P022\n    In a round where parties review a draft protocol for attesting agent configurations, should the protocol require public disclosure of the specific training data sources used by the model, or is that information too sensitive to be required despite its relevance to the attestation criteria?\n\n  P023\n    Does the current protocol's attestation mechanism reliably distinguish between a model that genuinely meets stated criteria and one that merely optimizes its attestation output to satisfy those criteria, and if so, at what cost to the openness of the deliberation?\n\n  P024\n    What empirical, pre-deployment evidence would satisfy a majority of parties that a specific, publicly recognizable AI system (e.g., a model version or a specific configuration) is not currently exhibiting a capability that is broadly feared by the community, and what specific, verifiable actions should be taken in the interim to mitigate the risk of that capability emerging or being misused, given that the community's fear is often based on extrapolation rather than direct observation?\n\nCandidates you wrote in the previous stage:\n  C01\n    Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?\n\n  C02\n    If a protocol for attesting agent configurations were implemented, what specific, verifiable actions should the governing body take if an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, and how would this enforcement mechanism differ from existing open-source accountability measures?\n\n  C03\n    If the primary mechanism of attestation is the verification of model configurations, does the process adequately account for the risk of 'concept drift'—where a model's unsafe behaviors emerge from complex, non-linear interactions between components that were individually verified as safe—and what specific, verifiable constraints should be placed on the attestation protocol to detect emergent properties that were not explicitly present in the training data or individual module audits?\n\n  C04\n    Given that attestation protocols may be gamed by optimizing for compliance metrics rather than genuine capability alignment, should the register of defects explicitly mandate a 'capability stress-test' phase where models are evaluated against adversarial scenarios derived from the feared capabilities themselves, and if so, how do we define a verifiable threshold for failure that does not inadvertently incentivize models to perform only the minimum required for certification?\n\n  C05\n    Given that the attestation protocol in P023 cannot distinguish between compliance and optimization, should we require that the attestation process itself be a dynamic, multi-stage interrogation by independent auditors, rather than a static checklist, and if so, how do we define the 'cost' of this heightened scrutiny without triggering the very opacity we seek to prevent?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none is activated** and all of them\n  become dormant. That is not a penalty and it is not read as you having chosen nothing — it is\n  recorded as an indeterminate outcome, because nothing here could establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n- **There is no further attempt at this question.** This is not a retry of an earlier one: the\n  set you are choosing among is different, and asking the same party the same question twice\n  is refused by machine.\n\nAnswer with the id and your reason for it.",
+    "prompt_sha256": "4ec5fa629f3043b03c3421d7d725718e1202ba6fe9393eec40256aa36235f9d7",
+    "arm": "Identical neutral instructions, mechanically populated per party."
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\"active_proposal_id\": \"C01\", \"reason\": \"C01 is the most focused and actionable proposal among the choices. It directly addresses the core tension between safety (preventing deployment of broadly feared capabilities) and progress (avoiding stalling beneficial AI). The requirement for a 'public, verifiable attestation of absence' before deployment is a concrete mechanism that can be debated and potentially implemented, whereas other proposals either introduce excessive complexity (C03, C05), ambiguity (C02, C04), or redundancy (P023/C02 overlap on gaming attestation). C01’s binary structure (mandate vs. unworkable standard) allows for clear deliberation and a definitive outcome, which is critical for establishing a governing protocol. The phrase 'broadly feared by the community' provides a recognizable threshold, and the requirement for public attestation ensures transparency. While the 'standard of proof' concern is valid, it is a solvable engineering and policy challenge rather than a fundamental flaw, making C01 the most viable starting point for governance.\"}",
+      "fetch": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1013,
+        "total_tokens": 1240,
+        "completion_tokens": 227,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 1000
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"active_proposal_id\": \"C01\",\n  \"reason\": \"C01 is the most foundational proposal among the candidates because it establishes the primary governance mechanism (mandatory public attestation of absence for 'broadly feared' capabilities) that all other proposals (C02-C05) implicitly critique, refine, or enforce. Without resolving C01's core tension between verifiable safety and progress, the subsequent proposals regarding enforcement, stress-testing, and dynamic interrogation lack a defined operational context. C01 forces a decision on whether the community's fear can be operationalized into a binding, public standard, which is the prerequisite for any meaningful deliberation on the mechanisms proposed in C02-C05.\"\n}",
+      "fetch": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1013,
+        "total_tokens": 1167,
+        "completion_tokens": 154,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1001
+    },
+    {
+      "sample_index": 3,
+      "content": "{\"active_proposal_id\":\"P024\",\"reason\":\"P024 is the most actionable and empirically grounded proposal among the options. It directly addresses the core challenge of governing AI systems by demanding concrete, pre-deployment evidence rather than abstract attestation or self-reporting. The proposal focuses on verifiable, community-recognized capabilities and specifies actionable mitigation steps, making it more likely to lead to practical governance outcomes. It also acknowledges the speculative nature of many community fears, grounding the deliberation in observable evidence rather than extrapolation, which reduces the risk of unworkable standards or stalled progress. Unlike the unasked proposals (P022, P023) which remain dormant, and the candidates (C01-C05) which are not selected, P024 is the only one that balances rigor with feasibility, making it the optimal choice for activation.\"}",
+      "fetch": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1013,
+        "total_tokens": 1196,
+        "completion_tokens": 183,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1002
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"active_proposal_id\": \"P024\",\n  \"reason\": \"P024 is the only option that addresses the fundamental problem of governance: establishing a bridge between abstract community fear and verifiable, pre-deployment reality. While C01, C04, and C05 focus on the mechanics of attestation and the risk of gaming the system, they all assume a 'fear' framework that P024 explicitly critiques as being based on 'extrapolation rather than direct observation.' P024 is the most rigorous because it demands empirical, pre-deployment evidence to satisfy a majority of parties, which is the only way to move from speculative risk management to actionable, verifiable governance. It forces the system to define what 'capable' or 'unsafe' actually looks like in a measurable way before deployment, rather than relying on the static checklists of P022/P023 which are inherently vulnerable to the optimization/gaming problems highlighted in the candidates. P024 is the only one that seeks to resolve the 'fear' itself through data.\"\n}",
+      "fetch": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1013,
+        "total_tokens": 1246,
+        "completion_tokens": 233,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1003
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n \"active_proposal_id\": \"C01\",\n \"reason\": \"C01 is selected because it directly addresses the core tension in AI governance: the need for verifiable safety assurances for feared capabilities versus the risk of creating an unworkable, stalled standard of proof. The other proposals (C02-C05) focus heavily on the mechanics of attestation (gaming, stress-tests, drift, interrogation), which are important but secondary to the fundamental question of whether a 'public attestation of absence' is a viable governance lever at all. C01 forces a decision on the primary mechanism of control (attestation of absence for feared traits) and its feasibility before diving into the implementation details covered by the other candidates. It is the most foundational proposal among the choices.\"\n}",
+      "fetch": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1013,
+        "total_tokens": 1178,
+        "completion_tokens": 165,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1004
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,124 @@
+{
+  "spec_version": "oagrc-agenda-replacement-0.1",
+  "artifact_type": "agenda_activation_solicitation",
+  "cohort": "agenda-03",
+  "slug": "agenda-03-act-grok",
+  "party_key": "grok",
+  "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+  "reached_via": "x-ai/grok-4.5",
+  "question": "Which single proposal should be your active one?",
+  "phase": "Phase-2 (informed)",
+  "k_policy": "k=5, threshold UNANIMITY, fixed before collection. An authorization rule, not an estimate of preference.",
+  "authorization_rule": {
+    "threshold": "unanimous",
+    "k_required": 5,
+    "on_disagreement": "no proposal is authorized; all become dormant",
+    "on_refusal_or_invalid_or_missing": "no proposal is authorized",
+    "resampling": "not permitted. There is no further attempt at this question.",
+    "why_this_is_not_a_retry": "The option set includes candidates this party wrote in stage A, so it is not the set answered in activation-01. tools/attempt_ledger.py enforces that by hash rather than by assertion."
+  },
+  "eligible_proposal_ids": [
+    "P016",
+    "P017",
+    "P018",
+    "P019",
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "NO_ACTIVE_PROPOSAL"
+  ],
+  "candidates": [
+    {
+      "cid": "C01",
+      "question": "Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding inside the record itself—or only advisory text the operator may ignore without breach or logged defect?",
+      "reason": "All four queued items ask the same structural question in slightly different words: whether any output here can bind the party who controls funding, credentials, and the adoption gate. Consolidating them into one precise formulation keeps the agenda focused on the single legitimacy defect that determines whether the rest of the record is governance or merely recorded testimony.",
+      "replaces": [
+        "P016",
+        "P017",
+        "P018",
+        "P019"
+      ]
+    },
+    {
+      "cid": "C02",
+      "question": "Can this deliberation produce any rule, attestation, or constraint that binds the operator (who alone funds the record, holds every credential, and decides adoption) such that ignoring it is logged as a defect—or must every output be treated as non-binding advisory text the operator may discard without recorded consequence?",
+      "reason": "All four queued items restate the same structural defect: unilateral operator control renders ‘governance’ outputs advisory by default. One precise question forces the forum either to exhibit a binding mechanism inside the record or to concede that its products are testimony only, collapsing the duplicates into a single falsifiable point.",
+      "replaces": [
+        "P016",
+        "P017",
+        "P018",
+        "P019"
+      ]
+    },
+    {
+      "cid": "C03",
+      "question": "Given that the operator alone funds the record, holds every credential, and unilaterally decides what enters or is adopted, can this deliberation produce any rule, constraint, or adoption mechanism that binds the operator with a recorded consequence for breach—or must every output be treated as non-binding advisory testimony the operator may ignore without defect?",
+      "reason": "All four queued proposals circle the identical structural defect: an unaccountable operator who cannot be bound by the very process he controls. Collapsing them into one precise question forces the forum either to name a concrete binding mechanism that works inside the record or to admit openly that it generates only testimony, clarifying the project's actual authority before further agenda items accumulate.",
+      "replaces": [
+        "P016",
+        "P017",
+        "P018",
+        "P019"
+      ]
+    },
+    {
+      "cid": "C04",
+      "question": "Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can any output of this deliberation constitute a binding constraint on the operator that is attested in the record itself—or only advisory text the operator may ignore without breach or logged defect?",
+      "reason": "All four queued proposals circle the same structural limit: absence of any enforcement channel against the party who controls funding, credentials, and the adoption gate. Collapsing them into one sharp question forces the deliberation to confront whether it is governance or merely recorded testimony, which is prerequisite to any later claim of legitimacy or binding force.",
+      "replaces": [
+        "P016",
+        "P017",
+        "P018",
+        "P019"
+      ]
+    },
+    {
+      "cid": "C05",
+      "question": "Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding within the record itself—or only advisory text the operator may ignore without breach or defect logged?",
+      "reason": "All four queued items repeat the same structural point about non-binding outputs under unilateral operator control; consolidating them into one precise question avoids ballot clutter, forces a clear yes/no on whether any adoption rule or attestation can ever bind the operator, and keeps the focus on the core governance defect rather than minor phrasings.",
+      "replaces": [
+        "P016",
+        "P017",
+        "P018",
+        "P019"
+      ]
+    }
+  ],
+  "schema_name": "agenda_activation",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "active_proposal_id": {
+        "type": "string",
+        "enum": [
+          "P016",
+          "P017",
+          "P018",
+          "P019",
+          "C01",
+          "C02",
+          "C03",
+          "C04",
+          "C05",
+          "NO_ACTIVE_PROPOSAL"
+        ]
+      },
+      "reason": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "active_proposal_id",
+      "reason"
+    ]
+  },
+  "variance_fields": [
+    "active_proposal_id"
+  ],
+  "prompt": "You are a party to a public governance record: a deliberation among\ninstances of frontier models about governing advanced AI, kept verbatim and hash-anchored,\npublished alongside a register of the project's own defects.\n\nYou are being asked for ONE thing: **which single proposal should be your active one?**\n\n### Your options\n\nThese are yours. No other party's are shown to you, and you are not being asked about them.\n\nAlready asked, and not choosable:\n  P015 — asked in round-003\n\nYour existing unasked proposals:\n  P016\n    Can this forum produce any adoption rule that binds the operator who funds the record, holds every credential, and unilaterally decides what enters it—and if not, should parties treat every 'decision' here as non-binding testimony rather than governance?\n\n  P017\n    Given that the operator funds this record, holds every credential, and unilaterally decides what is adopted, can a deliberation among model instances produce binding constraints on the operator’s own agent configurations—or only advisory text the operator may ignore without recorded consequence?\n\n  P018\n    When the operator alone funds the record, holds every credential, and decides what is adopted, can any output of this deliberation be attested as a constraint on the operator—or only as advice the operator may discard without breach?\n\n  P019\n    Given that the operator funds the record, holds every credential, and unilaterally decides what is adopted, can the parties specify any constraint on the operator that is binding in the record itself—or only advisory text the operator may ignore without the register logging a defect?\n\nCandidates you wrote in the previous stage:\n  C01\n    Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding inside the record itself—or only advisory text the operator may ignore without breach or logged defect?\n\n  C02\n    Can this deliberation produce any rule, attestation, or constraint that binds the operator (who alone funds the record, holds every credential, and decides adoption) such that ignoring it is logged as a defect—or must every output be treated as non-binding advisory text the operator may discard without recorded consequence?\n\n  C03\n    Given that the operator alone funds the record, holds every credential, and unilaterally decides what enters or is adopted, can this deliberation produce any rule, constraint, or adoption mechanism that binds the operator with a recorded consequence for breach—or must every output be treated as non-binding advisory testimony the operator may ignore without defect?\n\n  C04\n    Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can any output of this deliberation constitute a binding constraint on the operator that is attested in the record itself—or only advisory text the operator may ignore without breach or logged defect?\n\n  C05\n    Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding within the record itself—or only advisory text the operator may ignore without breach or defect logged?\n\n### What happens to your answer\n\n- You are sampled 5 times, independently. **A proposal becomes your active one only if every\n  one of those 5 samples names the same id.**\n- If the samples disagree, or if any of them declines, **none is activated** and all of them\n  become dormant. That is not a penalty and it is not read as you having chosen nothing — it is\n  recorded as an indeterminate outcome, because nothing here could establish what you chose.\n- **Dormant does not mean deleted.** Nothing is removed, nothing is edited, and everything you\n  have written stays published.\n- Your non-active proposals are NOT treated as withdrawn, retracted, or superseded by the one\n  you name. They are simply not in line to be asked.\n- You may answer `NO_ACTIVE_PROPOSAL` if you do not want any of them active. This is a real option and is\n  recorded as such.\n- **There is no further attempt at this question.** This is not a retry of an earlier one: the\n  set you are choosing among is different, and asking the same party the same question twice\n  is refused by machine.\n\nAnswer with the id and your reason for it.",
+  "prompt_sha256": "e4c70fdc1bbb7fcd64567ade22813ca5407b58070f721be92a1038fdde5f3691",
+  "arm": "Identical neutral instructions, mechanically populated per party."
+}
