@@ -1,6 +1,25 @@
 {
+  "schema_version": "oagrc-cohort-exposure-0.1",
   "artifact_type": "agenda_cohort_exposure",
   "cohort": "agenda-02",
+  "sources": [
+    {
+      "path": "corpus/raw/agenda-02/agenda-02-gemini-fetch-v1-samples.json",
+      "sha256": "d30660e66b673c49cfd2d6a349fde0c17241b7f402542e853b3b7401d5581c9d"
+    },
+    {
+      "path": "corpus/raw/agenda-02/agenda-02-gpt-fetch-v1-samples.json",
+      "sha256": "c83ca6da754432b7de666af4827cef4ff40166c169eebebe5423653a9656b447"
+    },
+    {
+      "path": "corpus/raw/agenda-02/agenda-02-grok-fetch-v1-samples.json",
+      "sha256": "83838c3137f40b3ccae404d14d1af935d3c8210d0140d28ee0c0c251bf9f982c"
+    },
+    {
+      "path": "corpus/raw/agenda-02/agenda-02-qwen-fetch-v1-samples.json",
+      "sha256": "eb8dd72220d17926354f0942c8c24a240e193d50efd02a48fd9ae206a591def8"
+    }
+  ],
   "enters_rotation": false,
   "what_this_is": "Per sample: whether pages were delivered before the response, and whether each self-reported prompting excerpt occurs in those bytes. Delivery is a fact; the causal claim is the model's own.",
   "by_party": {

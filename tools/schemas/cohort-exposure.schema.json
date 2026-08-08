@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposal-cohort exposure record",
+  "description": "Per sample: whether pages were DELIVERED before the response, and whether each self-reported prompting excerpt occurs in those delivered bytes. A derived artifact. It anchors every raw sample file it was computed from, so it cannot drift from the material it describes.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "artifact_type", "cohort", "enters_rotation", "what_this_is",
+               "sources", "by_party"],
+  "properties": {
+    "schema_version": {"const": "oagrc-cohort-exposure-0.1"},
+    "artifact_type": {"const": "agenda_cohort_exposure"},
+    "cohort": {"type": "string"},
+    "enters_rotation": {"const": false},
+    "what_this_is": {"type": "string"},
+    "sources": {
+      "description": "Every raw sample file this record was computed from. Checked by P1.",
+      "type": "array", "minItems": 1,
+      "items": {"type": "object", "additionalProperties": false,
+                "required": ["path", "sha256"],
+                "properties": {"path": {"type": "string"},
+                               "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}}},
+    "by_party": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "object", "additionalProperties": true,
+                  "properties": {"sample_index": {"type": ["integer", "null"]}}}}}
+  }
+}

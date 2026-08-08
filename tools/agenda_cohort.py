@@ -272,9 +272,18 @@ def main() -> int:
             for s in (doc.get("samples") or doc.get("responses") or [])]
     out = REPO_ROOT / "corpus" / "artifacts" / args.cohort / f"{args.cohort}-exposure.json"
     out.parent.mkdir(parents=True, exist_ok=True)
+    #  ANCHOR the raw this was computed from. Without it the record was structurally
+    #  unvalidatable -- an unknown artifact_type with no source -- so nothing checked that it
+    #  still described the samples it names.
+    sources = [{"path": str(path.relative_to(REPO_ROOT)),
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+               for path in sorted(raw_dir.glob(f"{args.cohort}-*-samples.json"))
+               if not path.stem.endswith("-report-samples")]
     out.write_text(json.dumps({
+        "schema_version": "oagrc-cohort-exposure-0.1",
         "artifact_type": "agenda_cohort_exposure",
         "cohort": args.cohort,
+        "sources": sources,
         "enters_rotation": False,
         "what_this_is": ("Per sample: whether pages were delivered before the response, and "
                          "whether each self-reported prompting excerpt occurs in those bytes. "

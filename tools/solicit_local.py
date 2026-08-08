@@ -331,7 +331,11 @@ def main() -> int:
         "artifact_type": "solicitation_summary",
         "round": args.out_round,
         "slug": slug,
-        "question": spec.get("question"),
+        #  `question` is OMITTED below when there is none, never written as null. A proposal
+        #  cohort has no question put to it -- the parties are asked to propose one -- and a
+        #  null here fails the provenance schema while publishing an absent question as an
+        #  empty one. Kept identical to solicit_api.write_summary; the two writers disagreeing
+        #  about a field is how the local arm's summaries came to differ from the routed ones.
         "phase": spec["phase"],
         "k_requested": args.k,
         "k_collected": len(samples),
@@ -363,6 +367,10 @@ def main() -> int:
         "spec_sha256": sha256_text(spec_path.read_text(encoding="utf-8")),
         "raw_samples": str(raw_path.relative_to(REPO_ROOT)),
     }
+    #  Present only when a question was actually put. See the note beside `phase`.
+    question = spec.get("question") or spec.get("task")
+    if question:
+        summary["question"] = question
 
     summary_dir = REPO_ROOT / "corpus" / "artifacts" / args.out_round
     summary_dir.mkdir(parents=True, exist_ok=True)

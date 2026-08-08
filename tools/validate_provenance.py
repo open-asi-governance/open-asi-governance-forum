@@ -81,6 +81,7 @@ SCHEMA_FOR_TYPE = {
     "annotation": "segments.schema.json",
     "contribution": "contribution.schema.json",
     "solicitation_summary": "solicitation.schema.json",
+    "agenda_cohort_exposure": "cohort-exposure.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
     "deficiency_register": "deficiency-register.schema.json",
@@ -150,6 +151,18 @@ def check_source_hash(document: dict, report: Report) -> None:
     for key in ("raw", "prompt"):
         if key in document:
             anchors.append((key, document[key]))
+
+    if document.get("artifact_type") == "agenda_cohort_exposure":
+        #  Anchors EVERY raw sample file it was computed from, like a finding_coding, not one
+        #  source: a record describing four parties' deliveries that anchored only the first
+        #  could drift from three of them without any check noticing.
+        sources = document.get("sources") or []
+        if not sources:
+            report.error("P1", "cohort exposure declares no sources to anchor")
+            return
+        for index, source in enumerate(sources):
+            check_one_anchor(f"sources[{index}]", source, report)
+        return
 
     if document.get("artifact_type") == "freetext_coding":
         check_one_anchor("coded_source", document.get("coded_source", {}), report)

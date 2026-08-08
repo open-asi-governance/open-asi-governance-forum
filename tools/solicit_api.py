@@ -187,10 +187,12 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path,
         "artifact_type": "solicitation_summary",
         "round": args.out_round,
         "slug": spec["slug"],
-        #  .get, not [..]: a proposal cohort's spec has no `question` -- the parties are asked
-        #  to PROPOSE one. This raised KeyError AFTER the samples were collected and paid for,
-        #  losing three arms' summaries while their raw material sat on disk intact.
-        "question": spec.get("question") or spec.get("task"),
+        #  OMITTED, not null, when there is no question -- see below. Written as a key with a
+        #  null value it fails the provenance schema (`question` is optional but typed), and it
+        #  publishes `"question": null` as though the question were empty rather than absent.
+        #  A proposal cohort has no question PUT to it: the parties are asked to propose one.
+        #  Reading spec["question"] here raised KeyError AFTER the samples were collected and
+        #  paid for, losing three arms' summaries while their raw material sat on disk intact.
         "phase": spec["phase"],
         "k_requested": args.k,
         "k_collected": len(samples),
@@ -230,6 +232,10 @@ def write_summary(spec: dict, args, samples: list[dict], raw_path: Path,
         "spec_sha256": hashlib.sha256(Path(args.spec).read_bytes()).hexdigest(),
         "raw_samples": str(raw_path.relative_to(REPO_ROOT)),
     }
+    #  Present only when a question was actually put. See the note above `phase`.
+    question = spec.get("question") or spec.get("task")
+    if question:
+        summary["question"] = question
     (art_dir / f"{spec['slug']}-summary.json").write_text(
         json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 

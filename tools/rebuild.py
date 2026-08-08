@@ -68,6 +68,14 @@ STEPS = [
     # the same failure build_local_rounds.py was written for, one artifact class over.
     # Runs BEFORE the viewer, which owns the sitemap and llms.txt and needs these routes.
     ("publish the deliberation rounds", ["tools/build_round_pages.py"]),
+    # Added 2026-08-07, in the SAME motion that first published a cohort. A generator
+    # missing from this list is not merely unrun: CI deletes docs/ and regenerates it,
+    # so an unlisted generator's output is deleted and never rebuilt, and the run fails
+    # on files that "differ from a clean regeneration". That is how it should fail --
+    # but the pages it publishes were reachable from the rounds index the moment they
+    # were committed, so the window between committing and listing is a window in which
+    # the site links to pages the build does not produce.
+    ("publish the proposal cohorts", ["tools/build_cohort_pages.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added
