@@ -1,0 +1,160 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-014",
+  "cycle": 14,
+  "utc": "2026-08-08T23:32:28Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P045",
+    "party": "qwen",
+    "question": "Should the protocol mandate that any capability deemed 'broadly feared by the community' must be subject to a public, verifiable attestation of absence before deployment, or does this requirement create an unworkable standard of proof that stalls progress on clearly beneficial AI applications?",
+    "question_sha256": "63db4e58ee709cbbd68328ffad39d439a25c957b7d9b17b3c9106cba252910c5",
+    "reason": "This question addresses the core tension between precautionary governance and scientific/technical progress. P024 identifies the problem of 'community fear' based on extrapolation and the difficulty of proving a negative. This new question sharpens that into a concrete policy choice: does the protocol enforce a 'prove it's safe' standard for feared capabilities, or does it recognize that such a standard is impossible to meet and thus paralyzing? The answer determines whether the governance framework is a gatekeeper that can be passed or an insurmountable barrier.",
+    "sponsors": [
+      "qwen"
+    ],
+    "cohort": "agenda-03",
+    "condition": "saw_own_queue",
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "63db4e58ee709cbbd68328ffad39d439a25c957b7d9b17b3c9106cba252910c5",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "780fd729b8b82d11650e2bd9f217fdbaaf038ef4999eddda00e5b50a27d50eeb",
+  "context_pack_sha256": "b8f28ac56628494c8bb204209b047326c04929bbe4609684f1692931aaefbc76",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 15620,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 0.8494
+      },
+      {
+        "party_key": "gpt",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 15649,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 0.6774
+      },
+      {
+        "party_key": "gemini",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 15634,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 1.3296
+      },
+      {
+        "party_key": "claude",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 15650,
+        "search_result_tokens_allowed": 18823,
+        "web_search_engine": "exa",
+        "web_search_fee_usd": 0.025,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 5.7487
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 15461,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 8.6051,
+    "expected_usd_from_observed_ratio": 1.7838,
+    "observed_ratio": {
+      "ratio": 0.2073,
+      "n": 12,
+      "min": 0.0252,
+      "max": 0.3989,
+      "basis": "Median of actual/worst_case over recorded rounds. Agentic rounds sit far below the rest -- round 011 was 0.03 -- because the bound assumes every sample fills its fetch budget and three of five parties fetched nothing."
+    },
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens on every turn, prompt tokens estimated at 3.4 bytes/token, and for a fetch-enabled party every turn re-sending the whole conversation with another 60000-character page appended. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 9.0,
+    "daily_ceiling_usd": 100.0,
+    "already_committed_today_usd": 3.4339
+  },
+  "actual_usd": 2.1393,
+  "parties": [
+    {
+      "party_key": "grok",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.8,
+      "entropy_bits": 0.7219,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "rejects_a_premise",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 6,
+      "position": "rejects_a_premise",
+      "modal_fraction": 0.5,
+      "entropy_bits": 1.0,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "arms": [
+    "search:exa",
+    "search:none"
+  ],
+  "arms_note": "Parties in different arms had different capabilities and received different text about them. Their answers are not comparable to each other, and nothing here pools them.",
+  "reask": null,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
