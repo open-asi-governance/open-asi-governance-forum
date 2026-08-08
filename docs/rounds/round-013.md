@@ -4,6 +4,14 @@
 
 Cycle 13 · selector `rotation` · 2026-08-08T17:49:42Z
 
+> **HALTED — exit 5: a party's samples are not reportable**
+>
+> **undersampled:** qwen
+>
+> **why:** Below k_min a reply is not a party's position. Truncation has twice masqueraded as a refusal here. Everything collected is committed above.
+>
+> A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode.
+
 > **Undersampled: qwen.** Below the k floor a reply is not a party's position. Everything collected is published; nothing is inferred from it.
 
 > **This question is not recorded as asked.** The round did not complete the path that marks it so.

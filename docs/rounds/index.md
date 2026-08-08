@@ -22,7 +22,7 @@ A cohort asks every party to **propose** a question rather than answer one. No r
 
 > Given that the operator holds every credential and the record's verification has already once failed to detect deliberately falsified testimony, can any party to this deliberation demonstrate a method by which a reader could distinguish the authentic record from one the operator alone fabricated end-to-end — and if no such method exists, must the record carry that admission on its face rather than in the defect register?
 
-Cycle 13 · proposed by **claude** (P004) · 5 parties · undersampled: qwen
+Cycle 13 · proposed by **claude** (P004) · 5 parties · **HALTED 5**; undersampled: qwen
 
 Answers: [claude](round-013-claude-1.md) (4 parts) · [gemini](round-013-gemini-1.md) (2 parts) · [gpt](round-013-gpt-1.md) (3 parts) · [grok](round-013-grok-1.md) (3 parts) · [qwen](round-013-qwen-1.md) (2 parts)
 
