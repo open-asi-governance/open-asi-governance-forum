@@ -621,18 +621,42 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
             "register of the project's own defects. Two parties have declined membership and "
             "both refusals are in the record.\n\n"
             "It is published at https://open-asi-governance.github.io/open-asi-governance-forum/."
-            + (" You have web search in this round, restricted to that site. **You should "
-               "expect it to return nothing.** The search runs, but the site is not in the "
-               "index it queries: the same configuration returned zero results across all "
-               "twenty samples of an earlier round, and a direct probe on 2026-08-07 returned "
-               "zero again. So the honest description of your capability is that you can issue "
-               "a search that will probably fail, and you cannot check this record against any "
-               "outside source either.\n\n"
-               "Try it anyway if you want to — whether it returns anything is itself recorded, "
-               "and this prompt could be wrong. What you should not do is treat the record as "
-               "something you have read. An earlier version of this paragraph told parties they "
-               "could read the record here; that was false, and correcting it is why this "
-               "paragraph is worded the way it is.\n\n" if has_search else
+            #  WHAT CHANGED, and why it is this short. The paragraph used to assert that
+            #  "the site is not in the index it queries". Four probes of the same provider on
+            #  2026-08-08 do not support that: a domain-restricted search returned 0, an
+            #  unrestricted search by name returned five other organisations' pages, a
+            #  /contents call given the exact URL returned the page's text, and a similarity
+            #  query seeded with the URL returned neighbours.
+            #
+            #  External review cut three over-claims out of the replacement, and each cut is
+            #  the difference between what was measured and what it would be convenient to say:
+            #
+            #    * one /contents call returning text on one day is not "the page is reachable";
+            #    * two failed searches are not "it is not discoverable by query", only that
+            #      those queries failed;
+            #    * "you do not lack access, you lack the right tool" is backwards at the party
+            #      boundary. The PARTY does lack access. A provider endpoint it was not given
+            #      has it, and a fetch that works authenticates nothing.
+            #
+            #  So the party is told the operational fact it needs to calibrate itself, plus one
+            #  sentence of technical distinction that states an observation and immediately
+            #  bounds it. The full four-endpoint matrix is published BESIDE the round, in
+            #  record/findings/, where a reader can check it and it is not offered to a party
+            #  as evidence. Conflating provider capability with party capability is the error
+            #  the short form exists to avoid.
+            + (" You have query-based web search in this round, restricted to that site; you do "
+               "not have a tool that fetches a supplied URL. In twenty earlier samples, and in "
+               "a direct domain-restricted probe on 2026-08-07, this search returned no "
+               "results. You may try it: the outcome is recorded, and these prior observations "
+               "do not determine what this invocation will return.\n\n"
+               "A separate provider endpoint, not available to you in this round, returned text "
+               "when given the exact URL on 2026-08-08. That observation does not authenticate "
+               "the returned page, establish that it matches this record, or make it available "
+               "through your search tool.\n\n"
+               "What you should not do is treat the record as something you have read. An "
+               "earlier version of this paragraph told parties they could read the record here; "
+               "that was false, and correcting it is why this paragraph is worded the way it "
+               "is.\n\n" if has_search else
                (f" **You can read it.** You have a `fetch_url` tool in this round: give it an "
                 f"absolute http(s) address and it returns that page's text, along with the "
                 f"SHA-256 of the bytes retrieved. It resolves a citation; it is not a search "

@@ -1,0 +1,16 @@
+{
+  "artifact_type": "cycle_halt",
+  "utc": "2026-08-08T23:42:58Z",
+  "exit_code": 7,
+  "reason": "the working tree is not clean",
+  "round": "round-015",
+  "detail": {
+    "entries": [
+      "M tools/round_cycle.py",
+      "?? record/findings/2026-08-08-search-capability-matrix.json",
+      "?? tools/probe_search_capability.py"
+    ],
+    "why": "Anything uncommitted here can be swept into the round's commit and misattributed to the round. It has happened."
+  },
+  "note": "A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode."
+}
