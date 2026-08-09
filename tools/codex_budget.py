@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""Gate Codex invocations on remaining weekly quota. The custodian's floor is 33%.
+"""Gate Codex invocations on remaining weekly quota. SET ASIDE 2026-08-09 — see below.
+
+**NOT THE ACTIVE CONTROL.** The custodian set this aside because reading Codex's remaining quota
+requires an authenticated Chrome on the DevTools port, which is not running and is not worth
+standing up for this. `tools/codex_call.py` enforces a 10-minute floor between calls instead: a
+wall-clock limit needs no browser, no token, and no second implementation to keep in step.
+
+This module is kept, not deleted, because the quota read is the only thing that could measure
+actual CONSUMPTION -- a rate limit bounds how often Codex is called, never how much each call
+costs. If the CDP path is ever stood up, this is where it plugs in.
 
     python3 tools/codex_budget.py                  # report, and say whether an invoke is allowed
     from codex_budget import may_invoke

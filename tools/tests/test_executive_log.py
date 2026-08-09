@@ -165,5 +165,42 @@ check("the module refuses to reimplement the CDP read",
       "Reimplementing it here" in cb.__doc__ or "CodexUsage" in cb.remaining.__doc__
       or "CodexUsage" in open(REPO_ROOT / "tools/codex_budget.py").read())
 
+
+print("\nthe Codex rate limit")
+import codex_call as cc                                                   # noqa: E402
+_orig_last = cc.last_call
+check("the floor is the custodian's stated 10 minutes",
+      cc.MIN_SECONDS_BETWEEN_CALLS == 600)
+cc.last_call = lambda: None
+check("with no previous call, one is allowed", cc.may_call()[0] is True)
+import datetime as _dt
+def _ago(minutes):
+    when = (_dt.datetime.now(_dt.timezone.utc)
+            - _dt.timedelta(minutes=minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    cc.last_call = lambda: {"utc": when, "claim": {"purpose": "t"}}
+_ago(0.5);  check("a call 30 seconds ago is refused", cc.may_call()[0] is False)
+_ago(9.5);  check("a call 9.5 minutes ago is refused", cc.may_call()[0] is False)
+_ago(10.5); check("a call 10.5 minutes ago is allowed", cc.may_call()[0] is True)
+_ago(1)
+allowed, why = cc.may_call(override="custodian said so")
+check("an override is honoured", allowed is True)
+check("...and the reason is carried in the explanation", "custodian said so" in why)
+check("...and it is labelled as an override rather than a pass", "OVERRIDDEN" in why)
+_, why_refused = cc.may_call()
+check("a refusal says how long remains", "min remain" in why_refused)
+check("...and offers batching before the override", "Batch the question" in why_refused)
+src = open(REPO_ROOT / "tools/codex_call.py").read()
+check("the clock comes from the action log, not a side file",
+      "action-log.jsonl" in src and "second source of truth" in src)
+check("a REFUSED attempt does not reset the clock",
+      'entry.get("verified")' in src)
+check("the call is logged BEFORE it runs, so a crash is not unrecorded",
+      "LOGGED BEFORE THE CALL" in src)
+check("the module states it cannot prevent bypass",
+      "cannot prevent bypass" in src.lower() or "does not bind the binary" in src)
+check("--purpose is mandatory, so a review is auditable",
+      "an unexplained review is not auditable" in src)
+cc.last_call = _orig_last
+
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)
