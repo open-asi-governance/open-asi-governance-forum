@@ -1,48 +1,63 @@
 #!/usr/bin/env python3
-"""Invoke Codex through a rate limit. The custodian's floor is 10 minutes between calls.
+"""Invoke Codex through a rate limit. The floor lives in record/executive/spend-policy.json.
 
     python3 tools/codex_call.py --prompt-file design.md --purpose "review the X design"
     python3 tools/codex_call.py --status
     python3 tools/codex_call.py --prompt-file f.md --purpose "..." \
         --override "custodian asked for this now"
 
-**A SPENDING CONTROL, not a safety gate.** The custodian funds both subscriptions solo. Reading
-Codex's remaining quota needs an authenticated Chrome on the DevTools port and is set aside; a
-wall-clock floor between calls is the control that works without it.
+**A SPENDING CONTROL, not a safety gate.** Three money channels fund this project and they are
+not interchangeable — see `record/executive/spend-policy.json`, which records each floor beside
+its PROVENANCE:
 
-Why 10 minutes, and what it costs
-----------------------------------
-This session made **25 Codex invocations**. At a 10-minute floor that is 4 hours of elapsed
-time, so the limit is not cosmetic — it changes how the work is done. That is the point: it
-forces review to be batched into fewer, larger questions rather than spent on a stream of small
-ones, which is also how the better reviews here have gone. The eight-finding rejection of the
-search tool came from one large prompt, not from several small ones.
+* **OpenRouter** — per-token, priced before the call, already gated by `round_cycle --budget`.
+  This is what the rounds spend, and it is the only channel with a per-call figure.
+* **Claude subscription** — prepaid monthly, and **readable**: `executive_log.quota_now()` calls
+  the OAuth usage endpoint directly. Every action-log entry already carries a reading. **No floor
+  is set on it**, so those readings are a stamp and not yet a gate. The executive declines to
+  invent the number: an invented floor sitting in the record beside a custodian-stated one would
+  be indistinguishable from it a month later.
+* **Codex subscription** — prepaid monthly, and readable only through an authenticated Chrome on
+  the DevTools port, which is set aside. This module is what stands in for the reading.
 
-The cost is real and worth stating: a review that would have caught something is sometimes not
-worth waiting ten minutes for, and will therefore not happen. Some defects will ship that a
-free-running reviewer would have caught.
+The wall-clock floor is a PROXY, not the measurement
+-----------------------------------------------------
+Spacing calls bounds their rate; it never bounds their cost. One enormous prompt costs more than
+three small ones and this permits it. The number that would actually bound spend is how fast
+Codex exhausts the weekly window, and the custodian holds that from experience — so
+`derived_from_measurement` is recorded in the policy and printed by `--status`. While it is
+false, 600 seconds is **a floor honoured, not a rate justified**, and the tool says so on every
+status line rather than letting the number acquire authority by sitting there.
+
+What the floor costs
+---------------------
+This session made 25 Codex invocations. At ten minutes apart that is four hours of elapsed time,
+so the limit changes how the work is done: it forces review into fewer, larger questions rather
+than a stream of small ones, which is how the better reviews here have gone — the eight-finding
+rejection of the search tool came from one large prompt. The cost is that some review which would
+have caught something is not worth a ten-minute wait, and therefore will not happen.
 
 State comes from the action log, not a side file
 -------------------------------------------------
-"When was Codex last called" is derived from `record/executive/action-log.jsonl`, which is
-already hash-chained and already records `codex_invoke`. A separate timestamp file would be a
-second source of truth that could disagree with the log, and the log is the thing an auditor
-reads.
+"When was Codex last called" is derived from `record/executive/action-log.jsonl`, already
+hash-chained and already recording `codex_invoke`. A separate timestamp file would be a second
+source of truth that could disagree with the log, and the log is what an auditor reads. A REFUSED
+attempt does not reset the clock, and the call is logged BEFORE it runs, so a crashed invocation
+is not an unrecorded one.
 
 The override is logged, always
 -------------------------------
 `--override` exists because the custodian said "unless I say otherwise". It never bypasses the
-record: the call is logged with the override reason attached, because an unlogged exception is
-precisely what the executive's scope statement forbids.
+record: the reason is attached to the entry, because an unlogged exception is precisely what the
+executive's scope statement forbids.
 
-What this does NOT do
-----------------------
-* **It does not measure consumption.** A floor between calls bounds their rate, not their cost.
-  One enormous prompt costs more than three small ones and this permits it.
-* **It cannot prevent bypass.** Anything in this environment can invoke `codex exec` directly,
-  including me. The limit binds the path that records itself; it does not bind the binary. That
-  is the same shape as gate modification being invisible to the log that audits it, and it is a
-  real limit rather than a hypothetical one.
+It cannot prevent bypass — and did not
+----------------------------------------
+Anything here can invoke `codex exec` directly, including me. This is not hypothetical: **23 of
+the 25 Codex calls made on 2026-08-09 went straight through the shell and are absent from the
+action log**, which holds two. The limit binds the path that records itself; it does not bind the
+binary, and the log undercounts by construction. Same shape as gate modification being invisible
+to the log that audits it.
 """
 
 from __future__ import annotations
@@ -59,8 +74,26 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 
 import executive_log as ex                                                # noqa: E402
 
-MIN_SECONDS_BETWEEN_CALLS = 600           # the custodian's floor, 2026-08-09
 CODEX_TIMEOUT_SECONDS = 1500
+POLICY = REPO_ROOT / "record" / "executive" / "spend-policy.json"
+
+#  Fallback only. The live value and -- more importantly -- whether it was MEASURED or merely
+#  honoured come from the policy file, so the number and its provenance cannot drift apart.
+_DEFAULT_MIN_SECONDS = 600
+
+
+def policy() -> dict:
+    try:
+        doc = json.loads(POLICY.read_text(encoding="utf-8"))
+        return doc["channels"]["codex_subscription"]["rate_limit"]
+    except Exception:                                                    # noqa: BLE001
+        return {"min_seconds_between_calls": _DEFAULT_MIN_SECONDS,
+                "provenance": "policy file unreadable; using the built-in fallback",
+                "derived_from_measurement": False}
+
+
+def min_seconds() -> int:
+    return int(policy().get("min_seconds_between_calls") or _DEFAULT_MIN_SECONDS)
 
 
 def last_call() -> dict | None:
@@ -83,14 +116,15 @@ def may_call(override: str = "") -> tuple[bool, str]:
     elapsed = seconds_since_last()
     if elapsed is None:
         return True, "no previous Codex call recorded"
-    if elapsed >= MIN_SECONDS_BETWEEN_CALLS:
-        return True, f"{elapsed/60:.1f} min since the last call, floor is {MIN_SECONDS_BETWEEN_CALLS/60:.0f}"
-    wait = (MIN_SECONDS_BETWEEN_CALLS - elapsed) / 60
+    floor = min_seconds()
+    if elapsed >= floor:
+        return True, f"{elapsed/60:.1f} min since the last call, floor is {floor/60:.0f}"
+    wait = (floor - elapsed) / 60
     if override:
         return True, (f"OVERRIDDEN by the custodian with {wait:.1f} min still to wait — "
                       f"reason: {override}")
     return False, (f"only {elapsed/60:.1f} min since the last call; {wait:.1f} min remain of the "
-                   f"{MIN_SECONDS_BETWEEN_CALLS/60:.0f}-minute floor. Batch the question, or "
+                   f"{floor/60:.0f}-minute floor. Batch the question, or "
                    f"pass --override with a reason.")
 
 
@@ -129,7 +163,10 @@ def main() -> int:
         elapsed = seconds_since_last()
         allowed, why = may_call()
         prev = last_call()
-        print(f"  floor: {MIN_SECONDS_BETWEEN_CALLS/60:.0f} minutes between calls")
+        pol = policy()
+        print(f"  floor: {min_seconds()/60:.0f} minutes between calls")
+        print(f"  basis: {'MEASURED' if pol.get('derived_from_measurement') else 'NOT MEASURED'}"
+              f" — {pol.get('provenance','(no provenance recorded)')}")
         if prev:
             print(f"  last call: {prev['utc']} — {prev.get('claim',{}).get('purpose','(no purpose)')}")
             print(f"  elapsed:   {elapsed/60:.1f} min")

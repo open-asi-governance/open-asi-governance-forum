@@ -1,0 +1,48 @@
+{
+  "written": "2026-08-09",
+  "why": "THREE money channels, not one. They are funded differently, readable differently, and must not be gated by one number. Each floor below carries its PROVENANCE, because a custodian-stated limit and a number the executive invented are not the same kind of fact and must never be recorded as though they were.",
+  "channels": {
+    "openrouter": {
+      "what": "per-token, priced per call; what the rounds actually spend",
+      "readable": true,
+      "how_read": "priced from the model table before the call; tools/round_cycle.py --budget",
+      "enforced_by": "round_cycle budget preflight, halt exit 7",
+      "floor": {
+        "kind": "per-round USD ceiling",
+        "value": "typed per invocation, no default",
+        "provenance": "custodian: 3 routed rounds/day, roughly $5"
+      }
+    },
+    "claude_subscription": {
+      "what": "prepaid monthly; funds Claude Code, i.e. the executive's own operation",
+      "readable": true,
+      "how_read": "OAuth GET api.anthropic.com/api/oauth/usage — executive_log.quota_now()",
+      "enforced_by": null,
+      "floor": {
+        "kind": "percent of the seven-day window remaining",
+        "value": null,
+        "provenance": "NO FLOOR SET. The custodian has stated one for Codex and not for this channel. The executive declines to invent a number here: an invented floor recorded beside a stated one would be indistinguishable from it later."
+      }
+    },
+    "codex_subscription": {
+      "what": "prepaid monthly; funds Codex review",
+      "readable": false,
+      "how_read": "CDP-only (authenticated Chrome on :9222); SET ASIDE 2026-08-09",
+      "enforced_by": "tools/codex_call.py — wall-clock spacing, a proxy for the unreadable number",
+      "floor": {
+        "kind": "percent of the weekly window remaining",
+        "value": 33.0,
+        "provenance": "custodian, 2026-08-09: 'proceed with codex limited to usage below 33% of weekly usage remaining'. UNENFORCEABLE while the channel is unreadable."
+      },
+      "rate_limit": {
+        "min_seconds_between_calls": 600,
+        "provenance": "UNMEASURED. The custodian said 'at least 10 minutes'; the custodian also holds the measurement of how fast Codex actually exhausts the weekly window, which is what the spacing should be derived from. Until that measurement is recorded here, 600 is a floor honoured, not a rate justified.",
+        "derived_from_measurement": false
+      }
+    }
+  },
+  "what_this_does_not_establish": [
+    "That the executive's own calls are counted. 23 of the 25 Codex invocations on 2026-08-09 were made directly through the shell before the wrapper existed, and are absent from the action log. The log undercounts by construction, not by accident.",
+    "That the Claude reading is fine-grained enough to derive a burn rate. Utilisation is reported as an integer percent and did not move across 2h41m of trial work."
+  ]
+}

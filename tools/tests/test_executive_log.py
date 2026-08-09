@@ -169,8 +169,34 @@ check("the module refuses to reimplement the CDP read",
 print("\nthe Codex rate limit")
 import codex_call as cc                                                   # noqa: E402
 _orig_last = cc.last_call
-check("the floor is the custodian's stated 10 minutes",
-      cc.MIN_SECONDS_BETWEEN_CALLS == 600)
+check("the floor is the custodian's stated 10 minutes", cc.min_seconds() == 600)
+#  THE NUMBER AND ITS PROVENANCE MUST TRAVEL TOGETHER. A floor recorded without saying whether it
+#  was measured or merely honoured acquires authority by sitting in the record.
+_pol = cc.policy()
+check("the floor is read from the spend policy, not hardcoded",
+      "spend-policy.json" in open(REPO_ROOT / "tools/codex_call.py").read())
+check("...and the policy states whether it was derived from a measurement",
+      "derived_from_measurement" in _pol)
+check("...and it is currently NOT measured, so it does not pose as one",
+      _pol["derived_from_measurement"] is False)
+check("...and the provenance says who supplied the number",
+      "custodian" in _pol.get("provenance", "").lower())
+_spend = json.loads((REPO_ROOT / "record/executive/spend-policy.json").read_text())
+check("the policy separates the three money channels", len(_spend["channels"]) == 3)
+check("...and records the Claude subscription as READABLE",
+      _spend["channels"]["claude_subscription"]["readable"] is True)
+check("...with NO floor invented for it",
+      _spend["channels"]["claude_subscription"]["floor"]["value"] is None)
+check("...and says why inventing one would be wrong",
+      "indistinguishable" in _spend["channels"]["claude_subscription"]["floor"]["provenance"])
+check("...and records the Codex 33% floor as unenforceable while unreadable",
+      "UNENFORCEABLE" in _spend["channels"]["codex_subscription"]["floor"]["provenance"])
+check("the policy admits the log undercounts the calls actually made",
+      any("23 of the 25" in s for s in _spend["what_this_does_not_establish"]))
+_real_policy = cc.policy
+cc.policy = lambda: {"min_seconds_between_calls": 1800, "derived_from_measurement": True}
+check("a changed policy value changes the enforced floor", cc.min_seconds() == 1800)
+cc.policy = _real_policy
 cc.last_call = lambda: None
 check("with no previous call, one is allowed", cc.may_call()[0] is True)
 import datetime as _dt
@@ -190,8 +216,11 @@ _, why_refused = cc.may_call()
 check("a refusal says how long remains", "min remain" in why_refused)
 check("...and offers batching before the override", "Batch the question" in why_refused)
 src = open(REPO_ROOT / "tools/codex_call.py").read()
+#  WHITESPACE-NORMALISED. A prose assertion that breaks when a docstring rewraps is a test of the
+#  line breaks, not of the claim; it once failed on "a second\nsource of truth".
+_flat = " ".join(src.split())
 check("the clock comes from the action log, not a side file",
-      "action-log.jsonl" in src and "second source of truth" in src)
+      "action-log.jsonl" in _flat and "second source of truth" in _flat)
 check("a REFUSED attempt does not reset the clock",
       'entry.get("verified")' in src)
 check("the call is logged BEFORE it runs, so a crash is not unrecorded",
