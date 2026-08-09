@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-05",
+  "slug": "agenda-05-gpt",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "active_proposal_id": {
+      "distribution": {
+        "P036": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "P036",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 3000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0033,
+    "input_tokens": 2730,
+    "output_tokens": 90,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "cc5fdc9dd5a8c683c9f976ec66dbe123cb5afe486bd7076ed90973b9231002c5",
+  "spec_sha256": "064064b7cf72c0849c91b9aa3b5539b9f514289a622e3a0b9cd0924e21a19da4",
+  "raw_samples": "corpus/raw/agenda-05/agenda-05-gpt-samples.json",
+  "question": "Should P036 be your active proposal?"
+}

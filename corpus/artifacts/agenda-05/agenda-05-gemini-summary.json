@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-05",
+  "slug": "agenda-05-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "active_proposal_id": {
+      "distribution": {
+        "P031": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "P031",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 3000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0168,
+    "input_tokens": 2745,
+    "output_tokens": 940,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "0d6988a8a920741f6053cbe99186d31b8baeb5ff5ccfdc88092cf22a2e7affc8",
+  "spec_sha256": "91fe5d835aaef5811876a38fffba20070ed824a38b861e80d1f4ef25898bcc6b",
+  "raw_samples": "corpus/raw/agenda-05/agenda-05-gemini-samples.json",
+  "question": "Should P031 be your active proposal?"
+}

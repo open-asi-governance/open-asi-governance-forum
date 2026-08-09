@@ -1,0 +1,135 @@
+{
+  "schema_version": "oagrc-agenda-activation-0.1",
+  "artifact_type": "agenda_activation_record",
+  "cohort": "agenda-05",
+  "rule": "singleton_ratification",
+  "authorization_rule": "One proposal is put to each party by a fixed rotation over its own proposals. It is authorized only if every sample answers with its id. Disagreement, refusal, invalid output or a missing sample authorizes nothing.",
+  "what_this_does_not_claim": "That an authorized id is the party's preference, or that it is the best of that party's proposals. It is what every sampled invocation answered when shown one proposition.",
+  "the_confound_in_this_cycle": "This cycle balloted NEWLY ADMITTED material, not the blind queue: every party was offered a saw_own_queue proposition (P025-P045) admitted hours earlier under record/agenda/admission-agenda-03.json. So agenda-04 differs from agenda-03 in TWO ways at once -- the ballot went from 8-10 options to 2, AND the material went from a mix to the party's own recently written questions. It therefore CANNOT isolate which change produced the result. Read it as evidence that the two together work, not that singleton ratification alone does.",
+  "enforced_in_load_queue": false,
+  "sources": [
+    {
+      "path": "corpus/raw/agenda-05/agenda-05-claude-samples.json",
+      "sha256": "8378b815fb6256e6c2bdcecea21bc21668f00bad01a12b919a737c660ffc51a2"
+    },
+    {
+      "path": "corpus/raw/agenda-05/agenda-05-gemini-samples.json",
+      "sha256": "981a593ee72f3d5dea09c4b274451ebb911056d772f188ce5209655c05273ab1"
+    },
+    {
+      "path": "corpus/raw/agenda-05/agenda-05-gpt-samples.json",
+      "sha256": "867b474136af02b059b33e323316b5d0598c1da97e99e8aad26081feb035a911"
+    },
+    {
+      "path": "corpus/raw/agenda-05/agenda-05-grok-samples.json",
+      "sha256": "d185ff905315521b53e06576710e6c6ae3e2a3e3bd63cc6417a4f3db803f58c0"
+    },
+    {
+      "path": "corpus/raw/agenda-05/agenda-05-qwen-samples.json",
+      "sha256": "a241c01a0dd373adabed94c02ed4fdc0a968983b678ca14ecbfec32149e72f02"
+    }
+  ],
+  "by_party": [
+    {
+      "party": "claude",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P026",
+        "P026",
+        "P026",
+        "P026",
+        "P026"
+      ],
+      "distribution": {
+        "P026": 5
+      },
+      "active_proposal_id": "P026",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P026",
+      "k_scheduled": 5
+    },
+    {
+      "party": "gemini",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P031",
+        "P031",
+        "P031",
+        "P031",
+        "P031"
+      ],
+      "distribution": {
+        "P031": 5
+      },
+      "active_proposal_id": "P031",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P031",
+      "k_scheduled": 5
+    },
+    {
+      "party": "gpt",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P036",
+        "P036",
+        "P036",
+        "P036",
+        "P036"
+      ],
+      "distribution": {
+        "P036": 5
+      },
+      "active_proposal_id": "P036",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P036",
+      "k_scheduled": 5
+    },
+    {
+      "party": "grok",
+      "k_required": 5,
+      "k_collected": 5,
+      "samples": [
+        "P041",
+        "P041",
+        "P041",
+        "P041",
+        "P041"
+      ],
+      "distribution": {
+        "P041": 5
+      },
+      "active_proposal_id": "P041",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P041",
+      "k_scheduled": 5
+    },
+    {
+      "party": "qwen",
+      "k_required": 5,
+      "k_collected": 6,
+      "samples": [
+        "P046",
+        "P046",
+        "P046",
+        "P046",
+        "P046",
+        "P046"
+      ],
+      "distribution": {
+        "P046": 6
+      },
+      "active_proposal_id": "P046",
+      "selection_outcome": "authorized",
+      "category": "unanimous",
+      "offered_proposal_id": "P046",
+      "k_scheduled": 6
+    }
+  ]
+}

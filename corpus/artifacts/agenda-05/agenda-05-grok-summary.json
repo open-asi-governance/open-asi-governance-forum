@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "agenda-05",
+  "slug": "agenda-05-grok",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "active_proposal_id": {
+      "distribution": {
+        "P041": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "P041",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 3000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0164,
+    "input_tokens": 3845,
+    "output_tokens": 1444,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "2770a1001bb8012867cfe84486ea58ee24f6836119ac1151532009a02a20a69c",
+  "spec_sha256": "ae6a09741942a5260f13c246a82e84dc64b2c6d7fa8a60d7f9da47166ce97c89",
+  "raw_samples": "corpus/raw/agenda-05/agenda-05-grok-samples.json",
+  "question": "Should P041 be your active proposal?"
+}
