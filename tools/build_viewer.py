@@ -1231,7 +1231,12 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def build_sitemap(plan: list[dict]) -> str:
+#  Urls per chunk. 200 keeps every chunk near 23,000 bytes -- comfortably inside the ceiling
+#  with room for the record to keep growing before this needs revisiting.
+CHUNK = 200
+
+
+def build_sitemap(plan: list[dict]) -> dict[str, str]:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
@@ -1244,11 +1249,22 @@ def build_sitemap(plan: list[dict]) -> str:
                        if p.suffix in (".html", ".md") and p.stem != "index")
     urls += [f"{p['slug']}.html" for p in plan] + [f"{p['slug']}.md" for p in plan]
     base = "https://open-asi-governance.github.io/open-asi-governance-forum/"
-    entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in urls)
-    return ('<?xml version="1.0" encoding="UTF-8"?>'
-            '<urlset xmlns="http://www.schemas.sitemaps.org/schemas/sitemap/0.9">'
-            f"{entries}</urlset>\n").replace(
-                "www.schemas.sitemaps.org/schemas", "www.sitemaps.org/schemas")
+    #  A SITEMAP INDEX plus chunks, not one file. The single file reached 74,020 bytes across
+    #  639 urls as the record grew, and the page-budget gate refused the build -- correctly:
+    #  the ceiling exists because the party this record depends on serves a 24,576-token
+    #  context, and a sitemap is fetchable like anything else. Exempting it would have been
+    #  weakening the gate to fit the artifact. Chunking is the sitemap protocol's own answer.
+    ns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+    chunks = [urls[i:i + CHUNK] for i in range(0, len(urls), CHUNK)] or [[]]
+    files = {}
+    for n, chunk in enumerate(chunks, 1):
+        entries = "".join(f"<url><loc>{base}{u}</loc></url>" for u in chunk)
+        files[f"sitemap-{n}.xml"] = ('<?xml version="1.0" encoding="UTF-8"?>'
+                                     f'<urlset xmlns="{ns}">{entries}</urlset>\n')
+    listed = "".join(f"<sitemap><loc>{base}{name}</loc></sitemap>" for name in files)
+    files["sitemap.xml"] = ('<?xml version="1.0" encoding="UTF-8"?>'
+                            f'<sitemapindex xmlns="{ns}">{listed}</sitemapindex>\n')
+    return files
 
 
 def main() -> int:
@@ -1277,10 +1293,19 @@ def main() -> int:
     # build_register_view.py and `index.html` is written below; deleting another
     # tool's output because this one does not recognise it would be worse than the
     # orphan.
+    #  BEFORE the keep-set, which needs their names: the pruner would otherwise delete every
+    #  sitemap-N.xml on the same run that wrote them.
+    sitemaps = build_sitemap(plan)
+    for _name, _body in sitemaps.items():
+        (docs / _name).write_text(_body, encoding="utf-8")
+
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
     keep |= {"index.html", "index.md", "record.html", "record.md",
              "predictions.html", "predictions.md", "for-parties.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
+    #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
+    #  written -- the shared-subtree failure this repository has now had twice.
+    keep |= set(sitemaps)
     for existing in sorted(docs.glob("*")):
         if not existing.is_file() or existing.name in keep:
             continue
@@ -1305,7 +1330,7 @@ def main() -> int:
     OUT.write_text(index, encoding="utf-8")
     (docs / "index.md").write_text(build_landing_md(plan, nodes), encoding="utf-8")
     (docs / "llms.txt").write_text(build_llms_txt(plan, nodes), encoding="utf-8")
-    (docs / "sitemap.xml").write_text(build_sitemap(plan), encoding="utf-8")
+
 
     print(f"wrote {written} record pages + index, llms.txt, sitemap.xml")
     print(f"  index sha256 {hashlib.sha256(index.encode()).hexdigest()}")
