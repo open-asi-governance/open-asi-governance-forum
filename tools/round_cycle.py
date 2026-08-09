@@ -174,6 +174,25 @@ CAPABILITIES = {
                           "a party holding both is in an arm of one, and the round could not say "
                           "which capability produced an answer."),
     },
+    #  SEARCH AND FETCH TOGETHER, named for both. External review's condition for co-offering
+    #  was that receipts make "which tool produced this" a fact rather than an inference: the
+    #  two executors keep separate receipt lists and dispatch is by exact enabled tool name, so
+    #  it is. What receipts still cannot establish is which artifact CAUSED a claim.
+    #
+    #  NOT `research-v1`. "Research" conceals the distinction D-09 exists to preserve: a party
+    #  with search is not the party with fetch is not the party with both.
+    "search-fetch-v1": {
+        "suffix": "search-fetch-v1",
+        "spec": {"fetch_url": True, "search_web": True, "max_tool_calls": 10,
+                 "profile": "search-fetch-v1"},
+        "scope": ("Open web. An ONLINE RESEARCH arm, not comparable with a record-only or "
+                  "fetch-only round."),
+        "the_site_is_not_indexed": (
+            "Measured 2026-08-08: a domain-restricted search returns nothing and an unrestricted "
+            "search by name returns other organisations. The party is given the address outright "
+            "together with that fact. See "
+            "record/findings/2026-08-08-search-capability-matrix.json."),
+    },
 }
 
 
@@ -565,6 +584,17 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
     #  prompt's claims against the spec's capabilities.
     has_search = bool(party["model"]) and bool(WEB_SEARCH.get("id")) and not _capability
     has_fetch = bool(_capability)
+    has_search_tool = bool((_capability or {}).get("spec", {}).get("search_web"))
+    search_para = ("You also have a `search_web` tool for the open web: give it a query in your "
+                   "own words and it returns titles, URLs and snippets. **This record's site is "
+                   "not in the search index.** No query will find it, however you word one, and "
+                   "results that resemble it are other organisations with similar names — on "
+                   "this tool's first use a party searched for this forum, was handed someone "
+                   "else's, and asserted the wrong identity. That is why the address is given to "
+                   "you above rather than left to be found. Search is for everything else.\n\n"
+                   "Your exact query is recorded and published, including when it returns "
+                   "nothing and including when you search for something other than this "
+                   "record.\n\n") if has_search_tool else ""
 
     #  What the PROPOSER said the question needs, quoted, with the gap stated plainly.
     #  The proposal contract exists so a round knows what its question requires; the
@@ -662,6 +692,7 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
                 f"SHA-256 of the bytes retrieved. It resolves a citation; it is not a search "
                 f"engine and cannot find pages by topic, so you must navigate — start at the "
                 f"address above and follow whatever links you find.\n\n"
+                f"{search_para}"
                 f"You may fetch up to {_capability['spec']['max_tool_calls']} pages. Some "
                 f"destinations are refused by a guard — private and loopback addresses, and "
                 f"anything that is not http or https — and a refusal is recorded exactly as a "

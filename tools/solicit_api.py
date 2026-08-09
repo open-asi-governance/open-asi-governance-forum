@@ -51,6 +51,7 @@ import sys
 import urllib.error
 
 import fetch_executor as fx
+import search_executor as sx
 import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
@@ -298,11 +299,18 @@ def main() -> int:
     #  party could do. A CLI flag could diverge from the plan, and the record would then describe
     #  a capability the party did not have, or omit one it did.
     fetch_enabled = bool((spec.get("capability") or {}).get("fetch_url"))
+    #  The routed arm must offer whatever the capability declares. Without this a routed party
+    #  in a search-fetch arm would silently get fetch only, while its spec, its party key and
+    #  the round record all said it had both.
+    search_enabled = bool((spec.get("capability") or {}).get("search_web"))
+    tools_enabled = fetch_enabled or search_enabled
     max_tool_calls = int((spec.get("capability") or {}).get("max_tool_calls", 6))
 
     for index in range(1, args.k + 1):
         messages = [{"role": "user", "content": spec["prompt"]}]
         receipts: list = []
+        #  Separate from fetch receipts, so "which tool produced this" is a fact.
+        search_receipts: list = []
         body = {
             "model": args.model,
             "messages": messages,
@@ -325,8 +333,9 @@ def main() -> int:
             body["plugins"] = [{k: v for k, v in search.items()
                                 if k in ("id", "engine", "max_results",
                                          "include_domains", "exclude_domains")}]
-        if fetch_enabled:
-            body["tools"] = [fx.TOOL_SCHEMA]
+        if tools_enabled:
+            body["tools"] = ([fx.TOOL_SCHEMA] if fetch_enabled else []) + \
+                            ([sx.TOOL_SCHEMA] if search_enabled else [])
             body["tool_choice"] = "auto"
             #  A structured answer cannot be demanded while the model still needs turns to call
             #  tools: the format is imposed only on the FINAL turn, below.
@@ -393,10 +402,32 @@ def main() -> int:
                     arguments = json.loads(call["function"].get("arguments") or "{}")
                 except json.JSONDecodeError:
                     arguments = {}
-                result = fx.run_tool_call(arguments.get("url"), receipts)
+                name = (call.get("function") or {}).get("name")
+                search_name = sx.TOOL_SCHEMA["function"]["name"]
+                fetch_name = fx.TOOL_SCHEMA["function"]["name"]
+                enabled = ({search_name} if search_enabled else set()) | \
+                          ({fetch_name} if fetch_enabled else set())
+                if name not in enabled:
+                    (search_receipts if search_enabled else receipts).append(
+                        {"outcome": "TOOL_DISPATCH_REFUSED", "requested_tool": name,
+                         "reason": f"{name!r} is not an enabled tool in this arm",
+                         "enabled_tools": sorted(enabled)})
+                    result = {"ok": False, "refused": True,
+                              "reason": f"{name!r} is not an enabled tool in this arm"}
+                elif name == search_name:
+                    result = sx.run_tool_call(call["function"].get("arguments") or "{}",
+                                              search_receipts,
+                                              sequence=len(search_receipts) + 1)
+                else:
+                    result = fx.run_tool_call(arguments.get("url"), receipts)
                 calls_made += 1
                 delivered = json.dumps(result, ensure_ascii=False)[:60000]
-                fx.record_delivery(receipts, delivered)
+                if name == search_name:
+                    if search_receipts:
+                        search_receipts[-1]["message_delivered_to_model"] = delivered
+                        search_receipts[-1]["message_delivered_sha256"] = sx.sha256_text(delivered)
+                else:
+                    fx.record_delivery(receipts, delivered)
                 messages.append({"role": "tool", "tool_call_id": call["id"],
                                  "content": delivered})
             body["messages"] = messages
@@ -466,7 +497,12 @@ def main() -> int:
                                    else "no_fetch")}
                       if fetch_enabled else None),
             "sampling": {"temperature": args.temperature, "max_tokens": args.max_tokens},
-            "finish_reason": raw["choices"][0].get("finish_reason"),
+            "search": ({"profile": sx.PROFILE_SHA256, "receipts": search_receipts,
+                            "queries": sx.queries_issued(search_receipts),
+                            "zero_result_queries":
+                                sx.zero_result_queries(search_receipts)}
+                           if search_enabled else None),
+                 "finish_reason": raw["choices"][0].get("finish_reason"),
             "usage": raw.get("usage"),
             #  WHAT THIS PARTY ACTUALLY READ. The prompt now gives an address and the
             #  means to fetch it, so "did it look?" becomes a question the record can
