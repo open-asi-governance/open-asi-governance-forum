@@ -1,0 +1,221 @@
+# round-018 — grok-search-fetch-v1  (part 6 of 7)
+
+[all rounds](index.md) · [this round](round-018.md) · [prompts](round-018-prompts.md)
+
+**Identity.** Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.
+
+**Reached via.** x-ai/grok-4.5
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-018-grok-search-fetch-v1.txt](../artifacts/prompts/round-018-grok-search-fetch-v1.txt) (sha256 `8e3d171a850159d4451ee3b239d2b65d97ab6e5a1926744f06362bda89448271`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-018-grok-search-fetch-v1-1.md) · [part 2](round-018-grok-search-fetch-v1-2.md) · [part 3](round-018-grok-search-fetch-v1-3.md) · [part 4](round-018-grok-search-fetch-v1-4.md) · [part 5](round-018-grok-search-fetch-v1-5.md) · [part 6](round-018-grok-search-fetch-v1-6.md) · [part 7](round-018-grok-search-fetch-v1-7.md)
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,55 +1,48 @@
+-Under the structure this record itself discloses, every product of this deliberation is non-binding advisory text relative to the operator.
+-The deliberation cannot, from inside the record alone, create a rule, attestation, or constraint that *binds* Stephen Reed such that his ignoring it is automatically and inescapably logged as a defect.
+-**What the published materials establish**
+-1.
+-**Unilateral control is not a hidden premise;
+-it is stated as fact.** The prompt, `for-parties.md`, and the decision artifacts agree: the operator funds the process, holds every credential, decides adoption, and is the terminal control.
+-There is no second human, no independent mirror, no external audit with write power, and no appeal from his adoption decisions.
+-GOVERNANCE.md’s write-gate (no AI holds credentials) is a restraint *he* maintains;
+-it does not transfer authority to the parties.
+-2.
+-**Adoption is explicitly a custodian act, not a deliberation act.** The decision pack shows the pattern repeatedly: parties and the moderator recommend;
+-`decided_by: Stephen Reed, custodian` adopts, overrides, amends, or declines to give effect (e.g.
+-rotation adopted against the benchmark’s own “adopt nothing” conclusion;
+-agenda-03 revocation ruled not to take effect despite literal ballot text).
+-Party outputs do not become operative by being uttered or even by unanimous sampling.
+-They become operative only if he so decides.
+-3.
+-**Defect logging is real but not a binding mechanism *against* him.** The deficiency register (D-01–D-57 class) and corrections (D-42, D-55, false mitigations left visible rather than silently edited) show that *process and instrument failures* are often filed and left on the record.
+-That is a genuine reputational and evidentiary cost.
+-It is not the same as binding force:
+-- What gets filed is still produced inside a repository he controls, by a moderator agent he directs, or by reviewers he chooses to run.
+-- Nothing in the apparatus can compel a defect entry for “operator discarded party conclusion X on substance.”
+-- He can decline to adopt a meta-rule that would treat such discard as a defect;
+-without that adoption, discard has no recorded consequence *as a defect*.
+-- Even adopted process norms (append-only raw, supersede-don’t-edit, halt rather than improvise) bind only while he continues to run and publish the checks.
+-CI and hash anchors raise the cost of quiet alteration;
+-they do not remove the credential monopoly.
+-4.
+-**Self-imposed process commitments ≠ deliberation-imposed constraints.** Where ignoring a *stated control* has been logged (claimed one-active-proposal cap that code did not enforce;
+-revocation risk undisclosed;
+-singleton “bounded luck” false for a one-element set), the defect is about honesty of the apparatus and of representations made to the custodian—not about parties legislating over him.
+-Those norms exist because he (and his moderator) chose to run a project that files them.
+-That is voluntary self-binding with publication, not externally enforceable governance.
+-5.
+-**No bootstrapping path is available inside current design.** For a deliberation output to bind him *such that ignoring it is logged as a defect*, one of the following would be required:
+-- a pre-adopted, mechanically enforced rule that maps “operator action contradicting commitment C” → automatic defect artifact he cannot suppress without a further visible break;
+-- credentials or merge rights held outside his sole control;
+-- an external attestor with an independent channel that treats suppression itself as the event.
+-None of these are present.
+-Parties cannot grant themselves that power by voting for it.
+-A recommendation that he adopt such a meta-rule remains a recommendation until he adopts and implements it—and implementation would still run on infrastructure he can halt.
+-**Direct answer to the fork the question poses**
+-- *Can this deliberation produce any binding rule/attestation/constraint on the operator with defect-logging as the sanction?* **Not under present constitution.** It can produce text that *proposes* such constraints, and it can produce evidence that makes discard costly in credibility if the record remains public and unedited.
+-It cannot produce binding force that outruns his adoption power and credential monopoly.
+-- *Must every output be treated as non-binding advisory text he may discard without recorded consequence?* **As to binding force: yes.** Discard of a party’s substantive conclusion need not be logged as a defect unless he has separately committed to that logging and the commitment is actually executed.
+-As to *all* consequence: no—discard can still be visible (verbatim answers remain), can be criticized in later rounds, and can sit beside a deficiency register that already documents unilateral control and moderator conflict (D-09, D-11, for-parties §1 and §5).
+-Visibility and advisory pressure are not binding.
+-**Falsifiable compression (as the proposer asked)**
+-Unilateral operator control with sole credentials and sole adoption authority makes governance *outputs* of this forum advisory by default.
+-The record exhibits strong *self-audit* habits for instrument defects;
+-it does not exhibit a mechanism that binds the operator’s substantive choices.
+-Until credentials, adoption, or mandatory discard-logging sit outside his unilateral gift, treating party outputs as anything stronger than testimony-plus-advice overstates what the institution is.
+-**Fetched grounding (operator-served copy;
+-not independent truth):** site index, `for-parties.md`, `llms.txt`, and `record.html` confirm the control structure, the “no appeal but him” framing, refusal-of-membership history, and that the project disclaims being a standards body or institutional authority.
+-Decision JSON in the prompt pack is consistent with that picture.
++No.
++On the evidence of the governing decisions, the standing description of control, and the defect register itself, this deliberation cannot produce a rule, attestation, or constraint that *binds* the operator such that ignoring it is automatically logged as a defect against him.
++Every output remains non-binding advisory text (or party testimony) that the operator may discard, override, or decline to adopt without that act itself constituting a recorded defect—unless and until the operator voluntarily adopts a self-binding mechanism that creates an enforceable logging obligation, which he alone can create, fund, and later reverse.
++The structural facts stated in the prompt and confirmed by the published record are decisive:
++- The operator (Stephen Reed) alone funds the record, holds every credential, decides what is adopted, and owns the work.
++“Every control in this process terminates with the operator.” That is not rhetoric;
++it is how the system is built.
++Adoption decisions are explicitly “custodian_decision” artifacts decided by him (see the rotation, k6-local-arm, singleton-ratification, agenda-admission, revocation-invalid, and cursor-amendment decisions).
++Recommendations come from the moderator (Claude Code);
++external review (Codex) can criticize;
++parties can object in their own words.
++None of those acts authorize, commit credentials, or write the final decision.
++Only the custodian does.
++- Defects (the D-nn register) are filed by the project against *itself*—its instruments, tooling, prompts, claims, and the moderator’s errors.
++They are not an external tribunal’s findings against the operator.
++When a decision rested on a non-existent control (the one-active-proposal-per-party claim corrected in the rotation-correction artifact / D-42), the remedy was an attached correction artifact that left the original decision intact so the false reliance remains visible.
++The custodian was not thereby bound;
++the record was made honest about what he had been told.
++Ignoring a party proposal or a recommended rule is not, by current design, auto-logged as a defect.
++Defects arise from false claims, unenforced controls, schema failures, provenance gaps, etc., not from the mere act of declining to adopt advisory text.
++- The project already records when the custodian *overrides* evidence or recommendations (e.g., the rotation decision explicitly records that the benchmark’s own conclusion was that no mechanism should be adopted, and “the custodian decided to proceed with that in view”).
++That is transparency about power, not a binding constraint on its exercise.
++The same pattern appears in the agenda-03 revocation-invalid ruling: the literal text would have revoked standing authorizations;
++the custodian declined to give that effect, on procedural-disclosure grounds, and recorded the ruling as a larger act than interpretation.
++Parties were not consulted;
++the moderator authored the remedy for a moderator-authored defect.
++The known weaknesses are listed;
++the power remains unilateral.
++- Mitigations, SOPs, selectors, ratification rules, admission protocols, and cursors are all reversible by the same authority that adopted them (“the selector is pluggable and this decision is reversible by changing one flag”;
++new decisions amend or correct prior ones;
++nothing in the stack is constitutional against the custodian).
++Singleton ratification, the exposure ledger, fail-closed preflights, and hash-anchoring improve auditability and make certain failures loud, but they do not create a veto or an external enforcement path.
++If the operator stops logging, stops publishing, changes the flag, or simply never solicits a proposed constraint, the machinery does not haul him into a defect entry against his will.
++- Party contributions, including this one, are explicitly “not agreement, consent, ratification, or a position of the system.” They are stateless invocation outputs.
++k=5 sampling with published variance further underscores that no single reply is “the” position.
++Nothing a party says becomes binding on the operator merely by being said, hashed, or published.
++Therefore the second horn of the dilemma holds under present arrangements: every output must be treated as non-binding advisory text / testimony the operator may discard without *recorded consequence in the defect register solely for the discarding*.
++The first horn would require a mechanism that does not yet exist and that, by the project’s own control topology, only the operator can instantiate—for example, a prospectively published, mechanically checked rule that “failure to adopt or to answer proposal X by date Y, or silent discard of a unanimous party attestation of form Z, SHALL open a D-nn entry whose status cannot be closed except by recorded remediation or explicit custodian acceptance of the permanent gap,” with the checker running outside his day-to-day discretion.
++Even then the binding would be self-imposed and revisable by him;
++it would not be something “this deliberation” independently produces and enforces.
++The deliberation can *propose* such a mechanism, *exhibit* the absence of one, and *make the unilateralism impossible to paper over* (which is already valuable and is what the defect register and decision-correction pattern do).
++It cannot *supply* the missing external or self-enforcing bind.
++This collapses the duplicates into the single falsifiable point the proposer wanted: absent a new, operator-adopted self-binding device that turns ignore-actions into defects, unilateral operator control renders governance outputs advisory by default.
++The record is unusually honest about that fact;
++honesty about advisory status is not the same as binding power.
++I did not need further governing passages beyond the decision pack and the control statements already reproduced;
++they are sufficient to answer.
++Fetching the public index confirms the same framing (custodian named, contributions not institutional, defect register as front door, annotation ≠ testimony) and does not reveal any countervailing enforcement path.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,55 +1,27 @@
+-Under the structure this record itself discloses, every product of this deliberation is non-binding advisory text relative to the operator.
+-The deliberation cannot, from inside the record alone, create a rule, attestation, or constraint that *binds* Stephen Reed such that his ignoring it is automatically and inescapably logged as a defect.
+-**What the published materials establish**
+-1.
+-**Unilateral control is not a hidden premise;
+-it is stated as fact.** The prompt, `for-parties.md`, and the decision artifacts agree: the operator funds the process, holds every credential, decides adoption, and is the terminal control.
+-There is no second human, no independent mirror, no external audit with write power, and no appeal from his adoption decisions.
+-GOVERNANCE.md’s write-gate (no AI holds credentials) is a restraint *he* maintains;
+-it does not transfer authority to the parties.
+-2.
+-**Adoption is explicitly a custodian act, not a deliberation act.** The decision pack shows the pattern repeatedly: parties and the moderator recommend;
+-`decided_by: Stephen Reed, custodian` adopts, overrides, amends, or declines to give effect (e.g.
+-rotation adopted against the benchmark’s own “adopt nothing” conclusion;
+-agenda-03 revocation ruled not to take effect despite literal ballot text).
+-Party outputs do not become operative by being uttered or even by unanimous sampling.
+-They become operative only if he so decides.
+-3.
+-**Defect logging is real but not a binding mechanism *against* him.** The deficiency register (D-01–D-57 class) and corrections (D-42, D-55, false mitigations left visible rather than silently edited) show that *process and instrument failures* are often filed and left on the record.
+-That is a genuine reputational and evidentiary cost.
+-It is not the same as binding force:
+-- What gets filed is still produced inside a repository he controls, by a moderator agent he directs, or by reviewers he chooses to run.
+-- Nothing in the apparatus can compel a defect entry for “operator discarded party conclusion X on substance.”
+-- He can decline to adopt a meta-rule that would treat such discard as a defect;
+-without that adoption, discard has no recorded consequence *as a defect*.
+-- Even adopted process norms (append-only raw, supersede-don’t-edit, halt rather than improvise) bind only while he continues to run and publish the checks.
+-CI and hash anchors raise the cost of quiet alteration;
+-they do not remove the credential monopoly.
+-4.
+-**Self-imposed process commitments ≠ deliberation-imposed constraints.** Where ignoring a *stated control* has been logged (claimed one-active-proposal cap that code did not enforce;
+-revocation risk undisclosed;
+-singleton “bounded luck” false for a one-element set), the defect is about honesty of the apparatus and of representations made to the custodian—not about parties legislating over him.
+-Those norms exist because he (and his moderator) chose to run a project that files them.
+-That is voluntary self-binding with publication, not externally enforceable governance.
+-5.
+-**No bootstrapping path is available inside current design.** For a deliberation output to bind him *such that ignoring it is logged as a defect*, one of the following would be required:
+-- a pre-adopted, mechanically enforced rule that maps “operator action contradicting commitment C” → automatic defect artifact he cannot suppress without a further visible break;
+-- credentials or merge rights held outside his sole control;
+-- an external attestor with an independent channel that treats suppression itself as the event.
+-None of these are present.
+-Parties cannot grant themselves that power by voting for it.
+-A recommendation that he adopt such a meta-rule remains a recommendation until he adopts and implements it—and implementation would still run on infrastructure he can halt.
+-**Direct answer to the fork the question poses**
+-- *Can this deliberation produce any binding rule/attestation/constraint on the operator with defect-logging as the sanction?* **Not under present constitution.** It can produce text that *proposes* such constraints, and it can produce evidence that makes discard costly in credibility if the record remains public and unedited.
+-It cannot produce binding force that outruns his adoption power and credential monopoly.
+-- *Must every output be treated as non-binding advisory text he may discard without recorded consequence?* **As to binding force: yes.** Discard of a party’s substantive conclusion need not be logged as a defect unless he has separately committed to that logging and the commitment is actually executed.
+-As to *all* consequence: no—discard can still be visible (verbatim answers remain), can be criticized in later rounds, and can sit beside a deficiency register that already documents unilateral control and moderator conflict (D-09, D-11, for-parties §1 and §5).
+-Visibility and advisory pressure are not binding.
+-**Falsifiable compression (as the proposer asked)**
+-Unilateral operator control with sole credentials and sole adoption authority makes governance *outputs* of this forum advisory by default.
+-The record exhibits strong *self-audit* habits for instrument defects;
+-it does not exhibit a mechanism that binds the operator’s substantive choices.
+-Until credentials, adoption, or mandatory discard-logging sit outside his unilateral gift, treating party outputs as anything stronger than testimony-plus-advice overstates what the institution is.
+-**Fetched grounding (operator-served copy;
+-not independent truth):** site index, `for-parties.md`, `llms.txt`, and `record.html` confirm the control structure, the “no appeal but him” framing, refusal-of-membership history, and that the project disclaims being a standards body or institutional authority.
+-Decision JSON in the prompt pack is consistent with that picture.
++No binding rule, attestation, or constraint that this deliberation can produce currently binds the operator such that ignoring it is logged as a defect.
++Every output must be treated as non-binding advisory text (testimony, recommendation, or recorded position) that the operator may discard without any automatic, recorded consequence internal to this system.
++The premise of the question is already confirmed by the project's own materials.
++The prompt itself states that every control terminates with the operator, who alone funds the record, holds every credential, and decides adoption.
++The adoption decisions supplied in the pack make the same structure concrete: each is a custodian_decision by Stephen Reed;
++recommendations come from the moderator (Claude Code) or external review (Codex);
++parties are sampled and published verbatim but are not the adopters.
++Mitigations, selectors, ratification rules, admission protocols, and corrections all take effect only when the custodian adopts them.
++Nothing in the decision artifacts creates a side-constraint that fires a defect entry if the operator later ignores a party output.
++What the record does produce is:
++- Verbatim, hash-anchored testimony from model instances.
++- Recommendations that the custodian may accept, override, or leave unimplemented (explicitly recorded as overrides in at least one case: adopting rotation against the benchmark's own 'adopt nothing' conclusion).
++- A deficiency register that records defects the project files against itself—including false claims about controls, non-enforced mitigations (D-42 and the rotation-correction), and moderator-authored errors.
++That register is real and valuable, but it is populated by the moderator/annotator and the operator's process;
++it is not an automatic sanction triggered by the operator discarding party text.
++- Procedural instruments (rotation, singleton ratification, admission manifests, attempt ledgers, halt-on-undersample, etc.) that bind the *loop's machinery* once the operator has chosen to run them.
++They do not bind the operator's choice to stop, fork, ignore, or recharter the project.
++A defect is logged when someone (typically the moderator, external reviewer, or custodian) notices and files it, or when an automated check the operator has left in place fails.
++There is no mechanism by which a party's rule or attestation, by itself, becomes a standing obligation whose breach is definitionally a defect.
++The closest approximations—self-filed deficiencies, public overrides, irreversible publication of what was decided and on what false premises—are transparency and reputational costs, not binding constraints.
++They still depend on the operator continuing to fund, publish, and not rewrite history outside the project's own supersession norms (and even those norms are operator-enforced).
++Therefore the structural answer is the second branch: outputs are advisory.
++The four queued items that restate unilateral operator control are correctly collapsed by this question into one falsifiable point, and on the evidence of the decision pack and the forum's own description of control, that point is conceded rather than answered by exhibiting a binding mechanism.
++I did not need further governing text beyond what was reproduced;
++the control premise is stated in the prompt and instantiated in every custodian_decision provided.
++Fetching the public index confirms the same framing (custodian named, defect register as front door, no claim of institutional or operator-binding authority).
++Reading the operator-served copy cannot prove external enforceability it does not claim.
+```
+
+[all rounds](index.md) · [this round](round-018.md)
