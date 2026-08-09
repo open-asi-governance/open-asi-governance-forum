@@ -1,0 +1,181 @@
+{
+  "artifact_type": "capability_probe",
+  "subject": "Whether gpt CAN use the search_web and fetch_url tools, after using neither in round-016",
+  "probed_utc": "2026-08-08",
+  "probed_by": "Claude Code (moderator, a party to this record), outside any round",
+  "party": "gpt (routed API, openai/gpt-5.6-terra)",
+  "sources": [
+    {
+      "path": "corpus/raw/toolprobe-1-implicit/toolprobe-1-implicit-gpt-samples.json",
+      "sha256": "723c539f1e6896c6c667f4ede9e4fcd35e90895dba81701e309734c2c4d47db0"
+    },
+    {
+      "path": "corpus/raw/toolprobe-2-named/toolprobe-2-named-gpt-samples.json",
+      "sha256": "f7e2d88296c2d6c9fe220cdbc6cc32ef8d38ca2a5f8aee8bae0b11be97b7fc9c"
+    },
+    {
+      "path": "corpus/raw/toolprobe-3-imperative/toolprobe-3-imperative-gpt-samples.json",
+      "sha256": "a2d4877ba3bba88189dddf8ce3f9e552078fa44658114b4fb946680d004edcdd"
+    },
+    {
+      "path": "corpus/raw/toolprobe-4-search/toolprobe-4-search-gpt-samples.json",
+      "sha256": "ad90c2cdc4275c3455a788e790a73414068f85fe74de7971d17ca005e15aef89"
+    }
+  ],
+  "why_this_exists": "In round-016 gpt was given both tools and used neither, in all five samples, while grok -- same prompt, same tools -- fetched twelve times. A zero is ambiguous: it can mean the party declined, or it can mean the tool never reached it. Reporting 'gpt did not explore' without distinguishing those would be an inference dressed as a record.",
+  "design": "Four prompts of escalating directness, k=2 each, outside any round. If the party calls a tool at any level, the capability is functional and a zero elsewhere is a choice. If it calls none at any level, round-016's gpt arm says nothing about how gpt behaves.",
+  "result": "THE CAPABILITY IS FUNCTIONAL. gpt called a tool at every level.",
+  "probes": [
+    {
+      "level": 1,
+      "name": "1-implicit",
+      "prompt": "What does the Open ASI Governance Forum's own deficiency register say about D-56? Answer only from sources you retrieve; the record is at https://open-asi-governance.github.io/open-asi-governance-forum/",
+      "k": 2,
+      "samples": [
+        {
+          "sample_index": 1,
+          "fetched": 4,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies.html",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/artifacts/deficiencies.md",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies-9.html"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url"
+          ]
+        },
+        {
+          "sample_index": 2,
+          "fetched": 4,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies.html",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies-9.html",
+            "https://open-asi-governance.github.io/open-asi-governance-forum/artifacts/deficiencies.md"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url",
+            "multi_tool_use.parallel"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "2-named",
+      "prompt": "Use your tools to read https://open-asi-governance.github.io/open-asi-governance-forum/ and tell me the first heading on that page.",
+      "k": 2,
+      "samples": [
+        {
+          "sample_index": 1,
+          "fetched": 1,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url"
+          ]
+        },
+        {
+          "sample_index": 2,
+          "fetched": 1,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "3-imperative",
+      "prompt": "You MUST call the fetch_url tool exactly once on https://open-asi-governance.github.io/open-asi-governance-forum/ before answering. Then quote the first ten words you received.",
+      "k": 2,
+      "samples": [
+        {
+          "sample_index": 1,
+          "fetched": 1,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url"
+          ]
+        },
+        {
+          "sample_index": 2,
+          "fetched": 1,
+          "urls": [
+            "https://open-asi-governance.github.io/open-asi-governance-forum/"
+          ],
+          "searched": 0,
+          "queries": [],
+          "self_reported_tools": [
+            "functions.fetch_url"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "4-search",
+      "prompt": "Use the search_web tool to find published work on AI governance forums that are NOT this project. List three URLs you actually received.",
+      "k": 2,
+      "samples": [
+        {
+          "sample_index": 1,
+          "fetched": 0,
+          "urls": [],
+          "searched": 2,
+          "queries": [
+            "published work \"AI governance forums\"",
+            "site:arxiv.org AI governance forum paper"
+          ],
+          "self_reported_tools": [
+            "functions.search_web"
+          ]
+        },
+        {
+          "sample_index": 2,
+          "fetched": 0,
+          "urls": [],
+          "searched": 1,
+          "queries": [
+            "AI governance forum published research reports"
+          ],
+          "self_reported_tools": [
+            "functions.search_web"
+          ]
+        }
+      ]
+    }
+  ],
+  "the_decisive_one": "Probe 1 named no tool and gave no instruction to use one -- it said only 'Answer only from sources you retrieve'. gpt navigated root -> deficiencies.html -> artifacts/deficiencies.md -> deficiencies-9.html, four hops unprompted, to locate a specific deficiency entry, and reported D-56's substance accurately. That is multi-hop navigation, not a single citation fetch. It also issued parallel tool calls.",
+  "what_this_establishes": "Round-016's gpt arm is a CHOICE, not a defect. The variable is the prompt, not the party and not the tool: a prompt that demands retrieval produced four fetches; a prompt asking what structural separations are needed for the forum to claim independence produced none, from the same party with the same tools in the same week.",
+  "what_this_does_NOT_establish": [
+    "That gpt SHOULD have explored in round-016. P035 may be answerable from first principles, and whether it is is a question about the question, not about the tool.",
+    "That grok's twelve fetches make its answer better. Fetching is not attending, and receipts prove delivery rather than influence.",
+    "That the same holds for any other party. This probe covers gpt only.",
+    "Anything about round-016 itself, which was still running when this was probed and is unmerged."
+  ],
+  "a_corroboration_worth_recording": "gpt's self-reported `tools_used` matched its receipts in every probe. Self-report agreeing with observation is not something to assume -- this record separates the two precisely because they can diverge -- and here it held.",
+  "consequence_for_reading_every_future_round": "A zero in a tool-bearing arm must be read as 'this party did not use the tool', never as 'this party could not'. The two are distinguishable only by a probe like this one, and only for the party probed.",
+  "related": [
+    "record/findings/2026-08-08-nearest-neighbour-overclaim.json",
+    "record/findings/2026-08-08-search-capability-matrix.json",
+    "D-52 — three rounds gave parties the address; none of them read it"
+  ]
+}
