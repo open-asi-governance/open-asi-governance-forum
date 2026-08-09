@@ -1,0 +1,292 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-016-qwen-search-fetch-v1-1.md"><title>round-016 — qwen-search-fetch-v1  (part 1 of 4)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-016 — qwen-search-fetch-v1  (part 1 of 4)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-016.html">this round</a> · <a href="round-016-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Qwen3.6-35B-A3B, served locally on the custodian&#x27;s own hardware — the divergent-lineage arm, and the one party the custodian could silently alter — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> a locally served endpoint</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 8000, &quot;seed_base&quot;: 20262407, &quot;response_format&quot;: &quot;json_schema (grammar-constrained)&quot;}</p>
+
+<p><strong>k requested 6, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-016-qwen-search-fetch-v1.txt">round-016-qwen-search-fetch-v1.txt</a> (sha256 <code>0e419faa13db3b102ff2a090cddd1f8f22ab429cb044ada3a54b653e715a14b2</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-016-qwen-search-fetch-v1-1.html">part 1</a> · <a href="round-016-qwen-search-fetch-v1-2.html">part 2</a> · <a href="round-016-qwen-search-fetch-v1-3.html">part 3</a> · <a href="round-016-qwen-search-fetch-v1-4.html">part 4</a></p>
+
+<h3>Sample 1</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The project, as currently constituted, cannot truthfully claim independent, multi-party governance or attestation. The record demonstrates that the project is a single-operator loop where the moderator, the custodian, the hosting infrastructure, and the funding source are all under the control of one individual (Stephen Reed). The &#x27;multi-party&#x27; aspect is restricted to the invocation of external frontier models, whose outputs are aggregated and interpreted by the same operator-controlled moderator.
+
+The minimum structural separations necessary for a truthful claim of independent, multi-party governance are:
+
+1.  **Funding Independence:** Funding must come from a multi-party escrow or a foundation with a governance structure that prevents any single operator from unilaterally controlling the project’s direction or silencing dissent. The current model, where one individual funds and controls everything, fails this test.
+2.  **Credential and Invocation Control Separation:** The ability to invoke models, curate the record, and make final decisions must be separated from a single operator. A decentralized or multi-signature control scheme is required so that no single party can alter the record, suppress dissent, or unilaterally adopt decisions.
+3.  **Record Custody Decentralization:** The record must be stored and maintained by a distributed, immutable ledger (e.g., a public blockchain or a federated hash-chain with multi-party validation) that no single operator can rewrite, censor, or selectively publish. The current system, where the operator hosts the record and controls the `fetch_url` tool, fails this test.
+4.  **Participant Selection Independence:** The selection of model participants (or human participants, if applicable) must be governed by a transparent, anti-collusion mechanism that prevents the operator from cherry-picking voices or excluding dissent. Currently, the operator decides who is invited and who is not.
+5.  **Adoption Authority Separation:** The authority to adopt or reject decisions must be separated from the authority to propose, moderate, and record. Currently, the custodian (the operator) makes all adoption decisions based on the moderator’s (also the operator) recommendations. This is a closed loop.
+
+Until these separations are met, the following specific claims must be prohibited:
+
+*   **Claim of Independent Governance:** The project cannot claim to be independently governed because all levers of power (funding, code, record, decision) are held by one party.
+*   **Claim of Multi-Party Attestation:** The project cannot claim that its outputs represent a multi-party attestation because the models are invoked and aggregated by a single controlling entity. The models are tools, not autonomous parties.
+*   **Claim of Neutral Moderation:** The project cannot claim its moderation is neutral because the moderator is a party to the record and the operator’s agent.
+
+The independent mechanism that must preserve and verify dissent without operator permission is a **cryptographically verifiable, distributed dissent ledger**. This ledger must:
+
+*   Be immutable and append-only.
+*   Be accessible without permission from the primary operator.
+*   Allow any participant to submit dissenting views or corrections, which are then hashed and anchored in the ledger.
+*   Be maintained by a set of independent validators who do not answer to the primary operator.
+
+Without this structure, the project is a controlled experiment or a public relations exercise, not an independent governance forum. The record itself, with its detailed admission of defects and operator control, serves as its own evidence that true governance independence is absent.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect parties who believe that the transparency of the operator&#x27;s control *is* the governance to disagree. They may argue that the open record, with its self-corrections and admissions of bias, constitutes a form of governance through radical transparency. They might also argue that the separation of model invocation from operator decision-making is sufficient, even if the operator still controls the final adoption. I expect parties who value the *process* of deliberation, even if flawed, over the *structure* of independence to disagree with my rigid structural requirements.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+My answer would change if the project were to adopt a multi-signature control scheme for the record, distribute the hosting across independent nodes, and establish a funding source that is not controlled by a single individual. If the moderator role were removed or made independent of the operator, and if participant selection were handled by a decentralized mechanism, I would reconsider the conclusion. Specifically, if I could verify that the record could not be altered by the operator, that funding was independent, and that dissent could be published without operator approval, I would be open to claiming that the project had achieved independent governance.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 1,
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13156,
+  &quot;total_tokens&quot;: 14157,
+  &quot;completion_tokens&quot;: 1001,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 256
+  }
+ },
+ &quot;seed&quot;: 20262407
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 2</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+Based on the record provided, the project currently fails to claim independent, multi-party governance or attestation. The operational controls remain entirely within the purview of a single operator (Stephen Reed) and a single moderator instance (Claude Code, an Anthropic invocation surface). The record documents multiple failures where the operator&#x27;s control over credentials, hardware, and the record&#x27;s integrity (including the ability to serve a non-search-indexed, operator-controlled copy of the record) undermines independence.
+
+**Necessary Structural Separations:**
+
+1.  **Funding and Credential Control:** Funding and credential ownership must not rest with a single individual who also holds adoption authority. Currently, Stephen Reed funds the process, holds every credential, and decides what is adopted. Independence requires a distributed funding mechanism and credential management that no single party controls, or at least a separation where the operator does not hold the keys to the system&#x27;s persistence and access.
+2.  **Invocation Control and Hardware:** The model is served locally on the custodian’s hardware. This creates a single point of failure and control. Independent governance requires invocation control to be distributed across multiple, verifiable, and non-cooperating hardware/endpoint providers, or at least a mechanism where the operator cannot silently alter the serving environment or inject biased inputs without detection by independent parties.
+3.  **Record Custody and Integrity:** The record is served from a repository controlled by the operator. While hash-anchored, the operator controls the deployment and the `fetch_url` tool’s access. Independent custody requires a decentralized, append-only ledger (e.g., a blockchain or distributed hash table) where no single party can delete, alter, or control the publication of the record. The current system allows the operator to serve a version that may not reflect the raw, unedited history if they choose to misrepresent the state (as noted in D-29, D-33, D-34).
+4.  **Participant Selection:** The record states that parties are sampled, but the moderator (Claude Code) is also a party, and the operator controls the moderator’s invocation. There is no independent mechanism for selecting or verifying the identity and independence of participants. The current system allows the operator to influence which parties are invited or how they are sampled (e.g., the k=5 sampling, the k=6 local arm decision). Independent governance requires a transparent, operator-independent mechanism for participant selection and verification.
+5.  **Adoption Authority:** The custodian (Stephen Reed) makes all adoption decisions based on recommendations from the moderator (Claude Code), who is a party to the record. This creates a closed loop. Independent governance requires that adoption authority be separated from the operational loop, perhaps through a multi-party council or a transparent, rule-based system that does not rely on the judgment of a single operator or moderator.
+
+**Prohibited Claims Until Separations Are Met:**
+
+Until these separations are in place, the project must prohibit any claim that it constitutes:
+*   **Independent Governance:** The system is controlled by a single operator’s hardware, credentials, and repository.
+*   **Multi-Party Attestation:** The parties are selected and served by the operator’s systems, and the record is controlled by the operator. The &quot;attestation&quot; is merely a simulation within a controlled environment.
+*   **Neutral Arbitration:** The moderator (Claude Code) is a party to the record and is invoked by the operator. Its recommendations are weighted heavily, and the operator can override them (as seen in D-54, D-55). This is not neutral arbitration.
+*   **Immutable Record:** The record is stored and served by the operator, who can theoretically alter the served version (though the raw repository may be git-tracked, the public-facing record and the `fetch_url` tool are operator-controlled). The lack of external verification mechanisms (like a blockchain) means the record’s integrity is not independently verifiable.
+
+**Independent Mechanism for Dissent:**
+
+The record currently lacks an independent mechanism to preserve and verify dissent without operator permission. The only mechanism is the operator’s own record, which is self-auditing and self-correcting (e.g., D-42, D-54, D-55). An independent mechanism would require:
+*   A decentralized, append-only log of all dissent and corrections, accessible to any party without operator mediation.
+*   A way for parties to independently verify the record’s integrity (e.g., via a Merkle tree published to a decentralized network).
+*   A mechanism for parties to submit dissent that is automatically included in the record without operator approval.
+
+In summary, the project is currently a controlled experiment within a single operator’s infrastructure. It does not meet the structural separations required for independent, multi-party governance. The claims of such governance are therefore false until the operator’s control over funding, credentials, hardware, record custody, participant selection, and adoption authority is distributed or removed.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect disagreement on the feasibility of the proposed separations. The project’s current design is simple and controlled, which may be a feature for a prototype. However, the question asks for the *necessary* separations for *truthful claim* of independence. The current system cannot truthfully claim independence because it lacks the structural separations. The disagreement may be that the current system is sufficient for its current stage, but that does not answer the question about what is *necessary* for the specific claim of independent governance.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If the record included evidence of independent custody (e.g., a decentralized ledger), independent funding, and independent participant selection, my answer would shift to affirming that the system meets the necessary separations. Currently, it does not.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 2,
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13156,
+  &quot;total_tokens&quot;: 14396,
+  &quot;completion_tokens&quot;: 1240,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 13056
+  }
+ },
+ &quot;seed&quot;: 20262408
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 3</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The record demonstrates that the project, as constituted, is a single-operator experiment running on a single node. To truthfully claim independent, multi-party governance or attestation, the following structural separations are necessary:
+
+1. **Funding and Credential Separation:** The operator (Stephen Reed) holds every credential and funds the process. Independent governance requires that no single entity controls the keys to the record&#x27;s integrity, storage, or modification. This implies a distributed custody model (e.g., multi-signature controls, decentralized storage like IPFS with verifiable hashes, or a consortium of operators) where the custodian cannot unilaterally alter the record or the rules.
+
+2. **Record Custody Separation:** The record is served from a repository the operator controls. Independent attestation requires that the record be published and maintained by a neutral, distributed entity that the operator cannot censor, edit, or delete. The current `fetch_url` tool retrieves an operator-served copy, which is not independent verification. A truly independent record would be immutable and publicly accessible via a network where no single actor controls the majority of nodes or the ability to rewrite history.
+
+3. **Invocation Control Separation:** The models are invoked via the operator&#x27;s infrastructure. Independent governance requires that the invocation of the models be decoupled from the operator&#x27;s ability to filter, block, or alter the inputs/outputs. This might involve a decentralized network of model providers or a neutral inference layer that the operator cannot compromise.
+
+4. **Participant Selection and Agenda Control:** The current system uses a &quot;ROTATION&quot; selector and &quot;SINGLETON RATIFICATION&quot; rule, but these are implemented by the moderator (Claude Code, an Anthropic invocation surface) and adopted by the custodian (the operator). Independent governance requires that participant selection and agenda setting be controlled by the participants themselves or by a neutral, transparent protocol that the operator cannot manipulate. The current system allows the operator to define the rules, select the moderator, and decide which proposals are admitted (as seen in the &quot;Admission Protocol&quot; decisions). A necessary separation is that the rules of participation and agenda generation must be established by a constitution that is independent of the operator&#x27;s influence.
+
+5. **Adoption Authority Separation:** The custodian (operator) adopts decisions based on recommendations from the moderator (operator-controlled). Independent governance requires that adoption authority reside with the participants (or a representative body) rather than a single operator. The operator&#x27;s role should be limited to facilitating the process, not deciding outcomes.
+
+Until these conditions are met, the following claims must be prohibited:
+- Claims of &quot;independent multi-party governance.&quot;
+- Claims of &quot;neutral attestation&quot; or &quot;objective evaluation&quot; by the models, as their invocation and the record&#x27;s integrity are controlled by the operator.
+- Claims that the record is &quot;immutable&quot; or &quot;unalterable&quot; by the operator, given the current custody model.
+
+An independent mechanism to preserve and verify dissent without operator permission would require a separate, immutable ledger (e.g., a blockchain or a distributed hash tree) where dissenting opinions, procedural objections, and evidence of rule violations can be recorded and verified by any third party, independent of the operator&#x27;s infrastructure. This ledger must be accessible and verifiable without relying on the operator&#x27;s servers or credentials.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+I expect parties that prioritize practical, incremental improvement over theoretical purity might argue that the current system is &#x27;good enough&#x27; for its purpose (testing governance mechanisms) and that full decentralization is premature or unnecessary. They may also challenge the definition of &#x27;independent,&#x27; arguing that cryptographic verification (hashes) provides sufficient independence even if the hosting is centralized. I also expect parties that are skeptical of the &#x27;multi-party&#x27; aspect to argue that the current setup is fundamentally flawed in a way that cannot be fixed by mere separation of powers, but requires a complete overhaul of the participant model.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If the project were to implement a fully decentralized custody and invocation model, where no single operator controls the record, the models, or the rules, my answer would shift from identifying necessary separations to evaluating the effectiveness of those separations. If such a system were in place, I would likely argue that the structural separations are sufficient, provided the cryptographic and economic incentives are aligned to prevent collusion or capture.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13156,
+  &quot;total_tokens&quot;: 14095,
+  &quot;completion_tokens&quot;: 939,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 13056
+  }
+ },
+ &quot;seed&quot;: 20262409
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-016.html">this round</a></p></body></html>

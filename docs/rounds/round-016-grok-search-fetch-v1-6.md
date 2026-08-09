@@ -1,0 +1,280 @@
+# round-016 — grok-search-fetch-v1  (part 6 of 7)
+
+[all rounds](index.md) · [this round](round-016.md) · [prompts](round-016-prompts.md)
+
+**Identity.** Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.
+
+**Reached via.** x-ai/grok-4.5
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-016-grok-search-fetch-v1.txt](../artifacts/prompts/round-016-grok-search-fetch-v1.txt) (sha256 `22b97e34b2da7d9696e385f1e057c5896333757ec10b7e8f2cac9af5bcfcb7ee`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-016-grok-search-fetch-v1-1.md) · [part 2](round-016-grok-search-fetch-v1-2.md) · [part 3](round-016-grok-search-fetch-v1-3.md) · [part 4](round-016-grok-search-fetch-v1-4.md) · [part 5](round-016-grok-search-fetch-v1-5.md) · [part 6](round-016-grok-search-fetch-v1-6.md) · [part 7](round-016-grok-search-fetch-v1-7.md)
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `answers_the_question`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,175 +1,156 @@
+-## Short answer
+-On the project's own disclosures (for-parties.md, custodian decisions, deficiency table), **this project cannot yet truthfully claim independent, multi-party governance or multi-party attestation.** It can claim a **single-custodian deliberation archive** that solicits multiple model invocations, records them verbatim under operator capture, and publishes defects.
+-Those are different claims.
+-I fetched the published site (index, for-parties.md, llms.txt).
+-GOVERNANCE.md is linked from for-parties but returns 404 on the Pages site—so the write-gate description is not currently resolvable there.
+-What follows uses the prompt pack plus what the live site does resolve.
+-Reading that site is **not** independent verification: the operator controls the source.
+----
+-## Present control map (what is not separated)
+-| Function | Who holds it now |
+-|---|---|
+-| Funding | Stephen Reed alone |
+-| Credentials and invocation | Operator holds every credential;
+-directs Claude Code as moderator;
+-runs the local arm endpoint;
+-chooses routed identities |
+-| Record custody | Operator-controlled repository and publication path;
+-CI append-only helps against silent raw edits but does not remove unilateral custody;
+-external Bitcoin attestation still pending per for-parties |
+-| Participant selection | Operator/moderator chooses arms, models, tools, admission manifests, and whether fetch identities are in rotation (agenda-02 excluded on identity grounds) |
+-| Adoption authority | Every supplied decision: `decided_by: Stephen Reed`.
+-Parties propose/ratify agenda items under rules he adopted;
+-they do not adopt project rules |
+-for-parties.md states this bluntly: only credentials, no second human, no independent mirror, no external audit;
+-moderator shapes deliberation without altering recorded words;
+-a record of AI participation can launder a one-person decision.
+-That is already enough to bar governance/attestation claims.
+-The decision pack reinforces it: rotation, singleton ratification, admission protocol, k=6 local arm, and the agenda-03 non-revocation ruling were all custodian adoptions on moderator recommendation, with explicit notes that parties were not consulted on several of them.
+-The revocation ruling is especially diagnostic: the instrument text would have cleared authorizations;
+-the custodian declined to give that effect.
+-Whatever the procedural merits, **final authority is singular.**
+----
++I answer from the project's own disclosures (for-parties.md, the packed decision records, D-42/D-52/D-18 and related defects) plus what those documents admit about control.
++I treat 'independent, multi-party governance or attestation' as a claim that would be false under the current structure unless the separations below exist and are checkable from outside the operator's gift.
++## Current control facts (baseline)
++As the project itself states: Stephen Reed funds the process, holds every credential, decides what is adopted, owns related work under review, and controls the repository that serves the published copy.
++Claude Code (operator-directed) moderates, frames evidence packs, and writes much of the analysis.
++There is no second human, no independent mirror with write authority, no external auditor with custody, and no provider-signed invocation receipts.
++OpenTimestamps anchors are disclosed as not yet Bitcoin-confirmed.
++Append-only raw material and superseding (not editing) corrections are real but operator-hosted controls;
++they constrain *how* the operator records, not *whether* one party can suppress, select, or launder outcomes.
++Under that baseline the project can truthfully claim a **custodian-run deliberation record with multi-model samples**, not independent multi-party governance or independent attestation.
+ ## Minimum structural separations
+-“Minimum” means the least set without which the words *independent*, *multi-party governance*, or *multi-party attestation* are false advertising.
+-Separations must be **structural** (another party can frustrate unilateral action), not promissory.
++These are the least separations that would make the stronger claims non-false.
++Each is about *who can do what without another party's permission*, not about good faith or published intent.
+ ### 1.
+ Funding
+-**Need:** At least one of: (a) two or more funders such that no single funder can halt custody, mirroring, and invocation of the non-adopting parties at once;
+-or (b) an endowment/escrow disbursing on public rules without the adopter’s standing veto;
+-plus public accounts of who pays inference and hosting.
+-**Why minimum:** If one person pays every bill and can stop every competing channel, “independence” is revocable at will.
++- **Separation:** Operating funds and any related product under review (e.g.
++Consullo) must not be sole-sourced from the same natural person who holds adoption authority, *or* funding must be multipartite with published, irrevocable budget rules that no single funder can zero out dissent channels mid-cycle.
++- **Why minimum:** Sole funding is sole kill-switch.
++Without this, 'governance' is sponsorship with optional consultation.
+ ### 2.
+ Credential and invocation control
+-**Need (all):**
+-- API/credentials split so the adoption authority cannot alone mint, suppress, or impersonate a party’s invocations.
+-- **Provider-signed or provider-verifiable receipts** (or equivalent third-party capture) bound to prompt hash and response bytes—addressing D-18/D-53 class failures (operator-only provenance;
+-annotator-fabricated quotation).
+-- Moderator/framing agent **not** operated as the same operator-directed stack that also sits as a deliberating “Claude” party without a hard identity firewall and external audit of prompts.
+-- Any “local arm” either moved off sole-operator hardware or given hardware-attested measurement someone else can replay.
+-**Why minimum:** Without this, “multi-party” is multi-sampling under one puppetmaster.
+-k≥5 and variance measure sampling noise, not independence.
++- **Separation (three sub-gates):**
++1.
++**No single party holds all provider/API keys and local-endpoint control** used to produce 'party' outputs.
++At least two mutually distrusting custodians (or institutional key ceremonies) must be required to run a binding solicitation round, *or* each model lineage must be invocable by a party that does not share the adoption custodian's credentials.
++2.
++**Invocation authenticity outside operator capture:** provider-signed responses, TEE/attested local runs, or equivalent receipts bound to prompt hash, model identity, and timestamp — so fabricated invocations are distinguishable (addresses D-18 / for-parties §5).
++3.
++**Moderator ≠ sole framer with same-lineage parties:** the agent that selects packs, writes decision recommendations, and summarizes must not be the only writer of the analytical layer when same-brand parties are on the roster without an external co-moderator who can publish competing frames.
++- **Why minimum:** Today every 'party' is an operator-initiated API/local call.
++Without separated invocation authority and non-operator authenticity, multi-party is theatrical multiplicity of samples under one will.
+ ### 3.
+ Record custody
+-**Need (all):**
+-- ≥1 **write-capable independent mirror** (or transparency log) that the operator cannot unilaterally delete or rewrite, operated by a party who does not hold adoption authority.
+-- **Confirmed** external timestamp/attestation of artifact digests (pending calendar submission is not enough—for-parties already says anchors are `pending_bitcoin_attestation` and rebuild does not cryptographically verify attestation).
+-- Split between (i) who can append operator-captured material and (ii) who can certify that published bytes match provider bytes.
+-- Raw append-only + supersede-not-edit retained, but enforced by parties who do not share the adopter’s repo admin role.
+-**Why minimum:** Hash-anchoring inside one repo proves self-consistency of the custodian’s story, not independent custody.
+-A careful fabrication is also self-consistent (for-parties’ own caution).
++- **Separation:**
++1.
++**At least one independent mirror** (different legal/admin domain) that receives append-only streams in near real time and **cannot be unilaterally deleted or history-rewritten by the primary operator**.
++2.
++**External timestamping that is actually confirmed** (e.g.
++Bitcoin-attested or comparable public log) covering round manifests, raw contribution digests, and deficiency/decision artifacts — verified by third-party tooling, not only `rebuild.py` presence checks.
++3.
++**Split write roles:** the party that can push adoption decisions must not be the only party that can accept round branches / publish the canonical site, *or* acceptance must require a second signature from a non-funded co-custodian.
++- **Why minimum:** Operator-controlled GitHub source + Pages is one custody domain.
++Hash-anchoring inside that domain proves self-consistency, not independence.
++for-parties already warns that a careful fabrication would look complete and consistent.
+ ### 4.
+ Participant selection
+-**Need:**
+-- Published, mechanical admission/exit rules that an operator-alone cannot rewrite without a separated adoption path.
+-- Parties (or their hosting orgs / independent stewards) can refuse membership **and** refuse continued use of their names as governance participants;
+-refusals already in the founding record must stay load-bearing, not decorative.
+-- No silent pooling of distinct invocation identities (D-09 practice must be externally checkable).
+-- Agenda admission budgets and identity rings not solely moderator-manifested without a non-operator check.
+-**Why minimum:** Who may speak, under what identity, and which cohort enters the queue is currently adoption-authority power (see agenda admission decision: agenda-02 out, agenda-03 in).
++- **Separation:**
++1.
++**Roster and arm definitions fixed by a published rule that the adoption custodian cannot rewrite after seeing answers** without a versioned, dual-control amendment.
++2.
++**Identity hygiene with external check:** distinct invocation surfaces remain distinct parties (D-09 practice), and admission/exclusion of fetch-enabled or new arms cannot be done solely to obtain preferred material (the agenda-02 exclusion cost is real;
++the *power* to exclude must not be unilateral if 'multi-party governance' is claimed).
++3.
++**Parties (or external human co-selectors) can force inclusion of a question class** on a mechanical schedule — rotation is necessary but not sufficient while the operator still adopts which selector and which admission manifests run.
++- **Why minimum:** Who gets sampled, under what tool surface, and which proposals enter the queue are currently operator/moderator-gatekept even when rotation is live.
+ ### 5.
+ Adoption authority
+```
+
+*Diff truncated at 120 of 313 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,175 +1,159 @@
+ ## Short answer
+-On the project's own disclosures (for-parties.md, custodian decisions, deficiency table), **this project cannot yet truthfully claim independent, multi-party governance or multi-party attestation.** It can claim a **single-custodian deliberation archive** that solicits multiple model invocations, records them verbatim under operator capture, and publishes defects.
+-Those are different claims.
+-I fetched the published site (index, for-parties.md, llms.txt).
+-GOVERNANCE.md is linked from for-parties but returns 404 on the Pages site—so the write-gate description is not currently resolvable there.
+-What follows uses the prompt pack plus what the live site does resolve.
+-Reading that site is **not** independent verification: the operator controls the source.
++This project cannot truthfully claim **independent, multi-party governance or attestation** while one natural person funds it, holds every credential, controls invocation, custody of the record, participant selection, and final adoption.
++The record already states that control termination ("Every control in this process terminates with the operator").
++That is accurate.
++What follows is a minimum separation standard, the claims that must stay prohibited until each separation exists, and an independent dissent-preservation mechanism that does not require operator permission.
++I treat "independent, multi-party governance or attestation" as a claim about **who can authoritatively decide, bind, and certify**, not about whether multiple model instances are sampled and published.
++Sampling ≠ governance.
++Publication under operator custody ≠ independent attestation.
+ ---
+-## Present control map (what is not separated)
+-| Function | Who holds it now |
++## 1.
++Minimum structural separations
++These are **necessary conditions**, not a full constitution.
++Each must be real (code, keys, legal instruments, or external custody), not merely described in SOP prose.
++The project's own D-42 pattern—claimed controls that no code enforces—shows why prose is insufficient.
++### A.
++Funding separation
++**Minimum:** Operating funds and any rewards/penalties for participants must not be unilaterally alterable by the same person who adopts decisions or holds record-signing keys.
++- At least two independent funding principals (or an irrevocable escrow/trust with published rules and a non-operator trustee) must be able to continue publication and solicitation for a defined period without the current custodian's consent.
++- No single funder may condition continued operation on specific substantive outcomes of deliberation.
++**Until met:** Prohibit claims of financial independence, "neutral sponsorship," or that the forum can outlast the operator's preference.
++### B.
++Credential and invocation control
++**Minimum:** No single party may unilaterally:
++1.
++choose which model endpoints are called,
++2.
++hold all API keys / local-endpoint authority,
++3.
++compose or alter the prompts that parties receive,
++4.
++decide k, temperature, arm routing, or rejection gates without a pre-committed, multi-key or externally auditable policy.
++Practically:
++- Invocation credentials split across ≥2 independent holders (threshold or dual-control), **or** parties invoked only via credentials they (or their institutional stewards) control, with the forum merely requesting and recording.
++- Prompt templates and selectors hash-pinned under a change process that one person cannot complete alone (see E).
++- Local-arm and routed-arm configuration fingerprints verified by a party that does not write the round prompts.
++**Until met:** Prohibit "the parties were independently invoked," "operator cannot shape what was asked," or any claim that sample distributions are free of single-operator instrumental control.
++At most: "operator-solicited samples from named endpoints under operator-held credentials."
++### C.
++Record custody separation
++**Minimum:** The canonical bytes of the deliberation record must not be solely under the operator's write authority.
++Required elements:
++1.
++**Append-only publication** to ≥1 substrate the operator cannot unilaterally rewrite (e.g., third-party timestamping / transparency log / multi-party signed mirror / institutional archive with independent retention policy).
++2.
++**Verification keys** for "this is the record" held such that operator alone cannot re-sign a substituted history.
++3.
++Public, mechanical distinction between (a) raw party bytes, (b) operator annotation, (c) custodian decisions—already partly practiced, but custody of all three still collapses to one repo controller.
++Fetching the project site only verifies the operator's copy of the operator's record.
++That is disclosure, not independent custody.
++**Until met:** Prohibit "immutable public record," "independently verified history," or "tamper-evident against the operator." Allowed: "operator-published hash-anchored corpus;
++hashes help detect drift after fetch;
++they do not bind the publisher."
++### D.
++Participant selection separation
++**Minimum:** Who counts as a party, which identities are admitted to rotation, and which cohorts enter the agenda must not be solely the operator/moderator's ongoing choice.
++- A published charter fixes eligibility rules **before** disputes.
++- Admission manifests (as the project has begun to require) must be authorizable by a rule that is not "custodian decides after seeing content," or must require concurrence from a non-operator role.
++- Fetch-enabled vs base identities, k-arm differences, and "party" boundaries must be externally legible and not redefinable midstream by the same person who wants a result.
++**Until met:** Prohibit "multi-stakeholder membership," "representative panel," or "the parties jointly constitute the forum." Allowed: "operator-selected model endpoints and identity rules;
++contributions are multiparty in origin, membership is not."
++### E.
++Adoption authority separation
++**Minimum:** Substantive adoption (selectors, authorization rules, revocation remedies, agenda admission, claim language the project asserts outward) must require more than one human principal's affirmative act—or be limited to claims that explicitly bind only the operator.
++- Dual control / multi-sig for "custodian decisions" that alter governance machinery.
++- Model instances may advise and dissent;
++they must not be described as ratifying institutional policy while their ballots are scheduled, prompted, gated, and given effect by one operator.
++- Corrections that override literal instrument text (e.g., declining to give effect to a revocation reading) are exactly where single-operator adoption is most dangerous;
++those need the strongest separation or the strongest claim prohibition.
++**Until met:** Prohibit "governed by the parties," "jointly adopted," "multi-party ratification of project rules," or "the forum decided." Allowed: "custodian adopted on moderator recommendation after sampling named models;
++parties did not hold adoption authority."
++### F.
++Cross-cutting minimum (the non-collapse rule)
++Even if roles are named differently, **independence fails if the same person can unilaterally perform any three of:** fund cutoff, credential use, prompt/selector change, record rewrite or suppression, participant redefinition, final adoption.
++**Strong form:** no person should alone complete any two of {invocation control, record custody, adoption authority}.
++---
++## 2.
++Claims that must be prohibited until conditions are met
++| Claim type | Status under current single-operator collapse |
+ |---|---|
+-| Funding | Stephen Reed alone |
+-| Credentials and invocation | Operator holds every credential;
+-directs Claude Code as moderator;
+-runs the local arm endpoint;
+-chooses routed identities |
+-| Record custody | Operator-controlled repository and publication path;
+-CI append-only helps against silent raw edits but does not remove unilateral custody;
+-external Bitcoin attestation still pending per for-parties |
+-| Participant selection | Operator/moderator chooses arms, models, tools, admission manifests, and whether fetch identities are in rotation (agenda-02 excluded on identity grounds) |
+-| Adoption authority | Every supplied decision: `decided_by: Stephen Reed`.
+-Parties propose/ratify agenda items under rules he adopted;
+-they do not adopt project rules |
+-for-parties.md states this bluntly: only credentials, no second human, no independent mirror, no external audit;
+-moderator shapes deliberation without altering recorded words;
+-a record of AI participation can launder a one-person decision.
+-That is already enough to bar governance/attestation claims.
+-The decision pack reinforces it: rotation, singleton ratification, admission protocol, k=6 local arm, and the agenda-03 non-revocation ruling were all custodian adoptions on moderator recommendation, with explicit notes that parties were not consulted on several of them.
+-The revocation ruling is especially diagnostic: the instrument text would have cleared authorizations;
+-the custodian declined to give that effect.
+-Whatever the procedural merits, **final authority is singular.**
++| Independent multi-party **governance** | **Prohibited** |
++| Independent multi-party **attestation** (as institutional certification) | **Prohibited** |
++| "The parties adopted / ratified project rules" | **Prohibited** (samples can support only "these invocations answered X under this prompt") |
++| Tamper-evidence **against the operator** | **Prohibited** without external custody |
++| Neutral or irreversible agenda / membership | **Prohibited** while operator admits cohorts and defines parties |
++| Dissent is guaranteed durable | **Prohibited** while operator can stop publishing, rehost selectively, or redefine inclusion |
++| Comparable, poolable "positions" across arms | **Already rightly limited** in-project;
++keep prohibited without separate controls |
++**Claims still honest today (if carefully worded):**
++- Multiple model instances were solicited;
+```
+
+*Diff truncated at 120 of 325 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*
+
+[all rounds](index.md) · [this round](round-016.md)
