@@ -99,10 +99,36 @@ if q.get("available"):
     check("...with a reset time", (q.get("five_hour") or {}).get("resets_at") is not None)
 saved_cred = ex.CREDENTIALS
 ex.CREDENTIALS = Path("/nonexistent/creds.json")
-bad = ex.quota_now()
+#  CLEAR THE CACHE FIRST. This test predates the TTL cache added after the endpoint rate-limited
+#  the trial, and inside run_all the cache is warm from an earlier call -- so quota_now() was
+#  correctly returning a cached reading without touching credentials, and the assertion about
+#  the fail-open path was testing a cache hit. force=True bypasses the TTL; clearing the value
+#  removes the stale reading the failure path would otherwise attach.
+ex._QUOTA_CACHE["value"], ex._QUOTA_CACHE["at"] = None, 0.0
+ex._QUOTA_COOLDOWN_UNTIL = 0.0
+bad = ex.quota_now(force=True)
 check("an unreadable quota fails OPEN rather than refusing", bad["available"] is False)
 check("...and says why it is not evidence of a full quota",
       "not evidence" in bad.get("fail_open", ""))
+ex.CREDENTIALS = saved_cred
+
+import time as _t
+ex._QUOTA_CACHE["value"] = {"available": True, "five_hour": {"utilization": 7.0}}
+ex._QUOTA_CACHE["at"] = _t.monotonic()
+ex.CREDENTIALS = Path("/nonexistent/creds.json")
+warm = ex.quota_now()
+check("a WARM cache is served without touching credentials", warm.get("cached") is True)
+check("...and carries the reading's age", "age_seconds" in warm)
+ex._QUOTA_CACHE["at"] = _t.monotonic() - 10_000
+ex._QUOTA_COOLDOWN_UNTIL = _t.monotonic() + 300
+cold = ex.quota_now()
+check("under a 429 cooldown it does not call again",
+      cold["available"] is False and "cooldown_remaining_seconds" in cold)
+check("...and attaches the LAST KNOWN reading with its age",
+      (cold.get("last_known") or {}).get("five_hour", {}).get("utilization") == 7.0
+      and cold.get("last_known_age_seconds", 0) > 0)
+ex._QUOTA_CACHE["value"], ex._QUOTA_CACHE["at"] = None, 0.0
+ex._QUOTA_COOLDOWN_UNTIL = 0.0
 ex.CREDENTIALS = saved_cred
 
 print("\nthe trial declares what it is not")

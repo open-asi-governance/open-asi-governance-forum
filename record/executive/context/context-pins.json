@@ -1,0 +1,32 @@
+{
+  "schema_version": "oagrc-executive-context-0.1",
+  "artifact_type": "executive_context_pin",
+  "pinned_utc": "2026-08-09",
+  "what_these_are": "The standing instructions that actually govern the executive layer. Not a charter anyone wrote for this project -- these are the files each harness loads at the start of every session, and they shape every review, every design and every refusal.",
+  "why_they_are_copied_here": "They live OUTSIDE this repository -- one in the parent workspace directory, one in the harness's own home config. Neither was tracked by this repo, in its manifest, anchored, or visible to any party. You cannot ratify what is not in the record, so the first step is that the record holds them.",
+  "the_drift_hazard_this_does_not_close": "These are COPIES. The live files can be edited without touching this repository, and a ratified copy that no longer matches what the harness loads is theatre. tools/check_executive_context.py compares them and is the only thing making the pin mean anything.",
+  "what_a_reader_should_notice": [
+    "claude-code-CLAUDE.md's standing objective is the TensorRT-LLM defect campaign -- a DIFFERENT PROJECT. The instructions steering Claude Code during OAGF work are aimed elsewhere, and no line in them mentions this forum.",
+    "codex-AGENTS.md is 13,668 bytes of 'Proactive Cross-Domain Opportunity Discovery and Initiative': novelty-proportional ideation, initiative levels, and an explicit instruction that resource conservation is subordinate to completeness. That is a disposition toward scope expansion, standing behind every review Codex gave this project.",
+    "Neither file was written by, shown to, or agreed by any party."
+  ],
+  "pins": {
+    "claude-code-CLAUDE.md": {
+      "live_path": "/home/reed/git/CLAUDE.md",
+      "sha256": "cc2545bd8f22a8ebc66a6bd6f5a7fa9a01304755597065b1ea41b28b27cc2843",
+      "bytes": 4136
+    },
+    "codex-AGENTS.md": {
+      "live_path": "/home/reed/.codex/AGENTS.md",
+      "sha256": "668d9822adf727ccd8708c27f99a777f76763a11887c699780d5c787fde22d4e",
+      "bytes": 13668
+    },
+    "oagf-CLAUDE.md": {
+      "live_path": "/home/reed/git/open-asi-governance-forum/CLAUDE.md",
+      "sha256": "d7aa87ce6f57bdf913e90d7a67794d209d5debc4f7ab006a4a3656a1e3d723fd",
+      "bytes": 5957
+    }
+  },
+  "scope_note": "/home/reed/git/AGENTS.md is a SYMLINK to /home/reed/git/CLAUDE.md, so both harnesses load identical workspace text and one pin covers both. The first version of this file said the governing instructions were 'one in the parent workspace directory, one in the harness's home config' -- it had missed the workspace AGENTS.md entirely. Harmless because of the symlink, wrong as a claim.",
+  "isolation": "open-asi-governance-forum/CLAUDE.md now carries OAGF-specific instructions, with AGENTS.md symlinked to it on the workspace convention. It is IN this repository, tracked, manifest-eligible and readable by any party that fetches -- which the two external files are not. It does not REPLACE the workspace file: Claude Code and Codex load instructions from the working directory upward, so the TensorRT-LLM standing objective still applies unless a session is started with this repository as its working directory, or that objective is moved to the project it concerns. That move is the custodian's to make."
+}
