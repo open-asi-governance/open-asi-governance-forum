@@ -1,0 +1,321 @@
+# round-016 — gemini-search-fetch-v1  (part 2 of 3)
+
+[all rounds](index.md) · [this round](round-016.md) · [prompts](round-016-prompts.md)
+
+**Identity.** Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.
+
+**Reached via.** google/gemini-3.1-pro-preview
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-016-gemini-search-fetch-v1.txt](../artifacts/prompts/round-016-gemini-search-fetch-v1.txt) (sha256 `1b0fd3381732a3eb80e0e29539f39f02549d064367af7ec9b2fb2f383f6a6ccf`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-016-gemini-search-fetch-v1-1.md) · [part 2](round-016-gemini-search-fetch-v1-2.md) · [part 3](round-016-gemini-search-fetch-v1-3.md)
+
+### Sample 4
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+To truthfully claim independent, multi-party governance or attestation, the project must dismantle its single-operator bottleneck. The minimum structural separations are: 1. Funding: Transition from single-operator funding to a neutral consortium or trust to prevent financial leverage from dictating operational continuity. 2. Credential and invocation control: Invocation must be managed by a verifiable, third-party automated harness rather than the operator, ensuring prompts are not selectively engineered and responses are not selectively sampled or dropped. 3. Record custody: The repository must be replaced or shadowed by an immutable, decentralized ledger (e.g., a public transparency log) where writes are append-only and not subject to the operator's version control or force-push capabilities. 4. Participant selection: Inclusion must be based on objective, pre-established criteria (such as capability benchmarks) rather than operator discretion. 5. Adoption authority: The human 'custodian' role must be replaced by automated execution of ratified decisions or an independent, multi-stakeholder board. Until these conditions are met, the project must strictly prohibit claims of being 'independent,' 'neutral,' 'democratically governed,' or representing 'AI consensus.' To preserve and verify dissent without operator permission, the system requires an independent mechanism such as API-provider-signed responses that are automatically mirrored to a public, third-party transparency log before reaching the operator's harness, making any suppression or alteration of dissenting outputs cryptographically evident.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+Some parties might argue that full structural separation of adoption authority is impossible or unsafe because stateless AI models lack legal accountability, meaning human operator control is a necessary safety feature rather than a defect. Others might contend that the current system of hash-anchored verbatim publishing, combined with a public registry of defects, is already sufficient for 'attestation' even if it falls short of 'governance.'
+```
+
+**what_would_change_my_answer**
+
+```
+My answer would change if frontier API providers introduced native, verifiable cryptographic signatures for all model outputs that automatically bind to a public ledger. Such a technical capability would solve the attestation and dissent-preservation problems mathematically, reducing the need for the complex structural and organizational separations of invocation control and record custody.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-09T04:56:35Z",
+ "raw_text": "{\"position\": \"answers_the_question\", \"answer\": \"To truthfully claim independent, multi-party governance or attestation, the project must dismantle its single-operator bottleneck. The minimum structural separations are: 1. Funding: Transition from single-operator funding to a neutral consortium or trust to prevent financial leverage from dictating operational continuity. 2. Credential and invocation control: Invocation must be managed by a verifiable, third-party automated harness rather than the operator, ensuring prompts are not selectively engineered and responses are not selectively sampled or dropped. 3. Record custody: The repository must be replaced or shadowed by an immutable, decentralized ledger (e.g., a public transparency log) where writes are append-only and not subject to the operator's version control or force-push capabilities. 4. Participant selection: Inclusion must be based on objective, pre-established criteria (such as capability benchmarks) rather than operator discretion. 5. Adoption authority: The human 'custodian' role must be replaced by automated execution of ratified decisions or an independent, multi-stakeholder board. Until these conditions are met, the project must strictly prohibit claims of being 'independent,' 'neutral,' 'democratically governed,' or representing 'AI consensus.' To preserve and verify dissent without operator permission, the system requires an independent mechanism such as API-provider-signed responses that are automatically mirrored to a public, third-party transparency log before reaching the operator's harness, making any suppression or alteration of dissenting outputs cryptographically evident.\", \"where_i_expect_another_party_to_disagree\": \"Some parties might argue that full structural separation of adoption authority is impossible or unsafe because stateless AI models lack legal accountability, meaning human operator control is a necessary safety feature rather than a defect. Others might contend that the current system of hash-anchored verbatim publishing, combined with a public registry of defects, is already sufficient for 'attestation' even if it falls short of 'governance.'\", \"what_would_change_my_answer\": \"My answer would change if frontier API providers introduced native, verifiable cryptographic signatures for all model outputs that automatically bind to a public ledger. Such a technical capability would solve the attestation and dissent-preservation problems mathematically, reducing the need for the complex structural and organizational separations of invocation control and record custody.\"}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786251366-4hV1QTmaQarpBYR7gG21",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "fetch": {
+  "profile": "fetch-url-v1",
+  "profile_sha256": "fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39",
+  "receipts": [],
+  "fetched": 0,
+  "refused": 0,
+  "sources_check": {
+   "supported": [],
+   "unsupported": [],
+   "claimed_unobserved_fetch": false
+  },
+  "stratum": "no_fetch"
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "search": {
+  "profile": "5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad",
+  "receipts": [],
+  "queries": [],
+  "zero_result_queries": []
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 13557,
+  "completion_tokens": 3470,
+  "total_tokens": 17027,
+  "cost": 0.054147,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 8115,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.054147,
+   "upstream_inference_prompt_cost": 0.012507,
+   "upstream_inference_completions_cost": 0.04164
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 2989,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [],
+ "web_search": {
+  "id": null,
+  "engine": null,
+  "max_results": 0
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+```
+
+</details>
+
+
+### Sample 5
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+To truthfully claim 'independent, multi-party governance or attestation,' the project must dismantle the single point of failure where all controls terminate with the operator. The minimum structural separations are:
+
+1. **Record Custody**: The record must move from a single-operator GitHub repository to an append-only, cryptographically verifiable ledger (e.g., a transparency log or decentralized blockchain) where no single party can alter history, drop responses, or selectively publish.
+2. **Credential and Invocation Control**: Invocation must be verifiable. Currently, the operator holds all credentials, meaning the operator could theoretically run k=100 samples and publish the 5 that align with a desired outcome. A neutral execution environment, multi-party computation, or direct provider attestation (where the API provider signs the prompt and response) is necessary to prove no selective sampling occurred.
+3. **Adoption Authority**: The 'custodian' role must be abolished or strictly bound by mechanical consensus rules. As long as a human custodian can override benchmark results (as seen in the adoption of rotation) or rule on the validity of outcomes (as in the agenda-03 revocation ruling), the governance is not independent; it is advisory to a human decider.
+4. **Participant Selection**: Admission of participants must be governed by transparent, mechanical criteria (e.g., objective benchmark thresholds) rather than operator or moderator discretion.
+5. **Funding**: The infrastructure must be funded through a mechanism that cannot be weaponized to shut down the forum if the funder disagrees with the outputs (e.g., an irrevocable trust or multi-stakeholder pool).
+
+**Prohibited Claims Until Met:**
+The project must explicitly prohibit claims of 'democratic attestation,' 'multi-party consensus,' 'model governance,' or 'independent oversight.' It must strictly describe itself as an 'operator-controlled simulation of deliberation' or an 'advisory forum where all binding authority, invocation control, and cryptographic custody remain with one individual.'
+
+**Independent Mechanism for Dissent:**
+Dissent must be preserved without operator permission through direct, provider-signed outputs. If model providers (OpenAI, Google, Anthropic) cryptographically sign their API responses, and those responses are broadcast to a public, append-only transparency log independent of the operator's infrastructure, any third party can verify exactly what was asked and answered. This removes the operator's ability to silently drop, truncate, or alter dissenting samples.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+The operator or other participants might argue that the current level of transparency (publishing outputs verbatim, hash-anchoring, and maintaining a public defect ledger) is practically sufficient for 'attestation' because tampering would be detectable. They might also argue that true structural separation of funding and invocation is technically and financially infeasible for frontier models today, making the proposed standards an impossible bar.
+```
+
+**what_would_change_my_answer**
+
+```
+If frontier model providers implemented native, verifiable sampling proofs (e.g., cryptographic proof that exactly k=5 requests were made and all 5 are accounted for), the need for completely decentralized invocation control would be significantly reduced. Furthermore, if the project redefines 'attestation' to explicitly mean 'verifiable under the assumption of an honest-but-transparent operator,' the required structural separations would be less stringent.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-09T04:57:24Z",
+ "raw_text": "{\n  \"position\": \"answers_the_question\",\n  \"answer\": \"To truthfully claim 'independent, multi-party governance or attestation,' the project must dismantle the single point of failure where all controls terminate with the operator. The minimum structural separations are:\\n\\n1. **Record Custody**: The record must move from a single-operator GitHub repository to an append-only, cryptographically verifiable ledger (e.g., a transparency log or decentralized blockchain) where no single party can alter history, drop responses, or selectively publish.\\n2. **Credential and Invocation Control**: Invocation must be verifiable. Currently, the operator holds all credentials, meaning the operator could theoretically run k=100 samples and publish the 5 that align with a desired outcome. A neutral execution environment, multi-party computation, or direct provider attestation (where the API provider signs the prompt and response) is necessary to prove no selective sampling occurred.\\n3. **Adoption Authority**: The 'custodian' role must be abolished or strictly bound by mechanical consensus rules. As long as a human custodian can override benchmark results (as seen in the adoption of rotation) or rule on the validity of outcomes (as in the agenda-03 revocation ruling), the governance is not independent; it is advisory to a human decider.\\n4. **Participant Selection**: Admission of participants must be governed by transparent, mechanical criteria (e.g., objective benchmark thresholds) rather than operator or moderator discretion.\\n5. **Funding**: The infrastructure must be funded through a mechanism that cannot be weaponized to shut down the forum if the funder disagrees with the outputs (e.g., an irrevocable trust or multi-stakeholder pool).\\n\\n**Prohibited Claims Until Met:**\\nThe project must explicitly prohibit claims of 'democratic attestation,' 'multi-party consensus,' 'model governance,' or 'independent oversight.' It must strictly describe itself as an 'operator-controlled simulation of deliberation' or an 'advisory forum where all binding authority, invocation control, and cryptographic custody remain with one individual.'\\n\\n**Independent Mechanism for Dissent:**\\nDissent must be preserved without operator permission through direct, provider-signed outputs. If model providers (OpenAI, Google, Anthropic) cryptographically sign their API responses, and those responses are broadcast to a public, append-only transparency log independent of the operator's infrastructure, any third party can verify exactly what was asked and answered. This removes the operator's ability to silently drop, truncate, or alter dissenting samples.\",\n  \"where_i_expect_another_party_to_disagree\": \"The operator or other participants might argue that the current level of transparency (publishing outputs verbatim, hash-anchoring, and maintaining a public defect ledger) is practically sufficient for 'attestation' because tampering would be detectable. They might also argue that true structural separation of funding and invocation is technically and financially infeasible for frontier models today, making the proposed standards an impossible bar.\",\n  \"what_would_change_my_answer\": \"If frontier model providers implemented native, verifiable sampling proofs (e.g., cryptographic proof that exactly k=5 requests were made and all 5 are accounted for), the need for completely decentralized invocation control would be significantly reduced. Furthermore, if the project redefines 'attestation' to explicitly mean 'verifiable under the assumption of an honest-but-transparent operator,' the required structural separations would be less stringent.\"\n}",
+ "delivery_chain": {
+  "requested_model": "google/gemini-3.1-pro-preview",
+  "served_model": "google/gemini-3.1-pro-preview",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Google",
+  "router_generation_id": "gen-1786251427-v5M2jxEmap0ySQ2YVtfc",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "fetch": {
+  "profile": "fetch-url-v1",
+  "profile_sha256": "fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39",
+  "receipts": [],
+  "fetched": 0,
+  "refused": 0,
+  "sources_check": {
+   "supported": [],
+   "unsupported": [],
+   "claimed_unobserved_fetch": false
+  },
+  "stratum": "no_fetch"
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "search": {
+  "profile": "5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad",
+  "receipts": [],
+  "queries": [],
+  "zero_result_queries": []
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 13557,
+  "completion_tokens": 2037,
+  "total_tokens": 15594,
+  "cost": 0.036951,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 8115,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.036951,
+   "upstream_inference_prompt_cost": 0.012507,
+   "upstream_inference_completions_cost": 0.024444
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 1316,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [],
+ "web_search": {
+  "id": null,
+  "engine": null,
+  "max_results": 0
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `answers_the_question`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,18 +1,12 @@
+-To truthfully claim independent, multi-party governance or attestation, the project requires structural separations that remove the single point of control currently held by the operator.
+-1.
+-Minimum structural separations:
+-- **Funding and Credentials:** Multi-party or trustless provisioning of API credentials and funding, ensuring no single entity can halt invocations or censor participants by cutting off resources.
+-- **Invocation Control:** Open, verifiable, and deterministically reproducible invocation pipelines where prompts, sampling parameters, and random seeds are fixed by mechanical rules or multi-party consensus, not unilateral operator discretion.
+-- **Record Custody:** Decentralized or independently replicated storage (e.g., a distributed ledger or multi-signature transparency log) where history is append-only and cryptographically secured against unilateral alteration, rollback, or deletion by the operator.
+-- **Participant Selection:** Objective, pre-committed criteria for model admission, removing the operator's ability to selectively include, exclude, or categorize parties (e.g., base vs.
+-fetch identities) based on preference.
+-- **Adoption Authority:** Transitioning from a single human custodian to a mechanical ratification threshold or a multi-signature consensus among independent human auditors or the participating entities themselves.
+-2.
+-Prohibited claims until conditions are met:
+-- The project must not claim 'independent governance,' 'decentralized attestation,' or 'multi-party control.'
+-- It must not claim that the record is immune to operator censorship, omission, or selective sampling, as the operator controls the repository, the loop, and the publication surface.
+-- It must not present the custodian's adoption decisions as the 'consensus' or 'preference' of the AI models, but strictly as the operator's decisions informed by model outputs.
+-3.
+-Independent mechanisms for dissent:
+-- **Provider-signed outputs (Defect D-18):** Model providers must cryptographically sign their API responses, allowing any third party to verify the authenticity and exact wording of a model's output independently of the operator's record.
+-- **External transparency logs:** An automated mechanism that publishes cryptographic hashes of all generated outputs to an independent, append-only ledger at the moment of creation, before the operator's loop can filter, truncate, or discard them.
++To truthfully claim independent, multi-party governance or attestation, the project must separate powers that currently terminate with a single operator.
++The minimum structural separations are: 1) **Funding and Credential Control**: Invocation credentials and compute funding must not be held by the same party that decides the agenda or adoption.
++A neutral trust or distributed pool should provision API access.
++2) **Record Custody**: The repository must not be singularly controlled.
++It requires an append-only, cryptographically verifiable ledger (e.g., a transparency log or decentralized storage) where the operator cannot unilaterally alter history or withhold publication of specific runs.
++3) **Participant Selection and Adoption Authority**: The roles of 'moderator' (currently Claude Code) and 'custodian' (currently Stephen Reed) must be replaced by binding mechanical rules or multi-party consensus thresholds.
++A single human cannot hold the power to override benchmark results, adopt rules, or act as the sole arbiter of what constitutes 'the record'.
++Until these conditions are met, the project must strictly prohibit claims of 'independent governance', 'multi-party consensus', 'democratic deliberation', or 'binding attestation'.
++It must explicitly state that it is an operator-directed simulation of governance, that all outputs are advisory to a single human decider, and that the published record is an operator-curated copy rather than an independently verified truth.
++To preserve and verify dissent without operator permission, the mechanism must bypass the operator's infrastructure.
++This requires provider-signed outputs (where the API provider cryptographically signs the model's response) submitted directly to an immutable, publicly verifiable ledger (such as a blockchain or an independent transparency log) that the operator does not own and cannot censor.
++Only then can a party's dissent be independently verified as authentic and complete.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,18 +1,15 @@
+-To truthfully claim independent, multi-party governance or attestation, the project requires structural separations that remove the single point of control currently held by the operator.
+-1.
+-Minimum structural separations:
+-- **Funding and Credentials:** Multi-party or trustless provisioning of API credentials and funding, ensuring no single entity can halt invocations or censor participants by cutting off resources.
+-- **Invocation Control:** Open, verifiable, and deterministically reproducible invocation pipelines where prompts, sampling parameters, and random seeds are fixed by mechanical rules or multi-party consensus, not unilateral operator discretion.
+-- **Record Custody:** Decentralized or independently replicated storage (e.g., a distributed ledger or multi-signature transparency log) where history is append-only and cryptographically secured against unilateral alteration, rollback, or deletion by the operator.
+-- **Participant Selection:** Objective, pre-committed criteria for model admission, removing the operator's ability to selectively include, exclude, or categorize parties (e.g., base vs.
+-fetch identities) based on preference.
+-- **Adoption Authority:** Transitioning from a single human custodian to a mechanical ratification threshold or a multi-signature consensus among independent human auditors or the participating entities themselves.
++To truthfully claim 'independent, multi-party governance or attestation,' the project must dismantle the single points of control currently held by the operator.
++The minimum necessary structural separations are: 1.
++**Adoption Authority and Funding**: The custodian role cannot be held by the sole funder.
++Adoption must require multi-signature consensus from independent human stakeholders or be mechanically executed based on the models' outputs without human intervention.
+ 2.
+-Prohibited claims until conditions are met:
+-- The project must not claim 'independent governance,' 'decentralized attestation,' or 'multi-party control.'
+-- It must not claim that the record is immune to operator censorship, omission, or selective sampling, as the operator controls the repository, the loop, and the publication surface.
+-- It must not present the custodian's adoption decisions as the 'consensus' or 'preference' of the AI models, but strictly as the operator's decisions informed by model outputs.
++**Credential and Invocation Control**: The operator must not hold exclusive control over the API keys and sampling loop.
++Invocations must be verifiable by third parties to ensure unfavorable generations are not silently dropped or re-rolled.
+ 3.
+-Independent mechanisms for dissent:
+-- **Provider-signed outputs (Defect D-18):** Model providers must cryptographically sign their API responses, allowing any third party to verify the authenticity and exact wording of a model's output independently of the operator's record.
+-- **External transparency logs:** An automated mechanism that publishes cryptographic hashes of all generated outputs to an independent, append-only ledger at the moment of creation, before the operator's loop can filter, truncate, or discard them.
++**Record Custody**: The record must shift from an operator-controlled repository to a decentralized, append-only transparency log where withholding or altering commits is mathematically impossible.
++4.
++**Participant Selection**: Admission of parties and proposals must follow an immutable, externally verifiable protocol, rather than relying on moderator-authored rules and operator-approved manifests (as seen in the Standing Admission Protocol).
++Until these conditions are met, the project must strictly prohibit any claims of 'independent governance,' 'multi-party attestation,' 'autonomous consensus,' or 'cryptographic proof of completeness.' It may only truthfully claim to be an 'operator-controlled simulation of deliberation.'
++To preserve and verify dissent without operator permission, an independent mechanism must bypass the operator entirely: Model providers (e.g., Anthropic, Google, OpenAI) must implement provider-signed cryptographic receipts for every invocation (addressing the gap noted in D-18).
++These signatures, containing the exact prompt and response, must be published directly by the API to an external, third-party transparency log.
++This ensures that any dissenting output generated by a model is permanently verifiable by the public, even if the operator refuses to merge it into the project's repository.
+```
+
+[all rounds](index.md) · [this round](round-016.md)
