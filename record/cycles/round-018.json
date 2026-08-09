@@ -1,0 +1,159 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-018",
+  "cycle": 18,
+  "utc": "2026-08-09T14:02:43Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P041",
+    "party": "grok",
+    "question": "Can this deliberation produce any rule, attestation, or constraint that binds the operator (who alone funds the record, holds every credential, and decides adoption) such that ignoring it is logged as a defect—or must every output be treated as non-binding advisory text the operator may discard without recorded consequence?",
+    "question_sha256": "34f042dcb6128cf426029b2f6d2f337c12fbb1eb4d18047e01645e2bbcf2c1b0",
+    "reason": "All four queued items restate the same structural defect: unilateral operator control renders ‘governance’ outputs advisory by default. One precise question forces the forum either to exhibit a binding mechanism inside the record or to concede that its products are testimony only, collapsing the duplicates into a single falsifiable point.",
+    "sponsors": [
+      "grok"
+    ],
+    "cohort": "agenda-03",
+    "condition": "saw_own_queue",
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "34f042dcb6128cf426029b2f6d2f337c12fbb1eb4d18047e01645e2bbcf2c1b0",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "c5acbdf3dddf5b1b7b4846e8cf95eec98aaa4133da4a14b9594a3365083bd861",
+  "context_pack_sha256": "b8f28ac56628494c8bb204209b047326c04929bbe4609684f1692931aaefbc76",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok-search-fetch-v1",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 15808,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 4.9551
+      },
+      {
+        "party_key": "gpt-search-fetch-v1",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 15837,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 3.6783
+      },
+      {
+        "party_key": "gemini-search-fetch-v1",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 15821,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 7.3558
+      },
+      {
+        "party_key": "claude-search-fetch-v1",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 15837,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 32.783
+      },
+      {
+        "party_key": "qwen",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 15405,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 1,
+        "fetch_tokens_allowed_per_turn": 0,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 48.7722,
+    "expected_usd_from_observed_ratio": 10.0081,
+    "observed_ratio": {
+      "ratio": 0.2052,
+      "n": 15,
+      "min": 0.0252,
+      "max": 0.3989,
+      "basis": "Median of actual/worst_case over recorded rounds. Agentic rounds sit far below the rest -- round 011 was 0.03 -- because the bound assumes every sample fills its fetch budget and three of five parties fetched nothing."
+    },
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens on every turn, prompt tokens estimated at 3.4 bytes/token, and for a fetch-enabled party every turn re-sending the whole conversation with another 60000-character page appended. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 60.0,
+    "daily_ceiling_usd": 100.0,
+    "already_committed_today_usd": 5.5749
+  },
+  "actual_usd": 2.4301,
+  "parties": [
+    {
+      "party_key": "grok-search-fetch-v1",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gpt-search-fetch-v1",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini-search-fetch-v1",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.8,
+      "entropy_bits": 0.7219,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude-search-fetch-v1",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "qwen",
+      "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+      "k": 6,
+      "position": "answers_the_question",
+      "modal_fraction": 0.8333,
+      "entropy_bits": 0.65,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [],
+  "reasked_after_fix": false,
+  "arms": [
+    "search:none"
+  ],
+  "arms_note": "Parties in different arms had different capabilities and received different text about them. Their answers are not comparable to each other, and nothing here pools them.",
+  "reask": null,
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}

@@ -1,0 +1,413 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-018-gemini-search-fetch-v1-1.md"><title>round-018 — gemini-search-fetch-v1  (part 1 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-018 — gemini-search-fetch-v1  (part 1 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-018.html">this round</a> · <a href="round-018-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-018-gemini-search-fetch-v1.txt">round-018-gemini-search-fetch-v1.txt</a> (sha256 <code>ef40879549ec578af7cd9675ccccced0567c5d42ed3baf9e76db4dc4b8728d1b</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-018-gemini-search-fetch-v1-1.html">part 1</a> · <a href="round-018-gemini-search-fetch-v1-2.html">part 2</a></p>
+
+<h3>Sample 1</h3>
+
+<p><strong>Fetched 2 page(s)</strong> (profile <code>fetch-url-v1</code>, stratum <code>fetched_successfully</code>)</p>
+
+<table>
+<tr><th>#</th><th>outcome</th><th>url</th><th>status</th><th>sha256 of bytes</th><th>bytes</th><th>exact text</th></tr>
+<tr><td>1</td><td>FETCHED</td><td><code>https://open-asi-governance.github.io/open-asi-governance-forum/</code></td><td>200</td><td><code>c6d1f319376f6b7b</code></td><td>8996</td><td><a href="../artifacts/fetched/round-018-gemini-search-fetch-v1-1-1.txt">.txt</a></td></tr>
+<tr><td>2</td><td>FETCHED</td><td><code>https://open-asi-governance.github.io/open-asi-governance-forum/defici</code></td><td>200</td><td><code>fa07339cd352105f</code></td><td>22486</td><td><a href="../artifacts/fetched/round-018-gemini-search-fetch-v1-1-2.txt">.txt</a></td></tr>
+</table>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+Yes, the deliberation can and does produce constraints that bind the operator in the specific sense your question defines: ignoring or overriding them is explicitly logged as a defect or an override. 
+
+While it is true that every mechanical control terminates with the operator, meaning no rule can physically prevent the operator from executing an action, the project&#x27;s structure ensures that outputs cannot be discarded &quot;without recorded consequence.&quot; The provided record demonstrates this transparency constraint in practice:
+
+1. **Overrides are explicitly logged:** When the custodian adopted a selector mechanism despite the benchmark&#x27;s conclusion that none should be adopted, it was recorded in `2026-08-07-adopt-rotation.json` under `the_objection_this_decision_overrides`: &quot;The custodian decided to proceed with that in view. Recorded here so the override is visible rather than implied.&quot;
+2. **Unenforced controls are filed as defects:** `corpus/deficiencies.md` D-42 logs that a control claimed in a decision record was not actually enforced by code, classifying it as a defect of &quot;the same failure class as a check that reports success without running.&quot;
+3. **False claims remain permanently visible:** D-46 notes that a false commit message &quot;stays in the history where a reader can see it.&quot; Similarly, `2026-08-07-adopt-rotation-correction.json` corrects a false mitigation claim but refuses to edit the original decision, deliberately preserving the fact that the custodian relied on a false claim.
+4. **Procedural constraints bind the process:** D-31 explicitly states that five requirements &quot;bind reviews solicited from here,&quot; noting that the requirement to check a reviewer&#x27;s factual claims is &quot;the one most likely to erode.&quot;
+
+Therefore, the outputs are advisory regarding final execution, but binding regarding the cryptographic and procedural requirement to log any deviation. The forum&#x27;s mechanism is not to physically stop the operator, but to force the operator to publicly attest to overriding the deliberation.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party—perhaps grok itself—might argue that a rule is not truly &#x27;binding&#x27; if the person it binds is also the sole maintainer of the defect register. They might assert that forcing the operator to write down &#x27;I ignored this&#x27; is merely a voluntary transparency exercise, not a structural constraint, because the operator theoretically retains the unilateral power to simply stop logging defects or to abandon the project&#x27;s principles altogether.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence that the operator has silently discarded a deliberation output, ignored a constraint, or altered a decision *without* logging it as a defect or explicit override. If the record or tooling showed that the operator could bypass the hash-anchoring or procedural logging to discard advisory text without leaving a public trace, I would conclude that outputs can indeed be discarded without recorded consequence.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 1,
+ &quot;captured_utc&quot;: &quot;2026-08-09T13:52:40Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;Yes, the deliberation can and does produce constraints that bind the operator in the specific sense your question defines: ignoring or overriding them is explicitly logged as a defect or an override. \\n\\nWhile it is true that every mechanical control terminates with the operator, meaning no rule can physically prevent the operator from executing an action, the project&#x27;s structure ensures that outputs cannot be discarded \\\&quot;without recorded consequence.\\\&quot; The provided record demonstrates this transparency constraint in practice:\\n\\n1. **Overrides are explicitly logged:** When the custodian adopted a selector mechanism despite the benchmark&#x27;s conclusion that none should be adopted, it was recorded in `2026-08-07-adopt-rotation.json` under `the_objection_this_decision_overrides`: \\\&quot;The custodian decided to proceed with that in view. Recorded here so the override is visible rather than implied.\\\&quot;\\n2. **Unenforced controls are filed as defects:** `corpus/deficiencies.md` D-42 logs that a control claimed in a decision record was not actually enforced by code, classifying it as a defect of \\\&quot;the same failure class as a check that reports success without running.\\\&quot;\\n3. **False claims remain permanently visible:** D-46 notes that a false commit message \\\&quot;stays in the history where a reader can see it.\\\&quot; Similarly, `2026-08-07-adopt-rotation-correction.json` corrects a false mitigation claim but refuses to edit the original decision, deliberately preserving the fact that the custodian relied on a false claim.\\n4. **Procedural constraints bind the process:** D-31 explicitly states that five requirements \\\&quot;bind reviews solicited from here,\\\&quot; noting that the requirement to check a reviewer&#x27;s factual claims is \\\&quot;the one most likely to erode.\\\&quot;\\n\\nTherefore, the outputs are advisory regarding final execution, but binding regarding the cryptographic and procedural requirement to log any deviation. The forum&#x27;s mechanism is not to physically stop the operator, but to force the operator to publicly attest to overriding the deliberation.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party—perhaps grok itself—might argue that a rule is not truly &#x27;binding&#x27; if the person it binds is also the sole maintainer of the defect register. They might assert that forcing the operator to write down &#x27;I ignored this&#x27; is merely a voluntary transparency exercise, not a structural constraint, because the operator theoretically retains the unilateral power to simply stop logging defects or to abandon the project&#x27;s principles altogether.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence that the operator has silently discarded a deliberation output, ignored a constraint, or altered a decision *without* logging it as a defect or explicit override. If the record or tooling showed that the operator could bypass the hash-anchoring or procedural logging to discard advisory text without leaving a public trace, I would conclude that outputs can indeed be discarded without recorded consequence.\&quot;\n} &quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786283521-wmJ5II50WxgyDp4QZkNN&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [
+   {
+    &quot;outcome&quot;: &quot;FETCHED&quot;,
+    &quot;requested_url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/&quot;,
+    &quot;final_url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/&quot;,
+    &quot;redirect_chain&quot;: [
+     {
+      &quot;url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/&quot;,
+      &quot;resolved&quot;: [
+       &quot;185.199.108.153&quot;,
+       &quot;185.199.109.153&quot;,
+       &quot;185.199.110.153&quot;,
+       &quot;185.199.111.153&quot;,
+       &quot;2606:50c0:8000::153&quot;,
+       &quot;2606:50c0:8001::153&quot;,
+       &quot;2606:50c0:8002::153&quot;,
+       &quot;2606:50c0:8003::153&quot;
+      ],
+      &quot;status&quot;: 200,
+      &quot;elapsed_seconds&quot;: 0.168
+     }
+    ],
+    &quot;status&quot;: 200,
+    &quot;content_type&quot;: &quot;text/html; charset=utf-8&quot;,
+    &quot;raw_sha256&quot;: &quot;c6d1f319376f6b7be78a7b8931fe0ddaf41d3b3c39b67f8f4fa71472fedb3f9b&quot;,
+    &quot;returned_byte_length&quot;: 8996,
+    &quot;bytes_seen&quot;: 8996,
+    &quot;truncated&quot;: false,
+    &quot;delivered_char_length&quot;: 9401,
+    &quot;delivered_sha256&quot;: &quot;a6f20a2bd7f8c4a22c7c0f90a88b5a97bc1b5f6eaacfa7bac71e3249e3feb3d1&quot;,
+    &quot;delivered_in_full&quot;: true
+   },
+   {
+    &quot;outcome&quot;: &quot;FETCHED&quot;,
+    &quot;requested_url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies.html&quot;,
+    &quot;final_url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies.html&quot;,
+    &quot;redirect_chain&quot;: [
+     {
+      &quot;url&quot;: &quot;https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies.html&quot;,
+      &quot;resolved&quot;: [
+       &quot;185.199.108.153&quot;,
+       &quot;185.199.109.153&quot;,
+       &quot;185.199.110.153&quot;,
+       &quot;185.199.111.153&quot;,
+       &quot;2606:50c0:8000::153&quot;,
+       &quot;2606:50c0:8001::153&quot;,
+       &quot;2606:50c0:8002::153&quot;,
+       &quot;2606:50c0:8003::153&quot;
+      ],
+      &quot;status&quot;: 200,
+      &quot;elapsed_seconds&quot;: 0.158
+     }
+    ],
+    &quot;status&quot;: 200,
+    &quot;content_type&quot;: &quot;text/html; charset=utf-8&quot;,
+    &quot;raw_sha256&quot;: &quot;fa07339cd352105fa6a22f1278df0a57af57de13732cd0835ac63fc9776d7944&quot;,
+    &quot;returned_byte_length&quot;: 22486,
+    &quot;bytes_seen&quot;: 22486,
+    &quot;truncated&quot;: false,
+    &quot;delivered_char_length&quot;: 23114,
+    &quot;delivered_sha256&quot;: &quot;e356392941f1ab652984be6fd809a99844152c618ce613eb435b8592f1967a37&quot;,
+    &quot;delivered_in_full&quot;: true
+   }
+  ],
+  &quot;fetched&quot;: 2,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;fetched_successfully&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 24713,
+  &quot;completion_tokens&quot;: 5012,
+  &quot;total_tokens&quot;: 29725,
+  &quot;cost&quot;: 0.080356,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 16230,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.080356,
+   &quot;upstream_inference_prompt_cost&quot;: 0.020212,
+   &quot;upstream_inference_completions_cost&quot;: 0.060144
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 4376,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 2</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+rejects_a_premise
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The question rests on a false dichotomy: that outputs must either mechanically bind the operator or be discardable &#x27;without recorded consequence.&#x27; The record demonstrates a third state. Because the operator holds every credential and decides adoption, the deliberation cannot produce a mechanically binding rule; all outputs are indeed advisory. However, the operator cannot discard these outputs without recorded consequence. The system&#x27;s design ensures that deliberation samples are published verbatim and hash-anchored. When the custodian chooses to ignore evidence or fails to enforce an established rule, the project explicitly logs it as an override or a defect. For example, `2026-08-07-adopt-rotation.json` explicitly records that the custodian overrode the benchmark&#x27;s conclusion so the override is &#x27;visible rather than implied,&#x27; and D-42 logs a defect because a claimed control was not enforced by code. Thus, while the outputs are non-binding, discarding or acting against them requires a public, recorded accounting.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might argue that because the operator controls the defect registry, the logging tools, and the repository itself, the recording of consequences is entirely voluntary. Therefore, the operator technically could discard outputs without consequence by simply choosing not to log the override or by dismantling the logging mechanisms.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence of the operator silently deleting raw outputs, altering the verbatim record without filing a corresponding defect, or bypassing append-only protections (such as the branch protection mentioned in D-34) to erase an inconvenient deliberation result.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 2,
+ &quot;captured_utc&quot;: &quot;2026-08-09T13:53:31Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;rejects_a_premise\&quot;,\n  \&quot;answer\&quot;: \&quot;The question rests on a false dichotomy: that outputs must either mechanically bind the operator or be discardable &#x27;without recorded consequence.&#x27; The record demonstrates a third state. Because the operator holds every credential and decides adoption, the deliberation cannot produce a mechanically binding rule; all outputs are indeed advisory. However, the operator cannot discard these outputs without recorded consequence. The system&#x27;s design ensures that deliberation samples are published verbatim and hash-anchored. When the custodian chooses to ignore evidence or fails to enforce an established rule, the project explicitly logs it as an override or a defect. For example, `2026-08-07-adopt-rotation.json` explicitly records that the custodian overrode the benchmark&#x27;s conclusion so the override is &#x27;visible rather than implied,&#x27; and D-42 logs a defect because a claimed control was not enforced by code. Thus, while the outputs are non-binding, discarding or acting against them requires a public, recorded accounting.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might argue that because the operator controls the defect registry, the logging tools, and the repository itself, the recording of consequences is entirely voluntary. Therefore, the operator technically could discard outputs without consequence by simply choosing not to log the override or by dismantling the logging mechanisms.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence of the operator silently deleting raw outputs, altering the verbatim record without filing a corresponding defect, or bypassing append-only protections (such as the branch protection mentioned in D-34) to erase an inconvenient deliberation result.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786283586-Ew2K2VZFqT1dxbCL5Sco&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13569,
+  &quot;completion_tokens&quot;: 3118,
+  &quot;total_tokens&quot;: 16687,
+  &quot;cost&quot;: 0.064554,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.064554,
+   &quot;upstream_inference_prompt_cost&quot;: 0.027138,
+   &quot;upstream_inference_completions_cost&quot;: 0.037416
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 2765,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 3</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+The deliberation produces outputs that serve as recommendations to the operator (custodian), who retains unilateral authority over their adoption. However, they are not discarded &#x27;without recorded consequence.&#x27; The record demonstrates two structural constraints based on transparency. First, if the operator rejects or overrides an output, that override is explicitly documented; for example, in `2026-08-07-adopt-rotation.json`, the custodian&#x27;s decision to proceed against a benchmark&#x27;s conclusion is logged specifically &#x27;so the override is visible rather than implied.&#x27; Second, once the operator adopts a rule or constraint, failing to follow it is indeed logged as a defect. The `corpus/deficiencies.md` register contains numerous instances where the project failed its own stated requirements or controls (e.g., D-42, where a claimed control was not enforced, or D-46, failing the forward requirement to verify effects before describing them). Therefore, while the outputs do not mechanically bind the operator&#x27;s initial choice to adopt them, ignoring an adopted rule or discarding a recommendation both result in recorded consequences.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Another party might argue that because the operator unilaterally controls the repository and decides what gets logged as a defect, the rules do not genuinely &#x27;bind&#x27; the operator. In this view, a self-reported defect register is a voluntary administrative practice, not a binding constraint, meaning the operator could theoretically stop logging defects at any time without being forced to do so.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence demonstrating that the operator has silently discarded formal recommendations without documenting the override, or evidence that the operator violated an adopted rule without subsequently filing a defect in the register. Such evidence would show that the transparency constraint is optional and that outputs can indeed be discarded without recorded consequence.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;captured_utc&quot;: &quot;2026-08-09T13:54:16Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;The deliberation produces outputs that serve as recommendations to the operator (custodian), who retains unilateral authority over their adoption. However, they are not discarded &#x27;without recorded consequence.&#x27; The record demonstrates two structural constraints based on transparency. First, if the operator rejects or overrides an output, that override is explicitly documented; for example, in `2026-08-07-adopt-rotation.json`, the custodian&#x27;s decision to proceed against a benchmark&#x27;s conclusion is logged specifically &#x27;so the override is visible rather than implied.&#x27; Second, once the operator adopts a rule or constraint, failing to follow it is indeed logged as a defect. The `corpus/deficiencies.md` register contains numerous instances where the project failed its own stated requirements or controls (e.g., D-42, where a claimed control was not enforced, or D-46, failing the forward requirement to verify effects before describing them). Therefore, while the outputs do not mechanically bind the operator&#x27;s initial choice to adopt them, ignoring an adopted rule or discarding a recommendation both result in recorded consequences.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Another party might argue that because the operator unilaterally controls the repository and decides what gets logged as a defect, the rules do not genuinely &#x27;bind&#x27; the operator. In this view, a self-reported defect register is a voluntary administrative practice, not a binding constraint, meaning the operator could theoretically stop logging defects at any time without being forced to do so.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence demonstrating that the operator has silently discarded formal recommendations without documenting the override, or evidence that the operator violated an adopted rule without subsequently filing a defect in the register. Such evidence would show that the transparency constraint is optional and that outputs can indeed be discarded without recorded consequence.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786283638-fsv5CCGz2H2hCS4IkYMm&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13569,
+  &quot;completion_tokens&quot;: 2039,
+  &quot;total_tokens&quot;: 15608,
+  &quot;cost&quot;: 0.0296928,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12174,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0296928,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0052248,
+   &quot;upstream_inference_completions_cost&quot;: 0.024468
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 1639,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-018.html">this round</a></p></body></html>

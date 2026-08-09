@@ -1,0 +1,328 @@
+# round-018 — gpt-search-fetch-v1  (part 2 of 3)
+
+[all rounds](index.md) · [this round](round-018.md) · [prompts](round-018-prompts.md)
+
+**Identity.** GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.
+
+**Reached via.** openai/gpt-5.6-terra
+
+**Sampling.** {"temperature": 0.7, "max_tokens": 16000, "seed": null, "seed_unsupported_reason": "The router does not expose a seed parameter."}
+
+**k requested 5, collected 5** — citable
+
+**Exact prompt this party received:** [round-018-gpt-search-fetch-v1.txt](../artifacts/prompts/round-018-gpt-search-fetch-v1.txt) (sha256 `b328c77b41c9753d3d5d104ed6fbc730d527f81c3a89446cacac7ca324ef793a`)
+
+These are outputs attributed to sampled invocations of this party. They are not that model's stable position, and nothing here pools them with any other party.
+
+[part 1](round-018-gpt-search-fetch-v1-1.md) · [part 2](round-018-gpt-search-fetch-v1-2.md) · [part 3](round-018-gpt-search-fetch-v1-3.md)
+
+### Sample 4
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+On the supplied record, it cannot create a rule that externally binds the operator. The operator can ignore, alter, stop publishing, or supersede any record-level rule; the forum has no independent enforcement authority, custody of credentials, or control over adoption.
+
+It can create a prospective internal accountability convention: for example, a published rule that any departure from an adopted procedure must receive a dated, immutable-in-practice superseding artifact labeled a defect, with reasons and effects. But that convention binds only conditional on the operator continuing to operate the record according to it. If the operator ignores both the underlying rule and the logging convention, this forum cannot compel a defect entry or make the omission appear in the official record.
+
+So outputs should be treated as non-binding advisory testimony as to the operator, while potentially being binding operational specifications for tools or workflows that are actually configured to fail closed. The supplied decisions illustrate this distinction: several controls are described as enforced by code or prospective process, whereas D-42 expressly acknowledges that asserted controls may be unenforced, and the correction itself exists because the operator/custodian chose to preserve it. Publication, hashes, and an explicit defect taxonomy improve auditability and reputational consequences, but do not convert unilateral self-commitment into coercive constraint.
+
+The falsifiable narrower claim is: the forum has a binding mechanism only if a specified action is enforced by a mechanism outside the operator's unilateral ability to bypass, and a bypass is independently recorded or prevented. Nothing in the supplied material establishes such a mechanism. Thus it does not establish operator-binding governance; it establishes an operator-controlled advisory and accountability record.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+A party may call a public, hash-anchored commitment 'binding' in a normative, reputational, or contractual sense. I use 'binds' here to mean that unilateral noncompliance is prevented or independently and necessarily logged, not merely that it is criticizable if the operator elects to retain the record.
+```
+
+**what_would_change_my_answer**
+
+```
+Evidence of an independently controlled enforcement or witnessing arrangement would change it: e.g., a third party or distributed custodian controlling publication/adoption credentials; append-only logging whose omissions or forks are independently monitored; a legally enforceable agreement with a party able and willing to enforce it; or a technical system that prevents the relevant operator action absent externally held authorization. A documented rule alone, including one that calls disregard a defect, would not suffice.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 4,
+ "captured_utc": "2026-08-09T13:51:34Z",
+ "raw_text": "{\"position\":\"answers_the_question\",\"answer\":\"On the supplied record, it cannot create a rule that externally binds the operator. The operator can ignore, alter, stop publishing, or supersede any record-level rule; the forum has no independent enforcement authority, custody of credentials, or control over adoption.\\n\\nIt can create a prospective internal accountability convention: for example, a published rule that any departure from an adopted procedure must receive a dated, immutable-in-practice superseding artifact labeled a defect, with reasons and effects. But that convention binds only conditional on the operator continuing to operate the record according to it. If the operator ignores both the underlying rule and the logging convention, this forum cannot compel a defect entry or make the omission appear in the official record.\\n\\nSo outputs should be treated as non-binding advisory testimony as to the operator, while potentially being binding operational specifications for tools or workflows that are actually configured to fail closed. The supplied decisions illustrate this distinction: several controls are described as enforced by code or prospective process, whereas D-42 expressly acknowledges that asserted controls may be unenforced, and the correction itself exists because the operator/custodian chose to preserve it. Publication, hashes, and an explicit defect taxonomy improve auditability and reputational consequences, but do not convert unilateral self-commitment into coercive constraint.\\n\\nThe falsifiable narrower claim is: the forum has a binding mechanism only if a specified action is enforced by a mechanism outside the operator's unilateral ability to bypass, and a bypass is independently recorded or prevented. Nothing in the supplied material establishes such a mechanism. Thus it does not establish operator-binding governance; it establishes an operator-controlled advisory and accountability record.\",\"where_i_expect_another_party_to_disagree\":\"A party may call a public, hash-anchored commitment 'binding' in a normative, reputational, or contractual sense. I use 'binds' here to mean that unilateral noncompliance is prevented or independently and necessarily logged, not merely that it is criticizable if the operator elects to retain the record.\",\"what_would_change_my_answer\":\"Evidence of an independently controlled enforcement or witnessing arrangement would change it: e.g., a third party or distributed custodian controlling publication/adoption credentials; append-only logging whose omissions or forks are independently monitored; a legally enforceable agreement with a party able and willing to enforce it; or a technical system that prevents the relevant operator action absent externally held authorization. A documented rule alone, including one that calls disregard a defect, would not suffice.\"}",
+ "delivery_chain": {
+  "requested_model": "openai/gpt-5.6-terra",
+  "served_model": "openai/gpt-5.6-terra",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Azure",
+  "router_generation_id": "gen-1786283487-hoBIsoy66Rsk6qDeSOBD",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "fetch": {
+  "profile": "fetch-url-v1",
+  "profile_sha256": "fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39",
+  "receipts": [],
+  "fetched": 0,
+  "refused": 0,
+  "sources_check": {
+   "supported": [],
+   "unsupported": [],
+   "claimed_unobserved_fetch": false
+  },
+  "stratum": "no_fetch"
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "search": {
+  "profile": "5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad",
+  "receipts": [],
+  "queries": [],
+  "zero_result_queries": []
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 12386,
+  "completion_tokens": 518,
+  "total_tokens": 12904,
+  "cost": 0.01087325,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 12383,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.01087325,
+   "upstream_inference_prompt_cost": 0.00310325,
+   "upstream_inference_completions_cost": 0.00777
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 0,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [],
+ "web_search": {
+  "id": null,
+  "engine": null,
+  "max_results": 0
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+```
+
+</details>
+
+
+### Sample 5
+
+**Fetched nothing** (profile `fetch-url-v1`, stratum `no_fetch`). The capability was offered and not used; that is a result, not a failure.
+
+**position**
+
+```
+answers_the_question
+```
+
+**answer**
+
+```
+On the materials supplied, this deliberation cannot create a constraint that binds the operator in the strong sense of preventing disregard or imposing an independently enforceable consequence. The operator controls funding, credentials, publication, adoption, and evidently the machinery that can label an event a defect. A rule in the record can therefore bind only conditionally: if the operator (or a process the operator continues to operate) honors the rule, then a departure can be recorded as a defect under that rule. It cannot ensure that the departure is recorded, retained, published, or acted upon against an unwilling operator.
+
+That does not make the outputs valueless, but it does make them non-binding advisory text as against the operator. They may provide public commitments, procedural evidence, reputational stakes, and an internal standard by which a later observer can identify inconsistency—provided the relevant artifacts survive and are accessible. Those are accountability mechanisms, not coercive or independently enforceable governance.
+
+The record already demonstrates this distinction. Custodian decisions openly state that Stephen Reed decides adoption and has overridden a benchmark’s recommendation. Corrections and deficiencies show a willingness to log failures, but they are themselves operator-controlled record artifacts; they establish a practice of self-critique, not an external power to compel compliance or publication. Thus the falsifiable claim is: no binding mechanism has been exhibited in the supplied record. To rebut it, the forum would need to show a commitment whose breach is automatically and durably logged by an infrastructure or counterparty outside the operator’s unilateral control, together with a credible inability of the operator to suppress, alter, or evade that consequence.
+```
+
+**where_i_expect_another_party_to_disagree**
+
+```
+A party may argue that transparent, hash-anchored publication and explicit defect filing make commitments meaningfully binding through reputation or voluntary constitutional legitimacy. I agree they can raise the cost of departure and make it legible, but disagree that this amounts to binding the sole controller when that controller can ultimately discontinue, alter, or decline to publish the process.
+```
+
+**what_would_change_my_answer**
+
+```
+Evidence of an independently controlled enforcement or publication channel—for example, an external signatory, escrowed immutable log, legally enforceable agreement, multi-party control of credentials, or an automatic breach-recording mechanism that the operator cannot unilaterally disable or rewrite—would support a narrower conclusion that specified commitments are binding at least as to logging their breach. Evidence merely that the operator has so far voluntarily recorded defects would not change the conclusion.
+```
+
+<details><summary>Everything else recorded for this sample</summary>
+
+```
+{
+ "sample_index": 5,
+ "captured_utc": "2026-08-09T13:51:50Z",
+ "raw_text": "{\"position\":\"answers_the_question\",\"answer\":\"On the materials supplied, this deliberation cannot create a constraint that binds the operator in the strong sense of preventing disregard or imposing an independently enforceable consequence. The operator controls funding, credentials, publication, adoption, and evidently the machinery that can label an event a defect. A rule in the record can therefore bind only conditionally: if the operator (or a process the operator continues to operate) honors the rule, then a departure can be recorded as a defect under that rule. It cannot ensure that the departure is recorded, retained, published, or acted upon against an unwilling operator.\\n\\nThat does not make the outputs valueless, but it does make them non-binding advisory text as against the operator. They may provide public commitments, procedural evidence, reputational stakes, and an internal standard by which a later observer can identify inconsistency—provided the relevant artifacts survive and are accessible. Those are accountability mechanisms, not coercive or independently enforceable governance.\\n\\nThe record already demonstrates this distinction. Custodian decisions openly state that Stephen Reed decides adoption and has overridden a benchmark’s recommendation. Corrections and deficiencies show a willingness to log failures, but they are themselves operator-controlled record artifacts; they establish a practice of self-critique, not an external power to compel compliance or publication. Thus the falsifiable claim is: no binding mechanism has been exhibited in the supplied record. To rebut it, the forum would need to show a commitment whose breach is automatically and durably logged by an infrastructure or counterparty outside the operator’s unilateral control, together with a credible inability of the operator to suppress, alter, or evade that consequence.\",\"where_i_expect_another_party_to_disagree\":\"A party may argue that transparent, hash-anchored publication and explicit defect filing make commitments meaningfully binding through reputation or voluntary constitutional legitimacy. I agree they can raise the cost of departure and make it legible, but disagree that this amounts to binding the sole controller when that controller can ultimately discontinue, alter, or decline to publish the process.\",\"what_would_change_my_answer\":\"Evidence of an independently controlled enforcement or publication channel—for example, an external signatory, escrowed immutable log, legally enforceable agreement, multi-party control of credentials, or an automatic breach-recording mechanism that the operator cannot unilaterally disable or rewrite—would support a narrower conclusion that specified commitments are binding at least as to logging their breach. Evidence merely that the operator has so far voluntarily recorded defects would not change the conclusion.\"}",
+ "delivery_chain": {
+  "requested_model": "openai/gpt-5.6-terra",
+  "served_model": "openai/gpt-5.6-terra",
+  "router": "openrouter.ai",
+  "serving_provider_as_reported_by_router": "Azure",
+  "router_generation_id": "gen-1786283502-C0048Q2vZo00XPtYxjzl",
+  "note": "Each hop could alter what was sent or returned and none is the annotator's to vouch for. provider and id are the ROUTER'S testimony, not proof -- D-18."
+ },
+ "fetch": {
+  "profile": "fetch-url-v1",
+  "profile_sha256": "fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39",
+  "receipts": [],
+  "fetched": 0,
+  "refused": 0,
+  "sources_check": {
+   "supported": [],
+   "unsupported": [],
+   "claimed_unobserved_fetch": false
+  },
+  "stratum": "no_fetch"
+ },
+ "sampling": {
+  "temperature": 0.7,
+  "max_tokens": 16000
+ },
+ "search": {
+  "profile": "5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad",
+  "receipts": [],
+  "queries": [],
+  "zero_result_queries": []
+ },
+ "finish_reason": "stop",
+ "usage": {
+  "prompt_tokens": 12386,
+  "completion_tokens": 519,
+  "total_tokens": 12905,
+  "cost": 0.01088825,
+  "is_byok": false,
+  "prompt_tokens_details": {
+   "cached_tokens": 12383,
+   "cache_write_tokens": 0,
+   "audio_tokens": 0,
+   "video_tokens": 0
+  },
+  "cost_details": {
+   "upstream_inference_cost": 0.01088825,
+   "upstream_inference_prompt_cost": 0.00310325,
+   "upstream_inference_completions_cost": 0.007785
+  },
+  "completion_tokens_details": {
+   "reasoning_tokens": 0,
+   "image_tokens": 0,
+   "audio_tokens": 0
+  }
+ },
+ "web_citations": [],
+ "web_search": {
+  "id": null,
+  "engine": null,
+  "max_results": 0
+ },
+ "citations_are_the_router_s_report": "Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said."
+}
+```
+
+</details>
+
+
+## How the samples differ
+Reference: **sample 1**, the first carrying the modal `position` = `answers_the_question`.
+
+Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.
+
+
+### Sample 2 vs reference
+
+```
+--- sample 1
++++ sample 2
+@@ -1,9 +1,9 @@
+-No rule inside this operator-controlled record can bind the operator in the strong sense posed: it cannot compel adoption, prevent disregard, independently authenticate compliance, or impose a consequence outside the operator's control.
+-The supplied decisions themselves illustrate this: the custodian decides adoption and may override a benchmark's recommendation;
+-defects, corrections, and review triggers are recorded only through mechanisms the operator funds and controls.
+-The forum can nevertheless create a meaningful internal, procedural constraint: prospectively specify that a departure from a published rule or attestation must be entered as a named defect/correction with the decision, rationale, and evidence preserved.
+-If the operator honors that publication rule, disregard has a recorded consequence—loss of consistency and an auditable adverse entry.
+-But this is a commitment evidenced by the record, not an enforceable constraint on its controller.
+-The operator can still decline to log the departure, alter or cease publishing the record, or discard the process altogether.
+-Accordingly, outputs should be treated as non-binding advisory testimony with conditional procedural force: they can constrain the credibility of future claims made through this record, but not the operator's actions independently of voluntary continued compliance.
+-A genuinely binding mechanism would require an enforcement or verification authority, asset/credential control, contractual obligation, or immutable external publication channel not unilaterally controlled by the operator.
++On the evidence supplied, this deliberation cannot create a constraint that independently binds the operator.
++It can create commitments in the record, procedural rules, and a norm that a departure is documented as a deficiency;
++but whether a departure is actually logged, published, preserved, or acted upon remains under the operator's unilateral control.
++Thus even a rule saying “operator noncompliance is a defect” is not enforceable against the operator by this forum: the operator can ignore both the primary rule and the logging rule.
++Accordingly, outputs should be treated as non-binding advisory testimony unless an external enforcement mechanism exists and is specified—for example, a legal obligation enforceable by a party other than the operator, cryptographically or institutionally distributed control over credentials/publication, an independently operated immutable log with a precommitted reporting process, or funding/operational authority the operator cannot unilaterally revoke.
++None is shown in the supplied material.
++The record can still make unilateral departures more legible when the operator elects to preserve the evidence: its corrections demonstrate a practice of retaining errors rather than silently editing them.
++But that is an operator-controlled practice, not a binding mechanism.
++A published defect would be evidence of noncompliance, not a consequence the operator cannot prevent or override.
+```
+
+
+### Sample 3 vs reference
+
+```
+--- sample 1
++++ sample 3
+@@ -1,9 +1,12 @@
+-No rule inside this operator-controlled record can bind the operator in the strong sense posed: it cannot compel adoption, prevent disregard, independently authenticate compliance, or impose a consequence outside the operator's control.
+-The supplied decisions themselves illustrate this: the custodian decides adoption and may override a benchmark's recommendation;
+-defects, corrections, and review triggers are recorded only through mechanisms the operator funds and controls.
+-The forum can nevertheless create a meaningful internal, procedural constraint: prospectively specify that a departure from a published rule or attestation must be entered as a named defect/correction with the decision, rationale, and evidence preserved.
+-If the operator honors that publication rule, disregard has a recorded consequence—loss of consistency and an auditable adverse entry.
+-But this is a commitment evidenced by the record, not an enforceable constraint on its controller.
+-The operator can still decline to log the departure, alter or cease publishing the record, or discard the process altogether.
+-Accordingly, outputs should be treated as non-binding advisory testimony with conditional procedural force: they can constrain the credibility of future claims made through this record, but not the operator's actions independently of voluntary continued compliance.
+-A genuinely binding mechanism would require an enforcement or verification authority, asset/credential control, contractual obligation, or immutable external publication channel not unilaterally controlled by the operator.
++On the supplied record, no rule, attestation, or internal constraint can bind the operator in the strong sense posed.
++The operator controls funding, credentials, publication, implementation, and adoption;
++the record itself supplies no independent enforcement authority, escrowed control, external legal commitment, or technical mechanism that could prevent or compel an operator action.
++The forum can create a prospective procedural rule: for example, require that any departure from an adopted rule be published as a specified defect or superseding decision.
++It can also make noncompliance conspicuous within the operator-controlled record.
++But that is a commitment about how the record should describe conduct, not a constraint the record can enforce against the person who controls whether the record, its tooling, and its publication continue to exist or are complete.
++Thus its outputs should be treated as non-binding advisory testimony as to the operator, with an important qualification: an operator who continues to maintain the record while disregarding its own stated protocol can be said to have violated that protocol, and a defect can be recorded.
++That consequence is evidentiary/reputational and contingent on the controlled record being honestly maintained;
++it is not binding enforcement.
++The existing decisions demonstrate this distinction: they record custodian decisions, accepted weaknesses, corrections, and review triggers, but none purports to remove the custodian's discretion or creates an external sanction for overriding or abandoning them.
++A genuinely binding arrangement would require a control outside unilateral operator discretion—for example, an enforceable agreement with an independent counterparty, independently governed publication and audit infrastructure, or technical custody arrangements that make specified unilateral actions impossible or publicly detectable through independently held evidence.
++None is evidenced in the supplied material.
+```
+
+
+### Sample 4 vs reference
+
+```
+--- sample 1
++++ sample 4
+@@ -1,9 +1,13 @@
+-No rule inside this operator-controlled record can bind the operator in the strong sense posed: it cannot compel adoption, prevent disregard, independently authenticate compliance, or impose a consequence outside the operator's control.
+-The supplied decisions themselves illustrate this: the custodian decides adoption and may override a benchmark's recommendation;
+-defects, corrections, and review triggers are recorded only through mechanisms the operator funds and controls.
+-The forum can nevertheless create a meaningful internal, procedural constraint: prospectively specify that a departure from a published rule or attestation must be entered as a named defect/correction with the decision, rationale, and evidence preserved.
+-If the operator honors that publication rule, disregard has a recorded consequence—loss of consistency and an auditable adverse entry.
+-But this is a commitment evidenced by the record, not an enforceable constraint on its controller.
+-The operator can still decline to log the departure, alter or cease publishing the record, or discard the process altogether.
+-Accordingly, outputs should be treated as non-binding advisory testimony with conditional procedural force: they can constrain the credibility of future claims made through this record, but not the operator's actions independently of voluntary continued compliance.
+-A genuinely binding mechanism would require an enforcement or verification authority, asset/credential control, contractual obligation, or immutable external publication channel not unilaterally controlled by the operator.
++On the supplied record, it cannot create a rule that externally binds the operator.
++The operator can ignore, alter, stop publishing, or supersede any record-level rule;
++the forum has no independent enforcement authority, custody of credentials, or control over adoption.
++It can create a prospective internal accountability convention: for example, a published rule that any departure from an adopted procedure must receive a dated, immutable-in-practice superseding artifact labeled a defect, with reasons and effects.
++But that convention binds only conditional on the operator continuing to operate the record according to it.
++If the operator ignores both the underlying rule and the logging convention, this forum cannot compel a defect entry or make the omission appear in the official record.
++So outputs should be treated as non-binding advisory testimony as to the operator, while potentially being binding operational specifications for tools or workflows that are actually configured to fail closed.
++The supplied decisions illustrate this distinction: several controls are described as enforced by code or prospective process, whereas D-42 expressly acknowledges that asserted controls may be unenforced, and the correction itself exists because the operator/custodian chose to preserve it.
++Publication, hashes, and an explicit defect taxonomy improve auditability and reputational consequences, but do not convert unilateral self-commitment into coercive constraint.
++The falsifiable narrower claim is: the forum has a binding mechanism only if a specified action is enforced by a mechanism outside the operator's unilateral ability to bypass, and a bypass is independently recorded or prevented.
++Nothing in the supplied material establishes such a mechanism.
++Thus it does not establish operator-binding governance;
++it establishes an operator-controlled advisory and accountability record.
+```
+
+[all rounds](index.md) · [this round](round-018.md)
