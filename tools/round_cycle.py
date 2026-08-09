@@ -183,7 +183,7 @@ CAPABILITIES = {
     #  with search is not the party with fetch is not the party with both.
     "search-fetch-v1": {
         "suffix": "search-fetch-v1",
-        "spec": {"fetch_url": True, "search_web": True, "max_tool_calls": 10,
+        "spec": {"fetch_url": True, "search_web": True, "max_tool_calls": 4,
                  "profile": "search-fetch-v1"},
         "scope": ("Open web. An ONLINE RESEARCH arm, not comparable with a record-only or "
                   "fetch-only round."),
@@ -386,9 +386,12 @@ SITE_ROOT = "https://open-asi-governance.github.io/open-asi-governance-forum/"
 
 try:
     import fetch_executor as _fx
+    import search_executor as _sx
     FETCH_PROFILE_SHA256 = _fx.profile_sha256()
+    SEARCH_PROFILE_SHA256 = _sx.profile_sha256()
 except Exception:                                                         # pragma: no cover
     FETCH_PROFILE_SHA256 = None
+    SEARCH_PROFILE_SHA256 = None
 
 #  The local arm has no search. It is served on the operator's own hardware with no
 #  tools, and pretending otherwise would put a capability in the record that the
@@ -1190,10 +1193,29 @@ def build_plan(args, index: int) -> dict:
             "max_tokens": max_tokens,
             **({"base_party_key": base_key,
                 "capability": {**capability["spec"],
-                               "profile_sha256": FETCH_PROFILE_SHA256,
+                               #  BOTH executors when both are offered. A profile hash covering
+                               #  only the fetch executor would be identical across two arms
+                               #  whose search behaviour differed, which is exactly what D-09
+                               #  says must be distinguishable.
+                               "profile_sha256": (
+                                   hashlib.sha256(
+                                       (FETCH_PROFILE_SHA256 + SEARCH_PROFILE_SHA256
+                                        ).encode("utf-8")).hexdigest()
+                                   if capability["spec"].get("search_web")
+                                   else FETCH_PROFILE_SHA256),
                                "entry_points": [SITE_ROOT]}} if capability else {}),
+            #  The ROUTER'S PLUGIN is off in every capability arm, but the reason differs and
+            #  the record must not state the wrong one. fetch-v1 excludes search deliberately;
+            #  search-fetch-v1 excludes the PLUGIN because the party has a search tool of its
+            #  own, whose queries are its own and are recorded. `capability["why_no_search"]`
+            #  assumed every capability was the first kind and raised KeyError on the second.
             "web_search": ({"id": None, "engine": None, "max_results": 0,
-                            "why_none": capability["why_no_search"]} if capability
+                            "why_none": capability.get("why_no_search") or (
+                                "The router's plugin is off because this party has its own "
+                                "search_web tool. The plugin composes a query from the prompt; "
+                                "the tool is called by the party, so the query is the party's "
+                                "and is recorded. Running both would make a citation "
+                                "unattributable.")} if capability
                            else dict(WEB_SEARCH) if party_record["model"]
                            else {"id": None, "engine": None, "max_results": 0,
                                  "why_none": ("Served locally with no tools. The prompt tells "
