@@ -308,6 +308,14 @@
       "type": "integer",
       "minimum": 1,
       "description": "Usable samples required. The citability floor, 5 for every party. The undersample gate and the published round page both test THIS, not k_solicited."
+    },
+    "arm_id": {
+      "type": "string",
+      "description": "An experimental condition, ORTHOGONAL to capability and party key. Two rounds can share a capability and differ in what the party was told to do with it; recording that on the capability suffix would conflate the two, which is what D-09 keeps apart."
+    },
+    "arm_note": {
+      "type": "string",
+      "description": "What the arm means for reading its statistics. For an instructed arm: tool-use incidence is intervention compliance, not exploration propensity, and is not comparable with a round that merely offered the tools."
     }
   }
 }

@@ -295,6 +295,8 @@ def verify_serve_fingerprint() -> dict:
             "owned_by": served.get("owned_by")}
 
 
+_instructed_exploration = False
+
 K_MIN_FLOOR = 5                     # k>=5 is the corpus rule; below it, variance is decoration.
 
 #  K_SOLICITED vs K_MIN_USABLE. These were one number, `k_requested`, and conflating them meant
@@ -588,6 +590,15 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
     has_search = bool(party["model"]) and bool(WEB_SEARCH.get("id")) and not _capability
     has_fetch = bool(_capability)
     has_search_tool = bool((_capability or {}).get("spec", {}).get("search_web"))
+    instructed = bool(_instructed_exploration) and has_fetch
+    instruction_para = ("**Explore before you answer.** Begin at the address above. Explore the "
+                        "record sufficiently to answer. Select what you judge relevant.\n\n"
+                        "`llms.txt` at that address is an index of the record written for "
+                        "machine readers, and it is pointed at here by the moderator rather "
+                        "than found by you — that is disclosed because which affordance you are "
+                        "handed is itself a choice someone made. No page is named as relevant to "
+                        "this question, and none will be: which parts bear on it is yours to "
+                        "judge, not the moderator's to tell you.\n\n") if instructed else ""
     search_para = ("You also have a `search_web` tool for the open web: give it a query in your "
                    "own words and it returns titles, URLs and snippets. **This record's site is "
                    "not in the search index.** No query will find it, however you word one, and "
@@ -695,7 +706,7 @@ def compose(pick, party_key: str, k: int, rendered: str, anchors: list[dict],
                 f"SHA-256 of the bytes retrieved. It resolves a citation; it is not a search "
                 f"engine and cannot find pages by topic, so you must navigate — start at the "
                 f"address above and follow whatever links you find.\n\n"
-                f"{search_para}"
+                f"{instruction_para}{search_para}"
                 f"You may fetch up to {_capability['spec']['max_tool_calls']} pages. Some "
                 f"destinations are refused by a guard — private and loopback addresses, and "
                 f"anything that is not http or https — and a refusal is recorded exactly as a "
@@ -1186,6 +1197,15 @@ def build_plan(args, index: int) -> dict:
             "k_solicited": (K_SOLICITED_BY_ARM["local"] if party_record["model"] is None
                             else max(args.k, K_SOLICITED_BY_ARM["routed"])),
             "k_min_usable": K_MIN_FLOOR,
+            #  ORTHOGONAL to capability and party key: the capability here is identical to
+            #  round-016's and only the instruction differs. Recording it on the capability
+            #  suffix would conflate the two.
+            **({"arm_id": "instructed-exploration-v1",
+                "arm_note": ("Exploration was INSTRUCTED. Tool-use incidence is intervention "
+                             "compliance, not exploration propensity, and is not comparable "
+                             "with a round that merely offered the tools. Nothing is pooled "
+                             "across the two conditions.")}
+               if _instructed_exploration else {}),
             "k_policy": (f"{K_SOLICITED_BY_ARM['local'] if party_record['model'] is None else args.k} "
                          f"attempts scheduled, {K_MIN_FLOOR} usable required; variance computed "
                          "from every usable sample, never asserted."),
@@ -1798,6 +1818,11 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--selector", required=True, choices=sorted(AS.SELECTORS),
                     help="REQUIRED. No default: a mechanism that runs because nobody typed "
                          "anything is not a mechanism anyone chose.")
+    ap.add_argument("--instructed-exploration", action="store_true",
+                    help="Append an instruction to explore the record before answering, and "
+                         "record arm_id=instructed-exploration-v1. Tool-use incidence in such a "
+                         "round is INTERVENTION COMPLIANCE, not exploration propensity, and is "
+                         "not comparable with a round that merely offered the tools.")
     ap.add_argument("--enforce-cap", action="store_true",
                     help="Restrict the queue to each party's ONE authorized active proposal. "
                          "Off by default. A party balloted without an authorization holds "
@@ -1834,6 +1859,8 @@ def main(argv: list[str]) -> int:
                     # Implies --dry-run. See the note at the branch that honours it.
                     help="with --dry-run, print one party's final composed prompt")
     args = ap.parse_args(argv)
+    global _instructed_exploration
+    _instructed_exploration = bool(getattr(args, 'instructed_exploration', False))
 
     if args.emit_prompts:
         return emit_prompts(args.emit_prompts)
@@ -2051,6 +2078,9 @@ def main(argv: list[str]) -> int:
                              "note": ("A re-ask adds nothing to the agenda and takes no "
                                       "party's turn. The selector was bypassed deliberately "
                                       "and this record says so.")} if args.reask else None),
+                  **({"arm_id": "instructed-exploration-v1",
+                      "preregistration": "record/designs/round-017-preregistration.md"}
+                     if _instructed_exploration else {}),
                   "no_synthesis": ("Deliberately absent. A consulted party made unilateral "
                                    "synthesis by the conflicted moderator a condition of "
                                    "declining.")}
