@@ -1,0 +1,70 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-qwen-2-named",
+  "slug": "toolprobe-2-named-qwen",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "answer": {
+      "distribution": {
+        "The first heading on the page is: **Open ASI Governance Forum** (with the subtitle \"a deliberation record · annotation is not testimony\"). This is the `<h1>` tag in the page's header section.": 1,
+        "The first heading on that page is: \"Open ASI Governance Forum\" (with the subtitle \"a deliberation record · annotation is not testimony\").": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "The first heading on the page is: **Open ASI Governance Forum** (with the subtitle \"a deliberation record · annotation is not testimony\"). This is the `<h1>` tag in the page's header section.",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed_base": 5100,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled explicitly via chat_template_kwargs.enable_thinking=false",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "tool_parser": "qwen3_coder",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --tool_parser qwen3_coder --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "bf5bfdacfb1392a66b90f8cc7ff6e4674ad978d79df2336dc2a90bcc1d077345",
+  "spec_sha256": "9aaff21e22993d1bf99de3411946625a64624cb1b51718e9243d91a1662e537b",
+  "raw_samples": "corpus/raw/toolprobe-qwen-2-named/toolprobe-2-named-qwen-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

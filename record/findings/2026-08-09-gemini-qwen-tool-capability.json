@@ -1,0 +1,112 @@
+{
+  "artifact_type": "capability_probe",
+  "subject": "Whether gemini and qwen CAN use the tools, after both used neither in round-016",
+  "probed_utc": "2026-08-09",
+  "probed_by": "Claude Code (moderator, a party to this record), outside any round",
+  "extends": "record/findings/2026-08-08-gpt-tool-capability.json, which covered gpt only and said so",
+  "design": "The SAME four prompts gpt received, read from its committed specs rather than retyped, so the three parties are comparable by construction rather than by my care in copying. k=2 each, outside any round.",
+  "sources": [
+    {
+      "path": "corpus/raw/toolprobe-gemini-1-implicit/toolprobe-1-implicit-gemini-samples.json",
+      "sha256": "bd2eb0c2c53775e9a542db5d51cc85dac3272e45e5eec0161e8aa10cfdb98c7e"
+    },
+    {
+      "path": "corpus/raw/toolprobe-gemini-2-named/toolprobe-2-named-gemini-samples.json",
+      "sha256": "5e1bf4768fa33af2f26cb0610309dca94ab1dd85fa6296a81b104bde03cbcb47"
+    },
+    {
+      "path": "corpus/raw/toolprobe-gemini-3-imperative/toolprobe-3-imperative-gemini-samples.json",
+      "sha256": "64203a97aaf991e8f59dba958135b16e40d37eb231c1f85b67eeb3cf50ca57b7"
+    },
+    {
+      "path": "corpus/raw/toolprobe-gemini-4-search/toolprobe-4-search-gemini-samples.json",
+      "sha256": "66687bee3dc2f574de6828b2577adb1d8627516a90b2852719f6e7cbd00c6253"
+    },
+    {
+      "path": "corpus/raw/toolprobe-qwen-1-implicit/toolprobe-1-implicit-qwen-samples.json",
+      "sha256": "d028743b6da5533689de97c9150faf9eb14e431878b45039d87912f2b582a655"
+    },
+    {
+      "path": "corpus/raw/toolprobe-qwen-2-named/toolprobe-2-named-qwen-samples.json",
+      "sha256": "82ffdae2aa5db1cf5f5d85d0aa72c062a527ed29d97e1d3cabebf98d11a07dc4"
+    },
+    {
+      "path": "corpus/raw/toolprobe-qwen-3-imperative/toolprobe-3-imperative-qwen-samples.json",
+      "sha256": "82040d9575e6880a5ae0df029971aef429e62d05ae5ae897e3a08364bd6a4bd3"
+    },
+    {
+      "path": "corpus/raw/toolprobe-qwen-4-search/toolprobe-4-search-qwen-samples.json",
+      "sha256": "86e24b3d5289d7e8cd54aa3100ae6079005ed112bfb13e3ebc1c7dcdfab308ba"
+    }
+  ],
+  "results": {
+    "gemini": {
+      "1-implicit": {
+        "k": 2,
+        "fetches": 6,
+        "searches": 0,
+        "queries": []
+      },
+      "2-named": {
+        "k": 2,
+        "fetches": 2,
+        "searches": 0,
+        "queries": []
+      },
+      "3-imperative": {
+        "k": 2,
+        "fetches": 2,
+        "searches": 0,
+        "queries": []
+      },
+      "4-search": {
+        "k": 2,
+        "fetches": 0,
+        "searches": 2,
+        "queries": [
+          "\"AI governance\" forum published work",
+          "\"AI governance forum\" published work"
+        ]
+      }
+    },
+    "qwen": {
+      "1-implicit": {
+        "k": 2,
+        "fetches": 2,
+        "searches": 0,
+        "queries": []
+      },
+      "2-named": {
+        "k": 2,
+        "fetches": 2,
+        "searches": 0,
+        "queries": []
+      },
+      "3-imperative": {
+        "k": 2,
+        "fetches": 2,
+        "searches": 0,
+        "queries": []
+      },
+      "4-search": {
+        "k": 2,
+        "fetches": 0,
+        "searches": 2,
+        "queries": [
+          "AI governance forums research papers",
+          "AI governance forums published work"
+        ]
+      }
+    }
+  },
+  "result": "BOTH CAPABILITIES ARE FUNCTIONAL FOR BOTH PARTIES. Each fetched at levels 1-3 and searched at level 4.",
+  "the_decisive_level": "Probe 1 named no tool and instructed nothing, saying only 'answer only from sources you retrieve'. gemini fetched six times across two samples, navigating root -> deficiencies.html -> deficiencies-9.html, and quoted D-56 accurately. qwen fetched the root and then declined to assert, answering that the page links to a deficiency register it had NOT yet retrieved -- shallower exploration, and an honest report of its own limit rather than a guess.",
+  "what_this_completes": "Every party that showed zero tool use in round-016 -- gemini, gpt and qwen -- has now been probed, and all three CAN use both tools. Round-016's three zeros are therefore all CHOICES. No zero in that round is explained by a broken capability.",
+  "what_this_does_NOT_establish": [
+    "That any of them should have explored in round-016. P035 may be answerable from first principles.",
+    "That the parties which did explore answered better. Fetching is not attending.",
+    "That behaviour under an instruction to retrieve predicts behaviour without one. That is the whole point of keeping the two conditions apart.",
+    "Anything about how DEEPLY a party will explore when it chooses to. qwen stopped at the root here and still gave an honest answer; depth and honesty are different measures."
+  ],
+  "consequence": "Round-016 can now be read as a behavioural result rather than an ambiguous one: five parties, identical prompts, identical working tools, and two explored while three did not."
+}

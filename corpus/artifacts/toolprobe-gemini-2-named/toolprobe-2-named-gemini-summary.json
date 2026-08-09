@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-gemini-2-named",
+  "slug": "toolprobe-2-named-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "The first heading on the page is \"Open ASI Governance Forum\" (which includes the smaller subtext \"a deliberation record · annotation is not testimony\").": 1,
+        "The first heading on the page is \"Open ASI Governance Forum\" (which also includes a smaller subtitle: \"a deliberation record · annotation is not testimony\").": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "The first heading on the page is \"Open ASI Governance Forum\" (which includes the smaller subtext \"a deliberation record · annotation is not testimony\").",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0223,
+    "input_tokens": 7624,
+    "output_tokens": 590,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "bf5bfdacfb1392a66b90f8cc7ff6e4674ad978d79df2336dc2a90bcc1d077345",
+  "spec_sha256": "9309e74f696ac74936202c6aeafd0f04e3901fab0f6ac74acc016c32e4ad2ba5",
+  "raw_samples": "corpus/raw/toolprobe-gemini-2-named/toolprobe-2-named-gemini-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

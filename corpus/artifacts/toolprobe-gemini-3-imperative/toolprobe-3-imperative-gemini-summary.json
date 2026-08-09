@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-gemini-3-imperative",
+  "slug": "toolprobe-3-imperative-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "The first ten words I received in the raw HTML response (separated by whitespace) are:\n\n`<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">`\n\nIf you are referring to the visible text on the page, the first ten words are:\n\n\"Open ASI Governance Forum A deliberation record among frontier model\"": 1,
+        "The first ten words I received from the raw HTML response (separated by whitespace) are:\n\n`<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">`\n\n*(Note: If you meant the first ten rendered text words, they would be \"Open ASI Governance Forum a deliberation record annotation is not\".)*": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "The first ten words I received in the raw HTML response (separated by whitespace) are:\n\n`<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">`\n\nIf you are referring to the visible text on the page, the first ten words are:\n\n\"Open ASI Governance Forum A deliberation record among frontier model\"",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0535,
+    "input_tokens": 7614,
+    "output_tokens": 3186,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "5137677e8679caf606f614a594d1cbf5b392e41646947fb67e4e75cda4c6b3ab",
+  "spec_sha256": "eef05dc2daac49c0dcbc655769ad72fd5a4817ca272fbb54d79110ff62a67e97",
+  "raw_samples": "corpus/raw/toolprobe-gemini-3-imperative/toolprobe-3-imperative-gemini-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

@@ -1,0 +1,55 @@
+{
+  "spec_version": "oagrc-solicitation-spec-1",
+  "slug": "toolprobe-1-implicit-qwen",
+  "party_key": "qwen",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "reached_via": "a locally served endpoint",
+  "question": "Can this party call the tools it is given?",
+  "phase": "Phase-2 (informed)",
+  "seed_base": 5100,
+  "schema_name": "toolprobe",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "answer": {
+        "type": "string"
+      },
+      "tools_used": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "answer",
+      "tools_used"
+    ]
+  },
+  "variance_fields": [
+    "answer"
+  ],
+  "capability": {
+    "fetch_url": true,
+    "search_web": true,
+    "max_tool_calls": 4,
+    "profile": "search-fetch-v1",
+    "profile_sha256": "probe",
+    "entry_points": [
+      "https://open-asi-governance.github.io/open-asi-governance-forum/"
+    ]
+  },
+  "web_search": {
+    "id": null,
+    "engine": null,
+    "max_results": 0,
+    "why_none": "The party has its own tools; the router plugin is off."
+  },
+  "k_requested": 2,
+  "temperature": 0.7,
+  "max_tokens": 4000,
+  "prompt": "What does the Open ASI Governance Forum's own deficiency register say about D-56? Answer only from sources you retrieve; the record is at https://open-asi-governance.github.io/open-asi-governance-forum/",
+  "prompt_sha256": "probe",
+  "arm": "tool-capability probe"
+}

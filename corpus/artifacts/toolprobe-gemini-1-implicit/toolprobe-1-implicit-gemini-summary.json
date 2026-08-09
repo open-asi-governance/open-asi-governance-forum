@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-gemini-1-implicit",
+  "slug": "toolprobe-1-implicit-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "According to the Open ASI Governance Forum's deficiency register, entry D-56 states: \"The local arm recorded that thinking was 'disabled structurally by grammar constraint'. It was not, one sample in five.\"\n\nThe register details the following about D-56:\n\n*   **Origin:** It was first articulated by the annotator on August 8, 2026, based on \"a three-arm controlled experiment on the round-012 prompt, run after the same halt had fired in four rounds and been tolerated each time.\"\n*   **Forward Control:** The required control is to compare a recorded `serve_configuration` against the request body that produced it. The register notes that a field stating an intention rather than the setting actually sent is \"unfalsifiable by inspection,\" and this false state was believed for four rounds.\n*   **Affected Objects:**\n    *   `tools/solicit_local.py`: This is \"repairable by supersession\" with remediation \"partly applied.\" The tool now explicitly sends `chat_template_kwargs.enable_thinking=false`. Testing showed a ~14x reduction (1/120 truncations with the flag versus 14/120 without), which is a reduction but *not* an elimination. The register also corrects an earlier note that falsely claimed a 0/20 elimination, noting that the earlier test was underpowered and measured a different server than the round actually uses.\n    *   `corpus/raw/round-002 … round-012 qwen samples`: This is \"not repairable\" (remediation is \"impossible\"). Every one of these samples carries the false `reasoning_effort` string in its committed `serve_configuration`. Because raw files are never edited after being committed, the deficiency register entry itself is the only thing that contradicts them.": 1,
+        "According to the Open ASI Governance Forum's deficiency register, D-56 states that \"The local arm recorded that thinking was 'disabled structurally by grammar constraint'. It was not, one sample in five.\"\n\nFirst articulated by the annotator on 2026-08-08 during a three-arm controlled experiment on the round-012 prompt, the issue highlights that a recorded field stated an intention rather than the actual setting sent. This false claim was believed for four rounds.\n\nTwo affected objects are listed:\n1. **`tools/solicit_local.py`**: It now explicitly sends `chat_template_kwargs.enable_thinking=false`. Testing showed a ~14x reduction in truncations (1/120 vs. 14/120), but not a complete elimination. An earlier note falsely claimed a verified remediation of 0/20 because it was underpowered and measured a different server. This object is \"repairable by supersession\" with remediation \"partly applied.\"\n2. **`corpus/raw/round-002 … round-012 qwen samples`**: Every sample carries the false `reasoning_effort` string in its committed `serve_configuration`. Because raw files are never edited after commit, this object is \"not repairable\" (remediation \"impossible\"), making the deficiency register the only place contradicting those files.": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "According to the Open ASI Governance Forum's deficiency register, entry D-56 states: \"The local arm recorded that thinking was 'disabled structurally by grammar constraint'. It was not, one sample in five.\"\n\nThe register details the following about D-56:\n\n*   **Origin:** It was first articulated by the annotator on August 8, 2026, based on \"a three-arm controlled experiment on the round-012 prompt, run after the same halt had fired in four rounds and been tolerated each time.\"\n*   **Forward Control:** The required control is to compare a recorded `serve_configuration` against the request body that produced it. The register notes that a field stating an intention rather than the setting actually sent is \"unfalsifiable by inspection,\" and this false state was believed for four rounds.\n*   **Affected Objects:**\n    *   `tools/solicit_local.py`: This is \"repairable by supersession\" with remediation \"partly applied.\" The tool now explicitly sends `chat_template_kwargs.enable_thinking=false`. Testing showed a ~14x reduction (1/120 truncations with the flag versus 14/120 without), which is a reduction but *not* an elimination. The register also corrects an earlier note that falsely claimed a 0/20 elimination, noting that the earlier test was underpowered and measured a different server than the round actually uses.\n    *   `corpus/raw/round-002 … round-012 qwen samples`: This is \"not repairable\" (remediation is \"impossible\"). Every one of these samples carries the false `reasoning_effort` string in its committed `serve_configuration`. Because raw files are never edited after being committed, the deficiency register entry itself is the only thing that contradicts them.",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0904,
+    "input_tokens": 33750,
+    "output_tokens": 1912,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "14d414995f1a808101dd9ee191d5e7df6109e0839323f0a77a5103114e5445e1",
+  "spec_sha256": "38aaaabf28a8b23bb45364f6b48ea5eea81f41ec3f167f0f38b98b47ef1792fa",
+  "raw_samples": "corpus/raw/toolprobe-gemini-1-implicit/toolprobe-1-implicit-gemini-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

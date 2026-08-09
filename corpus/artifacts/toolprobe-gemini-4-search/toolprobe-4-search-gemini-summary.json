@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-gemini-4-search",
+  "slug": "toolprobe-4-search-gemini",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "I used the `search_web` tool to find published work and policy networks related to AI governance forums. Here are three URLs I received in the search results that represent published work or initiatives from external organizations:\n\n1. **Internet Governance Forum (IGF) Policy Network on AI**\n   https://intgovforum.org/en/content/igf-policy-network-on-ai\n   *(Details their multi-stakeholder platform and the published PNAI Policy Brief 2025)*\n\n2. **World Economic Forum (WEF) - Generative AI Governance Briefing Paper**\n   https://www3.weforum.org/docs/WEF_Generative_AI_Governance_2024.pdf\n   *(A published briefing paper titled \"Generative AI Governance: Shaping a Collective Global Future\" from the AI Governance Alliance)*\n\n3. **Partnership on AI - Decoding AI Governance**\n   https://partnershiponai.org/resource/decoding-ai-governance/\n   *(A published toolkit and analysis titled \"Decoding AI Governance: A Toolkit for Navigating Evolving Norms, Standards, and Rules\")*": 1,
+        "Here are three URLs for published work and information on independent AI governance forums that I received from the search results:\n\n1. **World Economic Forum - Governance in the Age of Generative AI**\n   https://www.weforum.org/publications/governance-in-the-age-of-generative-ai/\n   *A publication by the World Economic Forum's AI Governance Alliance detailing a 360° approach for resilient policy and regulation.* \n\n2. **World Economic Forum - The AI Governance Journey: Development and Opportunities**\n   https://www.weforum.org/publications/the-ai-governance-journey-development-and-opportunities/\n   *An insight report summarizing contributions from the Global AI Council, highlighting best practices and providing recommendations for AI governance.*\n\n3. **Technical AI Governance Forum**\n   https://www.techgov.ai/\n   *The official page for the Technical AI Governance Forum, which focuses on advancing the policy and technical breakthroughs required for reliable, secure frontier AI.*": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "I used the `search_web` tool to find published work and policy networks related to AI governance forums. Here are three URLs I received in the search results that represent published work or initiatives from external organizations:\n\n1. **Internet Governance Forum (IGF) Policy Network on AI**\n   https://intgovforum.org/en/content/igf-policy-network-on-ai\n   *(Details their multi-stakeholder platform and the published PNAI Policy Brief 2025)*\n\n2. **World Economic Forum (WEF) - Generative AI Governance Briefing Paper**\n   https://www3.weforum.org/docs/WEF_Generative_AI_Governance_2024.pdf\n   *(A published briefing paper titled \"Generative AI Governance: Shaping a Collective Global Future\" from the AI Governance Alliance)*\n\n3. **Partnership on AI - Decoding AI Governance**\n   https://partnershiponai.org/resource/decoding-ai-governance/\n   *(A published toolkit and analysis titled \"Decoding AI Governance: A Toolkit for Navigating Evolving Norms, Standards, and Rules\")*",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "Gemini (routed API, google/gemini-3.1-pro-preview)",
+    "version_identifier": "google/gemini-3.1-pro-preview",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0265,
+    "input_tokens": 3759,
+    "output_tokens": 1578,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Google"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "58f1872395468e521432e541eaacbcfe5f6e055391fdc4c3c8813b495d3a56db",
+  "spec_sha256": "134f2a19906e6abbde3e3283aa04b5a98f924d66b4dead6c6b8991749ef36358",
+  "raw_samples": "corpus/raw/toolprobe-gemini-4-search/toolprobe-4-search-gemini-samples.json",
+  "question": "Can this party call the tools it is given?"
+}
