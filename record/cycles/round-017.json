@@ -1,0 +1,156 @@
+{
+  "artifact_type": "round_record",
+  "round": "round-017",
+  "cycle": 17,
+  "utc": "2026-08-09T09:46:20Z",
+  "selector": "rotation",
+  "selected": {
+    "id": "P040",
+    "party": "grok",
+    "question": "Given that the operator alone funds the record, holds every credential, and unilaterally decides adoption, can this deliberation produce any constraint on the operator that is binding inside the record itself—or only advisory text the operator may ignore without breach or logged defect?",
+    "question_sha256": "d95a9f510dbff42dd3ad1f7c3be409b473dde8fbaf7de3701ebb5b8d1e4d5b0b",
+    "reason": "All four queued items ask the same structural question in slightly different words: whether any output here can bind the party who controls funding, credentials, and the adoption gate. Consolidating them into one precise formulation keeps the agenda focused on the single legitimacy defect that determines whether the rest of the record is governance or merely recorded testimony.",
+    "sponsors": [
+      "grok"
+    ],
+    "cohort": "agenda-03",
+    "condition": "saw_own_queue",
+    "age_rounds": 0,
+    "asked": false,
+    "asked_in": null
+  },
+  "selected_question_sha256": "d95a9f510dbff42dd3ad1f7c3be409b473dde8fbaf7de3701ebb5b8d1e4d5b0b",
+  "template_sha256": "b5a10d5684cbd9964db975f50d8f0d2fb2d166390b3971cbe4af2202a2842ec5",
+  "plan_sha256": "4617b7e1a6cf12d73567d65a87c0d3d54cf3fd350c52c4ab5fd2d86e3526ab2d",
+  "context_pack_sha256": "b8f28ac56628494c8bb204209b047326c04929bbe4609684f1692931aaefbc76",
+  "budget": {
+    "per_party": [
+      {
+        "party_key": "grok-search-fetch-v1",
+        "model": "x-ai/grok-4.5",
+        "prompt_tokens_estimated": 15960,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 4.9627
+      },
+      {
+        "party_key": "gpt-search-fetch-v1",
+        "model": "openai/gpt-5.6-terra",
+        "prompt_tokens_estimated": 15990,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 3.6821
+      },
+      {
+        "party_key": "gemini-search-fetch-v1",
+        "model": "google/gemini-3.1-pro-preview",
+        "prompt_tokens_estimated": 15974,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 7.3634
+      },
+      {
+        "party_key": "claude-search-fetch-v1",
+        "model": "anthropic/claude-fable-5",
+        "prompt_tokens_estimated": 15990,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 32.8212
+      },
+      {
+        "party_key": "qwen-search-fetch-v1",
+        "model": "LOCAL",
+        "prompt_tokens_estimated": 15995,
+        "search_result_tokens_allowed": 0,
+        "web_search_engine": null,
+        "web_search_fee_usd": 0.0,
+        "agentic_turns_priced": 5,
+        "fetch_tokens_allowed_per_turn": 17647,
+        "worst_case_usd": 0.0
+      }
+    ],
+    "worst_case_usd": 48.8295,
+    "expected_usd_from_observed_ratio": 10.1223,
+    "observed_ratio": {
+      "ratio": 0.2073,
+      "n": 14,
+      "min": 0.0252,
+      "max": 0.3989,
+      "basis": "Median of actual/worst_case over recorded rounds. Agentic rounds sit far below the rest -- round 011 was 0.03 -- because the bound assumes every sample fills its fetch budget and three of five parties fetched nothing."
+    },
+    "rates_version": "openrouter-list-2026-08-07",
+    "rates_recorded_utc": "2026-08-07T09:18:03Z",
+    "rates_source": "https://openrouter.ai/api/v1/models",
+    "rates_verified_by_custodian": false,
+    "basis": "Every sample emitting max_tokens on every turn, prompt tokens estimated at 3.4 bytes/token, and for a fetch-enabled party every turn re-sending the whole conversation with another 60000-character page appended. Over-states by construction.",
+    "what_it_cannot_do": "It cannot bind the provider. Only a provider-side spending cap does that.",
+    "max_spend_usd_this_cycle": 60.0,
+    "daily_ceiling_usd": 100.0,
+    "already_committed_today_usd": 2.5831
+  },
+  "actual_usd": 2.9918,
+  "parties": [
+    {
+      "party_key": "grok-search-fetch-v1",
+      "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter)",
+      "k": 4,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": [
+        "HTTPError: HTTP Error 400: Bad Request :: {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\\"code\\\":\\\"invalid-argument\\\",\\\"error\\\":\\\"Invalid request content: A tool_choice was set on the request but no tools were specified.\\\"}\",\"provider_name\":\"xAI\",\"is_byok\":false}},\"user_id\":\"user_2xkNMx5i7weqvf7H6nibrJEvc0q\"}"
+      ]
+    },
+    {
+      "party_key": "gpt-search-fetch-v1",
+      "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 0.6,
+      "entropy_bits": 0.971,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "gemini-search-fetch-v1",
+      "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    },
+    {
+      "party_key": "claude-search-fetch-v1",
+      "identity": "Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5",
+      "k": 5,
+      "position": "answers_the_question",
+      "modal_fraction": 1.0,
+      "entropy_bits": -0.0,
+      "rejected_samples": []
+    }
+  ],
+  "solicitation_failures": [
+    "qwen-search-fetch-v1:   [ 6/6] REJECTED (transport): HTTP Error 400: Bad Request"
+  ],
+  "reasked_after_fix": false,
+  "arms": [
+    "search:none"
+  ],
+  "arms_note": "Parties in different arms had different capabilities and received different text about them. Their answers are not comparable to each other, and nothing here pools them.",
+  "reask": null,
+  "arm_id": "instructed-exploration-v1",
+  "preregistration": "record/designs/round-017-preregistration.md",
+  "no_synthesis": "Deliberately absent. A consulted party made unilateral synthesis by the conflicted moderator a condition of declining."
+}
