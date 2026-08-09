@@ -901,8 +901,15 @@ def unaccepted_rounds() -> list[str]:
         for line in git_or_refuse("ls-tree", "-r", ref, "--", "record/cycles").splitlines():
             meta, path = line.split("\t", 1)
             name = Path(path).name
+            #  serve-fingerprint.json joins this list because it is PINNED CONFIGURATION, not
+            #  a round record: it carries the endpoint's identity and its measured prefill
+            #  ceiling, and it is updated as measurements are taken. Old round branches keep the
+            #  bytes as they stood when those rounds ran, so a content comparison reports it as
+            #  unaccepted material forever. The branches are all ancestors of main; deleting
+            #  them would have silenced this too, and for the wrong reason.
             if name in ("approved-template.sha256", "model-rates.json",
-                        "context-pack.sha256", "spend-ledger.json"):
+                        "context-pack.sha256", "spend-ledger.json",
+                        "serve-fingerprint.json"):
                 continue
             if accepted.get(path) != meta.split()[2]:
                 outstanding.append(f"{path} (on {ref})")
