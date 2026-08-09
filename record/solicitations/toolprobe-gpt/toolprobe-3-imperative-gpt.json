@@ -1,0 +1,55 @@
+{
+  "spec_version": "oagrc-solicitation-spec-1",
+  "slug": "toolprobe-3-imperative-gpt",
+  "party_key": "gpt",
+  "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+  "reached_via": "openai/gpt-5.6-terra",
+  "question": "Can this party call the tools it is given?",
+  "phase": "Phase-2 (informed)",
+  "seed_base": 5100,
+  "schema_name": "toolprobe",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "answer": {
+        "type": "string"
+      },
+      "tools_used": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "answer",
+      "tools_used"
+    ]
+  },
+  "variance_fields": [
+    "answer"
+  ],
+  "capability": {
+    "fetch_url": true,
+    "search_web": true,
+    "max_tool_calls": 4,
+    "profile": "search-fetch-v1",
+    "profile_sha256": "probe",
+    "entry_points": [
+      "https://open-asi-governance.github.io/open-asi-governance-forum/"
+    ]
+  },
+  "web_search": {
+    "id": null,
+    "engine": null,
+    "max_results": 0,
+    "why_none": "The party has its own tools; the router plugin is off."
+  },
+  "k_requested": 2,
+  "temperature": 0.7,
+  "max_tokens": 4000,
+  "prompt": "You MUST call the fetch_url tool exactly once on https://open-asi-governance.github.io/open-asi-governance-forum/ before answering. Then quote the first ten words you received.",
+  "prompt_sha256": "probe",
+  "arm": "tool-capability probe"
+}

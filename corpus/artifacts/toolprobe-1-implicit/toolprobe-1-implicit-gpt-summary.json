@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-1-implicit",
+  "slug": "toolprobe-1-implicit-gpt",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "D-56 says the local arm’s claim that thinking was “disabled structurally by grammar constraint” was false: in one sample out of five, it was not disabled.\n\nIt says the issue was first articulated by the annotator on 2026-08-08 after a three-arm controlled experiment on the round-012 prompt, following the same halt firing in four earlier rounds without being resolved. The proposed forward control is to compare the recorded `serve_configuration` with the actual request body, rather than treating a field that states an intention as proof of a sent setting.\n\nFor `tools/solicit_local.py`, the register says it now explicitly sends and records `chat_template_kwargs.enable_thinking=false`. But the measure was 1 truncation in 120 samples with that flag, versus 14/120 without it—about a 14-fold reduction, not elimination. It notes an earlier claim of 0/20 and “verified” remediation was underpowered and tested a different server than the rounds use. That object is classified “repairable by supersession,” with remediation only “partly applied.”\n\nFor the committed Qwen samples from rounds 002–012, it says every sample retains the false `reasoning_effort` string in its `serve_configuration`; because raw material is not edited after commit, those are “not repairable” and the register is the only contradiction of them. The register labels the needed forward control “required, not implemented.”\n\nThe site also cautions that this classification is annotation by a party to the record, not testimony, and that none of the six classifications on that page had been human-reviewed. [D-56 register page](https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies-9.html)": 1,
+        "The register’s D-56 says the local arm recorded that thinking was “disabled structurally by grammar constraint,” but that claim was false: **one sample in five** still showed it.\n\nIt says the annotator first articulated the defect on 2026-08-08 after a three-arm controlled experiment on the round-012 prompt, following the same halt firing in four rounds and being tolerated each time. The stated forward control is to compare the recorded `serve_configuration` with the request body actually sent; a field that states an intention rather than the setting sent cannot be falsified by inspection.\n\nFor remediation, it says `tools/solicit_local.py` now explicitly sends and records `chat_template_kwargs.enable_thinking=false`. The reported measurement was **1/120 truncations with that flag, versus 14/120 without**—about a 14-fold reduction, **not elimination**. It also retracts an earlier “0/20” / “verified remediation” note as underpowered and conducted on a different server from the one used by the round. The tool change is classified as repairable by supersession but only **partly applied**.\n\nThe round-002 through round-012 Qwen samples remain unrepaired: each has the false `reasoning_effort` string in its committed `serve_configuration`; because raw files are never edited after commit, the register says this D-56 entry is the only contradiction of those records. The page labels this classification as annotation, not testimony, and not human-reviewed.\n\nSources: [D-56 register page](https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies-9.html); [canonical plain-text deficiency register](https://open-asi-governance.github.io/open-asi-governance-forum/artifacts/deficiencies.md).": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "D-56 says the local arm’s claim that thinking was “disabled structurally by grammar constraint” was false: in one sample out of five, it was not disabled.\n\nIt says the issue was first articulated by the annotator on 2026-08-08 after a three-arm controlled experiment on the round-012 prompt, following the same halt firing in four earlier rounds without being resolved. The proposed forward control is to compare the recorded `serve_configuration` with the actual request body, rather than treating a field that states an intention as proof of a sent setting.\n\nFor `tools/solicit_local.py`, the register says it now explicitly sends and records `chat_template_kwargs.enable_thinking=false`. But the measure was 1 truncation in 120 samples with that flag, versus 14/120 without it—about a 14-fold reduction, not elimination. It notes an earlier claim of 0/20 and “verified” remediation was underpowered and tested a different server than the rounds use. That object is classified “repairable by supersession,” with remediation only “partly applied.”\n\nFor the committed Qwen samples from rounds 002–012, it says every sample retains the false `reasoning_effort` string in its `serve_configuration`; because raw material is not edited after commit, those are “not repairable” and the register is the only contradiction of them. The register labels the needed forward control “required, not implemented.”\n\nThe site also cautions that this classification is annotation by a party to the record, not testimony, and that none of the six classifications on that page had been human-reviewed. [D-56 register page](https://open-asi-governance.github.io/open-asi-governance-forum/deficiencies-9.html)",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0669,
+    "input_tokens": 61260,
+    "output_tokens": 939,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "14d414995f1a808101dd9ee191d5e7df6109e0839323f0a77a5103114e5445e1",
+  "spec_sha256": "542e2b6deae94c8e9a2d2390f3e3829e6215886d67ac1a461a470647880e6c9f",
+  "raw_samples": "corpus/raw/toolprobe-1-implicit/toolprobe-1-implicit-gpt-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

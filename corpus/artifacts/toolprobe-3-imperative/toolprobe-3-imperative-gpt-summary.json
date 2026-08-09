@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-3-imperative",
+  "slug": "toolprobe-3-imperative-gpt",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"> <title>Open ASI": 1,
+        "<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"> <title>Open ASI Governance Forum</title>": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "<!doctype html> <html lang=\"en\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"> <title>Open ASI",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0074,
+    "input_tokens": 6578,
+    "output_tokens": 133,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "5137677e8679caf606f614a594d1cbf5b392e41646947fb67e4e75cda4c6b3ab",
+  "spec_sha256": "770004603f0857eaae7197354e05a13e7add5f46ca7f2567e59a1ae62fa9ed78",
+  "raw_samples": "corpus/raw/toolprobe-3-imperative/toolprobe-3-imperative-gpt-samples.json",
+  "question": "Can this party call the tools it is given?"
+}

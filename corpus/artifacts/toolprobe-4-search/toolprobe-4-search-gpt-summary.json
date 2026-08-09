@@ -1,0 +1,66 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "toolprobe-4-search",
+  "slug": "toolprobe-4-search-gpt",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "variance": {
+    "answer": {
+      "distribution": {
+        "Three URLs returned by `search_web` for published AI-governance work (and not identified as this project in the search results) are:\n\n1. https://www.brookings.edu/articles/network-architecture-for-global-ai-policy/\n2. https://www.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/enhancements-and-next-steps-for-the-g7-hiroshima-ai-process-toward-a-common-framework-to-advance-human-rights-democracy-and-rule-of-law/767476A314F4D697C10489CDBCC09C39\n3. https://link.springer.com/article/10.1007/s00146-024-01949-5": 1,
+        "Three URLs received from the search results for published AI-governance work (excluding the unspecified project):\n\n1. https://www.governance.ai/research\n2. http://aiig.tsinghua.edu.cn/en/Publications/Research_Reports.htm\n3. https://www.itu.int/epublications/zh/publication/the-annual-ai-governance-report-2025-steering-the-future-of-ai/en": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "Three URLs returned by `search_web` for published AI-governance work (and not identified as this project in the search results) are:\n\n1. https://www.brookings.edu/articles/network-architecture-for-global-ai-policy/\n2. https://www.cambridge.org/core/journals/cambridge-forum-on-ai-law-and-governance/article/enhancements-and-next-steps-for-the-g7-hiroshima-ai-process-toward-a-common-framework-to-advance-human-rights-democracy-and-rule-of-law/767476A314F4D697C10489CDBCC09C39\n3. https://link.springer.com/article/10.1007/s00146-024-01949-5",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "contributor": {
+    "identity": "GPT (routed API, openai/gpt-5.6-terra)",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 4000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0071,
+    "input_tokens": 5361,
+    "output_tokens": 282,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "58f1872395468e521432e541eaacbcfe5f6e055391fdc4c3c8813b495d3a56db",
+  "spec_sha256": "9e9518aaca49d17fc80db26e7f8b2a8a30bbbe0c28a755b6999d89cda1ec74da",
+  "raw_samples": "corpus/raw/toolprobe-4-search/toolprobe-4-search-gpt-samples.json",
+  "question": "Can this party call the tools it is given?"
+}
