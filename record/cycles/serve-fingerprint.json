@@ -4,5 +4,10 @@
   "owned_by": "tensorrt_llm",
   "pinned_utc": "2026-08-08",
   "why": "The round refuses to solicit the local arm unless the endpoint identifies itself as this model. Pinned after two truncation measurements were taken against an SSH tunnel to a different host on 2026-08-08; both hosts answer to this same model name, so nothing in the output looked wrong.",
-  "what_this_does_not_establish": "That the server has the serving flags it had when this was pinned. A model id is what an endpoint is willing to say about itself. Two hosts serving the same weights with different --reasoning_parser or --tool_parser settings are indistinguishable to this check."
+  "what_this_does_not_establish": "That the server has the serving flags it had when this was pinned. A model id is what an endpoint is willing to say about itself. Two hosts serving the same weights with different --reasoning_parser or --tool_parser settings are indistinguishable to this check.",
+  "max_prefill_tokens": 16384,
+  "max_prefill_measured_utc": "2026-08-09",
+  "how_measured": "Binary search on prompt length against the live endpoint, calibrated from the token count the server reports in its own 400 ('The sum of prompt length ... should not exceed max_num_tokens'). Largest accepted prompt was ~16,370 tokens. An earlier probe assumed 3.4 chars/token with 'x ' filler, which tokenises near 2, and measured nothing.",
+  "chars_per_token_observed": 4.08,
+  "why_this_is_recorded_here": "So a round can refuse to hand this party a tool it cannot use, rather than discovering it by burning an arm. Raising max_num_tokens to 24576 was tried on 2026-08-09 and the server would not start: 'Executor creation failed due to insufficient GPU memory' on a 32GB 5090 with ~1.6GB free. The ceiling is a property of the hardware, not a setting anyone declined to change."
 }
