@@ -267,6 +267,46 @@ CHAT_PARTIES = {
 SERVE_FINGERPRINT_PATH = REPO_ROOT / "record" / "cycles" / "serve-fingerprint.json"
 
 
+def capability_fits(prompt_chars: int, capability: dict | None) -> tuple[bool, str]:
+    """Can this endpoint hold the prompt plus ONE tool result? Measured, not assumed.
+
+    A party handed a tool it cannot use does not decline gracefully -- it fails on the prefill
+    ceiling and takes the whole arm with it. Round-017 lost qwen 6/6 that way, and round-016's
+    local arm was unusable for the same reason without anyone noticing, because a party that
+    never calls a tool looks identical to a party that cannot.
+
+    The ceiling is a MEASURED property recorded in record/cycles/serve-fingerprint.json, not a
+    setting someone declined to raise: 24576 was tried on 2026-08-09 and the server would not
+    start for want of GPU memory.
+
+    Returns (fits, why_not). A gate that re-opens on its own is the point -- shrink the prompt or
+    grow the server and the local party is handed the tool again, with nothing to remember.
+    """
+    if not capability:
+        return True, ""
+    try:
+        pinned = json.loads(SERVE_FINGERPRINT_PATH.read_text(encoding="utf-8"))
+    except Exception:                                                 # noqa: BLE001
+        return True, ""          # no recorded ceiling is not evidence of a small one
+    ceiling = pinned.get("max_prefill_tokens")
+    if not ceiling:
+        return True, ""
+    ratio = pinned.get("chars_per_token_observed") or BYTES_PER_TOKEN
+    prompt_tokens = prompt_chars / ratio
+    #  ONE result, not the whole budget: a party that cannot complete a single call cannot use
+    #  the tool at all, and that is the line worth drawing. Fitting four is a different question.
+    one_result = (FETCH_RESULT_CHARS if capability["spec"].get("fetch_url")
+                  else SEARCH_RESULT_CHARS) / ratio
+    if prompt_tokens + one_result <= ceiling:
+        return True, ""
+    return False, (
+        f"Withheld by measurement, not by choice. This endpoint accepts at most "
+        f"{ceiling:,} prefill tokens; the prompt is ~{prompt_tokens:,.0f} and one tool result at "
+        f"the {FETCH_RESULT_CHARS:,}-character cap is ~{one_result:,.0f}, so the party could not "
+        f"complete a single call. Raising the ceiling was attempted and the server would not "
+        f"start for want of GPU memory. See record/cycles/serve-fingerprint.json.")
+
+
 def verify_serve_fingerprint() -> dict:
     """Refuse unless the local endpoint identifies itself as the pinned model."""
     import urllib.error
@@ -1166,6 +1206,22 @@ def build_plan(args, index: int) -> dict:
         base_key, party_record, capability = resolve_party(party_key)
         max_tokens = MAX_TOKENS_ROUTED if party_record["model"] else MAX_TOKENS_LOCAL
         prompt, spans = compose(pick, party_key, args.k, rendered, anchors)
+        #  WITHHOLD A TOOL THE ENDPOINT CANNOT USE, and only for the endpoint that cannot.
+        #  Checked against the LOCAL server's measured prefill ceiling, so it applies to the
+        #  local party and never to a routed one. The party still answers -- it simply answers
+        #  without tools, in its own arm, which the round already declares non-comparable.
+        #  Dropping it from the round entirely would lose an answer to fix a tooling limit.
+        withheld = ""
+        if capability and party_record["model"] is None:
+            fits, why = capability_fits(len(prompt), capability)
+            if not fits:
+                withheld = why
+                capability = None
+                party_key = base_key
+                #  RECOMPOSED without the capability paragraphs: the prompt just built told this
+                #  party it had tools. Leaving that text in place would describe a capability it
+                #  does not have, which is the misdescription D-52 was filed for.
+                prompt, spans = compose(pick, party_key, args.k, rendered, anchors)
         prompt_reports.append(lint_prompt(prompt, spans, party_key))
         specs.append({
             "spec_version": "oagrc-solicitation-spec-1",
@@ -1229,6 +1285,7 @@ def build_plan(args, index: int) -> dict:
             #  search-fetch-v1 excludes the PLUGIN because the party has a search tool of its
             #  own, whose queries are its own and are recorded. `capability["why_no_search"]`
             #  assumed every capability was the first kind and raised KeyError on the second.
+            **({"capability_withheld": withheld} if withheld else {}),
             "web_search": ({"id": None, "engine": None, "max_results": 0,
                             "why_none": capability.get("why_no_search") or (
                                 "The router's plugin is off because this party has its own "

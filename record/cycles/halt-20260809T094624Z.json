@@ -1,0 +1,17 @@
+{
+  "artifact_type": "cycle_halt",
+  "utc": "2026-08-09T09:46:24Z",
+  "exit_code": 5,
+  "reason": "a party's samples are not reportable",
+  "round": "round-017",
+  "detail": {
+    "failures": [
+      "qwen-search-fetch-v1:   [ 6/6] REJECTED (transport): HTTP Error 400: Bad Request"
+    ],
+    "undersampled": [
+      "grok-search-fetch-v1"
+    ],
+    "why": "Below k_min a reply is not a party's position. Truncation has twice masqueraded as a refusal here. Everything collected is committed above."
+  },
+  "note": "A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode."
+}
