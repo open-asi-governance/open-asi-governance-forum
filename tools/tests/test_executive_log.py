@@ -142,5 +142,28 @@ check("it carries a sunset", "sunset" in charter)
 check("it states the deletion duty, with the live test case",
       "0 searches" in charter and "83 tool calls" in charter)
 
+
+print("\nthe Codex budget gate")
+import codex_budget as cb                                                 # noqa: E402
+_orig = cb.remaining
+def _at(used):
+    cb.remaining = lambda: {"readable": True, "percent_used": used,
+                            "percent_remaining": 100.0 - used}
+_at(10); check("well above the floor is allowed", cb.may_invoke()[0] is True)
+_at(67); check("exactly at the 33% floor is allowed", cb.may_invoke()[0] is True)
+_at(67.5); check("just below the floor is refused", cb.may_invoke()[0] is False)
+_at(95); check("nearly exhausted is refused", cb.may_invoke()[0] is False)
+cb.remaining = lambda: {"readable": False, "why": "no CDP"}
+allowed, why = cb.may_invoke()
+check("an UNREADABLE budget fails open", allowed is True)
+check("...and the reason says the budget was unverified", "UNVERIFIED" in why)
+check("...and says why disabling review to save budget is the wrong trade",
+      "correctness control" in why and "spending one" in why)
+check("the floor is the custodian's stated 33%", cb.FLOOR_PERCENT_REMAINING == 33.0)
+cb.remaining = _orig
+check("the module refuses to reimplement the CDP read",
+      "Reimplementing it here" in cb.__doc__ or "CodexUsage" in cb.remaining.__doc__
+      or "CodexUsage" in open(REPO_ROOT / "tools/codex_budget.py").read())
+
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)
