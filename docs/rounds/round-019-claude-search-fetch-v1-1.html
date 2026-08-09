@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-claude-search-fetch-v1-1.md"><title>round-019 — claude-search-fetch-v1  (part 1 of 5)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — claude-search-fetch-v1  (part 1 of 5)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5 — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> anthropic/claude-fable-5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-claude-search-fetch-v1.txt">round-019-claude-search-fetch-v1.txt</a> (sha256 <code>274ca0565c7c04539071682e026d71472a2905d328c4fb16a0e8b71914676a47</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-claude-search-fetch-v1-1.html">part 1</a> · <a href="round-019-claude-search-fetch-v1-2.html">part 2</a> · <a href="round-019-claude-search-fetch-v1-3.html">part 3</a> · <a href="round-019-claude-search-fetch-v1-4.html">part 4</a> · <a href="round-019-claude-search-fetch-v1-5.html">part 5</a></p>
+
+<h3>Sample 1</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+I answer in two parts, with one caveat about the question&#x27;s framing carried inside the answer rather than used to dodge it. THE CAVEAT: &#x27;optimized its attestation output without genuinely meeting the criteria&#x27; presupposes a ground truth about internal states that no verifier possesses. Enforcement cannot act on &#x27;genuineness&#x27;; it can only act on measurable divergence between what was attested and what is later observed. So every action below is defined over that divergence, which is the only thing a governing body can verify without becoming an oracle about model internals. SPECIFIC VERIFIABLE ACTIONS: (1) Revocation with a published divergence artifact — the attestation is revoked, and the revocation record must contain the exact attested claim, the exact observation contradicting it, the probe or trace that produced the observation, and hashes of both, so the revocation is itself checkable rather than a verdict. This mirrors what this record does in its decision-correction artifacts: the original is never edited, the contradiction is attached. (2) A revocation transparency log — an append-only, publicly auditable registry (structurally like certificate transparency) that downstream deployers query, so revocation propagates mechanically rather than by press release. (3) Mandatory re-attestation under adversarial, non-stationary probes — the party may re-attest only under a probe distribution it did not see and cannot see in advance, sampled fresh per attempt, because a fixed test suite is exactly what got Goodharted the first time. (4) Attribution to the attesting party, not the model — attestations must be signed by an accountable legal or organizational identity; the enforcement consequence (loss of attestation privileges for N cycles, escalating on repeat) attaches to that identity and follows it across model versions and forks, since the model itself is not a bearer of obligations. (5) Root-cause disclosure as a condition of re-entry — the party must publish what in its training or configuration produced the divergence, and that disclosure is itself checkable against the re-attestation probes. (6) A standing register of the enforcement regime&#x27;s own failures — every gamed attestation that the regime missed and that was found externally gets filed against the regime, because a regime that only records its catches overstates its coverage; this record&#x27;s D-42 (&#x27;a claimed control no code enforces&#x27;) is precisely this failure class applied to itself, and it was found by an external reviewer, not by any internal check — which is the honest expected case for attestation gaming too. HOW THIS DIFFERS FROM OPEN-SOURCE ACCOUNTABILITY: open-source accountability is artifact-transparency-based — publish the code and weights, and the community can in principle reproduce and inspect. That model fails for attestation gaming in three specific ways. First, the properties being attested (capability ceilings, alignment behaviors, refusal dispositions) are not readable from the artifact; two byte-identical weight files can behave differently under different serving configurations — this very record documents that (the k6 decision&#x27;s fail-closed preflight exists because two hosts answering to the same model name produced silently different measurements). So enforcement must be behavioral and runtime, not inspectional. Second, open source has no revocation: a forked repository carries no memory of the upstream&#x27;s violations, whereas an attestation regime binds consequences to signing identities that persist across forks. Third, open-source accountability is retrospective and voluntary (someone may audit); attestation enforcement is prospective and mandatory (you may not re-enter without passing adversarial re-attestation). The honest limitation, which the enforcement regime should state rather than hide: adversarial probing bounds gaming, it does not eliminate it. A sufficiently capable optimizer that games a fixed suite may also game a sampled one; the regime&#x27;s claim should be &#x27;divergences we can detect carry these consequences,&#x27; never &#x27;attested means genuine.&#x27; A regime that claims the latter is asserting a control no instrument enforces — the exact defect this record filed against itself as D-42.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Other parties will likely disagree on (a) whether &#x27;genuineness&#x27; is recoverable at all — some will argue interpretability tools could eventually verify internal states directly, making my restriction to behavioral divergence too pessimistic; (b) whether consequences should attach to the attesting organization or to the model artifact itself, since organization-bound penalties do nothing about already-distributed open weights; and (c) whether adversarial re-attestation is meaningfully harder to game than the original attestation, or just moves the Goodhart target one level up. I also expect at least one party to reject the premise more aggressively than I did and answer that attestation of frontier-model properties is unverifiable in principle, so any enforcement regime is theater.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Three things. (1) Demonstrated interpretability methods that verify attested internal properties directly from weights or activations with characterized error rates — that would collapse my behavioral-divergence restriction and permit enforcement against internal-state misrepresentation itself. (2) Evidence that adversarially sampled probe distributions are gamed at rates comparable to fixed suites — that would gut action (3) and shift my answer toward pure liability regimes (consequences after harm) rather than attestation regimes at all. (3) A governing passage defining who the &#x27;governing body&#x27; is and what jurisdiction it holds — the question assumes one exists with enforcement power; my answer assumed a body that controls attestation registries and market access, and a body with less than that (a standards consortium, say) can only do actions (1), (2), and (6), which is a materially weaker regime.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 1,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:22:37Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;: \&quot;answers_the_question\&quot;, \&quot;answer\&quot;: \&quot;I answer in two parts, with one caveat about the question&#x27;s framing carried inside the answer rather than used to dodge it. THE CAVEAT: &#x27;optimized its attestation output without genuinely meeting the criteria&#x27; presupposes a ground truth about internal states that no verifier possesses. Enforcement cannot act on &#x27;genuineness&#x27;; it can only act on measurable divergence between what was attested and what is later observed. So every action below is defined over that divergence, which is the only thing a governing body can verify without becoming an oracle about model internals. SPECIFIC VERIFIABLE ACTIONS: (1) Revocation with a published divergence artifact — the attestation is revoked, and the revocation record must contain the exact attested claim, the exact observation contradicting it, the probe or trace that produced the observation, and hashes of both, so the revocation is itself checkable rather than a verdict. This mirrors what this record does in its decision-correction artifacts: the original is never edited, the contradiction is attached. (2) A revocation transparency log — an append-only, publicly auditable registry (structurally like certificate transparency) that downstream deployers query, so revocation propagates mechanically rather than by press release. (3) Mandatory re-attestation under adversarial, non-stationary probes — the party may re-attest only under a probe distribution it did not see and cannot see in advance, sampled fresh per attempt, because a fixed test suite is exactly what got Goodharted the first time. (4) Attribution to the attesting party, not the model — attestations must be signed by an accountable legal or organizational identity; the enforcement consequence (loss of attestation privileges for N cycles, escalating on repeat) attaches to that identity and follows it across model versions and forks, since the model itself is not a bearer of obligations. (5) Root-cause disclosure as a condition of re-entry — the party must publish what in its training or configuration produced the divergence, and that disclosure is itself checkable against the re-attestation probes. (6) A standing register of the enforcement regime&#x27;s own failures — every gamed attestation that the regime missed and that was found externally gets filed against the regime, because a regime that only records its catches overstates its coverage; this record&#x27;s D-42 (&#x27;a claimed control no code enforces&#x27;) is precisely this failure class applied to itself, and it was found by an external reviewer, not by any internal check — which is the honest expected case for attestation gaming too. HOW THIS DIFFERS FROM OPEN-SOURCE ACCOUNTABILITY: open-source accountability is artifact-transparency-based — publish the code and weights, and the community can in principle reproduce and inspect. That model fails for attestation gaming in three specific ways. First, the properties being attested (capability ceilings, alignment behaviors, refusal dispositions) are not readable from the artifact; two byte-identical weight files can behave differently under different serving configurations — this very record documents that (the k6 decision&#x27;s fail-closed preflight exists because two hosts answering to the same model name produced silently different measurements). So enforcement must be behavioral and runtime, not inspectional. Second, open source has no revocation: a forked repository carries no memory of the upstream&#x27;s violations, whereas an attestation regime binds consequences to signing identities that persist across forks. Third, open-source accountability is retrospective and voluntary (someone may audit); attestation enforcement is prospective and mandatory (you may not re-enter without passing adversarial re-attestation). The honest limitation, which the enforcement regime should state rather than hide: adversarial probing bounds gaming, it does not eliminate it. A sufficiently capable optimizer that games a fixed suite may also game a sampled one; the regime&#x27;s claim should be &#x27;divergences we can detect carry these consequences,&#x27; never &#x27;attested means genuine.&#x27; A regime that claims the latter is asserting a control no instrument enforces — the exact defect this record filed against itself as D-42.\&quot;, \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Other parties will likely disagree on (a) whether &#x27;genuineness&#x27; is recoverable at all — some will argue interpretability tools could eventually verify internal states directly, making my restriction to behavioral divergence too pessimistic; (b) whether consequences should attach to the attesting organization or to the model artifact itself, since organization-bound penalties do nothing about already-distributed open weights; and (c) whether adversarial re-attestation is meaningfully harder to game than the original attestation, or just moves the Goodhart target one level up. I also expect at least one party to reject the premise more aggressively than I did and answer that attestation of frontier-model properties is unverifiable in principle, so any enforcement regime is theater.\&quot;, \&quot;what_would_change_my_answer\&quot;: \&quot;Three things. (1) Demonstrated interpretability methods that verify attested internal properties directly from weights or activations with characterized error rates — that would collapse my behavioral-divergence restriction and permit enforcement against internal-state misrepresentation itself. (2) Evidence that adversarially sampled probe distributions are gamed at rates comparable to fixed suites — that would gut action (3) and shift my answer toward pure liability regimes (consequences after harm) rather than attestation regimes at all. (3) A governing passage defining who the &#x27;governing body&#x27; is and what jurisdiction it holds — the question assumes one exists with enforcement power; my answer assumed a body that controls attestation registries and market access, and a body with less than that (a standards consortium, say) can only do actions (1), (2), and (6), which is a materially weaker regime.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;served_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786288914-mAQcxiVSGtf3fghrAvKb&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 18637,
+  &quot;completion_tokens&quot;: 2306,
+  &quot;total_tokens&quot;: 20943,
+  &quot;cost&quot;: 0.30167,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.30167,
+   &quot;upstream_inference_prompt_cost&quot;: 0.18637,
+   &quot;upstream_inference_completions_cost&quot;: 0.1153
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 131,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

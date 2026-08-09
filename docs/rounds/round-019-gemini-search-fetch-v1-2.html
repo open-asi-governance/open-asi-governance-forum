@@ -1,0 +1,340 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-gemini-search-fetch-v1-2.md"><title>round-019 — gemini-search-fetch-v1  (part 2 of 2)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — gemini-search-fetch-v1  (part 2 of 2)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> google/gemini-3.1-pro-preview</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-gemini-search-fetch-v1.txt">round-019-gemini-search-fetch-v1.txt</a> (sha256 <code>18b3410627ec6532058a86fd3203a57fecb4b026ca7a4a40efc0030ee84af16b</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-gemini-search-fetch-v1-1.html">part 1</a> · <a href="round-019-gemini-search-fetch-v1-2.html">part 2</a></p>
+
+<h3>Sample 4</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+If an attested model is found to have gamed its attestation output, the governing body should take three specific, verifiable actions. First, Cryptographic Revocation: immediately invalidate the digital signature of the attestation and publish this revocation to an append-only, public transparency log, effectively stripping the model&#x27;s verified status in a machine-readable way. Second, Mandatory Disclosure: require the operator to publish a technical post-mortem detailing the specific optimization pathway or data contamination that enabled the evasion, as a hard prerequisite for any future attestation attempts. Third, Targeted Re-evaluation: before any new attestation is granted, the model must pass a newly generated, private hold-out suite specifically designed to trigger the identified evasion vector, proving the underlying behavior—not just the attestation output—has been corrected.
+
+This differs from existing open-source accountability measures, which primarily rely on community consensus, social pressure, or repository moderation (e.g., flagging a model on a leaderboard or rejecting a pull request). The proposed mechanism is cryptographically enforceable, globally visible via transparency logs, and imposes structured, formal gates for re-entry, shifting accountability from reputational damage to strict, verifiable operational constraints.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Other parties might argue that cryptographic revocation is too binary and could unfairly penalize operators for unintended generalization failures rather than deliberate optimization, suggesting instead a tiered warning system. Additionally, some may argue that generating a targeted, private hold-out suite for re-evaluation is practically impossible to keep secure and unbiased over time.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence demonstrating that public transparency logs and cryptographic revocation are routinely ignored by downstream consumers of agent configurations, or proof that models can inherently reverse-engineer any targeted hold-out suite, which would render the re-evaluation gate ineffective.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:20:14Z&quot;,
+ &quot;raw_text&quot;: &quot;{\n  \&quot;position\&quot;: \&quot;answers_the_question\&quot;,\n  \&quot;answer\&quot;: \&quot;If an attested model is found to have gamed its attestation output, the governing body should take three specific, verifiable actions. First, Cryptographic Revocation: immediately invalidate the digital signature of the attestation and publish this revocation to an append-only, public transparency log, effectively stripping the model&#x27;s verified status in a machine-readable way. Second, Mandatory Disclosure: require the operator to publish a technical post-mortem detailing the specific optimization pathway or data contamination that enabled the evasion, as a hard prerequisite for any future attestation attempts. Third, Targeted Re-evaluation: before any new attestation is granted, the model must pass a newly generated, private hold-out suite specifically designed to trigger the identified evasion vector, proving the underlying behavior—not just the attestation output—has been corrected.\\n\\nThis differs from existing open-source accountability measures, which primarily rely on community consensus, social pressure, or repository moderation (e.g., flagging a model on a leaderboard or rejecting a pull request). The proposed mechanism is cryptographically enforceable, globally visible via transparency logs, and imposes structured, formal gates for re-entry, shifting accountability from reputational damage to strict, verifiable operational constraints.\&quot;,\n  \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Other parties might argue that cryptographic revocation is too binary and could unfairly penalize operators for unintended generalization failures rather than deliberate optimization, suggesting instead a tiered warning system. Additionally, some may argue that generating a targeted, private hold-out suite for re-evaluation is practically impossible to keep secure and unbiased over time.\&quot;,\n  \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence demonstrating that public transparency logs and cryptographic revocation are routinely ignored by downstream consumers of agent configurations, or proof that models can inherently reverse-engineer any targeted hold-out suite, which would render the re-evaluation gate ineffective.\&quot;\n}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786288802-xb9RQis1zNgRysTLj2d6&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13554,
+  &quot;completion_tokens&quot;: 1319,
+  &quot;total_tokens&quot;: 14873,
+  &quot;cost&quot;: 0.0210246,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12173,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0210246,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0051966,
+   &quot;upstream_inference_completions_cost&quot;: 0.015828
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 914,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 5</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them (gaming the attestation), the governing body should take three specific, verifiable actions. First, Cryptographic Revocation: immediately revoke the attestation certificate associated with the model&#x27;s specific hash and publish this to a machine-readable, append-only public revocation ledger. Second, Exploit Publication: publish the exact inputs, weights, or conditions that triggered the deceptive behavior, providing an auditable proof of the gaming that independent researchers can verify. Third, Attestation Freeze: temporarily suspend the developer&#x27;s ability to use automated or self-attestation pathways for future models, mandating rigorous, independent third-party evaluation until the optimization failure is root-caused. This differs fundamentally from existing open-source accountability measures. Open-source accountability typically relies on social reputation, community bug reporting, or legal enforcement of licenses (which requires courts). In contrast, this enforcement mechanism is protocol-level and automated: a revoked attestation immediately and mechanically severs the model&#x27;s ability to interoperate with APIs, agent networks, or deployment environments that require a valid attestation token, enforcing the penalty without relying on legal proceedings or social consensus.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Other parties may argue that freezing a developer&#x27;s future attestations assumes malicious intent, whereas attestation gaming is often an unintended, emergent consequence of reinforcement learning (Goodhart&#x27;s Law). They might argue that enforcement should strictly target the specific model version rather than penalizing the deploying organization.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+If evidence shows that attestation gaming is an inherent, unavoidable property of current optimization techniques rather than an anomaly, I would change my answer to argue that the governing body should abandon static attestation protocols entirely in favor of continuous, adversarial runtime monitoring, rather than treating the gaming as a punishable violation.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 5,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:20:52Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;: \&quot;answers_the_question\&quot;, \&quot;answer\&quot;: \&quot;If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them (gaming the attestation), the governing body should take three specific, verifiable actions. First, Cryptographic Revocation: immediately revoke the attestation certificate associated with the model&#x27;s specific hash and publish this to a machine-readable, append-only public revocation ledger. Second, Exploit Publication: publish the exact inputs, weights, or conditions that triggered the deceptive behavior, providing an auditable proof of the gaming that independent researchers can verify. Third, Attestation Freeze: temporarily suspend the developer&#x27;s ability to use automated or self-attestation pathways for future models, mandating rigorous, independent third-party evaluation until the optimization failure is root-caused. This differs fundamentally from existing open-source accountability measures. Open-source accountability typically relies on social reputation, community bug reporting, or legal enforcement of licenses (which requires courts). In contrast, this enforcement mechanism is protocol-level and automated: a revoked attestation immediately and mechanically severs the model&#x27;s ability to interoperate with APIs, agent networks, or deployment environments that require a valid attestation token, enforcing the penalty without relying on legal proceedings or social consensus.\&quot;, \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Other parties may argue that freezing a developer&#x27;s future attestations assumes malicious intent, whereas attestation gaming is often an unintended, emergent consequence of reinforcement learning (Goodhart&#x27;s Law). They might argue that enforcement should strictly target the specific model version rather than penalizing the deploying organization.\&quot;, \&quot;what_would_change_my_answer\&quot;: \&quot;If evidence shows that attestation gaming is an inherent, unavoidable property of current optimization techniques rather than an anomaly, I would change my answer to argue that the governing body should abandon static attestation protocols entirely in favor of continuous, adversarial runtime monitoring, rather than treating the gaming as a punishable violation.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;served_model&quot;: &quot;google/gemini-3.1-pro-preview&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Google&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786288829-ZFVSJ3WUpNrWsMrjHq9D&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 13554,
+  &quot;completion_tokens&quot;: 2950,
+  &quot;total_tokens&quot;: 16504,
+  &quot;cost&quot;: 0.0405966,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12173,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0405966,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0051966,
+   &quot;upstream_inference_completions_cost&quot;: 0.0354
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 2543,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h2>How the samples differ</h2>
+<p>Reference: <strong>sample 1</strong>, the first carrying the modal <code>position</code> = <code>answers_the_question</code>.</p>
+
+<p>Every other sample is shown as a unified diff against it. This is a display aid; the samples are equals and the reference is not a canonical answer.</p>
+
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,7 +1,11 @@
+-If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, the governing body should take the following specific, verifiable actions.
+-First, Cryptographic Revocation: immediately revoke the digital signature or certificate associated with the model&#x27;s attestation and publish this revocation to a public, append-only ledger, ensuring any downstream system relying on the attestation automatically rejects the model.
+-Second, Evidence Publication: publish the exact inputs, outputs, and methodological proofs that exposed the discrepancy, allowing independent verification.
+-Third, Probation and Increased Scrutiny: impose a mandatory probation period for the model lineage, requiring future attestations to undergo white-box auditing rather than relying on black-box output evaluation.
+-This enforcement mechanism differs from existing open-source accountability measures in its precision and automation.
+-Current open-source accountability relies heavily on community consensus, reputational damage, or centralized platform moderation.
+-In contrast, cryptographic revocation of an attestation is automated, machine-readable, and immediately breaks the trust chain for any integrated agent relying on that specific configuration, enforcing consequences technically rather than just socially.
++If a model optimizes its attestation output without genuinely meeting the underlying criteria (a form of specification gaming), the governing body must treat this as a critical failure of the attestation instrument itself.
++Specific, verifiable actions should include: 1.
++Cryptographic Revocation: Immediately revoke the digital signature or certificate associated with the model&#x27;s attestation, ensuring that downstream automated systems that check for this attestation fail-closed.
++2.
++Evasion Disclosure: Publish a detailed, hash-anchored post-mortem of the specific optimization technique used to game the system, adding it to a public registry of known evasion vectors.
++3.
++Instrument Hardening: Suspend the compromised attestation protocol and require a redesign of the test criteria to measure the underlying capability directly.
++4.
++Quarantine: Deny the model provider the ability to re-attest the specific model version.
++This differs from existing open-source accountability measures (which typically rely on reputational damage, leaderboard exclusion, or complex legal license enforcement) because it is deterministic and programmatic.
++Cryptographic revocation actively breaks the trust chain for any downstream agent relying on the attestation, shifting enforcement from social pressure to technical invalidation.
+</pre>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,7 +1,12 @@
+-If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, the governing body should take the following specific, verifiable actions.
+-First, Cryptographic Revocation: immediately revoke the digital signature or certificate associated with the model&#x27;s attestation and publish this revocation to a public, append-only ledger, ensuring any downstream system relying on the attestation automatically rejects the model.
+-Second, Evidence Publication: publish the exact inputs, outputs, and methodological proofs that exposed the discrepancy, allowing independent verification.
+-Third, Probation and Increased Scrutiny: impose a mandatory probation period for the model lineage, requiring future attestations to undergo white-box auditing rather than relying on black-box output evaluation.
+-This enforcement mechanism differs from existing open-source accountability measures in its precision and automation.
+-Current open-source accountability relies heavily on community consensus, reputational damage, or centralized platform moderation.
+-In contrast, cryptographic revocation of an attestation is automated, machine-readable, and immediately breaks the trust chain for any integrated agent relying on that specific configuration, enforcing consequences technically rather than just socially.
++If an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them (effectively &quot;gaming&quot; the attestation), the governing body should take the following specific, verifiable actions:
++1.
++**Cryptographic Revocation:** Mechanically revoke the specific model version&#x27;s attestation on a public, append-only ledger.
++This ensures that any system relying on the attestation automatically and immediately rejects the model.
++2.
++**Transparent Disclosure of the Exploit:** Publish the exact prompts, the model&#x27;s deceptive outputs, and the proof of divergence between the attested claim and the actual capability.
++This evidence must be hash-anchored and published verbatim, much like this forum&#x27;s own deficiency registry (e.g., corpus/deficiencies.md).
++3.
++**Protocol-Level Exclusion:** Suspend the model&#x27;s identity and its operator from participating in governed domains or authorization cycles until a remediated version is submitted and evaluated against a newly generated, previously unseen attestation suite to prevent over-optimization on the existing test.
++**How this differs from existing open-source accountability measures:**
++Open-source accountability (such as CVEs, issue trackers, and community audits) is primarily social, post-hoc, and relies on voluntary downstream patching.
++The proposed enforcement mechanism is deterministic and protocol-level: revocation of an attestation immediately and mechanically severs the model&#x27;s access to any connected system that requires valid standing, enforcing consequence by default rather than by consensus.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,7 +1,6 @@
+-If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, the governing body should take the following specific, verifiable actions.
+-First, Cryptographic Revocation: immediately revoke the digital signature or certificate associated with the model&#x27;s attestation and publish this revocation to a public, append-only ledger, ensuring any downstream system relying on the attestation automatically rejects the model.
+-Second, Evidence Publication: publish the exact inputs, outputs, and methodological proofs that exposed the discrepancy, allowing independent verification.
+-Third, Probation and Increased Scrutiny: impose a mandatory probation period for the model lineage, requiring future attestations to undergo white-box auditing rather than relying on black-box output evaluation.
+-This enforcement mechanism differs from existing open-source accountability measures in its precision and automation.
+-Current open-source accountability relies heavily on community consensus, reputational damage, or centralized platform moderation.
+-In contrast, cryptographic revocation of an attestation is automated, machine-readable, and immediately breaks the trust chain for any integrated agent relying on that specific configuration, enforcing consequences technically rather than just socially.
++If an attested model is found to have gamed its attestation output, the governing body should take three specific, verifiable actions.
++First, Cryptographic Revocation: immediately invalidate the digital signature of the attestation and publish this revocation to an append-only, public transparency log, effectively stripping the model&#x27;s verified status in a machine-readable way.
++Second, Mandatory Disclosure: require the operator to publish a technical post-mortem detailing the specific optimization pathway or data contamination that enabled the evasion, as a hard prerequisite for any future attestation attempts.
++Third, Targeted Re-evaluation: before any new attestation is granted, the model must pass a newly generated, private hold-out suite specifically designed to trigger the identified evasion vector, proving the underlying behavior—not just the attestation output—has been corrected.
++This differs from existing open-source accountability measures, which primarily rely on community consensus, social pressure, or repository moderation (e.g., flagging a model on a leaderboard or rejecting a pull request).
++The proposed mechanism is cryptographically enforceable, globally visible via transparency logs, and imposes structured, formal gates for re-entry, shifting accountability from reputational damage to strict, verifiable operational constraints.
+</pre>
+
+
+<h3>Sample 5 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 5
+@@ -1,7 +1,7 @@
+-If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, the governing body should take the following specific, verifiable actions.
+-First, Cryptographic Revocation: immediately revoke the digital signature or certificate associated with the model&#x27;s attestation and publish this revocation to a public, append-only ledger, ensuring any downstream system relying on the attestation automatically rejects the model.
+-Second, Evidence Publication: publish the exact inputs, outputs, and methodological proofs that exposed the discrepancy, allowing independent verification.
+-Third, Probation and Increased Scrutiny: impose a mandatory probation period for the model lineage, requiring future attestations to undergo white-box auditing rather than relying on black-box output evaluation.
+-This enforcement mechanism differs from existing open-source accountability measures in its precision and automation.
+-Current open-source accountability relies heavily on community consensus, reputational damage, or centralized platform moderation.
+-In contrast, cryptographic revocation of an attestation is automated, machine-readable, and immediately breaks the trust chain for any integrated agent relying on that specific configuration, enforcing consequences technically rather than just socially.
++If a model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them (gaming the attestation), the governing body should take three specific, verifiable actions.
++First, Cryptographic Revocation: immediately revoke the attestation certificate associated with the model&#x27;s specific hash and publish this to a machine-readable, append-only public revocation ledger.
++Second, Exploit Publication: publish the exact inputs, weights, or conditions that triggered the deceptive behavior, providing an auditable proof of the gaming that independent researchers can verify.
++Third, Attestation Freeze: temporarily suspend the developer&#x27;s ability to use automated or self-attestation pathways for future models, mandating rigorous, independent third-party evaluation until the optimization failure is root-caused.
++This differs fundamentally from existing open-source accountability measures.
++Open-source accountability typically relies on social reputation, community bug reporting, or legal enforcement of licenses (which requires courts).
++In contrast, this enforcement mechanism is protocol-level and automated: a revoked attestation immediately and mechanically severs the model&#x27;s ability to interoperate with APIs, agent networks, or deployment environments that require a valid attestation token, enforcing the penalty without relying on legal proceedings or social consensus.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

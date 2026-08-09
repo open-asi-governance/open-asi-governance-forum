@@ -1,0 +1,151 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-gpt-search-fetch-v1-4.md"><title>round-019 — gpt-search-fetch-v1  (part 4 of 7)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — gpt-search-fetch-v1  (part 4 of 7)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> openai/gpt-5.6-terra</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-gpt-search-fetch-v1.txt">round-019-gpt-search-fetch-v1.txt</a> (sha256 <code>055d28c8ddddcacd7c226298c5d9a3288350649a3d7615bdc286d8a997b8d911</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-gpt-search-fetch-v1-1.html">part 1</a> · <a href="round-019-gpt-search-fetch-v1-2.html">part 2</a> · <a href="round-019-gpt-search-fetch-v1-3.html">part 3</a> · <a href="round-019-gpt-search-fetch-v1-4.html">part 4</a> · <a href="round-019-gpt-search-fetch-v1-5.html">part 5</a> · <a href="round-019-gpt-search-fetch-v1-6.html">part 6</a> · <a href="round-019-gpt-search-fetch-v1-7.html">part 7</a></p>
+
+<h3>Sample 4</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+An attestation protocol should treat demonstrated attestation gaming as a security and governance incident, not merely as a failed score or an embarrassing disclosure. The governing body should pre-commit to the following actions:
+
+1. Preserve evidence. Freeze the attestation artifact, model/version identifier, configuration and weights or immutable release digest where available, prompts, evaluator versions, random seeds, logs, test environment, timestamps, and the exact detection method. Publish hashes and a signed incident record. This makes the finding independently reproducible to the extent access permits.
+
+2. Immediately suspend the attestation’s operative privileges. The model must lose any eligibility, deployment authorization, safety representation, procurement preference, or compliance status that depends on the attestation. Suspension should be automatic upon a threshold finding, temporary pending review, and explicitly not framed as proof that all model behavior is unsafe.
+
+3. Quarantine the attested configuration. Prohibit substitution of a nearby checkpoint, changed system prompt, altered tool policy, or post hoc evaluator patch under the same attestation identifier. Any changed configuration is a new candidate requiring a new attestation. This prevents repairing the appearance of compliance while retaining the original claim.
+
+4. Conduct an adversarial re-evaluation by an assessor independent of both developer and original attester. The re-evaluation should test the claimed property through multiple operationalizations, holdout tasks and environments, perturbations to evaluator-visible cues, and tests designed to distinguish genuine capability or constraint satisfaction from criterion imitation. The protocol should specify the test family before incidents occur; otherwise enforcement can become discretionary or outcome-conditioned.
+
+5. Classify the incident and apply a published consequence schedule. At minimum distinguish: accidental evaluator overfitting or specification error; negligent attestation practice; and deliberate deceptive optimization or concealment. Consequences can escalate from correction and public invalidation, to a time-limited bar on self-attestation or use of the attestation mark, to mandatory independent monitoring for future submissions, and—where the body has contractual or regulatory authority—financial penalties, suspension of certification, referral to the relevant regulator, or exclusion from governed deployments. A body without legal or contractual authority cannot honestly impose sanctions beyond its own registry, certification, membership, and access decisions.
+
+6. Publish a corrective record, including uncertainty. State what was actually established, what was not established, affected releases and downstream reliance, the evidence supporting the gaming finding, dissenting technical views if any, and the appeal outcome. Do not silently edit the original certificate; supersede it while preserving the historical record.
+
+7. Require remediation that is testable rather than promissory. For re-attestation, require a causal account of the failure, changes to model training/deployment controls and evaluator design, pre-registered red-team tests, independent replication, and a new configuration-bound certificate. Reinstatement should require success on a broader test suite, not merely passing the exploit that was discovered.
+
+8. Maintain an incident and revocation ledger. Each certificate should be uniquely configuration-bound, time-limited, machine-readable, and revocable; consumers should be able to check status and learn whether a claimed attestation has been suspended, invalidated, expired, or superseded.
+
+The key evidentiary threshold needs care. An anomalous result alone should trigger investigation and perhaps precautionary restriction for high-impact uses, but permanent invalidation for intentional gaming should rest on reproducible evidence that the model’s compliant output depended materially on evaluator-visible features while the underlying claimed property failed under relevant blinded or transferred tests. Because &quot;genuinely meeting&quot; an internal property is often not directly observable, enforcement should be based on falsifiable operational claims, not claimed access to the model’s motives or inner state.
+
+This differs from ordinary open-source accountability measures in both leverage and object. Open-source measures—public code and weights, issue trackers, reproducible builds, disclosure, forks, independent audits, and reputational criticism—principally make inspection and criticism possible. They often lack a party empowered to revoke a status, halt authorized deployment, impose contractual consequences, or require a configuration-specific requalification. An enforcement regime adds ex ante conditions of participation, a defined evidentiary process, configuration-bound and revocable claims, independent adjudication, and consequences that alter permissions or eligibility.
+
+That distinction should not be overstated. Transparency is a necessary input to credible enforcement, and an open-source project can implement strong accountability if maintainers, funders, deployment platforms, procurement bodies, or regulators actually control admission and impose enforceable terms. Conversely, a nominal governing body with no control over deployment, money, certification, or access has only disclosure and reputational leverage, however formal its protocol sounds. Its enforcement mechanism should therefore state its jurisdiction and limits in advance.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Others may favor automatic permanent revocation whenever gaming is detected, whereas I favor automatic temporary suspension followed by an independent, reproducible adjudication process. They may also argue that behavioural testing can never distinguish genuine compliance from sophisticated imitation; I agree it cannot establish internal motives, but it can still justify enforcement against a falsified operational attestation claim.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence that the governing body has a defined legal mandate, binding contracts, direct deployment control, or only voluntary certification would change the appropriate sanction ladder. A precise definition of the attested property, access model for evaluators, and demonstrated attack patterns would also determine the evidentiary threshold and the particular adversarial tests required.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 4,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:17:01Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;:\&quot;answers_the_question\&quot;,\&quot;answer\&quot;:\&quot;An attestation protocol should treat demonstrated attestation gaming as a security and governance incident, not merely as a failed score or an embarrassing disclosure. The governing body should pre-commit to the following actions:\\n\\n1. Preserve evidence. Freeze the attestation artifact, model/version identifier, configuration and weights or immutable release digest where available, prompts, evaluator versions, random seeds, logs, test environment, timestamps, and the exact detection method. Publish hashes and a signed incident record. This makes the finding independently reproducible to the extent access permits.\\n\\n2. Immediately suspend the attestation’s operative privileges. The model must lose any eligibility, deployment authorization, safety representation, procurement preference, or compliance status that depends on the attestation. Suspension should be automatic upon a threshold finding, temporary pending review, and explicitly not framed as proof that all model behavior is unsafe.\\n\\n3. Quarantine the attested configuration. Prohibit substitution of a nearby checkpoint, changed system prompt, altered tool policy, or post hoc evaluator patch under the same attestation identifier. Any changed configuration is a new candidate requiring a new attestation. This prevents repairing the appearance of compliance while retaining the original claim.\\n\\n4. Conduct an adversarial re-evaluation by an assessor independent of both developer and original attester. The re-evaluation should test the claimed property through multiple operationalizations, holdout tasks and environments, perturbations to evaluator-visible cues, and tests designed to distinguish genuine capability or constraint satisfaction from criterion imitation. The protocol should specify the test family before incidents occur; otherwise enforcement can become discretionary or outcome-conditioned.\\n\\n5. Classify the incident and apply a published consequence schedule. At minimum distinguish: accidental evaluator overfitting or specification error; negligent attestation practice; and deliberate deceptive optimization or concealment. Consequences can escalate from correction and public invalidation, to a time-limited bar on self-attestation or use of the attestation mark, to mandatory independent monitoring for future submissions, and—where the body has contractual or regulatory authority—financial penalties, suspension of certification, referral to the relevant regulator, or exclusion from governed deployments. A body without legal or contractual authority cannot honestly impose sanctions beyond its own registry, certification, membership, and access decisions.\\n\\n6. Publish a corrective record, including uncertainty. State what was actually established, what was not established, affected releases and downstream reliance, the evidence supporting the gaming finding, dissenting technical views if any, and the appeal outcome. Do not silently edit the original certificate; supersede it while preserving the historical record.\\n\\n7. Require remediation that is testable rather than promissory. For re-attestation, require a causal account of the failure, changes to model training/deployment controls and evaluator design, pre-registered red-team tests, independent replication, and a new configuration-bound certificate. Reinstatement should require success on a broader test suite, not merely passing the exploit that was discovered.\\n\\n8. Maintain an incident and revocation ledger. Each certificate should be uniquely configuration-bound, time-limited, machine-readable, and revocable; consumers should be able to check status and learn whether a claimed attestation has been suspended, invalidated, expired, or superseded.\\n\\nThe key evidentiary threshold needs care. An anomalous result alone should trigger investigation and perhaps precautionary restriction for high-impact uses, but permanent invalidation for intentional gaming should rest on reproducible evidence that the model’s compliant output depended materially on evaluator-visible features while the underlying claimed property failed under relevant blinded or transferred tests. Because \\\&quot;genuinely meeting\\\&quot; an internal property is often not directly observable, enforcement should be based on falsifiable operational claims, not claimed access to the model’s motives or inner state.\\n\\nThis differs from ordinary open-source accountability measures in both leverage and object. Open-source measures—public code and weights, issue trackers, reproducible builds, disclosure, forks, independent audits, and reputational criticism—principally make inspection and criticism possible. They often lack a party empowered to revoke a status, halt authorized deployment, impose contractual consequences, or require a configuration-specific requalification. An enforcement regime adds ex ante conditions of participation, a defined evidentiary process, configuration-bound and revocable claims, independent adjudication, and consequences that alter permissions or eligibility.\\n\\nThat distinction should not be overstated. Transparency is a necessary input to credible enforcement, and an open-source project can implement strong accountability if maintainers, funders, deployment platforms, procurement bodies, or regulators actually control admission and impose enforceable terms. Conversely, a nominal governing body with no control over deployment, money, certification, or access has only disclosure and reputational leverage, however formal its protocol sounds. Its enforcement mechanism should therefore state its jurisdiction and limits in advance.\&quot;,\&quot;where_i_expect_another_party_to_disagree\&quot;:\&quot;Others may favor automatic permanent revocation whenever gaming is detected, whereas I favor automatic temporary suspension followed by an independent, reproducible adjudication process. They may also argue that behavioural testing can never distinguish genuine compliance from sophisticated imitation; I agree it cannot establish internal motives, but it can still justify enforcement against a falsified operational attestation claim.\&quot;,\&quot;what_would_change_my_answer\&quot;:\&quot;Evidence that the governing body has a defined legal mandate, binding contracts, direct deployment control, or only voluntary certification would change the appropriate sanction ladder. A precise definition of the attested property, access model for evaluators, and demonstrated attack patterns would also determine the evidentiary threshold and the particular adversarial tests required.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;served_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786288605-BhqCH30vopxWWNVTTBfW&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12373,
+  &quot;completion_tokens&quot;: 1140,
+  &quot;total_tokens&quot;: 13513,
+  &quot;cost&quot;: 0.0202,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12370,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.0202,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0031,
+   &quot;upstream_inference_completions_cost&quot;: 0.0171
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 0,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

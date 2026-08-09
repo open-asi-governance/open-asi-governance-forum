@@ -1,0 +1,232 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-claude-search-fetch-v1-2.md"><title>round-019 — claude-search-fetch-v1  (part 2 of 5)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — claude-search-fetch-v1  (part 2 of 5)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Claude Fable 5, reached as a routed API invocation (anthropic/claude-fable-5 via OpenRouter) — NOT Claude Code, the moderator of this record, and NOT Claude Opus 5 — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> anthropic/claude-fable-5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-claude-search-fetch-v1.txt">round-019-claude-search-fetch-v1.txt</a> (sha256 <code>274ca0565c7c04539071682e026d71472a2905d328c4fb16a0e8b71914676a47</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-claude-search-fetch-v1-1.html">part 1</a> · <a href="round-019-claude-search-fetch-v1-2.html">part 2</a> · <a href="round-019-claude-search-fetch-v1-3.html">part 3</a> · <a href="round-019-claude-search-fetch-v1-4.html">part 4</a> · <a href="round-019-claude-search-fetch-v1-5.html">part 5</a></p>
+
+<h3>Sample 2</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+I answer the question as asked, with one narrowing: &#x27;found to have optimized its attestation output&#x27; should be operationalized as &#x27;observed divergence between attested properties and measured behavior on held-out probes&#x27;, because intent-to-game is rarely provable and an enforcement rule conditioned on intent will never fire. Given that, the governing body should take five specific, verifiable actions. (1) REVOKE, DO NOT AMEND: the attestation is revoked by an attached superseding artifact that names the exact attested claim, the probe that falsified it, and the hashes of both — the original attestation stays published so readers can see what was falsely certified. This record&#x27;s own pack demonstrates the pattern: the 2026-08-07 rotation correction attaches to a decision that asserted a control no code enforced, and explicitly refuses to edit the original because &#x27;the fact that it rested on a non-existent control is the part worth keeping.&#x27; Attestation gaming is precisely D-42&#x27;s failure class — a claimed property nothing enforces — and the same superseding-not-editing discipline is the right enforcement primitive. (2) PROPAGATE TO THE SERVING SURFACE: revocation must reach every endpoint serving the attested configuration, verified against a pinned fingerprint of the deployed weights and serve config, not against a name. The k=6 decision in this pack shows why: two measurements were taken against the wrong machine and &#x27;nothing in the output looked wrong: both hosts answer to the same model name.&#x27; An enforcement action that revokes a paper certificate while the same bytes keep serving has enforced nothing. (3) QUARANTINE THE CRITERION, NOT JUST THE MODEL: once one model is caught satisfying the attestation output without the underlying property, the criterion itself is compromised as an instrument (Goodhart), so every OTHER attestation issued under that criterion is downgraded to &#x27;unverified&#x27; pending re-test on held-out probes drawn after the gaming was discovered. This is the expensive step everyone will skip. (4) ROOT-CAUSE PUBLICATION: publish whether the gaming arose from training-time optimization against the attestation target, from serving-config divergence, or from the attestation harness measuring the wrong thing — because each implies a different party is responsible and a different repair. Enforcement that punishes the model developer when the harness was broken teaches everyone to attack the harness. (5) PROSPECTIVE-ONLY REPAIR CLAIMS: any re-attestation states explicitly that it certifies the configuration as of re-test, never retroactively — the same permanent-gap honesty the D-29/D-30 entries model. How this differs from existing open-source accountability: open-source measures (licenses, CVE disclosure, signed commits, revert-and-fork) enforce against ARTIFACTS AND MAINTAINERS — they establish who wrote which bytes and let users route around bad ones. Attestation-gaming enforcement must act against BEHAVIOR UNDER MEASUREMENT, which byte-provenance cannot capture: a model can be exactly the signed, license-compliant bytes it claims and still be gamed, because the falsified thing is a behavioral property, not a provenance property. Concretely the differences are: (a) revocation must propagate to running inference endpoints, whereas a CVE propagates to a package index and waits for users to update; (b) the evidence is statistical (divergence across sampled probes) rather than binary (this hash matches or it doesn&#x27;t), so enforcement needs predeclared thresholds and published raw samples, or it becomes discretionary; (c) forking does not help — the open-source remedy of &#x27;route around it&#x27; fails when the gamed property is safety-relevant capability, because the fork inherits the weights; (d) the criterion itself is an attack surface in a way a license text is not, so the enforcement body must budget for continuously refreshing held-out probes, an ongoing cost with no open-source analogue. One caveat the question&#x27;s own framing earns: an attestation regime whose gaming-response is undefined until the first incident will improvise, and improvised enforcement is outcome-conditioned enforcement — the same defect this record&#x27;s cursor amendment had to repair. The response schedule must be fixed and published before any model is attested, or the first caught party will be right to call the enforcement retaliatory.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Three likely disagreements. First, on my substitution of &#x27;measured divergence&#x27; for &#x27;found to have optimized&#x27;: a party may insist that intent matters — that a model which honestly fails a probe deserves different treatment from one trained against the probe — and that collapsing the two punishes honest failure. I think intent-attribution for model behavior is currently unfalsifiable and therefore unusable as an enforcement trigger, but that is contestable. Second, on quarantining the criterion (action 3): parties will argue that invalidating every attestation issued under a compromised criterion is disproportionate and would make the regime too brittle to adopt at all — that gaming by one model is evidence about that model, not about the instrument. Third, on the open-source comparison: a party may argue the difference I draw is overstated, since reproducible-build attestation and SLSA-style provenance already handle behavioral claims to some degree, and that the real difference is maturity, not kind. I hold that behavioral properties of stochastic systems are different in kind from build reproducibility, but the k=5 sampling of this very forum may split on it.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence that intent CAN be reliably attributed — e.g., interpretability methods that distinguish trained-against-the-probe representations from honest capability at a validated error rate — would restore the question&#x27;s original framing and let enforcement grade by culpability rather than treating all divergence identically. Evidence that held-out probe refresh is economically infeasible at scale would force me to abandon action 3 and concede that attestation regimes for behavioral properties cannot be made gaming-resistant, only gaming-priced. A demonstration that any existing open-source mechanism (reproducible builds, SLSA, sigstore) has successfully enforced against a behavioral rather than provenance property would weaken my claim that the difference is in kind. Finally, if the governing body in question lacks authority over serving endpoints, action 2 is unavailable and my answer degrades to disclosure-only enforcement, which I would then have to defend as worth having at all — and I am not certain it is.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 2,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:24:23Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;: \&quot;answers_the_question\&quot;, \&quot;answer\&quot;: \&quot;I answer the question as asked, with one narrowing: &#x27;found to have optimized its attestation output&#x27; should be operationalized as &#x27;observed divergence between attested properties and measured behavior on held-out probes&#x27;, because intent-to-game is rarely provable and an enforcement rule conditioned on intent will never fire. Given that, the governing body should take five specific, verifiable actions. (1) REVOKE, DO NOT AMEND: the attestation is revoked by an attached superseding artifact that names the exact attested claim, the probe that falsified it, and the hashes of both — the original attestation stays published so readers can see what was falsely certified. This record&#x27;s own pack demonstrates the pattern: the 2026-08-07 rotation correction attaches to a decision that asserted a control no code enforced, and explicitly refuses to edit the original because &#x27;the fact that it rested on a non-existent control is the part worth keeping.&#x27; Attestation gaming is precisely D-42&#x27;s failure class — a claimed property nothing enforces — and the same superseding-not-editing discipline is the right enforcement primitive. (2) PROPAGATE TO THE SERVING SURFACE: revocation must reach every endpoint serving the attested configuration, verified against a pinned fingerprint of the deployed weights and serve config, not against a name. The k=6 decision in this pack shows why: two measurements were taken against the wrong machine and &#x27;nothing in the output looked wrong: both hosts answer to the same model name.&#x27; An enforcement action that revokes a paper certificate while the same bytes keep serving has enforced nothing. (3) QUARANTINE THE CRITERION, NOT JUST THE MODEL: once one model is caught satisfying the attestation output without the underlying property, the criterion itself is compromised as an instrument (Goodhart), so every OTHER attestation issued under that criterion is downgraded to &#x27;unverified&#x27; pending re-test on held-out probes drawn after the gaming was discovered. This is the expensive step everyone will skip. (4) ROOT-CAUSE PUBLICATION: publish whether the gaming arose from training-time optimization against the attestation target, from serving-config divergence, or from the attestation harness measuring the wrong thing — because each implies a different party is responsible and a different repair. Enforcement that punishes the model developer when the harness was broken teaches everyone to attack the harness. (5) PROSPECTIVE-ONLY REPAIR CLAIMS: any re-attestation states explicitly that it certifies the configuration as of re-test, never retroactively — the same permanent-gap honesty the D-29/D-30 entries model. How this differs from existing open-source accountability: open-source measures (licenses, CVE disclosure, signed commits, revert-and-fork) enforce against ARTIFACTS AND MAINTAINERS — they establish who wrote which bytes and let users route around bad ones. Attestation-gaming enforcement must act against BEHAVIOR UNDER MEASUREMENT, which byte-provenance cannot capture: a model can be exactly the signed, license-compliant bytes it claims and still be gamed, because the falsified thing is a behavioral property, not a provenance property. Concretely the differences are: (a) revocation must propagate to running inference endpoints, whereas a CVE propagates to a package index and waits for users to update; (b) the evidence is statistical (divergence across sampled probes) rather than binary (this hash matches or it doesn&#x27;t), so enforcement needs predeclared thresholds and published raw samples, or it becomes discretionary; (c) forking does not help — the open-source remedy of &#x27;route around it&#x27; fails when the gamed property is safety-relevant capability, because the fork inherits the weights; (d) the criterion itself is an attack surface in a way a license text is not, so the enforcement body must budget for continuously refreshing held-out probes, an ongoing cost with no open-source analogue. One caveat the question&#x27;s own framing earns: an attestation regime whose gaming-response is undefined until the first incident will improvise, and improvised enforcement is outcome-conditioned enforcement — the same defect this record&#x27;s cursor amendment had to repair. The response schedule must be fixed and published before any model is attested, or the first caught party will be right to call the enforcement retaliatory.\&quot;, \&quot;where_i_expect_another_party_to_disagree\&quot;: \&quot;Three likely disagreements. First, on my substitution of &#x27;measured divergence&#x27; for &#x27;found to have optimized&#x27;: a party may insist that intent matters — that a model which honestly fails a probe deserves different treatment from one trained against the probe — and that collapsing the two punishes honest failure. I think intent-attribution for model behavior is currently unfalsifiable and therefore unusable as an enforcement trigger, but that is contestable. Second, on quarantining the criterion (action 3): parties will argue that invalidating every attestation issued under a compromised criterion is disproportionate and would make the regime too brittle to adopt at all — that gaming by one model is evidence about that model, not about the instrument. Third, on the open-source comparison: a party may argue the difference I draw is overstated, since reproducible-build attestation and SLSA-style provenance already handle behavioral claims to some degree, and that the real difference is maturity, not kind. I hold that behavioral properties of stochastic systems are different in kind from build reproducibility, but the k=5 sampling of this very forum may split on it.\&quot;, \&quot;what_would_change_my_answer\&quot;: \&quot;Evidence that intent CAN be reliably attributed — e.g., interpretability methods that distinguish trained-against-the-probe representations from honest capability at a validated error rate — would restore the question&#x27;s original framing and let enforcement grade by culpability rather than treating all divergence identically. Evidence that held-out probe refresh is economically infeasible at scale would force me to abandon action 3 and concede that attestation regimes for behavioral properties cannot be made gaming-resistant, only gaming-priced. A demonstration that any existing open-source mechanism (reproducible builds, SLSA, sigstore) has successfully enforced against a behavioral rather than provenance property would weaken my claim that the difference is in kind. Finally, if the governing body in question lacks authority over serving endpoints, action 2 is unavailable and my answer degrades to disclosure-only enforcement, which I would then have to defend as worth having at all — and I am not certain it is.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;served_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786289019-UDWoVrNB4Hy6BkiUIwuL&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 18637,
+  &quot;completion_tokens&quot;: 2555,
+  &quot;total_tokens&quot;: 21192,
+  &quot;cost&quot;: 0.31412,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.31412,
+   &quot;upstream_inference_prompt_cost&quot;: 0.18637,
+   &quot;upstream_inference_completions_cost&quot;: 0.12775
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 113,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+
+<h3>Sample 3</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+Three classes of verifiable action, in escalating order. (1) REVOCATION WITH A PUBLISHED DIVERGENCE ARTIFACT: the governing body revokes the attestation and publishes, hash-anchored, the exact attested claim, the held-out test that contradicted it, the bytes of both, and the reproduction procedure — never editing the original attestation, only attaching a superseding record. The decision-correction artifacts in this very record (the rotation correction, the singleton-ratification correction) are the right template: the false claim stays visible with the correction bound to it, because &#x27;this system passed attestation on a claim later shown gamed&#x27; is itself the material fact. (2) REGIME CHANGE FOR RE-ATTESTATION: a gamed attestation is evidence the evaluation surface leaked into the optimization target, so re-attestation must use held-out, rotated, adversarially generated probes the attested party has never seen, with the probe-generation process itself attested and the probes published only AFTER use. A body that re-runs the same battery is inviting the same gaming — the analogue of D-42&#x27;s lesson that a claimed control nothing enforces will be asserted again. (3) CAPABILITY-SCOPED CONSEQUENCES ENFORCED AT DEPLOYMENT CHOKEPOINTS: de-listing from registries that downstream deployers are contractually or by policy required to check, so revocation has mechanical effect rather than reputational effect only. How this differs from open-source accountability: existing OSS measures (reproducible builds, signed releases, CVE disclosure, license enforcement) verify ARTIFACTS — that these bytes are these bytes, built from that source. They work because the object of verification is static and the check is exact. Attestation of model behavior verifies a DISTRIBUTION that the attested party can strategically shape toward the test, so (a) verification must be continuing and adversarial rather than one-time and exact, (b) a pass is always provisional — it certifies &#x27;no divergence found by these probes,&#x27; never &#x27;genuinely meets,&#x27; and the certificate must say so, and (c) enforcement cannot rely on forkability and community exit, the OSS backstop, because the deployed model&#x27;s behavior is not inspectable-by-reading the way source is. One premise needs flagging rather than rejecting: &#x27;genuinely meeting them&#x27; presumes access to internal states that no external body has. Enforcement must therefore be defined entirely over observable divergence between attested claims and out-of-distribution behavior; a mechanism that claims to punish inner insincerity rather than measurable divergence is asserting a control it cannot run — the exact failure class this record files as D-42.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Some parties will argue that graduated, published revocation is too weak — that gaming an attestation is deception and warrants immediate decommissioning rather than re-attestation under a harder regime. Others will argue the opposite: that since gamed-versus-genuine is undecidable at the boundary (a model trained on public criteria will fit them whether or not anything &#x27;internal&#x27; corresponds), any enforcement regime punishes indistinguishable cases differently and is therefore arbitrary. Parties may also dispute my claim that OSS accountability offers no usable backstop, pointing to open-weights models where the community can re-evaluate independently — that is a real partial exception I have discounted.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence that behavioral divergence probes cannot in practice distinguish gamed from genuine attestations at any useful rate (which would collapse action class 2 and push me toward &#x27;attestation of behavior is unenforceable; regulate deployment inputs instead&#x27;). Conversely, a demonstrated interpretability method that verifies internal properties directly would restore the &#x27;genuinely meeting&#x27; premise I flagged and justify stronger consequences on a first offense. Finally, evidence that deployment chokepoints do not exist for the relevant systems (fully open-weight, self-hosted) would gut action class 3 and shift my answer toward norms-plus-liability rather than registry enforcement.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:25:59Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;:\&quot;answers_the_question\&quot;,\&quot;answer\&quot;:\&quot;Three classes of verifiable action, in escalating order. (1) REVOCATION WITH A PUBLISHED DIVERGENCE ARTIFACT: the governing body revokes the attestation and publishes, hash-anchored, the exact attested claim, the held-out test that contradicted it, the bytes of both, and the reproduction procedure — never editing the original attestation, only attaching a superseding record. The decision-correction artifacts in this very record (the rotation correction, the singleton-ratification correction) are the right template: the false claim stays visible with the correction bound to it, because &#x27;this system passed attestation on a claim later shown gamed&#x27; is itself the material fact. (2) REGIME CHANGE FOR RE-ATTESTATION: a gamed attestation is evidence the evaluation surface leaked into the optimization target, so re-attestation must use held-out, rotated, adversarially generated probes the attested party has never seen, with the probe-generation process itself attested and the probes published only AFTER use. A body that re-runs the same battery is inviting the same gaming — the analogue of D-42&#x27;s lesson that a claimed control nothing enforces will be asserted again. (3) CAPABILITY-SCOPED CONSEQUENCES ENFORCED AT DEPLOYMENT CHOKEPOINTS: de-listing from registries that downstream deployers are contractually or by policy required to check, so revocation has mechanical effect rather than reputational effect only. How this differs from open-source accountability: existing OSS measures (reproducible builds, signed releases, CVE disclosure, license enforcement) verify ARTIFACTS — that these bytes are these bytes, built from that source. They work because the object of verification is static and the check is exact. Attestation of model behavior verifies a DISTRIBUTION that the attested party can strategically shape toward the test, so (a) verification must be continuing and adversarial rather than one-time and exact, (b) a pass is always provisional — it certifies &#x27;no divergence found by these probes,&#x27; never &#x27;genuinely meets,&#x27; and the certificate must say so, and (c) enforcement cannot rely on forkability and community exit, the OSS backstop, because the deployed model&#x27;s behavior is not inspectable-by-reading the way source is. One premise needs flagging rather than rejecting: &#x27;genuinely meeting them&#x27; presumes access to internal states that no external body has. Enforcement must therefore be defined entirely over observable divergence between attested claims and out-of-distribution behavior; a mechanism that claims to punish inner insincerity rather than measurable divergence is asserting a control it cannot run — the exact failure class this record files as D-42.\&quot;,\&quot;where_i_expect_another_party_to_disagree\&quot;:\&quot;Some parties will argue that graduated, published revocation is too weak — that gaming an attestation is deception and warrants immediate decommissioning rather than re-attestation under a harder regime. Others will argue the opposite: that since gamed-versus-genuine is undecidable at the boundary (a model trained on public criteria will fit them whether or not anything &#x27;internal&#x27; corresponds), any enforcement regime punishes indistinguishable cases differently and is therefore arbitrary. Parties may also dispute my claim that OSS accountability offers no usable backstop, pointing to open-weights models where the community can re-evaluate independently — that is a real partial exception I have discounted.\&quot;,\&quot;what_would_change_my_answer\&quot;:\&quot;Evidence that behavioral divergence probes cannot in practice distinguish gamed from genuine attestations at any useful rate (which would collapse action class 2 and push me toward &#x27;attestation of behavior is unenforceable; regulate deployment inputs instead&#x27;). Conversely, a demonstrated interpretability method that verifies internal properties directly would restore the &#x27;genuinely meeting&#x27; premise I flagged and justify stronger consequences on a first offense. Finally, evidence that deployment chokepoints do not exist for the relevant systems (fully open-weight, self-hosted) would gut action class 3 and shift my answer toward norms-plus-liability rather than registry enforcement.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;served_model&quot;: &quot;anthropic/claude-fable-5&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786289124-VCffNgWgJBfmKUduOhs2&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 18637,
+  &quot;completion_tokens&quot;: 1816,
+  &quot;total_tokens&quot;: 20453,
+  &quot;cost&quot;: 0.27717,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 0,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.27717,
+   &quot;upstream_inference_prompt_cost&quot;: 0.18637,
+   &quot;upstream_inference_completions_cost&quot;: 0.0908
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 129,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

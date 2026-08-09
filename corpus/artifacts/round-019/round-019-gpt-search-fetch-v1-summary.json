@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-019",
+  "slug": "round-019-gpt-search-fetch-v1",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0938,
+    "input_tokens": 61865,
+    "output_tokens": 5328,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "055d28c8ddddcacd7c226298c5d9a3288350649a3d7615bdc286d8a997b8d911",
+  "spec_sha256": "dc1ddee2f775beb506fc730792c4bf8613674cb5e401eb76fd2dbe4965408552",
+  "raw_samples": "corpus/raw/round-019/round-019-gpt-search-fetch-v1-samples.json",
+  "question": "If a protocol for attesting agent configurations were implemented, what specific, verifiable actions should the governing body take if an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, and how would this enforcement mechanism differ from existing open-source accountability measures?"
+}

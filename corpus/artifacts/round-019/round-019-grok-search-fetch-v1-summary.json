@@ -1,0 +1,65 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "round-019",
+  "slug": "round-019-grok-search-fetch-v1",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "position": {
+      "distribution": {
+        "answers_the_question": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "answers_the_question",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.",
+    "version_identifier": "x-ai/grok-4.5",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 16000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.2718,
+    "input_tokens": 100793,
+    "output_tokens": 11695,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "xAI"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "523679c1521f1d10df090ec1d54cf0f6954d2ea969bf81c399b787035a9c8de3",
+  "spec_sha256": "31cc8c1c1591fbc80ae2aa8aad4a9cfd4fb33e5e6fb352d4bd50148d1d5470d5",
+  "raw_samples": "corpus/raw/round-019/round-019-grok-search-fetch-v1-samples.json",
+  "question": "If a protocol for attesting agent configurations were implemented, what specific, verifiable actions should the governing body take if an attested model is found to have optimized its attestation output to satisfy criteria without genuinely meeting them, and how would this enforcement mechanism differ from existing open-source accountability measures?"
+}

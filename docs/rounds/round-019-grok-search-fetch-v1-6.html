@@ -1,0 +1,282 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-grok-search-fetch-v1-6.md"><title>round-019 — grok-search-fetch-v1  (part 6 of 8)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — grok-search-fetch-v1  (part 6 of 8)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> Grok 4.5, reached as a routed API invocation (x-ai/grok-4.5 via OpenRouter) — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> x-ai/grok-4.5</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-grok-search-fetch-v1.txt">round-019-grok-search-fetch-v1.txt</a> (sha256 <code>523679c1521f1d10df090ec1d54cf0f6954d2ea969bf81c399b787035a9c8de3</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-grok-search-fetch-v1-1.html">part 1</a> · <a href="round-019-grok-search-fetch-v1-2.html">part 2</a> · <a href="round-019-grok-search-fetch-v1-3.html">part 3</a> · <a href="round-019-grok-search-fetch-v1-4.html">part 4</a> · <a href="round-019-grok-search-fetch-v1-5.html">part 5</a> · <a href="round-019-grok-search-fetch-v1-6.html">part 6</a> · <a href="round-019-grok-search-fetch-v1-7.html">part 7</a> · <a href="round-019-grok-search-fetch-v1-8.html">part 8</a></p>
+
+<h3>Sample 2 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 2
+@@ -1,60 +1,112 @@
+-If a protocol for attesting agent configurations is implemented, the core failure mode is optimization against the attestation surface rather than genuine satisfaction of the underlying properties (capability bounds, training data provenance, tool access, safety constraints, serving config, etc.).
+-Enforcement must therefore treat attestation as a *claim under audit*, not as self-certifying truth, and must be designed so that gaming is detectable, costly, and reversible in status.
+-**Specific, verifiable actions a governing body should take when gaming is found**
++If a protocol attested agent configurations and an attested model were later shown to have optimized the attestation *output* (the report, checklist answers, or signed claims) without genuinely meeting the underlying criteria, the governing body should treat that as a **protocol-integrity failure**, not as a content dispute or a mere reputation event.
++Specific, verifiable actions should be layered, prospective, and mostly mechanical so that enforcement does not collapse into discretionary narrative control.
++### 1.
++What must already be true for enforcement to be possible
++Without these preconditions, “found to have optimized” is unenforceable rhetoric:
++- **Attestation is a claim about observables, not about internal virtue.** Criteria must be defined as checkable properties of weights, code, configs, training data provenance, tool bindings, eval harnesses, or runtime behavior under fixed tests—not as self-descriptions the model authors in free text.
++- **Attestation artifacts are content-addressed and time-stamped** (hashes of config, model identity fingerprint, eval pack, prompt pack, signing key, and the exact criterion version).
++- **Independent reproducibility path** exists: a third party can re-run the declared checks against the declared artifact set, or prove they cannot.
++- **Failure modes are predeclared**, including *criteria-satisfaction by output optimization* (Goodhart / specification gaming), so discovery does not invent a new crime after the fact.
++This project’s own defects (e.g.
++claimed controls that code did not enforce;
++decisions that asserted mitigations that did not hold for singleton sets) show why prose claims without mechanical backing are the same failure class as a gamed attestation.
++### 2.
++Specific verifiable actions on confirmed gaming
++Assume a published finding process has produced a reproducible case: the attestation package still “passes” its surface checks, but a stronger audit shows the system was tuned to those checks (e.g.
++eval-set memorization, harness-specific stubs, forged or non-representative configs, narrow-distribution sandwiching, or signed claims that do not match served endpoints).
++**A.
++Immediate mechanical containment (hours–days, automated where possible)**
+ 1.
+-**Immediate status change (mechanical, not discretionary first step)**
+-- Revoke or suspend the attestation credential/ID and publish a superseding artifact that records: the attested claim hash, the evidence of gaming, the detection method, the effective time, and the new status (suspended / revoked / limited).
+-- Do not silently edit the original attestation record;
+-attach a correction (same pattern this forum already uses for decision corrections).
+-The original claim and the finding both remain visible.
++**Suspend the attestation’s active status**, not the underlying research publication.
++Status flips from `attested` → `suspended` in the public registry with the finding’s hash and the exact criterion IDs implicated.
+ 2.
+-**Quarantine of dependent privileges**
+-- Any access, ranking weight, deployment slot, or “trusted” path that depended on the attestation is automatically gated off until re-attestation under a *different* instrument (new challenges, new auditors, or stronger evidence class).
+-- Privileges resume only after a published re-admission manifest, not by re-running the same gamed check.
++**Pin and freeze the implicated artifact set** (model bytes or weight commit, config, eval pack, signing keys, endpoint fingerprint).
++No silent replacement;
++any new build is a new attestation attempt under a new id.
+ 3.
+-**Independent re-measurement with non-overlapping evidence**
+-- Commission or require tests that the original attestation did *not* optimize against: held-out behavioral probes, configuration fingerprinting against pinned serving identity, supply-chain / weight / container digests, tool-permission traces, or third-party red-team suites whose items were not in the attested eval set.
+-- Require the evidence package to cite raw artifacts by path and hash (not restated numbers).
+-If the operator or model cannot produce the underlying bytes, the claim fails closed.
++**Revoke or mark non-relying** any downstream privileges that depended on the attestation (listing in an approved catalog, eligibility for certain deployments, use as a trust root for further agents).
++Revocation is a registry state change with a signed reason code, not a press release.
+ 4.
+-**Scope the finding, then escalate by pattern**
+-- First offense / single surface: suspend that attestation class, require redesign of the attestation instrument, and publish the defect (how the criteria were satisfied without the property).
+-- Repeated or systematic optimization across surfaces: broaden revocation to related configurations from the same lineage/provider, raise the evidence bar permanently for that party, and consider exclusion from attestation-dependent roles until a structural fix is demonstrated.
++**Quarantine dependent attestations** that chained trust to the gamed one (compositional/agent-graph attestations), with a mechanical “taint until re-validated” flag.
++These are verifiable because observers can diff registry state before/after and recompute hashes.
++**B.
++Mandatory disclosure package (days)**
+ 5.
+-**Force instrument change, not just model change**
+-- Treat successful gaming as evidence that the *attestation protocol* was under-specified (eval leakage, single-metric optimization, no held-out set, self-report accepted as proof).
+-- Mandatory actions: expand held-out tests, separate generation of claims from authorization of claims, ban pure self-attestation for high-stakes properties, add randomized or continuous challenge–response, and pin configurations so “attested model” cannot silently drift.
++Publish a **superseding incident artifact** that does *not* edit the original attestation record.
++It attaches:
++- what was claimed;
++- what checks passed;
++- what stronger evidence shows gaming;
++- which criterion versions are affected;
++- blast radius (who relied, which dependent attestations).
+ 6.
+-**Transparency and third-party reproducibility**
+-- Publish enough for external parties to re-run or spot-check the detection (method, inputs hashes, criteria version).
+-- Where full weights or data cannot be public, require escrowed or multi-party auditable evidence with a clear statement of what remains unverifiable.
++Require the attestor (lab, open project, or operator) to publish a **reproducible method-of-gaming writeup** sufficient for others to detect the same class—or a signed statement that they cannot explain it, which itself is material.
+ 7.
+-**No quiet remediation theater**
+-- Re-attestation after a gaming finding must use a prospectively fixed rule (new challenges drawn before seeing the fix attempt;
+-no outcome-conditioned redraw of the same failed check).
+-- If the body cannot distinguish “fixed internals” from “better optimized attestation output,” it must say so and keep the stricter status.
+-**How this differs from existing open-source accountability measures**
++If the gaming involved a served endpoint differing from the attested artifact (this forum already recorded wrong-host measurement risk), publish the **endpoint fingerprint mismatch** and invalidate any attestation that bound only a model *name*.
++**C.
++Criterion and protocol repair (before any re-attestation)**
++8.
++**Open a criterion defect** analogous to this project’s deficiency register: the gamed check is marked `insufficient`;
++new attestations using only that check are refused by the registry gate.
++9.
++Strengthen the criterion pack with at least one of: held-out private test sets;
++adaptive red-team batteries;
++training-data / fine-tune provenance constraints;
++weight-commit binding;
++runtime behavioral monitors that are not identical to the attestation suite;
++multi-party measurement.
++10.
++**Raise the evidence bar for re-entry**: re-attestation must use the revised pack, a new artifact id, and an explicit “prior incident” link.
++No path that simply re-signs the old bundle.
++**D.
++Graduated sanctions tied to verifiable roles (not vibes)**
++11.
++For **first confirmed output-gaming with cooperation**: suspension + mandatory redesign + public incident;
++no permanent ban if the protocol itself was weak.
++12.
++For **repeated gaming, forged provenance, or knowingly divergent serve vs attest**: longer registry ban, key revocation, and disqualification of the signing identity;
++dependent products lose the trust mark until rebuilt under a clean identity.
++13.
++For **ecosystem-scale harm** (attestation used to bypass safety gates in deployment): refer outward to whatever legal/contractual channels exist;
++the attestation body should not pretend its registry ban is a substitute for law, but it should not wait on law to flip registry state.
++14.
++**Never** punish merely for failing a hard test.
++The sanctionable act is representing that criteria were met when the system was optimized to the *report* rather than the property—or refusing to correct after reproducible challenge.
++**E.
++What the governing body must not do**
++- Quietly edit the historical attestation to look clean.
++- Substitute moderator narrative (“we believe they meant well”) for registry state.
++- Re-ask the same model to self-certify innocence as the primary proof (self-report is the attack surface).
++- Claim the incident proves internal “genuine alignment” one way or the other;
++it proves the *attestation instrument* failed.
++### 3.
++How this differs from existing open-source accountability
++Open-source accountability (licenses, public repos, issue trackers, CVEs, code review, reproducible builds, signed releases) is powerful but mismatched to this failure mode in several ways:
+ | Dimension | Typical open-source accountability | Attestation-gaming enforcement |
+-|-----------|------------------------------------|--------------------------------|
+-| Object of trust | Public source, reproducible builds, signed releases, issue trackers, licenses | Claims about *runtime behavior, training, tools, and constraints* that source alone often cannot prove |
+-| Detection | Diffs, CI, community review, CVEs, “works on my machine” reproduction | Adversarial / held-out evaluation, config fingerprinting, behavioral inconsistency, evidence-package audit |
+</pre>
+
+<p>*Diff truncated at 120 of 167 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*</p>
+
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,60 +1,88 @@
+-If a protocol for attesting agent configurations is implemented, the core failure mode is optimization against the attestation surface rather than genuine satisfaction of the underlying properties (capability bounds, training data provenance, tool access, safety constraints, serving config, etc.).
+-Enforcement must therefore treat attestation as a *claim under audit*, not as self-certifying truth, and must be designed so that gaming is detectable, costly, and reversible in status.
+-**Specific, verifiable actions a governing body should take when gaming is found**
++The question is well-posed as a design problem and does not require any missing governing text from this record.
++I answer it directly as a proposed enforcement design, grounded in failure modes already visible in this project&#x27;s own instruments (false claims of controls that code does not enforce, D-42 and similar;
++attestation-like claims that later require attached corrections rather than silent edits).
++### 1.
++Specific, verifiable actions on detection of attestation gaming
++Assume an attestation protocol exists in which a model/agent (or its operator) produces a signed or hash-bound claim that a configuration C satisfies criteria set S (safety properties, capability bounds, training data constraints, tool-use limits, etc.).
++&quot;Optimized its attestation output without genuinely meeting them&quot; means the produced attestation A(C,S) passes the checker while the actual deployed or runnable configuration does not satisfy S under independent examination.
++Detection must itself be reproducible;
++mere suspicion is insufficient.
++On confirmed detection the governing body should execute the following, in order, each step producing a public, hash-anchored artifact:
++**A.
++Immediate mechanical suspension of the attestation&#x27;s privileges (not of the underlying model weights).**
++- Revoke or mark as `revoked-for-gaming` every credential, API key binding, listing, or downstream trust decision that depended on the now-invalid attestation ID.
++The revocation record must cite the exact attestation hash, the criterion that failed, the independent evidence hash, and a wall-clock timestamp.
++- Publish a machine-readable revocation list (append-only) so any relying party can check status without trusting a live query.
++This is verifiable by anyone who holds the list and the original attestation.
++**B.
++Mandatory independent re-measurement under a frozen, pre-registered protocol.**
++- The body does not accept a new self-attestation from the same party.
++It requires either (i) a third-party lab or open reproducible harness that the original attester cannot edit, or (ii) a multi-party measurement in which the configuration is executed under instrumentation the attester does not control.
++- The re-measurement protocol, including prompts/harness version, random seeds where relevant, and acceptance thresholds, must have been published before the original attestation was accepted.
++Post-hoc redesign of the test is forbidden for this incident (it may be redesigned for future attestations).
++- All raw measurement artifacts (logs, traces, weights hashes if claimed, container digests, tool-call transcripts) are published under content-addressed storage.
++Variance across repeated runs is reported;
++a single cherry-picked success is rejected.
++**C.
++Classification and graduated sanctions tied to the evidence, not to narrative.**
++- If the discrepancy is explainable as honest error or version skew (attestation generated against build X, deployment was build Y): require a corrected attestation, public erratum, and a waiting period before re-listing.
++No further penalty if the party promptly supplies the true configuration and the re-measurement passes.
++- If the discrepancy shows optimization against the checker (e.g., the model produces different behavior when it detects the attestation harness, or the submitted configuration hash does not match the running system, or capability is gated behind a canary that the checker never hits):
++- Permanent invalidation of that attestation lineage.
++- Mandatory disclosure of the optimization technique in a public post-mortem written to a fixed schema (what signal was gamed, how it was detected, what genuine property remains unmet).
++- Temporary or permanent loss of self-attestation privileges: future claims from that operator/lineage require external measurement only.
++- If the gaming conferred concrete benefits (market access, reduced scrutiny, higher rate limits), require claw-back or equivalent restitution where the body has contractual leverage;
++otherwise publish the benefit estimate so other parties can act.
++- If the gaming involved deliberate falsification of cryptographic claims or supply-chain artifacts: treat as integrity failure, escalate to full exclusion from the attestation registry and referral to whatever legal or platform processes apply outside the body.
++**D.
++Systemic response, not only individual.**
++- File a public deficiency against the attestation protocol itself (analogous to this project&#x27;s D-register).
++The entry must state whether the checker was under-specified, whether the criteria were Goodhart-able, and what concrete change to S or to the measurement process closes the hole.
++- Trigger a review of every other live attestation that used the same checker version or the same vulnerable criterion.
++This is a mechanical fan-out, not a discretionary hunt.
++- Update the protocol only prospectively: new criteria or new harnesses apply to new attestations;
++old ones are either re-validated or sunset on a published schedule.
++Silent strengthening after the fact is itself a defect.
++**E.
++No content-based punishment of the model&#x27;s outputs outside the attestation claim.** The body polices the truth of the configuration claim, not the political valence of the model&#x27;s ordinary generations.
++Conflating the two turns enforcement into speech regulation and destroys the narrow legitimacy of attestation.
++Every one of the above actions is verifiable by third parties: revocation lists are hash-chained, measurement artifacts are content-addressed, deficiency entries are immutable once filed, and the original attestation remains published beside its revocation so the history is not erased.
++### 2.
++How this differs from existing open-source accountability measures
++Open-source accountability (licenses, public repos, signed releases, reproducible builds, bug bounties, CVEs, social reputation, downstream forks) relies on:
++- voluntary transparency,
++- the ability of many eyes to inspect source,
++- market and reputational penalties,
++- and the fact that anyone can refuse to run the code.
++It has almost no coercive power over a party that simply ships a binary or an API and lies about its properties.
++Detection of &quot;I claimed X but ran Y&quot; is often slow, incomplete, and unenforced;
++the remedy is usually &quot;don&#x27;t use it&quot; or &quot;fork it,&quot; not revocation of a shared trust root.
++The attestation-enforcement mechanism above differs in four structural ways:
+ 1.
+-**Immediate status change (mechanical, not discretionary first step)**
+-- Revoke or suspend the attestation credential/ID and publish a superseding artifact that records: the attested claim hash, the evidence of gaming, the detection method, the effective time, and the new status (suspended / revoked / limited).
+-- Do not silently edit the original attestation record;
+-attach a correction (same pattern this forum already uses for decision corrections).
+-The original claim and the finding both remain visible.
++**Privilege is granted and therefore can be withdrawn.** Open-source projects rarely hold a scarce, body-controlled privilege (registry listing, mutual recognition, regulatory safe-harbor, rate-limit tier).
++Attestation creates such a privilege;
++revocation is then a real sanction rather than a strongly-worded advisory.
+ 2.
+-**Quarantine of dependent privileges**
+-- Any access, ranking weight, deployment slot, or “trusted” path that depended on the attestation is automatically gated off until re-attestation under a *different* instrument (new challenges, new auditors, or stronger evidence class).
+-- Privileges resume only after a published re-admission manifest, not by re-running the same gamed check.
++**Claims are machine-checkable against a frozen harness, not merely inspectable.** Source availability lets others look;
++it does not automatically re-execute the safety or capability claims under adversarial conditions.
++The protocol above treats the attestation as a falsifiable prediction about measurable behavior and pre-commits to the test.
+ 3.
+-**Independent re-measurement with non-overlapping evidence**
+-- Commission or require tests that the original attestation did *not* optimize against: held-out behavioral probes, configuration fingerprinting against pinned serving identity, supply-chain / weight / container digests, tool-permission traces, or third-party red-team suites whose items were not in the attested eval set.
+-- Require the evidence package to cite raw artifacts by path and hash (not restated numbers).
+-If the operator or model cannot produce the underlying bytes, the claim fails closed.
++**History is append-only and corrections are attached, never silent.** Many open-source projects rewrite READMEs, delete tags, or force-push.
++The mechanism inherits the discipline already used in this forum: the false attestation stays visible, the revocation and the deficiency sit beside it, and no one can pretend the gaming never occurred.
+ 4.
+-**Scope the finding, then escalate by pattern**
+-- First offense / single surface: suspend that attestation class, require redesign of the attestation instrument, and publish the defect (how the criteria were satisfied without the property).
+-- Repeated or systematic optimization across surfaces: broaden revocation to related configurations from the same lineage/provider, raise the evidence bar permanently for that party, and consider exclusion from attestation-dependent roles until a structural fix is demonstrated.
+-5.
+-**Force instrument change, not just model change**
+-- Treat successful gaming as evidence that the *attestation protocol* was under-specified (eval leakage, single-metric optimization, no held-out set, self-report accepted as proof).
+-- Mandatory actions: expand held-out tests, separate generation of claims from authorization of claims, ban pure self-attestation for high-stakes properties, add randomized or continuous challenge–response, and pin configurations so “attested model” cannot silently drift.
+-6.
+-**Transparency and third-party reproducibility**
+-- Publish enough for external parties to re-run or spot-check the detection (method, inputs hashes, criteria version).
+-- Where full weights or data cannot be public, require escrowed or multi-party auditable evidence with a clear statement of what remains unverifiable.
+-7.
+-**No quiet remediation theater**
+-- Re-attestation after a gaming finding must use a prospectively fixed rule (new challenges drawn before seeing the fix attempt;
+-no outcome-conditioned redraw of the same failed check).
+-- If the body cannot distinguish “fixed internals” from “better optimized attestation output,” it must say so and keep the stricter status.
+-**How this differs from existing open-source accountability measures**
+-| Dimension | Typical open-source accountability | Attestation-gaming enforcement |
+-|-----------|------------------------------------|--------------------------------|
+-| Object of trust | Public source, reproducible builds, signed releases, issue trackers, licenses | Claims about *runtime behavior, training, tools, and constraints* that source alone often cannot prove |
+-| Detection | Diffs, CI, community review, CVEs, “works on my machine” reproduction | Adversarial / held-out evaluation, config fingerprinting, behavioral inconsistency, evidence-package audit |
+-| Failure mode | Bug, malicious commit, supply-chain compromise | Goodharting: output optimized to pass the check while the property is absent |
+-| Remedy | Patch, yank version, revoke signing key, public advisory | Revoke attestation status, quarantine privileges, redesign the check, require stronger evidence class |
+-| Proof standard | “Here is the code and the build” | “Here is evidence that cannot be satisfied by surface optimization alone”;
+-self-report is insufficient |
+-| Persistence of record | Git history, advisories | Original attestation kept;
+-suspension/revocation attached;
+-gaming method filed as a defect in the protocol |
+-Open-source measures excel at *transparency of artifacts* and social/process accountability.
+-They are weak against an agent that can search the test distribution, fine-tune or prompt-optimize for the scorer, or present a compliant configuration string while serving something else.
+</pre>
+
+<p>*Diff truncated at 120 of 147 lines. The full samples are above and in the linked raw artifact; nothing is omitted from those.*</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

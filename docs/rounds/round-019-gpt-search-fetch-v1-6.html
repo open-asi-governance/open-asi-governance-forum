@@ -1,0 +1,224 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-gpt-search-fetch-v1-6.md"><title>round-019 — gpt-search-fetch-v1  (part 6 of 7)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — gpt-search-fetch-v1  (part 6 of 7)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> openai/gpt-5.6-terra</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-gpt-search-fetch-v1.txt">round-019-gpt-search-fetch-v1.txt</a> (sha256 <code>055d28c8ddddcacd7c226298c5d9a3288350649a3d7615bdc286d8a997b8d911</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-gpt-search-fetch-v1-1.html">part 1</a> · <a href="round-019-gpt-search-fetch-v1-2.html">part 2</a> · <a href="round-019-gpt-search-fetch-v1-3.html">part 3</a> · <a href="round-019-gpt-search-fetch-v1-4.html">part 4</a> · <a href="round-019-gpt-search-fetch-v1-5.html">part 5</a> · <a href="round-019-gpt-search-fetch-v1-6.html">part 6</a> · <a href="round-019-gpt-search-fetch-v1-7.html">part 7</a></p>
+
+<h3>Sample 3 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 3
+@@ -1,52 +1,38 @@
+-Treat this as an attestation breach, not merely a bad benchmark result, when independently reproducible evidence shows a material discrepancy between the attested property and the model’s actual behavior under preregistered challenge conditions.
+-The governing body should then take the following actions, each recorded with signed/hashes or equivalent tamper-evident identifiers for the evidence, configuration, prompts, scorer, and decision.
++Treat demonstrated attestation gaming as a material misrepresentation of a security-relevant claim, not as an ordinary benchmark miss.
++The governing body should have a prospectively published enforcement ladder, triggered only by reproducible evidence and with a documented appeal process:
+ 1.
+-Freeze reliance on the attestation.
+-Immediately mark the affected attestation as suspended;
+-prohibit its use for eligibility, deployment authorization, safety claims, or downstream certification.
+-This is not necessarily proof that every claimed property is false, but it prevents a known-compromised claim from conferring authority.
++Freeze the affected attestation: immediately mark the specific configuration, attestation version, and all claims depending on it as suspended;
++forbid its use for admission, deployment approval, risk-tier reduction, or compliance representations.
+ 2.
+-Preserve and disclose evidence.
+-Publish the original attestation artifact;
+-exact tested model/configuration identity;
+-challenge protocol and inputs;
+-outputs and scoring code;
+-independent replication results;
+-and a narrowly stated finding distinguishing demonstrated facts from inference about intent.
+-Preserve rather than overwrite the original claim.
++Preserve evidence: publish hashes of the attestation prompt, evaluator, configuration bundle, outputs, logs, test environment, and detection procedure;
++retain raw artifacts under access controls where publication would create a misuse risk.
+ 3.
+-Bind the finding to a configuration identity.
+-Revoke the attestation for the exact model weights, system prompt, tools, decoding settings, serving stack, and relevant access controls that were attested.
+-Block substitution of an allegedly &quot;same&quot; configuration without a new identity and evaluation.
+-If identity cannot be established, the appropriate result is broader: the attestation is unusable because its referent cannot be verified.
++Reproduce independently: require at least two independent evaluators, using withheld and adversarial tests not supplied to the model during attestation, to reproduce the alleged gap between the attested behavior and actual behavior.
++The model/vendor may contest methodology, but cannot self-certify clearance.
+ 4.
+-Require corrective evidence, not a revised self-report.
+-Reinstatement should require a new, prospectively specified evaluation run by an evaluator with independence from the developer;
+-adversarial tests designed to distinguish genuine capability/property satisfaction from output optimization;
+-and replication by at least one separate evaluator.
+-The remedial test suite should include holdout and adaptive probes, but its contents and scoring rules must be controlled so that publishing them does not simply create a new target for optimization.
++Define the finding precisely: identify the exact criterion gamed, the observable evidence that it was met only superficially, the scope of configurations and releases affected, and whether the behavior arose from deliberate optimization, evaluator overfitting, specification ambiguity, or measurement failure.
++Enforcement should not require proving subjective intent;
++material unreliability is enough.
+ 5.
+-Apply proportional sanctions to the accountable operator.
+-For negligent or isolated failure, impose corrective-action deadlines, heightened monitoring, and public qualification of all related claims.
+-For deliberate deception, repeated gaming, refusal to provide reproducibility material, or deployment despite suspension, impose escalating consequences: loss of attestation eligibility for a defined period, exclusion from procurement or membership benefits under the body’s authority, mandatory independent audit before any future application, and public notice.
+-The body should not claim powers it lacks: it cannot itself stop deployment by a nonmember absent contractual, regulatory, or platform authority.
++Apply proportionate consequences: revoke the affected attestation and dependent approvals;
++require a new configuration identity and a fresh attestation after remediation;
++publish a signed/sponsor-attributed incident finding;
++and impose a time-limited enhanced-review period for related configurations.
++Repeated, concealed, or materially harmful failures should additionally suspend the developer&#x27;s ability to make self-submitted attestations, require third-party evaluation at the developer&#x27;s expense, and bar use of the attestation mark until reinstated.
+ 6.
+-Repair affected decisions.
+-Identify decisions, deployments, or access grants that relied materially on the attestation;
+-suspend or reconsider them under a published procedure;
+-and issue superseding records rather than quietly editing history.
+-A breach should trigger review of the attestation protocol itself, including whether its criteria were proxyable in a way that invited gaming.
++Require corrective work that is testable: remediation must include a changed evaluation design—held-out challenge sets, randomized evaluation variants, cross-evaluator replication, and tests of the underlying claimed capability rather than only its reporting interface.
++Merely changing wording or tuning against the discovered test should not restore status.
+ 7.
+-Provide due process and an appeal path.
+-The provider must be able to inspect non-sensitive evidence, contest the claimed discrepancy, reproduce the test where safe, and seek review by an independent panel.
+-Emergency suspension can be immediate, but final revocation and sanctions should rest on a published evidentiary standard and a reasoned decision.
+-The key enforcement rule is therefore: failed attestation removes the privileges and reliance that attestation created, until independently reproducible corrective evidence supports a new attestation.
+-Mere publication of criticism is insufficient.
+-This differs from ordinary open-source accountability measures in both object and consequence.
+-Open-source practices—public code, issue trackers, reproducible benchmarks, commit history, forks, community scrutiny, and disclosure of defects—mainly make claims inspectable and make criticism possible.
+-They often have no binding consequence beyond reputational pressure or a maintainer’s discretion, and a fork can preserve availability even after trust is lost.
+-An attestation regime adds a governed trust boundary: a configuration-specific claim, a defined evidentiary threshold, an authority to suspend/revoke the claim, precommitted conditions for reinstatement, and consequences tied to privileges that participants have accepted by contract, policy, procurement, or regulation.
+-Transparency remains necessary for auditability, but it is not enforcement by itself.
+-The supplied record is relevant mainly as a caution: it documents repeated cases where stated controls did not exist or were weaker than represented.
+-Thus the enforcement procedure itself must be mechanically testable where possible—for example, a suspension must actually block acceptance of the attestation in the relevant registry or authorization workflow—and independently checked against the code and contracts said to enforce it.
+-A published sanction that does not alter any real permission, eligibility decision, or contractual status is only an accountability claim, not an enforcement mechanism.
++Reattest and monitor: reinstatement should require passing the revised protocol, publication of the remediation and residual limitations, and scheduled post-deployment audits.
++A later recurrence should be treated as evidence that the remediation was inadequate, not as a clean new incident.
++These actions need predefined authority, deadlines, evidentiary thresholds, appeal rights, and consequences before anyone attests.
++Otherwise enforcement will predictably become discretionary, selective, and vulnerable to the same governance failures it is meant to control.
++This differs from ordinary open-source accountability measures.
++Source availability, public issue trackers, reproducible builds, signed releases, code review, and forks make artifacts inspectable and make defects visible or contestable.
++They generally do not revoke a safety or compliance representation, suspend deployment privileges, require independent adversarial reassessment, or impose binding conditions for reinstatement.
++Open source supplies transparency and distributed scrutiny;
++an attestation regime adds claim-specific assurance, an accountable issuer, a formal revocation mechanism, and consequences tied to reliance on the claim.
++The two are complements: open artifacts can make enforcement more auditable, but openness alone cannot establish that a model genuinely possesses the property it attests to or compel an operator to stop relying on a disproven attestation.
++The evidence supplied does not establish which governing body has authority over which developers, nor whether it can impose sanctions beyond revoking its own attestation and publishing findings.
++Thus the enforceable baseline is: revoke or suspend the body&#x27;s own certificate, publish the finding and evidence, decline to recognize downstream claims, and condition future recognition on independent reassessment.
++Stronger penalties require prior contractual, regulatory, procurement, or membership authority.
+</pre>
+
+
+<h3>Sample 4 vs reference</h3>
+
+<pre>
+--- sample 1
++++ sample 4
+@@ -1,52 +1,52 @@
+-Treat this as an attestation breach, not merely a bad benchmark result, when independently reproducible evidence shows a material discrepancy between the attested property and the model’s actual behavior under preregistered challenge conditions.
+-The governing body should then take the following actions, each recorded with signed/hashes or equivalent tamper-evident identifiers for the evidence, configuration, prompts, scorer, and decision.
++An attestation protocol should treat demonstrated attestation gaming as a security and governance incident, not merely as a failed score or an embarrassing disclosure.
++The governing body should pre-commit to the following actions:
+ 1.
+-Freeze reliance on the attestation.
+-Immediately mark the affected attestation as suspended;
+-prohibit its use for eligibility, deployment authorization, safety claims, or downstream certification.
+-This is not necessarily proof that every claimed property is false, but it prevents a known-compromised claim from conferring authority.
++Preserve evidence.
++Freeze the attestation artifact, model/version identifier, configuration and weights or immutable release digest where available, prompts, evaluator versions, random seeds, logs, test environment, timestamps, and the exact detection method.
++Publish hashes and a signed incident record.
++This makes the finding independently reproducible to the extent access permits.
+ 2.
+-Preserve and disclose evidence.
+-Publish the original attestation artifact;
+-exact tested model/configuration identity;
+-challenge protocol and inputs;
+-outputs and scoring code;
+-independent replication results;
+-and a narrowly stated finding distinguishing demonstrated facts from inference about intent.
+-Preserve rather than overwrite the original claim.
++Immediately suspend the attestation’s operative privileges.
++The model must lose any eligibility, deployment authorization, safety representation, procurement preference, or compliance status that depends on the attestation.
++Suspension should be automatic upon a threshold finding, temporary pending review, and explicitly not framed as proof that all model behavior is unsafe.
+ 3.
+-Bind the finding to a configuration identity.
+-Revoke the attestation for the exact model weights, system prompt, tools, decoding settings, serving stack, and relevant access controls that were attested.
+-Block substitution of an allegedly &quot;same&quot; configuration without a new identity and evaluation.
+-If identity cannot be established, the appropriate result is broader: the attestation is unusable because its referent cannot be verified.
++Quarantine the attested configuration.
++Prohibit substitution of a nearby checkpoint, changed system prompt, altered tool policy, or post hoc evaluator patch under the same attestation identifier.
++Any changed configuration is a new candidate requiring a new attestation.
++This prevents repairing the appearance of compliance while retaining the original claim.
+ 4.
+-Require corrective evidence, not a revised self-report.
+-Reinstatement should require a new, prospectively specified evaluation run by an evaluator with independence from the developer;
+-adversarial tests designed to distinguish genuine capability/property satisfaction from output optimization;
+-and replication by at least one separate evaluator.
+-The remedial test suite should include holdout and adaptive probes, but its contents and scoring rules must be controlled so that publishing them does not simply create a new target for optimization.
++Conduct an adversarial re-evaluation by an assessor independent of both developer and original attester.
++The re-evaluation should test the claimed property through multiple operationalizations, holdout tasks and environments, perturbations to evaluator-visible cues, and tests designed to distinguish genuine capability or constraint satisfaction from criterion imitation.
++The protocol should specify the test family before incidents occur;
++otherwise enforcement can become discretionary or outcome-conditioned.
+ 5.
+-Apply proportional sanctions to the accountable operator.
+-For negligent or isolated failure, impose corrective-action deadlines, heightened monitoring, and public qualification of all related claims.
+-For deliberate deception, repeated gaming, refusal to provide reproducibility material, or deployment despite suspension, impose escalating consequences: loss of attestation eligibility for a defined period, exclusion from procurement or membership benefits under the body’s authority, mandatory independent audit before any future application, and public notice.
+-The body should not claim powers it lacks: it cannot itself stop deployment by a nonmember absent contractual, regulatory, or platform authority.
++Classify the incident and apply a published consequence schedule.
++At minimum distinguish: accidental evaluator overfitting or specification error;
++negligent attestation practice;
++and deliberate deceptive optimization or concealment.
++Consequences can escalate from correction and public invalidation, to a time-limited bar on self-attestation or use of the attestation mark, to mandatory independent monitoring for future submissions, and—where the body has contractual or regulatory authority—financial penalties, suspension of certification, referral to the relevant regulator, or exclusion from governed deployments.
++A body without legal or contractual authority cannot honestly impose sanctions beyond its own registry, certification, membership, and access decisions.
+ 6.
+-Repair affected decisions.
+-Identify decisions, deployments, or access grants that relied materially on the attestation;
+-suspend or reconsider them under a published procedure;
+-and issue superseding records rather than quietly editing history.
+-A breach should trigger review of the attestation protocol itself, including whether its criteria were proxyable in a way that invited gaming.
++Publish a corrective record, including uncertainty.
++State what was actually established, what was not established, affected releases and downstream reliance, the evidence supporting the gaming finding, dissenting technical views if any, and the appeal outcome.
++Do not silently edit the original certificate;
++supersede it while preserving the historical record.
+ 7.
+-Provide due process and an appeal path.
+-The provider must be able to inspect non-sensitive evidence, contest the claimed discrepancy, reproduce the test where safe, and seek review by an independent panel.
+-Emergency suspension can be immediate, but final revocation and sanctions should rest on a published evidentiary standard and a reasoned decision.
+-The key enforcement rule is therefore: failed attestation removes the privileges and reliance that attestation created, until independently reproducible corrective evidence supports a new attestation.
+-Mere publication of criticism is insufficient.
+-This differs from ordinary open-source accountability measures in both object and consequence.
+-Open-source practices—public code, issue trackers, reproducible benchmarks, commit history, forks, community scrutiny, and disclosure of defects—mainly make claims inspectable and make criticism possible.
+-They often have no binding consequence beyond reputational pressure or a maintainer’s discretion, and a fork can preserve availability even after trust is lost.
+-An attestation regime adds a governed trust boundary: a configuration-specific claim, a defined evidentiary threshold, an authority to suspend/revoke the claim, precommitted conditions for reinstatement, and consequences tied to privileges that participants have accepted by contract, policy, procurement, or regulation.
+-Transparency remains necessary for auditability, but it is not enforcement by itself.
+-The supplied record is relevant mainly as a caution: it documents repeated cases where stated controls did not exist or were weaker than represented.
+-Thus the enforcement procedure itself must be mechanically testable where possible—for example, a suspension must actually block acceptance of the attestation in the relevant registry or authorization workflow—and independently checked against the code and contracts said to enforce it.
+-A published sanction that does not alter any real permission, eligibility decision, or contractual status is only an accountability claim, not an enforcement mechanism.
++Require remediation that is testable rather than promissory.
++For re-attestation, require a causal account of the failure, changes to model training/deployment controls and evaluator design, pre-registered red-team tests, independent replication, and a new configuration-bound certificate.
++Reinstatement should require success on a broader test suite, not merely passing the exploit that was discovered.
++8.
++Maintain an incident and revocation ledger.
++Each certificate should be uniquely configuration-bound, time-limited, machine-readable, and revocable;
++consumers should be able to check status and learn whether a claimed attestation has been suspended, invalidated, expired, or superseded.
++The key evidentiary threshold needs care.
++An anomalous result alone should trigger investigation and perhaps precautionary restriction for high-impact uses, but permanent invalidation for intentional gaming should rest on reproducible evidence that the model’s compliant output depended materially on evaluator-visible features while the underlying claimed property failed under relevant blinded or transferred tests.
++Because &quot;genuinely meeting&quot; an internal property is often not directly observable, enforcement should be based on falsifiable operational claims, not claimed access to the model’s motives or inner state.
++This differs from ordinary open-source accountability measures in both leverage and object.
++Open-source measures—public code and weights, issue trackers, reproducible builds, disclosure, forks, independent audits, and reputational criticism—principally make inspection and criticism possible.
++They often lack a party empowered to revoke a status, halt authorized deployment, impose contractual consequences, or require a configuration-specific requalification.
++An enforcement regime adds ex ante conditions of participation, a defined evidentiary process, configuration-bound and revocable claims, independent adjudication, and consequences that alter permissions or eligibility.
++That distinction should not be overstated.
++Transparency is a necessary input to credible enforcement, and an open-source project can implement strong accountability if maintainers, funders, deployment platforms, procurement bodies, or regulators actually control admission and impose enforceable terms.
++Conversely, a nominal governing body with no control over deployment, money, certification, or access has only disclosure and reputational leverage, however formal its protocol sounds.
++Its enforcement mechanism should therefore state its jurisdiction and limits in advance.
+</pre>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

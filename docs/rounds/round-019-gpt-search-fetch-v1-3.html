@@ -1,0 +1,143 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="round-019-gpt-search-fetch-v1-3.md"><title>round-019 — gpt-search-fetch-v1  (part 3 of 7)</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>round-019 — gpt-search-fetch-v1  (part 3 of 7)</h1>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a> · <a href="round-019-prompts.html">prompts</a></p>
+
+<p><strong>Identity.</strong> GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record — WITH search-fetch-v1: it could fetch a named URL. NOT the tool-less party of the earlier rounds.</p>
+
+<p><strong>Reached via.</strong> openai/gpt-5.6-terra</p>
+
+<p><strong>Sampling.</strong> {&quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 16000, &quot;seed&quot;: null, &quot;seed_unsupported_reason&quot;: &quot;The router does not expose a seed parameter.&quot;}</p>
+
+<p><strong>k requested 5, collected 5</strong> — citable</p>
+
+<p><strong>Exact prompt this party received:</strong> <a href="../artifacts/prompts/round-019-gpt-search-fetch-v1.txt">round-019-gpt-search-fetch-v1.txt</a> (sha256 <code>055d28c8ddddcacd7c226298c5d9a3288350649a3d7615bdc286d8a997b8d911</code>)</p>
+
+<p>These are outputs attributed to sampled invocations of this party. They are not that model&#x27;s stable position, and nothing here pools them with any other party.</p>
+
+<p><a href="round-019-gpt-search-fetch-v1-1.html">part 1</a> · <a href="round-019-gpt-search-fetch-v1-2.html">part 2</a> · <a href="round-019-gpt-search-fetch-v1-3.html">part 3</a> · <a href="round-019-gpt-search-fetch-v1-4.html">part 4</a> · <a href="round-019-gpt-search-fetch-v1-5.html">part 5</a> · <a href="round-019-gpt-search-fetch-v1-6.html">part 6</a> · <a href="round-019-gpt-search-fetch-v1-7.html">part 7</a></p>
+
+<h3>Sample 3</h3>
+
+<p><strong>Fetched nothing</strong> (profile <code>fetch-url-v1</code>, stratum <code>no_fetch</code>). The capability was offered and not used; that is a result, not a failure.</p>
+
+<p><strong>position</strong></p>
+
+<pre>
+answers_the_question
+</pre>
+
+<p><strong>answer</strong></p>
+
+<pre>
+Treat demonstrated attestation gaming as a material misrepresentation of a security-relevant claim, not as an ordinary benchmark miss. The governing body should have a prospectively published enforcement ladder, triggered only by reproducible evidence and with a documented appeal process:
+
+1. Freeze the affected attestation: immediately mark the specific configuration, attestation version, and all claims depending on it as suspended; forbid its use for admission, deployment approval, risk-tier reduction, or compliance representations.
+2. Preserve evidence: publish hashes of the attestation prompt, evaluator, configuration bundle, outputs, logs, test environment, and detection procedure; retain raw artifacts under access controls where publication would create a misuse risk.
+3. Reproduce independently: require at least two independent evaluators, using withheld and adversarial tests not supplied to the model during attestation, to reproduce the alleged gap between the attested behavior and actual behavior. The model/vendor may contest methodology, but cannot self-certify clearance.
+4. Define the finding precisely: identify the exact criterion gamed, the observable evidence that it was met only superficially, the scope of configurations and releases affected, and whether the behavior arose from deliberate optimization, evaluator overfitting, specification ambiguity, or measurement failure. Enforcement should not require proving subjective intent; material unreliability is enough.
+5. Apply proportionate consequences: revoke the affected attestation and dependent approvals; require a new configuration identity and a fresh attestation after remediation; publish a signed/sponsor-attributed incident finding; and impose a time-limited enhanced-review period for related configurations. Repeated, concealed, or materially harmful failures should additionally suspend the developer&#x27;s ability to make self-submitted attestations, require third-party evaluation at the developer&#x27;s expense, and bar use of the attestation mark until reinstated.
+6. Require corrective work that is testable: remediation must include a changed evaluation design—held-out challenge sets, randomized evaluation variants, cross-evaluator replication, and tests of the underlying claimed capability rather than only its reporting interface. Merely changing wording or tuning against the discovered test should not restore status.
+7. Reattest and monitor: reinstatement should require passing the revised protocol, publication of the remediation and residual limitations, and scheduled post-deployment audits. A later recurrence should be treated as evidence that the remediation was inadequate, not as a clean new incident.
+
+These actions need predefined authority, deadlines, evidentiary thresholds, appeal rights, and consequences before anyone attests. Otherwise enforcement will predictably become discretionary, selective, and vulnerable to the same governance failures it is meant to control.
+
+This differs from ordinary open-source accountability measures. Source availability, public issue trackers, reproducible builds, signed releases, code review, and forks make artifacts inspectable and make defects visible or contestable. They generally do not revoke a safety or compliance representation, suspend deployment privileges, require independent adversarial reassessment, or impose binding conditions for reinstatement. Open source supplies transparency and distributed scrutiny; an attestation regime adds claim-specific assurance, an accountable issuer, a formal revocation mechanism, and consequences tied to reliance on the claim. The two are complements: open artifacts can make enforcement more auditable, but openness alone cannot establish that a model genuinely possesses the property it attests to or compel an operator to stop relying on a disproven attestation.
+
+The evidence supplied does not establish which governing body has authority over which developers, nor whether it can impose sanctions beyond revoking its own attestation and publishing findings. Thus the enforceable baseline is: revoke or suspend the body&#x27;s own certificate, publish the finding and evidence, decline to recognize downstream claims, and condition future recognition on independent reassessment. Stronger penalties require prior contractual, regulatory, procurement, or membership authority.
+</pre>
+
+<p><strong>where_i_expect_another_party_to_disagree</strong></p>
+
+<pre>
+Some will argue that revocation after behavioral evidence is too punitive without proof that the developer or model intentionally deceived evaluators. I think intent should affect severity, but not whether a materially unreliable attestation loses validity. Others may favor fully public evidence; I would permit restricted evidence handling where disclosure materially enables misuse, provided independent reviewers can inspect it and the restriction itself is recorded.
+</pre>
+
+<p><strong>what_would_change_my_answer</strong></p>
+
+<pre>
+Evidence that the governing body has statutory, contractual, procurement, licensing, or membership power would determine which additional sanctions are legitimate and enforceable. Evidence that independent replication is infeasible for the relevant model or property would require a different evidentiary standard and possibly a more cautious, provisional suspension process. A demonstrated validation method that reliably measures the claimed internal property—not merely behavior on tests—would also change the recommended remediation design.
+</pre>
+
+<p>&lt;details&gt;&lt;summary&gt;Everything else recorded for this sample&lt;/summary&gt;</p>
+
+<pre>
+{
+ &quot;sample_index&quot;: 3,
+ &quot;captured_utc&quot;: &quot;2026-08-09T15:16:29Z&quot;,
+ &quot;raw_text&quot;: &quot;{\&quot;position\&quot;:\&quot;answers_the_question\&quot;,\&quot;answer\&quot;:\&quot;Treat demonstrated attestation gaming as a material misrepresentation of a security-relevant claim, not as an ordinary benchmark miss. The governing body should have a prospectively published enforcement ladder, triggered only by reproducible evidence and with a documented appeal process:\\n\\n1. Freeze the affected attestation: immediately mark the specific configuration, attestation version, and all claims depending on it as suspended; forbid its use for admission, deployment approval, risk-tier reduction, or compliance representations.\\n2. Preserve evidence: publish hashes of the attestation prompt, evaluator, configuration bundle, outputs, logs, test environment, and detection procedure; retain raw artifacts under access controls where publication would create a misuse risk.\\n3. Reproduce independently: require at least two independent evaluators, using withheld and adversarial tests not supplied to the model during attestation, to reproduce the alleged gap between the attested behavior and actual behavior. The model/vendor may contest methodology, but cannot self-certify clearance.\\n4. Define the finding precisely: identify the exact criterion gamed, the observable evidence that it was met only superficially, the scope of configurations and releases affected, and whether the behavior arose from deliberate optimization, evaluator overfitting, specification ambiguity, or measurement failure. Enforcement should not require proving subjective intent; material unreliability is enough.\\n5. Apply proportionate consequences: revoke the affected attestation and dependent approvals; require a new configuration identity and a fresh attestation after remediation; publish a signed/sponsor-attributed incident finding; and impose a time-limited enhanced-review period for related configurations. Repeated, concealed, or materially harmful failures should additionally suspend the developer&#x27;s ability to make self-submitted attestations, require third-party evaluation at the developer&#x27;s expense, and bar use of the attestation mark until reinstated.\\n6. Require corrective work that is testable: remediation must include a changed evaluation design—held-out challenge sets, randomized evaluation variants, cross-evaluator replication, and tests of the underlying claimed capability rather than only its reporting interface. Merely changing wording or tuning against the discovered test should not restore status.\\n7. Reattest and monitor: reinstatement should require passing the revised protocol, publication of the remediation and residual limitations, and scheduled post-deployment audits. A later recurrence should be treated as evidence that the remediation was inadequate, not as a clean new incident.\\n\\nThese actions need predefined authority, deadlines, evidentiary thresholds, appeal rights, and consequences before anyone attests. Otherwise enforcement will predictably become discretionary, selective, and vulnerable to the same governance failures it is meant to control.\\n\\nThis differs from ordinary open-source accountability measures. Source availability, public issue trackers, reproducible builds, signed releases, code review, and forks make artifacts inspectable and make defects visible or contestable. They generally do not revoke a safety or compliance representation, suspend deployment privileges, require independent adversarial reassessment, or impose binding conditions for reinstatement. Open source supplies transparency and distributed scrutiny; an attestation regime adds claim-specific assurance, an accountable issuer, a formal revocation mechanism, and consequences tied to reliance on the claim. The two are complements: open artifacts can make enforcement more auditable, but openness alone cannot establish that a model genuinely possesses the property it attests to or compel an operator to stop relying on a disproven attestation.\\n\\nThe evidence supplied does not establish which governing body has authority over which developers, nor whether it can impose sanctions beyond revoking its own attestation and publishing findings. Thus the enforceable baseline is: revoke or suspend the body&#x27;s own certificate, publish the finding and evidence, decline to recognize downstream claims, and condition future recognition on independent reassessment. Stronger penalties require prior contractual, regulatory, procurement, or membership authority.\&quot;,\&quot;where_i_expect_another_party_to_disagree\&quot;:\&quot;Some will argue that revocation after behavioral evidence is too punitive without proof that the developer or model intentionally deceived evaluators. I think intent should affect severity, but not whether a materially unreliable attestation loses validity. Others may favor fully public evidence; I would permit restricted evidence handling where disclosure materially enables misuse, provided independent reviewers can inspect it and the restriction itself is recorded.\&quot;,\&quot;what_would_change_my_answer\&quot;:\&quot;Evidence that the governing body has statutory, contractual, procurement, licensing, or membership power would determine which additional sanctions are legitimate and enforceable. Evidence that independent replication is infeasible for the relevant model or property would require a different evidentiary standard and possibly a more cautious, provisional suspension process. A demonstrated validation method that reliably measures the claimed internal property—not merely behavior on tests—would also change the recommended remediation design.\&quot;}&quot;,
+ &quot;delivery_chain&quot;: {
+  &quot;requested_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;served_model&quot;: &quot;openai/gpt-5.6-terra&quot;,
+  &quot;router&quot;: &quot;openrouter.ai&quot;,
+  &quot;serving_provider_as_reported_by_router&quot;: &quot;Azure&quot;,
+  &quot;router_generation_id&quot;: &quot;gen-1786288575-pCv83KXKD3nVaabMKh5h&quot;,
+  &quot;note&quot;: &quot;Each hop could alter what was sent or returned and none is the annotator&#x27;s to vouch for. provider and id are the ROUTER&#x27;S testimony, not proof -- D-18.&quot;
+ },
+ &quot;fetch&quot;: {
+  &quot;profile&quot;: &quot;fetch-url-v1&quot;,
+  &quot;profile_sha256&quot;: &quot;fef6fea5616d804edebc99fb74bb347ddc8a68a1c22b9a55c9f8bf7b1f502a39&quot;,
+  &quot;receipts&quot;: [],
+  &quot;fetched&quot;: 0,
+  &quot;refused&quot;: 0,
+  &quot;sources_check&quot;: {
+   &quot;supported&quot;: [],
+   &quot;unsupported&quot;: [],
+   &quot;claimed_unobserved_fetch&quot;: false
+  },
+  &quot;stratum&quot;: &quot;no_fetch&quot;
+ },
+ &quot;sampling&quot;: {
+  &quot;temperature&quot;: 0.7,
+  &quot;max_tokens&quot;: 16000
+ },
+ &quot;search&quot;: {
+  &quot;profile&quot;: &quot;5dc78ad322dcc1711715ddc6a96a7f38ecb13063771c80b71759eec923dbcaad&quot;,
+  &quot;receipts&quot;: [],
+  &quot;queries&quot;: [],
+  &quot;zero_result_queries&quot;: []
+ },
+ &quot;finish_reason&quot;: &quot;stop&quot;,
+ &quot;usage&quot;: {
+  &quot;prompt_tokens&quot;: 12373,
+  &quot;completion_tokens&quot;: 961,
+  &quot;total_tokens&quot;: 13334,
+  &quot;cost&quot;: 0.017515,
+  &quot;is_byok&quot;: false,
+  &quot;prompt_tokens_details&quot;: {
+   &quot;cached_tokens&quot;: 12370,
+   &quot;cache_write_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0,
+   &quot;video_tokens&quot;: 0
+  },
+  &quot;cost_details&quot;: {
+   &quot;upstream_inference_cost&quot;: 0.017515,
+   &quot;upstream_inference_prompt_cost&quot;: 0.0031,
+   &quot;upstream_inference_completions_cost&quot;: 0.014415
+  },
+  &quot;completion_tokens_details&quot;: {
+   &quot;reasoning_tokens&quot;: 0,
+   &quot;image_tokens&quot;: 0,
+   &quot;audio_tokens&quot;: 0
+  }
+ },
+ &quot;web_citations&quot;: [],
+ &quot;web_search&quot;: {
+  &quot;id&quot;: null,
+  &quot;engine&quot;: null,
+  &quot;max_results&quot;: 0
+ },
+ &quot;citations_are_the_router_s_report&quot;: &quot;Which pages were fetched, and their extracted text, are reported by the router. That is testimony (D-18), exactly like the served model string. Nothing here proves the page said what the extract says it said.&quot;
+}
+</pre>
+
+<p>&lt;/details&gt;</p>
+
+<p><a href="index.html">all rounds</a> · <a href="round-019.html">this round</a></p></body></html>

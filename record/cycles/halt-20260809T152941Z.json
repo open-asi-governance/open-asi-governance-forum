@@ -1,0 +1,17 @@
+{
+  "artifact_type": "cycle_halt",
+  "utc": "2026-08-09T15:29:41Z",
+  "exit_code": 7,
+  "reason": "the round's manifest could not be anchored",
+  "round": "round-019",
+  "detail": {
+    "branch": "round/round-019",
+    "tail": [
+      "Submitting to remote calendar https://a.pool.eternitywall.com",
+      "Submitting to remote calendar https://ots.btc.catallaxy.com",
+      "Failed to create timestamp: need at least 2 attestations but received 1 within timeout"
+    ],
+    "why": "Every solicited byte is preserved in the working tree on the round branch. An unanchored round is not committed, because a record whose hash history the operator can silently revise is the thing the parties refused to treat as evidence."
+  },
+  "note": "A halt is a recorded outcome. The loop is designed to stop rather than improvise; a cycle that always produces a round is the failure mode."
+}
