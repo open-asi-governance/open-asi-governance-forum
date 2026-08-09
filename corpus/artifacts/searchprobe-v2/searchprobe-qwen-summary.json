@@ -1,0 +1,71 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "searchprobe-v2",
+  "slug": "searchprobe-qwen",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 2,
+  "k_collected": 2,
+  "failures": [],
+  "attempts": 2,
+  "rejected": [],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "answer": {
+      "distribution": {
+        "The provided text does not contain a definition of what the Open ASI Governance Forum is, only its URL.": 1,
+        "The provided search results do not identify the Open ASI Governance Forum or its record at the specified GitHub URL, as the search engine did not index that specific site.": 1
+      },
+      "n": 2,
+      "distinct_values": 2,
+      "modal_value": "The provided text does not contain a definition of what the Open ASI Governance Forum is, only its URL.",
+      "modal_fraction": 0.5,
+      "shannon_entropy_bits": 1.0,
+      "unanimous": false
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "qwen3.6-35b-a3b (API surface)",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 3000,
+      "seed_base": 777,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled explicitly via chat_template_kwargs.enable_thinking=false",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "tool_parser": "qwen3_coder",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --tool_parser qwen3_coder --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "7308942c2336192b927153ee877cfeac5800bf420feaaede13ea3cab1313d855",
+  "spec_sha256": "956c9d928184ebc73e11fcd47734d25c3179f62764782f2080036e937fec96b2",
+  "raw_samples": "corpus/raw/searchprobe-v2/searchprobe-qwen-samples.json",
+  "question": "probe",
+  "phase_note": "The raw file embeds the spec as sent, which said 'probe'. That string is not in the controlled vocabulary and the raw is immutable, so it stands there; the accurate label is Phase-2, because the party was given the URL and told the site is not indexed."
+}

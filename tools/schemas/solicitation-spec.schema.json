@@ -292,6 +292,10 @@
             "type": "string"
           },
           "description": "URLs named in the prompt. Anything else the party reached, it found."
+        },
+        "search_web": {
+          "type": "boolean",
+          "description": "Whether this party is given the search_web tool. SEPARATE from fetch_url: search discovers, fetch resolves, and a party holding one is not the party holding both under D-09."
         }
       }
     },

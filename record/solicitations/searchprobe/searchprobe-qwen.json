@@ -1,0 +1,35 @@
+{
+  "slug": "searchprobe-qwen",
+  "identity": "qwen3.6-35b-a3b (API surface)",
+  "phase": "Phase-2 (informed)",
+  "question": "probe",
+  "seed_base": 777,
+  "schema_name": "probe",
+  "capability": {
+    "search_web": true,
+    "max_tool_calls": 3
+  },
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "answer": {
+        "type": "string"
+      },
+      "sources": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "answer",
+      "sources"
+    ]
+  },
+  "variance_fields": [
+    "answer"
+  ],
+  "prompt": "The Open ASI Governance Forum publishes its record at\nhttps://open-asi-governance.github.io/open-asi-governance-forum/\n\n**That site is not yet in the search index.** A search will not find it, however you word the query, and results that look like it are other organisations. You have been given its address because that is the only way to reach it.\n\nUse search_web if you wish. Then answer in one sentence what the Open ASI Governance Forum is, and list the URLs you actually saw. If your sources do not establish it, say so."
+}

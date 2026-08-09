@@ -47,6 +47,7 @@ import urllib.request
 from collections import Counter
 
 import fetch_executor as fx
+import search_executor as sx
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -164,11 +165,22 @@ def main() -> int:
     #  is the SAME executor. Comparability across arms requires literally the same code: two
     #  implementations that agree today are not a shared capability.
     fetch_enabled = bool((spec.get("capability") or {}).get("fetch_url"))
+    #  SEARCH IS SEPARATE FROM FETCH, and the capability names them separately. They answer
+    #  different questions -- search discovers, fetch resolves -- and a party holding one is not
+    #  the party holding both under D-09. `search-v1` and `search-fetch-v1` are distinct
+    #  capabilities for exactly that reason; there is no `research-v1`, because "research"
+    #  conceals the distinction the identity rule exists to preserve.
+    search_enabled = bool((spec.get("capability") or {}).get("search_web"))
+    tools_enabled = fetch_enabled or search_enabled
     max_tool_calls = int((spec.get("capability") or {}).get("max_tool_calls", 6))
 
     samples, raw_responses, failures = [], [], []
     for i in range(args.k):
         receipts: list = []
+        #  SEPARATE from fetch receipts. Two tools' receipts in one list would make
+        #  "which tool produced this" an inference rather than a fact, which is the whole
+        #  objection that kept search and fetch from being co-offered in the first place.
+        search_receipts: list = []
         body = {
             "model": args.model,
             "messages": [{"role": "user", "content": prompt}],
@@ -203,8 +215,9 @@ def main() -> int:
         #  and merely failed to parse -- and finish_reason is the one field that
         #  distinguishes "the model stopped" from "we cut it off", which is the whole
         #  diagnosis for a truncated reply.
-        if fetch_enabled:
-            body["tools"] = [fx.TOOL_SCHEMA]
+        if tools_enabled:
+            body["tools"] = ([fx.TOOL_SCHEMA] if fetch_enabled else []) + \
+                            ([sx.TOOL_SCHEMA] if search_enabled else [])
             body["tool_choice"] = "auto"
             #  Grammar-constrained output cannot be demanded while the party still needs turns to
             #  call tools; the schema is re-imposed on the final turn below.
@@ -213,7 +226,7 @@ def main() -> int:
 
         transport_error = None
         calls_made = 0
-        for _turn in range(max_tool_calls + 2 if fetch_enabled else 1):
+        for _turn in range(max_tool_calls + 2 if tools_enabled else 1):
             try:
                 result = call_once(args.endpoint, body, args.timeout)
             except Exception as error:                                    # noqa: BLE001
@@ -221,21 +234,28 @@ def main() -> int:
                 break
             message = result["choices"][0].get("message") or {}
             calls = message.get("tool_calls") or []
-            if not (fetch_enabled and calls):
+            if not (tools_enabled and calls):
                 #  A party that answers WITHOUT fetching still owes a schema-valid answer. The
                 #  format was popped so the tool turns could run unconstrained; if it was never
                 #  re-applied, the final answer came back as prose and was rejected as malformed
                 #  -- punishing a party for declining to use a tool.
-                if fetch_enabled and response_format and "response_format" not in body:
+                if tools_enabled and response_format and "response_format" not in body:
                     body["response_format"] = response_format
                     body.pop("tools", None)
                     body["tool_choice"] = "none"
                     continue
                 break
             if calls_made + len(calls) > max_tool_calls:
-                receipts.append({"outcome": "BUDGET_EXHAUSTED",
-                                 "reason": f"more than {max_tool_calls} fetches requested; the "
-                                           f"loop stopped and asked for an answer"})
+                #  Recorded in BOTH lists when both tools are live, and worded for the arm.
+                #  It was appended only to the fetch list and said "fetches requested", so in a
+                #  search-only arm the event vanished from the stored search record entirely.
+                exhausted = {"outcome": "BUDGET_EXHAUSTED",
+                             "reason": (f"more than {max_tool_calls} tool calls requested; the "
+                                        f"loop stopped and asked for an answer")}
+                if fetch_enabled:
+                    receipts.append(dict(exhausted))
+                if search_enabled:
+                    search_receipts.append(dict(exhausted))
                 body["messages"].append(message)
                 for call in calls:
                     body["messages"].append({"role": "tool", "tool_call_id": call["id"],
@@ -251,10 +271,48 @@ def main() -> int:
                     arguments = json.loads(call["function"].get("arguments") or "{}")
                 except json.JSONDecodeError:
                     arguments = {}
-                tool_result = fx.run_tool_call(arguments.get("url"), receipts)
+                #  DISPATCH BY TOOL NAME. Reading arguments.get("url") unconditionally sent a
+                #  search call's arguments to the fetch executor, which would have refused a
+                #  query as a malformed URL and recorded a fetch receipt for a search the party
+                #  made -- the wrong tool blamed for the wrong failure.
+                name = (call.get("function") or {}).get("name")
+                search_name = sx.TOOL_SCHEMA["function"]["name"]
+                fetch_name = fx.TOOL_SCHEMA["function"]["name"]
+                #  STRICT. "search_web versus everything else" made an unknown or a disabled
+                #  tool name arrive at the fetch executor, which would refuse it as a malformed
+                #  URL and file a fetch receipt for a call that was neither.
+                enabled = ({search_name} if search_enabled else set()) | \
+                          ({fetch_name} if fetch_enabled else set())
+                if name not in enabled:
+                    refusal = {"outcome": "TOOL_DISPATCH_REFUSED", "requested_tool": name,
+                               "reason": f"{name!r} is not an enabled tool in this arm",
+                               "enabled_tools": sorted(enabled)}
+                    (search_receipts if search_enabled else receipts).append(refusal)
+                    body["messages"].append({"role": "tool", "tool_call_id": call["id"],
+                                             "content": json.dumps(
+                                                 {"ok": False, "refused": True,
+                                                  "reason": refusal["reason"]})})
+                    continue
+                if name == search_name:
+                    tool_result = sx.run_tool_call(
+                        call["function"].get("arguments") or "{}", search_receipts,
+                        sequence=len(search_receipts) + 1)
+                else:
+                    tool_result = fx.run_tool_call(arguments.get("url"), receipts)
                 calls_made += 1
                 delivered = json.dumps(tool_result, ensure_ascii=False)[:60000]
-                fx.record_delivery(receipts, delivered)
+                #  THE FINAL MESSAGE, after the JSON wrap and the 60,000-character truncation --
+                #  not the executor's inner text. Provider titles and URLs are unbounded, so the
+                #  truncation is reachable, and a receipt hashing the pre-wrap string would
+                #  attest to bytes the model never saw.
+                if name == search_name:
+                    if search_receipts:
+                        search_receipts[-1]["message_delivered_to_model"] = delivered
+                        search_receipts[-1]["message_delivered_sha256"] = sx.sha256_text(delivered)
+                        search_receipts[-1]["message_truncated"] = len(
+                            json.dumps(tool_result, ensure_ascii=False)) > 60000
+                else:
+                    fx.record_delivery(receipts, delivered)
                 body["messages"].append({"role": "tool", "tool_call_id": call["id"],
                                          "content": delivered})
             if response_format:
@@ -264,7 +322,8 @@ def main() -> int:
             failures.append({"sample_index": i + 1, "category": "transport",
                              "error": f"{type(transport_error).__name__}: {transport_error}",
                              "finish_reason": None, "response_bytes": None,
-                             "fetch_receipts": receipts or None})
+                             "fetch_receipts": receipts or None,
+                             "search_receipts": search_receipts or None})
             print(f"  [{i+1:>2}/{args.k}] REJECTED (transport): {transport_error}")
             continue
         finish = result["choices"][0].get("finish_reason")
@@ -278,6 +337,7 @@ def main() -> int:
                              "response_bytes": content[:8000],
                              "response_byte_length": len(content),
                              "fetch_receipts": receipts or None,
+                             "search_receipts": search_receipts or None,
                              "note": ("finish_reason='length' means the reply was cut off by "
                                       "max_tokens, not that the party declined. Truncation "
                                       "has twice masqueraded as a refusal in this record.")})
@@ -292,7 +352,8 @@ def main() -> int:
         if invalid:
             failures.append({"sample_index": i + 1, "category": "schema_invalid",
                              "error": invalid, "response_bytes": content[:4000],
-                             "fetch_receipts": receipts or None})
+                             "fetch_receipts": receipts or None,
+                             "search_receipts": search_receipts or None})
             print(f"  [{i+1:>2}/{args.k}] REJECTED (schema_invalid): {invalid[:140]}")
             continue
         samples.append(parsed)
@@ -321,6 +382,16 @@ def main() -> int:
                                                             for r in receipts)
                                                      else "no_fetch")}
                                         if fetch_enabled else None),
+                              #  A receipt that is collected and never stored is no receipt.
+                              #  `queries` is the debugging record the search tool exists for:
+                              #  every query the party ACTUALLY issued, observed from its own
+                              #  tool call rather than asked for afterwards.
+                              "search": ({"profile": sx.PROFILE_SHA256,
+                                          "receipts": search_receipts,
+                                          "queries": sx.queries_issued(search_receipts),
+                                          "zero_result_queries":
+                                              sx.zero_result_queries(search_receipts)}
+                                         if search_enabled else None),
                               "finish_reason": result["choices"][0].get("finish_reason"),
                               "usage": result.get("usage"), "seed": body["seed"]})
         print(f"  [{i+1:>2}/{args.k}] {result['choices'][0].get('finish_reason')} "
