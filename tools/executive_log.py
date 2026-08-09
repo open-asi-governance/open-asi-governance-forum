@@ -81,13 +81,47 @@ def git(*args: str) -> str:
     return r.stdout.strip() if r.returncode == 0 else ""
 
 
-def quota_now() -> dict:
-    """Live rolling-window utilisation. FAILS OPEN, and says so.
+#  QUOTA IS SAMPLED PERIODICALLY, NOT STAMPED PER ACTION -- the trial's first finding, and it
+#  contradicts the design it was built from. Eight calls in two minutes drove the endpoint to
+#  HTTP 429 with no `retry-after`, and it stayed refused: three of the first seven trial entries
+#  carry no quota at all, which reads identically to never having tried. So "stamp quota on
+#  every action" is not implementable as specified.
+#
+#  What is implementable: sample at most every ten minutes, back off hard on 429, and attach the
+#  LAST KNOWN reading with its age to every action in between. A ten-minute-old utilisation
+#  still separates "stopped on a rule" from "ran out of quota", which is the only thing it was
+#  needed for.
+_QUOTA_CACHE: dict = {"at": 0.0, "value": None}
+_QUOTA_COOLDOWN_UNTIL = 0.0
+QUOTA_TTL_SECONDS = 600
+QUOTA_COOLDOWN_SECONDS = 900
+
+
+def quota_now(force: bool = False) -> dict:
+    """Live rolling-window utilisation, cached briefly. FAILS OPEN, and says so.
 
     An unreadable quota is not evidence of a full one. Returning a refusal here would let a
     transient auth failure halt the executive and be recorded as a principled stop -- the exact
     conflation this function exists to prevent.
     """
+    global _QUOTA_COOLDOWN_UNTIL
+    import time
+    now = time.monotonic()
+    if not force and _QUOTA_CACHE["value"] is not None \
+            and now - _QUOTA_CACHE["at"] < QUOTA_TTL_SECONDS:
+        return {**_QUOTA_CACHE["value"], "cached": True,
+                "age_seconds": int(now - _QUOTA_CACHE["at"])}
+    if now < _QUOTA_COOLDOWN_UNTIL:
+        #  Under cooldown after a 429. Calling again would extend the refusal and teach the
+        #  log nothing.
+        out = {"available": False, "why": "rate-limited; in cooldown",
+               "fail_open": "An unreadable quota is not evidence of a full one.",
+               "cooldown_remaining_seconds": int(_QUOTA_COOLDOWN_UNTIL - now)}
+        if _QUOTA_CACHE["value"] is not None:
+            out["last_known"] = {k: v for k, v in _QUOTA_CACHE["value"].items()
+                                 if k != "available"}
+            out["last_known_age_seconds"] = int(now - _QUOTA_CACHE["at"])
+        return out
     try:
         token = json.loads(CREDENTIALS.read_text())["claudeAiOauth"]["accessToken"]
         request = urllib.request.Request(
@@ -96,14 +130,24 @@ def quota_now() -> dict:
         with urllib.request.urlopen(request, timeout=20) as response:
             data = json.loads(response.read().decode("utf-8"))
     except Exception as error:                                      # noqa: BLE001
-        return {"available": False, "why": f"{type(error).__name__}: {error}",
-                "fail_open": "An unreadable quota is not evidence of a full one."}
+        if isinstance(error, urllib.error.HTTPError) and error.code == 429:
+            _QUOTA_COOLDOWN_UNTIL = time.monotonic() + QUOTA_COOLDOWN_SECONDS
+        stale = _QUOTA_CACHE["value"]
+        out = {"available": False, "why": f"{type(error).__name__}: {error}",
+               "fail_open": "An unreadable quota is not evidence of a full one."}
+        #  A STALE READING BEATS NONE, labelled as stale. A 429 previously left the entry with
+        #  no quota at all, which reads identically to never having tried.
+        if stale is not None:
+            out["last_known"] = {k: v for k, v in stale.items() if k != "available"}
+            out["last_known_age_seconds"] = int(time.monotonic() - _QUOTA_CACHE["at"])
+        return out
     out = {"available": True}
     for window in ("five_hour", "seven_day", "seven_day_opus"):
         block = data.get(window) or {}
         if block.get("utilization") is not None:
             out[window] = {"utilization": block.get("utilization"),
                            "resets_at": block.get("resets_at")}
+    _QUOTA_CACHE["at"], _QUOTA_CACHE["value"] = time.monotonic(), out
     return out
 
 

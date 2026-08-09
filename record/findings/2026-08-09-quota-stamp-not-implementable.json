@@ -1,0 +1,15 @@
+{
+  "artifact_type": "executive_trial_finding",
+  "trial": "shadow-executive ten-action trial",
+  "found_utc": "2026-08-09",
+  "found_by": "the trial itself, on its first three actions",
+  "finding": "'Stamp quota on every action' is not implementable as specified. The Anthropic OAuth usage endpoint is strictly rate-limited: roughly eight calls in two minutes drove it to HTTP 429 with no retry-after header, and it stayed refused. Three of the first seven logged actions therefore carry NO quota at all -- which reads identically to never having tried, and is exactly the blindness the stamping was added to remove.",
+  "why_it_matters": "The quota stamp exists to separate 'stopped on a rule' from 'ran out of quota'. A stamp that disappears under load fails precisely when the executive is busiest, which is when exhaustion is most likely.",
+  "the_repair": "Sample periodically rather than per action: a 10-minute TTL, a 15-minute cooldown after a 429, and the LAST KNOWN reading attached with its age to every action in between. A ten-minute-old utilisation still separates the two cases, which is the only thing it was needed for.",
+  "what_this_says_about_the_trial": "The design came from external review and I implemented it without asking whether the endpoint could sustain the call rate. Neither the review nor I checked. The trial caught it in three actions, which is what a trial is for -- and it is the first evidence that this layer's self-monitoring detects its own defects rather than only its successes.",
+  "not_repaired": "The 429 is still live at the time of writing, so the repaired path has been verified against a seeded cache rather than against a fresh reading. That verification is weaker and is labelled as such.",
+  "related": [
+    "record/designs/shadow-executive-trial.md",
+    "tools/executive_log.py"
+  ]
+}
