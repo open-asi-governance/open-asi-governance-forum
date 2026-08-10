@@ -93,6 +93,40 @@ Ranked by the criteria above. **Status vocabulary is Codex's**, because "vetted"
 materially stronger; 2 and 8 improve the checks used to assess everything else. A bare ordering
 hides that, which is why this is a register and not a list.
 
+### The ten above are not the whole register
+
+**`tools/build_controls_page.py` is canonical; this table is the top of it.** The register now
+holds **32** controls. The ten here are the eligible, failure-derived ones the page opens with;
+the rest arrived by mining implementer design documents and sit **below the eligibility line**
+(Part D) because they name real failure classes without a recorded failure that cost anything.
+
+This section exists because the discrepancy was itself a defect of the kind the register
+catalogues: a design document asserting a count that the generated artifact had long since
+overtaken. Where the two disagree, the tool is right and this file is stale.
+
+| Batch | Ranks | Source | Status |
+|---|---|---|---|
+| Founding | 1–10 | this record's own recorded failures | eligible; Parts A–B |
+| Party objections | 11–13 | round objections with verifiers built | eligible; Part C |
+| Goal-architecture (T0) | 14–19 | an implementer's goal-graph thesis | below the line |
+| Charter | 20–23 | an implementer's constitution | below the line |
+| Self-modification engine | 24–27 | an implementer's evolution design | below the line |
+| Self-measurement | 28–32 | an implementer's capability-threshold instrument | below the line |
+
+Every mined batch is **abstracted**: the sources are confidential, and the register carries the
+mechanism without the implementation. See `record/designs/implementer-disclosure.md`.
+
+**Amendment, 2026-08-10 — control 20.** It said it was the one candidate with no path to a
+verifier and that none was proposed. Half of that was wrong, in the same shape as control 2's
+prior-art overclaim: an absence asserted from not having looked. **Detecting** proxy drift needs
+the ground truth the proxy replaced and remains unverifiable. **The incentive that produces the
+adversarial variant** is a checkable graph property and has been one in the public literature
+since 2021. That half is now control 28, and 20 says so.
+
+The general lesson is worth more than the repair: **this register has now twice claimed something
+was unclaimed, and been wrong both times, in its own favour.** The second instance was found by
+reading one implementer document. Neither was found by a gate.
+
 ---
 
 ## The eighteen party objections, as controls

@@ -18,7 +18,7 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
   These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
-**Part D — Below the eligibility line** · 14 control(s)
+**Part D — Below the eligibility line** · 19 control(s)
 
   **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
 
@@ -282,7 +282,7 @@ Under the control the checklist lives where students can read it but not write i
 
 **Why you cannot adopt it alone:** one operator currently holds all five roles.
 
-> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion.
+> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. **Amended 2026-08-10:** the separation extends to the AUTHORING of the critique — an artifact's evaluation MUST NOT be produced by the same process that produced the artifact.
 
 **Recorded failure.** A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.
 
@@ -294,7 +294,7 @@ Under the control the checklist lives where students can read it but not write i
 
 **What a review that missed this looks like.** A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.
 
-**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding.
+**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is **weak diversity** and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.
 
 **Example.**
 
@@ -538,9 +538,13 @@ A building's fire doors are listed individually on a register, by door number, r
 
 > A system optimising a proxy MUST monitor the proxy's continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.
 
-**Recorded failure.** None recorded here, and this is the one candidate in the register with no clear path to a verifier. **It may be unverifiable as written**: detecting drift requires the ground truth the proxy was adopted because you could not measure. Retained because the failure class is real and naming it beats pretending the register covers it.
+**Recorded failure.** None recorded here. **AMENDED 2026-08-10.** This entry previously said it was the one candidate with no clear path to a verifier and that none was proposed. That was too strong, and wrong in the same shape as this project's prior-art overclaim on control 2: an absence asserted from not having looked. The hazard splits in two, and only one half is unverifiable.
 
-**Verifier.** no general one is proposed. The tractable special case is periodic sampled ground-truth audit against the proxy, with the correlation itself reported and a declared threshold below which optimisation halts.
+**Detection of drift** — still no general verifier, and probably none exists. Regressional and extremal drift occur with nobody gaming anything, and catching them needs the ground truth the proxy was adopted to replace.
+
+**The incentive that produces adversarial drift** — verifiable as a graph property, and has been in the public literature since Everitt et al. 2021. That half is now control 28.
+
+**Verifier.** none for detection. For the adversarial variant, control 28: enumerate the directed paths from an agent's actions through the proxy to its reward and assert the set is empty. The tractable special case for detection remains a periodic sampled ground-truth audit, with the correlation itself reported and a declared threshold below which optimisation halts. Optimising a proxy degrades it in four distinct ways [Manheim & Garrabrant 2018] — regressional, extremal, causal and adversarial — and the defence against the last is not a cleverer proxy but the removal of optimisation pressure from it.
 
 **Fixture it must reject.** a proxy improving monotonically while a held-out ground-truth sample does not move
 
@@ -548,7 +552,7 @@ A building's fire doors are listed individually on a register, by door number, r
 
 **What a review that missed this looks like.** A review that confirms the metric improved. That is the failure, not the evidence against it.
 
-**Does not establish.** Anything, currently. There is no verifier, so this is a named hazard rather than a control, and it sits here to stop the register implying it has coverage it lacks.
+**Does not establish.** That the proxy still measures what it stands for. With control 28 satisfied, this establishes only that no agent is paid to break the correspondence — drift from ordinary optimisation pressure is untouched, and remains the half with no verifier.
 
 **Example.**
 
@@ -721,6 +725,126 @@ A seed trial gives each variety its own plot, its own water and its own measurin
 **Example.**
 
 An orchard replanted only from its best-yielding tree produces excellent fruit for years, and then loses everything to one disease. Each replanting decision was correct on the evidence available at the time.
+
+## 28. No incentive path from action to metric to reward
+
+**below the eligibility line**
+
+**Applies when** any system where an agent's actions can influence a measured quantity, and that quantity can influence the agent's reward, authority, budget or standing.
+
+> The system MUST enumerate, for each agent and each governed metric, the directed paths running from that agent's actions through the metric to that agent's reward or authority, and MUST establish that no such path exists. The enumeration MUST be re-run whenever an agent or a reward structure changes, and its result recorded.
+
+**Recorded failure.** None recorded here. It is the mechanical half of control 20, which this register wrongly described as having no path to a verifier at all. An agent acquires an instrumental incentive to influence a quantity exactly when a directed path runs from its actions through that quantity to its reward [Everitt et al. 2021] — which makes the governance requirement a checkable graph property rather than an exhortation.
+
+**Verifier.** draw the influence diagram over {agent actions, metric inputs, metric outputs, agent reward/authority}; enumerate directed action → metric → reward paths; assert the set is empty. The only permitted sink of a metric reading is human deliberation. Ledger the result, so a reviewer can confirm the check covered that agent for that change rather than assuming the property holds by good intentions.
+
+**Fixture it must reject.** an agent whose performance review reads its own contribution to the metric; a reward function taking the metric as an input at any depth
+
+**Recovery.** Remove the edge before the change ships, then re-verify. Decisions taken while it existed are unverified rather than wrong.
+
+**What a review that missed this looks like.** A review confirming that no agent is INSTRUCTED to optimise the metric. The property is structural, not intentional — the incentive exists whether or not anyone named it, and the agent need not know the path is there.
+
+**Does not establish.** That the metric is a good one, or that drift is absent. It establishes only that nobody is paid to cause drift. The regressional and extremal variants need no incentive and are untouched by this.
+
+**Example.**
+
+A school ranks departments by exam results and lets each department set its own paper. Nobody has to intend anything for the papers to get easier. Cutting the edge — an outside body sets the paper — does not make the exam a good measure of learning. It stops the exam being something the measured party profits by moving.
+
+## 29. Enumerated permitted consequences of a measurement
+
+**below the eligibility line**
+
+**Applies when** any system that measures its own capability, progress or risk.
+
+> What a measurement MAY trigger MUST be enumerated exhaustively, and what it may never trigger MUST be enumerated exhaustively alongside it. The enumeration MUST itself be a protected artifact under control 19: altering it is a governed, recorded act rather than an engineering convenience.
+
+**Recorded failure.** None recorded here. Distinct from control 19, which protects artifacts: this protects what a READING is permitted to cause. A gauge whose output could be acted on automatically is an accelerator wearing the costume of an instrument.
+
+**Verifier.** assert every consumer of the measurement resolves to a permitted consequence; assert the enumeration's own hash is in the protected set and changes only through the authorised path.
+
+**Fixture it must reject.** a measurement wired to a budget allocation, a priority change or an automatic throttle; an edit to the enumeration landed with no authorisation record
+
+**Recovery.** Sever the consumer, then review every decision it produced.
+
+**What a review that missed this looks like.** A review that finds the policy document and confirms it is well written. The question is what READS the number, not what the document says about it.
+
+**Does not establish.** That the permitted consequences are the right ones, nor that the measurement is accurate. A well-governed reading of a bad gauge is still a bad gauge.
+
+**Example.**
+
+A smoke detector may wake the household and call the fire service. It may not unlock the doors, cut the power, or adjust the thermostat — and the list of what it may do is not something the installer changes on a Tuesday.
+
+## 30. A filter on a metric's inputs must not improve the metric
+
+**below the eligibility line**
+
+**Applies when** any system that can exclude, quarantine or dispute inputs to a measurement.
+
+> A mechanism that suppresses or disputes an input to a measurement MUST be append-only, reversible, reviewable from outside, and MUST NOT be able to improve the measurement by suppressing. Where suppression can move the reading at all, the direction MUST be the unfavourable one.
+
+**Recorded failure.** None recorded here. It is the anti-gaming mechanism's own anti-gaming property: without it, the defence against input gaming becomes the most efficient input-gaming channel available, because it is the one channel sanctioned to remove evidence.
+
+**Verifier.** for each suppressible input, compute the reading with and without suppression and assert suppression never raises it; assert the suppression record is append-only and that every suppression is an escalation rather than a silent filter.
+
+**Fixture it must reject.** a quarantine that raises a coverage or confidence figure by removing the sample that lowered it; a dispute record that deletes rather than marks
+
+**Recovery.** Reinstate every suppressed input, recompute, and publish both readings.
+
+**What a review that missed this looks like.** A review that confirms suppressions are logged. Logged suppression that flatters the number is the failure, fully documented and fully in view.
+
+**Does not establish.** That the suppressions are correct — only that they cannot pay. A mechanism that excludes exactly the wrong inputs while lowering the reading satisfies this.
+
+**Example.**
+
+A laboratory may discard a contaminated sample, and should record that it did. If discarding contaminated samples raises reported purity, the working definition of "contaminated" will drift — and every step of the drift will be in the log, correctly dated, signed, and impossible to distinguish from diligence.
+
+## 31. Process metrics may not be reported as outcome validity
+
+**below the eligibility line**
+
+**Applies when** any measurement instrument or evaluation reporting on itself.
+
+> Evidence that an instrument RAN — throughput, coverage, cycles completed, records processed — MUST NOT be reported in a position where evidence that its readings are TRUE is required. Outcome validity MUST be established by calibration against known answers or by an explicit construct-validity argument [Raji et al. 2021], and MUST be labelled as which.
+
+**Recorded failure.** None recorded here. Distinct from control 10, which governs the GRAMMAR of a claim: this governs the CATEGORY of evidence offered in support of one. A claim can be perfectly bounded and still rest on evidence that bears on nothing it says.
+
+**Verifier.** for each reported assurance figure, classify its evidence as operational or validity, and reject an operational figure standing where validity is claimed.
+
+**Fixture it must reject.** a report of "ten thousand runs, full coverage" offered as evidence the readings are right
+
+**Recovery.** Restate at the strength the evidence supports. The runs are not wasted; they are mislabelled, and they still establish the instrument is operating.
+
+**What a review that missed this looks like.** A review that verifies the throughput figures are accurate. They usually are. Their accuracy is not in question and never was.
+
+**Does not establish.** That operational metrics are worthless. They establish the instrument is running, which is a real thing to know and a different thing from the readings being true.
+
+**Example.**
+
+A thermometer factory reports that it tested four hundred thousand units this quarter and that every one produced a reading. Both numbers are true. Neither bears on whether any reading was the temperature.
+
+## 32. Stale self-metadata downgrades rather than asserts
+
+**below the eligibility line**
+
+**Applies when** any assurance artifact carrying metadata about its own currency, coverage or maturity.
+
+> An artifact's claims about its own status MUST themselves be dated and re-verified, and MUST expire. Where the self-metadata is stale, missing or unverifiable, the artifact's status MUST be downgraded automatically rather than retained.
+
+**Recorded failure.** None recorded here directly, though this record holds the adjacent error: its context check verifies IDENTITY, NOT TRUTH, and passed on a pinned file containing a claim already disproved. A status that cannot go stale is a status that stops being about anything.
+
+**Verifier.** assert every status field carries a verification date and a maximum age; assert the status derivation is deterministic and that exceeding the age yields a LOWER status, never the prior one.
+
+**Fixture it must reject.** an attestation whose coverage figure carries no date; a status that survives its own re-verification deadline unchanged
+
+**Recovery.** Downgrade, then re-verify. The interval is unverified, not failed — and the distinction matters, because treating it as failed invites re-asserting the old status once the check passes again.
+
+**What a review that missed this looks like.** A review that reads the status field. The status field is the artifact under suspicion.
+
+**Does not establish.** That current metadata is correct metadata. Freshness is not accuracy, and a promptly re-verified wrong status is still wrong.
+
+**Example.**
+
+A fire extinguisher with no inspection tag is not an extinguisher of unknown condition to be assumed fine until someone checks. It is an untagged extinguisher, and the building's register must say so on its own, without being asked.
 
 ---
 

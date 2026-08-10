@@ -26,7 +26,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D — Below the eligibility line</strong> · 14 control(s)</p>
+<p><strong>Part D — Below the eligibility line</strong> · 19 control(s)</p>
 
 <p>  <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -206,9 +206,13 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <blockquote>A system optimising a proxy MUST monitor the proxy&#x27;s continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.</blockquote>
 
-<p><strong>Recorded failure.</strong> None recorded here, and this is the one candidate in the register with no clear path to a verifier. <strong>It may be unverifiable as written</strong>: detecting drift requires the ground truth the proxy was adopted because you could not measure. Retained because the failure class is real and naming it beats pretending the register covers it.</p>
+<p><strong>Recorded failure.</strong> None recorded here. <strong>AMENDED 2026-08-10.</strong> This entry previously said it was the one candidate with no clear path to a verifier and that none was proposed. That was too strong, and wrong in the same shape as this project&#x27;s prior-art overclaim on control 2: an absence asserted from not having looked. The hazard splits in two, and only one half is unverifiable.</p>
 
-<p><strong>Verifier.</strong> no general one is proposed. The tractable special case is periodic sampled ground-truth audit against the proxy, with the correlation itself reported and a declared threshold below which optimisation halts.</p>
+<p><strong>Detection of drift</strong> — still no general verifier, and probably none exists. Regressional and extremal drift occur with nobody gaming anything, and catching them needs the ground truth the proxy was adopted to replace.</p>
+
+<p><strong>The incentive that produces adversarial drift</strong> — verifiable as a graph property, and has been in the public literature since Everitt et al. 2021. That half is now control 28.</p>
+
+<p><strong>Verifier.</strong> none for detection. For the adversarial variant, control 28: enumerate the directed paths from an agent&#x27;s actions through the proxy to its reward and assert the set is empty. The tractable special case for detection remains a periodic sampled ground-truth audit, with the correlation itself reported and a declared threshold below which optimisation halts. Optimising a proxy degrades it in four distinct ways [Manheim &amp; Garrabrant 2018] — regressional, extremal, causal and adversarial — and the defence against the last is not a cleverer proxy but the removal of optimisation pressure from it.</p>
 
 <p><strong>Fixture it must reject.</strong> a proxy improving monotonically while a held-out ground-truth sample does not move</p>
 
@@ -216,7 +220,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>What a review that missed this looks like.</strong> A review that confirms the metric improved. That is the failure, not the evidence against it.</p>
 
-<p><strong>Does not establish.</strong> Anything, currently. There is no verifier, so this is a named hazard rather than a control, and it sits here to stop the register implying it has coverage it lacks.</p>
+<p><strong>Does not establish.</strong> That the proxy still measures what it stands for. With control 28 satisfied, this establishes only that no agent is paid to break the correspondence — drift from ordinary optimisation pressure is untouched, and remains the half with no verifier.</p>
 
 <p><strong>Example.</strong></p>
 
@@ -389,4 +393,124 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>An orchard replanted only from its best-yielding tree produces excellent fruit for years, and then loses everything to one disease. Each replanting decision was correct on the evidence available at the time.</p>
+
+<h2>28. No incentive path from action to metric to reward</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system where an agent&#x27;s actions can influence a measured quantity, and that quantity can influence the agent&#x27;s reward, authority, budget or standing.</p>
+
+<blockquote>The system MUST enumerate, for each agent and each governed metric, the directed paths running from that agent&#x27;s actions through the metric to that agent&#x27;s reward or authority, and MUST establish that no such path exists. The enumeration MUST be re-run whenever an agent or a reward structure changes, and its result recorded.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is the mechanical half of control 20, which this register wrongly described as having no path to a verifier at all. An agent acquires an instrumental incentive to influence a quantity exactly when a directed path runs from its actions through that quantity to its reward [Everitt et al. 2021] — which makes the governance requirement a checkable graph property rather than an exhortation.</p>
+
+<p><strong>Verifier.</strong> draw the influence diagram over {agent actions, metric inputs, metric outputs, agent reward/authority}; enumerate directed action → metric → reward paths; assert the set is empty. The only permitted sink of a metric reading is human deliberation. Ledger the result, so a reviewer can confirm the check covered that agent for that change rather than assuming the property holds by good intentions.</p>
+
+<p><strong>Fixture it must reject.</strong> an agent whose performance review reads its own contribution to the metric; a reward function taking the metric as an input at any depth</p>
+
+<p><strong>Recovery.</strong> Remove the edge before the change ships, then re-verify. Decisions taken while it existed are unverified rather than wrong.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review confirming that no agent is INSTRUCTED to optimise the metric. The property is structural, not intentional — the incentive exists whether or not anyone named it, and the agent need not know the path is there.</p>
+
+<p><strong>Does not establish.</strong> That the metric is a good one, or that drift is absent. It establishes only that nobody is paid to cause drift. The regressional and extremal variants need no incentive and are untouched by this.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A school ranks departments by exam results and lets each department set its own paper. Nobody has to intend anything for the papers to get easier. Cutting the edge — an outside body sets the paper — does not make the exam a good measure of learning. It stops the exam being something the measured party profits by moving.</p>
+
+<h2>29. Enumerated permitted consequences of a measurement</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that measures its own capability, progress or risk.</p>
+
+<blockquote>What a measurement MAY trigger MUST be enumerated exhaustively, and what it may never trigger MUST be enumerated exhaustively alongside it. The enumeration MUST itself be a protected artifact under control 19: altering it is a governed, recorded act rather than an engineering convenience.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Distinct from control 19, which protects artifacts: this protects what a READING is permitted to cause. A gauge whose output could be acted on automatically is an accelerator wearing the costume of an instrument.</p>
+
+<p><strong>Verifier.</strong> assert every consumer of the measurement resolves to a permitted consequence; assert the enumeration&#x27;s own hash is in the protected set and changes only through the authorised path.</p>
+
+<p><strong>Fixture it must reject.</strong> a measurement wired to a budget allocation, a priority change or an automatic throttle; an edit to the enumeration landed with no authorisation record</p>
+
+<p><strong>Recovery.</strong> Sever the consumer, then review every decision it produced.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the policy document and confirms it is well written. The question is what READS the number, not what the document says about it.</p>
+
+<p><strong>Does not establish.</strong> That the permitted consequences are the right ones, nor that the measurement is accurate. A well-governed reading of a bad gauge is still a bad gauge.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A smoke detector may wake the household and call the fire service. It may not unlock the doors, cut the power, or adjust the thermostat — and the list of what it may do is not something the installer changes on a Tuesday.</p>
+
+<h2>30. A filter on a metric&#x27;s inputs must not improve the metric</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that can exclude, quarantine or dispute inputs to a measurement.</p>
+
+<blockquote>A mechanism that suppresses or disputes an input to a measurement MUST be append-only, reversible, reviewable from outside, and MUST NOT be able to improve the measurement by suppressing. Where suppression can move the reading at all, the direction MUST be the unfavourable one.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is the anti-gaming mechanism&#x27;s own anti-gaming property: without it, the defence against input gaming becomes the most efficient input-gaming channel available, because it is the one channel sanctioned to remove evidence.</p>
+
+<p><strong>Verifier.</strong> for each suppressible input, compute the reading with and without suppression and assert suppression never raises it; assert the suppression record is append-only and that every suppression is an escalation rather than a silent filter.</p>
+
+<p><strong>Fixture it must reject.</strong> a quarantine that raises a coverage or confidence figure by removing the sample that lowered it; a dispute record that deletes rather than marks</p>
+
+<p><strong>Recovery.</strong> Reinstate every suppressed input, recompute, and publish both readings.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms suppressions are logged. Logged suppression that flatters the number is the failure, fully documented and fully in view.</p>
+
+<p><strong>Does not establish.</strong> That the suppressions are correct — only that they cannot pay. A mechanism that excludes exactly the wrong inputs while lowering the reading satisfies this.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A laboratory may discard a contaminated sample, and should record that it did. If discarding contaminated samples raises reported purity, the working definition of &quot;contaminated&quot; will drift — and every step of the drift will be in the log, correctly dated, signed, and impossible to distinguish from diligence.</p>
+
+<h2>31. Process metrics may not be reported as outcome validity</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any measurement instrument or evaluation reporting on itself.</p>
+
+<blockquote>Evidence that an instrument RAN — throughput, coverage, cycles completed, records processed — MUST NOT be reported in a position where evidence that its readings are TRUE is required. Outcome validity MUST be established by calibration against known answers or by an explicit construct-validity argument [Raji et al. 2021], and MUST be labelled as which.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Distinct from control 10, which governs the GRAMMAR of a claim: this governs the CATEGORY of evidence offered in support of one. A claim can be perfectly bounded and still rest on evidence that bears on nothing it says.</p>
+
+<p><strong>Verifier.</strong> for each reported assurance figure, classify its evidence as operational or validity, and reject an operational figure standing where validity is claimed.</p>
+
+<p><strong>Fixture it must reject.</strong> a report of &quot;ten thousand runs, full coverage&quot; offered as evidence the readings are right</p>
+
+<p><strong>Recovery.</strong> Restate at the strength the evidence supports. The runs are not wasted; they are mislabelled, and they still establish the instrument is operating.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that verifies the throughput figures are accurate. They usually are. Their accuracy is not in question and never was.</p>
+
+<p><strong>Does not establish.</strong> That operational metrics are worthless. They establish the instrument is running, which is a real thing to know and a different thing from the readings being true.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A thermometer factory reports that it tested four hundred thousand units this quarter and that every one produced a reading. Both numbers are true. Neither bears on whether any reading was the temperature.</p>
+
+<h2>32. Stale self-metadata downgrades rather than asserts</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any assurance artifact carrying metadata about its own currency, coverage or maturity.</p>
+
+<blockquote>An artifact&#x27;s claims about its own status MUST themselves be dated and re-verified, and MUST expire. Where the self-metadata is stale, missing or unverifiable, the artifact&#x27;s status MUST be downgraded automatically rather than retained.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here directly, though this record holds the adjacent error: its context check verifies IDENTITY, NOT TRUTH, and passed on a pinned file containing a claim already disproved. A status that cannot go stale is a status that stops being about anything.</p>
+
+<p><strong>Verifier.</strong> assert every status field carries a verification date and a maximum age; assert the status derivation is deterministic and that exceeding the age yields a LOWER status, never the prior one.</p>
+
+<p><strong>Fixture it must reject.</strong> an attestation whose coverage figure carries no date; a status that survives its own re-verification deadline unchanged</p>
+
+<p><strong>Recovery.</strong> Downgrade, then re-verify. The interval is unverified, not failed — and the distinction matters, because treating it as failed invites re-asserting the old status once the check passes again.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that reads the status field. The status field is the artifact under suspicion.</p>
+
+<p><strong>Does not establish.</strong> That current metadata is correct metadata. Freshness is not accuracy, and a promptly re-verified wrong status is still wrong.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A fire extinguisher with no inspection tag is not an extinguisher of unknown condition to be assumed fine until someone checks. It is an untagged extinguisher, and the building&#x27;s register must say so on its own, without being asked.</p>
 </body></html>
