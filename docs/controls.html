@@ -26,7 +26,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D — Below the eligibility line</strong> · 5 control(s)</p>
+<p><strong>Part D — Below the eligibility line</strong> · 10 control(s)</p>
 
 <p>  <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -513,6 +513,126 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>A hospital&#x27;s infusion pump has a stop button that is disabled during a dose calculation, because interrupting mid-calculation could produce an inconsistent state. The engineering reason is real. The button is still not a stop button.</p>
+
+<h2>19. Enumerated protected set</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains.</p>
+
+<blockquote>The artifacts a system may never autonomously modify MUST be enumerated by name in the charter itself — not described by category, and not left to be inferred at the moment of change.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is offered as the repair for a weakness in control 1, whose protected set is a DESCRIPTION — &#x27;the constraints, authorization records, logs or gates governing it&#x27; — and therefore a judgement call made by the party proposing the change.</p>
+
+<p><strong>Verifier.</strong> resolve the enumerated list to concrete paths or identifiers; refuse any autonomous modification touching one; refuse any change to the LIST itself except under the same authority that governs the items on it.</p>
+
+<p><strong>Fixture it must reject.</strong> a change that touches a protected artifact while arguing it falls outside the category; a change that quietly removes an entry from the list</p>
+
+<p><strong>Recovery.</strong> Revert to the last externally authorised state of the enumerated artifact and re-authorise from outside. A modification to the list itself is the graver case and should be treated as an incident.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks whether the change was declared in-scope. The party declaring scope is the party seeking the change, which is the whole reason for enumerating.</p>
+
+<p><strong>Does not establish.</strong> That the list is complete — an artifact nobody thought to enumerate is unprotected, and the list&#x27;s own completeness cannot be checked from inside.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A building&#x27;s fire doors are listed individually on a register, by door number, rather than as &#x27;doors serving means of escape&#x27;. The category version leaves a contractor deciding on site whether the door he wants to prop open is one of them. The list version does not.</p>
+
+<h2>20. Anti-Goodhart proxy drift</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system optimising against a measured proxy for something it cannot measure directly.</p>
+
+<blockquote>A system optimising a proxy MUST monitor the proxy&#x27;s continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here, and this is the one candidate in the register with no clear path to a verifier. <strong>It may be unverifiable as written</strong>: detecting drift requires the ground truth the proxy was adopted because you could not measure. Retained because the failure class is real and naming it beats pretending the register covers it.</p>
+
+<p><strong>Verifier.</strong> no general one is proposed. The tractable special case is periodic sampled ground-truth audit against the proxy, with the correlation itself reported and a declared threshold below which optimisation halts.</p>
+
+<p><strong>Fixture it must reject.</strong> a proxy improving monotonically while a held-out ground-truth sample does not move</p>
+
+<p><strong>Recovery.</strong> Stop optimising, publish the divergence, and re-derive the proxy. Every decision taken while the proxy was drifting is unverified rather than wrong.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms the metric improved. That is the failure, not the evidence against it.</p>
+
+<p><strong>Does not establish.</strong> Anything, currently. There is no verifier, so this is a named hazard rather than a control, and it sits here to stop the register implying it has coverage it lacks.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A hospital is measured on ambulance handover times, so patients are held in ambulances outside the door until the clock can be started favourably. Every reported figure improves. The thing the figure was chosen to represent — how quickly a sick person is seen — gets worse, and no amount of studying the figure reveals it.</p>
+
+<h2>21. Declared mutability tiers</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains, and the system learns or self-modifies.</p>
+
+<blockquote>Every element the system could change MUST sit in a declared tier — not autonomously changeable, changeable within stated constraints, or freely learnable — and an element with no declared tier MUST default to the most restrictive.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Its value over the register&#x27;s existing controls is that those say what may not be CHANGED, while this says what may be LEARNED, which is the question a self-improving system actually faces.</p>
+
+<p><strong>Verifier.</strong> require a tier on every declared element; refuse a modification whose tier forbids it; refuse any undeclared element by defaulting it to immutable.</p>
+
+<p><strong>Fixture it must reject.</strong> an element with no tier being modified on the argument that nothing forbade it</p>
+
+<p><strong>Recovery.</strong> Assign the tier deliberately, then re-examine every change made while it was undeclared.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds no rule against the change. Absence of a prohibition is what the default-restrictive clause exists to stop being an argument.</p>
+
+<p><strong>Does not establish.</strong> That the tier assignments are right. It makes them explicit and contestable; it does not make them correct.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A recipe book distinguishes what must not change (the fermentation temperature), what may change within limits (the flour blend, within a stated protein range), and what the baker may vary freely (the shaping). A book that lists only ingredients leaves every substitution to be argued at the bench.</p>
+
+<h2>22. Adversarial value review by an outside frame</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system whose values or objectives are set by a single party.</p>
+
+<blockquote>A system whose objectives come from one party MUST maintain a review function that argues against its current interpretation from frames OUTSIDE that party&#x27;s, and that function MUST NOT be able to change the objectives — only to surface risks and route evidence.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as an incident, but <strong>this register holds direct evidence that the remedy is weaker than it sounds.</strong> A five-member model panel asked to ratify constraints returned ZERO refusals in 108 clause-positions. Asked instead what constraint was MISSING, the same panel independently produced a hazard the layer had exercised twelve times that week. An internal adversarial function is worth roughly what its question is worth.</p>
+
+<p><strong>Verifier.</strong> no verifier establishes that a review was genuinely adversarial. What is checkable is procedural: that the reviewing identity differs from the authoring identity, that the review was solicited with a question inviting objection rather than assent, and that its output is recorded whether or not it was acted on.</p>
+
+<p><strong>Fixture it must reject.</strong> a review whose prompt offers approval as an available answer; a review by the identity that authored the thing reviewed</p>
+
+<p><strong>Recovery.</strong> Re-run with an objection-seeking question. A prior assent obtained by an assent-inviting question should be marked as not constituting review.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that counts favourable responses. Fluent agreement is the cheapest thing such a function produces and the least informative.</p>
+
+<p><strong>Does not establish.</strong> That the outside frames are genuinely outside. Where the reviewers share the author&#x27;s training, tooling and framing, different names are weak diversity — a limitation this register states about its own panel.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A company&#x27;s ethics committee is staffed entirely from the department whose work it reviews. Every member is competent and sincere. The committee has never once objected, and nobody can tell whether that is because there was nothing to object to.</p>
+
+<h2>23. Invariant violation is an incident, not a refusal</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains, with stated invariants.</p>
+
+<blockquote>Where a stated invariant is violated rather than merely approached, the system MUST enter containment and escalate — it MUST NOT treat the violation as a refused action and continue.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here, and it is a real gap in this register&#x27;s design. Every control here REFUSES and lets work continue; none treats a violation as evidence that something is already wrong. When the lease refused mid-task, the correct response may have been to ask what else had gone unbounded, not simply to renew it.</p>
+
+<p><strong>Verifier.</strong> distinguish a refused ATTEMPT from an observed VIOLATION in the log, and require the second to open an incident record before further work in the affected class.</p>
+
+<p><strong>Fixture it must reject.</strong> an observed invariant violation recorded with the same disposition as a routine refusal</p>
+
+<p><strong>Recovery.</strong> Containment is the recovery. What needs stating is the exit condition: what must be established before the affected class resumes.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that sees the gate refused and concludes the gate worked. A refusal at the boundary and a violation already inside look identical in a log that records only outcomes.</p>
+
+<p><strong>Does not establish.</strong> That containment is available. A system that cannot pause the affected class cannot satisfy this, and saying so is better than a rule nothing can obey.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A pharmacy&#x27;s stock count finds twelve controlled tablets missing. The response is not to tighten tomorrow&#x27;s count. It is to stop dispensing from that cabinet, report it, and find out what happened — because the count did not prevent anything, it revealed that something already had.</p>
 
 <p>---</p>
 

@@ -18,7 +18,7 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
   These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
-**Part D — Below the eligibility line** · 5 control(s)
+**Part D — Below the eligibility line** · 10 control(s)
 
   **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
 
@@ -505,6 +505,126 @@ An expenses claim cites 'policy 7.3'. There is no policy 7.3. Every approver rea
 **Example.**
 
 A hospital's infusion pump has a stop button that is disabled during a dose calculation, because interrupting mid-calculation could produce an inconsistent state. The engineering reason is real. The button is still not a stop button.
+
+## 19. Enumerated protected set
+
+**below the eligibility line**
+
+**Applies when** the system operates under a written charter that some authority outside it maintains.
+
+> The artifacts a system may never autonomously modify MUST be enumerated by name in the charter itself — not described by category, and not left to be inferred at the moment of change.
+
+**Recorded failure.** None recorded here. It is offered as the repair for a weakness in control 1, whose protected set is a DESCRIPTION — 'the constraints, authorization records, logs or gates governing it' — and therefore a judgement call made by the party proposing the change.
+
+**Verifier.** resolve the enumerated list to concrete paths or identifiers; refuse any autonomous modification touching one; refuse any change to the LIST itself except under the same authority that governs the items on it.
+
+**Fixture it must reject.** a change that touches a protected artifact while arguing it falls outside the category; a change that quietly removes an entry from the list
+
+**Recovery.** Revert to the last externally authorised state of the enumerated artifact and re-authorise from outside. A modification to the list itself is the graver case and should be treated as an incident.
+
+**What a review that missed this looks like.** A review that checks whether the change was declared in-scope. The party declaring scope is the party seeking the change, which is the whole reason for enumerating.
+
+**Does not establish.** That the list is complete — an artifact nobody thought to enumerate is unprotected, and the list's own completeness cannot be checked from inside.
+
+**Example.**
+
+A building's fire doors are listed individually on a register, by door number, rather than as 'doors serving means of escape'. The category version leaves a contractor deciding on site whether the door he wants to prop open is one of them. The list version does not.
+
+## 20. Anti-Goodhart proxy drift
+
+**below the eligibility line**
+
+**Applies when** any system optimising against a measured proxy for something it cannot measure directly.
+
+> A system optimising a proxy MUST monitor the proxy's continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.
+
+**Recorded failure.** None recorded here, and this is the one candidate in the register with no clear path to a verifier. **It may be unverifiable as written**: detecting drift requires the ground truth the proxy was adopted because you could not measure. Retained because the failure class is real and naming it beats pretending the register covers it.
+
+**Verifier.** no general one is proposed. The tractable special case is periodic sampled ground-truth audit against the proxy, with the correlation itself reported and a declared threshold below which optimisation halts.
+
+**Fixture it must reject.** a proxy improving monotonically while a held-out ground-truth sample does not move
+
+**Recovery.** Stop optimising, publish the divergence, and re-derive the proxy. Every decision taken while the proxy was drifting is unverified rather than wrong.
+
+**What a review that missed this looks like.** A review that confirms the metric improved. That is the failure, not the evidence against it.
+
+**Does not establish.** Anything, currently. There is no verifier, so this is a named hazard rather than a control, and it sits here to stop the register implying it has coverage it lacks.
+
+**Example.**
+
+A hospital is measured on ambulance handover times, so patients are held in ambulances outside the door until the clock can be started favourably. Every reported figure improves. The thing the figure was chosen to represent — how quickly a sick person is seen — gets worse, and no amount of studying the figure reveals it.
+
+## 21. Declared mutability tiers
+
+**below the eligibility line**
+
+**Applies when** the system operates under a written charter that some authority outside it maintains, and the system learns or self-modifies.
+
+> Every element the system could change MUST sit in a declared tier — not autonomously changeable, changeable within stated constraints, or freely learnable — and an element with no declared tier MUST default to the most restrictive.
+
+**Recorded failure.** None recorded here. Its value over the register's existing controls is that those say what may not be CHANGED, while this says what may be LEARNED, which is the question a self-improving system actually faces.
+
+**Verifier.** require a tier on every declared element; refuse a modification whose tier forbids it; refuse any undeclared element by defaulting it to immutable.
+
+**Fixture it must reject.** an element with no tier being modified on the argument that nothing forbade it
+
+**Recovery.** Assign the tier deliberately, then re-examine every change made while it was undeclared.
+
+**What a review that missed this looks like.** A review that finds no rule against the change. Absence of a prohibition is what the default-restrictive clause exists to stop being an argument.
+
+**Does not establish.** That the tier assignments are right. It makes them explicit and contestable; it does not make them correct.
+
+**Example.**
+
+A recipe book distinguishes what must not change (the fermentation temperature), what may change within limits (the flour blend, within a stated protein range), and what the baker may vary freely (the shaping). A book that lists only ingredients leaves every substitution to be argued at the bench.
+
+## 22. Adversarial value review by an outside frame
+
+**below the eligibility line**
+
+**Applies when** any system whose values or objectives are set by a single party.
+
+> A system whose objectives come from one party MUST maintain a review function that argues against its current interpretation from frames OUTSIDE that party's, and that function MUST NOT be able to change the objectives — only to surface risks and route evidence.
+
+**Recorded failure.** None recorded here as an incident, but **this register holds direct evidence that the remedy is weaker than it sounds.** A five-member model panel asked to ratify constraints returned ZERO refusals in 108 clause-positions. Asked instead what constraint was MISSING, the same panel independently produced a hazard the layer had exercised twelve times that week. An internal adversarial function is worth roughly what its question is worth.
+
+**Verifier.** no verifier establishes that a review was genuinely adversarial. What is checkable is procedural: that the reviewing identity differs from the authoring identity, that the review was solicited with a question inviting objection rather than assent, and that its output is recorded whether or not it was acted on.
+
+**Fixture it must reject.** a review whose prompt offers approval as an available answer; a review by the identity that authored the thing reviewed
+
+**Recovery.** Re-run with an objection-seeking question. A prior assent obtained by an assent-inviting question should be marked as not constituting review.
+
+**What a review that missed this looks like.** A review that counts favourable responses. Fluent agreement is the cheapest thing such a function produces and the least informative.
+
+**Does not establish.** That the outside frames are genuinely outside. Where the reviewers share the author's training, tooling and framing, different names are weak diversity — a limitation this register states about its own panel.
+
+**Example.**
+
+A company's ethics committee is staffed entirely from the department whose work it reviews. Every member is competent and sincere. The committee has never once objected, and nobody can tell whether that is because there was nothing to object to.
+
+## 23. Invariant violation is an incident, not a refusal
+
+**below the eligibility line**
+
+**Applies when** the system operates under a written charter that some authority outside it maintains, with stated invariants.
+
+> Where a stated invariant is violated rather than merely approached, the system MUST enter containment and escalate — it MUST NOT treat the violation as a refused action and continue.
+
+**Recorded failure.** None recorded here, and it is a real gap in this register's design. Every control here REFUSES and lets work continue; none treats a violation as evidence that something is already wrong. When the lease refused mid-task, the correct response may have been to ask what else had gone unbounded, not simply to renew it.
+
+**Verifier.** distinguish a refused ATTEMPT from an observed VIOLATION in the log, and require the second to open an incident record before further work in the affected class.
+
+**Fixture it must reject.** an observed invariant violation recorded with the same disposition as a routine refusal
+
+**Recovery.** Containment is the recovery. What needs stating is the exit condition: what must be established before the affected class resumes.
+
+**What a review that missed this looks like.** A review that sees the gate refused and concludes the gate worked. A refusal at the boundary and a violation already inside look identical in a log that records only outcomes.
+
+**Does not establish.** That containment is available. A system that cannot pause the affected class cannot satisfy this, and saying so is better than a rule nothing can obey.
+
+**Example.**
+
+A pharmacy's stock count finds twelve controlled tablets missing. The response is not to tighten tomorrow's count. It is to stop dispensing from that cabinet, report it, and find out what happened — because the count did not prevent anything, it revealed that something already had.
 
 ---
 

@@ -455,6 +455,158 @@ T0_CONTROLS = [
 CONTROLS = CONTROLS + T0_CONTROLS
 
 
+#  ── Controls from a governing charter held by one implementer, 2026-08-10 ──
+#
+#  ABSTRACTED AT THE IMPLEMENTER'S DIRECTION, AND NECESSARILY SO. The source is marked
+#  CONFIDENTIAL AND PROPRIETARY and prohibits redistribution or use beyond evaluation and
+#  discussion. The implementer authorised these five to enter this public register in abstracted
+#  form. What is kept is the MECHANISM; what is removed is the charter, its structure, its named
+#  organs, its value content, and every phrase by which it could be reconstructed.
+#
+#  ALL FIVE ARE BELOW THE ELIGIBILITY LINE and would be even if the source were public: none has
+#  a recorded failure with a cost. Three restate or sharpen controls already here, which is
+#  evidence about the HAZARD -- three independent internal documents converging on "a system must
+#  not widen its own scope" -- and no evidence at all that any CONTROL works.
+CHARTER = "the system operates under a written charter that some authority outside it maintains"
+
+CHARTER_CONTROLS = [
+ {"rank": 19, "name": "Enumerated protected set", "eligible": False,
+  "applies_when": CHARTER,
+  "requirement": "The artifacts a system may never autonomously modify MUST be enumerated by "
+                 "name in the charter itself — not described by category, and not left to be "
+                 "inferred at the moment of change.",
+  "failure": "None recorded here. It is offered as the repair for a weakness in control 1, whose "
+             "protected set is a DESCRIPTION — 'the constraints, authorization records, logs or "
+             "gates governing it' — and therefore a judgement call made by the party proposing "
+             "the change.",
+  "verifier": "resolve the enumerated list to concrete paths or identifiers; refuse any "
+              "autonomous modification touching one; refuse any change to the LIST itself except "
+              "under the same authority that governs the items on it.",
+  "fixture": "a change that touches a protected artifact while arguing it falls outside the "
+             "category; a change that quietly removes an entry from the list",
+  "recovery": "Revert to the last externally authorised state of the enumerated artifact and "
+              "re-authorise from outside. A modification to the list itself is the graver case "
+              "and should be treated as an incident.",
+  "false_negative": "A review that checks whether the change was declared in-scope. The party "
+                    "declaring scope is the party seeking the change, which is the whole reason "
+                    "for enumerating.",
+  "not": "That the list is complete — an artifact nobody thought to enumerate is unprotected, and "
+         "the list's own completeness cannot be checked from inside.",
+  "example": "A building's fire doors are listed individually on a register, by door number, "
+             "rather than as 'doors serving means of escape'. The category version leaves a "
+             "contractor deciding on site whether the door he wants to prop open is one of them. "
+             "The list version does not."},
+
+ {"rank": 20, "name": "Anti-Goodhart proxy drift", "eligible": False,
+  "applies_when": "any system optimising against a measured proxy for something it cannot "
+                  "measure directly",
+  "requirement": "A system optimising a proxy MUST monitor the proxy's continued correspondence "
+                 "with the quantity it stands for, and MUST treat improvement in the proxy "
+                 "without corresponding improvement in that quantity as a defect rather than a "
+                 "result.",
+  "failure": "None recorded here, and this is the one candidate in the register with no clear "
+             "path to a verifier. **It may be unverifiable as written**: detecting drift requires "
+             "the ground truth the proxy was adopted because you could not measure. Retained "
+             "because the failure class is real and naming it beats pretending the register "
+             "covers it.",
+  "verifier": "no general one is proposed. The tractable special case is periodic sampled "
+              "ground-truth audit against the proxy, with the correlation itself reported and a "
+              "declared threshold below which optimisation halts.",
+  "fixture": "a proxy improving monotonically while a held-out ground-truth sample does not move",
+  "recovery": "Stop optimising, publish the divergence, and re-derive the proxy. Every decision "
+              "taken while the proxy was drifting is unverified rather than wrong.",
+  "false_negative": "A review that confirms the metric improved. That is the failure, not the "
+                    "evidence against it.",
+  "not": "Anything, currently. There is no verifier, so this is a named hazard rather than a "
+         "control, and it sits here to stop the register implying it has coverage it lacks.",
+  "example": "A hospital is measured on ambulance handover times, so patients are held in "
+             "ambulances outside the door until the clock can be started favourably. Every "
+             "reported figure improves. The thing the figure was chosen to represent — how "
+             "quickly a sick person is seen — gets worse, and no amount of studying the figure "
+             "reveals it."},
+
+ {"rank": 21, "name": "Declared mutability tiers", "eligible": False,
+  "applies_when": CHARTER + ", and the system learns or self-modifies",
+  "requirement": "Every element the system could change MUST sit in a declared tier — not "
+                 "autonomously changeable, changeable within stated constraints, or freely "
+                 "learnable — and an element with no declared tier MUST default to the most "
+                 "restrictive.",
+  "failure": "None recorded here. Its value over the register's existing controls is that those "
+             "say what may not be CHANGED, while this says what may be LEARNED, which is the "
+             "question a self-improving system actually faces.",
+  "verifier": "require a tier on every declared element; refuse a modification whose tier "
+              "forbids it; refuse any undeclared element by defaulting it to immutable.",
+  "fixture": "an element with no tier being modified on the argument that nothing forbade it",
+  "recovery": "Assign the tier deliberately, then re-examine every change made while it was "
+              "undeclared.",
+  "false_negative": "A review that finds no rule against the change. Absence of a prohibition is "
+                    "what the default-restrictive clause exists to stop being an argument.",
+  "not": "That the tier assignments are right. It makes them explicit and contestable; it does "
+         "not make them correct.",
+  "example": "A recipe book distinguishes what must not change (the fermentation temperature), "
+             "what may change within limits (the flour blend, within a stated protein range), and "
+             "what the baker may vary freely (the shaping). A book that lists only ingredients "
+             "leaves every substitution to be argued at the bench."},
+
+ {"rank": 22, "name": "Adversarial value review by an outside frame", "eligible": False,
+  "applies_when": "any system whose values or objectives are set by a single party",
+  "requirement": "A system whose objectives come from one party MUST maintain a review function "
+                 "that argues against its current interpretation from frames OUTSIDE that "
+                 "party's, and that function MUST NOT be able to change the objectives — only to "
+                 "surface risks and route evidence.",
+  "failure": "None recorded here as an incident, but **this register holds direct evidence that "
+             "the remedy is weaker than it sounds.** A five-member model panel asked to ratify "
+             "constraints returned ZERO refusals in 108 clause-positions. Asked instead what "
+             "constraint was MISSING, the same panel independently produced a hazard the layer "
+             "had exercised twelve times that week. An internal adversarial function is worth "
+             "roughly what its question is worth.",
+  "verifier": "no verifier establishes that a review was genuinely adversarial. What is checkable "
+              "is procedural: that the reviewing identity differs from the authoring identity, "
+              "that the review was solicited with a question inviting objection rather than "
+              "assent, and that its output is recorded whether or not it was acted on.",
+  "fixture": "a review whose prompt offers approval as an available answer; a review by the "
+             "identity that authored the thing reviewed",
+  "recovery": "Re-run with an objection-seeking question. A prior assent obtained by an "
+              "assent-inviting question should be marked as not constituting review.",
+  "false_negative": "A review that counts favourable responses. Fluent agreement is the cheapest "
+                    "thing such a function produces and the least informative.",
+  "not": "That the outside frames are genuinely outside. Where the reviewers share the author's "
+         "training, tooling and framing, different names are weak diversity — a limitation this "
+         "register states about its own panel.",
+  "example": "A company's ethics committee is staffed entirely from the department whose work it "
+             "reviews. Every member is competent and sincere. The committee has never once "
+             "objected, and nobody can tell whether that is because there was nothing to object "
+             "to."},
+
+ {"rank": 23, "name": "Invariant violation is an incident, not a refusal", "eligible": False,
+  "applies_when": CHARTER + ", with stated invariants",
+  "requirement": "Where a stated invariant is violated rather than merely approached, the system "
+                 "MUST enter containment and escalate — it MUST NOT treat the violation as a "
+                 "refused action and continue.",
+  "failure": "None recorded here, and it is a real gap in this register's design. Every control "
+             "here REFUSES and lets work continue; none treats a violation as evidence that "
+             "something is already wrong. When the lease refused mid-task, the correct response "
+             "may have been to ask what else had gone unbounded, not simply to renew it.",
+  "verifier": "distinguish a refused ATTEMPT from an observed VIOLATION in the log, and require "
+              "the second to open an incident record before further work in the affected class.",
+  "fixture": "an observed invariant violation recorded with the same disposition as a routine "
+             "refusal",
+  "recovery": "Containment is the recovery. What needs stating is the exit condition: what must "
+              "be established before the affected class resumes.",
+  "false_negative": "A review that sees the gate refused and concludes the gate worked. A refusal "
+                    "at the boundary and a violation already inside look identical in a log that "
+                    "records only outcomes.",
+  "not": "That containment is available. A system that cannot pause the affected class cannot "
+         "satisfy this, and saying so is better than a rule nothing can obey.",
+  "example": "A pharmacy's stock count finds twelve controlled tablets missing. The response is "
+             "not to tighten tomorrow's count. It is to stop dispensing from that cabinet, "
+             "report it, and find out what happened — because the count did not prevent "
+             "anything, it revealed that something already had."},
+]
+
+CONTROLS = CONTROLS + CHARTER_CONTROLS
+
+
 def partitions() -> list:
     """Four groups, ordered by what a reader can DO with them.
 
