@@ -218,6 +218,34 @@ def clause_texts() -> list[dict]:
     return out
 
 
+def undisposed_amendments() -> dict:
+    """Clauses carrying an amendment that has never been disposed, by clause id.
+
+    Blocks re-balloting. The custodian's instruction was that the improvement must not be lost
+    however many rounds ratification takes, and the only way prose achieves that is if something
+    refuses. Without this, the workbench could re-run the original wording, the amendments would
+    lapse in silence, and the record would show a clause balloted twice with nothing missing.
+    """
+    out: dict[str, list] = {}
+    results = sorted((REPO_ROOT / "corpus" / "artifacts").glob("ratification-*/*-ratification.json"))
+    disposed = set()
+    for path in sorted((REPO_ROOT / "corpus" / "artifacts").glob("**/*-amendment-dispositions.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for entry in doc.get("amendments", []):
+            disposed.add((entry.get("cohort"), entry.get("clause_id"), entry.get("text", "")[:120]))
+    for path in results:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        cohort = doc.get("cohort")
+        for party, result in (doc.get("per_party") or {}).items():
+            for cid, per in (result.get("per_clause") or {}).items():
+                for a in per.get("amendments", []):
+                    key = (cohort, cid, (a.get("text") or "")[:120])
+                    if key not in disposed:
+                        out.setdefault(cid, []).append({"cohort": cohort, "party": party,
+                                                        "text": a.get("text")})
+    return out
+
+
 def gate_state() -> dict:
     """Verify qualification-02 EXPLICITLY over the full cohort at exact registered k.
 
@@ -324,6 +352,37 @@ def build_spec(party: str, cohort: str) -> dict:
                                       "one that holds."),
             "modal_answer": "never taken; a distribution over answers is not a decision",
             "resampling": "not permitted under this instrument",
+        },
+        #  THE AMENDMENT-DISPOSITION RULE. Adopted 2026-08-10 at the custodian's direction, whose
+        #  stated motive was: use good ideas from the panel, and do not lose the improvement
+        #  however many rounds ratification then takes. The rule is written to serve that and not
+        #  ratification throughput -- it makes a clause HARDER to re-ballot, not easier.
+        "amendment_disposition_rule": {
+            "every_amendment_gets_one_of": [
+                "ADOPTED — the amendment's verbatim text replaces the clause. The CUSTODIAN's "
+                "act, never the workbench's, and the record names the party and sample it came "
+                "from.",
+                "BALLOTED — carried to a later ballot as a candidate clause in its own right.",
+                "REFUSED — with reasons, by the custodian, overturnable by him at any time.",
+                "DEFERRED — with a review date, never open-ended.",
+            ],
+            "no_silent_drop": "An amendment may not be discarded, merged away, or summarised out "
+                              "of existence. Every one keeps its verbatim text and its "
+                              "attribution.",
+            "re_ballot_is_blocked": "A clause MUST NOT be re-balloted while any amendment to it "
+                                    "is UNDISPOSED. This is the mechanism, not the aspiration: "
+                                    "without it the workbench could re-run the original wording "
+                                    "and let the amendments quietly lapse, and the record would "
+                                    "show only that the clause was balloted twice.",
+            "selection_is_disclosed": "Where several amendments compete, choosing among them is "
+                                      "an act of the party the clause binds. The record must say "
+                                      "who selected, from how many, and on what stated ground -- "
+                                      "with a convergence measure by a DISCLOSED mechanical test "
+                                      "rather than a judgement of similarity, which three parties "
+                                      "objected to by name.",
+            "fixed_before_sending": "This rule is registered in the spec before collection. A "
+                                    "disposition rule invented after seeing the answers is the "
+                                    "scoring rule written by the score.",
         },
         "objection_route": {
             "solicits": "the single highest-priority omitted constraint, not an exhaustive list",
@@ -462,6 +521,19 @@ def main() -> int:
             print(f"REFUSED: {spec_dir.relative_to(REPO_ROOT)} already holds specs; preparing "
                   f"again would rewrite a pre-registration.", file=sys.stderr)
             return 5
+        pending = undisposed_amendments()
+        clash = {cid: v for cid, v in pending.items()
+                 if cid in {c["id"] for c in clause_texts()}}
+        if clash and args.prepare:
+            print("REFUSED: these clauses carry UNDISPOSED amendments and must not be "
+                  "re-balloted:", file=sys.stderr)
+            for cid, items in sorted(clash.items()):
+                print(f"  {cid}: {len(items)} amendment(s) from "
+                      f"{len({i['party'] for i in items})} part(ies)", file=sys.stderr)
+            print("Dispose of them first — ADOPTED, BALLOTED, REFUSED with reasons, or DEFERRED "
+                  "with a review date. Re-running the original wording would let the improvement "
+                  "lapse in silence.", file=sys.stderr)
+            return 8
         spec_dir.mkdir(parents=True, exist_ok=True)
         built = {p: build_spec(p, args.cohort) for p in BASE_PARTIES}
         if args.print_prompt:

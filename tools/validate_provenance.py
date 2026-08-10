@@ -87,6 +87,7 @@ SCHEMA_FOR_TYPE = {
     "qualification_record": "qualification.schema.json",
     "ratification_record": "ratification-result.schema.json",
     "objection_disposition": "objection-disposition.schema.json",
+    "amendment_disposition": "amendment-disposition.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
     "deficiency_register": "deficiency-register.schema.json",

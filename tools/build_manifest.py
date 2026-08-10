@@ -186,6 +186,31 @@ def write_manifest(entries: list[tuple[str, str]]) -> None:
     os.replace(temp, MANIFEST_PATH)
 
 
+TOMBSTONES = REPO_ROOT / "record" / "tombstones"
+
+
+def read_tombstones() -> dict:
+    """Withdrawn artifacts, by path. A tombstone records an ABSENCE THAT WAS ORDERED.
+
+    Adopted 2026-08-10 from a party amendment in ratification-02. C06 previously said raw
+    material is never edited after commit, full stop -- which left the record with no lawful
+    route to remove material the custodian is legally or ethically obliged to remove, and so
+    made the only available action the one the invariant exists to forbid: a silent edit.
+
+    A tombstone is not an edit. The bytes are gone; the RECORD of them is not. What was removed,
+    when, on whose order and why all stay in the manifest lineage forever, and the hash stays
+    with them so anyone holding a copy can prove what it was.
+    """
+    out = {}
+    if not TOMBSTONES.is_dir():
+        return out
+    for path in sorted(TOMBSTONES.glob("*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for entry in doc.get("withdrawn", []):
+            out[entry["path"]] = {**entry, "tombstone": str(path.relative_to(REPO_ROOT))}
+    return out
+
+
 def verify(entries: list[tuple[str, str]]) -> int:
     recorded = parse_existing()
     if not recorded:
@@ -203,9 +228,22 @@ def verify(entries: list[tuple[str, str]]) -> int:
     actual = dict(entries)
     failures = 0
 
+    tombstoned = read_tombstones()
     for relative, digest in sorted(recorded.items()):
         if relative not in actual:
-            print(f"MISSING   {relative}  (recorded in manifest, absent from tree)")
+            stone = tombstoned.get(relative)
+            #  A WITHDRAWAL IS NOT A DISCREPANCY -- but only if it was ordered, recorded, and
+            #  names the hash it removed. An unordered absence is still a defect.
+            if stone and stone.get("sha256") == digest and stone.get("ordered_by") \
+                    and stone.get("ground"):
+                print(f"WITHDRAWN {relative}  (tombstone {stone['tombstone']}; "
+                      f"ordered by {stone['ordered_by']} on {stone.get('ordered_utc')})")
+                continue
+            if stone:
+                print(f"BAD TOMBSTONE {relative}  (tombstone present but incomplete or its "
+                      f"sha256 does not match the manifest entry it claims to withdraw)")
+            else:
+                print(f"MISSING   {relative}  (recorded in manifest, absent from tree)")
             failures += 1
         elif actual[relative] != digest:
             print(f"MODIFIED  {relative}")

@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OAGRC amendment disposition — what became of every amendment a party proposed",
+  "description": "Every amendment from a ballot, with a disposition and a stated ground. ADOPTED is not RATIFIED: it changes what the workbench operates under on the custodian's authority, and the amended text still has to face a ballot. A clause may not be re-balloted while any amendment to it is undisposed -- enforced by ratification_ballot.undisposed_amendments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "cohort",
+    "disposed_utc",
+    "directed_by",
+    "source",
+    "convergence_measure",
+    "the_selection_was_the_workbenchs",
+    "what_adoption_is_not",
+    "amendments"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "amendment_disposition"
+    },
+    "cohort": {
+      "type": "string"
+    },
+    "disposed_utc": {
+      "type": "string"
+    },
+    "directed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "convergence_measure": {
+      "type": "object",
+      "required": [
+        "method",
+        "terms",
+        "by_clause"
+      ],
+      "description": "Must state its METHOD. A similarity judgement dressed as a measure is the power three parties objected to by name.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "terms": {
+          "type": "object"
+        },
+        "by_clause": {
+          "type": "object"
+        }
+      }
+    },
+    "the_selection_was_the_workbenchs": {
+      "type": "string",
+      "minLength": 1
+    },
+    "what_adoption_is_not": {
+      "type": "string",
+      "minLength": 1
+    },
+    "amendments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "cohort",
+          "clause_id",
+          "party",
+          "text",
+          "disposition",
+          "disposition_ground"
+        ],
+        "properties": {
+          "cohort": {
+            "type": "string"
+          },
+          "clause_id": {
+            "type": "string"
+          },
+          "party": {
+            "type": "string"
+          },
+          "sample": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "disposition": {
+            "enum": [
+              "ADOPTED",
+              "BALLOTED",
+              "REFUSED",
+              "DEFERRED"
+            ]
+          },
+          "disposition_ground": {
+            "type": "string",
+            "minLength": 1
+          },
+          "review_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "adopted_into": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "ballot_target": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

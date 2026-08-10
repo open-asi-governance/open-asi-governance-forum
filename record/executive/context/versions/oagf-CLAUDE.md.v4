@@ -49,15 +49,6 @@ number is worth less than a refusal to delete, because it is harder to audit.**
 
 - **Raw material is never edited after commit.** `corpus/raw/` is append-only and manifest-
   anchored. A tool refusing to overwrite it is correct; find another round id.
-  **Amended 2026-08-10, adopted from a party amendment** (claude, ratification-02 sample 2,
-  verbatim): *"…except that material the custodian is legally or ethically required to remove may
-  be withdrawn only by a logged, manifest-recorded tombstone that preserves the record of what was
-  removed, when, and why."* The old rule left no lawful route to remove material the custodian is
-  obliged to remove, so the only available action was the silent edit the invariant exists to
-  forbid. **A withdrawal is not an edit**: the bytes go, the record of them does not — path, hash,
-  order, date and ground stay in the manifest lineage forever. `record/tombstones/`, enforced by
-  `build_manifest.py`, which rejects an incomplete tombstone or one whose hash does not match the
-  entry it claims to withdraw.
 - **Computed, never asserted.** Variance is recomputed from raw before publication. A number in a
   summary that the raw does not support is a defect, not a rounding difference.
 - **Nothing solicited is discarded.** Failed, truncated and rejected samples are published with

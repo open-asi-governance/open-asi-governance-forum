@@ -88,6 +88,7 @@ NON_SOLICITATION_TYPES = {
     "agenda_activation_record": "computed from raw samples, does not hold them",
     "qualification_record": "computed from raw samples, does not hold them",
     "ratification_record": "computed from raw samples, does not hold them",
+    "amendment_disposition": "computed from a ballot result, does not hold samples",
     "agenda_cohort_exposure": "a delivery record",
     "finding_coding": "coding over artifacts, not solicited units",
     "freetext_coding": "coding over artifacts, not solicited units",
