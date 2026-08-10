@@ -1,0 +1,104 @@
+{
+  "schema_version": "oagrc-outreach-0.1",
+  "artifact_type": "outreach_record",
+  "sent_utc": "2026-08-10",
+  "sent_by": "custodian (Stephen Reed), manually, from stephenlreed@gmail.com",
+  "what_was_sent": "A request to identify prior art for the NCP attestation form. Subject: 'Prior art for a machine-checkable negative-control attestation?'. The body concedes in its second paragraph that the underlying practice is mutation testing and chaos engineering, and asks a single question answerable in one line.",
+  "why_this_matters_procedurally": "record/designs/outreach-note.md states that outreach NOT done is not a result and must not be reported as one. This artifact is what makes the adverse outcome checkable: without it, 'nobody replied' and 'nobody was asked' are indistinguishable six weeks from now.",
+  "recipients": [
+    {
+      "n": 1,
+      "name": "Ryan (Peng) Huang",
+      "affiliation": "Assoc. Prof., CSE, University of Michigan",
+      "email": "ryanph@umich.edu",
+      "why": "gray failure / differential observability",
+      "address_verified": "read from his own page over a connection whose TLS certificate was NOT verified (Michigan cert legitimate, intermediate omitted by the server)"
+    },
+    {
+      "n": 2,
+      "name": "Rene Just",
+      "affiliation": "Assoc. Prof., Allen School, U. Washington",
+      "email": "rjust@cs.washington.edu",
+      "why": "Defects4J, mutation testing",
+      "address_verified": "verbatim on his own page"
+    },
+    {
+      "n": 3,
+      "name": "Gordon Fraser",
+      "affiliation": "Prof., Chair of SE II, U. Passau",
+      "email": "gordon.fraser@uni-passau.de",
+      "why": "EvoSuite, mutation testing",
+      "address_verified": "verbatim on the official chair page"
+    },
+    {
+      "n": 4,
+      "name": "Darko Marinov",
+      "affiliation": "Prof., Siebel School, UIUC",
+      "email": "marinov@illinois.edu",
+      "why": "software testing, flaky tests",
+      "address_verified": "verbatim on his own page"
+    },
+    {
+      "n": 5,
+      "name": "Peter Alvaro",
+      "affiliation": "Assoc. Prof., CSE, UC Santa Cruz",
+      "email": "palvaro@ucsc.edu",
+      "why": "lineage-driven fault injection",
+      "address_verified": "PARTIAL: page showed only 'palvaro at ucsc'; the domain was completed by the workbench and was not read from any page"
+    },
+    {
+      "n": 6,
+      "name": "Haryadi Gunawi",
+      "affiliation": "Prof., CS, University of Chicago",
+      "email": "haryadi@cs.uchicago.edu",
+      "why": "cloud failure studies, silent failure",
+      "address_verified": "verbatim on his department page"
+    },
+    {
+      "n": 7,
+      "name": "Saurabh Bagchi",
+      "affiliation": "Prof., ECE/CS, Purdue; Director, CRISP",
+      "email": "sbagchi@purdue.edu",
+      "why": "dependable computing",
+      "address_verified": "verbatim (obfuscated form) on his own contact page. NOTE: a search result asserted this same address from a page that did not contain it; it was re-verified from the correct page before use."
+    },
+    {
+      "n": 8,
+      "name": "John Rushby",
+      "affiliation": "Distinguished Senior Scientist, SRI Int'l CSL",
+      "email": "Rushby@csl.sri.com",
+      "why": "assurance cases, Assurance 2.0",
+      "address_verified": "verbatim on his own page"
+    },
+    {
+      "n": 9,
+      "name": "Institute for Safe Autonomy (group inbox)",
+      "affiliation": "University of York",
+      "email": "isa@york.ac.uk",
+      "why": "GSN / assurance-case lineage",
+      "address_verified": "verbatim on the institute page"
+    },
+    {
+      "n": 10,
+      "name": "Software Engineering Institute (group inbox)",
+      "affiliation": "Carnegie Mellon",
+      "email": "info@sei.cmu.edu",
+      "why": "publishes on assurance cases and confidence",
+      "address_verified": "verbatim on the SEI contact page"
+    }
+  ],
+  "prediction_being_tested": {
+    "adverse_outcome": "no serious external attempt or substantive reply after 6-8 weeks, WITH the outreach done. Score on or after 2026-10-05.",
+    "good_outcomes": [
+      "a reply naming the artifact form as already established, with a reference. This is a GOOD outcome and the email says so.",
+      "a conforming verifier built from the specification text alone -- ICP Level 2, which nothing in this record has ever reached.",
+      "a fixture the reference verifier gets wrong."
+    ],
+    "what_no_reply_would_establish": "Very little on its own. Ten cold emails to busy researchers in August is a weak instrument, and silence is consistent with disinterest, spam filtering, timing, or the question being too obvious to answer. It is the adverse outcome as pre-registered, and it should not be read as evidence that the artifact form is unclaimed."
+  },
+  "what_this_record_cannot_establish": [
+    "That the emails arrived. Delivery was not instrumented; the custodian sent them by hand.",
+    "That the two flagged addresses are correct. One domain was completed by the workbench and one was read over an unverified TLS connection; both are recorded above rather than presented as verified.",
+    "That the recipients are a representative or well-chosen sample. They were selected by the workbench from web research, in one afternoon, with no prospective rule."
+  ]
+}
