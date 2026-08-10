@@ -8,7 +8,7 @@
     ]
   },
   "issued_utc": "2026-08-10T00:00:00Z",
-  "_what_this_is": "An ADVERSARIAL application of NCP v0.1 to Consullo's EXISTING checks. It was not written to demonstrate conformance; it was written to find checks that cannot fail. It is NON-CONFORMING and the verifier rejects it, which is the result, not a defect in the attestation.",
+  "_what_this_is": "An ADVERSARIAL application of NCP v0.1 to Consullo's EXISTING checks. Every negative control below was EXECUTED against a deliberately broken build on 2026-08-10; the first version of this attestation derived its outcomes by reading source and disclosed that as a limitation. It is NON-CONFORMING, which is the result, not a defect in the attestation.",
   "checks": [
     {
       "check_id": "connectivity_check",
@@ -24,12 +24,13 @@
       },
       "negative_control": {
         "condition": "the engine is dead but the process still holds the socket",
-        "how_produced": "the AS-01 failure: the executor died, the JVM stayed up and kept accepting TCP on 8080 for 4h37m",
+        "how_produced": "a Python process bound 127.0.0.1:8080, accepted connections and served nothing at all -- AS-01's state, where the process is alive and holding the socket while the capability behind it is dead",
         "targets": "the declared capability",
         "run": {
-          "utc": "2026-08-10T00:00:00Z",
+          "utc": "2026-08-10T15:35:00Z",
           "outcome": "PASS",
-          "note": "nc -z succeeds on any listener. THE CHECK SURVIVES ITS OWN NEGATIVE CONTROL -- this is AS-01's shape in a different check, still shipping."
+          "note": "printed 'Port 8080 is open' and exited 0",
+          "method": "EXECUTED against a deliberately broken build, not inferred from source"
         }
       }
     },
@@ -46,12 +47,13 @@
       },
       "negative_control": {
         "condition": "the endpoint reports itself UNHEALTHY",
-        "how_produced": "make a component fail so HealthServlet returns HTTP 503 with {\"status\":\"unhealthy\"}",
+        "how_produced": "an HTTP server returning exactly what HealthServlet returns on component failure: HTTP 503 with body {\"status\": \"unhealthy\", ...}",
         "targets": "the declared capability",
         "run": {
-          "utc": "2026-08-10T00:00:00Z",
+          "utc": "2026-08-10T15:35:00Z",
           "outcome": "PASS",
-          "note": "curl -s (no -f) returns the body on 503, and the test is grep -q '\"status\"' -- it matches the KEY, never the VALUE. The check prints 'Application is responsive' about a service that just said it is not. Only the later health_check(), which uses curl -f, saves the script; ORDERING is the sole thing standing between this and a false green."
+          "note": "printed 'Application is responsive' and exited 0 against a service that had just reported itself unhealthy",
+          "method": "EXECUTED against a deliberately broken build, not inferred from source"
         }
       }
     },
@@ -68,12 +70,13 @@
       },
       "negative_control": {
         "condition": "the database check is DISABLED",
-        "how_produced": "ConfigurationManager.isDatabaseHealthCheckEnabled() returns false",
+        "how_produced": "-Dhealth.check.database.enabled=false against the real SystemUtilities.getHealthStatus()",
         "targets": "the declared capability",
         "run": {
-          "utc": "2026-08-10T00:00:00Z",
+          "utc": "2026-08-10T15:35:00Z",
           "outcome": "PASS",
-          "note": "components simply omits the database key and overall status stays 'healthy'. A consumer cannot distinguish 'database healthy' from 'database never checked'. This violates AS-02 -- Consullo's OWN submitted pattern requiring disclosure of skipped and suppressed checks."
+          "note": "STATUS=healthy, and components contained ONLY memory and system -- no database key of any kind. A consumer cannot distinguish 'database healthy' from 'database never checked'.",
+          "method": "EXECUTED against a deliberately broken build, not inferred from source"
         }
       }
     },
@@ -90,13 +93,15 @@
       },
       "negative_control": {
         "condition": "the database is UNAVAILABLE",
-        "how_produced": "stop the database while isDevelopmentMode() is true",
+        "how_produced": "-Dhealth.check.database.enabled=true -Ddev.mode=true with no database available, against the real getHealthStatus()",
         "targets": "the declared capability",
         "run": {
-          "utc": "2026-08-10T00:00:00Z",
+          "utc": "2026-08-10T15:35:00Z",
           "outcome": "PASS",
-          "note": "'unavailable' is treated as acceptable in development mode and the response does NOT record that development mode is in force. 'healthy' can mean 'the database is down and we decided that is fine'."
-        }
+          "note": "STATUS=healthy while components.database.status was 'unavailable'. The same run with -Ddev.mode=false returned STATUS=unhealthy, so development mode alone converts an unavailable database into an overall healthy verdict.",
+          "method": "EXECUTED against a deliberately broken build, not inferred from source"
+        },
+        "correction": "The first version of this attestation said the response 'does not record that development mode is in force'. THAT WAS WRONG. Execution shows components.database.message reads 'Database not available in development mode'. The disclosure exists, inside the component message. The defect is narrower and still real: the TOP-LEVEL status says healthy, and every consumer that reads the status -- including HealthServlet's own choice of HTTP 200 vs 503, and responsiveness_check's grep -- sees healthy and never reaches the message."
       }
     },
     {
@@ -123,13 +128,13 @@
     }
   ],
   "undisclosed_nothing": {
-    "skipped": [
-      "No check was executed live for this attestation: outcomes are derived from source reading and from AS-01's recorded production failure. Deriving an outcome by reading code is exactly the inference NCP exists to distrust, and it is disclosed rather than presented as a run."
-    ],
+    "skipped": [],
     "suppressed": [],
     "unsupported": [
-      "N5 relevance is a declared field a human must judge; nothing here checks it."
-    ]
+      "N5 relevance -- that a control perturbs the capability rather than the transport -- is a declared field a human must judge; nothing checks it."
+    ],
+    "note": "The previous version listed every outcome as skipped, because they were derived by reading source. All four have now been executed and that entry is retired."
   },
-  "claim": "Five checks of the Consullo enterprise layer were assessed against NCP v0.1. FOUR survive their own negative controls and are therefore not evidence that anything works. One fails under its control and conforms. This is process evidence about the checks and is not a claim about the system."
+  "claim": "Five checks of the Consullo enterprise layer were assessed against NCP v0.1, with every negative control EXECUTED against a deliberately broken build. FOUR survive their own negative controls and are therefore not evidence that anything works. One fails under its control and conforms. This is process evidence about the checks and is not a claim about the system.",
+  "executed_utc": "2026-08-10T15:35:00Z"
 }

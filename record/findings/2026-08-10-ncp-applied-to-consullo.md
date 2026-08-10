@@ -1,6 +1,13 @@
 # NCP v0.1 applied to Consullo — four of five checks survive their own negative controls
 
-**Result: NON-CONFORMING. 4 violations.** 2026-08-10.
+**Result: NON-CONFORMING. 4 violations, every one now EXECUTED.** 2026-08-10.
+
+**Superseding note, same day.** The first version of this finding derived its outcomes by reading
+source and disclosed that as its principal limitation: *"F1–F4 are strongly argued from code
+paths; they are not executed evidence. Running them is the next step and would change their
+status."* The custodian directed exactly that. **All four negative controls have now been run
+against deliberately broken builds.** Four of four reproduced. One of the four claims was **wrong
+in a detail and is corrected below** — see F4.
 
 The Negative Control Profile was written this afternoon from AS-01's recorded failure — a health
 check that stayed green through a **4h37m** outage because it issued a greedy request while the
@@ -23,6 +30,18 @@ Attestation: `record/attestations/ncp-2026-08-10-consullo.json`. Verifier:
 
 ---
 
+## Executed results
+
+| check | negative control produced | outcome |
+|---|---|---|
+| `connectivity_check` | a process holding 127.0.0.1:8080 that accepts connections and serves nothing | **PASS** — "Port 8080 is open", exit 0 |
+| `responsiveness_check` | an endpoint returning HTTP 503 with `{"status":"unhealthy"}` | **PASS** — "Application is responsive", exit 0 |
+| `getHealthStatus.database` | `-Dhealth.check.database.enabled=false` | **PASS** — `status: healthy`, no `database` key at all |
+| `getHealthStatus` dev mode | `-Ddev.mode=true` with the database unavailable | **PASS** — `status: healthy` with `database.status: unavailable` |
+| `run_canary` | the AS-01 production failure | **FAIL** — conforms |
+
+Nothing was inferred. The scripts and the real `SystemUtilities.getHealthStatus()` were run.
+
 ## F1 — `connectivity_check` would have passed through the entire AS-01 outage
 
 ```bash
@@ -32,6 +51,14 @@ if nc -z localhost 8080 2>/dev/null; then echo "Port 8080 is open"; return 0; fi
 `nc -z` succeeds if **anything** holds the socket. AS-01's recorded failure was precisely *"the
 error escalated and killed the engine permanently while the process stayed alive and kept serving
 HTTP."* A live process holding port 8080 is the failure state.
+
+**Executed.** A process was bound to 127.0.0.1:8080 that accepts connections and serves nothing —
+AS-01's exact state, alive and holding the socket with the capability behind it dead:
+
+```
+Port 8080 is open
+connectivity_check EXIT=0
+```
 
 **This check would have returned 0 for all 4 hours 37 minutes**, for the same structural reason
 the greedy health check did, in a different check, in the same script, still shipping today. The
@@ -50,9 +77,27 @@ fails. `curl -s` without `-f` returns the body on 503. The test then greps for `
 key, never the value.** So an explicitly unhealthy service satisfies the responsiveness check, and
 the script prints *"Application is responsive."*
 
-The script as a whole still fails, because `health_check()` runs afterwards with `curl -f`.
-**Ordering is the only thing standing between this check and a false green.** Move it, reuse it,
-or make it the readiness probe, and the mitigation vanishes with no diff to the check itself.
+**Executed.** Against a server returning HTTP 503 with `{"status": "unhealthy", "components":
+{"database": {"status": "unavailable"}}}`:
+
+```
+Application is responsive
+responsiveness_check EXIT=0
+```
+
+**The ordering claim was also tested.** The full script against the same server:
+
+```
+Port 8080 is open
+Application is responsive
+Health check attempt 1/3...  … failed after 3 attempts
+script EXIT=1
+```
+
+So the script does fail — **and it prints two green lines first, from the two checks that cannot
+fail.** `health_check()`'s `curl -f` is the only thing catching it. Move `responsiveness_check`,
+reuse it, or make it the readiness probe, and the mitigation vanishes with no diff to the check
+itself.
 
 ## F3 — a disabled check is indistinguishable from a passing one
 
@@ -63,9 +108,15 @@ if (ConfigurationManager.isDatabaseHealthCheckEnabled()) {
 }
 ```
 
-When database health checking is disabled, `components` simply **omits the key** and the overall
-status stays `healthy`. A consumer reading the response cannot distinguish *"the database is
-healthy"* from *"the database was never checked."*
+**Executed** with `-Dhealth.check.database.enabled=false` against the real method:
+
+```
+STATUS=healthy
+BODY={"status":"healthy","components":{"memory":{…},"system":{…}}}
+```
+
+There is **no `database` key of any kind.** A consumer reading the response cannot distinguish
+*"the database is healthy"* from *"the database was never checked."*
 
 This violates **AS-02 — Consullo's own submitted pattern**, which requires disclosure of skipped,
 suppressed and unsupported checks. The pattern was submitted to this forum on 2026-08-06 and is
@@ -80,9 +131,33 @@ if (!"healthy".equals(dbStatus) &&
 }
 ```
 
-An unavailable database is acceptable in development mode — a defensible product decision — but
-**the response does not record that development mode is in force.** The mode is what makes
-`healthy` mean something different, and it is the one thing a consumer cannot see.
+**CORRECTION — this finding's own claim was wrong, and execution is what caught it.**
+
+The first version said *"the response does not record that development mode is in force."* It
+does. Run with `-Ddev.mode=true` and no database available:
+
+```
+STATUS=healthy
+BODY={"status":"healthy","components":{"database":{"status":"unavailable",
+      "message":"Database not available in development mode"}, …}}
+```
+
+The message names development mode explicitly. **The disclosure exists.** I asserted its absence
+from reading the status-selection logic and not the message string — which is a smaller instance
+of the same reading error this whole finding is about.
+
+**The defect is narrower and still real.** The same run with `-Ddev.mode=false`:
+
+```
+STATUS=unhealthy
+BODY={"status":"unhealthy","components":{"database":{"status":"unhealthy",
+      "error":"Database not initialized"}, …}}
+```
+
+Development mode alone converts an unavailable database into an overall **healthy** verdict. And
+the top-level `status` is what every consumer actually reads — `HealthServlet` uses it to choose
+HTTP 200 versus 503, and `responsiveness_check` greps for it. **A consumer that reads the status
+never reaches the message.**
 
 ## F5 — the watchdog canary conforms, and why
 
@@ -110,10 +185,12 @@ what most check suites will return the first time anyone asks.
 
 ## What this does not establish
 
-* **These outcomes were derived by reading source, not by running the checks against broken
-  builds.** That is disclosed in the attestation's `skipped` field, and it is exactly the kind of
-  inference NCP exists to distrust. F1–F4 are strongly argued from code paths; they are not
-  executed evidence. **Running them is the next step and would change their status.**
+* **That these checks fail this way in production.** They were run on this workstation against
+  synthetic broken builds. The perturbations reproduce the *shape* of AS-01's failure; they are
+  not the failure itself.
+* **That reading source was adequate.** It was not: four of four predictions reproduced, but the
+  F4 claim was wrong in a detail that only execution surfaced. That is a datum about this
+  finding's first version, and about source-reading as evidence generally.
 * **That these four are the worst ones**, or that the five assessed are a representative sample.
   They were chosen because they were reachable.
 * **That NCP's controls are the right controls.** N5 — that a control perturbs the capability
