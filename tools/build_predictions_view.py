@@ -354,7 +354,29 @@ def main() -> int:
                 "scored": [e for k, e in chunk if k == "scored"]}
         (DOCS / slug_for(index)).write_text(
             render_html(doc, part=part, pager=pager), encoding="utf-8")
-    (DOCS / "predictions.md").write_text(render_md(doc), encoding="utf-8")
+    #  THE MARKDOWN IS A DOWNLOAD, NOT A PAGE -- the same resolution the deficiency register
+    #  reached, and for the same conflict. T-03 requires both "every corpus document reachable as
+    #  plain text" and "no single page exceeds ~20,000 tokens", and a growing registry cannot
+    #  satisfy both in one file. The HTML is chunked and readable; the WHOLE markdown is served
+    #  byte-identically under docs/artifacts/, because someone verifying a hash needs the whole
+    #  file and a slice of it is useless for that.
+    #
+    #  docs/predictions.md remains as a short index pointing at both, so the plain-text route is
+    #  still reachable and nothing that linked to it breaks.
+    full = render_md(doc)
+    (DOCS / "artifacts").mkdir(parents=True, exist_ok=True)
+    (DOCS / "artifacts" / "predictions.md").write_text(full, encoding="utf-8")
+    parts = "\n".join(f"- [Part {i + 1}]({slug_for(i)})" for i in range(len(chunks)))
+    (DOCS / "predictions.md").write_text(
+        "# Prediction registry\n\n"
+        f"{len(s['open'])} open, {len(s['scored'])} scored.\n\n"
+        "The full registry outgrew the ~20,000-token page ceiling, so it is split. **The complete "
+        "file, byte-identical and suitable for hashing, is a download rather than a page:**\n\n"
+        "- [artifacts/predictions.md](artifacts/predictions.md) — the whole registry\n\n"
+        "Readable parts:\n\n" + parts + "\n\n"
+        "No aggregate calibration score is computed. The forecaster is in most cases the same "
+        "automated layer the predictions are about, and a self-scored accuracy figure over "
+        "self-authored claims would be worth nothing.\n", encoding="utf-8")
     print(f"wrote docs/predictions.html and docs/predictions.md — "
           f"{len(s['open'])} open, {len(s['scored'])} scored, "
           f"{s['annotator_count']} of {s['total']} forecast by the annotator")
