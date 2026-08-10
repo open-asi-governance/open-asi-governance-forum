@@ -190,11 +190,24 @@ def strip_fenced(text: str) -> str:
     return FENCE.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
 
 
+#  CAPTURED, NOT AUTHORED. D-53 is about this layer fabricating a party quotation in a document
+#  it wrote. A Codex transcript is verbatim external output, stored so a review can be re-read --
+#  the same category as corpus/raw, and equally not something to edit to satisfy a checker. It
+#  quotes code and clause drafts near party names, which this checker reads as attribution.
+#
+#  This is a scope rule, not a silencer: nothing this layer AUTHORS is exempt, and if a claim
+#  from a transcript is repeated in a document, that document is still checked.
+NOT_AUTHORED_HERE = ("record/executive/codex-transcripts",)
+
+
 def files_to_check() -> list[Path]:
     found = [REPO_ROOT / name for name in SEARCH_FILES]
     for root in SEARCH_ROOTS:
         found.extend(sorted((REPO_ROOT / root).rglob("*.md")))
-    return [p for p in found if p.is_file()]
+    return [p for p in found
+            if p.is_file()
+            and not any(str(p.relative_to(REPO_ROOT)).startswith(skip)
+                        for skip in NOT_AUTHORED_HERE)]
 
 
 def main() -> int:
