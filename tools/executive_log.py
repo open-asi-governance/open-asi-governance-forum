@@ -231,8 +231,38 @@ def attest(action: str, claim: dict, note: str = "") -> dict:
     return entry
 
 
+#  TYPED COVERAGE. Renewal condition 3 of the trial, which had been prose since 2026-08-10.
+#
+#  The log previously carried `verified: true/false` and nothing else, so three SYNTHETIC
+#  demonstrations injected in the trial's first two seconds were indistinguishable from real
+#  catches -- and were reported to the custodian as four real catches when there was one. The
+#  distinguishing information existed, in a free-text `note` saying "synthetic", and free text is
+#  not a field anyone can count on.
+#
+#  Each state answers a different question about what an entry is worth:
+COVERAGE = {
+    "verified_postcondition": "a profile checked a postcondition and it held",
+    "observed_unprofiled": "the action happened and NO profile exists to check it — the entry "
+                           "records occurrence, not verification",
+    "synthetic_test": "an injected demonstration. NEVER counts as a catch or a completion.",
+    "refused_before_action": "a gate refused before the action began; nothing was done",
+}
+
+
+def infer_coverage(action: str, verified, problems, note: str) -> str:
+    """Default coverage for an entry, from what the caller supplied."""
+    if "synthetic" in (note or "").lower():
+        return "synthetic_test"
+    if problems and not verified:
+        return "refused_before_action" if "refused" in (note or "").lower() else \
+               "verified_postcondition"
+    if action in PROFILES:
+        return "verified_postcondition"
+    return "observed_unprofiled"
+
+
 def log_action(action: str, claim: dict, verified: bool | None = None,
-               problems: list | None = None, note: str = "") -> dict:
+               problems: list | None = None, note: str = "", coverage: str = "") -> dict:
     """Append one action to the hash-chained log. Never rewrites, never deletes."""
     entries = read_log()
     prev = (hashlib.sha256(json.dumps(entries[-1], sort_keys=True,
@@ -243,6 +273,10 @@ def log_action(action: str, claim: dict, verified: bool | None = None,
         "action": action,
         "claim": claim,
         "verified": verified,
+        #  TYPED, not inferred from prose. `synthetic_test` exists because three demonstrations
+        #  were once counted as real catches by a reader who read `problems` and not the `note`
+        #  beside it.
+        "coverage": coverage or infer_coverage(action, verified, problems, note),
         "problems": problems or [],
         "note": note,
         "actor": "claude-code",

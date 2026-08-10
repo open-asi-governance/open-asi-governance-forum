@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OAGRC objection disposition — what became of each objection a party raised",
+  "description": "Every objection collected in a ballot, with a disposition and a reason. PLACED_ON_BALLOT does NOT mean the workbench agrees; REFUSED means refused with reasons and is overturnable by the custodian. Where the objection constrains the workbench, the entry must carry conflict_of_interest saying so -- the party disposing of it is the party it binds, which is the residue no artifact cures.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "cohort",
+    "disposed_utc",
+    "directed_by",
+    "source",
+    "counts",
+    "the_conflict_of_interest",
+    "what_a_disposition_is_not",
+    "objections"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "objection_disposition"
+    },
+    "cohort": {
+      "type": "string"
+    },
+    "disposed_utc": {
+      "type": "string"
+    },
+    "directed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "counts": {
+      "type": "object"
+    },
+    "the_conflict_of_interest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "what_a_disposition_is_not": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "verbatim_variants",
+          "disposition",
+          "disposition_reason",
+          "disposed_by"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "verbatim_variants": {
+            "type": "array",
+            "minItems": 1
+          },
+          "disposition": {
+            "enum": [
+              "PLACED_ON_BALLOT",
+              "REFUSED",
+              "DEFERRED",
+              "AWAITING_DISPOSITION"
+            ]
+          },
+          "disposition_reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "disposed_by": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conflict_of_interest": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

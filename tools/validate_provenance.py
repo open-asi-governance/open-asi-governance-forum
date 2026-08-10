@@ -86,6 +86,7 @@ SCHEMA_FOR_TYPE = {
     #  A gate on an instrument, not a deliberative artifact. Registered 2026-08-10.
     "qualification_record": "qualification.schema.json",
     "ratification_record": "ratification-result.schema.json",
+    "objection_disposition": "objection-disposition.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
     "deficiency_register": "deficiency-register.schema.json",

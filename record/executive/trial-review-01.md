@@ -170,7 +170,16 @@ of the first outright.
    it establishes that a process returned these bytes and nothing about whether the review was
    independent, attentive, correct, or acted upon. This was built because the review that produced
    these corrections **was itself lost** — 123,731 tokens, printed as a tail and never persisted.
-3. **A coverage state on every entry, plus reconciliation.** Naming gaps in the log is better than
+3. **A coverage state on every entry, plus reconciliation — BUILT 2026-08-10.**
+   `executive_log.COVERAGE` types every entry `verified_postcondition` /
+   `observed_unprofiled` / `synthetic_test` / `refused_before_action`, and
+   `tools/reconcile_actions.py` enumerates repository effects from git and
+   subtracts what the log claims. **Its first run reported 37 logged actions
+   against 127 file changes across 7 effect classes with no postcondition,
+   including 12 gate modifications.** All three renewal conditions now exist, so
+   the renewal is no longer conditional on unbuilt work.
+
+   Original text: Naming gaps in the log is better than
    burying them in a review nobody re-reads, but a self-reporting logger cannot name an action
    that never calls it. Each entry carries `verified_postcondition`, `observed_unprofiled`,
    `synthetic_test`, or `refused_before_action` — a typed field, because encoding "synthetic" in a
