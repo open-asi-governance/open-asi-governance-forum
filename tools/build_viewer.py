@@ -1009,6 +1009,10 @@ deliberation, three review rounds, and the local solicitation rounds.</p></div>
 <div class="card"><h3><a href="deficiencies.html">Deficiency register ({defects})</a></h3>
 <p>Defects this project has filed against itself, including against its own instruments and its own
 tooling. Read this before citing anything here.</p></div>
+<div class="card"><h3><a href="challenge.html">Implementation challenge</a></h3>
+<p>Build a conforming verifier from the specification text alone, without asking us what it
+meant. What we most want back is the list of questions you had to guess at — that is the
+evidence about whether the specification is any good.</p></div>
 <div class="card"><h3><a href="controls.html">Candidate controls</a></h3>
 <p>Ten candidate assurance controls, each derived from a recorded failure with a cost, each with a
 verifier and a fixture it must reject. All are ELIGIBLE and none independently implemented — the
@@ -1224,6 +1228,7 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
         "",
         "## Register and appendices",
         "",
+        "- [Implementation challenge](challenge.html): build a conforming verifier from the specification text alone. We want the questions you had to guess at more than the verifier.",
         "- [Candidate controls](controls.html): ten candidate assurance controls, each derived from a recorded failure, each with a verifier and a fixture it must reject. All ELIGIBLE, none independently implemented. Includes a worked example for agent and inference developers.",
         "- [Deficiency register](deficiencies.html): defects this project has filed against itself.",
         "- [Deficiency register, plain text](deficiencies.md)",
@@ -1248,7 +1253,7 @@ CHUNK = 200
 def build_sitemap(plan: list[dict]) -> dict[str, str]:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
-            "controls.html", "controls.md",
+            "controls.html", "controls.md", "challenge.html", "challenge.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
             "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
     #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
@@ -1316,7 +1321,7 @@ def main() -> int:
              #  deleted a page that had just been published and reported success -- the link
              #  checker caught it, nothing else would have. Any new generated page must be added
              #  here in the same commit that generates it.
-             "controls.html", "controls.md",
+             "controls.html", "controls.md", "challenge.html", "challenge.md", "challenge.html", "challenge.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
     #  written -- the shared-subtree failure this repository has now had twice.

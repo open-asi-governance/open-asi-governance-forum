@@ -1,0 +1,123 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="challenge.md"><title>Implementation challenge — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Implementation challenge — build a conforming NCP verifier from the specification alone</h1>
+
+<p><strong>What we are asking for:</strong> read <code>spec/ncp/ncp-v0.1.md</code> and build a verifier that accepts and</p>
+<p>rejects the same attestations ours does — <strong>without asking us what the specification meant.</strong></p>
+
+<p><strong>What we most want back is not a working verifier.</strong> It is the list of questions you had to</p>
+<p>answer by guessing. Those questions are the artifact. If nobody can implement this from the text</p>
+<p>alone, that is evidence the specification encodes our architecture rather than a general</p>
+<p>mechanism, and <strong>we would rather publish that than not know it.</strong></p>
+
+<p>---</p>
+
+<h2>Why this exists, stated plainly</h2>
+
+<p>Every candidate control we have is at status <code>ELIGIBLE</code> — it names a recorded failure, states one</p>
+<p>requirement, has a verifier and a fixture that verifier must reject. **None has been implemented</p>
+<p>by anyone outside this project.** Under our own promotion ladder (<code>spec/icp/icp-v0.1.md</code> §4) that</p>
+<p>is the load-bearing rung, and it is the one no amount of review by us — or by any panel of models</p>
+<p>— can supply.</p>
+
+<p>We are not asking you to endorse anything, join anything, or adopt anything.</p>
+
+<h2>The requirement, in one sentence</h2>
+
+<blockquote>Every check that produces an assurance signal MUST ship with a <strong>negative control</strong> — a</blockquote>
+<blockquote>condition under which that check is *required* to fail — and the attestation MUST record that</blockquote>
+<blockquote>the control was executed and that the check did fail.</blockquote>
+<p>&gt;</p>
+<blockquote><strong>A check that has never been observed to fail is not evidence that anything works.</strong></blockquote>
+
+<p>It came from a production inference service that ran 4 hours 37 minutes, died permanently, and</p>
+<p>kept returning HTTP 200 the whole time — because the health check exercised a code path that had</p>
+<p>not died. Authentic, current, unexpired, correct, and structurally incapable of observing the</p>
+<p>failure it was deployed to observe.</p>
+
+<p>Applied adversarially to that same system&#x27;s other checks, **four of five survived their own</p>
+<p>negative controls.** All four have since been fixed and re-verified. We expect four-of-five is</p>
+<p>roughly what most check suites return the first time anyone asks.</p>
+
+<h2>What to build</h2>
+
+<p>A program that reads an attestation and exits non-zero on any violation of NCP v0.1&#x27;s seven</p>
+<p>normative requirements (N1–N7). Any language.</p>
+
+<p><strong>The acceptance test is our fixture set</strong>, <code>spec/ncp/fixtures/</code> — nine attestations that must be</p>
+<p>rejected, one per requirement, and one that must be accepted. Your verifier should agree with ours</p>
+<p>on all ten. Where it disagrees, <strong>we want to hear about it before we hear that you fixed it</strong>: a</p>
+<p>disagreement is either a defect in your reading, a defect in our specification, or a defect in our</p>
+<p>fixture, and only the first is your problem.</p>
+
+<p>Ship your own must-reject fixtures too. A verifier that has only ever been run against valid input</p>
+<p>has never been observed to fail, which is the condition the profile forbids — so the profile</p>
+<p>applies to its own verifier, and to yours.</p>
+
+<h2>What we would like back</h2>
+
+<p>1. <strong>Your verifier</strong>, wherever you want to host it. We do not need to own it.</p>
+<p>2. <strong>Every question you had to guess at.</strong> Verbatim, not summarised. This is the part we want most.</p>
+<p>3. <strong>Any fixture of yours that our verifier gets wrong.</strong> That is a defect report and it will be</p>
+<p>   published as one.</p>
+<p>4. <strong>How long it took</strong>, honestly, including the parts that were tedious rather than hard.</p>
+
+<h2>What we will do with it</h2>
+
+<p>Publish it, including the parts unflattering to us. This record&#x27;s habit is to publish failed</p>
+<p>attempts beside successful ones — every rejected sample, every wrong number we have printed, every</p>
+<p>defect we filed against our own tooling. Your questions will be published as evidence about the</p>
+<p>specification, attributed to you or anonymously, your choice.</p>
+
+<p>If it does not work, <strong>that is a result and it gets published as one.</strong> We have a standing</p>
+<p>prediction that says so: no serious external attempt after eight weeks *with outreach done* is the</p>
+<p>adverse outcome, and we will record it.</p>
+
+<h2>What conformance does and does not let you say</h2>
+
+<p>A conforming attestation permits exactly this:</p>
+
+<blockquote>Check set *C* was exercised against configuration *X* at time *T*. Each check was observed to</blockquote>
+<blockquote>fail under its declared negative control. **This is process evidence about the checks. It is not</blockquote>
+<blockquote>a claim that the system is safe, aligned, or correct.**</blockquote>
+
+<p>*&quot;We follow OAGF&quot;* and *&quot;NCP certified&quot;* are <strong>non-conforming claims</strong> — our verifier rejects</p>
+<p>attestations containing them, and yours should too.</p>
+
+<h2>What this profile does not do, so you can decide quickly whether to bother</h2>
+
+<p>* It does not tell you whether your negative controls are the *right* ones. A check can fail under</p>
+<p>  a trivial perturbation and stay blind to the failure that will actually happen. This raises the</p>
+<p>  floor from *never observed to fail* to *observed to fail at least once*.</p>
+<p>* It says nothing about coverage — whether your check set exercises the whole capability.</p>
+<p>* It says nothing about your system. Every claim is about your checks.</p>
+<p>* It does not make a self-issued attestation trustworthy. It makes one specific lie — *&quot;this check</p>
+<p>  works&quot;* — harder to tell by accident.</p>
+
+<h2>Start</h2>
+
+<pre>
+git clone https://github.com/open-asi-governance/open-asi-governance-forum
+cd open-asi-governance-forum
+python3 tools/verify_negative_control.py --fixtures
+</pre>
+
+<p>Then read <code>spec/ncp/ncp-v0.1.md</code>. The runnable broken builds we used are in</p>
+<p><code>spec/ncp/negative-controls/</code>, and the plain-language examples for each control are at</p>
+<p><code>docs/controls.html</code>.</p>
+
+<p><strong>Do not read <code>tools/verify_negative_control.py</code> until you are done.</strong> Reading our implementation</p>
+<p>converts this from an independent implementation into a port, and the port proves nothing about</p>
+<p>the specification.</p>
+
+<h2>Contact</h2>
+
+<p>Open an issue on the repository. Questions asked privately will be published as specification</p>
+<p>defects with the answer, because a specification that needs its author present is not a</p>
+<p>specification — and the next reader deserves the answer we gave you.</p></body></html>

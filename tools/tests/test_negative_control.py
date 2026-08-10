@@ -54,13 +54,26 @@ check("an empty attestation is refused", v.problems_for({"ncp_version": "0.1"}) 
 check("an attestation with zero checks is refused",
       v.problems_for({"ncp_version": "0.1", "checks": []}) != [])
 
-print("\nthe live Consullo attestation is NON-conforming, and for the stated reason")
-code, problems = v.verify(ROOT.parent / "record" / "attestations" / "ncp-2026-08-10-consullo.json")
-check("it is rejected", code == 1)
-check("four checks survive their own negative controls",
-      sum(1 for p in problems if "N3" in p) == 4)
-check("the watchdog canary is NOT among the violations",
-      not any("run_canary" in p for p in problems))
+print("\nthe live attestation's verdict matches its own recorded outcomes")
+#  This asserted the attestation was NON-conforming with four N3 violations. That was true on
+#  2026-08-10 and stopped being true the same day, when the implementer remediated all four and
+#  every negative control was RE-EXECUTED here against the fixed build. A test that pins a
+#  verdict goes red when the world improves; what is worth pinning is that the verifier's answer
+#  and the attestation's recorded outcomes cannot disagree.
+import json                                                             # noqa: E402
+att = ROOT.parent / "record" / "attestations" / "ncp-2026-08-10-consullo.json"
+code, problems = v.verify(att)
+doc = json.loads(att.read_text())
+survivors = [c["check_id"] for c in doc["checks"]
+             if str(c["negative_control"]["run"].get("outcome", "")).upper() != "FAIL"]
+check("the verdict agrees with the recorded outcomes",
+      (code == 0) == (survivors == []))
+check("every N3 violation names a check that actually survived its control",
+      all(any(cid in p for cid in survivors) for p in problems if "N3" in p))
+check("no check is recorded as conforming while surviving its control",
+      len([p for p in problems if "N3" in p]) == len(survivors))
+check("every negative control run says whether it was executed or inferred",
+      all(c["negative_control"]["run"].get("method") for c in doc["checks"]))
 
 print("\nan unreadable file is refused, not skipped")
 tmp = Path(tempfile.mkdtemp()) / "bad.json"

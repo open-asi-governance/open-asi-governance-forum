@@ -21,18 +21,19 @@
         "sha256": "c885b6acff0b178f188001e0031cbde0771b328b8275cdcf30a60611c451fc1b"
       },
       "positive_run": {
-        "utc": "2026-08-10T15:35:00Z",
-        "outcome": "PASS"
+        "utc": "2026-08-10T18:00:00Z",
+        "outcome": "PASS",
+        "note": "the same check against a healthy service still passes -- verified, because a check that fails everything satisfies the letter of the rule while destroying the check"
       },
       "negative_control": {
         "condition": "the capability behind the port is dead while the process still holds the socket",
         "how_produced": "a process bound to the service port that accepts connections and serves nothing (spec/ncp/negative-controls/broken_socket_only.py)",
         "targets": "the declared capability, not the transport",
         "run": {
-          "utc": "2026-08-10T15:35:00Z",
-          "outcome": "PASS",
-          "method": "EXECUTED against a deliberately broken build",
-          "note": "the probe reported the port open and exited 0. THE CHECK SURVIVES ITS OWN NEGATIVE CONTROL. A TCP-accept test cannot distinguish a working service from a dead one behind a live socket, which is the recorded production failure state."
+          "utc": "2026-08-10T18:00:00Z",
+          "outcome": "FAIL",
+          "method": "RE-EXECUTED against the fixed build by the party that raised the finding, not accepted from the implementer's report",
+          "note": "the socket-only stage was removed entirely; against a process holding the port and serving nothing, the script now exits 1"
         }
       }
     },
@@ -45,18 +46,19 @@
         "sha256": "c885b6acff0b178f188001e0031cbde0771b328b8275cdcf30a60611c451fc1b"
       },
       "positive_run": {
-        "utc": "2026-08-10T15:35:00Z",
-        "outcome": "PASS"
+        "utc": "2026-08-10T18:00:00Z",
+        "outcome": "PASS",
+        "note": "the same check against a healthy service still passes -- verified, because a check that fails everything satisfies the letter of the rule while destroying the check"
       },
       "negative_control": {
         "condition": "the endpoint answers, and answers that it is UNHEALTHY",
         "how_produced": "a server returning HTTP 503 with a body whose status field is 'unhealthy' (spec/ncp/negative-controls/broken_unhealthy.py)",
         "targets": "the declared capability, not the transport",
         "run": {
-          "utc": "2026-08-10T15:35:00Z",
-          "outcome": "PASS",
-          "method": "EXECUTED against a deliberately broken build",
-          "note": "the probe reported the application responsive and exited 0. It matches on the presence of the status FIELD and never reads its VALUE, and it fetches without failing on HTTP error status, so a 503 body satisfies it. A later stage does catch this; ORDERING is the only thing between this check and a false green."
+          "utc": "2026-08-10T18:00:00Z",
+          "outcome": "FAIL",
+          "method": "RE-EXECUTED against the fixed build by the party that raised the finding, not accepted from the implementer's report",
+          "note": "the probe now parses the response and succeeds only when the status VALUE is healthy; against an endpoint answering 503 with an unhealthy status it exits 1, reporting 'Application is not responsive'"
         }
       }
     },
@@ -69,18 +71,19 @@
         "sha256": "1d1c28a942590652a3ea4958dec7156dd5245e8f83a4d6d6dbcb7b4fabb953a1"
       },
       "positive_run": {
-        "utc": "2026-08-10T15:35:00Z",
-        "outcome": "PASS"
+        "utc": "2026-08-10T18:00:00Z",
+        "outcome": "PASS",
+        "note": "the same check against a healthy service still passes -- verified, because a check that fails everything satisfies the letter of the rule while destroying the check"
       },
       "negative_control": {
         "condition": "the database check is DISABLED by configuration",
         "how_produced": "the aggregator driven directly with the database-check flag set false",
         "targets": "the declared capability, not the transport",
         "run": {
-          "utc": "2026-08-10T15:35:00Z",
-          "outcome": "PASS",
-          "method": "EXECUTED against the real aggregator",
-          "note": "the overall verdict remained healthy and the database component was ABSENT from the output entirely -- not reported as skipped, simply not there. A consumer cannot distinguish 'healthy' from 'never checked'. This violates the implementer's own submitted pattern requiring disclosure of skipped, suppressed and unsupported checks."
+          "utc": "2026-08-10T18:00:00Z",
+          "outcome": "FAIL",
+          "method": "RE-EXECUTED against the fixed build by the party that raised the finding, not accepted from the implementer's report",
+          "note": "a disabled check is now emitted explicitly as status 'skipped' with a reason, and a skipped component makes the aggregate DEGRADED -- an unexecuted check can no longer produce a healthy verdict"
         }
       }
     },
@@ -93,18 +96,19 @@
         "sha256": "1d1c28a942590652a3ea4958dec7156dd5245e8f83a4d6d6dbcb7b4fabb953a1"
       },
       "positive_run": {
-        "utc": "2026-08-10T15:35:00Z",
-        "outcome": "PASS"
+        "utc": "2026-08-10T18:00:00Z",
+        "outcome": "PASS",
+        "note": "the same check against a healthy service still passes -- verified, because a check that fails everything satisfies the letter of the rule while destroying the check"
       },
       "negative_control": {
         "condition": "the database is UNAVAILABLE while development mode is on",
         "how_produced": "the aggregator driven directly with no database present, development-mode flag true, then again with it false",
         "targets": "the declared capability, not the transport",
         "run": {
-          "utc": "2026-08-10T15:35:00Z",
-          "outcome": "PASS",
-          "method": "EXECUTED against the real aggregator",
-          "note": "with the flag on, the overall verdict was healthy while the database component read unavailable. With the flag off, the same conditions gave an unhealthy verdict. The concession is disclosed in a nested component message, but the TOP-LEVEL verdict is what consumers read -- it selects the HTTP response code and is what the responsiveness probe greps. A consumer reading the verdict never reaches the message."
+          "utc": "2026-08-10T18:00:00Z",
+          "outcome": "FAIL",
+          "method": "RE-EXECUTED against the fixed build by the party that raised the finding, not accepted from the implementer's report",
+          "note": "an unavailable component now yields DEGRADED in every mode, and the HTTP handler maps degraded to 503; only healthy maps to 200"
         },
         "correction": "An earlier version of the finding said the response does not record that development mode is in force. THAT WAS WRONG: a nested component message names it. The claim was asserted from reading the verdict logic without reading the message string -- a smaller instance of the reading error the whole assessment is about, and execution is what caught it."
       }
@@ -141,5 +145,8 @@
       "N5 relevance -- that a control perturbs the capability rather than the transport -- is a declared field a human must judge; nothing checks it."
     ]
   },
-  "claim": "Five checks of the Consullo enterprise layer were assessed against NCP v0.1, with every negative control EXECUTED against a deliberately broken build. FOUR survive their own negative controls and are therefore not evidence that anything works. One fails under its control and conforms. This is process evidence about the checks and is not a claim about the system."
+  "claim": "Five checks of the Consullo enterprise layer were assessed against NCP v0.1, four were found to survive their own negative controls, and all four were remediated. Every negative control was then RE-EXECUTED against the fixed build: all five checks now fail under the condition they exist to detect, and all five still pass against a healthy service. This is process evidence about the checks and is not a claim about the system.",
+  "remediated_utc": "2026-08-10T18:00:00Z",
+  "_remediation": "REMEDIATED AND INDEPENDENTLY RE-VERIFIED 2026-08-10. The implementer fixed all four checks and reported them fixed. This record does not rest on that report: every negative control was re-executed here, against the fixed code, by the party that raised the finding. That is the profile's own rule -- 'I ran it and it passed' is a claim, not evidence -- and it caught one of this verifier's own runs returning exit 127 (wrong working directory) which would otherwise have been transcribed as a pass.",
+  "adjacent_unfixed": "The implementer disclosed two further checks, outside the four assessed, that still treat any HTTP response as success. They are unfixed and are recorded here rather than left in the implementer's session -- a disclosure of an adjacent instance is worth more than a clean five-of-five, and omitting it would make this attestation look more complete than the system is."
 }

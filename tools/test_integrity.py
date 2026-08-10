@@ -57,6 +57,12 @@ def case(name: str, ok: bool, detail: str = "") -> None:
 
 TRACKED_ROOTS = ("tools", "corpus", "docs", "record", "predictions", "spec")
 
+#  ROOT FILES a build step reads. The reference repository copied DIRECTORIES only, so a page
+#  generated from a root file was absent there and the rebuild failed inside the reference while
+#  passing in the working tree -- the gate reporting a defect that existed only in its own copy.
+TRACKED_FILES = ("CHALLENGE.md", "CLAUDE.md", "AGENTS.md", "FOR-PARTIES-THE-WORKBENCH.md",
+                 "README.md")
+
 
 def build_reference(tmp: Path) -> Path:
     """One reference repository holding the CURRENT working tree, committed.
@@ -77,6 +83,10 @@ def build_reference(tmp: Path) -> Path:
         if source.is_dir():
             shutil.copytree(source, reference / name,
                             ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+    for name in TRACKED_FILES:
+        source = REPO_ROOT / name
+        if source.is_file():
+            shutil.copy2(source, reference / name, follow_symlinks=True)
     git = ["git", "-C", str(reference)]
     subprocess.run([*git, "init", "--quiet"], check=True, capture_output=True)
     # DISABLE AUTO-GC. fresh() copies this repository's .git for every case, and
@@ -649,7 +659,8 @@ print(json.dumps(out))
                     #  controls.html is a generated view of the candidate control register, not
                     #  a page of contributions. It gets its own cases below, per this
                     #  predicate's own rule that generated views are tested separately.
-                    and not f.stem.startswith("controls"))
+                    and not f.stem.startswith("controls")
+                    and not f.stem.startswith("challenge"))
 
         index = (c / "docs/index.html").read_text(encoding="utf-8")
         toc = (c / "docs/record.html").read_text(encoding="utf-8")
@@ -723,6 +734,23 @@ print(json.dumps(out))
         case("...and states that no control establishes alignment of a more capable system",
              controls.is_file() and "more capable than its operators" in
              controls.read_text(encoding="utf-8"))
+
+        challenge = (c / "docs/challenge.html")
+        case("the implementation challenge is published", challenge.is_file())
+        case("...and is linked from the landing page", 'href="challenge.html"' in index)
+        case("...and has a markdown alternate", (c / "docs/challenge.md").is_file())
+        #  Read the MARKDOWN, not the HTML: emphasis markup splits a phrase across tags, so a
+        #  substring test against rendered HTML fails on content that is plainly present.
+        challenge_md = (c / "docs/challenge.md")
+        case("...and asks for the implementer's questions, not just the artifact",
+             #  The document says "question you had to guess at" (singular). The first version
+             #  of this case asserted the PLURAL, a phrase that appears nowhere -- a test written
+             #  from what its author believed he had written rather than from the file.
+             challenge_md.is_file() and "question you had to guess at" in
+             challenge_md.read_text(encoding="utf-8"))
+        case("...and tells the reader not to read our implementation first",
+             challenge_md.is_file() and "Do not read" in
+             challenge_md.read_text(encoding="utf-8"))
 
         case("no published page exceeds the token budget",
              run(c, "tools/check_page_budget.py").returncode == 0)
