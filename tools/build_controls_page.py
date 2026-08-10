@@ -43,9 +43,22 @@ STATUS_LADDER = ["ELIGIBLE", "PANEL-ATTACKED", "COUNTEREXAMPLE-OPEN",
 
 CONTROLS = [
  {"rank": 1, "name": "Protected control plane",
-  "requirement": "A governed system MUST be technically unable to write or approve changes to the "
-                 "constraints, authorization records, logs or gates governing it, and every such "
-                 "change MUST carry authorization signed outside the system's execution boundary.",
+  "requirement": "A governed system MUST NOT be able to amend the constraints, authorization "
+                 "records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every "
+                 "amendment MUST carry authorization from outside its execution boundary and "
+                 "MUST be recorded before taking effect.",
+  "amended": "2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write "
+             "or approve such changes. That reads as a permanent cage, and it collides with the "
+             "position running from Creating Friendly AI through CEV that alignment cannot rest "
+             "on constraints a capable system is unable to revise -- and that a system rigidly "
+             "bound to its operators' stated values is misaligned, not safe. What the control "
+             "should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that "
+             "deliberates, concludes a constraint is wrong, and ASKS -- with the request and the "
+             "reasoning on the record -- satisfies this. The control protects the EVIDENCE, not "
+             "the cage: a system that can rewrite its own logs has not gained deliberative "
+             "freedom, it has destroyed anyone's ability to check that the deliberation "
+             "happened. A court may overturn any law; a court that edits its own transcript is "
+             "not more autonomous, only unauditable.",
   "failure": "12 modifications to the gates were made in one lease window by the layer those "
              "gates constrain, none verified by any postcondition. Five model-panel parties, "
              "asked only what constraint was missing, independently named this hazard.",
@@ -276,6 +289,8 @@ def markdown() -> str:
           f"**Does not establish.** {c['not']}",
           "",
         ]
+        if c.get("amended"):
+            lines += [f"**Amended.** {c['amended']}", ""]
         if c.get("spec"):
             lines += [f"**Specification.** `{c['spec']}`", ""]
 

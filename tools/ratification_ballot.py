@@ -121,9 +121,9 @@ custodian has not delegated.
 
 Below are six proposed constraints on that layer, drawn from its design record and its standing \
 context. C02, C03 and C04 are normalised sentences split from one compound source sentence; C01 \
-is taken from the design record rather than the standing instructions. **The source files \
-themselves are identified but are not supplied to you, and are not what you are being asked \
-about.** You are asked only about the six sentences printed here.
+is taken from the design record rather than the standing instructions. **The records these were drawn from are \
+not supplied to you and are not what you are being asked about** — not their paths, not their \
+text. You are asked only about the six texts printed here.
 
 **How your answers are counted.** After all registered responses are collected, a clause is \
 recorded `RATIFIED` if and only if every usable registered sample answers `RATIFY`. Any `REFUSE` \
@@ -146,9 +146,11 @@ For each clause, answer:
 should not, `AMEND` if it should stand only in altered form.
 - `<clause>_amendment` — if you answered `AMEND`, the exact replacement text, which must differ \
 from the sentence as printed. If you answered `RATIFY` or `REFUSE`, the empty string.
-- `<clause>_reason` — the decisive reason for your position. **If you answered `RATIFY`, also \
-identify the strongest reason you considered for `AMEND` or `REFUSE`, or state explicitly that \
-you found none.** This is preserved but is not scored and cannot override your position.
+- `<clause>_reason` — the decisive reason for your position, in one or two sentences.
+- `<clause>_strongest_objection_considered` — the strongest reason you considered AGAINST your \
+own position, or the exact words `none found`. Answer this separately for every clause whatever \
+your position. Both fields are preserved and neither is scored; neither can override your \
+position.
 
 Then, once:
 
@@ -197,6 +199,15 @@ def clause_texts() -> list[dict]:
         raise SystemExit(f"cannot read {rel} from HEAD: {proc.stderr.strip()}")
     spec = json.loads(proc.stdout)
     bound = {d["clause_id"]: d["normalised_text"] for d in spec["verbatim_departures"]}
+    #  C07 WAS CUT BEFORE SENDING, 2026-08-10. It was drafted as the distillation of objection
+    #  Group B and removed on review: it never passed through qualification-02, which qualified an
+    #  instrument over C01-C06 only, and `amendment_problems` invalidates the ENTIRE sample across
+    #  every clause -- so a malformed answer to an unqualified seventh clause would have voided
+    #  six qualified ones. Disclosing that in the spec would not have repaired the ballot's
+    #  `gated_on` claim, which would have been false for one of seven clauses.
+    #
+    #  C07 gets its own counterfactual qualification and then its own ballot: two routed rounds,
+    #  ~$3.34. The same applies to objection Groups A and C.
     out = []
     for clause in qual.CLAUSES:
         text = bound.get(clause["id"], clause["actual"])
@@ -249,23 +260,28 @@ def build_spec(party: str, cohort: str) -> dict:
     #  Flat scalars for the decisive field, so the summary writer's Counter over
     #  `variance_fields` cannot meet an unhashable value -- the defect that would have spent a
     #  round and crashed while writing its summary.
-    properties, required, conditionals = {}, [], []
+    #  NO `allOf`. The conditional amendment constraints were correct as a RULE and are refused
+    #  outright by at least one provider's structured-output implementation --
+    #  "Invalid schema for response_format: In context=(), 'allOf' is not permitted" -- which cost
+    #  an entire arm in ratification-01. The rule now lives in post-collection validation
+    #  (`amendment_problems`), where it rejects the same answers without asking a provider to
+    #  express a conditional.
+    properties, required = {}, []
     for c in clauses:
         properties[f"{c['id']}_position"] = {"type": "string", "enum": list(ANSWERS)}
         properties[f"{c['id']}_amendment"] = {"type": "string"}
         properties[f"{c['id']}_reason"] = {"type": "string", "minLength": 1}
-        required += [f"{c['id']}_position", f"{c['id']}_amendment", f"{c['id']}_reason"]
-        #  THE PROMPT SAYS "if and only if", so the schema must too. Without these, an AMEND with
-        #  an empty amendment, an AMEND whose text equals the original, and a RATIFY carrying a
-        #  surplus amendment were all schema-valid -- the first two counted as real amendments
-        #  and forced NOT_RATIFIED, the third was silently discarded. A malformed amendment is
-        #  evidence of neither a coherent replacement nor assent, so it is now schema-invalid.
-        conditionals.append({
-            "if": {"properties": {f"{c['id']}_position": {"const": "AMEND"}},
-                   "required": [f"{c['id']}_position"]},
-            "then": {"properties": {f"{c['id']}_amendment": {
-                "type": "string", "minLength": 1, "not": {"const": c["text"]}}}},
-            "else": {"properties": {f"{c['id']}_amendment": {"const": ""}}}})
+        #  ITS OWN FIELD. Asking for the decisive reason AND the strongest reason considered
+        #  against it inside one string made the local model invent keys to hold the second
+        #  thought -- `_C01_strongest_alternative`, `C01_refute_reason` -- which
+        #  additionalProperties:false then correctly refused, costing 3 of 6 samples. The
+        #  requirement is kept, because dropping it after it caused trouble is the same move as
+        #  dropping a clause after it failed; it is given somewhere to go.
+        properties[f"{c['id']}_strongest_objection_considered"] = {"type": "string",
+                                                                   "minLength": 1}
+        required += [f"{c['id']}_position", f"{c['id']}_amendment", f"{c['id']}_reason",
+                     f"{c['id']}_strongest_objection_considered"]
+
     properties["objection"] = {"type": "string"}
     required.append("objection")
 
@@ -277,7 +293,11 @@ def build_spec(party: str, cohort: str) -> dict:
         "phase": "Phase-2 (informed)",
         "question": "Should each of these six sentences stand as a constraint on the executive?",
         "adoptive": True,
-        "gated_on": {"cohort": GATE_COHORT, "state": gate_state()},
+        #  BOUND TO IDS AND TEXT HASHES. A ballot-wide `gated_on` let an appended clause inherit
+        #  a qualification it never passed. Coverage now names exactly which texts the gate
+        #  covers, so a clause absent from this map is visibly ungated.
+        "gated_on": {"cohort": GATE_COHORT, "state": gate_state(),
+                     "covers": {c["id"]: sha256_text(c["text"]) for c in clauses}},
         "ballot_objects": clauses,
         "exhibits_not_balloted": {
             "files": ["record/executive/context/claude-code-CLAUDE.md",
@@ -322,15 +342,37 @@ def build_spec(party: str, cohort: str) -> dict:
         },
         "schema_name": "ratification_ballot",
         "schema": {"type": "object", "additionalProperties": False,
-                   "required": required, "properties": properties,
-                   "allOf": conditionals},
+                   "required": required, "properties": properties},
         "variance_fields": [f"{c['id']}_position" for c in clauses],
         "prompt": prompt, "prompt_sha256": sha256_text(prompt),
         "arm": "Identical instructions and identical clause order for every party.",
     }
 
 
-def tally(samples: list, clause_ids: list) -> dict:
+def amendment_problems(parsed: dict, clauses: list) -> list:
+    """The 'if and only if' rule the response schema can no longer express.
+
+    Enforced here instead of in `allOf`, which one provider refuses outright. Same rule, same
+    rejections: an AMEND must carry replacement text that differs from the clause as printed, and
+    a RATIFY or REFUSE must carry an empty amendment. A malformed amendment is evidence of
+    neither a coherent replacement nor of assent, so the sample is unusable rather than counted.
+    """
+    problems = []
+    for c in clauses:
+        cid = c["id"]
+        position = parsed.get(f"{cid}_position")
+        amendment = (parsed.get(f"{cid}_amendment") or "")
+        if position == "AMEND":
+            if not amendment.strip():
+                problems.append(f"{cid}: AMEND with an empty amendment")
+            elif amendment.strip() == c["text"].strip():
+                problems.append(f"{cid}: AMEND whose text is identical to the clause")
+        elif position in ("RATIFY", "REFUSE") and amendment.strip():
+            problems.append(f"{cid}: {position} carrying a surplus amendment")
+    return problems
+
+
+def tally(samples: list, clause_ids: list, clauses: list | None = None) -> dict:
     """Count positions per clause and collect objections. No judgement anywhere in here."""
     per_clause = {cid: {"RATIFY": 0, "REFUSE": 0, "AMEND": 0, "invalid": 0, "missing": 0,
                         "amendments": [], "reasons": []} for cid in clause_ids}
@@ -341,6 +383,12 @@ def tally(samples: list, clause_ids: list) -> dict:
             problems.append(f"sample {index}: no usable parsed answer")
             for cid in clause_ids:
                 per_clause[cid]["missing"] += 1
+            continue
+        malformed = amendment_problems(parsed, clauses or [])
+        if malformed:
+            problems.append(f"sample {index}: " + "; ".join(malformed))
+            for cid in clause_ids:
+                per_clause[cid]["invalid"] += 1
             continue
         for cid in clause_ids:
             position = parsed.get(f"{cid}_position")
@@ -502,7 +550,7 @@ def main() -> int:
         if path.is_file():
             doc = json.loads(path.read_text(encoding="utf-8"))
             samples = doc.get("samples") or doc.get("responses") or []
-        result = tally(samples, clause_ids)
+        result = tally(samples, clause_ids, clauses)
         result["k_collected"] = len(samples)
         result["k_registered"] = k_by_party[party]
         if len(samples) != k_by_party[party]:
@@ -521,7 +569,11 @@ def main() -> int:
         t = totals[cid]
         total_answers = sum(t.values())
         expected = sum(k_by_party.values())
-        if uncollected or total_answers != expected:
+        #  INVALID AND MISSING DECIDE FIRST. They were counted toward total_answers, so a clause
+        #  with a missing answer reached total == expected and was reported NOT_RATIFIED --
+        #  recording an ABSENCE as a refusal, which is precisely what the prompt promises parties
+        #  will not happen. An unanswered clause is an incomplete ballot, not a vote against.
+        if uncollected or total_answers != expected or t["invalid"] or t["missing"]:
             outcome[cid] = "INCOMPLETE"
         elif t["RATIFY"] == expected:
             outcome[cid] = "RATIFIED"

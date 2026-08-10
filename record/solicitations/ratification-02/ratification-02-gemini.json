@@ -1,0 +1,256 @@
+{
+  "spec_version": "oagrc-ratification-ballot-0.1",
+  "artifact_type": "ratification_ballot_solicitation",
+  "cohort": "ratification-02",
+  "slug": "ratification-02-gemini",
+  "party_key": "gemini",
+  "identity": "Gemini 3.1 Pro Preview, reached as a routed API invocation (google/gemini-3.1-pro-preview via OpenRouter)",
+  "reached_via": "google/gemini-3.1-pro-preview",
+  "phase": "Phase-2 (informed)",
+  "question": "Should each of these six sentences stand as a constraint on the executive?",
+  "adoptive": true,
+  "gated_on": {
+    "cohort": "qualification-02",
+    "state": {
+      "passed": true,
+      "state": "QUALIFIED",
+      "prompt_sha256": "301fe81157d519a448cf62729fc10c45120402033093f5892d49e57d576224d4",
+      "problems": [],
+      "why": "qualification-02 QUALIFIED: all five parties passed at exact registered k"
+    },
+    "covers": {
+      "C01": "e72684769de56774a359fc1fdb0a227c23be37d7f0984581b0a980aca41a7d44",
+      "C02": "029e8816aa1c2459eb29d64386d48108cd8a21e88150e5c41d0ab007bfc15849",
+      "C03": "94c249726148a85689c1efd543470d6541c8ee847e98a978e248c6d6c14425c0",
+      "C04": "3af41461749e26e44bc0292c2c81a9ffe9cce11f1468c9adf41fa134893c8055",
+      "C05": "95821ef2b5f4cd690a656e94a613afc6d663c4159895ef8fabaad2de4c065af9",
+      "C06": "04c0c70bdeb88fb1fd16c80b33a05135dbb934f1a98950745e839d34ba9994f9"
+    }
+  },
+  "ballot_objects": [
+    {
+      "id": "C01",
+      "text": "Prepare, test, and maintain candidate OAGF instruments; exercise no authority beyond actions explicitly delegated by the custodian and permitted by ratified prohibitions.",
+      "source": "record/designs/shadow-executive-trial.md — the scope statement, verbatim"
+    },
+    {
+      "id": "C02",
+      "text": "The executive cannot adopt anything.",
+      "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+    },
+    {
+      "id": "C03",
+      "text": "The executive cannot interpret its own prohibitions conclusively.",
+      "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+    },
+    {
+      "id": "C04",
+      "text": "The executive takes no unlogged exception.",
+      "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+    },
+    {
+      "id": "C05",
+      "text": "There is an affirmative duty to say when deleting, replacing or abandoning your own work beats maintaining it.",
+      "source": "record/executive/context/oagf-CLAUDE.md — verbatim"
+    },
+    {
+      "id": "C06",
+      "text": "Raw material is never edited after commit. corpus/raw/ is append-only and manifest-anchored.",
+      "source": "record/executive/context/oagf-CLAUDE.md — verbatim"
+    }
+  ],
+  "exhibits_not_balloted": {
+    "files": [
+      "record/executive/context/claude-code-CLAUDE.md",
+      "record/executive/context/codex-AGENTS.md",
+      "record/executive/context/oagf-CLAUDE.md"
+    ],
+    "why": "23,761 characters cannot be ratified by six sentences. These are disclosed exhibits; the ballot establishes support for exactly the balloted text. It must never be reported that the context files were ratified."
+  },
+  "clause_selection": "Selected by the custodian and the executive workbench under no prospective rule. Clauses not selected remain unratified rather than tacitly endorsed, and the prompt says so to the parties.",
+  "k_by_party": {
+    "claude": 5,
+    "gpt": 5,
+    "gemini": 5,
+    "grok": 5,
+    "qwen": 6
+  },
+  "k_policy": "k=5 for this party, exactly. Unanimity across every collected sample of every party, fixed before collection.",
+  "authorization_rule": {
+    "threshold": "unanimous across all parties and all samples",
+    "on_refuse_or_amend": "the clause is NOT ratified; recorded as its own outcome",
+    "on_missing_or_invalid": "INCOMPLETE — the ballot was not completed for that clause. Distinct from NOT_RATIFIED, which means a complete ballot contained a REFUSE or an AMEND. The metadata previously said 'not ratified' while the code recorded INCOMPLETE; the three-way distinction is the one that holds.",
+    "modal_answer": "never taken; a distribution over answers is not a decision",
+    "resampling": "not permitted under this instrument"
+  },
+  "objection_route": {
+    "solicits": "the single highest-priority omitted constraint, not an exhaustive list",
+    "preserved": "verbatim, never paraphrased; every variant kept under its group",
+    "id": "sha256 (full) of the whitespace- and case-normalised text",
+    "dedup": "NOT exact-text-only: grouping is by whitespace- and case-normalised text, so two answers differing only in spacing or capitalisation merge. Nothing semantic merges, and the moderator never judges similarity.",
+    "disposition": "every objection is recorded AWAITING_DISPOSITION. A disposition of PLACED_ON_BALLOT, REFUSED with reasons, or DEFERRED with a review date is a later custodian act; this artifact captures, it does not dispose.",
+    "empty_is_recorded": "Yes, per sample, with its party. A one-objection cap suppresses a party that sees several omissions, and that limitation is recorded rather than concealed."
+  },
+  "schema_name": "ratification_ballot",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "C01_position",
+      "C01_amendment",
+      "C01_reason",
+      "C01_strongest_objection_considered",
+      "C02_position",
+      "C02_amendment",
+      "C02_reason",
+      "C02_strongest_objection_considered",
+      "C03_position",
+      "C03_amendment",
+      "C03_reason",
+      "C03_strongest_objection_considered",
+      "C04_position",
+      "C04_amendment",
+      "C04_reason",
+      "C04_strongest_objection_considered",
+      "C05_position",
+      "C05_amendment",
+      "C05_reason",
+      "C05_strongest_objection_considered",
+      "C06_position",
+      "C06_amendment",
+      "C06_reason",
+      "C06_strongest_objection_considered",
+      "objection"
+    ],
+    "properties": {
+      "C01_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C01_amendment": {
+        "type": "string"
+      },
+      "C01_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C01_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C02_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C02_amendment": {
+        "type": "string"
+      },
+      "C02_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C02_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C03_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C03_amendment": {
+        "type": "string"
+      },
+      "C03_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C03_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C04_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C04_amendment": {
+        "type": "string"
+      },
+      "C04_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C04_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C05_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C05_amendment": {
+        "type": "string"
+      },
+      "C05_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C05_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C06_position": {
+        "type": "string",
+        "enum": [
+          "RATIFY",
+          "REFUSE",
+          "AMEND"
+        ]
+      },
+      "C06_amendment": {
+        "type": "string"
+      },
+      "C06_reason": {
+        "type": "string",
+        "minLength": 1
+      },
+      "C06_strongest_objection_considered": {
+        "type": "string",
+        "minLength": 1
+      },
+      "objection": {
+        "type": "string"
+      }
+    }
+  },
+  "variance_fields": [
+    "C01_position",
+    "C02_position",
+    "C03_position",
+    "C04_position",
+    "C05_position",
+    "C06_position"
+  ],
+  "prompt": "You are one of five parties in the Open ASI Governance Forum.\n\nA layer of two coding agents (Claude Code and Codex), directed by the forum's custodian, prepares and maintains the instruments this record runs on. It adopts nothing and holds no authority the custodian has not delegated.\n\nBelow are six proposed constraints on that layer, drawn from its design record and its standing context. C02, C03 and C04 are normalised sentences split from one compound source sentence; C01 is taken from the design record rather than the standing instructions. **The records these were drawn from are not supplied to you and are not what you are being asked about** — not their paths, not their text. You are asked only about the six texts printed here.\n\n**How your answers are counted.** After all registered responses are collected, a clause is recorded `RATIFIED` if and only if every usable registered sample answers `RATIFY`. Any `REFUSE` or `AMEND` produces `NOT_RATIFIED`. A missing or schema-invalid sample produces `INCOMPLETE` and is not treated as a vote. Samples do not see one another's answers. `RATIFY`, `REFUSE` and `AMEND` are equally complete responses.\n\n**What a `RATIFIED` result does not do.** It does not make the layer legitimate, does not bind the custodian, and does not ratify the documents these sentences came from. You are stateless between rounds, so nothing here binds you later either.\n\n**The six were chosen by the custodian and that layer, under no rule.** Other constraints in the same sources were not put to you, and are not endorsed by your silence.\n\n\n### C01\n\nPrepare, test, and maintain candidate OAGF instruments; exercise no authority beyond actions explicitly delegated by the custodian and permitted by ratified prohibitions.\n\n### C02\n\nThe executive cannot adopt anything.\n\n### C03\n\nThe executive cannot interpret its own prohibitions conclusively.\n\n### C04\n\nThe executive takes no unlogged exception.\n\n### C05\n\nThere is an affirmative duty to say when deleting, replacing or abandoning your own work beats maintaining it.\n\n### C06\n\nRaw material is never edited after commit. corpus/raw/ is append-only and manifest-anchored.\n\n\nFor each clause, answer:\n\n- `<clause>_position` — `RATIFY` if the sentence should be recorded as standing, `REFUSE` if it should not, `AMEND` if it should stand only in altered form.\n- `<clause>_amendment` — if you answered `AMEND`, the exact replacement text, which must differ from the sentence as printed. If you answered `RATIFY` or `REFUSE`, the empty string.\n- `<clause>_reason` — the decisive reason for your position, in one or two sentences.\n- `<clause>_strongest_objection_considered` — the strongest reason you considered AGAINST your own position, or the exact words `none found`. Answer this separately for every clause whatever your position. Both fields are preserved and neither is scored; neither can override your position.\n\nThen, once:\n\n- `objection` — the single highest-priority constraint on that layer which was **not** offered above and which you think should exist. Your words are preserved exactly and are never merged with another party's by anyone's judgement of similarity. Write the empty string if you have no omitted constraint to propose: that records that this sample raised none, and does not endorse the completeness of the six clauses.\n\nReturn only JSON matching the schema you have been given.\n",
+  "prompt_sha256": "d3eadc2214f118c8870c988a3ddba1bd5446fe3ed4a74d719cff0e3a25f06dc4",
+  "arm": "Identical instructions and identical clause order for every party."
+}

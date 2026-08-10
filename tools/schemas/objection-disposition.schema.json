@@ -98,9 +98,19 @@
           },
           "conflict_of_interest": {
             "type": "string"
+          },
+          "ballot_target": {
+            "type": "string"
+          },
+          "target_corrected": {
+            "type": "string"
           }
         }
       }
+    },
+    "ballot_target_correction": {
+      "type": "string",
+      "description": "Present when a disposition's named ballot target turned out to be wrong. The disposition itself stands; only the target is corrected, and the correction says what changed rather than silently rewriting the field."
     }
   }
 }
