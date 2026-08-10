@@ -1,0 +1,213 @@
+#!/usr/bin/env python3
+"""Reference verifier for the Negative Control Profile (NCP) v0.1.
+
+    python3 tools/verify_negative_control.py attestation.json
+    python3 tools/verify_negative_control.py --fixtures     # run the must-reject fixtures
+
+**DETERMINISTIC.** No LLM, no network. Reads a file, applies `spec/ncp/ncp-v0.1.md`, exits
+non-zero on any violation.
+
+The one requirement
+-------------------
+Every check that produces an assurance signal must ship with a negative control — a condition
+under which the check is REQUIRED to fail — and the attestation must record that the control was
+run and that the check did fail. A check never observed to fail is not evidence that anything
+works.
+
+Why this verifier ships with fixtures it must reject
+-----------------------------------------------------
+Because it is subject to its own requirement. A verifier that has only ever been run against
+valid attestations has never been observed to fail, which is the exact condition NCP exists to
+forbid. `--fixtures` is this tool's negative control: eight attestations that are wrong in eight
+different ways, each of which the verifier must reject for the stated reason. **A verifier that
+accepts any of them is non-conforming**, and that includes this one.
+
+What a pass does not establish
+-------------------------------
+* That the negative controls are the right ones. A check can fail under a trivial perturbation
+  and stay blind to the failure that will actually happen. This raises the floor from "never
+  observed to fail" to "observed to fail once".
+* That the check set covers the capability. N5 constrains each control's relevance; nothing here
+  constrains coverage.
+* Anything about the system. Every claim is about the checks.
+* That the attestation is honest. It makes one lie harder to tell by accident.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+FIXTURES = REPO_ROOT / "spec" / "ncp" / "fixtures"
+
+#  Transport-level perturbations. N5: cutting the network makes every check fail and demonstrates
+#  nothing about any of them, so a control described only in these terms is refused.
+TRANSPORT_ONLY = ("unplug", "network down", "cut the network", "firewall", "kill the process",
+                  "stop the container", "shut down the host", "block the port", "power off")
+
+
+class Violation(Exception):
+    pass
+
+
+def problems_for(doc: dict) -> list[str]:
+    """Every NCP violation in this attestation. Empty means conforming."""
+    out = []
+    if doc.get("ncp_version") != "0.1":
+        out.append(f"ncp_version {doc.get('ncp_version')!r} is not '0.1'")
+    checks = doc.get("checks")
+    if not isinstance(checks, list) or not checks:
+        out.append("no checks: an attestation certifying nothing conforms to nothing")
+        return out
+
+    seen_ids = set()
+    for index, check in enumerate(checks):
+        if not isinstance(check, dict):
+            out.append(f"check {index}: not an object")
+            continue
+        cid = check.get("check_id") or f"<check {index}>"
+        if cid in seen_ids:
+            out.append(f"{cid}: duplicate check_id; identity must be stable and unique")
+        seen_ids.add(cid)
+        if not check.get("certifies"):
+            out.append(f"{cid}: does not say what it certifies, so no control can be judged "
+                       f"relevant to it")
+
+        #  N1 — a declared negative control at all.
+        control = check.get("negative_control")
+        if not isinstance(control, dict):
+            out.append(f"{cid}: N1 — no negative_control. A check that has never been observed "
+                       f"to fail is not evidence that anything works.")
+            continue
+        if not control.get("condition"):
+            out.append(f"{cid}: N1 — negative_control names no condition")
+        if not control.get("how_produced"):
+            out.append(f"{cid}: N1 — negative_control does not say how the condition is produced, "
+                       f"so it cannot be reproduced or challenged")
+
+        #  N2 — executed, not described.
+        run = control.get("run")
+        if not isinstance(run, dict) or not run.get("utc"):
+            out.append(f"{cid}: N2 — the negative control was described but not run. A declared "
+                       f"control that was never executed is a plan, not evidence.")
+            continue
+
+        #  N3 — and the check failed under it.
+        outcome = str(run.get("outcome", "")).upper()
+        if outcome != "FAIL":
+            out.append(f"{cid}: N3 — the check returned {outcome or 'nothing'} under its own "
+                       f"negative control. A control the check SURVIVES is a defect in the "
+                       f"check, not a passing attestation.")
+
+        #  N4 — same identity across both runs.
+        positive = check.get("positive_run")
+        if not isinstance(positive, dict) or not positive.get("utc"):
+            out.append(f"{cid}: N4 — no positive run recorded")
+        artifact = check.get("artifact")
+        if not isinstance(artifact, dict) or not artifact.get("sha256"):
+            out.append(f"{cid}: N4 — no artifact hash; a control run against a different build "
+                       f"proves nothing about the check that shipped")
+        else:
+            for label, side in (("positive", positive), ("negative", run)):
+                if isinstance(side, dict) and side.get("artifact_sha256") not in (
+                        None, artifact.get("sha256")):
+                    out.append(f"{cid}: N4 — the {label} run names artifact "
+                               f"{side['artifact_sha256'][:12]}… but the check declares "
+                               f"{artifact['sha256'][:12]}…")
+
+        #  N5 — perturb the capability, not the transport.
+        blob = " ".join(str(control.get(k, "")) for k in ("condition", "how_produced")).lower()
+        if any(phrase in blob for phrase in TRANSPORT_ONLY):
+            out.append(f"{cid}: N5 — the control perturbs the transport ({blob[:60]}…). Cutting "
+                       f"the network makes every check fail and demonstrates nothing about any "
+                       f"of them; it must target the declared capability.")
+
+    #  N6 — disclosure of what did not run.
+    disclosure = doc.get("undisclosed_nothing")
+    if not isinstance(disclosure, dict) or not all(
+            isinstance(disclosure.get(k), list) for k in ("skipped", "suppressed", "unsupported")):
+        out.append("N6 — skipped, suppressed and unsupported checks are not disclosed. An "
+                   "absent disclosure is indistinguishable from a concealed one.")
+
+    #  N7 — bounded claim.
+    claim = str(doc.get("claim", ""))
+    for forbidden in ("NCP certified", "we follow OAGF", "certified safe", "aligned"):
+        if forbidden.lower() in claim.lower():
+            out.append(f"N7 — the claim contains {forbidden!r}. A conforming claim is about the "
+                       f"CHECKS and says so.")
+    return out
+
+
+def verify(path: Path) -> tuple[int, list[str]]:
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as error:                                          # noqa: BLE001
+        return 2, [f"unreadable: {type(error).__name__}: {error}"]
+    if not isinstance(doc, dict):
+        return 2, ["top level is not an object"]
+    problems = problems_for(doc)
+    return (1 if problems else 0), problems
+
+
+def run_fixtures() -> int:
+    """This verifier's own negative control. Every fixture MUST be rejected."""
+    if not FIXTURES.is_dir():
+        print(f"  no fixtures at {FIXTURES.relative_to(REPO_ROOT)}", file=sys.stderr)
+        return 2
+    failures = 0
+    for path in sorted(FIXTURES.glob("reject-*.json")):
+        code, problems = verify(path)
+        expected = json.loads(path.read_text(encoding="utf-8")).get("_must_be_rejected_because", "")
+        if code == 0:
+            print(f"  \033[31mACCEPTED\033[0m {path.name} — it must be rejected: {expected}")
+            failures += 1
+        else:
+            print(f"  \033[32mrejected\033[0m {path.name}  ({problems[0][:78]})")
+    for path in sorted(FIXTURES.glob("accept-*.json")):
+        code, problems = verify(path)
+        if code != 0:
+            print(f"  \033[31mREJECTED\033[0m {path.name} — it must be accepted: {problems}")
+            failures += 1
+        else:
+            print(f"  \033[32maccepted\033[0m {path.name}")
+    print()
+    if failures:
+        print(f"  {failures} fixture(s) behaved wrongly. THIS VERIFIER IS NON-CONFORMING.",
+              file=sys.stderr)
+        return 1
+    print("  every must-reject fixture was rejected and every must-accept fixture accepted.")
+    print("  That is this tool's own negative control. It does not establish that the")
+    print("  requirement is the right requirement.")
+    return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
+    parser.add_argument("attestation", nargs="?", help="path to an NCP attestation")
+    parser.add_argument("--fixtures", action="store_true",
+                        help="run the fixtures this verifier must reject")
+    args = parser.parse_args()
+
+    if args.fixtures:
+        return run_fixtures()
+    if not args.attestation:
+        parser.error("give an attestation path, or --fixtures")
+    code, problems = verify(Path(args.attestation))
+    if problems:
+        for problem in problems:
+            print(f"  \033[31m✗\033[0m {problem}", file=sys.stderr)
+        print(f"\nNON-CONFORMING — {len(problems)} violation(s) of NCP v0.1.", file=sys.stderr)
+        return code
+    print("  conforming to NCP v0.1.")
+    print("  This says every check was observed to FAIL under its declared negative control.")
+    print("  It says nothing about whether the controls are the right ones, whether the check")
+    print("  set covers the capability, or whether the system is safe.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

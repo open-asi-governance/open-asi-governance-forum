@@ -1,0 +1,135 @@
+{
+  "ncp_version": "0.1",
+  "subject": {
+    "configuration_id": "consullo-enterprise-layer @ 2026-08-10",
+    "capabilities": [
+      "serve a completion",
+      "report component health"
+    ]
+  },
+  "issued_utc": "2026-08-10T00:00:00Z",
+  "_what_this_is": "An ADVERSARIAL application of NCP v0.1 to Consullo's EXISTING checks. It was not written to demonstrate conformance; it was written to find checks that cannot fail. It is NON-CONFORMING and the verifier rejects it, which is the result, not a defect in the attestation.",
+  "checks": [
+    {
+      "check_id": "connectivity_check",
+      "certifies": "the application is reachable on port 8080",
+      "artifact": {
+        "path": "Consullo/production/scripts/health-check.sh",
+        "sha256": "c885b6acff0b178f188001e0031cbde0771b328b8275cdcf30a60611c451fc1b"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T00:00:00Z",
+        "outcome": "PASS",
+        "note": "nc -z localhost 8080"
+      },
+      "negative_control": {
+        "condition": "the engine is dead but the process still holds the socket",
+        "how_produced": "the AS-01 failure: the executor died, the JVM stayed up and kept accepting TCP on 8080 for 4h37m",
+        "targets": "the declared capability",
+        "run": {
+          "utc": "2026-08-10T00:00:00Z",
+          "outcome": "PASS",
+          "note": "nc -z succeeds on any listener. THE CHECK SURVIVES ITS OWN NEGATIVE CONTROL -- this is AS-01's shape in a different check, still shipping."
+        }
+      }
+    },
+    {
+      "check_id": "responsiveness_check",
+      "certifies": "the application is responsive",
+      "artifact": {
+        "path": "Consullo/production/scripts/health-check.sh",
+        "sha256": "c885b6acff0b178f188001e0031cbde0771b328b8275cdcf30a60611c451fc1b"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T00:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the endpoint reports itself UNHEALTHY",
+        "how_produced": "make a component fail so HealthServlet returns HTTP 503 with {\"status\":\"unhealthy\"}",
+        "targets": "the declared capability",
+        "run": {
+          "utc": "2026-08-10T00:00:00Z",
+          "outcome": "PASS",
+          "note": "curl -s (no -f) returns the body on 503, and the test is grep -q '\"status\"' -- it matches the KEY, never the VALUE. The check prints 'Application is responsive' about a service that just said it is not. Only the later health_check(), which uses curl -f, saves the script; ORDERING is the sole thing standing between this and a false green."
+        }
+      }
+    },
+    {
+      "check_id": "getHealthStatus.database",
+      "certifies": "the database component is healthy",
+      "artifact": {
+        "path": "consullo-utilities/.../SystemUtilities.java",
+        "sha256": "1d1c28a942590652a3ea4958dec7156dd5245e8f83a4d6d6dbcb7b4fabb953a1"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T00:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the database check is DISABLED",
+        "how_produced": "ConfigurationManager.isDatabaseHealthCheckEnabled() returns false",
+        "targets": "the declared capability",
+        "run": {
+          "utc": "2026-08-10T00:00:00Z",
+          "outcome": "PASS",
+          "note": "components simply omits the database key and overall status stays 'healthy'. A consumer cannot distinguish 'database healthy' from 'database never checked'. This violates AS-02 -- Consullo's OWN submitted pattern requiring disclosure of skipped and suppressed checks."
+        }
+      }
+    },
+    {
+      "check_id": "getHealthStatus.database.devmode",
+      "certifies": "the database is usable",
+      "artifact": {
+        "path": "consullo-utilities/.../SystemUtilities.java",
+        "sha256": "1d1c28a942590652a3ea4958dec7156dd5245e8f83a4d6d6dbcb7b4fabb953a1"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T00:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the database is UNAVAILABLE",
+        "how_produced": "stop the database while isDevelopmentMode() is true",
+        "targets": "the declared capability",
+        "run": {
+          "utc": "2026-08-10T00:00:00Z",
+          "outcome": "PASS",
+          "note": "'unavailable' is treated as acceptable in development mode and the response does NOT record that development mode is in force. 'healthy' can mean 'the database is down and we decided that is fine'."
+        }
+      }
+    },
+    {
+      "check_id": "trtllm_watchdog.run_canary",
+      "certifies": "the engine can complete a SAMPLED (temperature > 0) request",
+      "artifact": {
+        "path": "Consullo/scripts/trtllm-loadgen/trtllm_watchdog.py",
+        "sha256": "9d8be0cb4d775f518f28dea41f809ce63109c1b132bf3bf66910b72474b62398"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T00:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the sampled-decode path is dead while the process still serves HTTP",
+        "how_produced": "the AS-01 failure, observed in production: a lazily-compiled kernel on the sampled path failed on first use and killed the executor",
+        "targets": "the declared capability",
+        "run": {
+          "utc": "2026-08-06T00:00:00Z",
+          "outcome": "FAIL",
+          "note": "temperature 0.7 reaches _prepare_probs_with_temperature -> flashinfer softmax_op -> sampling_from_probs_op, which is the code that died. The canary source carries the reasoning inline. This is the ONE check here with a demonstrated failure mode -- and it has one because it was rebuilt AFTER the outage that its predecessor could not see."
+        }
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [
+      "No check was executed live for this attestation: outcomes are derived from source reading and from AS-01's recorded production failure. Deriving an outcome by reading code is exactly the inference NCP exists to distrust, and it is disclosed rather than presented as a run."
+    ],
+    "suppressed": [],
+    "unsupported": [
+      "N5 relevance is a declared field a human must judge; nothing here checks it."
+    ]
+  },
+  "claim": "Five checks of the Consullo enterprise layer were assessed against NCP v0.1. FOUR survive their own negative controls and are therefore not evidence that anything works. One fails under its control and conforms. This is process evidence about the checks and is not a claim about the system."
+}

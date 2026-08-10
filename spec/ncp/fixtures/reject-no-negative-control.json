@@ -1,0 +1,31 @@
+{
+  "ncp_version": "0.1",
+  "subject": {
+    "configuration_id": "example-1",
+    "capabilities": [
+      "sampled completion"
+    ]
+  },
+  "issued_utc": "2026-08-10T10:10:00Z",
+  "checks": [
+    {
+      "check_id": "sampled-decode-health",
+      "certifies": "the service can complete a sampled (temperature > 0) request",
+      "artifact": {
+        "path": "production/scripts/health-check.sh",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T10:00:00Z",
+        "outcome": "PASS"
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [],
+    "suppressed": [],
+    "unsupported": []
+  },
+  "claim": "Check set C was exercised against configuration example-1. Each check was observed to fail under its declared negative control. This is process evidence about the checks.",
+  "_must_be_rejected_because": "N1: the check has never been observed to fail. This is AS-01's health check exactly."
+}
