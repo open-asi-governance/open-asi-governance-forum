@@ -46,8 +46,13 @@ What it cannot establish
 from __future__ import annotations
 
 import argparse
+import json
+import os
 import subprocess
 import sys
+import time
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -83,6 +88,70 @@ GATES = (
 #  is the same class of defect as a gate reading the wrong exit code.
 GOVERNED = ("corpus/MANIFEST.sha256", "record/anchors/manifest-anchors.jsonl",
             "corpus/deficiencies.md")
+
+
+REPO_SLUG = "open-asi-governance/open-asi-governance-forum"
+DEPLOY_TIMEOUT_S = 900
+DEPLOY_POLL_S = 20
+
+
+def _api(path: str) -> dict | list | None:
+    """GitHub API GET. Returns None on any failure -- the caller must treat that as UNOBSERVED."""
+    token = os.environ.get("GITHUB_TOKEN")
+    request = urllib.request.Request(f"https://api.github.com/repos/{REPO_SLUG}{path}")
+    request.add_header("Accept", "application/vnd.github+json")
+    if token:
+        request.add_header("Authorization", f"Bearer {token}")
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            return json.loads(response.read())
+    except Exception:                                                   # noqa: BLE001
+        return None
+
+
+def wait_for_deploy(sha: str) -> dict:
+    """Wait for the Pages workflow on `sha`, and confirm the SERVED site is that commit.
+
+    Push verification establishes that the commit reached the remote. It establishes nothing
+    about whether anyone can see it: on 2026-08-10 a push verified cleanly, the workflow FAILED,
+    the site kept serving the previous build, and a page was reported to the custodian as
+    published while it 404'd.
+
+    UNOBSERVED IS NOT SUCCESS. Every path that cannot look -- no token, API error, still running
+    at the deadline -- returns observed=False, and the attestation profile refuses it. A check
+    that passes when it cannot see is the exact defect it exists to catch.
+    """
+    if not os.environ.get("GITHUB_TOKEN"):
+        return {"observed": False, "why": "no GITHUB_TOKEN in the environment", "commit": sha}
+    deadline = time.time() + DEPLOY_TIMEOUT_S
+    conclusion = status = None
+    while time.time() < deadline:
+        runs = _api(f"/actions/runs?head_sha={sha}&per_page=1")
+        if runs is None:
+            return {"observed": False, "why": "the workflow API could not be read",
+                    "commit": sha}
+        items = runs.get("workflow_runs") or []
+        if items:
+            status, conclusion = items[0].get("status"), items[0].get("conclusion")
+            if status == "completed":
+                break
+        time.sleep(DEPLOY_POLL_S)
+    else:
+        return {"observed": False, "commit": sha, "status": status,
+                "why": f"still {status or 'unstarted'} after {DEPLOY_TIMEOUT_S}s -- not a "
+                       f"failure, and not a success either"}
+
+    #  The workflow concluding is not the site serving it. Ask what is actually deployed.
+    deployments = _api("/deployments?environment=github-pages&per_page=1")
+    deployed = (deployments[0].get("sha") if isinstance(deployments, list) and deployments
+                else None)
+    if deployed is None and conclusion == "success":
+        return {"observed": False, "commit": sha, "conclusion": conclusion,
+                "why": "the workflow succeeded but the deployment API could not be read, so what "
+                       "is actually served is unknown"}
+    return {"observed": True, "commit": sha, "conclusion": conclusion,
+            "deployed_sha": deployed,
+            "run_url": f"https://github.com/{REPO_SLUG}/actions/runs/{items[0].get('id')}"}
 
 
 def run(cmd: list[str]) -> tuple[int, str]:
@@ -138,7 +207,10 @@ def main() -> int:
     parser.add_argument("-F", "--file", help="file holding the commit message")
     parser.add_argument("--check-only", action="store_true", help="run the gates, change nothing")
     parser.add_argument("--branch", default="main", help="branch to push (default main)")
-    parser.add_argument("--note", default="", help="note recorded on both attestations")
+    parser.add_argument("--note", default="", help="note recorded on the attestations")
+    parser.add_argument("--no-deploy-check", action="store_true",
+                        help="skip waiting for the Pages deploy. The run then says so explicitly "
+                             "rather than implying the site is current.")
     args = parser.parse_args()
 
     problems = preflight(args.branch)
@@ -194,11 +266,24 @@ def main() -> int:
         print(f"  ATTESTATION FAILED: {failed}", file=sys.stderr)
         return 1
     print(f"\n  landed {sha[:12]} on {args.branch}, gates green, both attestations filed")
-    #  LANDED IS NOT PUBLISHED. The commit is on the remote; whether GitHub Pages accepted and
-    #  deployed it is a separate fact this tool does not observe. Saying so here because it was
-    #  once reported as published when the deploy had failed.
-    print("  NOTE: landed != deployed. Check the Pages workflow before telling anyone a page "
-          "is live.")
+
+    if args.no_deploy_check:
+        print("  deploy NOT checked (--no-deploy-check). This commit is pushed and may or may "
+              "not be served.")
+        return 0
+
+    print(f"  waiting for the Pages deploy (up to {DEPLOY_TIMEOUT_S // 60} min)…")
+    result = wait_for_deploy(sha)
+    try:
+        ex.attest("deploy", result, note=args.note or "deploy check by land.py")
+    except ex.AttestationFailed as failed:
+        print(f"\n  \033[31mDEPLOY NOT CONFIRMED\033[0m — {failed}", file=sys.stderr)
+        if result.get("run_url"):
+            print(f"  {result['run_url']}", file=sys.stderr)
+        print("  The commit is pushed and cannot be unpushed. What is NOT established is that "
+              "the site serves it.\n  Do not tell anyone a page is live.", file=sys.stderr)
+        return 3
+    print(f"  deployed {(result.get('deployed_sha') or '')[:12]} — the site serves this commit")
     return 0
 
 

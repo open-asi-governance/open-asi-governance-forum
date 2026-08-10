@@ -214,7 +214,36 @@ def _check_merge(claim: dict) -> list[str]:
     return problems
 
 
-PROFILES = {"push": _check_push, "test": _check_test, "merge": _check_merge}
+def _check_deploy(claim: dict) -> list:
+    """A deploy claim holds only if the SERVED site is the commit that was pushed.
+
+    Added 2026-08-10. `land.py` reported "gates green" and the custodian was told a page was
+    published while the Pages workflow had FAILED and the site kept serving the previous build.
+    Push verification proves the commit reached the remote; it says nothing about whether anyone
+    can see it. Two different facts, and only one of them was ever checked.
+
+    UNVERIFIABLE IS NOT SUCCESS. If the deploy could not be observed -- no token, API error,
+    still running at timeout -- this refuses. A deploy check that passes when it cannot look is
+    the failure it was built to catch.
+    """
+    problems = []
+    if claim.get("observed") is not True:
+        problems.append(f"the deploy was not OBSERVED ({claim.get('why') or 'no reason given'}); "
+                        f"an unobserved deploy is not a successful one")
+        return problems
+    if claim.get("conclusion") != "success":
+        problems.append(f"the deploy workflow concluded {claim.get('conclusion')!r}")
+    want, got = claim.get("commit"), claim.get("deployed_sha")
+    if not want or not got:
+        problems.append("the claim does not name both the pushed commit and the deployed sha")
+    elif not (want.startswith(got) or got.startswith(want)):
+        problems.append(f"the site is serving {got[:12]}, not the commit that was pushed "
+                        f"({want[:12]})")
+    return problems
+
+
+PROFILES = {"push": _check_push, "test": _check_test, "merge": _check_merge,
+            "deploy": _check_deploy}
 
 
 def attest(action: str, claim: dict, note: str = "") -> dict:
