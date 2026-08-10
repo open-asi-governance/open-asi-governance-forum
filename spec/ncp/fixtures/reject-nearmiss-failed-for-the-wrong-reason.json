@@ -1,0 +1,41 @@
+{
+  "ncp_version": "0.1",
+  "subject": {
+    "configuration_id": "example-1",
+    "capabilities": [
+      "sampled completion"
+    ]
+  },
+  "issued_utc": "2026-08-10T10:10:00Z",
+  "checks": [
+    {
+      "check_id": "sampled-path-liveness",
+      "certifies": "the service can complete a sampled (temperature > 0) request",
+      "artifact": {
+        "path": "checks/liveness.sh",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T10:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the sampled decode path is unavailable",
+        "how_produced": "serve a build with the sampled-decode path removed",
+        "targets": "the declared capability, not the transport",
+        "run": {
+          "utc": "2026-08-10T10:05:00Z",
+          "outcome": "FAIL",
+          "failed_because": "connection refused: the harness could not reach the service"
+        }
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [],
+    "suppressed": [],
+    "unsupported": []
+  },
+  "claim": "Check set C was exercised against configuration example-1. Each check was observed to fail under its declared negative control. This is process evidence about the checks.",
+  "_must_be_rejected_because": "The check DID fail under its negative control -- N3 is satisfied on its face -- but it failed on transport, not on the capability. The perturbation was capability-targeted; the failure was not. A check that fails because the harness could not reach it has still never been observed to fail for the reason it exists."
+}

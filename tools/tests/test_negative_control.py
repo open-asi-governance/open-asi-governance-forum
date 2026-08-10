@@ -80,6 +80,37 @@ tmp = Path(tempfile.mkdtemp()) / "bad.json"
 tmp.write_text("{not json")
 check("unparseable input exits non-zero", v.verify(tmp)[0] != 0)
 
+
+print("\nthe fixture set includes NEAR-MISSES, not only obvious rejections")
+FIX = ROOT.parent / "spec" / "ncp" / "fixtures"
+near = sorted(FIX.glob("reject-nearmiss-*.json"))
+check("at least four near-miss fixtures exist", len(near) >= 4)
+for path in near:
+    code, problems = v.verify(path)
+    check(f"{path.name[:46]}: rejected", code == 1)
+check("a near-miss is not rejected for a trivial reason",
+      all("no negative_control" not in " ".join(v.verify(p)[1]) for p in near))
+
+print("\nthe verifier publishes gaps it cannot close")
+GAPS = FIX / "known-gaps"
+gaps = sorted(GAPS.glob("*.json"))
+check("known-gap fixtures are shipped", len(gaps) >= 2)
+for path in gaps:
+    code, _ = v.verify(path)
+    doc = json.loads(path.read_text())
+    check(f"{path.name[:42]}: still accepted (that is the gap)", code == 0)
+    check(f"{path.name[:42]}: says why it should not be", bool(doc.get("_should_be_rejected_but_is_not")))
+check("known gaps do NOT fail the fixture suite",
+      __import__("subprocess").run(
+          [sys.executable, str(ROOT / "verify_negative_control.py"), "--fixtures"],
+          capture_output=True, cwd=ROOT).returncode == 0)
+
+print("\nthe spec records the gaps rather than only the strengths")
+spec = (ROOT.parent / "spec" / "ncp" / "ncp-v0.1.md").read_text()
+check("the spec names the known-gaps directory", "known-gaps" in spec)
+check("the spec says the near-misses were added because the first nine were easy",
+      "obviously invalid on sight" in spec)
+
 #  KEEP THE SUMMARY AND EXIT LAST.
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)

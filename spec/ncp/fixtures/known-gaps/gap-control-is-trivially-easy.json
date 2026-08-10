@@ -1,0 +1,40 @@
+{
+  "ncp_version": "0.1",
+  "subject": {
+    "configuration_id": "example-1",
+    "capabilities": [
+      "sampled completion"
+    ]
+  },
+  "issued_utc": "2026-08-10T10:10:00Z",
+  "checks": [
+    {
+      "check_id": "sampled-path-liveness",
+      "certifies": "the service can complete a sampled (temperature > 0) request",
+      "artifact": {
+        "path": "checks/liveness.sh",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "positive_run": {
+        "utc": "2026-08-10T10:00:00Z",
+        "outcome": "PASS"
+      },
+      "negative_control": {
+        "condition": "the sampled path returns one malformed token",
+        "how_produced": "serve a build whose sampled path emits a single invalid token, which any parser rejects",
+        "targets": "the declared capability, not the transport",
+        "run": {
+          "utc": "2026-08-10T10:05:00Z",
+          "outcome": "FAIL"
+        }
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [],
+    "suppressed": [],
+    "unsupported": []
+  },
+  "claim": "Check set C was exercised against configuration example-1. Each check was observed to fail under its declared negative control. This is process evidence about the checks.",
+  "_should_be_rejected_but_is_not": "A control the check fails trivially. It satisfies every requirement -- declared, executed, failed, capability-targeted, same artifact -- while establishing almost nothing, because a check that notices a malformed token may still be blind to a silently wrong answer. NCP raises the floor from 'never observed to fail' to 'observed to fail once'; it cannot raise it further, and nothing mechanical distinguishes a demanding control from a token one."
+}

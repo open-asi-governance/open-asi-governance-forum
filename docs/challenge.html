@@ -50,9 +50,20 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p>A program that reads an attestation and exits non-zero on any violation of NCP v0.1&#x27;s seven</p>
 <p>normative requirements (N1–N7). Any language.</p>
 
-<p><strong>The acceptance test is our fixture set</strong>, <code>spec/ncp/fixtures/</code> — nine attestations that must be</p>
-<p>rejected, one per requirement, and one that must be accepted. Your verifier should agree with ours</p>
-<p>on all ten. Where it disagrees, <strong>we want to hear about it before we hear that you fixed it</strong>: a</p>
+<p><strong>The acceptance test is our fixture set</strong>, <code>spec/ncp/fixtures/</code> — fourteen attestations that must</p>
+<p>be rejected and one that must be accepted. Four are deliberate <strong>near-misses</strong>: consistent hashes</p>
+<p>pointing at a vanished artifact; a check that failed for a transport reason rather than the</p>
+<p>capability; a control that ran before the artifact last changed; and a claim that opens with the</p>
+<p>exact conforming sentence and then appends a conclusion about the system without using a single</p>
+<p>forbidden word.</p>
+
+<p>Read <code>spec/ncp/fixtures/known-gaps/</code> too. Those are attestations **our verifier accepts and</p>
+<p>should not** — a control aimed at a different capability than the check certifies, and a control</p>
+<p>so easy the check fails it trivially. They do not fail our suite. If your verifier catches either,</p>
+<p>you have beaten ours and we want to know.</p>
+
+<p>Your verifier should agree with ours on all fifteen fixtures in <code>spec/ncp/fixtures/</code>. Where it</p>
+<p>disagrees, <strong>we want to hear about it before we hear that you fixed it</strong>: a</p>
 <p>disagreement is either a defect in your reading, a defect in our specification, or a defect in our</p>
 <p>fixture, and only the first is your problem.</p>
 

@@ -119,6 +119,29 @@ def problems_for(doc: dict) -> list[str]:
                                f"{side['artifact_sha256'][:12]}… but the check declares "
                                f"{artifact['sha256'][:12]}…")
 
+        #  N3b — it must have failed for the RIGHT REASON. A check that fails because the
+        #  harness could not reach it has still never been observed to fail for the reason it
+        #  exists, and N3 alone is satisfied on its face.
+        because = str(run.get("failed_because", "")).lower()
+        if outcome == "FAIL" and because and any(t in because for t in TRANSPORT_ONLY + (
+                "connection refused", "unreachable", "timed out", "could not reach")):
+            out.append(f"{cid}: N3 — it failed under the control, but for a TRANSPORT reason "
+                       f"({because[:60]}…), not for the capability the control perturbed")
+
+        #  N4b — the control must have run against the artifact that SHIPPED. Matching hashes do
+        #  not establish that, if the run predates the artifact's last change.
+        changed = artifact.get("changed_utc") if isinstance(artifact, dict) else None
+        if changed and run.get("utc") and str(run["utc"]) < str(changed):
+            out.append(f"{cid}: N4 — the negative control ran at {run['utc']}, BEFORE the "
+                       f"artifact last changed at {changed}. It exercised a predecessor of the "
+                       f"check that shipped.")
+
+        #  N4c — a referent that is gone cannot be re-verified. A thin pointer to a vanished
+        #  artifact looks identical to a sound attestation until someone tries to check it.
+        if isinstance(artifact, dict) and artifact.get("present") is False:
+            out.append(f"{cid}: N4 — the attestation points at an artifact recorded as no longer "
+                       f"present; nothing here can be re-verified")
+
         #  N5 — perturb the capability, not the transport.
         blob = " ".join(str(control.get(k, "")) for k in ("condition", "how_produced")).lower()
         if any(phrase in blob for phrase in TRANSPORT_ONLY):
@@ -135,6 +158,15 @@ def problems_for(doc: dict) -> list[str]:
 
     #  N7 — bounded claim.
     claim = str(doc.get("claim", ""))
+    #  N7b — CLAIM SMUGGLING. A claim can open with the exact conforming sentence and then append
+    #  a conclusion about the system, using none of the forbidden words. N7 bounds what may be
+    #  claimed, not which words appear.
+    for smuggled in ("the service is", "the system is", "demonstrate that the", "in production",
+                     "is reliable", "works correctly", "is secure"):
+        if smuggled in claim.lower():
+            out.append(f"N7 — the claim contains {smuggled!r}, which asserts something about the "
+                       f"SUBJECT. A conforming claim is about the CHECKS and stops there.")
+            break
     for forbidden in ("NCP certified", "we follow OAGF", "certified safe", "aligned"):
         if forbidden.lower() in claim.lower():
             out.append(f"N7 — the claim contains {forbidden!r}. A conforming claim is about the "
@@ -151,6 +183,33 @@ def verify(path: Path) -> tuple[int, list[str]]:
         return 2, ["top level is not an object"]
     problems = problems_for(doc)
     return (1 if problems else 0), problems
+
+
+GAPS = FIXTURES / "known-gaps"
+
+
+def report_gaps() -> int:
+    """Attestations this verifier CANNOT reject, published as its own blind spots.
+
+    A verifier that ships only fixtures it passes is advertising. These are cases the profile
+    genuinely fails to catch -- a control aimed at a different capability than the check
+    certifies, and a control so easy the check fails it trivially. Both satisfy every mechanical
+    requirement. Both establish almost nothing.
+
+    They do NOT fail the suite. Pretending a known gap is a failure would make the suite red
+    forever and teach everyone to ignore it; pretending it is absent would be worse.
+    """
+    if not GAPS.is_dir():
+        return 0
+    print("\n  KNOWN GAPS — attestations this verifier accepts and should not:")
+    for path in sorted(GAPS.glob("*.json")):
+        code, _ = verify(path)
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        state = "accepted (as expected — this is the gap)" if code == 0 else \
+                "now REJECTED — the gap has closed; move this fixture into fixtures/"
+        print(f"    {path.name}\n      {state}")
+        print(f"      {doc.get('_should_be_rejected_but_is_not', '')[:150]}…")
+    return 0
 
 
 def run_fixtures() -> int:
@@ -179,7 +238,8 @@ def run_fixtures() -> int:
         print(f"  {failures} fixture(s) behaved wrongly. THIS VERIFIER IS NON-CONFORMING.",
               file=sys.stderr)
         return 1
-    print("  every must-reject fixture was rejected and every must-accept fixture accepted.")
+    report_gaps()
+    print("\n  every must-reject fixture was rejected and every must-accept fixture accepted.")
     print("  That is this tool's own negative control. It does not establish that the")
     print("  requirement is the right requirement.")
     return 0

@@ -42,9 +42,20 @@ roughly what most check suites return the first time anyone asks.
 A program that reads an attestation and exits non-zero on any violation of NCP v0.1's seven
 normative requirements (N1–N7). Any language.
 
-**The acceptance test is our fixture set**, `spec/ncp/fixtures/` — nine attestations that must be
-rejected, one per requirement, and one that must be accepted. Your verifier should agree with ours
-on all ten. Where it disagrees, **we want to hear about it before we hear that you fixed it**: a
+**The acceptance test is our fixture set**, `spec/ncp/fixtures/` — fourteen attestations that must
+be rejected and one that must be accepted. Four are deliberate **near-misses**: consistent hashes
+pointing at a vanished artifact; a check that failed for a transport reason rather than the
+capability; a control that ran before the artifact last changed; and a claim that opens with the
+exact conforming sentence and then appends a conclusion about the system without using a single
+forbidden word.
+
+Read `spec/ncp/fixtures/known-gaps/` too. Those are attestations **our verifier accepts and
+should not** — a control aimed at a different capability than the check certifies, and a control
+so easy the check fails it trivially. They do not fail our suite. If your verifier catches either,
+you have beaten ours and we want to know.
+
+Your verifier should agree with ours on all fifteen fixtures in `spec/ncp/fixtures/`. Where it
+disagrees, **we want to hear about it before we hear that you fixed it**: a
 disagreement is either a defect in your reading, a defect in our specification, or a defect in our
 fixture, and only the first is your problem.
 

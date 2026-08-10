@@ -136,16 +136,31 @@ counted as passing. (Carried from AS-02.)
 }
 ```
 
-`tools/verify_negative_control.py` is the reference verifier. It ships with fixtures it MUST
-reject; a verifier that accepts them is non-conforming.
+`tools/verify_negative_control.py` is the reference verifier. It ships with **fourteen** fixtures
+it MUST reject; a verifier that accepts any of them is non-conforming.
+
+**Four of the fourteen are near-misses**, added 2026-08-10 because the first nine were all
+obviously invalid on sight and an implementer agreeing with us on obvious cases proves little.
+The hard ones: an attestation whose hashes are consistent but whose artifact is **gone**; a check
+that failed under its control **for a transport reason**; a control that ran **before the artifact
+last changed**; and a claim that opens with the exact conforming sentence and then appends a
+conclusion about the system **using none of the forbidden words**.
+
+It also ships `fixtures/known-gaps/` — attestations it **accepts and should not**. Those do not
+fail the suite. A verifier that publishes only fixtures it passes is advertising.
 
 ## 7. Open questions, recorded rather than resolved
 
 1. **How is "targets the capability, not the transport" (N5) mechanically checked?** In v0.1 it is
    a declared field a human must judge. That is the weakest requirement here and the most likely
-   to be gamed.
-2. **What prevents a negative control chosen because it is easy to pass?** Nothing yet. An
-   adversarial review of the controls, by someone other than their author, is the obvious answer
-   and does not exist.
+   to be gamed. **Shipped as a fixture the verifier cannot reject:**
+   `fixtures/known-gaps/gap-control-targets-a-different-capability.json` — a control that breaks
+   a real capability, just not the one the check certifies. Every mechanical requirement passes.
+2. **What prevents a negative control chosen because it is easy to pass?** Nothing.
+   **Also shipped as a known gap:** `fixtures/known-gaps/gap-control-is-trivially-easy.json`. A
+   control the check fails on a malformed token satisfies every requirement while establishing
+   almost nothing. This profile raises the floor from *never observed to fail* to *observed to
+   fail once*; it cannot raise it further, and nothing mechanical distinguishes a demanding
+   control from a token one.
 3. **Does requiring a negative control per check bias toward few, coarse checks?** Plausibly.
    Unmeasured.

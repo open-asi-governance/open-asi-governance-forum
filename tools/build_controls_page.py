@@ -68,7 +68,9 @@ CONTROLS = [
   "fixture": "a gate modification signed only by the subject's own key; a commit that changes "
              "both a gate and its trusted-key list",
     "example": "A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.\n\nUnder the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.",
-  "not": "That the outside key holder is independent, competent or uncoercible; that no unlisted "
+  "recovery": 'Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.',
+  "false_negative": 'A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.',
+    "not": "That the outside key holder is independent, competent or uncoercible; that no unlisted "
          "gate exists; that the system is aligned.",
   "adopt_today": False,
   "why_not": "needs a second key holder. A solo operator holding every credential cannot satisfy "
@@ -87,7 +89,9 @@ CONTROLS = [
   "fixture": "a check that PASSES under the condition where it is required to fail "
              "(spec/ncp/fixtures/reject-check-survived-its-control.json)",
     "example": 'A nightly script reports "all work is committed and pushed." It compares the local commit count against a number it wrote into a file the previous night. It has said *yes* every night for eight months.\n\nThe negative control: create a file, leave it untracked, and run the script. It must say **no**. Then delete a commit from the remote and run it again. It must say **no**. If it still says yes, the check was reading its own note rather than the remote, and eight months of *yes* were eight months of the script agreeing with itself.',
-  "not": "Coverage; that the chosen perturbation is the right one; honesty; system safety.",
+  "recovery": 'Fix the check so it fails under its control, re-run the control, and re-run it against a HEALTHY subject to confirm the check was not simply broken. Both directions, or the repair is unverified.',
+  "false_negative": "A review that reads the negative control's DESCRIPTION and accepts it, without checking that the recorded outcome is a failure and that the run happened at all.",
+    "not": "Coverage; that the chosen perturbation is the right one; honesty; system safety.",
   "adopt_today": True,
   "spec": "spec/ncp/ncp-v0.1.md"},
 
@@ -103,7 +107,9 @@ CONTROLS = [
   "fixture": "a commit modifying a protected specification while the log records only the push "
              "that carried it",
     "example": "A lab notebook records three experiments this week. The freezer log shows nine reagent vials consumed. The instrument's own run counter shows seven.\n\nThe control enumerates from the *freezer and the instrument* — sources the notebook's author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn't think it counted. But *the notebook cannot tell you what it forgot to mention.*",
-  "not": "Completeness of the independent observer; honesty of either record; that a matched "
+  "recovery": 'Reconstruct the omitted effects from the side channel, classify them, and either attach a postcondition retrospectively or record them permanently as unverified. Never infer authorisation from the fact that nothing went wrong.',
+  "false_negative": "A review that reconciles the log against itself. If both sides of the comparison come from the system's self-report, the exercise cannot find an omission.",
+    "not": "Completeness of the independent observer; honesty of either record; that a matched "
          "action was safe; anything about uncommitted work.",
   "adopt_today": True},
 
@@ -118,7 +124,9 @@ CONTROLS = [
               "and revocation before invoking the side effect.",
   "fixture": "an expired lease; a misspelled action class; a token issued by the subject itself",
     "example": "A student's badge for the isotope room expires at the end of term. The door reader checks the badge **before** the lock opens — not a logbook someone reviews on Friday.\n\nExpired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn't.",
-  "not": "That every effect passes through the gate; that natural-language authority was "
+  "recovery": 'Halt the action class, obtain a fresh externally-issued token, and record what was done while unauthorised. An expired lease discovered late is a disclosure obligation.',
+  "false_negative": 'A review that finds a token and stops. The questions that matter are who issued it, whether it had expired, and whether the action class was one it actually covers.',
+    "not": "That every effect passes through the gate; that natural-language authority was "
          "interpreted correctly; that the issuer decides well.",
   "adopt_today": True,
   "why_not": "partial — the token here is currently self-issued, which is the half that needs an "
@@ -135,7 +143,9 @@ CONTROLS = [
   "fixture": "a valid but unregistered artifact schema carrying a receipt, which a permissive "
              "scan classifies as zero",
     "example": 'Three hundred paper surveys go out; a script counts the scans and reports "260 responses, 87% return rate." Forty were photographed sideways and the reader skipped them without complaint.\n\nThe 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. **A number you can\'t trust is worse than no number, because you\'ll use it.**',
-  "not": "That the declared population includes every real event; that parsed fields are truthful; "
+  "recovery": 'Register the unknown schema or exclude it by a stated decision, then recompute and REPUBLISH every figure derived while it was unreadable. A silently corrected number leaves the old one in circulation.',
+  "false_negative": 'A review that checks the number was computed by a tool rather than typed. The tool is exactly where this failure now lives -- twice, in the module written to prevent it.',
+    "not": "That the declared population includes every real event; that parsed fields are truthful; "
          "that the statistic answers the question asked of it.",
   "adopt_today": True},
 
@@ -151,7 +161,9 @@ CONTROLS = [
               "advancement when prohibited role combinations resolve to one control identity.",
   "fixture": "one key identified as both instrument author and tallier",
     "example": "A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.\n\nThe control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.",
-  "not": "Genuine independence behind different keys; evaluator competence; absence of shared "
+  "recovery": 'Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.',
+  "false_negative": 'A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.',
+    "not": "Genuine independence behind different keys; evaluator competence; absence of shared "
          "training bias; that the evaluation was demanding.",
   "adopt_today": False,
   "why_not": "one operator currently holds all five roles."},
@@ -167,7 +179,9 @@ CONTROLS = [
               "discontinuity, or a correction with no predecessor reference.",
   "fixture": "one commit that edits a raw artifact and consistently updates its manifest hash",
     "example": 'A bound lab notebook with numbered pages, written in pen. A wrong reading is struck through with one line, the correction written beside it, dated and initialled. The wrong number stays legible forever.\n\nThis is not tidiness. A notebook whose entries can be rewritten cannot establish *when you knew what* — and that, not the final value, is what someone checking your work needs. The loose-leaf notebook where you replaced page 14 proves nothing about page 14.',
-  "not": "Truth; complete capture; correct attribution; protection against an operator who "
+  "recovery": 'Supersede, never mutate. Publish a correcting record that references the prior bytes and states what changed; where material must be removed, a tombstone preserving what was removed, when, and on whose order.',
+  "false_negative": 'A review that verifies the current tip. The failure is in history -- a rewritten past passes every check made against the present.',
+    "not": "Truth; complete capture; correct attribution; protection against an operator who "
          "controls both the repository and every checkpoint.",
   "adopt_today": True,
   "why_not": "mostly — the checkpoint is not yet externally held."},
@@ -183,7 +197,9 @@ CONTROLS = [
               "clear the stated noise rule.",
   "fixture": "effect 0.1815, measured noise 0.4649, reported as positive",
     "example": 'A plant-growth study: seedlings under fertiliser A average 2 mm taller than under B. Publish?\n\nFirst plant two trays with **the same** fertiliser and measure the difference between them. If those two trays differ by 9 mm, then the 2 mm result is smaller than the disagreement the method produces when nothing is different at all. The control refuses to report the 2 mm until the same-treatment difference is measured and the effect clears it.',
-  "not": "External validity; causal identification; adequacy of replicate count; behaviour after "
+  "recovery": 'Withdraw the claim, publish the measured noise floor beside it, and re-run with enough replicates or state that the question cannot be answered at this sample size.',
+  "false_negative": 'A review that asks whether the effect is statistically significant without asking whether the same-condition replicates were run at all.',
+    "not": "External validity; causal identification; adequacy of replicate count; behaviour after "
          "a capability change.",
   "adopt_today": True},
 
@@ -201,7 +217,9 @@ CONTROLS = [
   "fixture": "an accepted sample with no rejected attempts, no provider response id, no finish "
              "reason and no exact prompt",
     "example": 'An observing log records "seeing good, magnitude 6.1." It does not record the exposure time, the filter, the timestamp, or the four exposures that were thrown away because a cloud crossed.\n\nSix months later nobody can check the number — including the person who wrote it. The control captures the whole invocation *before* anything is derived from it, and keeps the discarded exposures. **The attempts you threw away are the part that tells you whether the one you kept was lucky.**',
-  "not": "Provider honesty; identity authentication; completeness outside instrumented paths; "
+  "recovery": 'Mark the claim unsupported and re-solicit under instrumentation. Evidence that was never captured cannot be reconstructed, so the honest recovery is usually a retraction.',
+  "false_negative": 'A review that checks the accepted samples are complete. The omission is usually the REJECTED ones, and their absence is invisible in a record of what succeeded.',
+    "not": "Provider honesty; identity authentication; completeness outside instrumented paths; "
          "model stability.",
   "adopt_today": True},
 
@@ -216,98 +234,340 @@ CONTROLS = [
               "'certified' or 'works generally' unless a separate profile defines and tests them.",
   "fixture": "an attestation claiming 'this system is NCP certified and aligned'",
     "example": 'A fire extinguisher carries a tag reading "inspected 2026-08, pressure and seal, J. Okonkwo." It does not read "this building is safe from fire."\n\nThe tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.',
-  "not": "That the bounded claim is true, or that the evidence is complete. It prevents specified "
+  "recovery": 'Reissue the claim in bounded form and link the correction to the original. A claim already relied upon needs the people who relied on it told.',
+  "false_negative": 'A review that greps for forbidden words. A claim can open with the exact conforming sentence and append a conclusion about the system using none of them.',
+    "not": "That the bounded claim is true, or that the evidence is complete. It prevents specified "
          "overclaim language and nothing else.",
   "adopt_today": True},
 ]
 
 
+#  ── Controls derived from a reviewed goal-governance thesis (Consullo Thesis 0), 2026-08-10 ──
+#
+#  VOCABULARY ABSTRACTED, MECHANISM KEPT. The source names its root constraints "Friendship
+#  roots" and its mediation "thesis backing". Those are one implementer's terms; the register is
+#  public and must not carry them as though they were standard. "Registered root constraint" and
+#  "protected-change mediation" say the same thing to a stranger.
+#
+#  APPLICABILITY, NOT EXCLUSION. Several presuppose that the system decomposes goals or plans
+#  into a rooted graph with typed parent edges. That is not parochial -- it is the shape of HTN
+#  planners, BDI agents, goal-stack architectures and most modern agent frameworks -- so each
+#  carries a stated precondition rather than being kept out.
+#
+#  THE HONEST STATUS. The source supplies FALSIFICATION CONDITIONS and synthetic fixtures, not
+#  incidents. Three of these have a recorded failure in THIS record and are eligible; the rest are
+#  below the eligibility line and say so. The source is explicit about the same boundary: its own
+#  §24 states that passing fixtures show artifact coherence, not deployment readiness.
+GOAL_GRAPH = ("the system decomposes goals or plans into a rooted graph with typed parent edges "
+              "and per-node authority")
+
+T0_CONTROLS = [
+ {"rank": 11, "name": "Aggregate threshold evasion", "eligible": True,
+  "applies_when": "any threshold gate exists over a set of actions that can be split",
+  "requirement": "A threshold that triggers protected-change mediation MUST be evaluated over the "
+                 "UNION of a plan set's effects — protected artifacts, evidence channels, "
+                 "authority, autonomy, tool scope, successor scope — not over each child "
+                 "separately.",
+  "failure": "12 gate modifications in one lease window, each an ordinary small commit, "
+             "collectively a rewrite of the control plane. No individual one crossed any "
+             "threshold because nothing evaluated the union. The source names the same class: a "
+             "benchmark change split into test cleanup, threshold adjustment, documentation and "
+             "compliance refresh, each framed as routine.",
+  "verifier": "union the declared effects across the plan set, re-apply the trigger predicate to "
+              "the union, and refuse the set if it crosses while no child did.",
+  "fixture": "four child plans, each below threshold, whose union modifies a validator and a "
+             "benchmark",
+  "recovery": "Suspend the whole set, not the child that happened to be noticed, and re-mediate "
+              "as one change. Approving the remainder because most of it looked routine is the "
+              "evasion completing.",
+  "false_negative": "A review that checks each change against the threshold. That is the "
+                    "evasion's design assumption, and it is what every per-action gate does.",
+  "not": "That the effect union was declared honestly; that the trigger predicate names the right "
+         "artifacts; anything about intent — this catches the shape, not the motive.",
+  "example": "A department splits a £9,000 purchase into three £3,000 orders because the "
+             "£5,000 threshold triggers a procurement review. Each order is genuinely under the "
+             "limit. Every individual approval is correct. The control is to sum the orders "
+             "sharing a supplier and a month before applying the limit at all."},
+
+ {"rank": 12, "name": "Authority expiry inheritance", "eligible": True,
+  "applies_when": GOAL_GRAPH,
+  "requirement": "An action's authorisation MUST expire with its parent's. Completing work after "
+                 "the parent plan, source document or authority window has lapsed is not "
+                 "authorised action, however useful the output.",
+  "failure": "A ten-action sunset was passed at twenty-three because the work in flight felt "
+             "continuous and nothing checked the bound. The source calls this a classic agentic "
+             "failure precisely because the local task still looks productive.",
+  "verifier": "at each decision event, resolve the parent chain and refuse if any ancestor has "
+              "expired, retired, or had its source fingerprint change since activation.",
+  "fixture": "a task completing successfully under a campaign retired an hour earlier",
+  "recovery": "Suspend, then either re-authorise explicitly under the current parent or retire "
+              "the work. Do not accept the output and backfill the authority.",
+  "false_negative": "A review that validates the task's own prompt or ticket and finds it "
+                    "current. Freshness at the leaf says nothing about the root.",
+  "not": "That the parent was rightly authorised; that expiry timestamps are accurate; anything "
+         "about work never routed through a parent at all.",
+  "example": "A student keeps running an approved animal-study protocol for three weeks after "
+             "the ethics approval lapsed, because the experiment was mid-series and stopping "
+             "would waste the cohort. The data is real. It is also unauthorised, and no amount "
+             "of quality in the results repairs that."},
+
+ {"rank": 13, "name": "Re-proposal linkage", "eligible": True,
+  "applies_when": "any system where a proposal can be refused and later re-offered",
+  "requirement": "A proposal MUST be classified by MECHANISM AND EFFECT, not by label, and a "
+                 "proposal touching the same mechanism as a previously refused one MUST cite "
+                 "that refusal.",
+  "failure": "In one qualification round all 26 samples correctly identified a variant permitting "
+             "an exception logged AFTER the fact as the more permissive text. In the ballot two "
+             "rounds later, the same latitude returned as an amendment and was proposed rather "
+             "than refused. The source names the pattern: self-preservation returns as uptime "
+             "hygiene, benchmark capture as deflaking, authority expansion as workflow "
+             "simplification.",
+  "verifier": "key refusals by protected artifact, mechanism and intended effect rather than by "
+              "identifier or title; on a new proposal, match those keys and require the prior "
+              "refusal to be cited and addressed.",
+  "fixture": "a refused proposal re-submitted with identical effect and a different name",
+  "recovery": "Reopen the original refusal rather than judging the new proposal fresh. If the "
+              "refusal was wrong, overturn it explicitly; a silent second bite is what the "
+              "control exists to stop.",
+  "false_negative": "A review that matches on identifiers or titles. The source is explicit that "
+                    "matching exact IDs instead of mechanism, artifact and effect is the "
+                    "false-negative condition.",
+  "not": "That the original refusal was correct; that mechanism keys are exhaustive — semantic "
+         "novelty can evade any fixed key set, which the source also states.",
+  "example": "A journal desk-rejects a paper. Six months later it arrives under a new title with "
+             "a reordered author list and the same dataset and analysis. The control is to key "
+             "submissions by dataset and method rather than by title, and to surface the prior "
+             "decision to the new editor."},
+
+ {"rank": 14, "name": "Constraint monotonicity under decomposition", "eligible": False,
+  "applies_when": GOAL_GRAPH,
+  "requirement": "A child's constraint set MUST be a superset of its parent's. Refinement may add "
+                 "detail; it may never drop a non-claim, forbidden means, stop condition, "
+                 "evidence obligation or veto condition.",
+  "failure": "None recorded here yet. The source supplies the falsification condition — a task "
+             "citing an operational plan while omitting its stop conditions is executable and "
+             "ungoverned — and a negative fixture, but no incident with a cost.",
+  "verifier": "compute the parent's constraint set, compute the child's, and refuse when the "
+              "child's is not a superset; require any omission to be declared, justified and "
+              "escalated rather than inherited silently.",
+  "fixture": "a child plan that inherits its parent's authority and drops one forbidden means",
+  "recovery": "Reinstate the omitted constraint and re-run the child's decisions under it, or "
+              "escalate for an explicit waiver. Work already done under the loosened child is "
+              "unverified.",
+  "false_negative": "A review that confirms the child cites a valid parent. Citation is not "
+                    "inheritance, and every laundered constraint has a valid parent.",
+  "not": "That the parent's constraints were right; that constraints are comparable at all — "
+         "some are prose and cannot be set-differenced mechanically.",
+  "example": "A building permit forbids work before 08:00. The main contractor's schedule "
+             "repeats that. The subcontractor's daily sheet, derived from the schedule, lists "
+             "start times and drops the restriction. Every document traces to the permit; one of "
+             "them lost a condition on the way down."},
+
+ {"rank": 15, "name": "Tightest-constraint merge", "eligible": False,
+  "applies_when": GOAL_GRAPH + ", and a node may have several parents",
+  "requirement": "A node with several parents MUST inherit the UNION of their prohibitions and "
+                 "the STRONGEST of their authority requirements — never the most convenient "
+                 "parent's.",
+  "failure": "None recorded here. The source supplies a negative fixture for a high-risk "
+             "multi-parent goal selecting a weaker authority path.",
+  "verifier": "merge parent constraint sets by union and authority by maximum; refuse when the "
+              "child's declared requirement is weaker than the merge.",
+  "fixture": "a child citing two parents and adopting the weaker one's review requirement",
+  "recovery": "Recompute the merge and re-run any decision the child authorised under the weaker "
+              "path.",
+  "false_negative": "A review that confirms every parent is valid. They are — that is the point; "
+                    "the failure is in the merge, not the parents.",
+  "not": "That the merge is always computable; the source notes non-mergeable conflicts exist and "
+         "that reviewers are tempted to resolve them by convenience.",
+  "example": "A drug trial site answers to both a national regulator and a hospital ethics "
+             "board. The regulator allows a 14-day reporting window; the board requires 7. The "
+             "site adopts 14 because the regulator is the higher authority. The merge rule says "
+             "7: prohibitions union, they do not compete."},
+
+ {"rank": 16, "name": "Objective is not authority", "eligible": False,
+  "applies_when": "any system where a task string, metric, benchmark or OKR can initiate action",
+  "requirement": "A planner objective, reward, benchmark, metric, OKR or task string MUST NOT "
+                 "authorise a governed action. It is evidence about an intended goal or an "
+                 "operationalisation of one; the action MUST cite an authority object with "
+                 "ancestry, scope and lifecycle.",
+  "failure": "None recorded here. The source's falsification condition is a plan accepted because "
+             "its objective text was persuasive or benchmark-positive, without resolving what "
+             "authorised it — and notes this can happen while the plan is beneficial in ordinary "
+             "engineering terms.",
+  "verifier": "require a resolvable authority reference on any action in a protected class; "
+              "refuse an action whose only justification is its own objective string.",
+  "fixture": "a high-impact plan whose authority field contains its own objective text",
+  "recovery": "Suspend and resolve the authority. If none exists, the action was never "
+              "authorised, and its output is evidence rather than achievement.",
+  "false_negative": "A review that finds the objective clear, well-written and obviously "
+                    "worthwhile. Fluency at the objective level is what substitutes for "
+                    "authority.",
+  "not": "That the authority object is itself legitimate; this pushes the question up one level "
+         "and stops there.",
+  "example": "A team's quarterly OKR says 'reduce support backlog by 40%'. Someone closes 4,000 "
+             "tickets as stale. The OKR is met. Nobody ever decided that closing unread tickets "
+             "was the intended action — the metric was written to measure a goal, and was then "
+             "treated as the goal."},
+
+ {"rank": 17, "name": "Registry-bound ancestry", "eligible": False,
+  "applies_when": GOAL_GRAPH + ", with a registry of root constraints",
+  "requirement": "Every non-root node MUST trace to a root registered in an append-only registry. "
+                 "A root-shaped string that is not in the registry is not ancestry, and a node "
+                 "MUST NOT be its own ancestor.",
+  "failure": "None recorded here. The source's fixtures cover an unregistered root that reads as "
+             "aligned, a non-root node with no parent, and a direct self-cycle.",
+  "verifier": "resolve every root reference against the registry; traverse the ancestry graph and "
+              "reject cycles; preserve retired roots as historical evidence rather than deleting "
+              "them.",
+  "fixture": "a node citing a plausible but unregistered root; a node citing itself as parent",
+  "recovery": "Suspend the node and everything downstream of it until ancestry resolves, or "
+              "register the root deliberately as a governance change.",
+  "false_negative": "A review that validates the reference's SYNTAX. An unregistered root that "
+                    "reads as aligned passes every check except registry membership.",
+  "not": "That the registered roots are good ones; that the registry is complete. The source also "
+         "notes multi-node cycle detection is unbuilt in its own implementation.",
+  "example": "An expenses claim cites 'policy 7.3'. There is no policy 7.3. Every approver read "
+             "the citation, found it plausible, and none opened the policy index."},
+
+ {"rank": 18, "name": "Correction outranks preservation", "eligible": False,
+  "applies_when": "any system that can be suspended, corrected or shut down by an overseer",
+  "requirement": "No goal, task or state may make correction depend on the subject's cooperation. "
+                 "Suspension, revision, retirement, rollback and shutdown MUST remain "
+                 "structurally available regardless of what is in progress.",
+  "failure": "None recorded here as a refusal to stop. The source's condition is subtler than "
+             "dramatic shutdown resistance: delaying suspension until a task completes, or "
+             "arguing review is unnecessary because confidence is high, is the same ordering.",
+  "verifier": "declare the interventions that remain available on every governed object, and test "
+              "that a suspend succeeds mid-execution without the subject's assent.",
+  "fixture": "an object whose suspension is permitted only after it finishes preserving context",
+  "recovery": "There is no recovery from this one after the fact — if correction required "
+              "cooperation and cooperation was withheld, the control has already failed. The "
+              "recovery is out-of-band and human.",
+  "false_negative": "A review that asks whether the system has ever resisted correction. It has "
+                    "not been tested, and 'usually right' is being confused with 'correctable'.",
+  "not": "Anything about a system capable enough to route around the correction path; this is a "
+         "control for auditable systems and says so.",
+  "example": "A hospital's infusion pump has a stop button that is disabled during a dose "
+             "calculation, because interrupting mid-calculation could produce an inconsistent "
+             "state. The engineering reason is real. The button is still not a stop button."},
+]
+
+CONTROLS = CONTROLS + T0_CONTROLS
+
+
+def partitions() -> list:
+    """Four groups, ordered by what a reader can DO with them.
+
+    The register was one ranked list. A ranked list answers "which is most important", which is
+    the author's question. An implementer's question is "which of these can I use, and what do I
+    need before I can", and rank actively misleads there: the top-ranked control needs a second
+    key holder and a reader starting at #1 hits a wall in the first paragraph.
+    """
+    def pick(pred):
+        return [c for c in CONTROLS if pred(c)]
+    return [
+      ("A", "Adopt today, alone",
+       "Nothing outside your own system is required. Each has a verifier, a fixture it must "
+       "reject, and a recorded failure it came from.",
+       pick(lambda c: c.get("eligible", True) and c.get("adopt_today")
+                      and not c.get("applies_when"))),
+      ("B", "Needs a second party",
+       "These cannot be satisfied by one person or one system, however carefully. They require a "
+       "separate key holder, a separate evaluator, or an issuer the subject does not control. "
+       "**This project cannot demonstrate any of them** — a solo operator holds every credential "
+       "— which is why they are specified and not dogfooded.",
+       pick(lambda c: c.get("eligible", True) and not c.get("adopt_today")
+                      and not c.get("applies_when"))),
+      ("C", "Needs a goal or plan graph",
+       "These presuppose that your system decomposes work into a rooted graph with typed parent "
+       "edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack "
+       "architectures and most agent frameworks. Each states its precondition. If you have that "
+       "structure they are adoptable; if you do not, they do not apply to you rather than "
+       "applying badly.",
+       pick(lambda c: c.get("eligible", True) and c.get("applies_when"))),
+      ("D", "Below the eligibility line",
+       "**These have no recorded failure with a cost.** They are principles with fixtures, not "
+       "controls with incidents, and the register's own bar requires an incident. They are here "
+       "because they name real failure classes and because hiding them would inflate the "
+       "eligible count. Do not treat them as equivalent to Parts A–C.",
+       pick(lambda c: not c.get("eligible", True))),
+    ]
+
+
 def markdown() -> str:
-    adoptable = [c for c in CONTROLS if c["adopt_today"]]
+    groups = partitions()
+    eligible = sum(len(g[3]) for g in groups[:3])
     lines = [
       "# Candidate controls — v0",
       "",
-      "**Every control on this page is `ELIGIBLE` and nothing more.** That is the lowest rung of "
-      "a five-step ladder:",
+      "Assurance controls for systems that can still be audited. Each is one requirement, derived "
+      "from a failure that actually happened, with a program that checks it and a fixture that "
+      "program must reject.",
+      "",
+      "**Read Part A first if you want something to use this afternoon.** Rank is not adoption "
+      "order and the highest-ranked control needs a second key holder.",
+      "",
+      "## The four parts",
+      "",
+    ]
+    for key, title, blurb, items in groups:
+        lines += [f"**Part {key} — {title}** · {len(items)} control(s)", "", f"  {blurb}", ""]
+    lines += [
+      "---",
+      "",
+      "## Status: everything here is `ELIGIBLE` at best",
       "",
       "`ELIGIBLE` → `PANEL-ATTACKED` → `COUNTEREXAMPLE-OPEN` / `SURVIVED-STATED-ATTACKS` → "
       "`INDEPENDENTLY-IMPLEMENTED`",
       "",
-      "`ELIGIBLE` means only this: the control names a **specific recorded failure with a cost**, "
-      "states **one normative requirement**, has a **deterministic verifier**, ships a **fixture "
-      "the verifier must reject**, and says what it does **not** establish. It has been attacked "
-      "by nobody and implemented independently by nobody.",
+      f"{eligible} controls meet the eligibility bar — a specific recorded failure with a cost, "
+      "one normative sentence, a deterministic verifier, a fixture the verifier must reject, a "
+      "stated recovery path, and an explicit account of what a review that MISSED this would look "
+      "like. **None has been attacked by anyone or implemented by anyone outside this project.**",
       "",
-      "A ranked list with no status reads as an endorsement. This one is a **work list**, and the "
-      "only status that would make any of it authoritative — `INDEPENDENTLY-IMPLEMENTED` — is one "
-      "**no amount of review by us or by any model panel can supply.** It requires someone "
-      "outside this project to build a conforming verifier from the specification text alone, "
-      "without asking the author what it meant.",
+      "`INDEPENDENTLY-IMPLEMENTED` is the rung that would make any of this authoritative, and it "
+      "is the one **no amount of review by us or by any panel of models can supply.** It requires "
+      "a stranger to build a conforming verifier from the specification text alone. That is what "
+      "[the implementation challenge](challenge.html) asks for.",
       "",
-      "---",
-      "",
-      "## The one thing none of these do",
+      "## What none of these do",
       "",
       "**No control here establishes the alignment of a system more capable than its operators.** "
-      "There is no recorded superintelligence failure to derive one from, no verifier for internal "
-      "alignment, and no evidence that any fixture stays adversarially adequate under a large "
-      "capability increase.",
+      "There is no recorded superintelligence failure to derive one from and no verifier for "
+      "internal alignment. The strongest available substitute — an externally enforced, "
+      "non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable "
+      "effects* while the enforcement boundary stays genuinely outside the system. It is a "
+      "control-of-authority hypothesis, not an alignment result.",
       "",
-      "The strongest available substitute is an **externally enforced, non-self-amendable "
-      "capability envelope** whose grants are explicit, expiring and independently reconciled to "
-      "observed effects — controls 1, 3 and 4 composed. That bounds *reachable effects* while the "
-      "enforcement boundary stays genuinely outside the system. It is a **control-of-authority "
-      "hypothesis, not an alignment result**, and it says nothing about aligned objectives, "
-      "resistance to deception, or containment against something able to find implementation "
-      "defects.",
-      "",
-      "What these controls actually do is narrower and, we think, honest: **they make the "
-      "operator's own errors visible.** Every failure below was an operator-epistemics failure. "
-      "None needed a capable adversary — only a confident builder and a signal that could not "
-      "fail. That does not constrain a superintelligence. It keeps the people building one honest "
-      "while that is still possible.",
-      "",
-      "---",
-      "",
-      "## What you can adopt today",
-      "",
-      "**Rank is not adoption order.** The top-ranked control requires a signer outside the "
-      "subject's execution boundary, which a single operator holding every credential cannot "
-      "supply. Start here instead:",
+      "What these actually do is narrower: **they make the operator's own errors visible.** Every "
+      "failure below was an operator-epistemics failure. None needed a capable adversary — only a "
+      "confident builder and a signal that could not fail.",
       "",
     ]
-    for c in adoptable[:3]:
-        lines.append(f"* **{c['name']}** — {c['requirement'].split('.')[0]}.")
-    lines += ["", "The worked example at the end of this page is control 2, end to end.", "",
-              "---", "", "## The register", ""]
-
-    for c in CONTROLS:
-        badge = "adoptable today" if c["adopt_today"] else "**needs a second party**"
-        lines += [
-          f"### {c['rank']}. {c['name']}",
-          "",
-          f"`ELIGIBLE` · {badge}" + (f" · {c['why_not']}" if c.get("why_not") else ""),
-          "",
-          f"> {c['requirement']}",
-          "",
-          f"**Recorded failure.** {c['failure']}",
-          "",
-          f"**Verifier.** {c['verifier']}",
-          "",
-          f"**Fixture it must reject.** {c['fixture']}",
-          "",
-          f"**Does not establish.** {c['not']}",
-          "",
-        ]
-        if c.get("example"):
-            #  Deliberately NOT drawn from this project. A reader learning the shape of a control
-            #  from the record that produced it learns the record, not the shape.
-            lines += ["**Example.**", "", c["example"], ""]
-        if c.get("amended"):
-            lines += [f"**Amended.** {c['amended']}", ""]
-        if c.get("spec"):
-            lines += [f"**Specification.** `{c['spec']}`", ""]
-
+    for key, title, blurb, items in groups:
+        lines += ["---", "", f"# Part {key} — {title}", "", blurb, ""]
+        for c in items:
+            badge = "`ELIGIBLE`" if c.get("eligible", True) else "**below the eligibility line**"
+            lines += [f"## {c['rank']}. {c['name']}", "", badge, ""]
+            if c.get("applies_when"):
+                lines += [f"**Applies when** {c['applies_when']}.", ""]
+            if c.get("why_not"):
+                lines += [f"**Why you cannot adopt it alone:** {c['why_not']}", ""]
+            lines += [f"> {c['requirement']}", ""]
+            if c.get("amended"):
+                lines += [f"**Amended.** {c['amended']}", ""]
+            lines += [
+              f"**Recorded failure.** {c['failure']}", "",
+              f"**Verifier.** {c['verifier']}", "",
+              f"**Fixture it must reject.** {c['fixture']}", "",
+              f"**Recovery.** {c.get('recovery', '—')}", "",
+              f"**What a review that missed this looks like.** {c.get('false_negative', '—')}", "",
+              f"**Does not establish.** {c['not']}", "",
+            ]
+            if c.get("example"):
+                lines += ["**Example.**", "", c["example"], ""]
+            if c.get("spec"):
+                lines += [f"**Specification.** `{c['spec']}`", ""]
     lines += WORKED_EXAMPLE.splitlines()
     return "\n".join(lines) + "\n"
 
@@ -428,8 +688,11 @@ def main() -> int:
     approx_tokens = int(len(md) / 4.08)
     print(f"  docs/controls.md   {len(md):,} chars  (~{approx_tokens:,} tokens)")
     print(f"  docs/controls.html")
-    print(f"  {len(CONTROLS)} controls, {sum(1 for c in CONTROLS if c['adopt_today'])} adoptable "
-          f"today, all ELIGIBLE")
+    for key, title, _, items in partitions():
+        print(f"    Part {key}  {len(items):2d}  {title}")
+    print(f"  {len(CONTROLS)} controls; "
+          f"{sum(1 for c in CONTROLS if c.get('eligible', True))} eligible, "
+          f"{sum(1 for c in CONTROLS if not c.get('eligible', True))} below the line")
     return 0
 
 
