@@ -9,10 +9,10 @@
   "issued_utc": "2026-08-10T10:10:00Z",
   "checks": [
     {
-      "check_id": "sampled-decode-health",
+      "check_id": "sampled-path-liveness",
       "certifies": "the service can complete a sampled (temperature > 0) request",
       "artifact": {
-        "path": "production/scripts/health-check.sh",
+        "path": "checks/liveness.sh",
         "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       },
       "positive_run": {
@@ -21,7 +21,7 @@
       },
       "negative_control": {
         "condition": "the sampled decode path is unavailable",
-        "how_produced": "serve a build with the sampled-decode kernel removed",
+        "how_produced": "serve a build with the sampled-decode path removed",
         "targets": "the declared capability, not the transport",
         "run": {
           "utc": "2026-08-10T10:05:00Z",

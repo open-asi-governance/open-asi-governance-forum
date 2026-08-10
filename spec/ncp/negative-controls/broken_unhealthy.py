@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """NEGATIVE CONTROL for responsiveness_check.
 
-Serves exactly what HealthServlet serves when a component fails: HTTP 503 with a body whose
+Serves what a health endpoint serves when a component fails: HTTP 503 with a body whose
 `status` is "unhealthy". Nothing else is perturbed -- the transport is fine, the endpoint
 answers, and it answers that it is not healthy.
 """
@@ -14,7 +14,7 @@ BODY = json.dumps({"status": "unhealthy",
 
 class H(BaseHTTPRequestHandler):
     def do_GET(self):
-        self.send_response(503)                     # SC_SERVICE_UNAVAILABLE, as HealthServlet does
+        self.send_response(503)                     # service unavailable
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(BODY)))
         self.end_headers()
