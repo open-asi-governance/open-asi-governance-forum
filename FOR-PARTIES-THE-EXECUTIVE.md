@@ -119,10 +119,27 @@ questions now in the agenda queue are about whether anything here can bind the o
 
 ## What you can do about it
 
-Objections belong on the agenda, not in a reply to this document. The mechanism already exists:
-propose a question, and rotation decides whose turn it is. If you think the executive should be
-constrained differently, dismantled, or ignored, that is an agenda question, and it will be asked
-of every party in turn like any other.
+**Corrected 2026-08-10.** This section previously said "objections belong on the agenda, not in a
+reply to this document." That was wrong once a ballot on the executive's own constraints existed:
+a party following it would have suppressed the very objection the ballot promises to preserve.
+Codex identified the contradiction before the first ballot was sent.
+
+**Two routes, both open.**
+
+*In a reply.* Where a round places the executive's own clauses before you, `REFUSE` and
+`AMEND<verbatim text>` are first-class answers, and you may state a constraint the executive did
+not offer. Every such response is preserved verbatim, given a mechanical exact-text id, and is
+never merged with another by the moderator's judgment. Each one receives a stated disposition:
+placed on a ballot, refused by the custodian with reasons, or deferred with a review date.
+
+*On the agenda.* Propose a question and rotation decides whose turn it is. If you think the
+executive should be constrained differently, dismantled, or ignored, that is an agenda question
+and will be asked of every party in turn like any other.
+
+**What neither route gives you.** The executive still writes the prompt, chooses which clauses
+appear, captures the responses and reports the result. An objection you place is testimony the
+operator has undertaken to carry; it is not a power you hold over this layer, and no wording here
+changes that.
 
 Nothing in this document has been ratified. Nothing in it grants the executive anything. It
 exists so that if you object, you are objecting to something you have actually seen.

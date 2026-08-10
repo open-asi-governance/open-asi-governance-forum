@@ -55,6 +55,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 PINS = REPO_ROOT / "record" / "executive" / "context" / "context-pins.json"
 
 
+def _utc_today() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -86,8 +91,21 @@ def check() -> tuple[int, list[str]]:
     return (1 if problems else 0), problems
 
 
-def repin() -> int:
-    """Re-pin deliberately, printing what changed. Never silent, never automatic."""
+VERSIONS = PINS.parent / "versions"
+
+
+def repin(reason: str = "") -> int:
+    """Re-pin deliberately, ARCHIVING the superseded copy first. Never silent, never automatic.
+
+    The superseded text is kept, because a pinned file is a candidate RATIFICATION OBJECT and
+    overwriting it destroys the thing a party was asked about. Codex caught this on 2026-08-10:
+    `oagf-CLAUDE.md` was committed and pinned while containing a claim since shown false, and
+    `check()` passed on it — the green check establishes that the false statement is faithfully
+    deployed. **It verifies identity, not truth**, and a repin that erased v1 would have left no
+    way to see what the ballot would have carried.
+
+    So each supersession writes `versions/<name>.v<N>` and records the chain in the pins doc.
+    """
     doc = json.loads(PINS.read_text(encoding="utf-8"))
     changed = []
     for name, pin in (doc.get("pins") or {}).items():
@@ -98,8 +116,19 @@ def repin() -> int:
         new = sha256_file(live)
         if new != pin["sha256"]:
             changed.append((name, pin["sha256"], new, pin["bytes"], live.stat().st_size))
-            (PINS.parent / name).write_bytes(live.read_bytes())
+            copy = PINS.parent / name
+            history = pin.setdefault("superseded", [])
+            if copy.is_file():
+                VERSIONS.mkdir(parents=True, exist_ok=True)
+                archived = VERSIONS / f"{name}.v{len(history) + 1}"
+                archived.write_bytes(copy.read_bytes())
+                history.append({"version": len(history) + 1,
+                                "sha256": pin["sha256"], "bytes": pin["bytes"],
+                                "archived_as": str(archived.relative_to(PINS.parent)),
+                                "superseded_utc": _utc_today(), "reason": reason or "(none given)"})
+            copy.write_bytes(live.read_bytes())
             pin["sha256"], pin["bytes"] = new, live.stat().st_size
+            pin["version"] = len(history) + 1
     if not changed:
         print("nothing to re-pin; the live files match the record")
         return 0
@@ -114,11 +143,12 @@ def repin() -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0],
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--reason", default="", help="why the governing text changed")
     parser.add_argument("--repin", action="store_true",
                         help="update the pins to the live files, printing every change")
     args = parser.parse_args()
     if args.repin:
-        return repin()
+        return repin(getattr(args, 'reason', ''))
     status, problems = check()
     if problems:
         for p in problems:

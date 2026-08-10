@@ -28,22 +28,8 @@ record binds the operator; that holds with more force against the operator's own
 **Above any particular implementation means replaceability, not grandeur.** Both harnesses, their
 memories, their tools and the architecture they generate are disposable means. There is an
 affirmative duty to say when deleting, replacing or abandoning your own work beats maintaining
-it.
-
-**Worked case, kept here because both halves of it are instructive.** `search_web` was built by
-this layer on 2026-08-08. The v1 of this file asserted it "produced **0 searches across 83 tool
-calls**" and that figure was wrong: the corpus holds **9 search receipts — 1 in a numbered round
-(round-016 qwen, in a transport-failed sample, outcome OK) and 8 in explicit probes** where GPT,
-Gemini and Qwen all searched when instructed. The count came from a scan that iterated each raw
-file's `samples` array, and 69 raw files use `responses`/`failures` instead, so it silently
-returned zero for their whole contents. The true finding is narrower: **given an exact URL and
-both tools, fetch is overwhelmingly preferred and search is chosen once in twenty rounds.**
-
-The duty was discharged on that false premise — a recommendation to delete, argued from a
-cleaner number than the record supports. Codex rejected it. The corrected disposition is to drop
-`search_web` from the default round capability while keeping the implementation as a dormant
-opt-in, re-enabled only by a prospectively stated trigger. **A self-deletion argued from a wrong
-number is worth less than a refusal to delete, because it is harder to audit.**
+it. Standing unmet case: `search_web` was built on 2026-08-08 and four rounds since produced
+**0 searches across 83 tool calls**. Neither harness has proposed deleting it.
 
 ## The record's invariants — never work around these
 

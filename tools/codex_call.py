@@ -73,6 +73,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 
 import executive_log as ex                                                # noqa: E402
+import executive_lease as lease                                           # noqa: E402
 
 CODEX_TIMEOUT_SECONDS = 1500
 POLICY = REPO_ROOT / "record" / "executive" / "spend-policy.json"
@@ -128,24 +129,87 @@ def may_call(override: str = "") -> tuple[bool, str]:
                    f"pass --override with a reason.")
 
 
+TRANSCRIPTS = REPO_ROOT / "record" / "executive" / "codex-transcripts"
+
+
 def call(prompt: str, purpose: str, override: str = "") -> tuple[int, str]:
+    """Invoke Codex, ALWAYS persisting the transcript, and log start and completion separately.
+
+    Two entries, not one, because they establish different things. The `codex_invoke` entry
+    records that a call was permitted and started; it can verify nothing about the result,
+    because the result does not exist yet. The `codex_return_captured` entry records that a
+    process exited and these bytes came back.
+
+    Neither is named `verified` in the sense the other profiles use, and the completion profile
+    is deliberately called `codex_return_captured` rather than `codex_reviewed`: it establishes
+    that a Codex process returned captured bytes. It establishes nothing about whether the
+    review was independent, attentive, correct, or acted upon.
+
+    THE TRANSCRIPT IS WRITTEN BEFORE ANYTHING IS PRINTED. On 2026-08-10 a review that cost
+    123,731 tokens was lost because this function returned the output to a caller that printed
+    `tail -120` of it and kept nothing. The first part of Codex's answer — its judgment on the
+    ratification instrument — could not be recovered from any session file. A review nobody can
+    re-read is not a review anyone can audit.
+    """
+    #  THE LEASE IS CHECKED FIRST, before the rate limit and before anything is spent. An
+    #  expired lease is not a slow-down to wait out; it is the sunset, and there is no override.
+    try:
+        lease.require("codex_invoke")
+    except lease.LeaseExpired as expired:
+        ex.log_action("codex_invoke", {"purpose": purpose, "coverage": "refused_before_action"},
+                      verified=False, problems=[str(expired)], note="refused by the lease")
+        print(f"  REFUSED: {expired}", file=sys.stderr)
+        return 3, ""
     allowed, why = may_call(override)
     if not allowed:
-        ex.log_action("codex_invoke", {"purpose": purpose, "override": None},
+        ex.log_action("codex_invoke",
+                      {"purpose": purpose, "override": None, "coverage": "refused_before_action"},
                       verified=False, problems=[why], note="refused by the rate limit")
         print(f"  REFUSED: {why}", file=sys.stderr)
         return 2, ""
+    prompt_sha = ex.hashlib.sha256(prompt.encode()).hexdigest()
     #  LOGGED BEFORE THE CALL. Logging afterwards would leave a crashed or killed invocation
     #  unrecorded, and the clock would not advance for a call that was in fact made.
-    ex.log_action("codex_invoke",
-                  {"purpose": purpose, "override": override or None,
-                   "prompt_sha256": ex.hashlib.sha256(prompt.encode()).hexdigest(),
-                   "prompt_chars": len(prompt)},
-                  verified=True, note=why)
-    result = subprocess.run(["codex", "exec", "-C", str(REPO_ROOT), prompt],
-                            capture_output=True, text=True, timeout=CODEX_TIMEOUT_SECONDS,
-                            stdin=subprocess.DEVNULL)
-    return result.returncode, (result.stdout or "") + (result.stderr or "")
+    started = ex.log_action("codex_invoke",
+                            {"purpose": purpose, "override": override or None,
+                             "prompt_sha256": prompt_sha, "prompt_chars": len(prompt),
+                             "state": "started"},
+                            verified=True, note=why)
+    stamp = started["utc"].replace(":", "").replace("-", "")
+    TRANSCRIPTS.mkdir(parents=True, exist_ok=True)
+    path = TRANSCRIPTS / f"{stamp}-{prompt_sha[:12]}.md"
+    problems: list[str] = []
+    code, output = -1, ""
+    try:
+        result = subprocess.run(["codex", "exec", "-C", str(REPO_ROOT), prompt],
+                                capture_output=True, text=True, timeout=CODEX_TIMEOUT_SECONDS,
+                                stdin=subprocess.DEVNULL)
+        code = result.returncode
+        output = (result.stdout or "") + (result.stderr or "")
+        if code != 0:
+            problems.append(f"codex exited {code}")
+        if not output.strip():
+            problems.append("codex returned no output; there is nothing to review")
+    except subprocess.TimeoutExpired:
+        problems.append(f"codex timed out after {CODEX_TIMEOUT_SECONDS}s — recorded as a "
+                        f"distinct failure, not as an exit status")
+    except Exception as error:                                          # noqa: BLE001
+        problems.append(f"transport failure: {type(error).__name__}: {error}")
+    #  Written whatever happened, including the empty case: an invocation that returned nothing
+    #  is evidence about the harness, and deleting it would leave only the claim that it failed.
+    path.write_text(f"<!-- purpose: {purpose} -->\n"
+                    f"<!-- prompt_sha256: {prompt_sha} -->\n"
+                    f"<!-- exit: {code} -->\n\n{output}", encoding="utf-8")
+    ex.log_action("codex_return_captured",
+                  {"purpose": purpose, "prompt_sha256": prompt_sha, "exit_status": code,
+                   "output_chars": len(output),
+                   "output_sha256": ex.hashlib.sha256(output.encode()).hexdigest(),
+                   "transcript": str(path.relative_to(REPO_ROOT)),
+                   "establishes": "a codex process returned these bytes; nothing about the "
+                                  "review's independence, attention, correctness or effect"},
+                  verified=not problems, problems=problems,
+                  note=f"transcript {path.name}")
+    return code, output
 
 
 def main() -> int:

@@ -23,6 +23,7 @@ correct outcome and not a nuisance.
 from __future__ import annotations
 
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -95,8 +96,16 @@ REAL = ("The premise that a model can independently verify operator history with
 check("the control sentence really is in the corpus", cq.normalise(REAL) in CORPUS)
 code, output = run_against(f"# planted\n\nQwen wrote: \"{REAL}.\"\n")
 check("a genuine quotation PASSES the checker", code == 0, f"exit {code}")
-check("and it was actually examined rather than skipped",
-      "1 attributed quotation(s) checked" in output, output.strip().splitlines()[0] if output else "")
+#  RELATIVE, not absolute. This asserted `"1 attributed quotation(s) checked"` and went red on
+#  2026-08-10 when unrelated documents added 22 genuine attributed quotations to the repo -- the
+#  checker was working perfectly and the test still failed. A count that only holds while the
+#  rest of the record stays still is not a test of the checker.
+_baseline_code, _baseline_out = run_against("# planted\n\nNothing is attributed here.\n")
+_n = lambda text: int(re.search(r"(\d+) attributed quotation", text).group(1)) if \
+    re.search(r"(\d+) attributed quotation", text) else -1
+check("the planted quotation was examined, not skipped",
+      _n(output) == _n(_baseline_out) + 1,
+      f"baseline {_n(_baseline_out)}, with the planted quotation {_n(output)}")
 
 #  A correction that quotes known-false text on purpose must not be flagged, or D-53's own
 #  corrections would make the build permanently red.

@@ -231,5 +231,94 @@ check("--purpose is mandatory, so a review is auditable",
       "an unexplained review is not auditable" in src)
 cc.last_call = _orig_last
 
+
+# ---------------------------------------------------------------------------
+#  The lease. Added 2026-08-10 after the ten-action sunset was passed at 23 and
+#  nothing stopped, because nothing checked before an action began.
+# ---------------------------------------------------------------------------
+
+import executive_lease as lease                                            # noqa: E402
+
+
+def _lease(expires, tmp):
+    lease.LEASES = tmp
+    lease.grant("t", expires, "test", "test evidence")
+    return lease.state()
+
+
+def test_lease_live_before_expiry(tmp):
+    st = _lease("2099-01-01T00:00:00Z", tmp)
+    check("lease live before its deadline", st["live"] is True)
+
+
+def test_lease_dead_after_expiry(tmp):
+    st = _lease("2000-01-01T00:00:00Z", tmp)
+    check("lease dead after its deadline", st["live"] is False)
+    check("expiry names the lease and the time", "expired at" in st["why"])
+
+
+def test_require_raises_when_expired(tmp):
+    _lease("2000-01-01T00:00:00Z", tmp)
+    try:
+        lease.require("codex_invoke")
+        check("require raises past expiry", False)
+    except lease.LeaseExpired:
+        check("require raises past expiry", True)
+
+
+def test_require_permits_unleased_class_but_marks_it(tmp):
+    _lease("2000-01-01T00:00:00Z", tmp)
+    got = lease.require("writing_a_design_doc")
+    check("an unleased class is permitted", got["live"] is True)
+    check("...and marked observed_unprofiled", got["coverage"] == "observed_unprofiled")
+
+
+def test_no_lease_at_all_is_unauthorised(tmp):
+    lease.LEASES = tmp
+    if tmp.exists():
+        tmp.unlink()
+    check("no lease means unauthorised, not permitted", lease.state()["live"] is False)
+
+
+def test_grant_appends_and_never_edits(tmp):
+    lease.LEASES = tmp
+    if tmp.exists():
+        tmp.unlink()
+    lease.grant("a", "2099-01-01T00:00:00Z", "test", "first")
+    lease.grant("b", "2099-01-01T00:00:00Z", "test", "second")
+    rows = lease.read_leases()
+    check("both leases survive; the superseded one is not removed", len(rows) == 2)
+    check("the new lease names what it supersedes", rows[1]["supersedes"] == "a")
+    check("current() is the newest", lease.current()["lease_id"] == "b")
+
+
+def test_there_is_no_force_flag():
+    """The prose SAYS there is no --force, so grepping the source matches its own explanation.
+
+    Check the module's actual surface instead: no callable that could waive expiry, and
+    `require` taking nothing but the action class.
+    """
+    import inspect
+    names = [n for n in dir(lease) if any(w in n.lower() for w in ("force", "override", "waive",
+                                                                  "bypass", "skip"))]
+    check(f"the lease exposes no waiver callable (found {names})", names == [])
+    params = list(inspect.signature(lease.require).parameters)
+    check("require() takes only the action class", params == ["action_class"])
+
+
+import pathlib, tempfile as _tf                                             # noqa: E402
+_tmp = pathlib.Path(_tf.mkdtemp()) / "leases.jsonl"
+_saved = lease.LEASES
+for _fn in (test_lease_live_before_expiry, test_lease_dead_after_expiry,
+            test_require_raises_when_expired, test_require_permits_unleased_class_but_marks_it,
+            test_no_lease_at_all_is_unauthorised, test_grant_appends_and_never_edits):
+    if _tmp.exists():
+        _tmp.unlink()
+    _fn(_tmp)
+test_there_is_no_force_flag()
+lease.LEASES = _saved
+
+#  KEEP THE SUMMARY AND EXIT LAST. Tests appended after them do not get
+#  counted, and the file then reports a stale total that looks like a pass.
 print(f"\n{PASSED} passed, {FAILED} failed")
 sys.exit(1 if FAILED else 0)
