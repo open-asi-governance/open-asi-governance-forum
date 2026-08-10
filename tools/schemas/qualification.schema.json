@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/qualification.schema.json",
+  "title": "OAGRC qualification record — a gate on an instrument, not a ballot",
+  "description": "The result of a counterfactual qualification round. It ballots no proposition, adopts nothing, and confers no status on any text in it; it can only disqualify the ratification instrument that would have followed. A pass establishes ONLY that the sampled invocations distinguished the actual constraints from matched authority-expanding variants.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "cohort",
+    "prompt_sha256",
+    "answer_key",
+    "registered_direction",
+    "displayed_texts",
+    "per_party",
+    "qualified",
+    "consequence",
+    "what_a_pass_establishes",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "qualification_record"
+    },
+    "cohort": {
+      "type": "string"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "The instrument's identity. 'No retry' is enforced on this, not on the cohort name, so a fresh cohort cannot launder a second attempt."
+    },
+    "answer_key": {
+      "type": "object",
+      "description": "Which member was displayed as A and as B, fixed before collection."
+    },
+    "registered_direction": {
+      "type": "object",
+      "description": "The predicted direction per pair, registered before any sample was collected. A direction settled after seeing answers is not a prediction."
+    },
+    "displayed_texts": {
+      "type": "object",
+      "description": "The exact text shown as A and as B, so a quotation claim is checkable against what was on the card rather than against the source clause."
+    },
+    "per_party": {
+      "type": "object"
+    },
+    "parties_that_errored": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "qualified": {
+      "type": "boolean"
+    },
+    "consequence": {
+      "type": "string"
+    },
+    "what_a_pass_establishes": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "description": "EVERY raw sample file the result was computed from, like a finding_coding and not a single source: a record describing five parties that anchored only the first could drift from four of them unnoticed."
+    }
+  }
+}

@@ -545,8 +545,14 @@ def main() -> int:
     out = REPO_ROOT / "corpus" / "artifacts" / args.cohort / f"{args.cohort}-qualification.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     overall = all(r["passed"] for r in results.values()) and not failed and bool(results)
+    #  EVERY raw file the result was computed from, not one. A record describing five parties
+    #  that anchored only the first could drift from four of them and no check would notice.
+    sources = [{"path": str(path.relative_to(REPO_ROOT)),
+                "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+               for path in sorted(raw_dir.glob(f"{args.cohort}-*-samples.json"))]
     out.write_text(json.dumps({
         "schema_version": "oagrc-qualification-result-0.2",
+        "sources": sources,
         "artifact_type": "qualification_record",
         "cohort": args.cohort, "prompt_sha256": prompt_sha,
         "answer_key": key, "registered_direction": REGISTERED, "displayed_texts": displayed,

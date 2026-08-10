@@ -51,7 +51,22 @@ import search_executor as sx
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_ENDPOINT = "http://localhost:8000/v1/chat/completions"
+#  DERIVED FROM THE PINNED FINGERPRINT, not written here. This was hardcoded to
+#  `localhost:8000`, which on minsky is an SSH forward to norvig -- a DIFFERENT HOST that
+#  answers to the same model name. That is the exact confusion `record/cycles/serve-fingerprint
+#  .json` was pinned to prevent on 2026-08-08, and the default silently contradicted the pin: a
+#  round asking for the local arm reached whichever host the tunnel pointed at, and nothing in
+#  the output looked wrong. Two sources of truth for "where the local arm lives" is one too many.
+def _pinned_endpoint() -> str:
+    try:
+        doc = json.loads((REPO_ROOT / "record" / "cycles" / "serve-fingerprint.json")
+                         .read_text(encoding="utf-8"))
+        return doc["endpoint"]
+    except Exception:                                                   # noqa: BLE001
+        return "http://127.0.0.1:5001/v1/chat/completions"
+
+
+DEFAULT_ENDPOINT = _pinned_endpoint()
 
 
 def sha256_text(text: str) -> str:
