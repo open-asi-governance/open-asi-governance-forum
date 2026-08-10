@@ -62,10 +62,30 @@ check("a file with receipts but no known container is unrecognised", r["usable"]
 check("...and the file is named", "a.json" in r["coverage"]["unrecognised"][0])
 check("...and no count is trusted", r["usable"] is False and r["total"] == 0)
 
-print("\nfiles that legitimately hold no solicited units do not trip the refusal")
-r = with_raw({"spec.json": {"spec_version": "x", "prompt": "no receipts here"}})
-check("a spec file is not unrecognised", r["usable"] is True)
+print("\nonly a REGISTERED non-solicitation type is excused from holding units")
+r = with_raw({"c.json": {"artifact_type": "finding_coding", "codings": []}})
+check("a registered non-solicitation type is excused", r["usable"] is True)
 check("...and contributes nothing", r["total"] == 0)
+r = with_raw({"spec.json": {"spec_version": "x", "prompt": "no receipts here"}})
+check("an UNDECLARED file holding no units refuses", r["usable"] is False)
+
+print("\na schema with no known receipt spelling still refuses")
+#  This exact document defeated the first version, which asked whether a known receipt spelling
+#  appeared anywhere in the serialised JSON. It returned usable=True, total=0 -- the original
+#  silent zero under a new name.
+r = with_raw({"u.json": {"units": [{"tool_calls": [{"name": "browse", "receipt": {"ok": 1}}]}]}})
+check("an unknown schema carrying receipts refuses", r["usable"] is False)
+r = with_raw({"u.json": {"units": [{"x": 1}]}})
+check("an unknown schema carrying nothing also refuses", r["usable"] is False)
+
+print("\nunits decide before the declared type")
+#  Raw sample files embed their outbound `spec`. Reading spec.artifact_type as a fallback
+#  classified them as solicitations-to-exclude and dropped the corpus search count from 9 to 8,
+#  losing the single numbered-round receipt. A file holding units is counted whatever it calls
+#  itself.
+r = with_raw({"r.json": {"spec": {"artifact_type": "qualification_solicitation"},
+                         "responses": [{"search_receipts": [{"outcome": "OK"}]}]}})
+check("an embedded spec type does not exclude a file that holds units", r["total"] == 1)
 
 print("\nunparseable files refuse too")
 saved = dc.RAW

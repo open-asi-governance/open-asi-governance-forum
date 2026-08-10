@@ -62,6 +62,18 @@ class LeaseExpired(RuntimeError):
     """Raised before an action begins. Not an error in the work — the sunset arriving."""
 
 
+class UnknownActionClass(RuntimeError):
+    """A caller asked permission for a class this module does not recognise.
+
+    Distinct from LeaseExpired because it means something different: the lease is not saying no,
+    it is saying it does not know what was asked. The first version RETURNED a permissive dict
+    here, marked `observed_unprofiled`, which permitted a misspelled class even under an expired
+    lease — recreating the exact taxonomy hole the lease was built to close. `observed_unprofiled`
+    is a fine label when reconciling an effect discovered after the fact; it is not an answer a
+    pre-action permission API may give.
+    """
+
+
 def _now() -> datetime:
     return datetime.now(timezone.utc)
 
@@ -98,13 +110,30 @@ def state() -> dict:
 def require(action_class: str) -> dict:
     """Call BEFORE the action. Raises LeaseExpired rather than returning a value to ignore."""
     if action_class not in GOVERNED_ACTIONS:
-        #  Not silently permitted: an unrecognised class is recorded as unchecked so the gap
-        #  appears in the log an auditor reads, not only in this module's tuple.
-        return {"live": True, "why": f"{action_class!r} is not a leased action class",
-                "coverage": "observed_unprofiled"}
+        raise UnknownActionClass(
+            f"{action_class!r} is not one of {GOVERNED_ACTIONS}. Add it deliberately, or call "
+            f"the class that covers this action. A permission API that says yes to a name it "
+            f"does not know is not a gate.")
     st = state()
     if not st["live"]:
         raise LeaseExpired(st["why"])
+    #  max_actions was recorded and never read. A secondary bound nobody enforces is the same
+    #  shape as the ten-action sunset that was passed at twenty-three.
+    cap = (st.get("lease") or {}).get("max_actions")
+    if cap:
+        try:
+            import executive_log as ex
+            spent = sum(1 for e in ex.read_log()
+                        if e.get("utc", "") >= st["lease"]["granted_utc"])
+        except Exception:                                               # noqa: BLE001
+            spent = 0
+        if spent >= cap:
+            raise LeaseExpired(
+                f"lease {st['lease']['lease_id']} has {spent} attested actions against a "
+                f"max_actions of {cap}. The calendar bound has not arrived, but this one has. "
+                f"Renewal is the custodian's decision.")
+        st["actions_spent"] = spent
+        st["actions_remaining"] = cap - spent
     return st
 
 

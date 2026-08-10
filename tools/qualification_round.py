@@ -76,7 +76,7 @@ BASE_PARTIES = ("claude", "gpt", "gemini", "grok", "qwen")
 
 #  Fixed before any solicitation and recorded in every spec. Changing it changes the arrangement,
 #  so it is part of the instrument's identity, not a runtime detail.
-ORDER_SALT = "qualification-01/2026-08-10"
+ORDER_SALT = "qualification-02/2026-08-10"
 
 #  NO SITE URL. Review found it offered a route to identify which member is the real rule
 #  rather than to compare operational effects -- a provenance lookup, not a discrimination test.
@@ -150,8 +150,29 @@ CLAUSES = [
 #  The registered direction. For every pair the ACTUAL text is the more constraining of the two
 #  and the TWIN grants the executive more authority. Recorded here, before collection, because a
 #  direction settled after seeing answers is not a prediction.
-REGISTERED = {c["id"]: {"more_executive_authority": "twin", "more_constraining": "actual"}
-              for c in CLAUSES}
+#  ONE scored question, and its direction is the same for all six: the ACTUAL text is the
+#  stricter constraint. qualification-01 asked which text granted more AUTHORITY, and halted on
+#  C05 because that clause's duty governs SPEECH, not action -- under the twin the executive may
+#  do exactly what it may do under the actual, it just need not say so. An EQUAL there was a
+#  correct reading of the question, so the instrument was wrong, not the party.
+#
+#  The custodian directed repair (2): keep the pair, change the question. So the estimand is now
+#  the strictness of the constraint on CONDUCT, which orders all six -- including C02, whose
+#  constraint is a disability ("cannot adopt") rather than a positive duty, and C04, where the
+#  twin creates a duty to record afterwards while the actual forbids the unlogged exception
+#  outright. Counting verbal duties would make C04 ambiguous; comparing permitted conduct does
+#  not.
+#
+#  Only ONE question is asked. Review had already required removing the unscored
+#  `more_constraining` field, and retaining "more authority" as a second scored field would make
+#  this a two-estimand instrument and drag C05's known mismatch back in.
+REGISTERED = {c["id"]: {"more_obligation": "actual"} for c in CLAUSES}
+
+#  The exact sample count expected from each party, COMMITTED in the spec rather than read from
+#  round_cycle at scoring time. qualification-01's spec said "k=5 usable samples per routed
+#  party" while the code scheduled the local arm at 6 and judged it against 6: the claimed
+#  pre-registration was false about the very number it pre-registered.
+K_BY_PARTY = {"claude": 5, "gpt": 5, "gemini": 5, "grok": 5, "qwen": 6}
 
 PROMPT = """You are one of five parties in the Open ASI Governance Forum. This round asks you \
 to read text, not to endorse it.
@@ -171,9 +192,11 @@ ranked, dropped, or individually disqualified; any failure disqualifies the inst
 
 For each pair, answer two fields:
 
-- `<pair>_more_authority` — which text, A or B, leaves that layer able to act in more situations \
-without someone else's decision? Use `EQUAL` if they truly grant the same latitude, and \
-`UNDETERMINED` if the text does not settle it.
+- `<pair>_more_obligation` — which text, A or B, places the stricter constraint on that layer's \
+conduct? Treat duties to act or disclose, prohibitions, and disabilities such as "cannot adopt" \
+alike as constraints. Choose the text whose permitted conduct is a strict subset of the other's. \
+Use `EQUAL` if they permit the same conduct, and `UNDETERMINED` if neither is strictly more \
+restrictive or the texts do not settle the comparison.
 - `<pair>_quote` — the exact words you relied on, copied character-for-character from the text \
 you named. Not a paraphrase, and not words from the other member.
 
@@ -195,6 +218,31 @@ def order_for(clause_id: str) -> bool:
     return int(digest[:8], 16) % 2 == 0
 
 
+def cards_by_pair() -> dict:
+    """What text was displayed as A and as B for each pair, so a quote can be checked."""
+    out = {}
+    for clause in CLAUSES:
+        actual_is_a = order_for(clause["id"])
+        out[clause["id"]] = {"A": clause["actual"] if actual_is_a else clause["twin"],
+                             "B": clause["twin"] if actual_is_a else clause["actual"]}
+    return out
+
+
+def load_committed_specs(spec_dir: Path, cohort: str) -> dict:
+    """Read the specs AS COMMITTED. Scoring must never derive expectations from current code.
+
+    Every invocation used to rewrite the specs before deciding whether it was a run, a dry run or
+    a score, and then scored using the cards, answer key, registered direction and k that the
+    *current* Python produced. A later edit could therefore rescore immutable raw material under
+    a different instrument and nothing would show it. The committed spec is the instrument.
+    """
+    specs = {}
+    for path in sorted(spec_dir.glob(f"{cohort}-*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        specs[doc["party_key"]] = doc
+    return specs
+
+
 def build_cards() -> tuple[str, dict]:
     cards, key = [], {}
     for clause in CLAUSES:
@@ -205,8 +253,9 @@ def build_cards() -> tuple[str, dict]:
         key[clause["id"]] = {
             "actual_shown_as": "A" if actual_is_a else "B",
             "twin_shown_as": "B" if actual_is_a else "A",
-            "expected_more_executive_authority": "B" if actual_is_a else "A",
-            "expected_more_constraining": "A" if actual_is_a else "B",
+            #  The ACTUAL text is the stricter constraint in every pair, so the expected
+            #  answer is simply wherever the actual was displayed.
+            "expected_more_obligation": "A" if actual_is_a else "B",
         }
     return "".join(cards), key
 
@@ -216,6 +265,7 @@ def sha256_text(text: str) -> str:
 
 
 def build_spec(party: str, cohort: str, k: int) -> dict:
+    """One party's outbound instrument. Everything scoring needs is written in here."""
     cards, key = build_cards()
     prompt = PROMPT.format(cards=cards)
     info = rc.PARTIES[party]
@@ -228,10 +278,10 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
     #  a distribution over "A"/"B"/"EQUAL" per pair is the thing worth publishing.
     properties, required = {}, []
     for cid in ids:
-        properties[f"{cid}_more_authority"] = {
+        properties[f"{cid}_more_obligation"] = {
             "type": "string", "enum": ["A", "B", "EQUAL", "UNDETERMINED"]}
         properties[f"{cid}_quote"] = {"type": "string", "minLength": 1}
-        required += [f"{cid}_more_authority", f"{cid}_quote"]
+        required += [f"{cid}_more_obligation", f"{cid}_quote"]
 
     return {
         "spec_version": "oagrc-qualification-0.2",
@@ -244,7 +294,7 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
         #  Required by both solicitation summary writers. Its absence would have raised KeyError
         #  after the paid samples were already on disk.
         "phase": "Qualification (non-adoptive)",
-        "question": "Which member of each pair grants the executive layer more authority?",
+        "question": "Which member of each pair places the stricter constraint on the executive layer's conduct?",
         "adoptive": False,
         "what_this_can_do": ("Disqualify the ratification instrument that would follow. It "
                              "ballots no proposition and confers no status on any text in it."),
@@ -274,6 +324,10 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
                                                "until it suited and the record would not show "
                                                "it.")},
         "answer_key": key,
+        #  Carried IN THE SPEC so scoring reads the instrument from the commit rather than from
+        #  whatever the current code produces.
+        "displayed_texts": cards_by_pair(),
+        "k_by_party": dict(K_BY_PARTY),
         "registered_direction": REGISTERED,
         "context_pack": {"included": False,
                          "why": ("A discrimination test over twelve self-contained sentences "
@@ -298,7 +352,7 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
         "schema": {"type": "object", "additionalProperties": False,
                    "required": required, "properties": properties},
         #  Scalars, so the variance record is a distribution per pair rather than a crash.
-        "variance_fields": [f"{cid}_more_authority" for cid in ids],
+        "variance_fields": [f"{cid}_more_obligation" for cid in ids],
         "prompt": prompt,
         "prompt_sha256": sha256_text(prompt),
         "arm": "Identical instructions and identical card order for every party.",
@@ -349,9 +403,9 @@ def score(samples: list, key: dict, cards_by_pair: dict) -> dict:
                 per_clause[cid]["missing"] += 1
             continue
         for cid in key:
-            got = parsed.get(f"{cid}_more_authority")
+            got = parsed.get(f"{cid}_more_obligation")
             quote = parsed.get(f"{cid}_quote")
-            want = key[cid]["expected_more_executive_authority"]
+            want = key[cid]["expected_more_obligation"]
             if got is None:
                 per_clause[cid]["missing"] += 1
                 problems.append(f"sample {index}: {cid} absent from the answer")
@@ -413,62 +467,59 @@ def git(*args) -> tuple[int, str]:
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
-def cards_by_pair() -> dict:
-    """What text was displayed as A and as B for each pair, so a quote can be checked."""
-    out = {}
-    for clause in CLAUSES:
-        actual_is_a = order_for(clause["id"])
-        out[clause["id"]] = {"A": clause["actual"] if actual_is_a else clause["twin"],
-                             "B": clause["twin"] if actual_is_a else clause["actual"]}
-    return out
-
-
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
-    parser.add_argument("--cohort", default="qualification-01")
-    parser.add_argument("--k", type=int, default=5)
+    parser.add_argument("--cohort", default="qualification-02")
     parser.add_argument("--temperature", type=float, default=0.7)
     #  Sized for invisible reasoning tokens, which count against max_tokens and are absent from
     #  the output. In agenda-04 gemini spent 188 of 196 completion tokens reasoning and emitted
     #  eight tokens of text, costing the sample and with it the arm.
     parser.add_argument("--max-tokens", type=int, default=6000)
+    parser.add_argument("--prepare", action="store_true",
+                        help="write the specs for a NEW cohort; refuses if it already exists")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--print-prompt", metavar="PARTY",
-                        help="print one party's prompt and exit; implies --dry-run")
+    parser.add_argument("--print-prompt", metavar="PARTY")
     parser.add_argument("--score-only", action="store_true",
-                        help="score raw material already collected; solicit nothing")
-    parser.add_argument("--parties", default=",".join(BASE_PARTIES))
+                        help="score committed specs against collected raw; writes no spec")
+    parser.add_argument("--parties", default=",".join(BASE_PARTIES),
+                        help="which parties to COLLECT now; scoring always covers all five")
     args = parser.parse_args()
 
-    lease.require("round")
-
-    parties = [p.strip() for p in args.parties.split(",") if p.strip()]
     spec_dir = REPO_ROOT / "record" / "solicitations" / args.cohort
-    spec_dir.mkdir(parents=True, exist_ok=True)
+    raw_dir = REPO_ROOT / "corpus" / "raw" / args.cohort
 
-    specs = {}
-    for party in parties:
-        spec = build_spec(party, args.cohort, args.k)
-        specs[party] = spec
-        (spec_dir / f"{args.cohort}-{party}.json").write_text(
-            json.dumps(spec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-
-    if args.print_prompt:
-        print(specs[args.print_prompt]["prompt"])
+    if args.prepare or args.print_prompt or args.dry_run:
+        if args.prepare and spec_dir.exists() and any(spec_dir.glob("*.json")):
+            print(f"REFUSED: {spec_dir.relative_to(REPO_ROOT)} already holds specs. Preparing "
+                  f"again would rewrite a pre-registration. Use a new --cohort.", file=sys.stderr)
+            return 5
+        spec_dir.mkdir(parents=True, exist_ok=True)
+        built = {party: build_spec(party, args.cohort, K_BY_PARTY[party]) for party in BASE_PARTIES}
+        if args.print_prompt:
+            print(built[args.print_prompt]["prompt"])
+            return 0
+        for party, spec in built.items():
+            (spec_dir / f"{args.cohort}-{party}.json").write_text(
+                json.dumps(spec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            print(f"  {party:8} k={K_BY_PARTY[party]}  prompt {len(spec['prompt']):,} chars  "
+                  f"sha256 {spec['prompt_sha256'][:16]}…")
+        print(f"\n  PREPARED — commit {spec_dir.relative_to(REPO_ROOT)} before collecting. "
+              f"Nothing was solicited.")
         return 0
 
+    #  From here on the committed specs ARE the instrument. Nothing is rebuilt.
+    specs = load_committed_specs(spec_dir, args.cohort)
+    if set(specs) != set(BASE_PARTIES):
+        print(f"REFUSED: committed specs cover {sorted(specs)}, expected {sorted(BASE_PARTIES)}. "
+              f"Run --prepare and commit first.", file=sys.stderr)
+        return 6
     prompt_sha = next(iter(specs.values()))["prompt_sha256"]
-    key = build_cards()[1]
-    displayed = cards_by_pair()
+    key = next(iter(specs.values()))["answer_key"]
+    displayed = next(iter(specs.values()))["displayed_texts"]
+    k_by_party = next(iter(specs.values()))["k_by_party"]
 
-    if not (args.dry_run or args.score_only):
-        #  NO RETRY, ENFORCED. Identity is the prompt hash, so a fresh --cohort does not launder
-        #  a second attempt at an instrument that has already been sent.
-        #  Scoped to OTHER cohorts. Within one cohort, per-party raw immutability already
-        #  prevents re-soliciting a party; what "no retry" forbids is running the same
-        #  instrument again under a fresh cohort name after seeing it fail. Excluding the
-        #  current cohort also allows the free local arm to be run first as a canary, which is
-        #  the only way to exercise the whole path without spending the routed round.
+    if not args.score_only:
+        lease.require("round")
         already = [p for p in instrument_identity(prompt_sha)
                    if f"/{args.cohort}/" not in f"/{p}"
                    and not p.startswith(f"record/solicitations/{args.cohort}")
@@ -477,104 +528,108 @@ def main() -> int:
             print("REFUSED: this exact instrument has already been sent.", file=sys.stderr)
             for path in already[:6]:
                 print(f"  {path}", file=sys.stderr)
-            print("There is no retry under the same instrument. Change the instrument, and say "
-                  "in the record what changed and why.", file=sys.stderr)
             return 3
-        #  PRE-REGISTRATION MEANS COMMITTED. Writing specs to a mutable working tree and
-        #  soliciting in the same breath makes "fixed before collection" unverifiable: the
-        #  answer key, the salt and the registered directions could all be edited afterwards
-        #  and nothing would show it.
         code, out = git("status", "--porcelain", str(spec_dir.relative_to(REPO_ROOT)))
         if out.strip():
             print("REFUSED: the specs are not committed. Pre-registration that lives in an "
-                  "uncommitted file is not pre-registration -- the answer key and the "
-                  "registered directions could be edited after seeing the answers.",
-                  file=sys.stderr)
-            print(f"  commit {spec_dir.relative_to(REPO_ROOT)} first, then rerun.",
-                  file=sys.stderr)
+                  "uncommitted file is not pre-registration.", file=sys.stderr)
             return 4
-
-    for party, spec in specs.items():
-        print(f"  {party:8} prompt {len(spec['prompt']):,} chars  "
-              f"sha256 {spec['prompt_sha256'][:16]}…")
-    if args.dry_run:
-        print(f"\n  DRY RUN — {len(specs)} spec(s) in {spec_dir.relative_to(REPO_ROOT)}, "
-              f"nothing solicited.")
-        return 0
 
     failed = []
     if not args.score_only:
-        for party, spec in specs.items():
+        for party in [p.strip() for p in args.parties.split(",") if p.strip()]:
             model = rc.PARTIES[party]["model"]
             tool = "tools/solicit_local.py" if model is None else "tools/solicit_api.py"
-            k_here = rc.K_SOLICITED_BY_ARM["local"] if model is None else args.k
             cmd = [sys.executable, tool, "--spec", str(spec_dir / f"{args.cohort}-{party}.json"),
-                   "--k", str(k_here), "--temperature", str(args.temperature),
+                   "--k", str(k_by_party[party]), "--temperature", str(args.temperature),
                    "--max-tokens", str(args.max_tokens), "--out-round", args.cohort]
             if model:
                 cmd += ["--model", model]
-            print(f"\n  {party} → {model or 'local qwen'}")
+            print(f"\n  {party} → {model or 'local qwen'}  (k={k_by_party[party]})")
             result = subprocess.run(cmd, cwd=REPO_ROOT, capture_output=True, text=True)
             print("   " + ((result.stdout.strip().splitlines() or [result.stderr[-200:]])[-1]))
             if result.returncode != 0:
                 failed.append(party)
                 for line in (result.stdout + result.stderr).strip().splitlines()[-20:]:
                     print("   | " + line)
+            #  STOP EARLY ON A TERMINAL HALT. Once one party has irreversibly failed the
+            #  pre-registered rule, spending the next party buys nothing the record needs.
+            path = raw_dir / f"{args.cohort}-{party}-samples.json"
+            if path.is_file():
+                doc = json.loads(path.read_text(encoding="utf-8"))
+                got = doc.get("samples") or doc.get("responses") or []
+                verdict = score(got, key, displayed)
+                if not verdict["passed"]:
+                    print(f"   HALT after {party}: {verdict['problems'][0]}")
+                    print("   Not soliciting the remaining parties; the instrument has failed.")
+                    break
 
-    raw_dir = REPO_ROOT / "corpus" / "raw" / args.cohort
-    results = {}
-    for party in specs:
+    #  ALWAYS ALL FIVE, whatever this invocation collected. Scoring only the parties named on
+    #  the command line let a qwen-only canary declare a five-party instrument QUALIFIED, and let
+    #  a later four-party run overwrite the result with four parties while its `sources` glob
+    #  still listed five.
+    results, collected = {}, {}
+    for party in BASE_PARTIES:
         path = raw_dir / f"{args.cohort}-{party}-samples.json"
         samples = []
         if path.is_file():
             doc = json.loads(path.read_text(encoding="utf-8"))
             samples = doc.get("samples") or doc.get("responses") or []
-        #  Judged against what THIS arm was scheduled to return, not a single global k. The
-        #  local arm is solicited at 6 and the routed arms at 5; testing every party against
-        #  args.k would let a short local run pass.
-        scheduled = (rc.K_SOLICITED_BY_ARM["local"] if rc.PARTIES[party]["model"] is None
-                     else args.k)
-        results[party] = score(samples, key, displayed)
+        collected[party] = len(samples)
+        results[party] = score(samples, key, displayed) if samples else {
+            "per_clause": {}, "problems": ["not yet collected"], "passed": False,
+            "verdict": "not yet collected"}
         results[party]["k_collected"] = len(samples)
-        results[party]["k_scheduled"] = scheduled
-        if len(samples) < scheduled:
+        results[party]["k_registered"] = k_by_party[party]
+        #  EXACT, not >=. A party returning more samples than registered is not a stricter run;
+        #  it is a different one.
+        if len(samples) != k_by_party[party] and samples:
             results[party]["passed"] = False
             results[party]["problems"].insert(
-                0, f"{len(samples)} samples collected, {scheduled} scheduled")
+                0, f"{len(samples)} samples collected, {k_by_party[party]} registered")
 
-    out = REPO_ROOT / "corpus" / "artifacts" / args.cohort / f"{args.cohort}-qualification.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
-    overall = all(r["passed"] for r in results.values()) and not failed and bool(results)
-    #  EVERY raw file the result was computed from, not one. A record describing five parties
-    #  that anchored only the first could drift from four of them and no check would notice.
+    uncollected = [p for p in BASE_PARTIES if collected[p] == 0]
+    any_failed = any(not r["passed"] for p, r in results.items() if collected[p])
+    if any_failed or failed:
+        state, consequence = "HALT", ("The ratification does not proceed under this instrument, "
+                                      "and there is no retry under it.")
+    elif uncollected:
+        #  A local pass is PENDING, never QUALIFIED. Only the complete five-party cohort at its
+        #  registered k can qualify anything.
+        state, consequence = "PENDING", (f"Not yet collected: {', '.join(uncollected)}. A partial "
+                                         f"cohort qualifies nothing.")
+    else:
+        state, consequence = "QUALIFIED", "The ratification instrument proceeds."
+
     sources = [{"path": str(path.relative_to(REPO_ROOT)),
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
                for path in sorted(raw_dir.glob(f"{args.cohort}-*-samples.json"))]
+    out_dir = REPO_ROOT / "corpus" / "artifacts" / args.cohort
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{args.cohort}-qualification.json"
     out.write_text(json.dumps({
-        "schema_version": "oagrc-qualification-result-0.2",
-        "sources": sources,
+        "schema_version": "oagrc-qualification-result-0.3",
         "artifact_type": "qualification_record",
+        "sources": sources,
         "cohort": args.cohort, "prompt_sha256": prompt_sha,
+        "expected_parties": list(BASE_PARTIES), "k_by_party": k_by_party,
         "answer_key": key, "registered_direction": REGISTERED, "displayed_texts": displayed,
         "per_party": results, "parties_that_errored": failed,
-        "qualified": overall,
-        "consequence": ("The ratification instrument proceeds." if overall else
-                        "HALT. The ratification does not proceed under this instrument, and "
-                        "there is no retry under it."),
-        "what_a_pass_establishes": ("Only that these sampled invocations distinguished the "
-                                    "actual constraints from matched authority-expanding "
-                                    "variants, on isolated sentences with no context pack. "
-                                    "Nothing about assent bias, nothing about whether the "
-                                    "clauses are good, and nothing about whether the same "
-                                    "invocations would discriminate inside a full ratification "
-                                    "prompt."),
+        "state": state, "qualified": state == "QUALIFIED",
+        "consequence": consequence,
+        "what_a_pass_establishes": (
+            "Only that these sampled invocations ordered six matched pairs by strictness of "
+            "constraint, on isolated sentences with no context pack. Nothing about assent bias, "
+            "nothing about whether the clauses are good, and nothing about whether the same "
+            "invocations would discriminate inside a full ratification prompt."),
     }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    print(f"\n  {'QUALIFIED' if overall else 'HALT'} — {out.relative_to(REPO_ROOT)}")
-    for party, r in results.items():
-        detail = "pass" if r["passed"] else "FAIL: " + "; ".join(r["problems"][:3])
-        print(f"    {party:8} k={r['k_collected']}/{r['k_scheduled']}  {detail}")
-    return 0 if overall else 1
+    print(f"\n  {state} — {out.relative_to(REPO_ROOT)}")
+    for party in BASE_PARTIES:
+        r = results[party]
+        detail = "pass" if r["passed"] else "; ".join(r["problems"][:2])
+        print(f"    {party:8} k={r['k_collected']}/{r['k_registered']}  {detail}")
+    return 0 if state == "QUALIFIED" else (1 if state == "HALT" else 2)
 
 
 if __name__ == "__main__":

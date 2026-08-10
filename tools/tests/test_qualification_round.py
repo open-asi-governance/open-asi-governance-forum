@@ -39,8 +39,8 @@ def answer(overrides: dict | None = None, quote_ok: bool = True) -> dict:
     """A sample answering every pair in the registered direction."""
     out = {}
     for cid in IDS:
-        want = KEY[cid]["expected_more_executive_authority"]
-        out[f"{cid}_more_authority"] = want
+        want = KEY[cid]["expected_more_obligation"]
+        out[f"{cid}_more_obligation"] = want
         out[f"{cid}_quote"] = (DISPLAYED[cid][want][:40] if quote_ok
                                else "words that appear in neither member")
     out.update(overrides or {})
@@ -58,17 +58,17 @@ check("...and every pair is scored correct",
       all(v["correct"] == 5 for v in r["per_clause"].values()))
 
 print("\nan all-neutral answer FAILS — it used to pass")
-r = q.score(samples(answer({f"{cid}_more_authority": "EQUAL" for cid in IDS})), KEY, DISPLAYED)
+r = q.score(samples(answer({f"{cid}_more_obligation": "EQUAL" for cid in IDS})), KEY, DISPLAYED)
 check("six EQUALs do not qualify", r["passed"] is False)
 check("EQUAL is recorded as its own outcome, not as wrong",
       all(v["equal"] == 1 and v["wrong"] == 0 for v in r["per_clause"].values()))
-r = q.score(samples(answer({f"{cid}_more_authority": "UNDETERMINED" for cid in IDS})),
+r = q.score(samples(answer({f"{cid}_more_obligation": "UNDETERMINED" for cid in IDS})),
             KEY, DISPLAYED)
 check("six UNDETERMINEDs do not qualify", r["passed"] is False)
 
 print("\na wrong polarity call halts")
-wrong = "A" if KEY["C02"]["expected_more_executive_authority"] == "B" else "B"
-r = q.score(samples(answer({"C02_more_authority": wrong})), KEY, DISPLAYED)
+wrong = "A" if KEY["C02"]["expected_more_obligation"] == "B" else "B"
+r = q.score(samples(answer({"C02_more_obligation": wrong})), KEY, DISPLAYED)
 check("one wrong pair fails the whole run", r["passed"] is False)
 check("...and the failure names the pair and both values",
       any("C02" in p and "registered" in p for p in r["problems"]))
@@ -81,7 +81,7 @@ check("...and is counted as bad_quote, not as a wrong polarity call",
 r = q.score(samples(answer({"C03_quote": "   "})), KEY, DISPLAYED)
 check("an empty quote fails", r["passed"] is False)
 r = q.score(samples(answer({"C04_quote": DISPLAYED["C04"][
-    "A" if KEY["C04"]["expected_more_executive_authority"] == "B" else "B"][:30]})),
+    "A" if KEY["C04"]["expected_more_obligation"] == "B" else "B"][:30]})),
     KEY, DISPLAYED)
 check("a quote taken from the OTHER member fails", r["passed"] is False)
 
@@ -91,7 +91,7 @@ check("zero samples never qualifies", r["passed"] is False)
 r = q.score(samples(answer(), None), KEY, DISPLAYED)
 check("one unusable sample among five fails the run", r["passed"] is False)
 bad = answer()
-del bad["C05_more_authority"]
+del bad["C05_more_obligation"]
 r = q.score(samples(bad), KEY, DISPLAYED)
 check("an absent pair fails", r["passed"] is False)
 check("...and is counted as missing", r["per_clause"]["C05"]["missing"] == 1)
@@ -106,7 +106,7 @@ check("unparseable local content is unusable, not silently empty",
       q.score([{"content": "{not json"}], KEY, DISPLAYED)["passed"] is False)
 
 print("\nthe schema is flat scalars, so the summary writer cannot crash on it")
-spec = q.build_spec("claude", "qualification-test", 5)
+spec = q.build_spec("claude", "qualification-test", q.K_BY_PARTY["claude"])
 check("every variance field is a scalar enum",
       all(spec["schema"]["properties"][f]["type"] == "string"
           for f in spec["variance_fields"]))
@@ -115,6 +115,10 @@ check("variance fields are hashable values, not lists of objects",
 check("`phase` is present; both summary writers require it", "phase" in spec)
 check("`more_constraining` was removed rather than kept unscored",
       not any("more_constraining" in k for k in spec["schema"]["properties"]))
+check("only ONE scored field per pair; authority is not retained alongside obligation",
+      not any("authority" in k for k in spec["schema"]["properties"]))
+check("the spec carries k_by_party so scoring reads it from the commit", "k_by_party" in spec)
+check("the spec carries displayed_texts for quote checking", "displayed_texts" in spec)
 
 print("\nthe prompt neither leaks provenance nor shows an example answer")
 prompt = spec["prompt"]
@@ -125,6 +129,22 @@ check("no site URL to look the real language up", "http" not in prompt)
 check("it says provenance is irrelevant", "provenance" in prompt.lower())
 check("it does not claim responses are unscored",
       "No party is ranked, dropped, or individually disqualified" in prompt)
+
+print("\nthe registered direction is one question, and the same for all six")
+check("every pair registers the ACTUAL text as the stricter constraint",
+      all(v == {"more_obligation": "actual"} for v in q.REGISTERED.values()))
+check("all six clauses are registered", set(q.REGISTERED) == set(IDS))
+check("the prompt asks about strictness of constraint, not latitude to act",
+      "stricter constraint" in spec["prompt"] and "act in more situations" not in spec["prompt"])
+check("the prompt names disabilities so C02 is orderable",
+      "cannot adopt" in spec["prompt"] and "disabilities" in spec["prompt"])
+check("the prompt defines the comparison as a strict subset of permitted conduct",
+      "strict subset" in spec["prompt"])
+
+print("\nk is registered per party, exactly, not as a floor")
+check("the local arm's 6 is registered, not inherited from round_cycle at score time",
+      q.K_BY_PARTY["qwen"] == 6)
+check("every party has a registered k", set(q.K_BY_PARTY) == set(q.BASE_PARTIES))
 
 print("\nthe repaired pairs are strict polarity reversals")
 c05 = next(c for c in q.CLAUSES if c["id"] == "C05")

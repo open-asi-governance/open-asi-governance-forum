@@ -266,11 +266,29 @@ def test_require_raises_when_expired(tmp):
         check("require raises past expiry", True)
 
 
-def test_require_permits_unleased_class_but_marks_it(tmp):
+def test_unknown_class_raises_rather_than_permitting(tmp):
+    """It used to RETURN a permissive dict, which said yes to a misspelling under a dead lease."""
     _lease("2000-01-01T00:00:00Z", tmp)
-    got = lease.require("writing_a_design_doc")
-    check("an unleased class is permitted", got["live"] is True)
-    check("...and marked observed_unprofiled", got["coverage"] == "observed_unprofiled")
+    try:
+        lease.require("writing_a_design_doc")
+        check("an unknown action class is refused, not permitted", False)
+    except lease.UnknownActionClass:
+        check("an unknown action class is refused, not permitted", True)
+    except lease.LeaseExpired:
+        check("an unknown class raises UnknownActionClass, not LeaseExpired", False)
+
+
+def test_max_actions_is_enforced_not_merely_recorded(tmp):
+    """A secondary bound nobody reads is the ten-action sunset again."""
+    lease.LEASES = tmp
+    if tmp.exists():
+        tmp.unlink()
+    lease.grant("cap", "2099-01-01T00:00:00Z", "test", "evidence", max_actions=1)
+    try:
+        lease.require("round")
+        check("max_actions blocks once the log passes the cap", True)
+    except lease.LeaseExpired as expired:
+        check("max_actions blocks once the log passes the cap", "max_actions" in str(expired))
 
 
 def test_no_lease_at_all_is_unauthorised(tmp):
@@ -310,7 +328,8 @@ import pathlib, tempfile as _tf                                             # no
 _tmp = pathlib.Path(_tf.mkdtemp()) / "leases.jsonl"
 _saved = lease.LEASES
 for _fn in (test_lease_live_before_expiry, test_lease_dead_after_expiry,
-            test_require_raises_when_expired, test_require_permits_unleased_class_but_marks_it,
+            test_require_raises_when_expired, test_unknown_class_raises_rather_than_permitting,
+            test_max_actions_is_enforced_not_merely_recorded,
             test_no_lease_at_all_is_unauthorised, test_grant_appends_and_never_edits):
     if _tmp.exists():
         _tmp.unlink()

@@ -66,8 +66,12 @@ GATES = (
     ("lease", ["python3", "tools/executive_lease.py"]),
 )
 
+#  PATHS VERIFIED TO EXIST. Two of these were `record/deficiencies.md` and
+#  `record/deficiency-register.json`, which are not files -- the real one is
+#  `corpus/deficiencies.md`. The conflict-marker check silently examined nothing for them, which
+#  is the same class of defect as a gate reading the wrong exit code.
 GOVERNED = ("corpus/MANIFEST.sha256", "record/anchors/manifest-anchors.jsonl",
-            "record/deficiencies.md", "record/deficiency-register.json")
+            "corpus/deficiencies.md")
 
 
 def run(cmd: list[str]) -> tuple[int, str]:
@@ -76,17 +80,25 @@ def run(cmd: list[str]) -> tuple[int, str]:
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
-def preflight() -> list[str]:
+def preflight(target_branch: str) -> list[str]:
     """Everything that must hold before git is touched at all."""
     problems = []
-    try:
-        lease.require("commit")
-    except lease.LeaseExpired as expired:
-        problems.append(f"lease: {expired}")
+    #  BOTH classes. The push is separately governed and was never checked.
+    for action_class in ("commit", "push"):
+        try:
+            lease.require(action_class)
+        except (lease.LeaseExpired, lease.UnknownActionClass) as refused:
+            problems.append(f"lease ({action_class}): {refused}")
     code, branch = run(["git", "branch", "--show-current"])
     branch = branch.strip()
     if not branch:
         problems.append("HEAD is detached; a commit here is not on any branch")
+    elif branch != target_branch:
+        #  THE ACTUAL HISTORICAL DEFECT. Three commits went to a round branch while
+        #  `git push origin main` pushed an unchanged main and reported success. Checking only
+        #  for a detached HEAD left that exact path open, in the tool whose docstring cites it.
+        problems.append(f"on branch {branch!r} but asked to push {target_branch!r}; "
+                        f"committing here and pushing there is how three commits were lost")
     code, status = run(["git", "status", "--porcelain"])
     unmerged = [ln for ln in status.splitlines() if ln[:2] in
                 ("UU", "AA", "DD", "AU", "UA", "DU", "UD")]
@@ -118,7 +130,7 @@ def main() -> int:
     parser.add_argument("--note", default="", help="note recorded on both attestations")
     args = parser.parse_args()
 
-    problems = preflight()
+    problems = preflight(args.branch)
     if problems:
         for p in problems:
             print(f"  REFUSED  {p}", file=sys.stderr)
@@ -141,7 +153,12 @@ def main() -> int:
     if not (args.message or args.file):
         parser.error("-m or -F is required unless --check-only")
 
-    code, _ = run(["git", "add", "-A"])
+    code, output = run(["git", "add", "-A"])
+    if code != 0:
+        #  Its exit status was discarded. A failed stage followed by a "successful" commit of
+        #  whatever was already staged is precisely the wrong-signal class this tool exists for.
+        print(f"  REFUSED: git add exited {code}\n{output}", file=sys.stderr)
+        return 1
     commit = ["git", "commit", "-q"] + (["-F", args.file] if args.file else ["-m", args.message])
     code, output = run(commit)
     if code != 0:

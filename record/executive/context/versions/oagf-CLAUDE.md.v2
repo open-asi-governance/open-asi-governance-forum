@@ -62,13 +62,12 @@ number is worth less than a refusal to delete, because it is harder to audit.**
 
 ## Verification — where this layer has actually failed
 
-Each rule below is here because it was broken and cost real work. Most are now enforced
-mechanically; the point of restating them is that a tool only covers the path that calls it.
+Each rule below is here because it was broken on 2026-08-08 and cost real work. They are enforced
+mechanically by `tools/executive_log.py`; the point of restating them is that the gate only
+covers pushes, tests and merges.
 
 - **Read the exit code of the thing you are claiming passed.** `echo "$(basename $f) rc=$?"`
-  reports *basename's* status. Two red suites were pushed under that. On 2026-08-10
-  `run_all.py | tail -2` printed `All 16 suites passed` from an *inner* suite while the runner
-  exited **1** — this rule was already written here and `tail` is still what you reach for.
+  reports *basename's* status. Two red suites were pushed under that. Capture status directly.
 - **Check `git branch --show-current` before committing.** Three commits went to a round branch
   while `git push origin main` pushed an unchanged main and reported success.
 - **Never complete a conflicted merge without reading the conflicts.** A blind `git commit`
@@ -76,36 +75,11 @@ mechanically; the point of restating them is that a tool only covers the path th
   two files that make the record's central claim checkable. Both are append-only: when both sides
   have appended, the resolution is the **union**, verified before committing.
 - **`assert` on every string replacement.** Silent no-op edits left stale field names in place.
-- **A green signal must be causally downstream of what it certifies.** The dominant failure here,
-  and it keeps finding new spellings: `tail -1` of a failing suite; `$?` from the wrong command;
-  measuring an SSH tunnel to a different host while rounds solicited a local one; reading a stale
-  file the immutability guard had correctly refused to overwrite; comparing a `systemctl show`
-  string containing runtime state; a test that deleted 189 published pages then asserted deletion
-  is safe; `check_executive_context.py` passing on a pinned file that contained a claim already
-  proven false — **it verifies identity, not truth**; and a conflict-marker check pointed at two
-  paths that do not exist, so it examined nothing.
-- **Derive a count; never transcribe one.** Three published numbers were wrong on 2026-08-10, all
-  in this layer's favour. `derive_counts.py` exists for this and *itself* failed the same way
-  twice more before it held — first classifying an unknown schema as empty, then classifying raw
-  files by their embedded spec's type and losing the one datum it was built to protect. **A scan
-  that cannot see a file reports absence, and absence looks exactly like a true zero.**
-
-## The tools that now enforce this
-
-Prefer these to doing the steps by hand. Each exists because the manual version failed.
-
-| Tool | Use it for | What it refuses |
-|---|---|---|
-| `tools/land.py` | **The only sanctioned way to declare work done.** Runs every gate, commits, pushes, verifies the remote ref, attests. | any gate non-zero (status read from its own exit code), an expired lease, a branch that is not the push target, unmerged paths, conflict markers, a `git add` that failed |
-| `tools/derive_counts.py` | Any headline number about the corpus | an unparseable file, or one holding no solicited units whose `artifact_type` is unregistered — **and it prints no number at all when it refuses** |
-| `tools/executive_lease.py` | Checked **before** a round, write, commit, push or Codex call | an expired or absent lease, `max_actions` exhausted, or an action class it does not recognise (which raises rather than permitting) |
-| `tools/codex_call.py` | Every Codex invocation | calls inside the 10-minute floor — **except on the custodian's immediate direction**, where `--override` is expected and the reason is logged |
-| `tools/check_executive_context.py` | Verifying the governing files; `--repin --reason` to change them | drift between live and pinned; a repin archives the superseded copy to `context/versions/` rather than destroying it |
-| `tools/qualification_round.py` | A counterfactual gate before any strongly-valenced ballot | soliciting while its specs are uncommitted, a re-run of an instrument already sent (identity is the **prompt hash**, not the cohort name), and qualifying on anything less than the full cohort at its exact registered k |
-
-**A local-arm pass is `PENDING`, never `QUALIFIED`.** The local model is free, so it runs first to
-exercise the path — but a partial cohort qualifies nothing, and scoring always covers all five
-parties regardless of which arm the invocation collected.
+- **A green signal must be causally downstream of what it certifies.** This failed six ways in
+  one session: `tail -1` of a failing suite; `$?` from the wrong command; measuring an SSH tunnel
+  to a different host while rounds solicited a local one; reading a stale file the immutability
+  guard had correctly refused to overwrite; comparing a `systemctl show` string containing
+  runtime state; and a test that deleted 189 published pages then asserted deletion is safe.
 
 ## Review
 

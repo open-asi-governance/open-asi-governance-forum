@@ -47,8 +47,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RAW = REPO_ROOT / "corpus" / "raw"
 
-#  Every container in which a solicited unit may sit. A file carrying NONE of these is
-#  unrecognised and makes the run refuse -- it is not silently treated as empty.
+#  Every container in which a solicited unit may sit.
 DISPOSITIONS = ("samples", "responses", "failures", "rejected", "refusals")
 
 #  Keys under which a tool receipt list appears. Both the flat form (`search_receipts`) used in
@@ -61,6 +60,39 @@ RECEIPT_KEYS = {
 #  Directories whose parties were TOLD to use the tool. Counted, never merged with the rounds:
 #  "parties never search" and "parties never search unless asked" are different claims.
 INSTRUCTED_PREFIXES = ("toolprobe", "searchprobe", "fetchprobe")
+
+#  RECOGNITION IS BY DECLARED TYPE, NOT BY SEARCHING FOR RECEIPT-LIKE WORDS.
+#
+#  The first version asked whether a known receipt spelling appeared anywhere in the serialised
+#  document. Review broke it in one try with a schema this project has never used:
+#
+#      {"units": [{"tool_calls": [{"name": "browse", "receipt": {"ok": true}}]}]}
+#
+#  No known spelling, so it was classified "legitimately holds no solicited units" and the run
+#  returned `usable: True, total: 0`. **That is the original silent zero under a new spelling, in
+#  the tool built this morning to make it impossible.** The same test failed the other way too:
+#  a metadata document merely mentioning "search" would have been refused.
+#
+#  So a file is recognised only if it DECLARES a type this module knows. Anything else refuses,
+#  whether or not it looks like it holds receipts.
+SOLICITATION_TYPES = frozenset({
+    "solicitation", "solicitation_summary", "agenda_activation_solicitation",
+    "qualification_solicitation", "raw_samples", "local_solicitation",
+})
+
+#  Artifacts that legitimately carry no solicited units. Each is listed BY TYPE with a reason,
+#  so excluding one is a recorded decision rather than a silent classification.
+NON_SOLICITATION_TYPES = {
+    "solicitation_spec": "an outbound spec; the samples live in the raw file beside it",
+    "agenda_activation_record": "computed from raw samples, does not hold them",
+    "qualification_record": "computed from raw samples, does not hold them",
+    "agenda_cohort_exposure": "a delivery record",
+    "finding_coding": "coding over artifacts, not solicited units",
+    "freetext_coding": "coding over artifacts, not solicited units",
+    "annotation": "commentary on artifacts",
+    "contribution": "a party contribution already summarised elsewhere",
+    "deficiency_register": "the register, not a solicitation",
+}
 
 
 def _receipts(node: dict, kind: str) -> list:
@@ -95,13 +127,23 @@ def scan(kind: str) -> dict:
         if not isinstance(doc, dict):
             unrecognised.append(f"{name}: top level is {type(doc).__name__}, not an object")
             continue
+        #  PRESENCE OF UNITS DECIDES FIRST, and the declared type only breaks the tie when there
+        #  are none. The reverse order produced a THIRD silent zero within an hour of the second:
+        #  raw sample files embed their outbound `spec`, so reading `spec.artifact_type` as a
+        #  fallback classified them as `..._solicitation` and excluded them wholesale. The
+        #  corpus-wide search count silently fell from 9 to 8 and the one numbered-round receipt
+        #  disappeared -- the exact datum the whole module was built to stop losing.
+        #
+        #  A file holding solicited units is counted whatever it calls itself. Only a file with
+        #  NO units needs a type, and an unknown one refuses rather than passing as empty.
         containers = [k for k in DISPOSITIONS if isinstance(doc.get(k), list)]
         if not containers:
-            #  A spec or index file legitimately holds no solicited units. Distinguish it from a
-            #  schema this module has never seen by requiring it to hold no receipts either.
-            blob = json.dumps(doc)
-            if any(k in blob for group in RECEIPT_KEYS.values() for k in group):
-                unrecognised.append(f"{name}: holds receipts but no known disposition container")
+            declared = doc.get("artifact_type")
+            if declared in NON_SOLICITATION_TYPES:
+                continue                      # excluded by a recorded decision, not by accident
+            unrecognised.append(
+                f"{name}: holds none of {DISPOSITIONS} and declares artifact_type {declared!r}, "
+                f"which is not registered in NON_SOLICITATION_TYPES")
             continue
         bucket = ("instructed" if name.split("/")[0].startswith(INSTRUCTED_PREFIXES)
                   else "rounds" if name.split("/")[0].startswith("round-") else "other")

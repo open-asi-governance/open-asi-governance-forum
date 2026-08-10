@@ -45,6 +45,15 @@ source of truth that could disagree with the log, and the log is what an auditor
 attempt does not reset the clock, and the call is logged BEFORE it runs, so a crashed invocation
 is not an unrecorded one.
 
+The floor does NOT apply to work the custodian just asked for
+--------------------------------------------------------------
+Owner, 2026-08-10: *"Ignore Codex rate limits when acting on my immediate direction. You then
+call Codex without any wait."* The floor is a spending control on review this layer initiates on
+its own. Making the custodian wait ten minutes for a review he just requested inverts its purpose
+-- it spends his time to save his money. On immediate direction, pass `--override` with the
+direction as the reason and proceed. The exemption is therefore visible in the action log rather
+than silent, and the floor still binds self-initiated review.
+
 The override is logged, always
 -------------------------------
 `--override` exists because the custodian said "unless I say otherwise". It never bypasses the

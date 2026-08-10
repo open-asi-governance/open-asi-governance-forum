@@ -92,6 +92,33 @@ Automating the mechanics of a ballot does nothing about which propositions reach
 
 ---
 
+## What review found in the automations themselves
+
+Every tool on this list was reviewed after it was built, and **two of the three had the defect
+they were built to prevent**:
+
+* `derive_counts.py` returned `usable: True, total: 0` for a schema this project has never used —
+  the silent zero again, in the module written that morning to make it impossible. Repaired to
+  recognise by declared type; the repair then classified raw files by their *embedded spec's*
+  type and dropped the corpus search count from 9 to 8, losing the single numbered-round receipt.
+  **Presence of units now decides first, and the declared type only breaks the tie when there are
+  none.** Three spellings of one bug in one day.
+* `land.py` checked only for a detached HEAD, leaving open the exact wrong-branch path its own
+  docstring cites; discarded `git add`'s exit status; and listed two `GOVERNED` paths that do not
+  exist, so its conflict-marker check examined nothing for them.
+* `executive_lease.py` **returned a permissive result** for any action class it did not
+  recognise, which said yes to a misspelling under a dead lease — recreating the taxonomy hole
+  the lease was built to close. It now raises `UnknownActionClass`, and enforces `max_actions`,
+  which had been recorded and never read.
+
+The pattern is worth stating plainly: **a tool written to catch a failure class is not immune to
+it, and is in fact a likely place to find it**, because its author has just convinced themselves
+the problem is solved.
+
+There is still **no universal chokepoint**. The closest is `solicit_api.py`, through which every
+paid round eventually passes; the lease is checked by `land.py` and the round instruments, not by
+the transport. A shell-level bypass remains available to anything in this environment.
+
 ## Order
 
 1 and 4 first — cheapest, and 1 is a prerequisite for scoring the qualification round honestly.

@@ -168,6 +168,31 @@ def check_source_hash(document: dict, report: Report) -> None:
             check_one_anchor(f"sources[{index}]", source, report)
         return
 
+    if document.get("artifact_type") == "qualification_record":
+        #  CROSS-FIELD invariants JSON Schema cannot express. Without these, a one-party result
+        #  listing five sources validated cleanly and a `qualified: true` could coexist with a
+        #  failed party.
+        expected = set(document.get("expected_parties") or [])
+        scored = set((document.get("per_party") or {}).keys())
+        if expected != scored:
+            report.error("QUAL", f"per_party covers {sorted(scored)}, expected {sorted(expected)}")
+        failed = [p for p, r in (document.get("per_party") or {}).items() if not r.get("passed")]
+        if document.get("qualified") and failed:
+            report.error("QUAL", f"qualified is true while {sorted(failed)} did not pass")
+        if document.get("qualified") and document.get("state") != "QUALIFIED":
+            report.error("QUAL", "qualified is true but state is not QUALIFIED")
+        k_by = document.get("k_by_party") or {}
+        for party, result in (document.get("per_party") or {}).items():
+            if result.get("passed") and result.get("k_collected") != k_by.get(party):
+                report.error("QUAL", f"{party} passed with k_collected "
+                                     f"{result.get('k_collected')} != registered {k_by.get(party)}")
+        named = {Path(s["path"]).name for s in (document.get("sources") or [])}
+        for party in expected:
+            if any(party in n for n in named):
+                continue
+            if (document.get("per_party") or {}).get(party, {}).get("k_collected"):
+                report.error("QUAL", f"{party} has samples but no anchored source")
+
     if document.get("artifact_type") == "freetext_coding":
         check_one_anchor("coded_source", document.get("coded_source", {}), report)
         return
