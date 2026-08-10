@@ -21,19 +21,47 @@ requirement, narrow enough to implement in an afternoon.
 That is the whole normative content. Everything below is how to say it in a file and how to
 verify it.
 
-## 2. Why this and not a general evidence framework
+## 2. Prior art, and the correction that names it
 
-ISO/IEC 42001 and the NIST AI RMF both require an organisation to have controls and to test them.
-Neither supplies a mechanical test for the question that keeps mattering in practice:
+**CORRECTED 2026-08-10, before any outreach was sent.** This section previously claimed that
+ISO/IEC 42001 and the NIST AI RMF supply no mechanical test for *"could this check have passed
+anyway?"*, and that the test "almost nobody runs". **That was false, and it was the load-bearing
+claim of the whole profile.** The idea is established in two fields, under two names:
 
-> **Could this check have passed anyway?**
+* **Mutation testing.** Inject a fault into the code and verify the test suite catches it. An
+  academic field since the late 1970s, still active — see Just et al., *Are Mutants a Valid
+  Substitute for Real Faults in Software Testing?* (FSE 2014), and recent work such as *Hybrid
+  Fault-Driven Mutation Testing for Python* (2026). A test suite with low mutation score is
+  precisely a suite that has not been observed to fail.
+* **Chaos engineering, and observability validation within it.** Inject a failure and verify the
+  alert fires. This is mainstream industry practice with vendor and cloud-provider guidance, and
+  a 2025 paper titled *Chaos Engineering for Monitoring Systems* addresses silent failures in
+  alert pipelines directly.
 
-That question has a cheap, executable answer — break the thing on purpose and confirm the check
-notices — and almost nobody runs it, because a passing check is psychologically indistinguishable
-from a working one.
+The claim was written by this project's own executive workbench, in its own favour, and survived
+publication. It is corrected here rather than quietly deleted because the register's control 10 —
+the assurance claim boundary — exists for exactly this, and a specification that overclaims while
+publishing a control against overclaiming is worth recording.
 
-The requirement is deliberately smaller than a framework. A profile that competes with ISO 42001
-has no path to relevance; one that supplies a missing test can plug into either.
+### What is left, stated narrowly
+
+The **mechanism is not new.** What may still be missing is the **artifact**:
+
+> Mutation testing and chaos engineering are *practices*, evaluated internally and reported, if at
+> all, as a score or an incident review. Neither produces a **bounded, machine-verifiable
+> attestation that a third party can check** — one that names the check, the perturbation, the
+> observed failure, the artifact identity, and a claim grammar that forbids generalising from it.
+
+That is a packaging contribution, not a conceptual one, and it may also turn out to be claimed —
+this project has now been wrong once about what is unclaimed and should be assumed capable of it
+again. **The strongest reason to want an outside reader is to be told.**
+
+### What the empirical result still shows
+
+Untouched by any of this: applied adversarially to one implementer's production checks, **four of
+five survived the condition they existed to detect.** Whatever the technique is called, and
+however long it has had a name, it was not being applied to them. That is the finding, and it does
+not depend on the profile being novel.
 
 ## 3. The failure this is derived from
 
