@@ -1253,7 +1253,8 @@ CHUNK = 200
 def build_sitemap(plan: list[dict]) -> dict[str, str]:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
-            "controls.html", "controls.md", "challenge.html", "challenge.md",
+            "controls.html", "controls.md", "controls-b.html", "controls-c.html",
+            "controls-d.html", "challenge.html", "challenge.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
             "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
     #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
@@ -1321,7 +1322,8 @@ def main() -> int:
              #  deleted a page that had just been published and reported success -- the link
              #  checker caught it, nothing else would have. Any new generated page must be added
              #  here in the same commit that generates it.
-             "controls.html", "controls.md", "challenge.html", "challenge.md", "challenge.html", "challenge.md",
+             "controls.html", "controls.md", "controls-b.html", "controls-c.html",
+             "controls-d.html", "challenge.html", "challenge.md", "challenge.html", "challenge.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
     #  written -- the shared-subtree failure this repository has now had twice.

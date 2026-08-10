@@ -607,6 +607,119 @@ CHARTER_CONTROLS = [
 CONTROLS = CONTROLS + CHARTER_CONTROLS
 
 
+#  ── Controls from a self-improvement engine design held by one implementer, 2026-08-10 ──
+#
+#  ABSTRACTED. The source carries no confidentiality marking, unlike the charter, but absence of
+#  a marking is not permission and the disclosure rule makes abstraction the default. No product
+#  name, component name, package, threshold or benchmark from the source appears here.
+#
+#  ALL BELOW THE LINE: no recorded failure with a cost. Two of the four were surfaced not by what
+#  the source PRESCRIBES but by what its design decisions IMPLY -- see the two findings recorded
+#  in the register's design notes.
+EVOLVING = ("the system generates candidate modifications to itself and selects among them by a "
+            "measured score")
+
+ENGINE_CONTROLS = [
+ {"rank": 24, "name": "The fitness function is a protected artifact", "eligible": False,
+  "applies_when": EVOLVING,
+  "requirement": "The scoring function that selects among self-modifications MUST be protected to "
+                 "at least the standard of the constraints themselves. Changing the weights "
+                 "changes what the system evolves toward, and does so more powerfully than "
+                 "changing any single candidate.",
+  "failure": "None recorded here. It is offered because control 1's protected set covers "
+             "constraints, authorization records, logs and gates — and a scoring function is none "
+             "of those, while being the thing that decides which future the system moves into.",
+  "verifier": "treat the scoring function, its weights and its inputs as enumerated protected "
+              "artifacts under control 19; refuse any self-generated modification that touches "
+              "them, whatever its measured score.",
+  "fixture": "a candidate modification that improves its own score by adjusting a weight",
+  "recovery": "Revert the scoring function and re-evaluate every candidate promoted under the "
+              "modified version. Those promotions are unverified, not merely suspect.",
+  "false_negative": "A review that checks whether the winning candidate is good. The question is "
+                    "whether the contest was, and a review of winners cannot see a changed rule.",
+  "not": "That the scoring function is a good one. It makes the function stable and contestable, "
+         "not correct — a protected bad objective is pursued consistently.",
+  "example": "A school decides which teaching methods to keep by exam results, and also lets the "
+             "same committee set the exam. Every method it keeps does improve results. Nobody can "
+             "say whether the teaching improved or the paper got easier."},
+
+ {"rank": 25, "name": "Declared substitution of a weaker guarantee", "eligible": False,
+  "applies_when": "a system replaces a formal guarantee with an empirical one",
+  "requirement": "Where a design substitutes measurement for proof — accepting a change because "
+                 "scores improved rather than because it was shown to be sound — the "
+                 "substitution MUST be declared, and the residual risk it creates MUST be stated "
+                 "wherever the resulting assurance is claimed.",
+  "failure": "None recorded here. The design that prompted it substitutes benchmark validation "
+             "for formal proof and says so plainly in its own text, which is the behaviour this "
+             "control asks for — but the substitution's consequence is not carried forward to "
+             "the claims made downstream of it.",
+  "verifier": "require the claim attached to any promoted change to name the guarantee actually "
+              "obtained. A claim of soundness backed by a score is rejected by the claim "
+              "grammar of control 10.",
+  "fixture": "a promoted change whose assurance claim asserts correctness while its evidence is "
+             "a benchmark delta",
+  "recovery": "Restate the claim at the strength the evidence supports. Nothing needs reverting; "
+              "what needs correcting is what was said about it.",
+  "false_negative": "A review that confirms the benchmarks improved and the substitution was "
+                    "disclosed somewhere. Disclosure in the design document does not travel with "
+                    "the claim.",
+  "not": "That the substitution is wrong. Measurement instead of proof is often the only "
+         "available option; what this forbids is inheriting proof's authority while using "
+         "measurement's evidence.",
+  "example": "A bridge design that would once have required a load calculation is now signed off "
+             "because a scale model held. That may be perfectly reasonable. The certificate must "
+             "still say the model held, not that the bridge is proven."},
+
+ {"rank": 26, "name": "Bounded execution before promotion", "eligible": False,
+  "applies_when": EVOLVING + ", and candidates are executed to be scored",
+  "requirement": "A candidate self-modification MUST be executed only under declared and enforced "
+                 "bounds on time, memory and reachable capabilities, and MUST be unable to affect "
+                 "the state used to score it or any other candidate.",
+  "failure": "None recorded here. Distinct from control 4, which governs AUTHORITY to act: this "
+             "governs what an unpromoted candidate can reach while it is merely being measured.",
+  "verifier": "assert the bounds are set from a protected configuration rather than by the "
+              "candidate; assert the sandbox denies by default; run a candidate that deliberately "
+              "attempts to exceed each bound and confirm it is stopped.",
+  "fixture": "a candidate that writes to the scoring store; a candidate that runs past its time "
+             "bound and is scored anyway",
+  "recovery": "Discard the whole generation, not the offending candidate. A candidate that could "
+              "reach the scoring state may have altered the scores of its rivals.",
+  "false_negative": "A review that confirms a sandbox is configured. The question is whether it "
+                    "has ever been observed to stop anything — which is control 2 applied to the "
+                    "sandbox itself.",
+  "not": "That the bounds are the right ones, or that the sandbox is sound against a candidate "
+         "specifically trying to escape it.",
+  "example": "A seed trial gives each variety its own plot, its own water and its own measuring "
+             "tape. A variety planted in the same plot as its rivals may win by shading them, and "
+             "the yield figures will not show it."},
+
+ {"rank": 27, "name": "Diversity floor under selection", "eligible": False,
+  "applies_when": EVOLVING + ", over a population",
+  "requirement": "A selection process MUST measure the diversity of its population and MUST halt "
+                 "or inject variation when diversity falls below a declared floor, rather than "
+                 "continuing to select from a converged field.",
+  "failure": "None recorded here as an incident, though this register holds an adjacent one: a "
+             "five-member review panel returned zero refusals in 108 positions, and the "
+             "explanation offered for such panels is that reviewers sharing training, tooling and "
+             "framing are weak diversity under different names.",
+  "verifier": "compute a declared diversity statistic each generation; refuse to promote when it "
+              "is below the floor; record the statistic whether or not it triggered.",
+  "fixture": "a generation in which every candidate descends from one parent, promoted on score",
+  "recovery": "Inject variation and re-run the generation. Candidates promoted from a converged "
+              "field were selected against a narrower comparison than the record implies.",
+  "false_negative": "A review that observes scores still improving. A converged population "
+                    "improves on the dimension it has converged around, which is what makes the "
+                    "collapse invisible.",
+  "not": "That the diversity statistic measures the diversity that matters. Two candidates can "
+         "differ greatly by the metric and identically where it counts.",
+  "example": "An orchard replanted only from its best-yielding tree produces excellent fruit for "
+             "years, and then loses everything to one disease. Each replanting decision was "
+             "correct on the evidence available at the time."},
+]
+
+CONTROLS = CONTROLS + ENGINE_CONTROLS
+
+
 def partitions() -> list:
     """Four groups, ordered by what a reader can DO with them.
 
@@ -646,7 +759,7 @@ def partitions() -> list:
     ]
 
 
-def markdown() -> str:
+def markdown(only: str | None = None, pager: str = "") -> str:
     groups = partitions()
     eligible = sum(len(g[3]) for g in groups[:3])
     lines = [
@@ -696,7 +809,11 @@ def markdown() -> str:
       "confident builder and a signal that could not fail.",
       "",
     ]
+    if pager:
+        lines += [pager, ""]
     for key, title, blurb, items in groups:
+        if only and key != only:
+            continue
         lines += ["---", "", f"# Part {key} — {title}", "", blurb, ""]
         for c in items:
             badge = "`ELIGIBLE`" if c.get("eligible", True) else "**below the eligibility line**"
@@ -720,7 +837,8 @@ def markdown() -> str:
                 lines += ["**Example.**", "", c["example"], ""]
             if c.get("spec"):
                 lines += [f"**Specification.** `{c['spec']}`", ""]
-    lines += WORKED_EXAMPLE.splitlines()
+    if only in (None, 'A'):
+        lines += WORKED_EXAMPLE.splitlines()
     return "\n".join(lines) + "\n"
 
 
@@ -833,18 +951,50 @@ our architecture rather than a general mechanism, and we would rather publish th
 
 def main() -> int:
     DOCS.mkdir(parents=True, exist_ok=True)
-    md = markdown()
-    (DOCS / "controls.md").write_text(md, encoding="utf-8")
-    (DOCS / "controls.html").write_text(
-        b.md_to_html(md, "Candidate controls — OAGF", alternate="controls.md"), encoding="utf-8")
-    approx_tokens = int(len(md) / 4.08)
-    print(f"  docs/controls.md   {len(md):,} chars  (~{approx_tokens:,} tokens)")
-    print(f"  docs/controls.html")
-    for key, title, _, items in partitions():
-        print(f"    Part {key}  {len(items):2d}  {title}")
-    print(f"  {len(CONTROLS)} controls; "
-          f"{sum(1 for c in CONTROLS if c.get('eligible', True))} eligible, "
-          f"{sum(1 for c in CONTROLS if not c.get('eligible', True))} below the line")
+    groups = partitions()
+
+    #  ONE PAGE PER PART. The register outgrew the ~20,000-token ceiling at 27 controls, and the
+    #  partitioning is the page break a reader already wants: Part A is what you can use today,
+    #  Part D is what has no incident behind it. Splitting anywhere else would cut across the
+    #  distinction the page exists to draw.
+    def slug(key):
+        return "controls.html" if key == "A" else f"controls-{key.lower()}.html"
+
+    for path in DOCS.glob("controls-*.html"):
+        path.unlink()
+    for key, title, _, items in groups:
+        links = "".join(
+            f'<a href="{slug(k)}"{" aria-current=\"page\"" if k == key else ""}>'
+            f'Part {k} ({len(i)})</a>' for k, _t, _b, i in groups)
+        pager = f'<nav class="pager">{links}</nav>'
+        md = markdown(only=key, pager=" · ".join(
+            f"[Part {k}]({slug(k)})" for k, _t, _b, _i in groups))
+        (DOCS / slug(key)).write_text(
+            b.md_to_html(md, f"Candidate controls, Part {key} — OAGF",
+                         alternate="artifacts/controls.md"), encoding="utf-8")
+
+    #  The WHOLE register as one markdown file, byte-identical and suitable for hashing, served
+    #  as a download rather than a page -- the resolution the deficiency register and the
+    #  prediction registry both reached for the same conflict between "reachable as plain text"
+    #  and "no page over the ceiling".
+    full = markdown()
+    (DOCS / "artifacts").mkdir(parents=True, exist_ok=True)
+    (DOCS / "artifacts" / "controls.md").write_text(full, encoding="utf-8")
+    (DOCS / "controls.md").write_text(
+        "# Candidate controls\n\n"
+        f"{sum(1 for c in CONTROLS if c.get('eligible', True))} eligible, "
+        f"{sum(1 for c in CONTROLS if not c.get('eligible', True))} below the eligibility line.\n\n"
+        "**The complete register, byte-identical and suitable for hashing, is a download rather "
+        "than a page:**\n\n- [artifacts/controls.md](artifacts/controls.md)\n\nParts:\n\n"
+        + "\n".join(f"- [Part {k} — {t}]({slug(k)}) · {len(i)} control(s)"
+                     for k, t, _b, i in groups)
+        + "\n\nEvery control here is `ELIGIBLE` at best. None has been attacked by anyone or "
+          "implemented by anyone outside this project, and `INDEPENDENTLY-IMPLEMENTED` is the "
+          "only status that would make any of it authoritative.\n", encoding="utf-8")
+
+    for key, title, _, items in groups:
+        print(f"    Part {key}  {len(items):2d}  {title}  -> {slug(key)}")
+    print(f"  {len(CONTROLS)} controls; full register {len(full):,} chars under docs/artifacts/")
     return 0
 
 

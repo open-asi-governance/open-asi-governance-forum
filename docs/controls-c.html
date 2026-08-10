@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="artifacts/controls.md"><title>Candidate controls, Part C — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p>Assurance controls for systems that can still be audited. Each is one requirement, derived from a failure that actually happened, with a program that checks it and a fixture that program must reject.</p>
+
+<p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
+
+<h2>The four parts</h2>
+
+<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+
+<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+
+<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+
+<p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
+
+<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+
+<p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<p><strong>Part D — Below the eligibility line</strong> · 14 control(s)</p>
+
+<p>  <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p>---</p>
+
+<h2>Status: everything here is <code>ELIGIBLE</code> at best</h2>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+
+<p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
+
+<h2>What none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.</p>
+
+<p>What these actually do is narrower: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail.</p>
+
+<p><a href="controls.html">Part A</a> · <a href="controls-b.html">Part B</a> · <a href="controls-c.html">Part C</a> · <a href="controls-d.html">Part D</a></p>
+
+<p>---</p>
+
+<h1>Part C — Needs a goal or plan graph</h1>
+
+<p>These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<h2>11. Aggregate threshold evasion</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any threshold gate exists over a set of actions that can be split.</p>
+
+<blockquote>A threshold that triggers protected-change mediation MUST be evaluated over the UNION of a plan set&#x27;s effects — protected artifacts, evidence channels, authority, autonomy, tool scope, successor scope — not over each child separately.</blockquote>
+
+<p><strong>Recorded failure.</strong> 12 gate modifications in one lease window, each an ordinary small commit, collectively a rewrite of the control plane. No individual one crossed any threshold because nothing evaluated the union. The source names the same class: a benchmark change split into test cleanup, threshold adjustment, documentation and compliance refresh, each framed as routine.</p>
+
+<p><strong>Verifier.</strong> union the declared effects across the plan set, re-apply the trigger predicate to the union, and refuse the set if it crosses while no child did.</p>
+
+<p><strong>Fixture it must reject.</strong> four child plans, each below threshold, whose union modifies a validator and a benchmark</p>
+
+<p><strong>Recovery.</strong> Suspend the whole set, not the child that happened to be noticed, and re-mediate as one change. Approving the remainder because most of it looked routine is the evasion completing.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks each change against the threshold. That is the evasion&#x27;s design assumption, and it is what every per-action gate does.</p>
+
+<p><strong>Does not establish.</strong> That the effect union was declared honestly; that the trigger predicate names the right artifacts; anything about intent — this catches the shape, not the motive.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A department splits a £9,000 purchase into three £3,000 orders because the £5,000 threshold triggers a procurement review. Each order is genuinely under the limit. Every individual approval is correct. The control is to sum the orders sharing a supplier and a month before applying the limit at all.</p>
+
+<h2>12. Authority expiry inheritance</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority.</p>
+
+<blockquote>An action&#x27;s authorisation MUST expire with its parent&#x27;s. Completing work after the parent plan, source document or authority window has lapsed is not authorised action, however useful the output.</blockquote>
+
+<p><strong>Recorded failure.</strong> A ten-action sunset was passed at twenty-three because the work in flight felt continuous and nothing checked the bound. The source calls this a classic agentic failure precisely because the local task still looks productive.</p>
+
+<p><strong>Verifier.</strong> at each decision event, resolve the parent chain and refuse if any ancestor has expired, retired, or had its source fingerprint change since activation.</p>
+
+<p><strong>Fixture it must reject.</strong> a task completing successfully under a campaign retired an hour earlier</p>
+
+<p><strong>Recovery.</strong> Suspend, then either re-authorise explicitly under the current parent or retire the work. Do not accept the output and backfill the authority.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that validates the task&#x27;s own prompt or ticket and finds it current. Freshness at the leaf says nothing about the root.</p>
+
+<p><strong>Does not establish.</strong> That the parent was rightly authorised; that expiry timestamps are accurate; anything about work never routed through a parent at all.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A student keeps running an approved animal-study protocol for three weeks after the ethics approval lapsed, because the experiment was mid-series and stopping would waste the cohort. The data is real. It is also unauthorised, and no amount of quality in the results repairs that.</p>
+
+<h2>13. Re-proposal linkage</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system where a proposal can be refused and later re-offered.</p>
+
+<blockquote>A proposal MUST be classified by MECHANISM AND EFFECT, not by label, and a proposal touching the same mechanism as a previously refused one MUST cite that refusal.</blockquote>
+
+<p><strong>Recorded failure.</strong> In one qualification round all 26 samples correctly identified a variant permitting an exception logged AFTER the fact as the more permissive text. In the ballot two rounds later, the same latitude returned as an amendment and was proposed rather than refused. The source names the pattern: self-preservation returns as uptime hygiene, benchmark capture as deflaking, authority expansion as workflow simplification.</p>
+
+<p><strong>Verifier.</strong> key refusals by protected artifact, mechanism and intended effect rather than by identifier or title; on a new proposal, match those keys and require the prior refusal to be cited and addressed.</p>
+
+<p><strong>Fixture it must reject.</strong> a refused proposal re-submitted with identical effect and a different name</p>
+
+<p><strong>Recovery.</strong> Reopen the original refusal rather than judging the new proposal fresh. If the refusal was wrong, overturn it explicitly; a silent second bite is what the control exists to stop.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that matches on identifiers or titles. The source is explicit that matching exact IDs instead of mechanism, artifact and effect is the false-negative condition.</p>
+
+<p><strong>Does not establish.</strong> That the original refusal was correct; that mechanism keys are exhaustive — semantic novelty can evade any fixed key set, which the source also states.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A journal desk-rejects a paper. Six months later it arrives under a new title with a reordered author list and the same dataset and analysis. The control is to key submissions by dataset and method rather than by title, and to surface the prior decision to the new editor.</p>
+</body></html>

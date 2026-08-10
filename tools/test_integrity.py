@@ -723,17 +723,29 @@ print(json.dumps(out))
         #  The candidate controls view. It is not a record page, so it needs its own cases --
         #  and it needs them because publishing it broke CI on the reachability check while
         #  every local gate stayed green.
+        #  SPLIT BY PART at 27 controls. This asserted "Protected control plane" appeared on
+        #  controls.html, which stopped being true when the register was partitioned: that
+        #  control needs a second key holder, so it lives in Part B. The ordering claim belongs
+        #  against the WHOLE register, which is the download.
         controls = (c / "docs/controls.html")
-        case("the candidate controls page is published", controls.is_file())
+        whole = (c / "docs/artifacts/controls.md")
+        case("Part A of the candidate controls is published", controls.is_file())
         case("...and is linked from the landing page", 'href="controls.html"' in index)
-        case("...and has a markdown alternate", (c / "docs/controls.md").is_file())
-        case("...and leads with status rather than rank",
-             controls.is_file() and
-             controls.read_text(encoding="utf-8").index("ELIGIBLE") <
-             controls.read_text(encoding="utf-8").index("Protected control plane"))
-        case("...and states that no control establishes alignment of a more capable system",
-             controls.is_file() and "more capable than its operators" in
-             controls.read_text(encoding="utf-8"))
+        case("...and every other part is published",
+             all((c / f"docs/controls-{k}.html").is_file() for k in ("b", "c", "d")))
+        case("...and the whole register is downloadable for hashing", whole.is_file())
+        case("...and controls.md indexes the parts and the download",
+             (c / "docs/controls.md").is_file() and
+             "artifacts/controls.md" in (c / "docs/controls.md").read_text(encoding="utf-8"))
+        case("...and status leads rank in the whole register",
+             whole.is_file() and
+             whole.read_text(encoding="utf-8").index("ELIGIBLE") <
+             whole.read_text(encoding="utf-8").index("Protected control plane"))
+        case("...and every part states that no control establishes alignment of a more "
+             "capable system",
+             all("more capable than its operators" in
+                 (c / f"docs/controls{sfx}.html").read_text(encoding="utf-8")
+                 for sfx in ("", "-b", "-c", "-d")))
 
         challenge = (c / "docs/challenge.html")
         case("the implementation challenge is published", challenge.is_file())
