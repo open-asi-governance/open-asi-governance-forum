@@ -22,10 +22,26 @@ The underlying gap is that no rule existed. See `record/designs/implementer-disc
 ## What was done
 
 The Negative Control Profile (`spec/ncp/ncp-v0.1.md`) was written from AS-01's recorded failure —
-a health check that stayed green through a **4h37m** outage because it exercised a code path that
-had not died. The obvious next question is whether that was one unlucky check or a class. So the
-requirement was applied adversarially to Consullo's *existing* checks: not to demonstrate
-conformance, but to find checks that cannot fail.
+a health check that stayed green after the service died, because it exercised a code path that had
+not died.
+
+**CORRECTED 2026-08-10, before the finding was cited in outreach.** This sentence, and F1 below,
+said the outage lasted **4h37m**. That is not what the source records. AS-01 states the service
+*"ran correctly for 4 hours 37 minutes and then died permanently"*, and again that the fault
+*"surfaced only after 4h37m of correct operation"*. **4h37m is the period of CORRECT OPERATION
+before the failure. The duration of the undetected outage is not stated anywhere in the record.**
+The source contains one line that says otherwise — *"4h37m of undetected outage"* — which
+contradicts its own two other statements; reconciling it is the implementer's call, not ours.
+
+The error ran in this project's favour: an undetected outage of 4h37m is a worse-sounding fact
+than a service that worked for 4h37m and then died. It was caught by external review while
+drafting an email that would have asserted it to ten researchers. That is the fourth
+self-favouring factual error here in two days, and the fourth caught by someone other than the
+gates.
+
+The obvious next question was whether that was one unlucky check or a class, so the requirement
+was applied adversarially to Consullo's *existing* checks — not to demonstrate conformance, but to
+find checks that cannot fail.
 
 > Every check that produces an assurance signal MUST ship with a negative control — a condition
 > under which the check is required to fail — and the attestation MUST record that the control was
@@ -51,8 +67,8 @@ Attestation: `record/attestations/ncp-2026-08-10-consullo.json`. Verifier:
 
 The probe tests that the service port accepts a TCP connection. **Accepting a connection is
 something a dead service does.** AS-01's recorded failure state was a process that stayed alive
-and kept serving HTTP after its engine died — so this probe would have returned success for all
-4 hours 37 minutes.
+and kept serving HTTP after its engine died — so this probe would have returned success for the
+whole of that undetected period, **whose length the record does not state.**
 
 Executed against a listener that accepts and serves nothing: **the probe reported the port open
 and exited 0.** Same structural blindness as the check that caused AS-01, in a different check, in
