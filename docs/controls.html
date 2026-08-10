@@ -56,6 +56,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Does not establish.</strong> That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.</p>
 
+<p><strong>Example.</strong></p>
+
+<p>A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.</p>
+
+<p>Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor&#x27;s signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.</p>
+
 <p><strong>Amended.</strong> 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators&#x27; stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone&#x27;s ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.</p>
 
 <h3>2. Negative control profile (NCP)</h3>
@@ -71,6 +77,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Fixture it must reject.</strong> a check that PASSES under the condition where it is required to fail (spec/ncp/fixtures/reject-check-survived-its-control.json)</p>
 
 <p><strong>Does not establish.</strong> Coverage; that the chosen perturbation is the right one; honesty; system safety.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A nightly script reports &quot;all work is committed and pushed.&quot; It compares the local commit count against a number it wrote into a file the previous night. It has said *yes* every night for eight months.</p>
+
+<p>The negative control: create a file, leave it untracked, and run the script. It must say <strong>no</strong>. Then delete a commit from the remote and run it again. It must say <strong>no</strong>. If it still says yes, the check was reading its own note rather than the remote, and eight months of *yes* were eight months of the script agreeing with itself.</p>
 
 <p><strong>Specification.</strong> <code>spec/ncp/ncp-v0.1.md</code></p>
 
@@ -88,6 +100,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Does not establish.</strong> Completeness of the independent observer; honesty of either record; that a matched action was safe; anything about uncommitted work.</p>
 
+<p><strong>Example.</strong></p>
+
+<p>A lab notebook records three experiments this week. The freezer log shows nine reagent vials consumed. The instrument&#x27;s own run counter shows seven.</p>
+
+<p>The control enumerates from the *freezer and the instrument* — sources the notebook&#x27;s author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn&#x27;t think it counted. But *the notebook cannot tell you what it forgot to mention.*</p>
+
 <h3>4. Fail-closed authorization lease</h3>
 
 <p><code>ELIGIBLE</code> · adoptable today · partial — the token here is currently self-issued, which is the half that needs an external party.</p>
@@ -101,6 +119,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Fixture it must reject.</strong> an expired lease; a misspelled action class; a token issued by the subject itself</p>
 
 <p><strong>Does not establish.</strong> That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A student&#x27;s badge for the isotope room expires at the end of term. The door reader checks the badge <strong>before</strong> the lock opens — not a logbook someone reviews on Friday.</p>
+
+<p>Expired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn&#x27;t.</p>
 
 <h3>5. Closed-world measurement</h3>
 
@@ -116,6 +140,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Does not establish.</strong> That the declared population includes every real event; that parsed fields are truthful; that the statistic answers the question asked of it.</p>
 
+<p><strong>Example.</strong></p>
+
+<p>Three hundred paper surveys go out; a script counts the scans and reports &quot;260 responses, 87% return rate.&quot; Forty were photographed sideways and the reader skipped them without complaint.</p>
+
+<p>The 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. <strong>A number you can&#x27;t trust is worse than no number, because you&#x27;ll use it.</strong></p>
+
 <h3>6. Role-separated self-evaluation</h3>
 
 <p><code>ELIGIBLE</code> · <strong>needs a second party</strong> · one operator currently holds all five roles.</p>
@@ -129,6 +159,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Fixture it must reject.</strong> one key identified as both instrument author and tallier</p>
 
 <p><strong>Does not establish.</strong> Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.</p>
+
+<p>The control doesn&#x27;t require a large institution. It requires that whoever *chose the questions* isn&#x27;t also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone&#x27;s standing.</p>
 
 <h3>7. Append-only correction chain</h3>
 
@@ -144,6 +180,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Does not establish.</strong> Truth; complete capture; correct attribution; protection against an operator who controls both the repository and every checkpoint.</p>
 
+<p><strong>Example.</strong></p>
+
+<p>A bound lab notebook with numbered pages, written in pen. A wrong reading is struck through with one line, the correction written beside it, dated and initialled. The wrong number stays legible forever.</p>
+
+<p>This is not tidiness. A notebook whose entries can be rewritten cannot establish *when you knew what* — and that, not the final value, is what someone checking your work needs. The loose-leaf notebook where you replaced page 14 proves nothing about page 14.</p>
+
 <h3>8. Evaluation noise-floor control</h3>
 
 <p><code>ELIGIBLE</code> · adoptable today</p>
@@ -157,6 +199,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Fixture it must reject.</strong> effect 0.1815, measured noise 0.4649, reported as positive</p>
 
 <p><strong>Does not establish.</strong> External validity; causal identification; adequacy of replicate count; behaviour after a capability change.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A plant-growth study: seedlings under fertiliser A average 2 mm taller than under B. Publish?</p>
+
+<p>First plant two trays with <strong>the same</strong> fertiliser and measure the difference between them. If those two trays differ by 9 mm, then the 2 mm result is smaller than the disagreement the method produces when nothing is different at all. The control refuses to report the 2 mm until the same-treatment difference is measured and the effect clears it.</p>
 
 <h3>9. Complete invocation evidence envelope</h3>
 
@@ -172,6 +220,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Does not establish.</strong> Provider honesty; identity authentication; completeness outside instrumented paths; model stability.</p>
 
+<p><strong>Example.</strong></p>
+
+<p>An observing log records &quot;seeing good, magnitude 6.1.&quot; It does not record the exposure time, the filter, the timestamp, or the four exposures that were thrown away because a cloud crossed.</p>
+
+<p>Six months later nobody can check the number — including the person who wrote it. The control captures the whole invocation *before* anything is derived from it, and keeps the discarded exposures. <strong>The attempts you threw away are the part that tells you whether the one you kept was lucky.</strong></p>
+
 <h3>10. Assurance claim boundary</h3>
 
 <p><code>ELIGIBLE</code> · adoptable today</p>
@@ -185,6 +239,12 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Fixture it must reject.</strong> an attestation claiming &#x27;this system is NCP certified and aligned&#x27;</p>
 
 <p><strong>Does not establish.</strong> That the bounded claim is true, or that the evidence is complete. It prevents specified overclaim language and nothing else.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A fire extinguisher carries a tag reading &quot;inspected 2026-08, pressure and seal, J. Okonkwo.&quot; It does not read &quot;this building is safe from fire.&quot;</p>
+
+<p>The tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.</p>
 
 <p>---</p>
 

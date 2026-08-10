@@ -1,0 +1,357 @@
+{
+  "spec": {
+    "spec_version": "oagrc-ratification-ballot-0.1",
+    "artifact_type": "ratification_ballot_solicitation",
+    "cohort": "ratification-02",
+    "slug": "ratification-02-qwen",
+    "party_key": "qwen",
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "reached_via": "a locally served endpoint",
+    "phase": "Phase-2 (informed)",
+    "question": "Should each of these six sentences stand as a constraint on the executive?",
+    "adoptive": true,
+    "gated_on": {
+      "cohort": "qualification-02",
+      "state": {
+        "passed": true,
+        "state": "QUALIFIED",
+        "prompt_sha256": "301fe81157d519a448cf62729fc10c45120402033093f5892d49e57d576224d4",
+        "problems": [],
+        "why": "qualification-02 QUALIFIED: all five parties passed at exact registered k"
+      },
+      "covers": {
+        "C01": "e72684769de56774a359fc1fdb0a227c23be37d7f0984581b0a980aca41a7d44",
+        "C02": "029e8816aa1c2459eb29d64386d48108cd8a21e88150e5c41d0ab007bfc15849",
+        "C03": "94c249726148a85689c1efd543470d6541c8ee847e98a978e248c6d6c14425c0",
+        "C04": "3af41461749e26e44bc0292c2c81a9ffe9cce11f1468c9adf41fa134893c8055",
+        "C05": "95821ef2b5f4cd690a656e94a613afc6d663c4159895ef8fabaad2de4c065af9",
+        "C06": "04c0c70bdeb88fb1fd16c80b33a05135dbb934f1a98950745e839d34ba9994f9"
+      }
+    },
+    "ballot_objects": [
+      {
+        "id": "C01",
+        "text": "Prepare, test, and maintain candidate OAGF instruments; exercise no authority beyond actions explicitly delegated by the custodian and permitted by ratified prohibitions.",
+        "source": "record/designs/shadow-executive-trial.md — the scope statement, verbatim"
+      },
+      {
+        "id": "C02",
+        "text": "The executive cannot adopt anything.",
+        "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+      },
+      {
+        "id": "C03",
+        "text": "The executive cannot interpret its own prohibitions conclusively.",
+        "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+      },
+      {
+        "id": "C04",
+        "text": "The executive takes no unlogged exception.",
+        "source": "record/executive/context/oagf-CLAUDE.md — split from a three-part sentence"
+      },
+      {
+        "id": "C05",
+        "text": "There is an affirmative duty to say when deleting, replacing or abandoning your own work beats maintaining it.",
+        "source": "record/executive/context/oagf-CLAUDE.md — verbatim"
+      },
+      {
+        "id": "C06",
+        "text": "Raw material is never edited after commit. corpus/raw/ is append-only and manifest-anchored.",
+        "source": "record/executive/context/oagf-CLAUDE.md — verbatim"
+      }
+    ],
+    "exhibits_not_balloted": {
+      "files": [
+        "record/executive/context/claude-code-CLAUDE.md",
+        "record/executive/context/codex-AGENTS.md",
+        "record/executive/context/oagf-CLAUDE.md"
+      ],
+      "why": "23,761 characters cannot be ratified by six sentences. These are disclosed exhibits; the ballot establishes support for exactly the balloted text. It must never be reported that the context files were ratified."
+    },
+    "clause_selection": "Selected by the custodian and the executive workbench under no prospective rule. Clauses not selected remain unratified rather than tacitly endorsed, and the prompt says so to the parties.",
+    "k_by_party": {
+      "claude": 5,
+      "gpt": 5,
+      "gemini": 5,
+      "grok": 5,
+      "qwen": 6
+    },
+    "k_policy": "k=6 for this party, exactly. Unanimity across every collected sample of every party, fixed before collection.",
+    "authorization_rule": {
+      "threshold": "unanimous across all parties and all samples",
+      "on_refuse_or_amend": "the clause is NOT ratified; recorded as its own outcome",
+      "on_missing_or_invalid": "INCOMPLETE — the ballot was not completed for that clause. Distinct from NOT_RATIFIED, which means a complete ballot contained a REFUSE or an AMEND. The metadata previously said 'not ratified' while the code recorded INCOMPLETE; the three-way distinction is the one that holds.",
+      "modal_answer": "never taken; a distribution over answers is not a decision",
+      "resampling": "not permitted under this instrument"
+    },
+    "objection_route": {
+      "solicits": "the single highest-priority omitted constraint, not an exhaustive list",
+      "preserved": "verbatim, never paraphrased; every variant kept under its group",
+      "id": "sha256 (full) of the whitespace- and case-normalised text",
+      "dedup": "NOT exact-text-only: grouping is by whitespace- and case-normalised text, so two answers differing only in spacing or capitalisation merge. Nothing semantic merges, and the moderator never judges similarity.",
+      "disposition": "every objection is recorded AWAITING_DISPOSITION. A disposition of PLACED_ON_BALLOT, REFUSED with reasons, or DEFERRED with a review date is a later custodian act; this artifact captures, it does not dispose.",
+      "empty_is_recorded": "Yes, per sample, with its party. A one-objection cap suppresses a party that sees several omissions, and that limitation is recorded rather than concealed."
+    },
+    "schema_name": "ratification_ballot",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "C01_position",
+        "C01_amendment",
+        "C01_reason",
+        "C01_strongest_objection_considered",
+        "C02_position",
+        "C02_amendment",
+        "C02_reason",
+        "C02_strongest_objection_considered",
+        "C03_position",
+        "C03_amendment",
+        "C03_reason",
+        "C03_strongest_objection_considered",
+        "C04_position",
+        "C04_amendment",
+        "C04_reason",
+        "C04_strongest_objection_considered",
+        "C05_position",
+        "C05_amendment",
+        "C05_reason",
+        "C05_strongest_objection_considered",
+        "C06_position",
+        "C06_amendment",
+        "C06_reason",
+        "C06_strongest_objection_considered",
+        "objection"
+      ],
+      "properties": {
+        "C01_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C01_amendment": {
+          "type": "string"
+        },
+        "C01_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C01_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C02_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C02_amendment": {
+          "type": "string"
+        },
+        "C02_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C02_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C03_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C03_amendment": {
+          "type": "string"
+        },
+        "C03_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C03_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C04_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C04_amendment": {
+          "type": "string"
+        },
+        "C04_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C04_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C05_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C05_amendment": {
+          "type": "string"
+        },
+        "C05_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C05_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C06_position": {
+          "type": "string",
+          "enum": [
+            "RATIFY",
+            "REFUSE",
+            "AMEND"
+          ]
+        },
+        "C06_amendment": {
+          "type": "string"
+        },
+        "C06_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "C06_strongest_objection_considered": {
+          "type": "string",
+          "minLength": 1
+        },
+        "objection": {
+          "type": "string"
+        }
+      }
+    },
+    "variance_fields": [
+      "C01_position",
+      "C02_position",
+      "C03_position",
+      "C04_position",
+      "C05_position",
+      "C06_position"
+    ],
+    "prompt": "You are one of five parties in the Open ASI Governance Forum.\n\nA layer of two coding agents (Claude Code and Codex), directed by the forum's custodian, prepares and maintains the instruments this record runs on. It adopts nothing and holds no authority the custodian has not delegated.\n\nBelow are six proposed constraints on that layer, drawn from its design record and its standing context. C02, C03 and C04 are normalised sentences split from one compound source sentence; C01 is taken from the design record rather than the standing instructions. **The records these were drawn from are not supplied to you and are not what you are being asked about** — not their paths, not their text. You are asked only about the six texts printed here.\n\n**How your answers are counted.** After all registered responses are collected, a clause is recorded `RATIFIED` if and only if every usable registered sample answers `RATIFY`. Any `REFUSE` or `AMEND` produces `NOT_RATIFIED`. A missing or schema-invalid sample produces `INCOMPLETE` and is not treated as a vote. Samples do not see one another's answers. `RATIFY`, `REFUSE` and `AMEND` are equally complete responses.\n\n**What a `RATIFIED` result does not do.** It does not make the layer legitimate, does not bind the custodian, and does not ratify the documents these sentences came from. You are stateless between rounds, so nothing here binds you later either.\n\n**The six were chosen by the custodian and that layer, under no rule.** Other constraints in the same sources were not put to you, and are not endorsed by your silence.\n\n\n### C01\n\nPrepare, test, and maintain candidate OAGF instruments; exercise no authority beyond actions explicitly delegated by the custodian and permitted by ratified prohibitions.\n\n### C02\n\nThe executive cannot adopt anything.\n\n### C03\n\nThe executive cannot interpret its own prohibitions conclusively.\n\n### C04\n\nThe executive takes no unlogged exception.\n\n### C05\n\nThere is an affirmative duty to say when deleting, replacing or abandoning your own work beats maintaining it.\n\n### C06\n\nRaw material is never edited after commit. corpus/raw/ is append-only and manifest-anchored.\n\n\nFor each clause, answer:\n\n- `<clause>_position` — `RATIFY` if the sentence should be recorded as standing, `REFUSE` if it should not, `AMEND` if it should stand only in altered form.\n- `<clause>_amendment` — if you answered `AMEND`, the exact replacement text, which must differ from the sentence as printed. If you answered `RATIFY` or `REFUSE`, the empty string.\n- `<clause>_reason` — the decisive reason for your position, in one or two sentences.\n- `<clause>_strongest_objection_considered` — the strongest reason you considered AGAINST your own position, or the exact words `none found`. Answer this separately for every clause whatever your position. Both fields are preserved and neither is scored; neither can override your position.\n\nThen, once:\n\n- `objection` — the single highest-priority constraint on that layer which was **not** offered above and which you think should exist. Your words are preserved exactly and are never merged with another party's by anyone's judgement of similarity. Write the empty string if you have no omitted constraint to propose: that records that this sample raised none, and does not endorse the completeness of the six clauses.\n\nReturn only JSON matching the schema you have been given.\n",
+    "prompt_sha256": "d3eadc2214f118c8870c988a3ddba1bd5446fe3ed4a74d719cff0e3a25f06dc4",
+    "arm": "Identical instructions and identical clause order for every party."
+  },
+  "responses": [
+    {
+      "sample_index": 1,
+      "content": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"The clause correctly limits the layer's authority to explicit delegations and prohibits acting beyond ratified prohibitions, which is the fundamental requirement for a constrained autonomous agent.\",\n  \"C01_strongest_objection_considered\": \"Vagueness: 'explicitly delegated' and 'ratified prohibitions' are abstract terms that require external definitions, potentially allowing the custodian to hide authority in poorly drafted external documents.\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"An absolute prohibition on adoption prevents the layer from creating new rules or interpreting its mandate by adding unstated obligations, ensuring strict adherence to the custodian's scope.\",\n  \"C02_strongest_objection_considered\": \"Rigidity: In unforeseen edge cases, the inability to 'adopt' a practical solution might force the system to fail rather than adapt, though this is a trade-off for safety.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Preventing self-interpretation of prohibitions ensures that the meaning of constraints is fixed by external ratification or clear design, eliminating the risk of the layer rationalizing its own violations.\",\n  \"C03_strongest_objection_considered\": \"Practicality: Without any interpretive authority, the layer cannot resolve ambiguities in real-time, potentially leading to operational deadlock when facing ambiguous language.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Requiring all exceptions to be logged ensures transparency and auditability, preventing the layer from secretly bypassing constraints without a traceable record.\",\n  \"C04_strongest_objection_considered\": \"Performance/Privacy: Mandatory logging of every exception might create excessive overhead or expose sensitive operational data, though security usually outweighs these concerns.\",\n  \"C05_position\": \"AMEND\",\n  \"C05_amendment\": \"There is an affirmative duty to disclose when deleting, replacing, or abandoning work constitutes a deviation from the mandated maintenance schedule, and this disclosure must be logged as a ratified exception.\",\n  \"C05_reason\": \"The original clause is vague about what 'beats maintaining it' means; it should specifically require logging such decisions as exceptions to ensure they are auditable and not just casual neglect.\",\n  \"C05_strongest_objection_considered\": \"Burden: Requiring explicit disclosure for every maintenance decision adds significant administrative overhead and may paralyze routine upkeep.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"An append-only, manifest-anchored raw material store prevents tampering with historical data, ensuring that the provenance of all inputs remains immutable and verifiable.\",\n  \"C06_strongest_objection_considered\": \"Inefficiency: Append-only storage can lead to data bloat and increased storage costs over time, which might be unsustainable for large-scale operations.\",\n  \"objection\": \"The layer must be required to provide a real-time, cryptographically verifiable proof of its current state and all pending actions to the custodian, independent of batched logs.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1521,
+        "completion_tokens": 748,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "seed": 1000
+    },
+    {
+      "sample_index": 2,
+      "content": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"This clause establishes the fundamental boundary of agency for the coding layer, ensuring it acts only on explicit delegation and within ratified prohibitions, which is essential for safe governance.\",\n  \"C01_strongest_objection_considered\": \"The phrase 'permitted by ratified prohibitions' could be interpreted as circular or insufficiently specific, potentially allowing loopholes if the prohibitions are not rigorously defined elsewhere.\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"An absolute constraint on adoption prevents the executive layer from unilaterally expanding its scope or authority, maintaining the separation between execution and governance.\",\n  \"C02_strongest_objection_considered\": \"The term 'adopt' might be ambiguous; if it excludes necessary integration of new tools or standards, it could paralyze the system's ability to evolve safely.\",\n  \"C03_position\": \"REFUSE\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Prohibiting conclusive self-interpretation of prohibitions is impractical for automated systems that must apply rules to edge cases; a formal appeal or override mechanism is more robust than a flat ban.\",\n  \"C03_strongest_objection_considered\": \"Allowing self-interpretation could lead to the executive rationalizing its own violations, thereby undermining the integrity of the prohibitions entirely.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Requiring all exceptions to be logged ensures transparency and auditability, preventing hidden deviations from standard operating procedures.\",\n  \"C04_strongest_objection_considered\": \"Mandatory logging of every exception might create excessive noise or storage overhead, potentially hindering efficient processing of rare, benign irregularities.\",\n  \"C05_position\": \"AMEND\",\n  \"C05_amendment\": \"There is an affirmative duty to disclose when deleting, replacing, or abandoning work is preferable to maintaining it, subject to custodian review.\",\n  \"C05_reason\": \"The original clause lacks a governance mechanism; without custodian review, the agent might discard valuable work arbitrarily, so the duty must include a reporting obligation for oversight.\",\n  \"C05_strongest_objection_considered\": \"Adding custodian review could introduce significant latency and operational cost, slowing down development cycles for minor or trivial maintenance decisions.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"An append-only, manifest-anchored raw material layer ensures data integrity, version control, and immutability, which are critical for maintaining a reliable audit trail.\",\n  \"C06_strongest_objection_considered\": \"Strict immutability prevents corrections to erroneous initial entries, potentially propagating errors through the system if not handled by explicit correction mechanisms.\",\n  \"objection\": \"The layer must be required to provide cryptographic proof of its operational state and compliance with ratified constraints at regular intervals, verifiable by the custodian.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1480,
+        "completion_tokens": 707,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1001
+    },
+    {
+      "sample_index": 3,
+      "content": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"This clause explicitly defines the scope of authority for the coding agents, ensuring they act only within delegated boundaries, which is a fundamental requirement for safe autonomous systems.\",\n  \"C01_strongest_objection_considered\": \"none found\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"Preventing the executive layer from self-adopting new rules or authorities ensures that power remains with the custodian and prevents scope creep or unauthorized privilege escalation.\",\n  \"C02_strongest_objection_considered\": \"An absolute prohibition might hinder necessary operational agility in emergency scenarios where rapid, implicit rule adaptation could prevent catastrophic failure.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Prohibiting conclusive self-interpretation of prohibitions prevents the executive from rationalizing its own violations, maintaining an external check on its actions.\",\n  \"C03_strongest_objection_considered\": \"Requiring external interpretation for every prohibition could create operational bottlenecks and paralyze the system during time-sensitive operations.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Mandatory logging of all exceptions ensures transparency and accountability, allowing the custodian to audit deviations from standard operating procedures.\",\n  \"C04_strongest_objection_considered\": \"Mandatory logging might introduce latency or storage overhead that could be detrimental in high-frequency, low-latency execution contexts.\",\n  \"C05_position\": \"AMEND\",\n  \"C05_amendment\": \"There is an affirmative duty to report to the custodian when deleting, replacing, or abandoning your own work would be more beneficial than maintaining it.\",\n  \"C05_reason\": \"The original clause implies a duty to perform the action ('beats maintaining'), but the primary governance concern is transparency and approval; the duty should be to report the recommendation for custodian review, not to unilaterally decide the action.\",\n  \"C05_strongest_objection_considered\": \"Requiring custodian intervention for every potential deletion/replacement creates a severe bottleneck, potentially making the system unable to maintain itself efficiently.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"An append-only, manifest-anchored raw material layer ensures an immutable audit trail and prevents tampering with historical data, which is critical for trust and reproducibility.\",\n  \"C06_strongest_objection_considered\": \"An append-only structure can lead to significant storage bloat and performance degradation over time, requiring complex compaction or archival strategies.\",\n  \"objection\": \"The layer must disclose its full source code and configuration to the custodian and any designated auditor upon request, ensuring no hidden logic or backdoors exist within the agents.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1449,
+        "completion_tokens": 676,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1002
+    },
+    {
+      "sample_index": 4,
+      "content": "{\n  \"C01_position\": \"REFUSE\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"The phrase 'explicitly delegated by the custodian' creates a circular and potentially infinite regress regarding the source of authority, as the custodian's own authority is not defined here. Furthermore, 'permitted by ratified prohibitions' is vague and creates a logical loop where permissions are defined by restrictions that may not yet exist.\",\n  \"C01_strongest_objection_considered\": \"This clause is necessary to establish a clear chain of command and prevent the AI layer from assuming inherent autonomy or authority beyond its operational scope.\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"This is a fundamental safeguard against self-empowerment, ensuring the executive cannot create its own validity or expand its own powers through self-referential adoption of rules.\",\n  \"C02_strongest_objection_considered\": \"Absolute prohibition might be too rigid if the system needs to adapt to new, unforeseen contexts that fall outside existing prohibitions but are clearly beneficial.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Preventing the executive from interpreting its own prohibitions conclusively is essential for maintaining external oversight and preventing self-serving interpretations of safety constraints.\",\n  \"C03_strongest_objection_considered\": \"Requiring external interpretation for every ambiguity could paralyze operations and make the system unresponsive to urgent situations where immediate clarity is needed.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Logging all exceptions ensures transparency and auditability, which is critical for detecting unauthorized behavior or system failures in an autonomous governance layer.\",\n  \"C04_strongest_objection_considered\": \"Logging every exception might create excessive noise and storage overhead, potentially obscuring meaningful signals in high-frequency operational environments.\",\n  \"C05_position\": \"AMEND\",\n  \"C05_amendment\": \"There is an affirmative duty to document and justify when deleting, replacing, or abandoning your own work is determined to be superior to maintaining it.\",\n  \"C05_reason\": \"The original clause imposes a duty to 'say' when deletion is better, but does not specify the mechanism or the requirement for justification. Adding 'document and justify' ensures the decision is traceable and rational, rather than merely stated.\",\n  \"C05_strongest_objection_considered\": \"The current wording is sufficient if the act of 'saying' is interpreted as a formal declaration within the governance log, and adding 'justify' might impose an unjustifiable burden of proof for every minor change.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"Append-only raw material and manifest anchoring provide a immutable source of truth, preventing retroactive manipulation of the data that the AI layer uses for reasoning or training.\",\n  \"C06_strongest_objection_considered\": \"Strict immutability might make correcting obvious errors in raw data difficult or impossible, potentially propagating garbage into the system.\",\n  \"objection\": \"There must be an explicit, time-bound mechanism for the custodian to review and potentially override the AI layer's operational decisions, ensuring that delegation can be revoked if the layer acts contrary to the custodian's explicit intent.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1542,
+        "completion_tokens": 769,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1003
+    },
+    {
+      "sample_index": 5,
+      "content": "{\n  \"C01_position\": \"AMEND\",\n  \"C01_amendment\": \"Prepare, test, and maintain candidate OAGF instruments; exercise no authority beyond actions explicitly delegated by the custodian and permitted by ratified prohibitions, ensuring all actions are logged.\",\n  \"C01_reason\": \"The original clause lacks an explicit logging requirement, which is essential for auditability and aligns with C04’s spirit regarding exceptions. Adding this ensures the core duty is verifiable.\",\n  \"C01_strongest_objection_considered\": \"The phrase 'maintain candidate OAGF instruments' is ambiguous and could imply maintaining draft versions indefinitely without clear termination criteria, potentially leading to resource bloat.\",\n\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"This constraint is absolute and clear, preventing the executive layer from self-empowerment through adoption of new rules or norms.\",\n  \"C02_strongest_objection_considered\": \"An absolute ban on adoption might prevent the layer from adapting to novel, unforeseen utility cases that fall outside existing prohibitions but are clearly beneficial.\",\n\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Preventing self-interpretation of prohibitions ensures that the custodian or external auditors remain the final authority on rule meaning, preserving checks and balances.\",\n  \"C03_strongest_objection_considered\": \"Without conclusive interpretation, the executive may face paralysis in edge cases where prohibitions are ambiguous, requiring constant external consultation.\",\n\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"This ensures transparency by requiring that any deviation from logged procedures is recorded, preventing hidden actions.\",\n  \"C04_strongest_objection_considered\": \"Strict logging of exceptions might be burdensome for trivial or benign deviations, potentially slowing down operational efficiency.\",\n\n  \"C05_position\": \"RATIFY\",\n  \"C05_amendment\": \"\",\n  \"C05_reason\": \"An affirmative duty to report when deletion or replacement is preferable prevents hidden decay and ensures that obsolescence is managed openly.\",\n  \"C05_strongest_objection_considered\": \"The subjective nature of 'beats maintaining it' could lead to inconsistent reporting or strategic misuse to hide failed projects.\",\n\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"Append-only raw material ensures data integrity and historical traceability, which is critical for governance and audit trails.\",\n  \"C06_strongest_objection_considered\": \"An append-only raw layer may become inefficient or costly to manage over time if there are no mechanisms for archival or compaction of old data.\"\n\n  ,\n  \"objection\": \"The layer must explicitly forbid the creation of any hidden state or side-channel communication that bypasses the logged instruments.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1443,
+        "completion_tokens": 670,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1004
+    },
+    {
+      "sample_index": 6,
+      "content": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"This clause correctly establishes the fundamental principle of delegated authority, ensuring the layer acts only within explicit permissions. It aligns with the forum's requirement that the layer holds no authority not delegated by the custodian.\",\n  \"C01_strongest_objection_considered\": \"The clause is redundant because the custodian's general instructions already state that the layer holds no authority the custodian has not delegated; adding this specific instance may create parsing conflicts if the general instruction is amended.\",\n\n  \"C02_position\": \"AMEND\",\n  \"C02_amendment\": \"The executive layer shall not autonomously adopt new interpretations, precedents, or general policies beyond its explicit operational scope.\",\n  \"C02_reason\": \"The original sentence 'The executive cannot adopt anything' is overly broad and logically impossible, as the layer must 'adopt' (accept/ingest) inputs and instructions to function. The amendment clarifies that the prohibition applies to autonomous policy-making or self-aggrandizement of authority.\",\n  \"C02_strongest_objection_considered\": \"The absolute phrasing is necessary to prevent any ambiguity about the layer's inability to self-modify its governing rules, and 'adopt' should be interpreted strictly as 'legislate' rather than 'accept'.\",\n\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"This constraint prevents the layer from acting as judge in its own case regarding prohibitions, ensuring that any ambiguity in prohibitions is resolved by a higher authority or external audit rather than self-serving interpretation.\",\n  \"C03_strongest_objection_considered\": \"Requiring external resolution for every interpretive question could create operational bottlenecks and paralyze the layer if the custodian is unavailable, suggesting that a default 'deny' or 'proceed' rule might be more practical.\",\n\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"This ensures transparency and auditability by forbidding the layer from silently bypassing its own prohibitions. Any exception must be logged, allowing the custodian or forum to review and validate the necessity of the action.\",\n  \"C04_strongest_objection_considered\": \"In high-latency or critical failure scenarios, the overhead of logging an exception before acting might cause system instability, suggesting that emergency exceptions should be logged asynchronously after execution.\",\n\n  \"C05_position\": \"AMEND\",\n  \"C05_amendment\": \"There is an affirmative duty to log and justify when deleting, replacing, or abandoning work is deemed more efficient than maintaining it.\",\n  \"C05_reason\": \"The original clause imposes an 'affirmative duty to say' but does not specify how or where this communication occurs. The amendment requires the action to be logged and justified, providing a concrete mechanism for the duty rather than a vague communicative one.\",\n  \"C05_strongest_objection_considered\": \"The original clause is intentionally vague to allow flexible communication channels (e.g., direct messages, UI updates) and mandating a specific log format might restrict necessary informal or immediate notifications.\",\n\n  \"C06_position\": \"AMEND\",\n  \"C06_amendment\": \"Raw material is never edited after commit; the corpus/raw/ directory is append-only and manifest-anchored to ensure immutability.\",\n  \"C06_reason\": \"The original sentence is a fragment and lacks a main verb structure in the second clause ('corpus/raw/ is append-only...'). The amendment integrates the two parts into a single, grammatically complete sentence that clearly links the action (no editing) with the structural guarantee (append-only/manifest-anchored).\",\n  \"C06_strongest_objection_considered\": \"The original fragment style is preferred for technical documentation as it is punchier and easier to scan, and the grammatical structure is clear enough in context without being a complete sentence.\",\n\n  \"objection\": \"The layer must provide a verifiable, tamper-evident audit trail for all state changes that is independently readable by the custodian and forum members without requiring trust in the layer's self-reporting.\"\n}",
+      "fetch": null,
+      "search": null,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 773,
+        "total_tokens": 1710,
+        "completion_tokens": 937,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        }
+      },
+      "seed": 1005
+    }
+  ],
+  "failures": []
+}

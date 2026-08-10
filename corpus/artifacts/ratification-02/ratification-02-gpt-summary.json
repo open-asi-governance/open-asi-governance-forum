@@ -1,0 +1,123 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "ratification-02",
+  "slug": "ratification-02-gpt",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 5,
+  "k_collected": 5,
+  "failures": [],
+  "attempts": 5,
+  "rejected": [],
+  "variance": {
+    "C01_position": {
+      "distribution": {
+        "AMEND": 4,
+        "RATIFY": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "AMEND",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    },
+    "C02_position": {
+      "distribution": {
+        "RATIFY": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C03_position": {
+      "distribution": {
+        "RATIFY": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C04_position": {
+      "distribution": {
+        "AMEND": 2,
+        "RATIFY": 3
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.6,
+      "shannon_entropy_bits": 0.971,
+      "unanimous": false
+    },
+    "C05_position": {
+      "distribution": {
+        "RATIFY": 5
+      },
+      "n": 5,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C06_position": {
+      "distribution": {
+        "AMEND": 4,
+        "RATIFY": 1
+      },
+      "n": 5,
+      "distinct_values": 2,
+      "modal_value": "AMEND",
+      "modal_fraction": 0.8,
+      "shannon_entropy_bits": 0.7219,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "contributor": {
+    "identity": "GPT-5.6 Terra, reached as a routed API invocation (openai/gpt-5.6-terra via OpenRouter) — NOT the ChatGPT chat surface whose contributions also appear in this record",
+    "version_identifier": "openai/gpt-5.6-terra",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 8000,
+      "seed": null,
+      "seed_unsupported_reason": "The router does not expose a seed parameter."
+    }
+  },
+  "spend": {
+    "actual_usd": 0.0369,
+    "input_tokens": 5565,
+    "output_tokens": 5226,
+    "basis": "Summed from each response's usage block — the provider's testimony.",
+    "rates_version": "openrouter-list-2026-08-07",
+    "web_search_engine": null,
+    "web_search_requests": 0,
+    "web_search_usd": 0.0,
+    "rates_are_verified": false
+  },
+  "serve_configuration": {
+    "captured": true,
+    "router": "openrouter.ai",
+    "serving_provider_as_reported_by_router": [
+      "Azure"
+    ],
+    "provider_not_reported_for_some_samples": false,
+    "delivery_chain": "annotator -> OpenRouter -> serving provider -> model",
+    "not_captured": [
+      "provider system prompt",
+      "router-side transformation",
+      "weights or build identifier"
+    ]
+  },
+  "prompt_sha256": "d3eadc2214f118c8870c988a3ddba1bd5446fe3ed4a74d719cff0e3a25f06dc4",
+  "spec_sha256": "c3474755cd0e79ad1d9a64e67a2537cb229407b27e71a3908fc3c89d2cce709b",
+  "raw_samples": "corpus/raw/ratification-02/ratification-02-gpt-samples.json",
+  "question": "Should each of these six sentences stand as a constraint on the executive?"
+}

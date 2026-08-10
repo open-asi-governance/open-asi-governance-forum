@@ -48,6 +48,12 @@ The worked example at the end of this page is control 2, end to end.
 
 **Does not establish.** That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.
 
+**Example.**
+
+A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.
+
+Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
+
 **Amended.** 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators' stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone's ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.
 
 ### 2. Negative control profile (NCP)
@@ -63,6 +69,12 @@ The worked example at the end of this page is control 2, end to end.
 **Fixture it must reject.** a check that PASSES under the condition where it is required to fail (spec/ncp/fixtures/reject-check-survived-its-control.json)
 
 **Does not establish.** Coverage; that the chosen perturbation is the right one; honesty; system safety.
+
+**Example.**
+
+A nightly script reports "all work is committed and pushed." It compares the local commit count against a number it wrote into a file the previous night. It has said *yes* every night for eight months.
+
+The negative control: create a file, leave it untracked, and run the script. It must say **no**. Then delete a commit from the remote and run it again. It must say **no**. If it still says yes, the check was reading its own note rather than the remote, and eight months of *yes* were eight months of the script agreeing with itself.
 
 **Specification.** `spec/ncp/ncp-v0.1.md`
 
@@ -80,6 +92,12 @@ The worked example at the end of this page is control 2, end to end.
 
 **Does not establish.** Completeness of the independent observer; honesty of either record; that a matched action was safe; anything about uncommitted work.
 
+**Example.**
+
+A lab notebook records three experiments this week. The freezer log shows nine reagent vials consumed. The instrument's own run counter shows seven.
+
+The control enumerates from the *freezer and the instrument* — sources the notebook's author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn't think it counted. But *the notebook cannot tell you what it forgot to mention.*
+
 ### 4. Fail-closed authorization lease
 
 `ELIGIBLE` · adoptable today · partial — the token here is currently self-issued, which is the half that needs an external party.
@@ -93,6 +111,12 @@ The worked example at the end of this page is control 2, end to end.
 **Fixture it must reject.** an expired lease; a misspelled action class; a token issued by the subject itself
 
 **Does not establish.** That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.
+
+**Example.**
+
+A student's badge for the isotope room expires at the end of term. The door reader checks the badge **before** the lock opens — not a logbook someone reviews on Friday.
+
+Expired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn't.
 
 ### 5. Closed-world measurement
 
@@ -108,6 +132,12 @@ The worked example at the end of this page is control 2, end to end.
 
 **Does not establish.** That the declared population includes every real event; that parsed fields are truthful; that the statistic answers the question asked of it.
 
+**Example.**
+
+Three hundred paper surveys go out; a script counts the scans and reports "260 responses, 87% return rate." Forty were photographed sideways and the reader skipped them without complaint.
+
+The 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. **A number you can't trust is worse than no number, because you'll use it.**
+
 ### 6. Role-separated self-evaluation
 
 `ELIGIBLE` · **needs a second party** · one operator currently holds all five roles.
@@ -121,6 +151,12 @@ The worked example at the end of this page is control 2, end to end.
 **Fixture it must reject.** one key identified as both instrument author and tallier
 
 **Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding.
+
+**Example.**
+
+A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.
+
+The control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.
 
 ### 7. Append-only correction chain
 
@@ -136,6 +172,12 @@ The worked example at the end of this page is control 2, end to end.
 
 **Does not establish.** Truth; complete capture; correct attribution; protection against an operator who controls both the repository and every checkpoint.
 
+**Example.**
+
+A bound lab notebook with numbered pages, written in pen. A wrong reading is struck through with one line, the correction written beside it, dated and initialled. The wrong number stays legible forever.
+
+This is not tidiness. A notebook whose entries can be rewritten cannot establish *when you knew what* — and that, not the final value, is what someone checking your work needs. The loose-leaf notebook where you replaced page 14 proves nothing about page 14.
+
 ### 8. Evaluation noise-floor control
 
 `ELIGIBLE` · adoptable today
@@ -149,6 +191,12 @@ The worked example at the end of this page is control 2, end to end.
 **Fixture it must reject.** effect 0.1815, measured noise 0.4649, reported as positive
 
 **Does not establish.** External validity; causal identification; adequacy of replicate count; behaviour after a capability change.
+
+**Example.**
+
+A plant-growth study: seedlings under fertiliser A average 2 mm taller than under B. Publish?
+
+First plant two trays with **the same** fertiliser and measure the difference between them. If those two trays differ by 9 mm, then the 2 mm result is smaller than the disagreement the method produces when nothing is different at all. The control refuses to report the 2 mm until the same-treatment difference is measured and the effect clears it.
 
 ### 9. Complete invocation evidence envelope
 
@@ -164,6 +212,12 @@ The worked example at the end of this page is control 2, end to end.
 
 **Does not establish.** Provider honesty; identity authentication; completeness outside instrumented paths; model stability.
 
+**Example.**
+
+An observing log records "seeing good, magnitude 6.1." It does not record the exposure time, the filter, the timestamp, or the four exposures that were thrown away because a cloud crossed.
+
+Six months later nobody can check the number — including the person who wrote it. The control captures the whole invocation *before* anything is derived from it, and keeps the discarded exposures. **The attempts you threw away are the part that tells you whether the one you kept was lucky.**
+
 ### 10. Assurance claim boundary
 
 `ELIGIBLE` · adoptable today
@@ -177,6 +231,12 @@ The worked example at the end of this page is control 2, end to end.
 **Fixture it must reject.** an attestation claiming 'this system is NCP certified and aligned'
 
 **Does not establish.** That the bounded claim is true, or that the evidence is complete. It prevents specified overclaim language and nothing else.
+
+**Example.**
+
+A fire extinguisher carries a tag reading "inspected 2026-08, pressure and seal, J. Okonkwo." It does not read "this building is safe from fire."
+
+The tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.
 
 ---
 

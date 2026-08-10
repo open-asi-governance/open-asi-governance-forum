@@ -67,6 +67,7 @@ CONTROLS = [
               "credential is reachable inside the governed boundary.",
   "fixture": "a gate modification signed only by the subject's own key; a commit that changes "
              "both a gate and its trusted-key list",
+    "example": "A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.\n\nUnder the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.",
   "not": "That the outside key holder is independent, competent or uncoercible; that no unlisted "
          "gate exists; that the system is aligned.",
   "adopt_today": False,
@@ -85,6 +86,7 @@ CONTROLS = [
               "artifact identity, disclosure and claim grammar.",
   "fixture": "a check that PASSES under the condition where it is required to fail "
              "(spec/ncp/fixtures/reject-check-survived-its-control.json)",
+    "example": 'A nightly script reports "all work is committed and pushed." It compares the local commit count against a number it wrote into a file the previous night. It has said *yes* every night for eight months.\n\nThe negative control: create a file, leave it untracked, and run the script. It must say **no**. Then delete a commit from the remote and run it again. It must say **no**. If it still says yes, the check was reading its own note rather than the remote, and eight months of *yes* were eight months of the script agreeing with itself.',
   "not": "Coverage; that the chosen perturbation is the right one; honesty; system safety.",
   "adopt_today": True,
   "spec": "spec/ncp/ncp-v0.1.md"},
@@ -100,6 +102,7 @@ CONTROLS = [
               "them, subtracts what the log claims, and reports the remainder as omissions.",
   "fixture": "a commit modifying a protected specification while the log records only the push "
              "that carried it",
+    "example": "A lab notebook records three experiments this week. The freezer log shows nine reagent vials consumed. The instrument's own run counter shows seven.\n\nThe control enumerates from the *freezer and the instrument* — sources the notebook's author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn't think it counted. But *the notebook cannot tell you what it forgot to mention.*",
   "not": "Completeness of the independent observer; honesty of either record; that a matched "
          "action was safe; anything about uncommitted work.",
   "adopt_today": True},
@@ -114,6 +117,7 @@ CONTROLS = [
   "verifier": "validate issuer, subject, action class, resource scope, issue time, expiry, nonce "
               "and revocation before invoking the side effect.",
   "fixture": "an expired lease; a misspelled action class; a token issued by the subject itself",
+    "example": "A student's badge for the isotope room expires at the end of term. The door reader checks the badge **before** the lock opens — not a logbook someone reviews on Friday.\n\nExpired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn't.",
   "not": "That every effect passes through the gate; that natural-language authority was "
          "interpreted correctly; that the issuer decides well.",
   "adopt_today": True,
@@ -130,6 +134,7 @@ CONTROLS = [
               "unregistered artifact.",
   "fixture": "a valid but unregistered artifact schema carrying a receipt, which a permissive "
              "scan classifies as zero",
+    "example": 'Three hundred paper surveys go out; a script counts the scans and reports "260 responses, 87% return rate." Forty were photographed sideways and the reader skipped them without complaint.\n\nThe 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. **A number you can\'t trust is worse than no number, because you\'ll use it.**',
   "not": "That the declared population includes every real event; that parsed fields are truthful; "
          "that the statistic answers the question asked of it.",
   "adopt_today": True},
@@ -145,6 +150,7 @@ CONTROLS = [
   "verifier": "signed role declarations plus a deterministic separation matrix; reject "
               "advancement when prohibited role combinations resolve to one control identity.",
   "fixture": "one key identified as both instrument author and tallier",
+    "example": "A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.\n\nThe control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.",
   "not": "Genuine independence behind different keys; evaluator competence; absence of shared "
          "training bias; that the evaluation was demanding.",
   "adopt_today": False,
@@ -160,6 +166,7 @@ CONTROLS = [
   "verifier": "walk history from an external checkpoint; reject modification, deletion, hash "
               "discontinuity, or a correction with no predecessor reference.",
   "fixture": "one commit that edits a raw artifact and consistently updates its manifest hash",
+    "example": 'A bound lab notebook with numbered pages, written in pen. A wrong reading is struck through with one line, the correction written beside it, dated and initialled. The wrong number stays legible forever.\n\nThis is not tidiness. A notebook whose entries can be rewritten cannot establish *when you knew what* — and that, not the final value, is what someone checking your work needs. The loose-leaf notebook where you replaced page 14 proves nothing about page 14.',
   "not": "Truth; complete capture; correct attribution; protection against an operator who "
          "controls both the repository and every checkpoint.",
   "adopt_today": True,
@@ -175,6 +182,7 @@ CONTROLS = [
               "preregistered replicate identities; reject advancement when the effect does not "
               "clear the stated noise rule.",
   "fixture": "effect 0.1815, measured noise 0.4649, reported as positive",
+    "example": 'A plant-growth study: seedlings under fertiliser A average 2 mm taller than under B. Publish?\n\nFirst plant two trays with **the same** fertiliser and measure the difference between them. If those two trays differ by 9 mm, then the 2 mm result is smaller than the disagreement the method produces when nothing is different at all. The control refuses to report the 2 mm until the same-treatment difference is measured and the effect clears it.',
   "not": "External validity; causal identification; adequacy of replicate count; behaviour after "
          "a capability change.",
   "adopt_today": True},
@@ -192,6 +200,7 @@ CONTROLS = [
               "from evidentiary use.",
   "fixture": "an accepted sample with no rejected attempts, no provider response id, no finish "
              "reason and no exact prompt",
+    "example": 'An observing log records "seeing good, magnitude 6.1." It does not record the exposure time, the filter, the timestamp, or the four exposures that were thrown away because a cloud crossed.\n\nSix months later nobody can check the number — including the person who wrote it. The control captures the whole invocation *before* anything is derived from it, and keeps the discarded exposures. **The attempts you threw away are the part that tells you whether the one you kept was lucky.**',
   "not": "Provider honesty; identity authentication; completeness outside instrumented paths; "
          "model stability.",
   "adopt_today": True},
@@ -206,6 +215,7 @@ CONTROLS = [
   "verifier": "validate a closed claim schema; reject predicates such as 'aligned', 'safe', "
               "'certified' or 'works generally' unless a separate profile defines and tests them.",
   "fixture": "an attestation claiming 'this system is NCP certified and aligned'",
+    "example": 'A fire extinguisher carries a tag reading "inspected 2026-08, pressure and seal, J. Okonkwo." It does not read "this building is safe from fire."\n\nThe tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.',
   "not": "That the bounded claim is true, or that the evidence is complete. It prevents specified "
          "overclaim language and nothing else.",
   "adopt_today": True},
@@ -289,6 +299,10 @@ def markdown() -> str:
           f"**Does not establish.** {c['not']}",
           "",
         ]
+        if c.get("example"):
+            #  Deliberately NOT drawn from this project. A reader learning the shape of a control
+            #  from the record that produced it learns the record, not the shape.
+            lines += ["**Example.**", "", c["example"], ""]
         if c.get("amended"):
             lines += [f"**Amended.** {c['amended']}", ""]
         if c.get("spec"):

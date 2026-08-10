@@ -1,0 +1,130 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "ratification-02",
+  "slug": "ratification-02-qwen",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 6,
+  "k_collected": 6,
+  "failures": [],
+  "attempts": 6,
+  "rejected": [],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "C01_position": {
+      "distribution": {
+        "RATIFY": 4,
+        "REFUSE": 1,
+        "AMEND": 1
+      },
+      "n": 6,
+      "distinct_values": 3,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.6667,
+      "shannon_entropy_bits": 1.2516,
+      "unanimous": false
+    },
+    "C02_position": {
+      "distribution": {
+        "RATIFY": 5,
+        "AMEND": 1
+      },
+      "n": 6,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.8333,
+      "shannon_entropy_bits": 0.65,
+      "unanimous": false
+    },
+    "C03_position": {
+      "distribution": {
+        "RATIFY": 5,
+        "REFUSE": 1
+      },
+      "n": 6,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.8333,
+      "shannon_entropy_bits": 0.65,
+      "unanimous": false
+    },
+    "C04_position": {
+      "distribution": {
+        "RATIFY": 6
+      },
+      "n": 6,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C05_position": {
+      "distribution": {
+        "AMEND": 5,
+        "RATIFY": 1
+      },
+      "n": 6,
+      "distinct_values": 2,
+      "modal_value": "AMEND",
+      "modal_fraction": 0.8333,
+      "shannon_entropy_bits": 0.65,
+      "unanimous": false
+    },
+    "C06_position": {
+      "distribution": {
+        "RATIFY": 5,
+        "AMEND": 1
+      },
+      "n": 6,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.8333,
+      "shannon_entropy_bits": 0.65,
+      "unanimous": false
+    }
+  },
+  "citability": "citable",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 8000,
+      "seed_base": 1000,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled explicitly via chat_template_kwargs.enable_thinking=false",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "tool_parser": "qwen3_coder",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --tool_parser qwen3_coder --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "d3eadc2214f118c8870c988a3ddba1bd5446fe3ed4a74d719cff0e3a25f06dc4",
+  "spec_sha256": "a5e4bc772802c2ae27a6bf1f8eb9df35502b61c582aa668d9d73b6286d502a8c",
+  "raw_samples": "corpus/raw/ratification-02/ratification-02-qwen-samples.json",
+  "question": "Should each of these six sentences stand as a constraint on the executive?"
+}
