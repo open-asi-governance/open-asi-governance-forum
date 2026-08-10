@@ -645,7 +645,11 @@ print(json.dumps(out))
             the predictions view started chunking into predictions-2.html."""
             return (f.name not in ("index.html", "record.html")
                     and not f.stem.startswith("deficiencies")
-                    and not f.stem.startswith("predictions"))
+                    and not f.stem.startswith("predictions")
+                    #  controls.html is a generated view of the candidate control register, not
+                    #  a page of contributions. It gets its own cases below, per this
+                    #  predicate's own rule that generated views are tested separately.
+                    and not f.stem.startswith("controls"))
 
         index = (c / "docs/index.html").read_text(encoding="utf-8")
         toc = (c / "docs/record.html").read_text(encoding="utf-8")
@@ -705,6 +709,21 @@ print(json.dumps(out))
              all(f'href="{f.stem}.html"' in toc
                  for f in sorted((c / "docs").glob("*.html"))
                  if is_record_page(f)))
+        #  The candidate controls view. It is not a record page, so it needs its own cases --
+        #  and it needs them because publishing it broke CI on the reachability check while
+        #  every local gate stayed green.
+        controls = (c / "docs/controls.html")
+        case("the candidate controls page is published", controls.is_file())
+        case("...and is linked from the landing page", 'href="controls.html"' in index)
+        case("...and has a markdown alternate", (c / "docs/controls.md").is_file())
+        case("...and leads with status rather than rank",
+             controls.is_file() and
+             controls.read_text(encoding="utf-8").index("ELIGIBLE") <
+             controls.read_text(encoding="utf-8").index("Protected control plane"))
+        case("...and states that no control establishes alignment of a more capable system",
+             controls.is_file() and "more capable than its operators" in
+             controls.read_text(encoding="utf-8"))
+
         case("no published page exceeds the token budget",
              run(c, "tools/check_page_budget.py").returncode == 0)
         case("every record page has a markdown alternate, declared and present",

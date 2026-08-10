@@ -58,9 +58,20 @@ import executive_log as ex                                              # noqa: 
 
 #  Ordered. `rebuild` first because it regenerates what the later checks read; the quotation
 #  check runs inside it and again here, because relying on that coincidence is what happened.
+#  THESE MUST BE THE GATES CI RUNS, or a green landing means nothing about whether the site
+#  will deploy. On 2026-08-10 land.py reported all gates green, the push verified, and the
+#  custodian was told a page was published -- while the Pages workflow FAILED on
+#  `tools/test_integrity.py`, a suite land.py did not run because it does not live under
+#  tools/tests/. The site kept serving the previous deploy and the page 404'd.
+#
+#  That is this project's own failure class inside the tool built to prevent it: a green signal
+#  not causally downstream of what it certifies. "Gates green" certified the local checks; it
+#  was reported as "published".
 GATES = (
     ("rebuild", ["python3", "tools/rebuild.py"]),
     ("tests", ["python3", "tools/tests/run_all.py"]),
+    #  Run by CI at .github/workflows step "Integrity regression suite". Slow, and worth it.
+    ("integrity", ["python3", "tools/test_integrity.py"]),
     ("quotations", ["python3", "tools/check_quotations.py"]),
     ("context-pins", ["python3", "tools/check_executive_context.py"]),
     ("lease", ["python3", "tools/executive_lease.py"]),
@@ -183,6 +194,11 @@ def main() -> int:
         print(f"  ATTESTATION FAILED: {failed}", file=sys.stderr)
         return 1
     print(f"\n  landed {sha[:12]} on {args.branch}, gates green, both attestations filed")
+    #  LANDED IS NOT PUBLISHED. The commit is on the remote; whether GitHub Pages accepted and
+    #  deployed it is a separate fact this tool does not observe. Saying so here because it was
+    #  once reported as published when the deploy had failed.
+    print("  NOTE: landed != deployed. Check the Pages workflow before telling anyone a page "
+          "is live.")
     return 0
 
 
