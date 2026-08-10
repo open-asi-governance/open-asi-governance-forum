@@ -11,7 +11,7 @@ it produces. See record/designs/shadow-executive-trial.md.
 
 Why it exists
 -------------
-Claude Code and Codex have been operating as an undeclared executive layer: on 2026-08-08 alone,
+Claude Code and Codex have been operating as an undeclared executive workbench: on 2026-08-08 alone,
 49 commits, 4 findings, 8 custodian decisions, 6 rounds, 2 ratification cycles, 4 new tools, and
 deficiencies D-54 to D-57 filed against its own instruments. It had no charter, no name in the
 record, and no log of its own actions.

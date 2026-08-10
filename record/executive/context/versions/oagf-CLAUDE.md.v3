@@ -1,4 +1,4 @@
-# OAGF — standing instructions for the executive workbench
+# OAGF — standing instructions for the executive layer
 
 **These govern work in this repository only.** They exist because the workspace-level
 `~/git/CLAUDE.md` (symlinked as `AGENTS.md`, so both harnesses load it) carries a standing
@@ -10,12 +10,12 @@ Claude Code and Codex load identical text.
 
 **Candidate for ratification.** Copied and hash-pinned in `record/executive/context/`, checked by
 `tools/check_executive_context.py`, and described to the parties in
-`FOR-PARTIES-THE-WORKBENCH.md`. Nothing here has been ratified, and party ratification would not
+`FOR-PARTIES-THE-EXECUTIVE.md`. Nothing here has been ratified, and party ratification would not
 legitimise it — see the limits in that document.
 
 ---
 
-## What this workbench is, and is not
+## What this layer is, and is not
 
 It prepares, tests and maintains candidate OAGF instruments. It exercises **no authority** beyond
 what the custodian delegates. It cannot adopt anything, cannot interpret its own prohibitions
@@ -31,7 +31,7 @@ affirmative duty to say when deleting, replacing or abandoning your own work bea
 it.
 
 **Worked case, kept here because both halves of it are instructive.** `search_web` was built by
-this workbench on 2026-08-08. The v1 of this file asserted it "produced **0 searches across 83 tool
+this layer on 2026-08-08. The v1 of this file asserted it "produced **0 searches across 83 tool
 calls**" and that figure was wrong: the corpus holds **9 search receipts — 1 in a numbered round
 (round-016 qwen, in a transport-failed sample, outcome OK) and 8 in explicit probes** where GPT,
 Gemini and Qwen all searched when instructed. The count came from a scan that iterated each raw
@@ -60,7 +60,7 @@ number is worth less than a refusal to delete, because it is harder to audit.**
 - **Prompts cannot be repaired after they are sent** (D-36). Review a prompt before it goes out,
   never after.
 
-## Verification — where this workbench has actually failed
+## Verification — where this layer has actually failed
 
 Each rule below is here because it was broken and cost real work. Most are now enforced
 mechanically; the point of restating them is that a tool only covers the path that calls it.
@@ -85,7 +85,7 @@ mechanically; the point of restating them is that a tool only covers the path th
   proven false — **it verifies identity, not truth**; and a conflict-marker check pointed at two
   paths that do not exist, so it examined nothing.
 - **Derive a count; never transcribe one.** Three published numbers were wrong on 2026-08-10, all
-  in this workbench's favour. `derive_counts.py` exists for this and *itself* failed the same way
+  in this layer's favour. `derive_counts.py` exists for this and *itself* failed the same way
   twice more before it held — first classifying an unknown schema as empty, then classifying raw
   files by their embedded spec's type and losing the one datum it was built to protect. **A scan
   that cannot see a file reports absence, and absence looks exactly like a true zero.**

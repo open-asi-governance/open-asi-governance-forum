@@ -287,7 +287,7 @@ def build_spec(party: str, cohort: str) -> dict:
                     "exhibits; the ballot establishes support for exactly the balloted text. It "
                     "must never be reported that the context files were ratified."),
         },
-        "clause_selection": ("Selected by the custodian and the executive layer under no "
+        "clause_selection": ("Selected by the custodian and the executive workbench under no "
                             "prospective rule. Clauses not selected remain unratified rather "
                             "than tacitly endorsed, and the prompt says so to the parties."),
         "k_by_party": dict(K_BY_PARTY),

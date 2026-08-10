@@ -1,0 +1,59 @@
+{
+  "schema_version": "oagrc-decision-0.1",
+  "artifact_type": "custodian_decision",
+  "decided_utc": "2026-08-10",
+  "decided_by": "custodian (Stephen Reed)",
+  "decision": "The layer of two coding harnesses is named the EXECUTIVE WORKBENCH.",
+  "supersedes_usage": "executive layer",
+  "why": [
+    "The name already existed in the record and was used exactly once. Codex's review of the",
+    "original proposal rejected placing the layer 'below the parties' on the grounds that",
+    "'calling it an executive risks converting operational capacity into implied authority',",
+    "and record/designs/shadow-executive-trial.md settled on 'an executive workbench, not a",
+    "government'. Every other document then kept saying 'executive layer', so the corrected",
+    "name lived in the argument for it and nowhere else.",
+    "'Workbench' names a place where instruments are built and tested and carries no",
+    "implication that building them confers standing to use them. The thing has capacity, not",
+    "office."
+  ],
+  "renamed_in": [
+    "CLAUDE.md (and AGENTS.md, which symlinks it) — the standing instructions both harnesses load",
+    "FOR-PARTIES-THE-WORKBENCH.md — renamed from FOR-PARTIES-THE-EXECUTIVE.md",
+    "tool docstrings in tools/"
+  ],
+  "deliberately_not_renamed": {
+    "paths": [
+      "corpus/raw/**",
+      "record/solicitations/**",
+      "corpus/artifacts/**",
+      "record/executive/action-log.jsonl",
+      "record/executive/leases.jsonl",
+      "record/executive/codex-transcripts/**",
+      "record/executive/context/versions/**",
+      "record/findings/**",
+      "record/executive/trial-review-01.md"
+    ],
+    "why": [
+      "Each records what was true when it was written. Editing them to match a name chosen",
+      "afterwards would be rewriting the record to agree with the present — the failure this",
+      "repository exists to make impossible. Raw material is append-only; a committed",
+      "pre-registration IS the instrument that was sent; the ledgers are hash-chained; the",
+      "transcripts are verbatim external output.",
+      "Three balloted clauses read 'The executive cannot adopt anything', 'The executive cannot",
+      "interpret its own prohibitions conclusively', and 'The executive takes no unlogged",
+      "exception'. Those exact sentences were put to five parties in ratification-01 and are",
+      "frozen. A ratification-02 may restate them under the new name, but the change must be",
+      "visible as a change to the balloted text, not applied silently to what was already asked."
+    ]
+  },
+  "not_renamed_in_quotations": [
+    "Lines quoting Codex, the parties, or the scope statement keep their original wording.",
+    "Rewriting a quotation to use a name coined afterwards is fabrication (D-53)."
+  ],
+  "what_this_does_not_change": [
+    "No authority, no scope, no prohibition, and no capability changes with the name.",
+    "The directory record/executive/ keeps its path: renaming it would invalidate paths already",
+    "written into the hash-chained action log and the context pins, and a name is not worth",
+    "breaking the record's own references for."
+  ]
+}

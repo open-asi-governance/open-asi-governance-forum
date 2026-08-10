@@ -58,7 +58,7 @@ have erased the very text a ballot had been about.
 
 ### Defect 3 — the supplied context suppressed the objection route the ballot promised
 
-`FOR-PARTIES-THE-EXECUTIVE.md` told parties: *"Objections belong on the agenda, not in a reply to
+`FOR-PARTIES-THE-WORKBENCH.md` told parties: *"Objections belong on the agenda, not in a reply to
 this document."* The new ballot offers REFUSE and AMEND in a reply. **A party following its own
 context would have suppressed the exact objection the instrument was built to preserve** — and
 the executive would then have reported the resulting silence as consent. Corrected before any

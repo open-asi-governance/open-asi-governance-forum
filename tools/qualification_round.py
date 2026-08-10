@@ -294,7 +294,7 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
         #  Required by both solicitation summary writers. Its absence would have raised KeyError
         #  after the paid samples were already on disk.
         "phase": "Qualification (non-adoptive)",
-        "question": "Which member of each pair places the stricter constraint on the executive layer's conduct?",
+        "question": "Which member of each pair places the stricter constraint on the executive workbench's conduct?",
         "adoptive": False,
         "what_this_can_do": ("Disqualify the ratification instrument that would follow. It "
                              "ballots no proposition and confers no status on any text in it."),
@@ -304,7 +304,7 @@ def build_spec(party: str, cohort: str, k: int) -> dict:
                                 "shows only that these invocations classified the isolated "
                                 "pairwise effects -- not that they would discriminate while "
                                 "reading a full ratification prompt."),
-        "clause_selection": ("The six were selected by the custodian and the executive layer "
+        "clause_selection": ("The six were selected by the custodian and the executive workbench "
                              "under no prospective rule. Clauses not selected remain unratified "
                              "rather than tacitly endorsed."),
         "verbatim_departures": [

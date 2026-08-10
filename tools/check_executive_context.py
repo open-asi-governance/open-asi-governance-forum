@@ -8,7 +8,7 @@
 
 Why this exists
 ---------------
-The instructions that actually govern the executive layer are not in this repository. Claude
+The instructions that actually govern the executive workbench are not in this repository. Claude
 Code loads `/home/reed/git/CLAUDE.md` from the parent workspace; Codex loads
 `~/.codex/AGENTS.md` from its own home config. Neither was tracked here, in the manifest,
 anchored, or visible to any party -- and both shape every review, design and refusal the layer
