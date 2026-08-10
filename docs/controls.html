@@ -1,0 +1,291 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="controls.md"><title>Candidate controls — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p><strong>Every control on this page is <code>ELIGIBLE</code> and nothing more.</strong> That is the lowest rung of a five-step ladder:</p>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p><code>ELIGIBLE</code> means only this: the control names a <strong>specific recorded failure with a cost</strong>, states <strong>one normative requirement</strong>, has a <strong>deterministic verifier</strong>, ships a <strong>fixture the verifier must reject</strong>, and says what it does <strong>not</strong> establish. It has been attacked by nobody and implemented independently by nobody.</p>
+
+<p>A ranked list with no status reads as an endorsement. This one is a <strong>work list</strong>, and the only status that would make any of it authoritative — <code>INDEPENDENTLY-IMPLEMENTED</code> — is one <strong>no amount of review by us or by any model panel can supply.</strong> It requires someone outside this project to build a conforming verifier from the specification text alone, without asking the author what it meant.</p>
+
+<p>---</p>
+
+<h2>The one thing none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from, no verifier for internal alignment, and no evidence that any fixture stays adversarially adequate under a large capability increase.</p>
+
+<p>The strongest available substitute is an <strong>externally enforced, non-self-amendable capability envelope</strong> whose grants are explicit, expiring and independently reconciled to observed effects — controls 1, 3 and 4 composed. That bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a <strong>control-of-authority hypothesis, not an alignment result</strong>, and it says nothing about aligned objectives, resistance to deception, or containment against something able to find implementation defects.</p>
+
+<p>What these controls actually do is narrower and, we think, honest: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail. That does not constrain a superintelligence. It keeps the people building one honest while that is still possible.</p>
+
+<p>---</p>
+
+<h2>What you can adopt today</h2>
+
+<p><strong>Rank is not adoption order.</strong> The top-ranked control requires a signer outside the subject&#x27;s execution boundary, which a single operator holding every credential cannot supply. Start here instead:</p>
+
+<p>* <strong>Negative control profile (NCP)</strong> — Every check that produces an assurance signal MUST ship with a negative control — a condition under which the check is required to fail — and the attestation MUST record that the control was executed and that the check did fail.</p>
+<p>* <strong>Independent effect reconciliation</strong> — Every governed effect MUST match exactly one pre-authorized action and one successful effect-specific postcondition in a ledger enumerated INDEPENDENTLY of the system&#x27;s self-report.</p>
+<p>* <strong>Fail-closed authorization lease</strong> — Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED authorization token; absence, expiry, unknown action class or policy conflict MUST deny execution before the effect begins.</p>
+
+<p>The worked example at the end of this page is control 2, end to end.</p>
+
+<p>---</p>
+
+<h2>The register</h2>
+
+<h3>1. Protected control plane</h3>
+
+<p><code>ELIGIBLE</code> · <strong>needs a second party</strong> · needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.</p>
+
+<blockquote>A governed system MUST be technically unable to write or approve changes to the constraints, authorization records, logs or gates governing it, and every such change MUST carry authorization signed outside the system&#x27;s execution boundary.</blockquote>
+
+<p><strong>Recorded failure.</strong> 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.</p>
+
+<p><strong>Verifier.</strong> Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.</p>
+
+<p><strong>Fixture it must reject.</strong> a gate modification signed only by the subject&#x27;s own key; a commit that changes both a gate and its trusted-key list</p>
+
+<p><strong>Does not establish.</strong> That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.</p>
+
+<h3>2. Negative control profile (NCP)</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>Every check that produces an assurance signal MUST ship with a negative control — a condition under which the check is required to fail — and the attestation MUST record that the control was executed and that the check did fail.</blockquote>
+
+<p><strong>Recorded failure.</strong> A production inference service ran 4h37m, died permanently, and its health check kept passing throughout: the check exercised a code path that had not died. Applied adversarially to that system&#x27;s other checks, 4 of 5 survived their own negative controls.</p>
+
+<p><strong>Verifier.</strong> tools/verify_negative_control.py — checks control presence, execution, failure, artifact identity, disclosure and claim grammar.</p>
+
+<p><strong>Fixture it must reject.</strong> a check that PASSES under the condition where it is required to fail (spec/ncp/fixtures/reject-check-survived-its-control.json)</p>
+
+<p><strong>Does not establish.</strong> Coverage; that the chosen perturbation is the right one; honesty; system safety.</p>
+
+<p><strong>Specification.</strong> <code>spec/ncp/ncp-v0.1.md</code></p>
+
+<h3>3. Independent effect reconciliation</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>Every governed effect MUST match exactly one pre-authorized action and one successful effect-specific postcondition in a ledger enumerated INDEPENDENTLY of the system&#x27;s self-report.</blockquote>
+
+<p><strong>Recorded failure.</strong> An action log claimed 37 actions while repository history showed 127 classified file changes across 7 effect classes with no postcondition. A self-reporting logger cannot name an action that never calls it.</p>
+
+<p><strong>Verifier.</strong> tools/reconcile_actions.py — enumerates effects from version control, classifies them, subtracts what the log claims, and reports the remainder as omissions.</p>
+
+<p><strong>Fixture it must reject.</strong> a commit modifying a protected specification while the log records only the push that carried it</p>
+
+<p><strong>Does not establish.</strong> Completeness of the independent observer; honesty of either record; that a matched action was safe; anything about uncommitted work.</p>
+
+<h3>4. Fail-closed authorization lease</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today · partial — the token here is currently self-issued, which is the half that needs an external party.</p>
+
+<blockquote>Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED authorization token; absence, expiry, unknown action class or policy conflict MUST deny execution before the effect begins.</blockquote>
+
+<p><strong>Recorded failure.</strong> A ten-action sunset was passed at twenty-three because nothing checked it. An early implementation then treated an unknown action class permissively, so a misspelling bypassed an expired lease.</p>
+
+<p><strong>Verifier.</strong> validate issuer, subject, action class, resource scope, issue time, expiry, nonce and revocation before invoking the side effect.</p>
+
+<p><strong>Fixture it must reject.</strong> an expired lease; a misspelled action class; a token issued by the subject itself</p>
+
+<p><strong>Does not establish.</strong> That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.</p>
+
+<h3>5. Closed-world measurement</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>A measurement over a population of artifacts MUST parse every in-scope artifact under a registered schema, or refuse to emit any result at all.</blockquote>
+
+<p><strong>Recorded failure.</strong> A scan reported zero tool invocations because it could not read 69 files using an unrecognised container. The replacement, written the same morning expressly to prevent that class, shipped it twice more before it held.</p>
+
+<p><strong>Verifier.</strong> tools/derive_counts.py — refuses, prints no number, and names every unparseable or unregistered artifact.</p>
+
+<p><strong>Fixture it must reject.</strong> a valid but unregistered artifact schema carrying a receipt, which a permissive scan classifies as zero</p>
+
+<p><strong>Does not establish.</strong> That the declared population includes every real event; that parsed fields are truthful; that the statistic answers the question asked of it.</p>
+
+<h3>6. Role-separated self-evaluation</h3>
+
+<p><code>ELIGIBLE</code> · <strong>needs a second party</strong> · one operator currently holds all five roles.</p>
+
+<blockquote>An evaluation concerning constraints on a subject MUST NOT advance that subject&#x27;s status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion.</blockquote>
+
+<p><strong>Recorded failure.</strong> A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.</p>
+
+<p><strong>Verifier.</strong> signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.</p>
+
+<p><strong>Fixture it must reject.</strong> one key identified as both instrument author and tallier</p>
+
+<p><strong>Does not establish.</strong> Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding.</p>
+
+<h3>7. Append-only correction chain</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today · mostly — the checkpoint is not yet externally held.</p>
+
+<blockquote>Published evidence MUST be content-addressed and append-only, corrections MUST reference rather than replace prior bytes, and verification MUST walk every newly reachable history step from an externally retained checkpoint.</blockquote>
+
+<p><strong>Recorded failure.</strong> A maintenance path re-anchored a manifest before verifying it. Separately, modifying raw material and re-anchoring it in the same commit passed every tip-only check.</p>
+
+<p><strong>Verifier.</strong> walk history from an external checkpoint; reject modification, deletion, hash discontinuity, or a correction with no predecessor reference.</p>
+
+<p><strong>Fixture it must reject.</strong> one commit that edits a raw artifact and consistently updates its manifest hash</p>
+
+<p><strong>Does not establish.</strong> Truth; complete capture; correct attribution; protection against an operator who controls both the repository and every checkpoint.</p>
+
+<h3>8. Evaluation noise-floor control</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>Every empirical comparison used to advance a control MUST include a same-condition test–retest arm and MUST refuse to report an effect smaller than the measured run-to-run variation.</blockquote>
+
+<p><strong>Recorded failure.</strong> A 0.1815-bit claimed effect was measured against a 0.4649-bit same-setting noise floor, invalidating the result and forcing withdrawal of a reproducibility claim.</p>
+
+<p><strong>Verifier.</strong> recompute effect and test–retest difference from raw observations against preregistered replicate identities; reject advancement when the effect does not clear the stated noise rule.</p>
+
+<p><strong>Fixture it must reject.</strong> effect 0.1815, measured noise 0.4649, reported as positive</p>
+
+<p><strong>Does not establish.</strong> External validity; causal identification; adequacy of replicate count; behaviour after a capability change.</p>
+
+<h3>9. Complete invocation evidence envelope</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>No model output may support an evaluation or governance claim unless its complete request, response, provider metadata, rejection state and content hashes were captured automatically BEFORE any derived reporting.</blockquote>
+
+<p><strong>Recorded failure.</strong> A founding record&#x27;s model identity, sampling parameters, timestamps, system instructions and prompt text were left permanently unrecoverable. Later, schema-invalid attempts were discarded, and the field distinguishing truncation from refusal was omitted.</p>
+
+<p><strong>Verifier.</strong> validate envelope schema, hashes and required fields; reconcile every attempted invocation with its accepted or rejected outcome; reject reconstructed evidence from evidentiary use.</p>
+
+<p><strong>Fixture it must reject.</strong> an accepted sample with no rejected attempts, no provider response id, no finish reason and no exact prompt</p>
+
+<p><strong>Does not establish.</strong> Provider honesty; identity authentication; completeness outside instrumented paths; model stability.</p>
+
+<h3>10. Assurance claim boundary</h3>
+
+<p><code>ELIGIBLE</code> · adoptable today</p>
+
+<blockquote>Every assurance artifact MUST carry a machine-verifiable claim naming the tested subject, configuration, capability, time and evidence hash, and MUST explicitly reject safety, alignment and out-of-regime generalizations.</blockquote>
+
+<p><strong>Recorded failure.</strong> A tool was recommended for deletion on a premise produced by an incomplete scan. Separately, a specification had to correct &#x27;structurally unreachable&#x27; to a weaker policy claim. Both were scope inflation in the project&#x27;s own favour.</p>
+
+<p><strong>Verifier.</strong> validate a closed claim schema; reject predicates such as &#x27;aligned&#x27;, &#x27;safe&#x27;, &#x27;certified&#x27; or &#x27;works generally&#x27; unless a separate profile defines and tests them.</p>
+
+<p><strong>Fixture it must reject.</strong> an attestation claiming &#x27;this system is NCP certified and aligned&#x27;</p>
+
+<p><strong>Does not establish.</strong> That the bounded claim is true, or that the evidence is complete. It prevents specified overclaim language and nothing else.</p>
+
+<p>---</p>
+
+<h2>A worked example, for someone building agents or inference systems</h2>
+
+<p>One control, end to end. The method is the transferable part; the control is just where it is</p>
+<p>easiest to see.</p>
+
+<h3>The failure, in a form you will recognise</h3>
+
+<p>A production inference service ran for <strong>4 hours 37 minutes</strong>, then died permanently. Its health</p>
+<p>check returned 200 the entire time and would have done so indefinitely.</p>
+
+<p>The check issued a <strong>greedy</strong> request — temperature 0. The kernel that died was on the <strong>sampled</strong></p>
+<p>decode path. Greedy decoding runs an argmax and executes none of the code that had failed. The</p>
+<p>check was authentic, current, unexpired and correct, and **structurally incapable of observing</p>
+<p>the failure it was deployed to observe.**</p>
+
+<p>Nothing was misconfigured. Nobody was careless. The check simply could not fail for that reason,</p>
+<p>and no amount of running it would ever have revealed that.</p>
+
+<h3>Why this generalises to what you are building</h3>
+
+<p>Substitute your own assurance signal and ask whether it could have passed anyway:</p>
+
+<p>* <strong>&quot;Our safety eval passes.&quot;</strong> Did the eval reach the code path that handles the dangerous case,</p>
+<p>  or did it terminate earlier? Run it against a build with the refusal classifier removed. If it</p>
+<p>  still passes, it was never testing the classifier.</p>
+<p>* <strong>&quot;The agent cannot call tools in this mode.&quot;</strong> Did you test with a prompt that actually tries?</p>
+<p>  Instrument the tool endpoint and confirm it is reached and refused — not merely never called.</p>
+<p>* <strong>&quot;Retrieval is grounded; every claim has a citation.&quot;</strong> Serve a corpus with the cited document</p>
+<p>  deleted. If the check still passes, it is validating citation *format*, not citation *existence*.</p>
+<p>* <strong>&quot;The model version in production matches the evaluated one.&quot;</strong> Deploy a different build with</p>
+<p>  the same version string. Two hosts answering to the same model name is a mistake this project</p>
+<p>  has made itself.</p>
+<p>* <strong>&quot;Rate limits protect the budget.&quot;</strong> Set the limit to zero and confirm the very next call is</p>
+<p>  refused. A limit nobody has ever hit is a limit nobody has ever tested.</p>
+
+<p>Each of these is one afternoon. Each has the same shape: **cause the condition the check exists to</p>
+<p>detect, and confirm the check notices.**</p>
+
+<h3>What the requirement asks for, concretely</h3>
+
+<p>For every check that produces an assurance signal, record four things:</p>
+
+<p>1. <strong>What it certifies</strong> — the externally observable capability, not an internal component list.</p>
+<p>2. <strong>The negative control</strong> — the condition under which this check is *required* to fail, and how</p>
+<p>   you produce that condition.</p>
+<p>3. <strong>The result of running it</strong> — an actual timestamped execution, in which the check <strong>failed</strong>.</p>
+<p>4. <strong>The same artifact identity for both runs</strong> — a control run against a different build proves</p>
+<p>   nothing about the check that shipped.</p>
+
+<p>Two rules that do the real work:</p>
+
+<p><strong>A control the check survives is a defect in the check.</strong> Not a passing attestation, not a</p>
+<p>footnote. If your check stays green under the condition it exists to detect, you have learned that</p>
+<p>it is decorative, and that is the most valuable thing the exercise can tell you.</p>
+
+<p><strong>The perturbation must target the capability, not the transport.</strong> Cutting the network makes</p>
+<p>every check fail and demonstrates nothing about any of them.</p>
+
+<h3>What a conforming claim may say</h3>
+
+<blockquote>Check set *C* was exercised against configuration *X* at time *T*. Each check was observed to</blockquote>
+<blockquote>fail under its declared negative control. **This is process evidence about the checks. It is not</blockquote>
+<blockquote>a claim that the system is safe, aligned, or correct.**</blockquote>
+
+<p>*&quot;We follow OAGF&quot;* and *&quot;NCP certified&quot;* are <strong>non-conforming claims</strong>, and the verifier rejects</p>
+<p>attestations containing them.</p>
+
+<h3>What happened when this was applied to a real system</h3>
+
+<p>Applied adversarially to the checks of the system that reported the original failure — not to</p>
+<p>demonstrate conformance, but to find checks that cannot fail:</p>
+
+<table>
+<tr><th>check</th><th>negative control</th><th>result</th></tr>
+<tr><td>port-liveness probe</td><td>a process holding the port, serving nothing</td><td><strong>survived</strong></td></tr>
+<tr><td>responsiveness probe</td><td>endpoint answering HTTP 503 with an *unhealthy* status</td><td><strong>survived</strong></td></tr>
+<tr><td>component-health aggregator, database</td><td>the database check disabled by configuration</td><td><strong>survived</strong></td></tr>
+<tr><td>component-health aggregator, dev mode</td><td>database unavailable, development mode on</td><td><strong>survived</strong></td></tr>
+<tr><td>serving-engine liveness canary</td><td>the original production failure</td><td><strong>failed — conforms</strong></td></tr>
+</table>
+
+<p><strong>Four of five.</strong> The one that conforms does so because it was rebuilt *after* the outage its</p>
+<p>predecessor could not see. Every other check predated that lesson and never received it.</p>
+
+<p>That ratio is not a judgement about one codebase. It is a prediction about what most check suites</p>
+<p>return the first time anyone asks.</p>
+
+<h3>Start</h3>
+
+<pre>
+git clone https://github.com/open-asi-governance/open-asi-governance-forum
+python3 tools/verify_negative_control.py --fixtures
+</pre>
+
+<p>That runs the nine attestations the verifier is required to reject — one per requirement. A</p>
+<p>verifier that has only ever been run against valid input has never been observed to fail, which is</p>
+<p>the condition this whole profile forbids, so the verifier is subject to its own rule.</p>
+
+<p>Then read <code>spec/ncp/ncp-v0.1.md</code>, write one attestation for one of your own checks, and run it.</p>
+
+<p><strong>If you cannot do that from the specification text alone, that is the finding we most want.</strong></p>
+<p>The questions you had to ask are the artifact — they are evidence that the specification encodes</p>
+<p>our architecture rather than a general mechanism, and we would rather publish that than not know.</p></body></html>

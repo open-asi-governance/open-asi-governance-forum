@@ -1009,6 +1009,11 @@ deliberation, three review rounds, and the local solicitation rounds.</p></div>
 <div class="card"><h3><a href="deficiencies.html">Deficiency register ({defects})</a></h3>
 <p>Defects this project has filed against itself, including against its own instruments and its own
 tooling. Read this before citing anything here.</p></div>
+<div class="card"><h3><a href="controls.html">Candidate controls</a></h3>
+<p>Ten candidate assurance controls, each derived from a recorded failure with a cost, each with a
+verifier and a fixture it must reject. All are ELIGIBLE and none independently implemented — the
+page says what that is worth. Includes a worked example for someone building agents or inference
+systems.</p></div>
 <div class="card"><h3><a href="predictions.html">Prediction registry</a></h3>
 <p>Dated claims about this project, scored on fixed dates — published with the reasons the scores
 are weak evidence.</p></div>
@@ -1061,6 +1066,9 @@ def build_landing_md(plan: list[dict], nodes: list[dict]) -> str:
         "  each under 20,000 tokens. Plain-text alternate: [record.md](record.md)",
         f"- [Deficiency register](deficiencies.html) — {defects} defects this project has filed",
         "  against itself. Read before citing anything.",
+        "- [Candidate controls](controls.html) — ten candidate assurance controls, each from a",
+        "  recorded failure, with a verifier and a must-reject fixture. All ELIGIBLE, none",
+        "  independently implemented. Worked example for agent and inference developers.",
         "- [Prediction registry](predictions.html) — dated claims, scored on fixed dates,",
         "  published with the reasons the scores are weak evidence.",
         "- [Deliberation rounds](rounds/index.md) — every round: the question, the exact prompt",
@@ -1216,6 +1224,7 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
         "",
         "## Register and appendices",
         "",
+        "- [Candidate controls](controls.html): ten candidate assurance controls, each derived from a recorded failure, each with a verifier and a fixture it must reject. All ELIGIBLE, none independently implemented. Includes a worked example for agent and inference developers.",
         "- [Deficiency register](deficiencies.html): defects this project has filed against itself.",
         "- [Deficiency register, plain text](deficiencies.md)",
         "- [Local solicitation rounds](local/index.html): k >= 5 with computed variance.",
@@ -1239,6 +1248,7 @@ CHUNK = 200
 def build_sitemap(plan: list[dict]) -> dict[str, str]:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
+            "controls.html", "controls.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
             "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
     #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
@@ -1302,6 +1312,11 @@ def main() -> int:
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
     keep |= {"index.html", "index.md", "record.html", "record.md",
              "predictions.html", "predictions.md", "for-parties.md",
+             #  Written by an EARLIER rebuild step. Omitting it here meant the viewer silently
+             #  deleted a page that had just been published and reported success -- the link
+             #  checker caught it, nothing else would have. Any new generated page must be added
+             #  here in the same commit that generates it.
+             "controls.html", "controls.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
     #  written -- the shared-subtree failure this repository has now had twice.

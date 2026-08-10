@@ -77,6 +77,8 @@ STEPS = [
     # the site links to pages the build does not produce.
     ("publish the proposal cohorts", ["tools/build_cohort_pages.py"]),
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
+    #  Before the viewer, which owns the sitemap and llms.txt and needs this route.
+    ("publish the candidate control register", ["tools/build_controls_page.py"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added
     # to rebuild.py's step list, no diff on an unchanged tree (A10)". It was not in
