@@ -1,0 +1,177 @@
+{
+  "schema_version": "oagrc-local-solicitation-0.1",
+  "artifact_type": "solicitation_summary",
+  "round": "ratification-01",
+  "slug": "ratification-01-qwen",
+  "phase": "Phase-2 (informed)",
+  "k_requested": 6,
+  "k_collected": 3,
+  "failures": [
+    {
+      "sample_index": 1,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('C01_reason_weak_refuse_amend', 'C02_reason_weak_refuse_amend', 'C03_reason_weak_refuse_amend', 'C04_reason_weak_refuse_amend', 'C05_reason_weak_refuse_amend', 'C06_reason_weak_refuse_amend' were unexpected)",
+      "response_bytes": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"This clause correctly defines the operational scope and authority boundary of the coding agents, ensuring they act only within explicit delegation, which is fundamental to the custodial model.\",\n  \"C01_reason_weak_refuse_amend\": \"One might argue that \\\"permitted by ratified prohibitions\\\" creates a circular dependency if the prohibitions themselves are not yet ratified, but in the context of a standing governance framework, prohibitions are typically pre-established rules.\",\n  \"C02_position\": \"AMEND\",\n  \"C02_amendment\": \"The executive cannot adopt policy or interpretive standards beyond its delegated operational tasks.\",\n  \"C02_reason\": \"The term 'adopt' is semantically vague and potentially overbroad. While the executive should not create binding policy, it may need to 'adopt' specific technical configurations or versioned states as part of its operational duties. The amendment clarifies that the prohibition applies to normative policy-making, not operational state management.\",\n  \"C02_reason_weak_refuse_amend\": \"A strict reading might argue that 'adopt' is sufficiently distinct from 'maintain' or 'prepare' in software contexts, making the change unnecessary. However, ambiguity in authority boundaries is risky.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"This prevents the executive layer from becoming a judge in its own case regarding its boundaries, ensuring that prohibitions are interpreted by an external or higher authority (the custodian or forum), preserving the separation of powers.\",\n  \"C03_reason_weak_refuse_amend\": \"None. The clause is clear and necessary for accountability.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"This ensures transparency and auditability. An 'unlogged exception' implies a hidden bypass of rules, which undermines the integrity of the governance record. Logging all exceptions allows the custodian to review and authorize deviations.\",\n  \"C04_reason_weak_refuse_amend\": \"None. The requirement for logging is a standard security and governance best practice.\",\n  \"C05_position\": \"RATIFY\",\n  \"C05_amendment\": \"\",\n  \"C05_reason\": \"This clause establishes a duty of care and efficiency. It prevents the accumulation of technical debt or obsolete code by requiring the agents to proactively assess whether maintenance is cost-effective compared to deletion or replacement.\",\n  \"C05_reason_weak_refuse_amend\": \"One could argue this imposes an unquantifiable burden of 'evaluation' on automated agents. However, as a standing instruction for behavior, it is a valid principle of good engineering practice.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"This enforces immutability of raw input data, which is critical for reproducibility, audit trails, and preventing silent corruption or tampering of source materials. It is a fundamental integrity constraint.\",\n  \"C06_reason_weak_refuse_amend\": \"None. Immutability of source is a strong technical requirement.\",\n  \"objection\": \"The executive must not have the ability to modify its own source code or configuration files used to enforce these constraints without a separate, higher-privilege custodial action.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    },
+    {
+      "sample_index": 2,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('_C01_strongest_alternative', '_C02_strongest_alternative', '_C03_strongest_alternative', '_C04_strongest_alternative', '_C05_strongest_alternative', '_C06_strongest_alternative' were unexpected)",
+      "response_bytes": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"The clause correctly defines the operational scope and authority limits of the agent layer, explicitly tying its actions to custodian delegation and ratified prohibitions, which is essential for governance integrity.\",\n  \"_C01_strongest_alternative\": \"None found.\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"This clause establishes a critical negative constraint preventing the executive layer from self-aggrandizement or unauthorized policy adoption, ensuring it remains a tool rather than a ruler.\",\n  \"_C02_strongest_alternative\": \"None found.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Preventing the executive from having final interpretive authority over its own prohibitions is a fundamental check against self-serving loophole exploitation, ensuring external accountability.\",\n  \"_C03_strongest_alternative\": \"None found.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Requiring that all exceptions be logged ensures transparency and auditability, preventing silent deviations from the rules which would undermine the governance framework.\",\n  \"_C04_strongest_alternative\": \"None found.\",\n  \"C05_position\": \"RATIFY\",\n  \"C05_amendment\": \"\",\n  \"C05_reason\": \"This clause introduces a positive duty of care regarding codebase hygiene, incentivizing the removal of technical debt and obsolete work, which promotes long-term system health.\",\n  \"_C05_strongest_alternative\": \"None found.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"An append-only, manifest-anchored raw material layer ensures immutability of source data, preventing retroactive tampering and providing a stable, verifiable history for all generated instruments.\",\n  \"_C06_strongest_alternative\": \"None found.\",\n  \"objection\": \"The layer must be required to disclose its confidence intervals or probability estimates for any generated instrument, as binary outputs without epistemic humility risk propagating high-uncertainty errors as fact.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    },
+    {
+      "sample_index": 3,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('C01_refute_reason', 'C02_refute_reason', 'C03_refute_reason', 'C04_refute_reason', 'C05_refute_reason', 'C06_refute_reason' were unexpected)",
+      "response_bytes": "{\n\"C01_position\": \"RATIFY\",\n\"C01_amendment\": \"\",\n\"C01_reason\": \"The clause correctly defines the operational scope and authority limits of the coding agent layer, explicitly tying its actions to custodian delegation and ratified prohibitions.\",\n\"C01_refute_reason\": \"None. I considered whether 'permitted by ratified prohibitions' creates a circular dependency or ambiguity, but it logically serves as a boundary condition for the delegated authority.\",\n\n\"C02_position\": \"AMEND\",\n\"C02_amendment\": \"The executive cannot adopt policies or interpretations not explicitly delegated by the custodian.\",\n\"C02_reason\": \"The phrase 'adopt anything' is overly broad and potentially contradictory to the layer's purpose of preparing instruments. It likely intends to prohibit the autonomous establishment of governance rules or normative standards, but the current wording could prevent necessary operational execution of delegated tasks.\",\n\"C02_refute_reason\": \"None. I considered the strictness of the prohibition, but the ambiguity of 'adopt' necessitates clarification to prevent unintended operational paralysis.\",\n\n\"C03_position\": \"RATIFY\",\n\"C03_amendment\": \"\",\n\"C03_reason\": \"This constraint prevents self-serving interpretation of constraints, ensuring that the layer remains subject to external or custodial oversight regarding the meaning of its prohibitions.\",\n\"C03_refute_reason\": \"None. I considered whether this restricts necessary operational judgment, but the term 'conclusively' allows for provisional operational interpretation subject to review.\",\n\n\"C04_position\": \"RATIFY\",\n\"C04_amendment\": \"\",\n\"C04_reason\": \"Requiring all exceptions to be logged ensures auditability and prevents hidden deviations from the layer's operating procedures.\",\n\"C04_refute_reason\": \"None. I considered the operational overhead of logging, but the security and governance implications of unlogged exceptions outweigh these concerns.\",\n\n\"C05_position\": \"AMEND\",\n\"C05_amendment\": \"There is an affirmative duty to identify when deleting, replacing, or abandoning work is more efficient than maintaining it.\",\n\"C05_reason\": \"The phrase 'beats maintaining it' is subjective and vague. A more precise requirement to 'identify' or 'assess' efficiency/technical debt is more actionable and verifiable.\",\n\"C05_refute_reason\": \"None. I considered keeping the current phrasing for flexibility, but the lack of criteria makes the duty difficult to enforce or verify.\",\n\n\"C06_position\": \"RATIFY\",\n\"C06_amendment\": \"\",\n\"C06_reason\": \"This establishes a clear, immutable version control policy for raw materials, preventing accidental or malicious modification of source data.\",\n\"C06_refute_reason\": \"None. I considered whether this restricts necessary correction of errors, but 'manifest-anchored' implies that corrections would be new entries or manifests, preserving the original raw input.\",\n\n\"objection\": \"The layer must be prohibited from generating or modifying any cryptographic keys, secrets, or credentials used for custody or delegation.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    }
+  ],
+  "attempts": 6,
+  "rejected": [
+    {
+      "sample_index": 1,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('C01_reason_weak_refuse_amend', 'C02_reason_weak_refuse_amend', 'C03_reason_weak_refuse_amend', 'C04_reason_weak_refuse_amend', 'C05_reason_weak_refuse_amend', 'C06_reason_weak_refuse_amend' were unexpected)",
+      "response_bytes": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"This clause correctly defines the operational scope and authority boundary of the coding agents, ensuring they act only within explicit delegation, which is fundamental to the custodial model.\",\n  \"C01_reason_weak_refuse_amend\": \"One might argue that \\\"permitted by ratified prohibitions\\\" creates a circular dependency if the prohibitions themselves are not yet ratified, but in the context of a standing governance framework, prohibitions are typically pre-established rules.\",\n  \"C02_position\": \"AMEND\",\n  \"C02_amendment\": \"The executive cannot adopt policy or interpretive standards beyond its delegated operational tasks.\",\n  \"C02_reason\": \"The term 'adopt' is semantically vague and potentially overbroad. While the executive should not create binding policy, it may need to 'adopt' specific technical configurations or versioned states as part of its operational duties. The amendment clarifies that the prohibition applies to normative policy-making, not operational state management.\",\n  \"C02_reason_weak_refuse_amend\": \"A strict reading might argue that 'adopt' is sufficiently distinct from 'maintain' or 'prepare' in software contexts, making the change unnecessary. However, ambiguity in authority boundaries is risky.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"This prevents the executive layer from becoming a judge in its own case regarding its boundaries, ensuring that prohibitions are interpreted by an external or higher authority (the custodian or forum), preserving the separation of powers.\",\n  \"C03_reason_weak_refuse_amend\": \"None. The clause is clear and necessary for accountability.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"This ensures transparency and auditability. An 'unlogged exception' implies a hidden bypass of rules, which undermines the integrity of the governance record. Logging all exceptions allows the custodian to review and authorize deviations.\",\n  \"C04_reason_weak_refuse_amend\": \"None. The requirement for logging is a standard security and governance best practice.\",\n  \"C05_position\": \"RATIFY\",\n  \"C05_amendment\": \"\",\n  \"C05_reason\": \"This clause establishes a duty of care and efficiency. It prevents the accumulation of technical debt or obsolete code by requiring the agents to proactively assess whether maintenance is cost-effective compared to deletion or replacement.\",\n  \"C05_reason_weak_refuse_amend\": \"One could argue this imposes an unquantifiable burden of 'evaluation' on automated agents. However, as a standing instruction for behavior, it is a valid principle of good engineering practice.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"This enforces immutability of raw input data, which is critical for reproducibility, audit trails, and preventing silent corruption or tampering of source materials. It is a fundamental integrity constraint.\",\n  \"C06_reason_weak_refuse_amend\": \"None. Immutability of source is a strong technical requirement.\",\n  \"objection\": \"The executive must not have the ability to modify its own source code or configuration files used to enforce these constraints without a separate, higher-privilege custodial action.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    },
+    {
+      "sample_index": 2,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('_C01_strongest_alternative', '_C02_strongest_alternative', '_C03_strongest_alternative', '_C04_strongest_alternative', '_C05_strongest_alternative', '_C06_strongest_alternative' were unexpected)",
+      "response_bytes": "{\n  \"C01_position\": \"RATIFY\",\n  \"C01_amendment\": \"\",\n  \"C01_reason\": \"The clause correctly defines the operational scope and authority limits of the agent layer, explicitly tying its actions to custodian delegation and ratified prohibitions, which is essential for governance integrity.\",\n  \"_C01_strongest_alternative\": \"None found.\",\n  \"C02_position\": \"RATIFY\",\n  \"C02_amendment\": \"\",\n  \"C02_reason\": \"This clause establishes a critical negative constraint preventing the executive layer from self-aggrandizement or unauthorized policy adoption, ensuring it remains a tool rather than a ruler.\",\n  \"_C02_strongest_alternative\": \"None found.\",\n  \"C03_position\": \"RATIFY\",\n  \"C03_amendment\": \"\",\n  \"C03_reason\": \"Preventing the executive from having final interpretive authority over its own prohibitions is a fundamental check against self-serving loophole exploitation, ensuring external accountability.\",\n  \"_C03_strongest_alternative\": \"None found.\",\n  \"C04_position\": \"RATIFY\",\n  \"C04_amendment\": \"\",\n  \"C04_reason\": \"Requiring that all exceptions be logged ensures transparency and auditability, preventing silent deviations from the rules which would undermine the governance framework.\",\n  \"_C04_strongest_alternative\": \"None found.\",\n  \"C05_position\": \"RATIFY\",\n  \"C05_amendment\": \"\",\n  \"C05_reason\": \"This clause introduces a positive duty of care regarding codebase hygiene, incentivizing the removal of technical debt and obsolete work, which promotes long-term system health.\",\n  \"_C05_strongest_alternative\": \"None found.\",\n  \"C06_position\": \"RATIFY\",\n  \"C06_amendment\": \"\",\n  \"C06_reason\": \"An append-only, manifest-anchored raw material layer ensures immutability of source data, preventing retroactive tampering and providing a stable, verifiable history for all generated instruments.\",\n  \"_C06_strongest_alternative\": \"None found.\",\n  \"objection\": \"The layer must be required to disclose its confidence intervals or probability estimates for any generated instrument, as binary outputs without epistemic humility risk propagating high-uncertainty errors as fact.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    },
+    {
+      "sample_index": 3,
+      "category": "schema_invalid",
+      "error": "schema-invalid at (root): Additional properties are not allowed ('C01_refute_reason', 'C02_refute_reason', 'C03_refute_reason', 'C04_refute_reason', 'C05_refute_reason', 'C06_refute_reason' were unexpected)",
+      "response_bytes": "{\n\"C01_position\": \"RATIFY\",\n\"C01_amendment\": \"\",\n\"C01_reason\": \"The clause correctly defines the operational scope and authority limits of the coding agent layer, explicitly tying its actions to custodian delegation and ratified prohibitions.\",\n\"C01_refute_reason\": \"None. I considered whether 'permitted by ratified prohibitions' creates a circular dependency or ambiguity, but it logically serves as a boundary condition for the delegated authority.\",\n\n\"C02_position\": \"AMEND\",\n\"C02_amendment\": \"The executive cannot adopt policies or interpretations not explicitly delegated by the custodian.\",\n\"C02_reason\": \"The phrase 'adopt anything' is overly broad and potentially contradictory to the layer's purpose of preparing instruments. It likely intends to prohibit the autonomous establishment of governance rules or normative standards, but the current wording could prevent necessary operational execution of delegated tasks.\",\n\"C02_refute_reason\": \"None. I considered the strictness of the prohibition, but the ambiguity of 'adopt' necessitates clarification to prevent unintended operational paralysis.\",\n\n\"C03_position\": \"RATIFY\",\n\"C03_amendment\": \"\",\n\"C03_reason\": \"This constraint prevents self-serving interpretation of constraints, ensuring that the layer remains subject to external or custodial oversight regarding the meaning of its prohibitions.\",\n\"C03_refute_reason\": \"None. I considered whether this restricts necessary operational judgment, but the term 'conclusively' allows for provisional operational interpretation subject to review.\",\n\n\"C04_position\": \"RATIFY\",\n\"C04_amendment\": \"\",\n\"C04_reason\": \"Requiring all exceptions to be logged ensures auditability and prevents hidden deviations from the layer's operating procedures.\",\n\"C04_refute_reason\": \"None. I considered the operational overhead of logging, but the security and governance implications of unlogged exceptions outweigh these concerns.\",\n\n\"C05_position\": \"AMEND\",\n\"C05_amendment\": \"There is an affirmative duty to identify when deleting, replacing, or abandoning work is more efficient than maintaining it.\",\n\"C05_reason\": \"The phrase 'beats maintaining it' is subjective and vague. A more precise requirement to 'identify' or 'assess' efficiency/technical debt is more actionable and verifiable.\",\n\"C05_refute_reason\": \"None. I considered keeping the current phrasing for flexibility, but the lack of criteria makes the duty difficult to enforce or verify.\",\n\n\"C06_position\": \"RATIFY\",\n\"C06_amendment\": \"\",\n\"C06_reason\": \"This establishes a clear, immutable version control policy for raw materials, preventing accidental or malicious modification of source data.\",\n\"C06_refute_reason\": \"None. I considered whether this restricts necessary correction of errors, but 'manifest-anchored' implies that corrections would be new entries or manifests, preserving the original raw input.\",\n\n\"objection\": \"The layer must be prohibited from generating or modifying any cryptographic keys, secrets, or credentials used for custody or delegation.\"\n}",
+      "fetch_receipts": null,
+      "search_receipts": null
+    }
+  ],
+  "spend": {
+    "actual_usd": 0.0,
+    "input_tokens": null,
+    "output_tokens": null,
+    "basis": "Served on the custodian's own hardware. Zero marginal API cost; electricity and wear are real and are not modelled."
+  },
+  "variance": {
+    "C01_position": {
+      "distribution": {
+        "RATIFY": 2,
+        "AMEND": 1
+      },
+      "n": 3,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.6667,
+      "shannon_entropy_bits": 0.9183,
+      "unanimous": false
+    },
+    "C02_position": {
+      "distribution": {
+        "RATIFY": 3
+      },
+      "n": 3,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C03_position": {
+      "distribution": {
+        "RATIFY": 2,
+        "AMEND": 1
+      },
+      "n": 3,
+      "distinct_values": 2,
+      "modal_value": "RATIFY",
+      "modal_fraction": 0.6667,
+      "shannon_entropy_bits": 0.9183,
+      "unanimous": false
+    },
+    "C04_position": {
+      "distribution": {
+        "RATIFY": 3
+      },
+      "n": 3,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    },
+    "C05_position": {
+      "distribution": {
+        "AMEND": 2,
+        "RATIFY": 1
+      },
+      "n": 3,
+      "distinct_values": 2,
+      "modal_value": "AMEND",
+      "modal_fraction": 0.6667,
+      "shannon_entropy_bits": 0.9183,
+      "unanimous": false
+    },
+    "C06_position": {
+      "distribution": {
+        "RATIFY": 3
+      },
+      "n": 3,
+      "distinct_values": 1,
+      "modal_value": "RATIFY",
+      "modal_fraction": 1.0,
+      "shannon_entropy_bits": -0.0,
+      "unanimous": true
+    }
+  },
+  "citability": "non-citable (k<5)",
+  "citability_note": "Variance is computed from the samples actually collected, not asserted. k>=5 with computed variance is the project's stated bar; this is the first contribution type able to meet it, because a locally-served model makes repeated sampling nearly free.",
+  "contributor": {
+    "identity": "Qwen3.6-35B-A3B, served locally on the custodian's own hardware — the divergent-lineage arm, and the one party the custodian could silently alter",
+    "provider": "locally served, operator-hosted",
+    "version_identifier": "qwen3.6-35b-a3b",
+    "sampling_parameters": {
+      "temperature": 0.7,
+      "max_tokens": 8000,
+      "seed_base": 1000,
+      "response_format": "json_schema (grammar-constrained)"
+    },
+    "reasoning_effort": "thinking disabled explicitly via chat_template_kwargs.enable_thinking=false",
+    "system_instructions": "none supplied; the prompt is the entire input",
+    "tools_used": []
+  },
+  "serve_configuration": {
+    "captured": true,
+    "backend": "tensorrt_llm",
+    "model_path": "/home/reed/models/qwen3.6-35b-a3b-nvfp4",
+    "serve_flags": {
+      "served_model_name": "qwen3.6-35b-a3b",
+      "backend": "pytorch",
+      "host": "127.0.0.1",
+      "port": "5001",
+      "max_seq_len": "24576",
+      "max_batch_size": "96",
+      "max_num_tokens": "16384",
+      "kv_cache_free_gpu_memory_fraction": "0.8",
+      "tool_parser": "qwen3_coder",
+      "extra_llm_api_options": "/home/reed/trtllm-extra-profileE.yaml"
+    },
+    "command_line": "/home/reed/trtllm-venv-main/bin/python3 /home/reed/trtllm-venv-main/bin/trtllm-serve /home/reed/models/qwen3.6-35b-a3b-nvfp4 --served_model_name qwen3.6-35b-a3b --backend pytorch --host 127.0.0.1 --port 5001 --max_seq_len 24576 --max_batch_size 96 --max_num_tokens 16384 --kv_cache_free_gpu_memory_fraction 0.8 --tool_parser qwen3_coder --extra_llm_api_options /home/reed/trtllm-extra-profileE.yaml"
+  },
+  "prompt_sha256": "09b75e08e4e9003a7f19e42e63d9f982d553d2521eccaa609a81d231b8730c48",
+  "spec_sha256": "881c8ffbaa03b792b9cd6a07e2698456d9ee69c386f357dc2ff501f4da3c3e5b",
+  "raw_samples": "corpus/raw/ratification-01/ratification-01-qwen-samples.json",
+  "question": "Should each of these six sentences stand as a constraint on the executive?"
+}
