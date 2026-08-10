@@ -85,6 +85,7 @@ SCHEMA_FOR_TYPE = {
     "agenda_activation_record": "agenda-activation.schema.json",
     #  A gate on an instrument, not a deliberative artifact. Registered 2026-08-10.
     "qualification_record": "qualification.schema.json",
+    "ratification_record": "ratification-result.schema.json",
     "freetext_coding": "freetext-coding.schema.json",
     "finding_coding": "finding-coding.schema.json",
     "deficiency_register": "deficiency-register.schema.json",
@@ -156,7 +157,7 @@ def check_source_hash(document: dict, report: Report) -> None:
             anchors.append((key, document[key]))
 
     if document.get("artifact_type") in ("agenda_cohort_exposure", "agenda_activation_record",
-                                        "qualification_record"):
+                                        "qualification_record", "ratification_record"):
         #  Anchors EVERY raw sample file it was computed from, like a finding_coding, not one
         #  source: a record describing four parties' deliveries that anchored only the first
         #  could drift from three of them without any check noticing.

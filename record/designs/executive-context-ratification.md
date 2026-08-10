@@ -136,7 +136,9 @@ placed on a ballot, refused by the custodian with reasons, or deferred with a re
 
 ## What a full pass would and would not establish
 
-A 30/30 RATIFY result establishes that **all sampled invocations selected those six clauses after
+**CORRECTED 2026-08-10: the registered k totals 26, not 30** (four routed parties at 5, the local arm at 6), so a full ratification is 26/26 per clause and qualification-02 was 156 classifications, not 180.
+
+A 26/26 RATIFY result establishes that **all usable registered samples selected those six clauses after
 passing an elementary polarity-discrimination test.** That is the whole of it.
 
 It does not legitimise the executive, does not bind the operator, does not establish durable party

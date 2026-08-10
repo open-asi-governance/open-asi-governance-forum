@@ -77,7 +77,8 @@ INSTRUCTED_PREFIXES = ("toolprobe", "searchprobe", "fetchprobe")
 #  whether or not it looks like it holds receipts.
 SOLICITATION_TYPES = frozenset({
     "solicitation", "solicitation_summary", "agenda_activation_solicitation",
-    "qualification_solicitation", "raw_samples", "local_solicitation",
+    "qualification_solicitation", "ratification_ballot_solicitation",
+    "raw_samples", "local_solicitation",
 })
 
 #  Artifacts that legitimately carry no solicited units. Each is listed BY TYPE with a reason,
@@ -86,6 +87,7 @@ NON_SOLICITATION_TYPES = {
     "solicitation_spec": "an outbound spec; the samples live in the raw file beside it",
     "agenda_activation_record": "computed from raw samples, does not hold them",
     "qualification_record": "computed from raw samples, does not hold them",
+    "ratification_record": "computed from raw samples, does not hold them",
     "agenda_cohort_exposure": "a delivery record",
     "finding_coding": "coding over artifacts, not solicited units",
     "freetext_coding": "coding over artifacts, not solicited units",

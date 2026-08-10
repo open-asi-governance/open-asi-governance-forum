@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/open-asi-governance/open-asi-governance-forum/tools/schemas/ratification-result.schema.json",
+  "title": "OAGRC ratification record — party positions on balloted sentences",
+  "description": "What every usable registered sample answered for each balloted sentence, plus every objection verbatim. CLOSED. `outcome` is three-way: RATIFIED requires unanimity across all usable registered samples; NOT_RATIFIED means a completed ballot drew a REFUSE or AMEND; INCOMPLETE means the ballot was not completed and is not a vote either way.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_type",
+    "cohort",
+    "prompt_sha256",
+    "gated_on",
+    "expected_parties",
+    "k_by_party",
+    "ballot_objects",
+    "outcome",
+    "totals",
+    "per_party",
+    "objections",
+    "what_this_establishes",
+    "assent_control",
+    "exhibits",
+    "sources"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "artifact_type": {
+      "const": "ratification_record"
+    },
+    "cohort": {
+      "type": "string"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gated_on": {
+      "type": "object",
+      "description": "The qualification record this ballot required."
+    },
+    "expected_parties": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "k_by_party": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "ballot_objects": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "enum": [
+          "RATIFIED",
+          "NOT_RATIFIED",
+          "INCOMPLETE"
+        ]
+      }
+    },
+    "totals": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "per_party": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "parties_that_errored": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "verbatim_variants",
+          "raised_by",
+          "disposition"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "grouping": {
+            "type": "string"
+          },
+          "verbatim_variants": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "raised_by": {
+            "type": "array",
+            "minItems": 1
+          },
+          "disposition": {
+            "enum": [
+              "AWAITING_DISPOSITION",
+              "PLACED_ON_BALLOT",
+              "REFUSED",
+              "DEFERRED"
+            ]
+          },
+          "disposition_options": {
+            "type": "array"
+          }
+        }
+      },
+      "description": "Grouped by normalised text. Every verbatim variant is retained."
+    },
+    "objection_answers_including_empty": {
+      "type": "array",
+      "description": "Every sample's objection answer, empty ones included, because the prompt tells parties an empty answer is recorded as a real one."
+    },
+    "what_this_establishes": {
+      "type": "string",
+      "minLength": 1,
+      "description": "GENERATED from the outcome. A fixed sentence would assert unanimity over a record full of refusals."
+    },
+    "assent_control": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required, and required to be honest: this ballot has none."
+    },
+    "exhibits": {
+      "type": "string",
+      "minLength": 1
+    },
+    "clause_selection": {
+      "type": "string"
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  }
+}
