@@ -111,6 +111,28 @@ QUOTE_PATTERNS = [
 ]
 
 
+
+#  MARKDOWN BLOCKQUOTES. Added 2026-08-11 after a negative control found the gap: a fabricated
+#  party quotation in inline quotes was REFUSED and the same sentence in a blockquote PASSED.
+#  This record quotes parties in blockquotes far more often than inline, so the checker built for
+#  D-53 -- a fabricated party quotation -- did not cover the form a fabrication would take here.
+#  The docstring disclosed three gaps and not this one.
+BLOCKQUOTE = re.compile(r'(?:^[ \t]*>[ \t]?.*(?:\n|$))+', re.M)
+
+
+def blockquotes(text: str):
+    """Yield (start_offset, quotation) for each blockquote block, markers stripped.
+
+    Consecutive `> ` lines are joined: a quotation wrapped across lines is one quotation, and
+    matching per line would both miss it and mangle the text it compares against the corpus.
+    """
+    for m in BLOCKQUOTE.finditer(text):
+        body = "\n".join(re.sub(r'^[ \t]*>[ \t]?', "", ln)
+                          for ln in m.group(0).splitlines()).strip()
+        if len(body) >= MIN_LENGTH:
+            yield m.start(), body
+
+
 def normalise(text: str) -> str:
     """Fold the differences that survive a copy-paste but do not change the words."""
     text = unicodedata.normalize("NFKC", text)
@@ -234,10 +256,13 @@ def main() -> int:
             offsets.append(running)
             running += len(line)
 
-        for pattern in QUOTE_PATTERNS:
-            for match in pattern.finditer(text):
-                quotation = match.group(1)
-                before = text[:match.start()]
+        candidates = [(m.start(), m.group(1))
+                      for pattern in QUOTE_PATTERNS for m in pattern.finditer(text)]
+        candidates += list(blockquotes(text))
+
+        if True:
+            for start, quotation in candidates:
+                before = text[:start]
                 party = attributed_party(before)
                 if not party:
                     continue
@@ -251,7 +276,7 @@ def main() -> int:
                 checked += 1
                 missing = [f for f in fragments(quotation) if normalise(f) not in corpus]
                 if missing:
-                    line_no = sum(1 for off in offsets if off <= match.start())
+                    line_no = sum(1 for off in offsets if off <= start)
                     unverified.append((path, line_no, party, missing[0]))
                 elif args.list:
                     rel = path.relative_to(REPO_ROOT)
