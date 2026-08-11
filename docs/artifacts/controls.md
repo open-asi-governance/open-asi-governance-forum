@@ -50,6 +50,16 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
 `INDEPENDENTLY-IMPLEMENTED` is the rung that would make any of this authoritative, and it is the one **no amount of review by us or by any panel of models can supply.** It requires a stranger to build a conforming verifier from the specification text alone. That is what [the implementation challenge](challenge.html) asks for.
 
+## Why there is no guidance on applying these to your system
+
+You will look for a procedure — a checklist, a scoring rubric, a way to work out which controls apply to you and report how you did. **There is deliberately none, and the omission is the considered position rather than work not yet done.**
+
+A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 13 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.
+
+**What you can do alone is still worth doing, and it is smaller than a procedure.** Take one control that plainly applies to you. Write the condition under which the mechanism it governs must fail. Then go and cause that condition, and watch. If the mechanism does not fail, you have found something, and you found it in an afternoon without anyone's framework. That is control 2, and it is the whole method. What it yields is a diagnostic transcript about your own checks — **not assurance, because you chose the test.**
+
+The missing ingredient is not a document. It is somebody who is not you: choosing the control, authoring the perturbation, holding the evidence, and signing only what they watched happen. We cannot supply that to you, and no procedure we could write would substitute for it. The design that would use such a person is recorded at `record/designs/witnessed-control-challenge.md`, unadopted, with its own recommendation against publishing a conformance procedure.
+
 ## What none of these do
 
 **No control here establishes the alignment of a system more capable than its operators.** There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.
