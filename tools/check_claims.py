@@ -53,7 +53,14 @@ DETECTOR_VERSION = "0.1"
 #  Prose surfaces only. Code comments are excluded deliberately: they are not published claims,
 #  and including them buries the signal under a decade of explanatory text.
 SCANNED = (".md",)
-SKIP_PARTS = ("corpus/", "docs/", "record/claims/", "spec/claims/fixtures/", "third-party/")
+#  `record/executive/codex-transcripts/` holds VERBATIM third-party output, hash-stamped by
+#  codex_call.py. It is raw material like `corpus/`, not this project's claims: a reviewer's
+#  sentences are quotation by construction and dispositioning them would be this workbench
+#  adjudicating someone else's words. Excluded after one transcript produced 90 of 101
+#  candidates and would have forced a bulk rubber-stamp -- the snooze button this gate is
+#  built to avoid.
+SKIP_PARTS = ("corpus/", "docs/", "record/claims/", "spec/claims/fixtures/", "third-party/",
+              "record/executive/codex-transcripts/")
 
 #  Narrow dispositions. A general "acknowledged" bucket is a snooze button; these each say
 #  something specific about WHY the span is not an unsupported claim.

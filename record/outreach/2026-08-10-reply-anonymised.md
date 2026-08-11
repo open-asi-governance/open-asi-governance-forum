@@ -1,11 +1,17 @@
-# First external reply — the question was not understood
+# First external reply — anonymised pending consent
 
-**Received 2026-08-10 23:19 UTC, 3h17m after sending.** From Darko Marinov (University of
-Illinois), one of the ten recipients, and among the most-cited researchers in mutation testing —
-which is to say, close to the ideal respondent for this particular question.
+**Received 2026-08-10 23:19 UTC, 3h17m after sending.** From one of the ten recipients, a
+software-testing researcher.
 
-Published in full, per this record's habit of publishing unflattering results beside flattering
-ones. Quoted verbatim from the thread; nothing paraphrased.
+**ANONYMISED 2026-08-11, before he was asked.** The first version of this file named him and his
+institution. **The outgoing enquiry never told him a reply might be published**, and
+`CHALLENGE.md` promises attribution *"to you or anonymously, your choice"* — a choice he was never
+offered. The default until he makes it is anonymous. His permission will be requested in the
+custodian's reply, and the name restored only if he grants it.
+
+**Abstraction does not reach git history**, and this note does not pretend otherwise.
+
+Quoted verbatim from the thread; nothing paraphrased.
 
 > Sorry I didn't understand your question. Would the term "test oracle" help? In any
 > software/system testing, we conceptually provide some input to the system, get output, and then
@@ -18,10 +24,16 @@ ones. Quoted verbatim from the thread; nothing paraphrased.
 
 **"Sorry I didn't understand your question."**
 
-The enquiry was two hundred words, conceded its own prior art in the second paragraph, offered a
-freezer-alarm analogy, and asked one question that said *one line is enough*. It was read by
-someone with deep expertise in exactly the field it concerns, who then could not tell what was
-being asked.
+**CORRECTED 2026-08-11 on external review.** The first version said he *"could not tell what was
+being asked"* and that the question *"could not be parsed"*, and elsewhere called the enquiry
+*"unreadable"*, the reply *"dismissive"*, and said he *"declines to engage"*. **All of that exceeds
+his words**, and it contradicted this same file's statement that the alternatives were unresolved.
+
+What he wrote is that he did not understand the question. The competing explanations — conceptual
+confusion, unfamiliarity with attestation vocabulary, a fast reply on a partial read, redirection
+to the broadest relevant literature, or a polite judgement that the distinction was confused or
+trivial — are **not distinguished by anything in the thread**, and one short concrete
+clarification is the test that would separate them.
 
 That is a finding about **this project's ability to state its own contribution**, and it is the
 same class the challenge was designed to surface: `CHALLENGE.md` says the questions an implementer
@@ -30,7 +42,8 @@ question could not be parsed well enough to reach the guessing stage.
 
 **It is evidence about the enquiry, not necessarily about the specification.** Nobody has said
 whether `spec/ncp/ncp-v0.1.md` is comprehensible; the reply gives no sign the linked specification
-was opened, and Illinois's link protection rewrote the URL, so a click cannot be inferred from the
+was opened, and his institution's link protection rewrote the URL, so a click cannot be inferred
+from the
 thread either way.
 
 ## "Test oracle" — a prior-art term this project had not considered
@@ -63,10 +76,10 @@ An external party has now supplied a search term. Required before the absence cl
 * the queries, the tool, the date, the results and the excluded surfaces recorded;
 * the outcome published whichever way it comes out.
 
-If that search finds the artifact form, the specification's remaining claim collapses and the
-finding is that a stranger supplied in one line what this project had not found in a week. **That
-would be a better outcome than silence**, and considerably cheaper than the implementation the
-challenge asks for.
+**He supplied "test oracle". He did not supply what the search then found**, and a draft of this
+file blurred the two into "a stranger supplied in one line what this project had not found". What
+a stranger supplied was a starting term; the search was ours, and so is responsibility for what it
+concluded.
 
 ## What this does not establish
 

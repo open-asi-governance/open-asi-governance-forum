@@ -19,23 +19,24 @@ systems (mainstream practice with cloud-provider guidance behind it). If your re
 requirement below is *"that's mutation testing"* or *"that's chaos engineering"*, **you are
 right**, and we would like that reply in writing.
 
-**CORRECTED AGAIN, 2026-08-11.** This page said the **artifact** — a bounded, machine-verifiable
-attestation a third party can check — may not exist. **We had never searched.** A first-pass
-search, prompted by a one-line reply from a researcher who told us he did not understand our
-question, turned up **NIST's OSCAL Assessment Results model**: machine-readable, carrying
-observations with machine-generated evidence of compliance *or non-compliance*, findings, an
-assessment log and attestations, adopted by FedRAMP and built for third-party assessors. **ISO
-26262** separately mandates fault-injection testing with a documented evidence trail.
+**CORRECTED TWICE ON 2026-08-11, the second time because the first correction was also wrong.**
 
-**That is three claims of absence by this project, all wrong, all flattering to us.** The search
-is published with its queries and exclusions at
+This page said the artifact may not exist. We had never searched. The morning's correction then
+said NIST's OSCAL refuted that — **an over-correction, rejected on review within the hour.**
+
+What a search actually shows: the rule this profile is built on is **decades-old routine in
+regulated diagnostics.** If a control fails to produce its expected response, the run is invalid
+and results are not reported. And in that literature a deliberately introduced fault a detector
+must notice is a **POSITIVE control** — a negative control establishes that a procedure does not
+respond when it should not. **This profile does the first and calls it the second.** The name is
+backwards, on every page, and renaming is under consideration.
+
+What may remain is a composition rather than a principle: per-check rather than per-run validity,
+binding both runs to one artifact version, capability relevance, a durable third-party-checkable
+artifact, and a claim grammar. **Whether that is novel is unresolved. Assume it is not.**
+
+The search, its queries, its useless first query and what it failed to capture are at
 `record/findings/2026-08-11-prior-art-search-ncp-artifact.md`.
-
-What is left is narrower and we hold it loosely: whether any standard format expresses a
-**precondition on the check itself** — that a check must have been *observed to fail* under a
-declared negative control before its output counts as evidence at all. OSCAL records what an
-assessment found; this constrains what may be reported. It is probably expressible as an OSCAL
-profile and may already be one. **Assume we are wrong until someone checks.**
 
 Both corrections on this page were written by the same automated layer that publishes a control
 against overclaiming. **If you take one thing from this page, take that** — and if you tell us

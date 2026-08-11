@@ -53,28 +53,25 @@ in four queries.** It said:
 > one that names the check, the perturbation, the observed failure, the artifact identity, and a
 > claim grammar that forbids generalising from it.
 
-**NIST's OSCAL Assessment Results model does much of that.** Machine-readable XML/JSON/YAML
-carrying assessment scope and timing, subjects, the tools used, an assessment log, **observations
-holding machine-generated evidence of compliance *or non-compliance***, findings, and
-attestations — adopted by FedRAMP and built so third-party assessment organisations can automate
-reporting. **ISO 26262** separately mandates fault-injection testing of safety mechanisms with a
-documented evidence trail. The search is recorded at
-`record/findings/2026-08-11-prior-art-search-ncp-artifact.md` with its queries, date and excluded
-surfaces, per control 36.
+**CORRECTED TWICE IN ONE DAY.** The morning's correction said NIST's OSCAL refuted the claim.
+**That was an over-correction and it was wrong too.** OSCAL is a container and traceability model:
+its attestations are textual assessor statements rather than an enforced claim grammar, it does
+not require a control per reported check, does not bind the healthy and perturbed runs to one
+artifact version, and does not make broader assurance claims non-conforming.
 
-**That is three absence claims by this project, all wrong, all in its own favour** — the practice,
-the anti-Goodhart verifier, and now the artifact. This one was surfaced by a one-line reply from a
-researcher who said he did not understand the question.
+**The real prior art is older and this profile is named backwards.** The admissibility rule here —
+*a check's ordinary result is inadmissible unless the check has demonstrated it can detect what it
+exists to detect* — is decades-old routine in regulated diagnostics: if the control fails to
+produce its expected response, the run is invalid and specimen results are not reported.
 
-What has **not** been established, and is now stated with correspondingly little confidence:
-
-> Whether the standard assessment-result formats can express a **precondition on the check
-> itself** — that a check MUST have been observed to fail under a declared, capability-relevant
-> negative control before its output counts as evidence, so that an attestation recording a check
-> which *survived* its control is non-conforming. OSCAL records what an assessment found; NCP
-> constrains what may be reported at all. It is most likely expressible as an OSCAL profile, and
-> possibly already is. **We have not checked, and the reader should assume we are wrong again
-> until someone does.**
+And in that literature, **a deliberately introduced fault a detector must notice is a POSITIVE
+control.** A negative control establishes that a procedure does *not* respond when it should not.
+**This profile does the first and calls it the second**, on every page. See
+`record/findings/2026-08-11-prior-art-search-ncp-artifact.md`, which recommends renaming and
+records what remains: at most a composition — per-check rather than per-run validity, exact
+artifact-version binding, capability relevance, a durable third-party-checkable artifact, and a
+bounded claim grammar. **Whether that composition is novel is unresolved, and this specification
+should not be read as asserting that it is.**
 
 ### What the empirical result still shows
 
