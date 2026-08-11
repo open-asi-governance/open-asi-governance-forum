@@ -78,8 +78,17 @@ def usage_for(cohort: str) -> dict:
                 model = ((unit.get("delivery_chain") or {}).get("served_model")
                          or (doc.get("spec") or {}).get("reached_via") or "unknown")
                 bucket = per_model.setdefault(model, {"prompt": 0, "completion": 0, "n": 0})
-                bucket["prompt"] += usage.get("prompt_tokens") or 0
-                bucket["completion"] += usage.get("completion_tokens") or 0
+                #  ABSENT IS NOT ZERO. `usage.get("prompt_tokens") or 0` silently treated a
+                #  missing token count as a real zero, which UNDERSTATES spend -- the same shape
+                #  as the "0 searches" defect, in the ledger the custodian funds this from.
+                #  Counted separately so the figure carries its own incompleteness.
+                prompt_tokens = usage.get("prompt_tokens")
+                completion_tokens = usage.get("completion_tokens")
+                if prompt_tokens is None or completion_tokens is None:
+                    bucket["unknown_usage"] = bucket.get("unknown_usage", 0) + 1
+                    continue
+                bucket["prompt"] += prompt_tokens
+                bucket["completion"] += completion_tokens
                 bucket["n"] += 1
     return {"per_model": per_model, "units_seen": units, "units_reporting_usage": reported}
 
@@ -96,8 +105,15 @@ def price(per_model: dict, rates: dict) -> tuple[float | None, list]:
         if not isinstance(entry, dict):
             unpriced.append(model)
             continue
-        total += (u["prompt"] / 1_000_000) * float(entry.get("input", 0) or 0)
-        total += (u["completion"] / 1_000_000) * float(entry.get("output", 0) or 0)
+        #  A MISSING RATE IS NOT A RATE OF ZERO. `entry.get("input", 0) or 0` priced a model
+        #  with no published rate at nothing, which reads downstream as "this cost nothing"
+        #  rather than "nobody knows what this cost".
+        rate_in, rate_out = entry.get("input"), entry.get("output")
+        if rate_in is None or rate_out is None:
+            unpriced.append(model)
+            continue
+        total += (u["prompt"] / 1_000_000) * float(rate_in)
+        total += (u["completion"] / 1_000_000) * float(rate_out)
         priced += 1
     return (round(total, 4) if priced else None), unpriced
 

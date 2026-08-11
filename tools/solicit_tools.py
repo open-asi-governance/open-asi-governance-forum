@@ -309,7 +309,8 @@ def main() -> int:
     for r in records:
         mark = "ok " if r.get("ok") else "REJECTED"
         print(f"  [{r['sample_index']:>2}/{args.k}] {mark} seed={r['seed']} "
-              f"{r.get('elapsed_seconds', '?')}s tools={r['provenance'].get('tool_calls', 0)} "
+              f"{r.get('elapsed_seconds', '?')}s "
+              f"tools={r['provenance'].get('tool_calls', '?')} "
               f"{r.get('category', '')}")
 
     samples = [r["parsed"] for r in records if r.get("ok")]

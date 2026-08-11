@@ -120,7 +120,7 @@ def render_markdown(doc: dict) -> str:
         "one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was "
         "classified. **It never verifies meaning**, and a deterministic rule that claimed to would "
         "be D-25 over again.\n\n",
-        f"**{review.get('reviewed_by_custodian', 0)} of {len(entries)}** classifications have been "
+        f"**{review.get('reviewed_by_custodian', '?')} of {len(entries)}** classifications have been "
         "read by a human against the prose.\n\n",
         "On attribution: this project cannot observe who first *privately noticed* a defect, so it "
         "records where one was first *written down*, with an evidence class. A question that "

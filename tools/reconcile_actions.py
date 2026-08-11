@@ -136,7 +136,9 @@ def reconcile(since: str) -> dict:
         "logged_coverage": dict(by_coverage),
         "repository_effects": dict(effects),
         "omissions": omissions,
-        "gate_modifications": effects.get("gate_modification", 0),
+        #  Absent is not zero: this figure is the evidence behind control 1, and a key-shape
+        #  change would report "no gate modifications" rather than "not measured".
+        "gate_modifications": effects.get("gate_modification", "UNKNOWN"),
         "what_this_cannot_establish": [
             "That the log is honest — it compares two artifacts the same layer produced.",
             "That git is complete — work never committed is invisible to both sides.",

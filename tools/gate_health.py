@@ -68,7 +68,7 @@ def gates(entries: list[dict]) -> dict:
     return {
         "actions_logged": len(entries),
         "by_action": dict(by_action.most_common()),
-        "verified_true": verified.get("True", 0),
+        "verified_true": verified.get("True", "UNKNOWN — key absent"),
         "verified_not_true": sum(v for k, v in verified.items() if k != "True"),
         "coverage_states": dict(coverage),
         "entries_carrying_problems": len(problems),

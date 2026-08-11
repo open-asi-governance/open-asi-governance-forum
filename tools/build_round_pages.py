@@ -271,7 +271,7 @@ def render_sample(item: dict, artifact_stem: str | None = None) -> str:
                    f"`{derive_stratum(fetch)}`). The capability was offered and not used; that "
                    f"is a result, not a failure.\n")
     if receipts:
-        out.append(f"**Fetched {fetch.get('fetched', 0)} page(s)** "
+        out.append(f"**Fetched {fetch.get('fetched', '?')} page(s)** "
                    f"(profile `{fetch.get('profile')}`, stratum `{derive_stratum(fetch)}`)\n")
         out.append("| # | outcome | url | status | sha256 of bytes | bytes | exact text |")
         out.append("|---|---|---|---|---|---|---|")

@@ -34,6 +34,8 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
+import json
 import pathlib
 import sys
 
@@ -190,6 +192,25 @@ def run_fixtures() -> int:
     return 0
 
 
+DISPOSITIONS = REPO_ROOT / "record" / "claims" / "code-scan-dispositions.json"
+
+
+def load_dispositions() -> dict:
+    """Per-site dispositions, keyed by a hash of file + the line's text.
+
+    Keyed by CONTENT, not line number: editing the line invalidates its disposition, so a site
+    cannot be silently reworked under an old judgement. Line numbers drift on every insert and
+    would let a stale disposition attach to whatever moved into the slot.
+    """
+    if not DISPOSITIONS.is_file():
+        return {}
+    return json.loads(DISPOSITIONS.read_text(encoding="utf-8")).get("sites", {})
+
+
+def site_key(path: pathlib.Path, line_text: str) -> str:
+    return hashlib.sha256(f"{path}\n{line_text.strip()}".encode()).hexdigest()[:16]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
     parser.add_argument("--fixtures", action="store_true")
@@ -201,16 +222,25 @@ def main() -> int:
         return 1
     print()
     files = unparsed = 0
+    disp = load_dispositions()
     for label, fn in CLASSES.items():
-        hits = []
+        hits, dispositioned = [], 0
         for path in sorted(SCANNED.rglob("*.py")):
             try:
-                tree = ast.parse(path.read_text(encoding="utf-8"))
+                text = path.read_text(encoding="utf-8")
+                tree = ast.parse(text)
             except Exception:                                            # noqa: BLE001
                 unparsed += 1
                 continue
-            hits += [f"{path.relative_to(REPO_ROOT)}:{n}" for n in fn(tree)]
-        print(f"  {label}: {len(hits)}")
+            source_lines = text.splitlines()
+            for n in fn(tree):
+                line_text = source_lines[n - 1] if n <= len(source_lines) else ""
+                if site_key(path.relative_to(REPO_ROOT), line_text) in disp:
+                    dispositioned += 1
+                    continue
+                hits.append(f"{path.relative_to(REPO_ROOT)}:{n}")
+        print(f"  {label}: {len(hits)} undispositioned"
+              f"{f', {dispositioned} dispositioned' if dispositioned else ''}")
         for h in hits[:8]:
             print(f"      {h}")
         if len(hits) > 8:

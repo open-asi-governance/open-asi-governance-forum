@@ -1,0 +1,133 @@
+{
+  "_what_this_is": "Per-site dispositions for tools/scan_own_code.py, keyed by a hash of file plus the line's text so that editing a line invalidates its disposition. Only sites READ INDIVIDUALLY appear here. Everything else stays undispositioned and keeps failing the scan, because marking 37 sites legitimate from a sample of 8 would be the bulk rubber-stamp this project criticised in its own prose gate.",
+  "sites": {
+    "61f84802eda0ebef": {
+      "file": "tools/aggregate_captures.py",
+      "line_text": "k_target = int(declaration.get(\"k_target\") or 1)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "configuration default. A declaration without k_target means the standard k, not zero samples.",
+      "read": "individually"
+    },
+    "c9f2c5b685fe92f8": {
+      "file": "tools/benchmark_agenda.py",
+      "line_text": "due = [p for p in live if carried.get(p.pid, 0) >= 3]",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "counter comparison. Absent means not yet carried, which is zero occurrences.",
+      "read": "individually"
+    },
+    "6699273c44fa084d": {
+      "file": "tools/build_capture_ui.py",
+      "line_text": "\"k_target\": int(data.get(\"k_target\") or 1),",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "configuration default. A declaration without k_target means the standard k, not zero samples.",
+      "read": "individually"
+    },
+    "9428f0eb89c39f05": {
+      "file": "tools/build_viewer.py",
+      "line_text": "\"k\": defaults.get(\"k\", 1),",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default for k. Absent means the standard k.",
+      "read": "individually"
+    },
+    "1be21e0ddcd9107f": {
+      "file": "tools/build_viewer.py",
+      "line_text": "\"k\": rec.get(\"k\", 1),",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default for k. Absent means the standard k.",
+      "read": "individually"
+    },
+    "759438f46e1d2285": {
+      "file": "tools/capture_lifecycle.py",
+      "line_text": "and int(event.get(\"sample_index\", 1)) == int(index)",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "1-based index default. Absent means the first sample, not a count.",
+      "read": "individually"
+    },
+    "df7fbde09c46ca6f": {
+      "file": "tools/ingest_capture.py",
+      "line_text": "sample_index = int(bundle.get(\"sample_index\") or 1)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "1-based index default. Absent means the first sample, not a count.",
+      "read": "individually"
+    },
+    "2667aa68506abe2e": {
+      "file": "tools/ingest_capture.py",
+      "line_text": "k_declared = int(declaration.get(\"k_target\") or 1)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "configuration default. A declaration without k_target means the standard k, not zero samples.",
+      "read": "individually"
+    },
+    "ae59522cf4a474d1": {
+      "file": "tools/ingest_capture.py",
+      "line_text": "if int(bundle.get(\"k_target\") or 1) != k_declared:",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "configuration default. A declaration without k_target means the standard k, not zero samples.",
+      "read": "individually"
+    },
+    "70846dd0a5ac8ea4": {
+      "file": "tools/ingest_capture.py",
+      "line_text": "\"--sample-index\", str(int(bundle.get(\"sample_index\") or 1)),",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "1-based index default. Absent means the first sample, not a count.",
+      "read": "individually"
+    },
+    "dab78d49c5c908d9": {
+      "file": "tools/responses_shim.py",
+      "line_text": "length = int(self.headers.get(\"Content-Length\") or 0)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "HTTP: an absent Content-Length genuinely means a zero-length body.",
+      "read": "individually"
+    },
+    "48e6b5170b70c1da": {
+      "file": "tools/round_cycle.py",
+      "line_text": "turns = int(capability.get(\"max_tool_calls\", 0)) + 1 if capability.get(\"fetch_url\") else 1",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default for a capability the spec may omit. Absent means the standard allowance, not a measured zero.",
+      "read": "individually"
+    },
+    "8e697c6ed9a9cbe9": {
+      "file": "tools/solicit_api.py",
+      "line_text": "max_tool_calls = int((spec.get(\"capability\") or {}).get(\"max_tool_calls\", 6))",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default for a capability the spec may omit. Absent means the standard allowance, not a measured zero.",
+      "read": "individually"
+    },
+    "36409c8b8180ca3e": {
+      "file": "tools/solicit_local.py",
+      "line_text": "max_tool_calls = int((spec.get(\"capability\") or {}).get(\"max_tool_calls\", 6))",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default for a capability the spec may omit. Absent means the standard allowance, not a measured zero.",
+      "read": "individually"
+    },
+    "785ebc0d582b0cc0": {
+      "file": "tools/solicit_local.py",
+      "line_text": "\"seed_base\": spec.get(\"seed_base\", 1000),",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default. Absent means 'use the standard seed base', which IS 1000; no measurement is claimed.",
+      "read": "individually"
+    },
+    "7d540b519c5536f8": {
+      "file": "tools/solicit_tools.py",
+      "line_text": "\"seed_base\": spec.get(\"seed_base\", 1000),",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "configuration default. Absent means 'use the standard seed base', which IS 1000; no measurement is claimed.",
+      "read": "individually"
+    }
+  }
+}
