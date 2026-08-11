@@ -324,10 +324,10 @@ def main() -> int:
     if problems:
         for problem in problems:
             print(f"  \033[31m✗\033[0m {problem}", file=sys.stderr)
-        print(f"\nNON-CONFORMING — {len(problems)} violation(s) of NCP v0.1.", file=sys.stderr)
+        print(f"\nNON-CONFORMING — {len(problems)} violation(s) of FICP v0.2.", file=sys.stderr)
         return code
-    print("  conforming to NCP v0.1.")
-    print("  This says every check was observed to FAIL under its declared negative control.")
+    print("  conforming to FICP v0.2.")
+    print("  This says every check was observed to FAIL under its declared fault injection.")
     print("  It says nothing about whether the controls are the right ones, whether the check")
     print("  set covers the capability, or whether the system is safe.")
     return 0

@@ -1,0 +1,29 @@
+{
+  "ficp_version": "0.2",
+  "subject": {
+    "configuration_id": "singnet/snet-daemon @ cbfd6736a14f14a5f86affce8e6e3b563e6f2bdc — heartbeat with no endpoint configured",
+    "capabilities": ["reporting whether the service behind the daemon can serve requests"]
+  },
+  "issued_utc": "2026-08-11T14:34:58Z",
+  "checks": [
+    {
+      "check_id": "daemon-service-heartbeat-unconfigured",
+      "certifies": "the service behind the daemon can serve requests",
+      "artifact": {"path": "metrics/heartbeat.go", "sha256": "d26510a14e5bf02d96e124d0fb76a39211efd0d17d9f5f992b93c4b191b7df85"},
+      "baseline_run": {"utc": "2026-08-11T14:34:58Z", "outcome": "PASS"},
+      "fault_injection": {
+        "condition": "the service accepts TCP connections and serves nothing — process alive, socket open, capability gone",
+        "how_produced": "a local net.Listen that calls Accept and then does nothing with the connection; GetHeartbeat called with heartbeatType in {\"\", \"none\", \"tcp\"} and an empty heartbeat endpoint, which the daemon's own ValidateHeartbeatConfig treats as 'not configured, will be using service endpoint to ping the service'",
+        "targets": "the declared capability, not the transport — the socket is deliberately left ACCEPTING so that only the ability to serve is removed",
+        "run": {"utc": "2026-08-11T14:34:58Z", "outcome": "PASS"}
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": ["the grpc, http and https heartbeat paths were not exercised; this finding is scoped to the unconfigured fallback"],
+    "suppressed": [],
+    "unsupported": ["whether any deployed daemon runs unconfigured, and whether anything downstream acts on the Online status, were not determined"]
+  },
+  "claim": "Check set C was exercised against configuration X at time T. The check returned PASS under its declared fault injection, which is a MISSED FAULT and non-conforming. This is process evidence about the check.",
+  "_note": "outcome PASS under the fault is a FAILURE of the check. A conforming attestation requires FAIL. This document is deliberately NON-CONFORMING and is published as the evidence of the defect."
+}
