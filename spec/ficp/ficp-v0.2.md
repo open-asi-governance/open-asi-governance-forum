@@ -60,6 +60,35 @@ detected the fault.
 * **Run validity in regulated diagnostics.** If the control fails to produce its expected
   response, the run is invalid and no result may be reported. **This is the same admissibility
   rule this profile applies, and it is decades old.**
+* **Oracle quality — an entire subfield this specification had not cited.** Added 2026-08-11 on a
+  pointer from a correspondent who replied to the outreach and asked to remain anonymous. He said
+  he knew no name for the specific requirement, and then named the literature it belongs to:
+  * **Schuler & Zeller, *Checked coverage: an indicator for oracle quality*** (ICST 2011; STVR
+    2013). Dynamic slicing measures what fraction of executed statements actually *influence an
+    oracle* — code that runs but is checked by nothing. Reported as a **more sensitive indicator
+    than mutation testing**, which is the prior art this spec did cite.
+  * **Zhang & Mesbah, *Assertions Are Strongly Correlated with Test Suite Effectiveness***
+    (ESEC/FSE 2015), and the assertion-quality work around it.
+
+  His illustration is the clearest statement of the problem in this document:
+
+  ```
+  assert (output == output)   // useless -- can never fail, it is basically assert(true)
+  assert (output >= 0)
+  assert (output > 0)         // redundant -- if the previous passed, this always passes
+  ```
+
+  **A check that cannot fail, in two lines, from someone who studies this for a living.** That the
+  profile's own prior-art section had to be told about oracle quality by a stranger is recorded
+  here rather than quietly absorbed.
+
+**The residual claim has narrowed again.** Checked coverage asks *how much of what ran was
+checked by anything*; this profile asks *has this particular check ever been observed to fail*.
+Those are adjacent, and the second is not obviously the harder or newer question — it is a
+**per-check admissibility precondition on reporting**, where the literature above supplies
+**suite-level scores**. One expert said he knew no name for it. **That is one expert's "I don't
+know", it is weak evidence of absence, and this project has already been wrong three times about
+exactly this.**
 
 What may remain is a **composition**, not a principle, and its novelty is **unresolved**:
 per-check rather than per-run validity; binding baseline and fault-injected runs to one artifact
