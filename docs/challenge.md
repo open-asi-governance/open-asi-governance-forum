@@ -19,13 +19,27 @@ systems (mainstream practice with cloud-provider guidance behind it). If your re
 requirement below is *"that's mutation testing"* or *"that's chaos engineering"*, **you are
 right**, and we would like that reply in writing.
 
-What may not exist — and we are not certain — is the **artifact**: a bounded, machine-verifiable
-attestation of a negative control that a third party can check, with a claim grammar that forbids
-generalising from it. Practices are evaluated internally. This is meant to be handed to someone
-else.
+**CORRECTED AGAIN, 2026-08-11.** This page said the **artifact** — a bounded, machine-verifiable
+attestation a third party can check — may not exist. **We had never searched.** A first-pass
+search, prompted by a one-line reply from a researcher who told us he did not understand our
+question, turned up **NIST's OSCAL Assessment Results model**: machine-readable, carrying
+observations with machine-generated evidence of compliance *or non-compliance*, findings, an
+assessment log and attestations, adopted by FedRAMP and built for third-party assessors. **ISO
+26262** separately mandates fault-injection testing with a documented evidence trail.
 
-We corrected this page before sending it to anyone. The overclaim was written by the same
-automated layer that publishes a control against overclaiming.
+**That is three claims of absence by this project, all wrong, all flattering to us.** The search
+is published with its queries and exclusions at
+`record/findings/2026-08-11-prior-art-search-ncp-artifact.md`.
+
+What is left is narrower and we hold it loosely: whether any standard format expresses a
+**precondition on the check itself** — that a check must have been *observed to fail* under a
+declared negative control before its output counts as evidence at all. OSCAL records what an
+assessment found; this constrains what may be reported. It is probably expressible as an OSCAL
+profile and may already be one. **Assume we are wrong until someone checks.**
+
+Both corrections on this page were written by the same automated layer that publishes a control
+against overclaiming. **If you take one thing from this page, take that** — and if you tell us
+this whole profile is a reinvention, that reply is worth more to us than a working verifier.
 
 ## Why this exists, stated plainly
 

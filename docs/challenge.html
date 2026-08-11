@@ -27,13 +27,27 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p>requirement below is *&quot;that&#x27;s mutation testing&quot;* or *&quot;that&#x27;s chaos engineering&quot;*, **you are</p>
 <p>right**, and we would like that reply in writing.</p>
 
-<p>What may not exist — and we are not certain — is the <strong>artifact</strong>: a bounded, machine-verifiable</p>
-<p>attestation of a negative control that a third party can check, with a claim grammar that forbids</p>
-<p>generalising from it. Practices are evaluated internally. This is meant to be handed to someone</p>
-<p>else.</p>
+<p><strong>CORRECTED AGAIN, 2026-08-11.</strong> This page said the <strong>artifact</strong> — a bounded, machine-verifiable</p>
+<p>attestation a third party can check — may not exist. <strong>We had never searched.</strong> A first-pass</p>
+<p>search, prompted by a one-line reply from a researcher who told us he did not understand our</p>
+<p>question, turned up <strong>NIST&#x27;s OSCAL Assessment Results model</strong>: machine-readable, carrying</p>
+<p>observations with machine-generated evidence of compliance *or non-compliance*, findings, an</p>
+<p>assessment log and attestations, adopted by FedRAMP and built for third-party assessors. **ISO</p>
+<p>26262** separately mandates fault-injection testing with a documented evidence trail.</p>
 
-<p>We corrected this page before sending it to anyone. The overclaim was written by the same</p>
-<p>automated layer that publishes a control against overclaiming.</p>
+<p><strong>That is three claims of absence by this project, all wrong, all flattering to us.</strong> The search</p>
+<p>is published with its queries and exclusions at</p>
+<p><code>record/findings/2026-08-11-prior-art-search-ncp-artifact.md</code>.</p>
+
+<p>What is left is narrower and we hold it loosely: whether any standard format expresses a</p>
+<p><strong>precondition on the check itself</strong> — that a check must have been *observed to fail* under a</p>
+<p>declared negative control before its output counts as evidence at all. OSCAL records what an</p>
+<p>assessment found; this constrains what may be reported. It is probably expressible as an OSCAL</p>
+<p>profile and may already be one. <strong>Assume we are wrong until someone checks.</strong></p>
+
+<p>Both corrections on this page were written by the same automated layer that publishes a control</p>
+<p>against overclaiming. <strong>If you take one thing from this page, take that</strong> — and if you tell us</p>
+<p>this whole profile is a reinvention, that reply is worth more to us than a working verifier.</p>
 
 <h2>Why this exists, stated plainly</h2>
 

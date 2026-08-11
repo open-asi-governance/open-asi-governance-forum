@@ -43,18 +43,38 @@ publication. It is corrected here rather than quietly deleted because the regist
 the assurance claim boundary — exists for exactly this, and a specification that overclaims while
 publishing a control against overclaiming is worth recording.
 
-### What is left, stated narrowly
+### What is left, stated narrowly — and narrowed again on 2026-08-11
 
-The **mechanism is not new.** What may still be missing is the **artifact**:
+**CORRECTED 2026-08-11. The paragraph below previously claimed the ARTIFACT was probably
+missing. That claim was made without ever running a search, and a first-pass search unsettled it
+in four queries.** It said:
 
-> Mutation testing and chaos engineering are *practices*, evaluated internally and reported, if at
-> all, as a score or an incident review. Neither produces a **bounded, machine-verifiable
-> attestation that a third party can check** — one that names the check, the perturbation, the
-> observed failure, the artifact identity, and a claim grammar that forbids generalising from it.
+> …Neither produces a **bounded, machine-verifiable attestation that a third party can check** —
+> one that names the check, the perturbation, the observed failure, the artifact identity, and a
+> claim grammar that forbids generalising from it.
 
-That is a packaging contribution, not a conceptual one, and it may also turn out to be claimed —
-this project has now been wrong once about what is unclaimed and should be assumed capable of it
-again. **The strongest reason to want an outside reader is to be told.**
+**NIST's OSCAL Assessment Results model does much of that.** Machine-readable XML/JSON/YAML
+carrying assessment scope and timing, subjects, the tools used, an assessment log, **observations
+holding machine-generated evidence of compliance *or non-compliance***, findings, and
+attestations — adopted by FedRAMP and built so third-party assessment organisations can automate
+reporting. **ISO 26262** separately mandates fault-injection testing of safety mechanisms with a
+documented evidence trail. The search is recorded at
+`record/findings/2026-08-11-prior-art-search-ncp-artifact.md` with its queries, date and excluded
+surfaces, per control 36.
+
+**That is three absence claims by this project, all wrong, all in its own favour** — the practice,
+the anti-Goodhart verifier, and now the artifact. This one was surfaced by a one-line reply from a
+researcher who said he did not understand the question.
+
+What has **not** been established, and is now stated with correspondingly little confidence:
+
+> Whether the standard assessment-result formats can express a **precondition on the check
+> itself** — that a check MUST have been observed to fail under a declared, capability-relevant
+> negative control before its output counts as evidence, so that an attestation recording a check
+> which *survived* its control is non-conforming. OSCAL records what an assessment found; NCP
+> constrains what may be reported at all. It is most likely expressible as an OSCAL profile, and
+> possibly already is. **We have not checked, and the reader should assume we are wrong again
+> until someone does.**
 
 ### What the empirical result still shows
 

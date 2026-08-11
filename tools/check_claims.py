@@ -83,6 +83,17 @@ RULES: dict[str, tuple[str, ...]] = {
         r"\bnever been (?:observed|attempted|checked|claimed)\b",
         r"\bunclaimed\b", r"\bno one (?:has|else)\b",
         r"\bis not (?:claimed|recorded|documented) anywhere\b",
+        #  SELF-REFERENTIAL ABSENCE -- added 2026-08-11 after a page of new prose full of
+        #  "we had never searched" and "has not been established" produced ZERO candidates.
+        #  These are usually TRUE absence claims, which is the point: a true one still has to
+        #  carry its evidence, and this is the shape the workbench reaches for when confessing.
+        r"\bnever (?:searched|looked|checked|run|recorded|been done|asked)\b",
+        r"\b(?:had|has|have) never\b",
+        r"\bno (?:such )?search\b",
+        r"\b(?:has|have|had|was|were) not been (?:established|checked|recorded|searched|"
+        r"verified|attempted|measured|run)\b",
+        r"\bwe have not (?:checked|searched|established|verified|looked)\b",
+        r"\bnot (?:yet )?established\b",
     ),
     #  NOVELTY -- control 35. "almost nobody runs it" was the load-bearing sentence.
     "novelty": (
@@ -157,9 +168,15 @@ def changed_files() -> list[Path] | None:
                                 capture_output=True, text=True, check=True)
         staged = subprocess.run(["git", "diff", "--cached", "--name-only"], cwd=REPO_ROOT,
                                 capture_output=True, text=True, check=True)
+        #  UNTRACKED TOO. `git diff` never mentions a file that has never been added, so the
+        #  first version of this gate passed green over two brand-new findings documents it had
+        #  not opened -- a new document being precisely where a new claim appears. Caught by
+        #  asking what the detector actually scanned rather than reading its exit code.
+        untracked = subprocess.run(["git", "ls-files", "--others", "--exclude-standard"],
+                                   cwd=REPO_ROOT, capture_output=True, text=True, check=True)
     except Exception:                                                    # noqa: BLE001
         return None
-    names = set(result.stdout.split()) | set(staged.stdout.split())
+    names = set(result.stdout.split()) | set(staged.stdout.split()) | set(untracked.stdout.split())
     return [REPO_ROOT / n for n in sorted(names)
             if (REPO_ROOT / n).suffix in SCANNED and (REPO_ROOT / n).is_file()
             and not any(part in n for part in SKIP_PARTS)]
