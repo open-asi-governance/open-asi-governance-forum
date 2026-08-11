@@ -6,9 +6,21 @@ text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
 blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
 @media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
 td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
-</style></head><body><h1>Implementation challenge — build a conforming NCP verifier from the specification alone</h1>
+</style></head><body><h1>Implementation challenge — build a conforming FICP verifier from the specification alone</h1>
 
-<p><strong>What we are asking for:</strong> read <code>spec/ncp/ncp-v0.1.md</code> and build a verifier that accepts and</p>
+<blockquote><strong>RENAMED 2026-08-11, after this page was sent to ten people.</strong> The profile was published as</blockquote>
+<blockquote>the *Negative Control Profile* (NCP). <strong>That name was backwards</strong>: a negative control checks</blockquote>
+<blockquote>for a response in the *absence* of the target, while what this profile requires — a</blockquote>
+<blockquote>deliberately introduced fault the check must detect — is analogous to a *positive* control.</blockquote>
+<blockquote>It is now the <strong>Fault-Injection Check Profile (FICP) v0.2</strong>, because it perturbs the subject</blockquote>
+<blockquote>rather than supplying control material.</blockquote>
+<p>&gt;</p>
+<blockquote><strong>If you received the old name in an email, nothing you were asked to do has changed.</strong> The</blockquote>
+<blockquote>mechanism, the seven requirements and the fixture set are the same. v0.1 attestations remain</blockquote>
+<blockquote>valid forever and the old command still works. See <code>spec/ficp/MIGRATION.md</code> in the repo.</blockquote>
+<blockquote>The rename establishes no novelty, correctness or validation.</blockquote>
+
+<p><strong>What we are asking for:</strong> read <code>spec/ficp/ficp-v0.2.md</code> and build a verifier that accepts and</p>
 <p>rejects the same attestations ours does — <strong>without asking us what the specification meant.</strong></p>
 
 <p><strong>What we most want back is not a working verifier.</strong> It is the list of questions you had to</p>
@@ -62,9 +74,10 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <h2>The requirement, in one sentence</h2>
 
-<blockquote>Every check that produces an assurance signal MUST ship with a <strong>negative control</strong> — a</blockquote>
-<blockquote>condition under which that check is *required* to fail — and the attestation MUST record that</blockquote>
-<blockquote>the control was executed and that the check did fail.</blockquote>
+<blockquote>Every check that produces an assurance signal MUST ship with a <strong>fault injection</strong> — a</blockquote>
+<blockquote>declared, capability-relevant fault condition under which that check is *required* to return</blockquote>
+<blockquote><code>FAIL</code> — and the attestation MUST record that the fault was injected and that the check did</blockquote>
+<blockquote>return <code>FAIL</code>.</blockquote>
 <p>&gt;</p>
 <blockquote><strong>A check that has never been observed to fail is not evidence that anything works.</strong></blockquote>
 
@@ -73,28 +86,28 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p>not died. Authentic, current, unexpired, correct, and structurally incapable of observing the</p>
 <p>failure it was deployed to observe.</p>
 
-<p>Applied adversarially to that same system&#x27;s other checks, **four of five survived their own</p>
-<p>negative controls.** All four have since been fixed and re-verified. We expect four-of-five is</p>
+<p>Applied adversarially to that same system&#x27;s other checks, **four of five survived the fault</p>
+<p>injected into the capability they monitored.** All four have since been fixed and re-verified. We expect four-of-five is</p>
 <p>roughly what most check suites return the first time anyone asks.</p>
 
 <h2>What to build</h2>
 
-<p>A program that reads an attestation and exits non-zero on any violation of NCP v0.1&#x27;s seven</p>
-<p>normative requirements (N1–N7). Any language.</p>
+<p>A program that reads an attestation and exits non-zero on any violation of FICP v0.2&#x27;s seven</p>
+<p>normative requirements (N1–N7). Any language. (<code>N</code> denotes *normative*.)</p>
 
-<p><strong>The acceptance test is our fixture set</strong>, <code>spec/ncp/fixtures/</code> — fourteen attestations that must</p>
+<p><strong>The acceptance test is our fixture set</strong>, <code>spec/ficp/fixtures/</code> — fourteen attestations that must</p>
 <p>be rejected and one that must be accepted. Four are deliberate <strong>near-misses</strong>: consistent hashes</p>
 <p>pointing at a vanished artifact; a check that failed for a transport reason rather than the</p>
 <p>capability; a control that ran before the artifact last changed; and a claim that opens with the</p>
 <p>exact conforming sentence and then appends a conclusion about the system without using a single</p>
 <p>forbidden word.</p>
 
-<p>Read <code>spec/ncp/fixtures/known-gaps/</code> too. Those are attestations **our verifier accepts and</p>
+<p>Read <code>spec/ficp/fixtures/known-gaps/</code> too. Those are attestations **our verifier accepts and</p>
 <p>should not** — a control aimed at a different capability than the check certifies, and a control</p>
 <p>so easy the check fails it trivially. They do not fail our suite. If your verifier catches either,</p>
 <p>you have beaten ours and we want to know.</p>
 
-<p>Your verifier should agree with ours on all fifteen fixtures in <code>spec/ncp/fixtures/</code>. Where it</p>
+<p>Your verifier should agree with ours on all fifteen fixtures in <code>spec/ficp/fixtures/</code>. Where it</p>
 <p>disagrees, <strong>we want to hear about it before we hear that you fixed it</strong>: a</p>
 <p>disagreement is either a defect in your reading, a defect in our specification, or a defect in our</p>
 <p>fixture, and only the first is your problem.</p>
@@ -127,15 +140,15 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p>A conforming attestation permits exactly this:</p>
 
 <blockquote>Check set *C* was exercised against configuration *X* at time *T*. Each check was observed to</blockquote>
-<blockquote>fail under its declared negative control. **This is process evidence about the checks. It is not</blockquote>
+<blockquote>return <code>FAIL</code> under its declared fault injection. **This is process evidence about the checks. It is not</blockquote>
 <blockquote>a claim that the system is safe, aligned, or correct.**</blockquote>
 
-<p>*&quot;We follow OAGF&quot;* and *&quot;NCP certified&quot;* are <strong>non-conforming claims</strong> — our verifier rejects</p>
+<p>*&quot;We follow OAGF&quot;*, *&quot;NCP certified&quot;* and *&quot;FICP certified&quot;* are <strong>non-conforming claims</strong> — our verifier rejects</p>
 <p>attestations containing them, and yours should too.</p>
 
 <h2>What this profile does not do, so you can decide quickly whether to bother</h2>
 
-<p>* It does not tell you whether your negative controls are the *right* ones. A check can fail under</p>
+<p>* It does not tell you whether your fault injections are the *right* ones. A check can fail under</p>
 <p>  a trivial perturbation and stay blind to the failure that will actually happen. This raises the</p>
 <p>  floor from *never observed to fail* to *observed to fail at least once*.</p>
 <p>* It says nothing about coverage — whether your check set exercises the whole capability.</p>
@@ -148,14 +161,14 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <pre>
 git clone https://github.com/open-asi-governance/open-asi-governance-forum
 cd open-asi-governance-forum
-python3 tools/verify_negative_control.py --fixtures
+python3 tools/verify_fault_injection.py --fixtures
 </pre>
 
-<p>Then read <code>spec/ncp/ncp-v0.1.md</code>. The runnable broken builds we used are in</p>
+<p>Then read <code>spec/ficp/ficp-v0.2.md</code>. The runnable broken builds we used are in</p>
 <p><code>spec/ncp/negative-controls/</code>, and the plain-language examples for each control are at</p>
 <p><code>docs/controls.html</code>.</p>
 
-<p><strong>Do not read <code>tools/verify_negative_control.py</code> until you are done.</strong> Reading our implementation</p>
+<p><strong>Do not read <code>tools/verify_fault_injection.py</code> until you are done.</strong> Reading our implementation</p>
 <p>converts this from an independent implementation into a port, and the port proves nothing about</p>
 <p>the specification.</p>
 
@@ -187,13 +200,13 @@ Work in a scratch directory. Do not modify anything outside it without asking me
    and does not deliver. This part is a site review; be unkind.
 
 2. READ. Read the specification. Do NOT read the reference verifier
-   (tools/verify_negative_control.py). Reading it makes what follows a port.
+   (tools/verify_fault_injection.py). Reading it makes what follows a port.
 
 3. BUILD. Write a program that reads an attestation and exits non-zero on any violation
    of the specification. Any language.
 
-4. TEST. Run it against every fixture in spec/ncp/fixtures/. Each reject-* must be
-   rejected; accept-* must be accepted. Then run it against spec/ncp/fixtures/known-gaps/,
+4. TEST. Run it against every fixture in spec/ficp/fixtures/. Each reject-* must be
+   rejected; accept-* must be accepted. Then run it against spec/ficp/fixtures/known-gaps/,
    which the authors&#x27; own verifier accepts and believes it should not. If yours rejects
    either, say so — you have beaten theirs.
 
