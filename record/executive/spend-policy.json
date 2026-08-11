@@ -16,7 +16,7 @@
     "claude_subscription": {
       "what": "prepaid monthly; funds Claude Code, i.e. the executive's own operation",
       "readable": true,
-      "how_read": "OAuth GET api.anthropic.com/api/oauth/usage — executive_log.quota_now()",
+      "how_read": "OAuth GET api.anthropic.com/api/oauth/usage \u2014 executive_log.quota_now()",
       "enforced_by": null,
       "floor": {
         "kind": "percent of the seven-day window remaining",
@@ -28,11 +28,14 @@
       "what": "prepaid monthly; funds Codex review",
       "readable": false,
       "how_read": "CDP-only (authenticated Chrome on :9222); SET ASIDE 2026-08-09",
-      "enforced_by": "tools/codex_call.py — wall-clock spacing, a proxy for the unreadable number",
+      "enforced_by": "NOTHING IN CODE from 2026-08-11 to 2026-08-17. The custodian is monitoring Claude Code and Codex usage directly for that seven-day window and instructed the wall-clock floor be removed. tools/codex_call.py still writes invocation receipts and persists every transcript; only the gate is gone.",
       "floor": {
-        "kind": "percent of the weekly window remaining",
-        "value": 33.0,
-        "provenance": "custodian, 2026-08-09: 'proceed with codex limited to usage below 33% of weekly usage remaining'. UNENFORCEABLE while the channel is unreadable."
+        "kind": "held by the custodian, not by a tool",
+        "value": "none in code until 2026-08-17",
+        "provenance": "custodian, 2026-08-11: 'Remove the Codex floor because I will monitor Claude Code and Codex usage for the 7-day period ending Monday August 17.'",
+        "why_removed": "The floor was a wall-clock PROXY for this channel, which this policy records as unreadable. It was overridden on 18 of 21 invocations (86%). A control bypassed nine times in ten is a receipt, not a control.",
+        "expires": "2026-08-17",
+        "what_happens_then": "NOTHING, unless the custodian replaces it. After that date there is no Codex spend control of any kind. An authority that quietly outlives its stated window is control 12's failure mode; this is the notice that it would be one."
       },
       "rate_limit": {
         "min_seconds_between_calls": 600,

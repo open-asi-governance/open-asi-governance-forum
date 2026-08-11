@@ -148,6 +148,22 @@ def may_call(override: str = "") -> tuple[bool, str]:
     elapsed = seconds_since_last()
     if elapsed is None:
         return True, "no previous Codex call recorded"
+    #  FLOOR REMOVED 2026-08-11 ON THE CUSTODIAN'S INSTRUCTION. It is not deleted into nothing:
+    #  the control is TRANSFERRED to him, and it EXPIRES. He is monitoring Claude Code and Codex
+    #  usage directly for the seven-day window ending MONDAY 2026-08-17.
+    #
+    #  The floor was a wall-clock proxy for a spend channel the policy records as UNREADABLE, and
+    #  it was overridden on 18 of 21 invocations -- 86%. A control bypassed nine times in ten is a
+    #  receipt, not a control, and continuing to describe it as one was the failure.
+    #
+    #  AFTER 2026-08-17 THERE IS NO CODEX SPEND CONTROL unless the custodian replaces it. That is
+    #  stated here rather than left to be discovered, because an authority that quietly outlives
+    #  its stated window is control 12's failure mode and this file would otherwise be where it
+    #  happened.
+    if MONITORED_BY_CUSTODIAN_UNTIL:
+        return True, (f"no floor: rate limiting is held by the custodian directly until "
+                      f"{MONITORED_BY_CUSTODIAN_UNTIL}. Invocation receipts and transcripts are "
+                      f"still written; only the wall-clock gate is gone.")
     floor = min_seconds()
     if elapsed >= floor:
         return True, f"{elapsed/60:.1f} min since the last call, floor is {floor/60:.0f}"
@@ -168,6 +184,9 @@ def may_call(override: str = "") -> tuple[bool, str]:
                    f"{floor/60:.0f}-minute floor. Batch the question, or "
                    f"pass --override with a reason.")
 
+
+#  Set to a date while the custodian holds rate limiting himself; empty restores the floor.
+MONITORED_BY_CUSTODIAN_UNTIL = "2026-08-17"
 
 TRANSCRIPTS = REPO_ROOT / "record" / "executive" / "codex-transcripts"
 

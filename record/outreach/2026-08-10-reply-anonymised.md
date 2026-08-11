@@ -18,7 +18,7 @@ Quoted verbatim from the thread; nothing paraphrased.
 > need to check some properties of the output. Test oracles are used to check those properties,
 > e.g., "did the light turn green" or "is the website returning 200".
 >
-> Darko
+> [REDACTED]
 
 ## The load-bearing sentence is the first one
 
@@ -97,3 +97,7 @@ concluded.
 Unchanged. The adverse outcome is *no serious external attempt after 6–8 weeks with outreach
 done*. A reply that declines to engage with the artifact is not an attempt, and counting it as one
 would be the assent-inflation this record exists to avoid. **The prediction stays open.**
+
+---
+
+[NAME REDACTED 2026-08-11 at the correspondent's request — he replied "You can quote me anonymously. I wasn't aware you may want to make our private emails public." The redaction is recorded rather than silent; see record/outreach/REDACTION.md]

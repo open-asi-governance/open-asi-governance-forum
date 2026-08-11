@@ -11,7 +11,7 @@ not a Claude Code permission, and marking tools "always allow" does not affect i
 
 ```
 newer_than:14d -in:sent -in:draft {from:ryanph@umich.edu from:rjust@cs.washington.edu
-from:gordon.fraser@uni-passau.de from:marinov@illinois.edu from:palvaro@ucsc.edu
+from:gordon.fraser@uni-passau.de from:[REDACTED]@illinois.edu from:palvaro@ucsc.edu
 from:haryadi@cs.uchicago.edu from:sbagchi@purdue.edu from:rushby@csl.sri.com
 from:isa@york.ac.uk from:info@sei.cmu.edu from:mailer-daemon@googlemail.com
 from:postmaster subject:"negative-control attestation"}
@@ -51,3 +51,7 @@ the record without attribution, and ask the sender before publishing their words
 - First poll 2026-08-10 ~20:25 UTC: **no replies, no bounces.** Roughly 20 minutes after sending,
   so this establishes only that nothing hard-failed immediately. Soft failures and greylisting can
   take hours; absence of a bounce is not evidence of delivery.
+
+---
+
+[NAME REDACTED 2026-08-11 at the correspondent's request — he replied "You can quote me anonymously. I wasn't aware you may want to make our private emails public." The redaction is recorded rather than silent; see record/outreach/REDACTION.md]
