@@ -128,6 +128,166 @@
       "disposition": "legitimate",
       "why": "configuration default. Absent means 'use the standard seed base', which IS 1000; no measurement is claimed.",
       "read": "individually"
+    },
+    "0dcfcc01c20a213a": {
+      "file": "tools/build_round_pages.py",
+      "line_text": "if len(payloads) != (summary.get(\"k_collected\") or 0):",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent k_collected counts as zero samples collected, which flags the round as UNDER-collected or excludes it. Absence pushes toward refusal, never toward a flattering count.",
+      "read": "individually"
+    },
+    "308585e9386ff446": {
+      "file": "tools/build_round_pages.py",
+      "line_text": "if (sm.get(\"k_collected\") or 0) > 0 and p not in samples}",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent k_collected counts as zero samples collected, which flags the round as UNDER-collected or excludes it. Absence pushes toward refusal, never toward a flattering count.",
+      "read": "individually"
+    },
+    "5b9a3ad8bbb24d6e": {
+      "file": "tools/build_round_pages.py",
+      "line_text": "if (sm.get(\"k_collected\") or 0)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent k_collected counts as zero samples collected, which flags the round as UNDER-collected or excludes it. Absence pushes toward refusal, never toward a flattering count.",
+      "read": "individually"
+    },
+    "8c3c04f0642d2966": {
+      "file": "tools/build_round_pages.py",
+      "line_text": "< (sm.get(\"k_min_usable\") or sm.get(\"k_requested\") or 0))",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent floor compares as zero, so the sample is treated as meeting no floor and is flagged rather than passed.",
+      "read": "individually"
+    },
+    "abaecbf071d7051b": {
+      "file": "tools/round_cycle.py",
+      "line_text": "if not v or v.get(\"distinct_values\", 0) > 1:",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "fails safe inside `if not v or ...`: an absent count reads as not-variable and the guard falls through to the conservative branch.",
+      "read": "individually"
+    },
+    "8a99cdc6a56fa6b2": {
+      "file": "tools/round_cycle.py",
+      "line_text": "if s.get(\"k_collected\", 0) < floor_by_party.get(k, K_MIN_FLOOR)]",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent k_collected counts as zero samples collected, which flags the round as UNDER-collected or excludes it. Absence pushes toward refusal, never toward a flattering count.",
+      "read": "individually"
+    },
+    "2f91949a6f90b950": {
+      "file": "tools/solicit_api.py",
+      "line_text": "+ (entry[\"web_search_usd\"] or 0.0), 4)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "the field is initialised on the same object a few lines above, so it is never absent here; the `or 0.0` guards a None written deliberately when no search was billed.",
+      "read": "individually"
+    },
+    "c06280c87b03d0c6": {
+      "file": "tools/solicit_tools.py",
+      "line_text": "\"reasoning_bytes\": sum(e.get(\"reasoning_bytes\") or 0 for e in responses),",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: a response with no reasoning_bytes genuinely contributed zero reasoning bytes to the sum. Absence and zero mean the same thing for this quantity.",
+      "read": "individually"
+    },
+    "6883586d20fe6fe6": {
+      "file": "tools/test_integrity.py",
+      "line_text": "out.get(\"arms\", 0) > 1 and out.get(\"arms_differ\") is True)",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "test assertion: an absent key makes the assertion FALSE and the test FAIL. Absence cannot produce a passing test.",
+      "read": "individually"
+    },
+    "55a1918fa5995d14": {
+      "file": "tools/test_integrity.py",
+      "line_text": "out.get(\"verbatim_whole\") is True and out.get(\"n_verbatim\", 0) > 0,",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "test assertion: absent makes the assertion false and the test fail.",
+      "read": "individually"
+    },
+    "460e5108329e970e": {
+      "file": "tools/tests/test_executive_log.py",
+      "line_text": "and cold.get(\"last_known_age_seconds\", 0) > 0)",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "test assertion: absent makes the comparison false and the test fail.",
+      "read": "individually"
+    },
+    "6f33f8d9b852f948": {
+      "file": "tools/tests/test_k_solicited.py",
+      "line_text": "if (sm.get(\"k_collected\") or 0)",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent k_collected counts as zero samples collected, which flags the round as UNDER-collected or excludes it. Absence pushes toward refusal, never toward a flattering count.",
+      "read": "individually"
+    },
+    "4514e833289e556f": {
+      "file": "tools/tests/test_k_solicited.py",
+      "line_text": "< (sm.get(\"k_min_usable\") or sm.get(\"k_requested\") or 0))",
+      "class": "C53b",
+      "disposition": "legitimate",
+      "why": "fails safe: an absent floor compares as zero, so the sample is treated as meeting no floor and is flagged rather than passed.",
+      "read": "individually"
+    },
+    "01f8a3bf04bb5b92": {
+      "file": "tools/validate_provenance.py",
+      "line_text": "matched = actual.get(identity, 0)",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero \u2014 a model asserted present that produced nothing \u2014 and says recording the absence is the point.",
+      "read": "individually"
+    },
+    "6adfeedcf207981b": {
+      "file": "tools/validate_provenance.py",
+      "line_text": "if actual.get(identity, 0) != 0:",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero \u2014 a model asserted present that produced nothing \u2014 and says recording the absence is the point.",
+      "read": "individually"
+    },
+    "f7c786313da41adf": {
+      "file": "tools/build_session_log.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
+    },
+    "feed94a4b5604bc5": {
+      "file": "tools/check_claims.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
+    },
+    "f32b9a16c220b4f7": {
+      "file": "tools/land.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
+    },
+    "d379657347c971c7": {
+      "file": "tools/qualification_round.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
+    },
+    "e9d330d4a4d4ab17": {
+      "file": "tools/watch_arrivals.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
     }
   }
 }

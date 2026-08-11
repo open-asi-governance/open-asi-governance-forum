@@ -414,6 +414,10 @@ WEB_SEARCH = {"id": "web", "engine": "exa", "max_results": 8,
 #  plugin pins no max_characters, so this is a deliberately high assumption rather
 #  than a measurement -- which is the safe direction for a ceiling.
 SEARCH_RESULT_CHARS = 8000
+#  Used only when a web_search spec omits max_results. Absent used to inject ZERO tokens,
+#  understating the bound; a conservative assumption is the lesser error, and it is stated
+#  here rather than hidden in an `or 0`. Chosen as the provider default for the search tool.
+SEARCH_RESULTS_ASSUMED = 5
 
 #  Worst-case characters a single fetch_url result adds to the conversation, which is then
 #  re-sent as input on every subsequent turn. fetch_executor caps a body at 200,000 bytes and
@@ -964,9 +968,23 @@ def ledger_spent_today(today: str) -> float:
     if not LEDGER_FILE.is_file():
         return 0.0
     doc = json.loads(LEDGER_FILE.read_text(encoding="utf-8"))
-    return round(sum(e.get("actual_usd") if e.get("actual_usd") is not None
-                     else e.get("worst_case_usd", 0.0)
-                     for e in doc.get("entries", []) if e.get("utc", "").startswith(today)), 4)
+    #  AN ENTRY WITH NEITHER FIGURE IS NOT A FREE ONE. Defaulting worst_case_usd to 0.0
+    #  understated today's spend, and this number gates whether more spending is allowed.
+    #  An unpriceable entry now raises rather than quietly lowering the total.
+    total = 0.0
+    for e in doc.get("entries", []):
+        if not e.get("utc", "").startswith(today):
+            continue
+        value = e.get("actual_usd")
+        if value is None:
+            value = e.get("worst_case_usd")
+        if value is None:
+            raise SystemExit(
+                f"spend entry at {e.get('utc')} has neither actual_usd nor worst_case_usd. "
+                f"Today's spend cannot be bounded, and treating it as zero would let the "
+                f"budget preflight pass on an unknown.")
+        total += value
+    return round(total, 4)
 
 
 def price_cycle(specs: list[dict], rates: dict) -> dict:
@@ -1010,7 +1028,9 @@ def price_cycle(specs: list[dict], rates: dict) -> dict:
             #  smaller half: the engine injects extracted page text into the model's
             #  INPUT, billed at the input rate. Pricing only the composed prompt made
             #  the bound stop bounding the moment browsing was switched on.
-            injected_tokens = ((spec["web_search"].get("max_results") or 0)
+            #  A missing max_results used to inject zero tokens, understating the bound --
+            #  the same failure the comment above records from when browsing was switched on.
+            injected_tokens = ((spec["web_search"].get("max_results", SEARCH_RESULTS_ASSUMED))
                                * SEARCH_RESULT_CHARS / BYTES_PER_TOKEN)
         #  AN AGENTIC SAMPLE IS NOT ONE COMPLETION. With fetch-url-v1 the loop re-sends the
         #  whole conversation on every turn, and each turn appends a fetched page to it. So the
@@ -2075,8 +2095,16 @@ def main(argv: list[str]) -> int:
                 continue
             summaries[spec["party_key"]] = json.loads(summary_path.read_text(encoding="utf-8"))
 
-        spent = round(sum(
-            (s.get("spend", {}) or {}).get("actual_usd") or 0.0 for s in summaries.values()), 4)
+        #  ABSENT IS NOT ZERO, and this figure is WRITTEN TO THE SPEND LEDGER. A party whose
+        #  summary carries no actual_usd used to contribute 0.0, understating the round's cost
+        #  in the record the daily budget is judged against. Same class as ledger_spent_today.
+        unpriced_parties = [k for k, v in summaries.items()
+                            if (v.get("spend", {}) or {}).get("actual_usd") is None]
+        spent = round(sum((s.get("spend", {}) or {}).get("actual_usd")
+                          for k, s in summaries.items() if k not in unpriced_parties), 4)
+        if unpriced_parties:
+            print(f"  {len(unpriced_parties)} part(y/ies) reported no actual_usd: "
+                  f"{', '.join(sorted(unpriced_parties))}. The round cost is a LOWER BOUND.")
         ledger = json.loads(LEDGER_FILE.read_text(encoding="utf-8")) \
             if LEDGER_FILE.is_file() else {"artifact_type": "spend_ledger", "entries": []}
         ledger["entries"].append({

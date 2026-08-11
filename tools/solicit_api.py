@@ -120,8 +120,13 @@ def spend_from(samples: list[dict], model: str, rates_path: Path,
              "rates_version": None}
     for sample in samples:
         usage = sample.get("usage") or {}
-        entry["input_tokens"] += usage.get("prompt_tokens") or 0
-        entry["output_tokens"] += usage.get("completion_tokens") or 0
+        #  ABSENT IS NOT ZERO: a missing token count understates spend. Counted separately so
+        #  the figure carries its own incompleteness, as record_spend.py now does.
+        if usage.get("prompt_tokens") is None or usage.get("completion_tokens") is None:
+            entry["usage_unknown"] = entry.get("usage_unknown", 0) + 1
+        else:
+            entry["input_tokens"] += usage["prompt_tokens"]
+            entry["output_tokens"] += usage["completion_tokens"]
     if not rates_path.is_file():
         return entry
     rates = json.loads(rates_path.read_text(encoding="utf-8"))

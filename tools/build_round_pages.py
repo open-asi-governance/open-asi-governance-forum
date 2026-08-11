@@ -758,7 +758,8 @@ def comparison_section(data: dict) -> list[str]:
         citations[party] = urls
         lines.append(
             f"| {party} | {summary.get('k_collected','?')} | `{first.get('modal_value','—')}` | "
-            f"{(first.get('modal_fraction') or 0):.0%} | {first.get('distinct_values','?')} | "
+            f"{f'{first["modal_fraction"]:.0%}' if first.get('modal_fraction') is not None else '?'}"
+            f" | {first.get('distinct_values','?')} | "
             f"{fetched} | {len(urls)} |")
 
     labels = {p for p in positions.values() if p is not None}
