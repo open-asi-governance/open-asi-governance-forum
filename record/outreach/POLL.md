@@ -9,11 +9,13 @@ not a Claude Code permission, and marking tools "always allow" does not affect i
 
 ## The query
 
+**Addresses redacted 2026-08-11.** The live query is held by the custodian; see `record/outreach/REDACTION.md`. Publishing ten researchers' addresses to make a poll reproducible was never a trade worth making.
+
 ```
-newer_than:14d -in:sent -in:draft {from:ryanph@umich.edu from:rjust@cs.washington.edu
-from:gordon.fraser@uni-passau.de from:[REDACTED]@illinois.edu from:palvaro@ucsc.edu
-from:haryadi@cs.uchicago.edu from:sbagchi@purdue.edu from:rushby@csl.sri.com
-from:isa@york.ac.uk from:info@sei.cmu.edu from:mailer-daemon@googlemail.com
+newer_than:14d -in:sent -in:draft {from:[REDACTED] from:[REDACTED]
+from:[REDACTED] from:[REDACTED] from:[REDACTED]
+from:[REDACTED] from:[REDACTED] from:[REDACTED]
+from:[REDACTED] from:[REDACTED] from:[REDACTED]
 from:postmaster subject:"negative-control attestation"}
 ```
 
@@ -35,7 +37,7 @@ returned 3. The zero was real.
 | observation | meaning |
 |---|---|
 | substantive reply | the result. Record it. |
-| **a bounce** | **a result, not noise** — especially from `palvaro@ucsc.edu` (domain completed by the workbench, not read from any page) or `ryanph@umich.edu` (read over an unverified TLS connection) |
+| **a bounce** | **a result, not noise** — especially from `[REDACTED]` (domain completed by the workbench, not read from any page) or `[REDACTED]` (read over an unverified TLS connection) |
 | out-of-office | not a result; note and ignore |
 | nothing by **2026-10-05** | the pre-registered adverse outcome |
 

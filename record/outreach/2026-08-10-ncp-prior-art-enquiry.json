@@ -8,25 +8,25 @@
   "recipients": [
     {
       "n": 1,
-      "name": "Ryan (Peng) Huang",
+      "name": "[REDACTED]",
       "affiliation": "Assoc. Prof., CSE, University of Michigan",
-      "email": "ryanph@umich.edu",
+      "email": "[REDACTED]",
       "why": "gray failure / differential observability",
       "address_verified": "read from his own page over a connection whose TLS certificate was NOT verified (Michigan cert legitimate, intermediate omitted by the server)"
     },
     {
       "n": 2,
-      "name": "Rene Just",
+      "name": "[REDACTED]",
       "affiliation": "Assoc. Prof., Allen School, U. Washington",
-      "email": "rjust@cs.washington.edu",
+      "email": "[REDACTED]",
       "why": "Defects4J, mutation testing",
       "address_verified": "verbatim on his own page"
     },
     {
       "n": 3,
-      "name": "Gordon Fraser",
+      "name": "[REDACTED]",
       "affiliation": "Prof., Chair of SE II, U. Passau",
-      "email": "gordon.fraser@uni-passau.de",
+      "email": "[REDACTED]",
       "why": "EvoSuite, mutation testing",
       "address_verified": "verbatim on the official chair page"
     },
@@ -34,55 +34,55 @@
       "n": 4,
       "name": "[REDACTED]",
       "affiliation": "Prof., Siebel School, UIUC",
-      "email": "[REDACTED]@illinois.edu",
+      "email": "[REDACTED]",
       "why": "software testing, flaky tests",
       "address_verified": "verbatim on his own page"
     },
     {
       "n": 5,
-      "name": "Peter Alvaro",
+      "name": "[REDACTED]",
       "affiliation": "Assoc. Prof., CSE, UC Santa Cruz",
-      "email": "palvaro@ucsc.edu",
+      "email": "[REDACTED]",
       "why": "lineage-driven fault injection",
       "address_verified": "PARTIAL: page showed only 'palvaro at ucsc'; the domain was completed by the workbench and was not read from any page"
     },
     {
       "n": 6,
-      "name": "Haryadi Gunawi",
+      "name": "[REDACTED]",
       "affiliation": "Prof., CS, University of Chicago",
-      "email": "haryadi@cs.uchicago.edu",
+      "email": "[REDACTED]",
       "why": "cloud failure studies, silent failure",
       "address_verified": "verbatim on his department page"
     },
     {
       "n": 7,
-      "name": "Saurabh Bagchi",
+      "name": "[REDACTED]",
       "affiliation": "Prof., ECE/CS, Purdue; Director, CRISP",
-      "email": "sbagchi@purdue.edu",
+      "email": "[REDACTED]",
       "why": "dependable computing",
       "address_verified": "verbatim (obfuscated form) on his own contact page. NOTE: a search result asserted this same address from a page that did not contain it; it was re-verified from the correct page before use."
     },
     {
       "n": 8,
-      "name": "John Rushby",
+      "name": "[REDACTED]",
       "affiliation": "Distinguished Senior Scientist, SRI Int'l CSL",
-      "email": "Rushby@csl.sri.com",
+      "email": "[REDACTED]",
       "why": "assurance cases, Assurance 2.0",
       "address_verified": "verbatim on his own page"
     },
     {
       "n": 9,
-      "name": "Institute for Safe Autonomy (group inbox)",
+      "name": "[REDACTED]",
       "affiliation": "University of York",
-      "email": "isa@york.ac.uk",
+      "email": "[REDACTED]",
       "why": "GSN / assurance-case lineage",
       "address_verified": "verbatim on the institute page"
     },
     {
       "n": 10,
-      "name": "Software Engineering Institute (group inbox)",
+      "name": "[REDACTED]",
       "affiliation": "Carnegie Mellon",
-      "email": "info@sei.cmu.edu",
+      "email": "[REDACTED]",
       "why": "publishes on assurance cases and confidence",
       "address_verified": "verbatim on the SEI contact page"
     }
@@ -100,5 +100,13 @@
     "That the emails arrived. Delivery was not instrumented; the custodian sent them by hand.",
     "That the two flagged addresses are correct. One domain was completed by the workbench and one was read over an unverified TLS connection; both are recorded above rather than presented as verified.",
     "That the recipients are a representative or well-chosen sample. They were selected by the workbench from web research, in one afternoon, with no prospective rule."
-  ]
+  ],
+  "recipient_disclosure": {
+    "redacted_utc": "2026-08-11",
+    "why": "Ten researchers were emailed on 2026-08-10 and NONE was told a reply might be published. One later replied 'I wasn't aware you may want to make our private emails public' and asked to be anonymous. The same obligation applies to the other nine whether or not they ever reply, so names and addresses are removed rather than left exposed while a decision is pending.",
+    "what_is_kept": "count, affiliation, and why each was chosen — which is what makes the 'outreach was done' claim checkable. Identity was never what made it checkable.",
+    "commitment_sha256": "b7216ffd16adc951fdfe50cbd10af1de18a45fe80b1fd358231ed258545b0b4e",
+    "how_to_verify": "The unredacted list is held by the custodian outside this repository. json.dumps(recipients, sort_keys=True, ensure_ascii=False) over the original hashes to the value above, so the list can be shown to be the one sent without publishing it.",
+    "what_this_does_not_fix": "Git history retains the unredacted list, and this note does not pretend otherwise. Nine of the ten have still not been asked what they would prefer."
+  }
 }

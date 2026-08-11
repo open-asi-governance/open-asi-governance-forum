@@ -61,3 +61,42 @@ custodian's decision, not the workbench's**, and it is not taken here.
 **Ask before you write, not after they reply.** Any outbound message that may be recorded here must
 say so in the message itself, and offer the choice at that point. A correspondent who answers
 without being told has not consented to anything.
+
+---
+
+## 2026-08-11, second pass: the other nine, and the leak path
+
+The first pass redacted one correspondent. It did not ask what else was exposed, which was the
+same incomplete-check failure one layer out.
+
+**All ten recipients' names and addresses were published**, in
+`record/outreach/2026-08-10-ncp-prior-art-enquiry.json` and in `POLL.md`'s saved query. **None of
+the ten was told.** They are now redacted, and the record keeps what actually made the outreach
+claim checkable — count, affiliation, and why each was chosen. **Identity was never what made it
+checkable.**
+
+A `commitment_sha256` over the original list is published so the list can be *shown* to be the one
+sent, without publishing it. The unredacted list is held outside the repository.
+
+**The leak path was my own prompts.** The addresses reached two Codex transcripts because I pasted
+the poll query verbatim into them, and transcripts are committed. Redacting the source file left
+the copies untouched. 18 further occurrences scrubbed.
+
+### What was deliberately NOT redacted, and why
+
+Four third-party addresses remain in `corpus/raw/` — returned by models during search probes,
+scraped from pages their owners publish. Two reasons for leaving them: `corpus/raw/` is
+append-only and manifest-anchored, and the invariant permits withdrawal only where the custodian
+is **legally or ethically required** to remove; and a contact address its owner publishes is not
+the same as a private list of people we chose to write to. **This is a judgement, not a rule**, and
+it is recorded so it can be disagreed with.
+
+### The count
+
+| | |
+|---|---|
+| occurrences of the correspondent's name redacted | 58 |
+| recipient names and addresses redacted | 20 |
+| further occurrences in transcripts | 18 |
+| **still recoverable from git history** | **all of them** |
+| of the ten, asked what they would prefer | **1** |
