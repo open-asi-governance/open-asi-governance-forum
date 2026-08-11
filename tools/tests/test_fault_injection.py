@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Conformance for verify_negative_control.py.
+"""Conformance for verify_fault_injection.py.
+
+Renamed from test_negative_control.py on 2026-08-11. The profile was renamed and this test was
+not, so it went on exercising the DEPRECATED ALIAS -- which worked, because the alias forwards,
+and meant the canonical verifier had no test naming it. tools/control_coverage.py scored the
+repository's flagship verifier as having no negative control because of it.
 
 The verifier is subject to its own requirement: a verifier only ever run against valid
 attestations has never been observed to fail. These are its negative controls.
@@ -10,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-import verify_negative_control as v                                      # noqa: E402
+import verify_fault_injection as v                                      # noqa: E402
 
 PASSED = FAILED = 0
 
@@ -26,7 +31,7 @@ def check(label: str, ok: bool) -> None:
 
 
 print("\nthe shipped fixtures behave as the spec requires")
-proc = subprocess.run([sys.executable, str(ROOT / "verify_negative_control.py"), "--fixtures"],
+proc = subprocess.run([sys.executable, str(ROOT / "verify_fault_injection.py"), "--fixtures"],
                       capture_output=True, text=True, cwd=ROOT)
 check("every must-reject fixture is rejected and every must-accept accepted",
       proc.returncode == 0)
@@ -102,7 +107,7 @@ for path in gaps:
     check(f"{path.name[:42]}: says why it should not be", bool(doc.get("_should_be_rejected_but_is_not")))
 check("known gaps do NOT fail the fixture suite",
       __import__("subprocess").run(
-          [sys.executable, str(ROOT / "verify_negative_control.py"), "--fixtures"],
+          [sys.executable, str(ROOT / "verify_fault_injection.py"), "--fixtures"],
           capture_output=True, cwd=ROOT).returncode == 0)
 
 print("\nthe spec records the gaps rather than only the strengths")

@@ -33,6 +33,7 @@ a demanding fixture and still be broken everywhere the fixture does not look.
 from __future__ import annotations
 
 import argparse
+import ast
 import pathlib
 import re
 import sys
@@ -86,6 +87,19 @@ def has_negative_control(stem: str) -> tuple[bool, str]:
     referencing = []
     for t in sorted(TESTS.rglob("*.py")):
         text = t.read_text(encoding="utf-8", errors="replace")
+        #  STRIP THE MODULE DOCSTRING. test_chain_guards.py named anchor_manifest.py in its
+        #  prose and never exercised it, and this measure counted that as coverage -- a test's
+        #  own docstring gaming the measure of that test, accidentally, within minutes of both
+        #  being written. A mention is not an exercise.
+        #
+        #  Via ast, not a regex: the first attempt anchored at string start and every suite here
+        #  begins with a shebang, so it stripped nothing and the false pass survived the fix.
+        try:
+            doc = ast.get_docstring(ast.parse(text))
+            if doc:
+                text = text.replace(doc, "", 1)
+        except SyntaxError:
+            pass
         if stem in text:
             referencing.append((t.name, text))
     if not referencing:
