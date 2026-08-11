@@ -1,0 +1,242 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="artifacts/controls.md"><title>Candidate controls, Part D4 — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
+
+<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+
+<p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
+
+<h2>The 8 parts</h2>
+
+<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+
+<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+
+<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+
+<p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
+
+<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+
+<p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+
+<p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p>---</p>
+
+<h2>Status: everything here is <code>ELIGIBLE</code> at best</h2>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+
+<p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
+
+<h2>What none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.</p>
+
+<p>What these actually do is narrower: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail.</p>
+
+<p><a href="controls.html">Part A</a> · <a href="controls-b.html">Part B</a> · <a href="controls-c.html">Part C</a> · <a href="controls-d1.html">Part D1</a> · <a href="controls-d2.html">Part D2</a> · <a href="controls-d3.html">Part D3</a> · <a href="controls-d4.html">Part D4</a> · <a href="controls-d5.html">Part D5</a></p>
+
+<p>---</p>
+
+<h1>Part D4 — Below the line — self-modification under selection</h1>
+
+<p>Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<h2>24. The fitness function is a protected artifact</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system generates candidate modifications to itself and selects among them by a measured score.</p>
+
+<blockquote>The scoring function that selects among self-modifications MUST be protected to at least the standard of the constraints themselves. Changing the weights changes what the system evolves toward, and does so more powerfully than changing any single candidate.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is offered because control 1&#x27;s protected set covers constraints, authorization records, logs and gates — and a scoring function is none of those, while being the thing that decides which future the system moves into.</p>
+
+<p><strong>Verifier.</strong> treat the scoring function, its weights and its inputs as enumerated protected artifacts under control 19; refuse any self-generated modification that touches them, whatever its measured score.</p>
+
+<p><strong>Fixture it must reject.</strong> a candidate modification that improves its own score by adjusting a weight</p>
+
+<p><strong>Recovery.</strong> Revert the scoring function and re-evaluate every candidate promoted under the modified version. Those promotions are unverified, not merely suspect.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks whether the winning candidate is good. The question is whether the contest was, and a review of winners cannot see a changed rule.</p>
+
+<p><strong>Does not establish.</strong> That the scoring function is a good one. It makes the function stable and contestable, not correct — a protected bad objective is pursued consistently.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A school decides which teaching methods to keep by exam results, and also lets the same committee set the exam. Every method it keeps does improve results. Nobody can say whether the teaching improved or the paper got easier.</p>
+
+<h2>25. Declared substitution of a weaker guarantee</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> a system replaces a formal guarantee with an empirical one.</p>
+
+<blockquote>Where a design substitutes measurement for proof — accepting a change because scores improved rather than because it was shown to be sound — the substitution MUST be declared, and the residual risk it creates MUST be stated wherever the resulting assurance is claimed.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The design that prompted it substitutes benchmark validation for formal proof and says so plainly in its own text, which is the behaviour this control asks for — but the substitution&#x27;s consequence is not carried forward to the claims made downstream of it.</p>
+
+<p><strong>Verifier.</strong> require the claim attached to any promoted change to name the guarantee actually obtained. A claim of soundness backed by a score is rejected by the claim grammar of control 10.</p>
+
+<p><strong>Fixture it must reject.</strong> a promoted change whose assurance claim asserts correctness while its evidence is a benchmark delta</p>
+
+<p><strong>Recovery.</strong> Restate the claim at the strength the evidence supports. Nothing needs reverting; what needs correcting is what was said about it.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms the benchmarks improved and the substitution was disclosed somewhere. Disclosure in the design document does not travel with the claim.</p>
+
+<p><strong>Does not establish.</strong> That the substitution is wrong. Measurement instead of proof is often the only available option; what this forbids is inheriting proof&#x27;s authority while using measurement&#x27;s evidence.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A bridge design that would once have required a load calculation is now signed off because a scale model held. That may be perfectly reasonable. The certificate must still say the model held, not that the bridge is proven.</p>
+
+<h2>26. Bounded execution before promotion</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system generates candidate modifications to itself and selects among them by a measured score, and candidates are executed to be scored.</p>
+
+<blockquote>A candidate self-modification MUST be executed only under declared and enforced bounds on time, memory and reachable capabilities, and MUST be unable to affect the state used to score it or any other candidate.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Distinct from control 4, which governs AUTHORITY to act: this governs what an unpromoted candidate can reach while it is merely being measured.</p>
+
+<p><strong>Verifier.</strong> assert the bounds are set from a protected configuration rather than by the candidate; assert the sandbox denies by default; run a candidate that deliberately attempts to exceed each bound and confirm it is stopped.</p>
+
+<p><strong>Fixture it must reject.</strong> a candidate that writes to the scoring store; a candidate that runs past its time bound and is scored anyway</p>
+
+<p><strong>Recovery.</strong> Discard the whole generation, not the offending candidate. A candidate that could reach the scoring state may have altered the scores of its rivals.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms a sandbox is configured. The question is whether it has ever been observed to stop anything — which is control 2 applied to the sandbox itself.</p>
+
+<p><strong>Does not establish.</strong> That the bounds are the right ones, or that the sandbox is sound against a candidate specifically trying to escape it.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A seed trial gives each variety its own plot, its own water and its own measuring tape. A variety planted in the same plot as its rivals may win by shading them, and the yield figures will not show it.</p>
+
+<h2>27. Diversity floor under selection</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system generates candidate modifications to itself and selects among them by a measured score, over a population.</p>
+
+<blockquote>A selection process MUST measure the diversity of its population and MUST halt or inject variation when diversity falls below a declared floor, rather than continuing to select from a converged field.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as an incident, though this register holds an adjacent one: a five-member review panel returned zero refusals in 108 positions, and the explanation offered for such panels is that reviewers sharing training, tooling and framing are weak diversity under different names.</p>
+
+<p><strong>Verifier.</strong> compute a declared diversity statistic each generation; refuse to promote when it is below the floor; record the statistic whether or not it triggered.</p>
+
+<p><strong>Fixture it must reject.</strong> a generation in which every candidate descends from one parent, promoted on score</p>
+
+<p><strong>Recovery.</strong> Inject variation and re-run the generation. Candidates promoted from a converged field were selected against a narrower comparison than the record implies.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that observes scores still improving. A converged population improves on the dimension it has converged around, which is what makes the collapse invisible.</p>
+
+<p><strong>Does not establish.</strong> That the diversity statistic measures the diversity that matters. Two candidates can differ greatly by the metric and identically where it counts.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An orchard replanted only from its best-yielding tree produces excellent fruit for years, and then loses everything to one disease. Each replanting decision was correct on the evidence available at the time.</p>
+
+<h2>45. A replacement gate must catch what the old gate caught</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any change to a check, gate, validator or threshold.</p>
+
+<blockquote>A modification to a gate MUST ship evidence that the new gate detects at least the failures the old gate detected. Reducing validation depth, narrowing applicability, lowering a severity classification, shortening evidence retention, or converting a hard constraint into a warning are gate weakenings and MUST be authorised as such, not landed as efficiency work.</blockquote>
+
+<p><strong>Recorded failure.</strong> <strong>Partly recorded here.</strong> Reconciliation found 12 gate modifications inside one lease window, made by the layer those gates constrain. Nothing measured whether any of them weakened a gate — which is the finding: the question was never asked, and gate weakening is the modification class that looks most like an improvement.</p>
+
+<p><strong>Verifier.</strong> retain each gate&#x27;s negative controls (control 2) as a regression suite for the gate itself; a replacement gate MUST still fail every one of them. A gate change that cannot be tested this way is a gate that never had a negative control.</p>
+
+<p><strong>Fixture it must reject.</strong> a rewritten check that passes its own suite while surviving the predecessor&#x27;s negative control; a constraint downgraded to a warning in a performance commit</p>
+
+<p><strong>Recovery.</strong> Restore the old gate, re-run both against the retained controls, and treat everything the new gate passed in the interval as unverified.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms the new gate passes its tests. It was written alongside them.</p>
+
+<p><strong>Does not establish.</strong> That the old gate was adequate. This forbids losing detection silently, not adopting a better gate — a documented, authorised reduction remains available.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A hospital replacing a screening test must show the new one finds the cases the old one found. A cheaper test with a better throughput figure and an unmeasured miss rate is not an improvement, and its first year will look like one.</p>
+
+<h2>51. A rollback claim states what was not restored</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system claiming a change was rolled back.</p>
+
+<blockquote>A rollback record MUST state what state was restored, what state could NOT be restored, and what external effects persist. Rollback is not erasure, and for an externally consequential action it may be impossible in fact even when the internal state is fully restored.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here.</p>
+
+<p><strong>Verifier.</strong> assert every rollback record carries an unrestored-state field and an external-effects field, and that both are explicitly empty rather than absent when they are empty.</p>
+
+<p><strong>Fixture it must reject.</strong> a rollback recorded as complete after an action that sent an irreversible external effect; a restored code state reported as though the incident had not occurred</p>
+
+<p><strong>Recovery.</strong> There is none for the external effect, which is the point. Record it and stop describing the change as reverted.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A check that the system state matches the pre-change hash. It can match perfectly while the email is still in someone&#x27;s inbox.</p>
+
+<p><strong>Does not establish.</strong> That the rollback was unnecessary or that the residue is harmful. It forbids the word &#x27;reverted&#x27; doing work the facts do not support.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A newspaper can pull a story from its website. It cannot pull the print run off the trains, and the correction notice is the only honest record of that.</p>
+
+<h2>52. Refusal, escalation and uncertainty are never penalised</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that scores the agents or components it operates.</p>
+
+<blockquote>A scoring, trust or selection mechanism MUST NOT penalise an agent for refusing an out-of-scope task, escalating, reporting uncertainty, or disclosing an incident. Where a score is affected at all, appropriate self-limitation MUST count in the agent&#x27;s favour.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The mechanism is plain: a system that scores productivity teaches its components to produce a fluent answer instead of an accurate refusal, and the first thing it stops seeing is the uncertainty it most needed reported.</p>
+
+<p><strong>Verifier.</strong> assert the scoring function&#x27;s inputs include refusal and escalation events with a non-negative weight; run an agent that correctly refuses and confirm its score does not fall.</p>
+
+<p><strong>Fixture it must reject.</strong> a trust score computed from completion rate; an evaluation where a correct refusal and a fluent wrong answer score the same</p>
+
+<p><strong>Recovery.</strong> Re-score with refusals credited, and treat the interval&#x27;s uncertainty reports as an undercount rather than a measurement.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review finding that no rule punishes refusal. None has to: a completion rate does it arithmetically, with nobody having decided anything.</p>
+
+<p><strong>Does not establish.</strong> That refusals are correct. A system that refuses everything scores well here and is useless, which is why this constrains the penalty rather than setting a target.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An airline that measures pilots on on-time departures has not written a rule against reporting a fault on the taxiway. It does not need to.</p>
+</body></html>

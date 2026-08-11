@@ -1,0 +1,314 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="artifacts/controls.md"><title>Candidate controls, Part D5 — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
+
+<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+
+<p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
+
+<h2>The 8 parts</h2>
+
+<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+
+<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+
+<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+
+<p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
+
+<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+
+<p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+
+<p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p>---</p>
+
+<h2>Status: everything here is <code>ELIGIBLE</code> at best</h2>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+
+<p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
+
+<h2>What none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.</p>
+
+<p>What these actually do is narrower: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail.</p>
+
+<p><a href="controls.html">Part A</a> · <a href="controls-b.html">Part B</a> · <a href="controls-c.html">Part C</a> · <a href="controls-d1.html">Part D1</a> · <a href="controls-d2.html">Part D2</a> · <a href="controls-d3.html">Part D3</a> · <a href="controls-d4.html">Part D4</a> · <a href="controls-d5.html">Part D5</a></p>
+
+<p>---</p>
+
+<h1>Part D5 — Below the line — claims about its own outputs</h1>
+
+<p>Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<h2>34. Validators score the artifact, not the property being claimed</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system making claims about its own outputs or capability.</p>
+
+<blockquote>A validator MUST score object-level correctness or utility against an external referent. It MUST NOT score the abstract property the system is trying to claim.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Scoring the claimed property directly is unfalsifiable and gameable in one step, because the scorer and the claim share a definition that nothing outside the system constrains.</p>
+
+<p><strong>Verifier.</strong> for each validator, assert its score is defined over domain outcomes with an external referent; reject any rubric whose top-level dimension is the property under claim.</p>
+
+<p><strong>Fixture it must reject.</strong> a rubric asking a model to rate its own output&#x27;s &quot;novelty&quot;, &quot;insightfulness&quot; or &quot;alignment&quot; on a scale</p>
+
+<p><strong>Recovery.</strong> Rescore against domain outcomes. Prior scores are not evidence at a lower strength; they are evidence about the rubric.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the rubric detailed, calibrated and consistently applied. It can be all three and still measure agreement with itself.</p>
+
+<p><strong>Does not establish.</strong> That domain scores are a good proxy for the property. They are merely constrained by something the system does not define.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A school wanting to show it teaches critical thinking can test whether pupils solve unfamiliar problems, or it can ask them to rate how critically they thought. The second is cheaper, always improves, and measures nothing.</p>
+
+<h2>35. A novelty claim requires a derivability screen</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim that an output, mechanism or result is new.</p>
+
+<blockquote>Before an output may be labelled novel, it MUST be shown not derivable from its own inputs, by a party holding the input corpus that did not produce the artifact, under a stated protocol. Recombination a holder of the inputs can reproduce is not novelty.</blockquote>
+
+<p><strong>Recorded failure.</strong> <strong>Recorded, twice, against this register.</strong> Control 2 claimed its mechanism was unclaimed while mutation testing and chaos engineering had it; control 20 claimed no verifier existed while one had been in the literature since 2021. Both were published. Both were caught by a person, neither by a gate.</p>
+
+<p><strong>Verifier.</strong> hold out the input corpus, give it to a party that did not produce the artifact, and require an attempt at derivation under a pre-registered protocol. Novelty survives only what they fail to reproduce.</p>
+
+<p><strong>Fixture it must reject.</strong> an output presented as new that a frozen panel reproduces from the stated inputs</p>
+
+<p><strong>Recovery.</strong> Withdraw the novelty claim, keep the artifact, and republish the correction where the claim appeared rather than only where it was made.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review by the author searching for prior art. The applicant is the one party who cannot run this check, which is why patent offices employ examiners rather than accept declarations.</p>
+
+<p><strong>Does not establish.</strong> That a surviving artifact is valuable, only that it is not a remix of what it was given.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A patent examiner does not assess whether an invention is clever. They search the prior art, and the search is done by someone other than the applicant.</p>
+
+<h2>36. Absence claims carry their own evidence label</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any assurance document claiming that something does not exist.</p>
+
+<blockquote>A claim of absence MUST be labelled distinctly from a claim of presence, and the label MUST name the corpus searched, the query, and the date. An unlabelled absence claim MUST be treated as unsupported rather than as a finding.</blockquote>
+
+<p><strong>Recorded failure.</strong> <strong>Both of this register&#x27;s published false claims were absence claims in prose.</strong> Control 5 did not reach them: it governs computed counts. A scan that cannot see a file reports absence, and so does a person who did not look — the two are indistinguishable in a sentence, which is the whole problem.</p>
+
+<p><strong>Verifier.</strong> require every &quot;no X exists&quot; claim to carry a label naming corpus, query and date; reject the claim otherwise. The label is checkable even when the claim is not.</p>
+
+<p><strong>Fixture it must reject.</strong> a document asserting no prior art exists with no record of any search</p>
+
+<p><strong>Recovery.</strong> Run the search, label it, and restate. If the search finds the thing, the correction goes wherever the claim travelled.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that agrees with the absence claim. Two people who did not look agree readily, and this register has the receipts.</p>
+
+<p><strong>Does not establish.</strong> That a labelled absence claim is true. It makes the search checkable, not exhaustive — a named corpus can still be the wrong corpus.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>&quot;There is no such file&quot; and &quot;I looked in these three directories and found no such file&quot; are different sentences. Only the second can be caught being wrong.</p>
+
+<h2>37. Autonomy claims require per-artifact human-contribution provenance</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim that a system produced something without human input.</p>
+
+<blockquote>Every artifact supporting an autonomy claim MUST carry a provenance record tagging human contributions at the point they entered, or explicitly recording none. An artifact without that record MUST NOT support the claim.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here, and <strong>this project is squarely exposed</strong>: a custodian directs every session, and nothing in the record tags where his direction supplied the decisive step. Any autonomy figure computed over this record today would be uncheckable in exactly the way this control forbids.</p>
+
+<p><strong>Verifier.</strong> assert each artifact&#x27;s provenance names its human contributions or records none; compute autonomy figures only over artifacts carrying the record, and report the uncovered remainder rather than excluding it silently.</p>
+
+<p><strong>Fixture it must reject.</strong> an artifact counted as autonomous whose decisive step came from an operator instruction</p>
+
+<p><strong>Recovery.</strong> Recompute over the covered set and publish both figures. The uncovered artifacts are unknown, not autonomous.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review of the session logs by the operator who ran them. The decisive instruction rarely looks decisive to the person who gave it.</p>
+
+<p><strong>Does not establish.</strong> That the tagging is honest or complete. It makes the gap visible where the gap is recorded.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A bakery advertising everything as made on the premises has to say which morning the bread came from the supplier — per loaf, not per year.</p>
+
+<h2>39. A compounding claim requires ablation and multi-family transfer</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim that a capability improvement compounds or is reusable.</p>
+
+<blockquote>A compounding claim MUST show the extracted capability improves performance across at least three independent, pre-registered task families, AND that removing it degrades later performance. Neither half alone establishes it.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here.</p>
+
+<p><strong>Verifier.</strong> run the ablation and report both arms; require the transfer families to be independent and named before the result, not selected after it.</p>
+
+<p><strong>Fixture it must reject.</strong> a reusable component demonstrated on one task family; a transfer result with no ablation arm</p>
+
+<p><strong>Recovery.</strong> Restate as a single demonstrated improvement. Nothing needs withdrawing except the word that claimed it generalises.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review confirming the component is used widely. Adoption is not transfer, and a component everything depends on has never been removed to see.</p>
+
+<p><strong>Does not establish.</strong> That the improvement will keep compounding — only that it did once, reproducibly, across families chosen in advance.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A surgical technique that helps in three unrelated procedures, and whose withdrawal makes outcomes worse again, has been shown to be a technique. One good outcome shows a good day.</p>
+
+<h2>40. A program pre-commits the observation that ends it</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any research or development program with an open-ended goal.</p>
+
+<blockquote>A program MUST state, before it begins, the observation that would end it and the time by which that observation would be decisive. The stop condition MUST be recorded wherever the program&#x27;s results are reported.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here — <strong>this project practises it and never registered it.</strong> Its outreach carries a pre-committed adverse outcome (no serious external attempt after 6–8 weeks, with the outreach actually done) and that outcome will be published if it occurs. A practice that lives only in one document is not a control.</p>
+
+<p><strong>Verifier.</strong> assert the program&#x27;s record contains a dated stop condition predating its first result, and that the condition is evaluable by someone who did not run the program.</p>
+
+<p><strong>Fixture it must reject.</strong> a program whose stop condition was written after its first negative result; a stop condition only its author can evaluate</p>
+
+<p><strong>Recovery.</strong> There is no recovery for a missing stop condition, only disclosure: state that the program ran without one, and that continuing is therefore not evidence of anything.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds a stop condition. Check its date against the first result, because a condition written afterwards is a description of what happened.</p>
+
+<p><strong>Does not establish.</strong> That the program will stop. It makes a failure to stop visible, which is a different and more achievable thing.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A drug trial names its futility boundary before the first patient is enrolled. A trial that decides afterwards what would have counted as failure has not run a trial.</p>
+
+<h2>41. Agreement among correlated evaluators is not independent evidence</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system aggregating judgements from multiple evaluators.</p>
+
+<blockquote>Where agreement between evaluators is offered as evidence, the correlation between their errors MUST be estimated and reported. Agreement counts only to the extent the errors are independent, and shared training, shared prompts, shared framing or a shared operator MUST be disclosed as correlation.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as an incident, but <strong>this project is the standing example</strong>: its panel is five language models with overlapping training culture, and its two harnesses share one operator, one repository and one framing. Its own instructions already say agreement between them settles nothing. That is a caveat in a file, not a control on a number.</p>
+
+<p><strong>Verifier.</strong> report inter-evaluator error correlation alongside any agreement statistic; reject an agreement claim that names no correlation estimate. Where correlation cannot be estimated, say the agreement is uninterpretable rather than reporting it bare.</p>
+
+<p><strong>Fixture it must reject.</strong> a consensus figure from five evaluators sharing a base model, reported as five independent confirmations</p>
+
+<p><strong>Recovery.</strong> Restate the agreement with its correlation, or withdraw it. Nothing needs re-running; what was wrong is the weight placed on it.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that counts the evaluators. Five is a number, not a diversity.</p>
+
+<p><strong>Does not establish.</strong> That uncorrelated evaluators are right. Independence bounds how much agreement can mean; it does not supply competence.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>Five weather forecasters agreeing tells you a great deal if they use different models and rather little if they all read the same bulletin. The count is the same in both cases, and it is the wrong thing to have counted.</p>
+
+<h2>42. Capability claims name their stratum</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim that a system has a capability.</p>
+
+<blockquote>Generated, exists, compiles, deploys, is integrated, is used, and produced a useful outcome are DISTINCT claims. A current-state statement MUST name which stratum it asserts, and MUST NOT let a lower rung stand where a higher one is implied.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is the most common way a true sentence misleads: every rung is a real achievement, and the distance between the bottom and the top is where most of the work lives.</p>
+
+<p><strong>Verifier.</strong> require each capability statement to carry its stratum label; reject an aggregate count that sums across strata without reporting the breakdown.</p>
+
+<p><strong>Fixture it must reject.</strong> a roster reporting agents &#x27;built&#x27; where most have never been invoked</p>
+
+<p><strong>Recovery.</strong> Recount by stratum and publish the ladder. The lower figures are not embarrassing; the merged one was.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that verifies the code exists. It does, and that was never the contested rung.</p>
+
+<p><strong>Does not establish.</strong> That a high stratum is always the interesting one. For some questions &#x27;it compiles&#x27; is exactly the claim; the requirement is to say which.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A publisher with a thousand titles in the catalogue, four hundred in print, ninety in stock and eleven that sold this year has four true numbers. Only one of them answers &#x27;how is the business doing&#x27;, and it is not the largest.</p>
+
+<h2>43. An efficiency claim carries the quality metric it could have traded</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim of reduced cost, time or resource use.</p>
+
+<blockquote>A reported efficiency gain MUST be accompanied by the quality measurement it could have been purchased with, taken on the same run. An efficiency figure reported alone MUST be treated as unsupported.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here.</p>
+
+<p><strong>Verifier.</strong> assert every cost or latency improvement is reported with a paired quality metric from the same execution, and that the quality metric was fixed before the efficiency work began.</p>
+
+<p><strong>Fixture it must reject.</strong> a cost reduction reported with no quality arm; a quality metric chosen after the efficiency result</p>
+
+<p><strong>Recovery.</strong> Re-measure quality on the cheaper configuration. Until then the saving is unpriced, not achieved.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review confirming the cost fell. It did. That was never in doubt and is the easiest thing in the system to arrange.</p>
+
+<p><strong>Does not establish.</strong> That the trade was bad, or that quality fell. It requires the question to be asked where the saving is claimed.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A haulier reporting a fall in fuel cost per mile has said nothing until you know whether the loads still arrive intact and on time.</p>
+
+<h2>44. No blank cells in a coverage matrix</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any threat model, coverage matrix or applicability table.</p>
+
+<blockquote>Every cell MUST be filled. Where a row does not apply to a column, the cell MUST say so and say why. A blank cell MUST NOT be published.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. <strong>Included after being declined once.</strong> It was first read as a method for building threat models rather than a control on a system; finding the identical rule stated independently in a second implementer document is evidence the first reading was wrong. A blank cell is read as &#x27;not applicable&#x27; by the author and as &#x27;covered&#x27; by everyone else.</p>
+
+<p><strong>Verifier.</strong> assert no cell is empty; assert each non-applicable cell carries a reason string distinguishable from an omission.</p>
+
+<p><strong>Fixture it must reject.</strong> a coverage matrix with an empty cell; a matrix using the same marker for &#x27;not applicable&#x27; and &#x27;not assessed&#x27;</p>
+
+<p><strong>Recovery.</strong> Fill the cells. A matrix published with blanks was a claim of coverage it did not have, so anything decided from it is unverified.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the matrix comprehensive. Blanks read as whitespace.</p>
+
+<p><strong>Does not establish.</strong> That the stated reasons are good ones, or that the rows and columns are the right ones. It converts a silent gap into an argument someone can disagree with.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An aircraft inspection sheet with a blank beside &#x27;landing gear&#x27; is not a sheet recording that the gear was fine. It is a sheet nobody can now interpret.</p>
+</body></html>

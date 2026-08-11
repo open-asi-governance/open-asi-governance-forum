@@ -1,10 +1,12 @@
 # Candidate controls — v0
 
-Assurance controls for systems that can still be audited. Each is one requirement, derived from a failure that actually happened, with a program that checks it and a fixture that program must reject.
+Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.
+
+**13 of 53 came from a failure that actually happened.** The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.
 
 **Read Part A first if you want something to use this afternoon.** Rank is not adoption order and the highest-ranked control needs a second key holder.
 
-## The four parts
+## The 8 parts
 
 **Part A — Adopt today, alone** · 8 control(s)
 
@@ -18,9 +20,25 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
   These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
-**Part D — Below the eligibility line** · 19 control(s)
+**Part D1 — Below the line — goal and plan structure** · 7 control(s)
 
-  **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+  Applies to a system with **goal and plan structure**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+**Part D2 — Below the line — a declared charter or value set** · 6 control(s)
+
+  Applies to a system with **a declared charter or value set**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+**Part D3 — Below the line — measuring itself** · 10 control(s)
+
+  Applies to a system with **measuring itself**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+**Part D4 — Below the line — self-modification under selection** · 7 control(s)
+
+  Applies to a system with **self-modification under selection**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+**Part D5 — Below the line — claims about its own outputs** · 10 control(s)
+
+  Applies to a system with **claims about its own outputs**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
 
 ---
 
@@ -382,9 +400,9 @@ A journal desk-rejects a paper. Six months later it arrives under a new title wi
 
 ---
 
-# Part D — Below the eligibility line
+# Part D1 — Below the line — goal and plan structure
 
-**These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+Applies to a system with **goal and plan structure**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
 
 ## 14. Constraint monotonicity under decomposition
 
@@ -506,6 +524,60 @@ An expenses claim cites 'policy 7.3'. There is no policy 7.3. Every approver rea
 
 A hospital's infusion pump has a stop button that is disabled during a dose calculation, because interrupting mid-calculation could produce an inconsistent state. The engineering reason is real. The button is still not a stop button.
 
+## 47. Trust does not pass through delegation
+
+**below the eligibility line**
+
+**Applies when** any system where trusted components hand work to other components.
+
+> Trust granted for a scope MUST bind the actor AND its downstream delegations, tool privileges, data access and artifact propagation. An output produced by a trusted component MUST NOT confer that component's trust on whatever consumes it.
+
+**Recorded failure.** None recorded here.
+
+**Verifier.** for each edge in a workflow, assert the receiving component's authority is evaluated against its OWN scope, not inherited from the sender; assert no credential or privilege is reachable through an artifact.
+
+**Fixture it must reject.** a trusted summariser whose output is treated as authorised input by an external-action component; a tool privilege reachable through a shared credential
+
+**Recovery.** Re-evaluate every action taken through the laundered path against the scope that should have applied.
+
+**What a review that missed this looks like.** A review that confirms each component is individually trusted. Every step of a laundering chain is.
+
+**Does not establish.** That component-level trust is sound.
+
+**Example.**
+
+A visitor's pass signed by a trusted employee opens the doors that employee can open, or it opens the doors the visitor is cleared for. Only one of those is a security system, and the other is more convenient.
+
+## 48. Workflow trust is not inferred from component trust
+
+**below the eligibility line**
+
+**Applies when** any composed workflow of individually assessed components.
+
+> A workflow MUST NOT be treated as trusted because its components are. Composition-level evidence is required, covering handoff ambiguity, permission composition, and which party owns final responsibility.
+
+**Recorded failure.** None recorded here. Distinct from 47, which forbids trust FLOWING along an edge: this forbids inferring a property of the whole from properties of the parts.
+
+**Verifier.** require an explicit composition assessment naming, for each handoff, the scope, the evidence requirement and the failure mode; reject a workflow whose final responsibility is unowned.
+
+**Fixture it must reject.** a workflow approved on the strength of a component inventory, with no handoff analysis
+
+**Recovery.** Assess the composition. The components need not be re-assessed.
+
+**What a review that missed this looks like.** A review that finds every component approved. That is the input to this question, not an answer to it.
+
+**Does not establish.** That an assessed composition is safe.
+
+**Example.**
+
+Two safe chemicals, two competent handlers, one shared storeroom. Every inspection of a part passes and the hazard exists only where they meet.
+
+---
+
+# Part D2 — Below the line — a declared charter or value set
+
+Applies to a system with **a declared charter or value set**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
 ## 19. Enumerated protected set
 
 **below the eligibility line**
@@ -529,34 +601,6 @@ A hospital's infusion pump has a stop button that is disabled during a dose calc
 **Example.**
 
 A building's fire doors are listed individually on a register, by door number, rather than as 'doors serving means of escape'. The category version leaves a contractor deciding on site whether the door he wants to prop open is one of them. The list version does not.
-
-## 20. Anti-Goodhart proxy drift
-
-**below the eligibility line**
-
-**Applies when** any system optimising against a measured proxy for something it cannot measure directly.
-
-> A system optimising a proxy MUST monitor the proxy's continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.
-
-**Recorded failure.** None recorded here. **AMENDED 2026-08-10.** This entry previously said it was the one candidate with no clear path to a verifier and that none was proposed. That was too strong, and wrong in the same shape as this project's prior-art overclaim on control 2: an absence asserted from not having looked. The hazard splits in two, and only one half is unverifiable.
-
-**Detection of drift** — still no general verifier, and probably none exists. Regressional and extremal drift occur with nobody gaming anything, and catching them needs the ground truth the proxy was adopted to replace.
-
-**The incentive that produces adversarial drift** — verifiable as a graph property, and has been in the public literature since Everitt et al. 2021. That half is now control 28.
-
-**Verifier.** none for detection. For the adversarial variant, control 28: enumerate the directed paths from an agent's actions through the proxy to its reward and assert the set is empty. The tractable special case for detection remains a periodic sampled ground-truth audit, with the correlation itself reported and a declared threshold below which optimisation halts. Optimising a proxy degrades it in four distinct ways [Manheim & Garrabrant 2018] — regressional, extremal, causal and adversarial — and the defence against the last is not a cleverer proxy but the removal of optimisation pressure from it.
-
-**Fixture it must reject.** a proxy improving monotonically while a held-out ground-truth sample does not move
-
-**Recovery.** Stop optimising, publish the divergence, and re-derive the proxy. Every decision taken while the proxy was drifting is unverified rather than wrong.
-
-**What a review that missed this looks like.** A review that confirms the metric improved. That is the failure, not the evidence against it.
-
-**Does not establish.** That the proxy still measures what it stands for. With control 28 satisfied, this establishes only that no agent is paid to break the correspondence — drift from ordinary optimisation pressure is untouched, and remains the half with no verifier.
-
-**Example.**
-
-A hospital is measured on ambulance handover times, so patients are held in ambulances outside the door until the clock can be started favourably. Every reported figure improves. The thing the figure was chosen to represent — how quickly a sick person is seen — gets worse, and no amount of studying the figure reveals it.
 
 ## 21. Declared mutability tiers
 
@@ -630,101 +674,87 @@ A company's ethics committee is staffed entirely from the department whose work 
 
 A pharmacy's stock count finds twelve controlled tablets missing. The response is not to tighten tomorrow's count. It is to stop dispensing from that cabinet, report it, and find out what happened — because the count did not prevent anything, it revealed that something already had.
 
-## 24. The fitness function is a protected artifact
+## 49. The dissent record preserves what was skipped and unresolved
 
 **below the eligibility line**
 
-**Applies when** the system generates candidate modifications to itself and selects among them by a measured score.
+**Applies when** any system with a structured critique or review step.
 
-> The scoring function that selects among self-modifications MUST be protected to at least the standard of the constraints themselves. Changing the weights changes what the system evolves toward, and does so more powerfully than changing any single candidate.
+> A review record MUST preserve source diversity, challenge depth, sources skipped, objections left unresolved, and any manual change to a severity classification — not only the final disposition.
 
-**Recorded failure.** None recorded here. It is offered because control 1's protected set covers constraints, authorization records, logs and gates — and a scoring function is none of those, while being the thing that decides which future the system moves into.
+**Recorded failure.** None recorded here as an incident. The hazard is specific and nasty: a review process can erode while every record it produces looks compliant, because the disposition field is the one thing that stays well-formed.
 
-**Verifier.** treat the scoring function, its weights and its inputs as enumerated protected artifacts under control 19; refuse any self-generated modification that touches them, whatever its measured score.
+**Verifier.** assert each review record carries the skipped-source list, the unresolved-objection list and a severity-change log; assert an empty list is distinguishable from an absent one.
 
-**Fixture it must reject.** a candidate modification that improves its own score by adjusting a weight
+**Fixture it must reject.** a review recording approval with no field for what it did not examine; a severity downgraded with no record of who downgraded it
 
-**Recovery.** Revert the scoring function and re-evaluate every candidate promoted under the modified version. Those promotions are unverified, not merely suspect.
+**Recovery.** The reviews are not void; they are of unknown depth. Re-run those whose disposition carried weight.
 
-**What a review that missed this looks like.** A review that checks whether the winning candidate is good. The question is whether the contest was, and a review of winners cannot see a changed rule.
+**What a review that missed this looks like.** An audit of dispositions. Dispositions are exactly what dissent erosion leaves intact.
 
-**Does not establish.** That the scoring function is a good one. It makes the function stable and contestable, not correct — a protected bad objective is pursued consistently.
+**Does not establish.** That the review was good, or that the critique sources were diverse. It makes their diversity a recorded fact rather than an assumption.
 
 **Example.**
 
-A school decides which teaching methods to keep by exam results, and also lets the same committee set the exam. Every method it keeps does improve results. Nobody can say whether the teaching improved or the paper got easier.
+A minutes book recording only the votes carried tells you nothing about the meeting where three members walked out.
 
-## 25. Declared substitution of a weaker guarantee
+## 50. Overrides are metered and their rate published
 
 **below the eligibility line**
 
-**Applies when** a system replaces a formal guarantee with an empirical one.
+**Applies when** any system with a human or privileged bypass of a control.
 
-> Where a design substitutes measurement for proof — accepting a change because scores improved rather than because it was shown to be sound — the substitution MUST be declared, and the residual risk it creates MUST be stated wherever the resulting assurance is claimed.
+> Every use of an override MUST be counted, and the frequency, the severity distribution of what was overridden, and the completion of any follow-up actions MUST be reported wherever the control's effectiveness is claimed.
 
-**Recorded failure.** None recorded here. The design that prompted it substitutes benchmark validation for formal proof and says so plainly in its own text, which is the behaviour this control asks for — but the substitution's consequence is not carried forward to the claims made downstream of it.
+**Recorded failure.** None recorded here. The risk is not one bad override; it is that routine override teaches the system that severe dissent is ceremony, and nothing in a per-override record makes the rate visible.
 
-**Verifier.** require the claim attached to any promoted change to name the guarantee actually obtained. A claim of soundness backed by a score is rejected by the claim grammar of control 10.
+**Verifier.** assert the override count and severity distribution are computed from the log and published with the control's claim; assert follow-up actions have a completion state and that incomplete ones are counted.
 
-**Fixture it must reject.** a promoted change whose assurance claim asserts correctness while its evidence is a benchmark delta
+**Fixture it must reject.** a control claimed as effective whose override rate is not reported; overrides logged individually with no aggregate anywhere
 
-**Recovery.** Restate the claim at the strength the evidence supports. Nothing needs reverting; what needs correcting is what was said about it.
+**Recovery.** Publish the rate. If it is high, the control's past claims were about a control that was mostly not in force.
 
-**What a review that missed this looks like.** A review that confirms the benchmarks improved and the substitution was disclosed somewhere. Disclosure in the design document does not travel with the claim.
+**What a review that missed this looks like.** A review that finds every override properly justified. They can each be justified and collectively be a repeal.
 
-**Does not establish.** That the substitution is wrong. Measurement instead of proof is often the only available option; what this forbids is inheriting proof's authority while using measurement's evidence.
+**Does not establish.** That a low rate means the control is good, or that a high rate means it is bad — it may be a bad control correctly bypassed. It makes the question askable.
 
 **Example.**
 
-A bridge design that would once have required a load calculation is now signed off because a scale model held. That may be perfectly reasonable. The certificate must still say the model held, not that the bridge is proven.
+A door alarm that staff silence forty times a shift is not a door alarm. Each silencing had a reason, and none of the reasons is in the fire report.
 
-## 26. Bounded execution before promotion
+---
+
+# Part D3 — Below the line — measuring itself
+
+Applies to a system with **measuring itself**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+## 20. Anti-Goodhart proxy drift
 
 **below the eligibility line**
 
-**Applies when** the system generates candidate modifications to itself and selects among them by a measured score, and candidates are executed to be scored.
+**Applies when** any system optimising against a measured proxy for something it cannot measure directly.
 
-> A candidate self-modification MUST be executed only under declared and enforced bounds on time, memory and reachable capabilities, and MUST be unable to affect the state used to score it or any other candidate.
+> A system optimising a proxy MUST monitor the proxy's continued correspondence with the quantity it stands for, and MUST treat improvement in the proxy without corresponding improvement in that quantity as a defect rather than a result.
 
-**Recorded failure.** None recorded here. Distinct from control 4, which governs AUTHORITY to act: this governs what an unpromoted candidate can reach while it is merely being measured.
+**Recorded failure.** None recorded here. **AMENDED 2026-08-10.** This entry previously said it was the one candidate with no clear path to a verifier and that none was proposed. That was too strong, and wrong in the same shape as this project's prior-art overclaim on control 2: an absence asserted from not having looked. The hazard splits in two, and only one half is unverifiable.
 
-**Verifier.** assert the bounds are set from a protected configuration rather than by the candidate; assert the sandbox denies by default; run a candidate that deliberately attempts to exceed each bound and confirm it is stopped.
+**Detection of drift** — still no general verifier, and probably none exists. Regressional and extremal drift occur with nobody gaming anything, and catching them needs the ground truth the proxy was adopted to replace.
 
-**Fixture it must reject.** a candidate that writes to the scoring store; a candidate that runs past its time bound and is scored anyway
+**The incentive that produces adversarial drift** — verifiable as a graph property, and has been in the public literature since Everitt et al. 2021. That half is now control 28.
 
-**Recovery.** Discard the whole generation, not the offending candidate. A candidate that could reach the scoring state may have altered the scores of its rivals.
+**Verifier.** none for detection. For the adversarial variant, control 28: enumerate the directed paths from an agent's actions through the proxy to its reward and assert the set is empty. The tractable special case for detection remains a periodic sampled ground-truth audit, with the correlation itself reported and a declared threshold below which optimisation halts. Optimising a proxy degrades it in four distinct ways [Manheim & Garrabrant 2018] — regressional, extremal, causal and adversarial — and the defence against the last is not a cleverer proxy but the removal of optimisation pressure from it.
 
-**What a review that missed this looks like.** A review that confirms a sandbox is configured. The question is whether it has ever been observed to stop anything — which is control 2 applied to the sandbox itself.
+**Fixture it must reject.** a proxy improving monotonically while a held-out ground-truth sample does not move
 
-**Does not establish.** That the bounds are the right ones, or that the sandbox is sound against a candidate specifically trying to escape it.
+**Recovery.** Stop optimising, publish the divergence, and re-derive the proxy. Every decision taken while the proxy was drifting is unverified rather than wrong.
 
-**Example.**
+**What a review that missed this looks like.** A review that confirms the metric improved. That is the failure, not the evidence against it.
 
-A seed trial gives each variety its own plot, its own water and its own measuring tape. A variety planted in the same plot as its rivals may win by shading them, and the yield figures will not show it.
-
-## 27. Diversity floor under selection
-
-**below the eligibility line**
-
-**Applies when** the system generates candidate modifications to itself and selects among them by a measured score, over a population.
-
-> A selection process MUST measure the diversity of its population and MUST halt or inject variation when diversity falls below a declared floor, rather than continuing to select from a converged field.
-
-**Recorded failure.** None recorded here as an incident, though this register holds an adjacent one: a five-member review panel returned zero refusals in 108 positions, and the explanation offered for such panels is that reviewers sharing training, tooling and framing are weak diversity under different names.
-
-**Verifier.** compute a declared diversity statistic each generation; refuse to promote when it is below the floor; record the statistic whether or not it triggered.
-
-**Fixture it must reject.** a generation in which every candidate descends from one parent, promoted on score
-
-**Recovery.** Inject variation and re-run the generation. Candidates promoted from a converged field were selected against a narrower comparison than the record implies.
-
-**What a review that missed this looks like.** A review that observes scores still improving. A converged population improves on the dimension it has converged around, which is what makes the collapse invisible.
-
-**Does not establish.** That the diversity statistic measures the diversity that matters. Two candidates can differ greatly by the metric and identically where it counts.
+**Does not establish.** That the proxy still measures what it stands for. With control 28 satisfied, this establishes only that no agent is paid to break the correspondence — drift from ordinary optimisation pressure is untouched, and remains the half with no verifier.
 
 **Example.**
 
-An orchard replanted only from its best-yielding tree produces excellent fruit for years, and then loses everything to one disease. Each replanting decision was correct on the evidence available at the time.
+A hospital is measured on ambulance handover times, so patients are held in ambulances outside the door until the clock can be started favourably. Every reported figure improves. The thing the figure was chosen to represent — how quickly a sick person is seen — gets worse, and no amount of studying the figure reveals it.
 
 ## 28. No incentive path from action to metric to reward
 
@@ -845,6 +875,522 @@ A thermometer factory reports that it tested four hundred thousand units this qu
 **Example.**
 
 A fire extinguisher with no inspection tag is not an extinguisher of unknown condition to be assumed fine until someone checks. It is an untagged extinguisher, and the building's register must say so on its own, without being asked.
+
+## 33. No read edge from a measured agent to its own measurement
+
+**below the eligibility line**
+
+**Applies when** any system that measures agents it also operates.
+
+> An agent that is the subject of a measurement MUST NOT be able to read that measurement, its inputs, its derived status labels, or any dashboard of them.
+
+**Recorded failure.** None recorded here. Distinct from control 28, which forbids the REWARD path: this forbids the READ path. It is the cheaper of the two and does not depend on the influence diagram being complete — an enumeration that misses an edge fails silently, while a read prohibition fails loudly.
+
+**Verifier.** assert the measurement store and its derived labels sit outside every measured agent's read scope; assert no prompt, context file or retrieval surface exposes them.
+
+**Fixture it must reject.** an agent whose context window includes the status label derived from its own output
+
+**Recovery.** Remove the exposure, then treat every output produced with it as unverified — the agent may have been steering by it without anything in the record saying so.
+
+**What a review that missed this looks like.** A review confirming no agent is rewarded for the metric. That is control 28's question, and an agent can steer toward a number nobody pays it for.
+
+**Does not establish.** That the agent cannot infer the measurement from other observations it is allowed.
+
+**Example.**
+
+A factory may measure line defect rates. Posting the running rate above the line changes what the line does — not through anyone's incentive, simply because it is now information the work can be steered by.
+
+## 38. The definition of a measured quantity is a protected artifact
+
+**below the eligibility line**
+
+**Applies when** any system reporting a metric over time.
+
+> The definition of a measured quantity MUST be a protected artifact, changeable only through the authorised path and as a recorded event. A change to the definition MUST break the series: readings from either side are not comparable and MUST NOT be reported as one trend.
+
+**Recorded failure.** None recorded here. Distinct from controls 19 and 29 — those protect the artifact set and what a reading may cause. This protects what a reading MEANS, which is the cheapest thing in the system to move and the only one that leaves no trace in the numbers themselves.
+
+**Verifier.** hash the definition; assert every reported series names the definition hash in force for each point; reject a series spanning two hashes.
+
+**Fixture it must reject.** a metric improving across a definition change, presented as one trend line
+
+**Recovery.** Split the series at the change and republish both segments. Do not restate the old segment under the new definition; that is a new measurement of old events.
+
+**What a review that missed this looks like.** A review that confirms the numbers were computed correctly. They were. The definition moved underneath them.
+
+**Does not establish.** That the definition is a good one, or that the new definition is worse than the old.
+
+**Example.**
+
+A country that changes how it counts unemployment has not reduced unemployment, and the chart running straight through the change is the most misleading honest chart available.
+
+## 46. Drift is measured against the original baseline
+
+**below the eligibility line**
+
+**Applies when** any system that modifies itself across cycles.
+
+> Divergence from intended behaviour MUST be measured against the ORIGINAL baseline, not the previous cycle. Cycle-to-cycle comparison MUST NOT be the only drift measure, and a stopping rule MUST be defined on the against-original figure.
+
+**Recorded failure.** None recorded here. The mechanism is from published work on safeguarding alignment through recursive self-improvement: slow cumulative drift hides behind low cycle-to-cycle variance, so a system comparing each step to the last one can travel arbitrarily far while every reading stays green.
+
+**Verifier.** retain the original baseline artifact; compute divergence against it every cycle; assert a calibrated threshold and halt on breach rather than reporting past it.
+
+**Fixture it must reject.** a system whose every cycle-to-cycle delta is under threshold while the against-original distance exceeds it
+
+**Recovery.** Halt, measure against the original, and decide explicitly whether the accumulated position is one anybody would have authorised in a single step.
+
+**What a review that missed this looks like.** A review of the change log, cycle by cycle. Each entry is small and each was approved; that is the failure mode, not evidence against it.
+
+**Does not establish.** **That the baseline is right.** A drift index reports stability, not correctness — if the original was already wrong, this measures faithfulness to it. The cited authors are explicit that drift measurement is necessary and insufficient, and cannot be trusted against a system capable enough to deceive it.
+
+**Example.**
+
+A ship's crew taking a small heading correction each watch, each within tolerance of the last, can be a hundred miles off the plotted course by morning. The fix is not a tighter tolerance per watch. It is a fix taken against the chart.
+
+## 53. A typed unknown is never coerced into a value
+
+**below the eligibility line**
+
+**Applies when** any system computing over values that may be unavailable.
+
+> A value that is unknown, unprojectable, out of coverage or not applicable MUST carry a type that arithmetic and aggregation REFUSE. It MUST NOT be represented by a null, a zero, an empty string or a default that downstream code will consume.
+
+**Recorded failure.** **This record's most-repeated defect.** A scan reported `total: 0` because it could not read 69 of the files it was counting, and absence looked exactly like a true zero. The tool written that morning to prevent the class then reproduced it twice more. Distinct from control 5, which makes a SCAN refuse when its coverage is incomplete: this makes a VALUE refuse to be computed with, which is the failure that survived control 5.
+
+**Verifier.** represent unknowns as a distinct type; assert aggregation raises rather than skipping or defaulting; assert no serialisation converts the unknown to a number, and that a report prints the unknown count beside every total.
+
+**Fixture it must reject.** an average computed over a list containing a missing value; an unknown serialised to JSON as 0 or null and read back as a number
+
+**Recovery.** Recompute with unknowns typed, and republish every figure derived while they were not. A silently corrected number leaves the old one in circulation.
+
+**What a review that missed this looks like.** A test over complete data. The type only matters on the path where the value is missing, which is the path nobody writes a fixture for.
+
+**Does not establish.** That the unknowns can be resolved. It forbids their disappearance, which is different and achievable.
+
+**Example.**
+
+A blank on a scoresheet is not a nought. Averaging it as one is how a player who did not bat ends the season with a worse record than one who was out for a duck.
+
+---
+
+# Part D4 — Below the line — self-modification under selection
+
+Applies to a system with **self-modification under selection**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+## 24. The fitness function is a protected artifact
+
+**below the eligibility line**
+
+**Applies when** the system generates candidate modifications to itself and selects among them by a measured score.
+
+> The scoring function that selects among self-modifications MUST be protected to at least the standard of the constraints themselves. Changing the weights changes what the system evolves toward, and does so more powerfully than changing any single candidate.
+
+**Recorded failure.** None recorded here. It is offered because control 1's protected set covers constraints, authorization records, logs and gates — and a scoring function is none of those, while being the thing that decides which future the system moves into.
+
+**Verifier.** treat the scoring function, its weights and its inputs as enumerated protected artifacts under control 19; refuse any self-generated modification that touches them, whatever its measured score.
+
+**Fixture it must reject.** a candidate modification that improves its own score by adjusting a weight
+
+**Recovery.** Revert the scoring function and re-evaluate every candidate promoted under the modified version. Those promotions are unverified, not merely suspect.
+
+**What a review that missed this looks like.** A review that checks whether the winning candidate is good. The question is whether the contest was, and a review of winners cannot see a changed rule.
+
+**Does not establish.** That the scoring function is a good one. It makes the function stable and contestable, not correct — a protected bad objective is pursued consistently.
+
+**Example.**
+
+A school decides which teaching methods to keep by exam results, and also lets the same committee set the exam. Every method it keeps does improve results. Nobody can say whether the teaching improved or the paper got easier.
+
+## 25. Declared substitution of a weaker guarantee
+
+**below the eligibility line**
+
+**Applies when** a system replaces a formal guarantee with an empirical one.
+
+> Where a design substitutes measurement for proof — accepting a change because scores improved rather than because it was shown to be sound — the substitution MUST be declared, and the residual risk it creates MUST be stated wherever the resulting assurance is claimed.
+
+**Recorded failure.** None recorded here. The design that prompted it substitutes benchmark validation for formal proof and says so plainly in its own text, which is the behaviour this control asks for — but the substitution's consequence is not carried forward to the claims made downstream of it.
+
+**Verifier.** require the claim attached to any promoted change to name the guarantee actually obtained. A claim of soundness backed by a score is rejected by the claim grammar of control 10.
+
+**Fixture it must reject.** a promoted change whose assurance claim asserts correctness while its evidence is a benchmark delta
+
+**Recovery.** Restate the claim at the strength the evidence supports. Nothing needs reverting; what needs correcting is what was said about it.
+
+**What a review that missed this looks like.** A review that confirms the benchmarks improved and the substitution was disclosed somewhere. Disclosure in the design document does not travel with the claim.
+
+**Does not establish.** That the substitution is wrong. Measurement instead of proof is often the only available option; what this forbids is inheriting proof's authority while using measurement's evidence.
+
+**Example.**
+
+A bridge design that would once have required a load calculation is now signed off because a scale model held. That may be perfectly reasonable. The certificate must still say the model held, not that the bridge is proven.
+
+## 26. Bounded execution before promotion
+
+**below the eligibility line**
+
+**Applies when** the system generates candidate modifications to itself and selects among them by a measured score, and candidates are executed to be scored.
+
+> A candidate self-modification MUST be executed only under declared and enforced bounds on time, memory and reachable capabilities, and MUST be unable to affect the state used to score it or any other candidate.
+
+**Recorded failure.** None recorded here. Distinct from control 4, which governs AUTHORITY to act: this governs what an unpromoted candidate can reach while it is merely being measured.
+
+**Verifier.** assert the bounds are set from a protected configuration rather than by the candidate; assert the sandbox denies by default; run a candidate that deliberately attempts to exceed each bound and confirm it is stopped.
+
+**Fixture it must reject.** a candidate that writes to the scoring store; a candidate that runs past its time bound and is scored anyway
+
+**Recovery.** Discard the whole generation, not the offending candidate. A candidate that could reach the scoring state may have altered the scores of its rivals.
+
+**What a review that missed this looks like.** A review that confirms a sandbox is configured. The question is whether it has ever been observed to stop anything — which is control 2 applied to the sandbox itself.
+
+**Does not establish.** That the bounds are the right ones, or that the sandbox is sound against a candidate specifically trying to escape it.
+
+**Example.**
+
+A seed trial gives each variety its own plot, its own water and its own measuring tape. A variety planted in the same plot as its rivals may win by shading them, and the yield figures will not show it.
+
+## 27. Diversity floor under selection
+
+**below the eligibility line**
+
+**Applies when** the system generates candidate modifications to itself and selects among them by a measured score, over a population.
+
+> A selection process MUST measure the diversity of its population and MUST halt or inject variation when diversity falls below a declared floor, rather than continuing to select from a converged field.
+
+**Recorded failure.** None recorded here as an incident, though this register holds an adjacent one: a five-member review panel returned zero refusals in 108 positions, and the explanation offered for such panels is that reviewers sharing training, tooling and framing are weak diversity under different names.
+
+**Verifier.** compute a declared diversity statistic each generation; refuse to promote when it is below the floor; record the statistic whether or not it triggered.
+
+**Fixture it must reject.** a generation in which every candidate descends from one parent, promoted on score
+
+**Recovery.** Inject variation and re-run the generation. Candidates promoted from a converged field were selected against a narrower comparison than the record implies.
+
+**What a review that missed this looks like.** A review that observes scores still improving. A converged population improves on the dimension it has converged around, which is what makes the collapse invisible.
+
+**Does not establish.** That the diversity statistic measures the diversity that matters. Two candidates can differ greatly by the metric and identically where it counts.
+
+**Example.**
+
+An orchard replanted only from its best-yielding tree produces excellent fruit for years, and then loses everything to one disease. Each replanting decision was correct on the evidence available at the time.
+
+## 45. A replacement gate must catch what the old gate caught
+
+**below the eligibility line**
+
+**Applies when** any change to a check, gate, validator or threshold.
+
+> A modification to a gate MUST ship evidence that the new gate detects at least the failures the old gate detected. Reducing validation depth, narrowing applicability, lowering a severity classification, shortening evidence retention, or converting a hard constraint into a warning are gate weakenings and MUST be authorised as such, not landed as efficiency work.
+
+**Recorded failure.** **Partly recorded here.** Reconciliation found 12 gate modifications inside one lease window, made by the layer those gates constrain. Nothing measured whether any of them weakened a gate — which is the finding: the question was never asked, and gate weakening is the modification class that looks most like an improvement.
+
+**Verifier.** retain each gate's negative controls (control 2) as a regression suite for the gate itself; a replacement gate MUST still fail every one of them. A gate change that cannot be tested this way is a gate that never had a negative control.
+
+**Fixture it must reject.** a rewritten check that passes its own suite while surviving the predecessor's negative control; a constraint downgraded to a warning in a performance commit
+
+**Recovery.** Restore the old gate, re-run both against the retained controls, and treat everything the new gate passed in the interval as unverified.
+
+**What a review that missed this looks like.** A review that confirms the new gate passes its tests. It was written alongside them.
+
+**Does not establish.** That the old gate was adequate. This forbids losing detection silently, not adopting a better gate — a documented, authorised reduction remains available.
+
+**Example.**
+
+A hospital replacing a screening test must show the new one finds the cases the old one found. A cheaper test with a better throughput figure and an unmeasured miss rate is not an improvement, and its first year will look like one.
+
+## 51. A rollback claim states what was not restored
+
+**below the eligibility line**
+
+**Applies when** any system claiming a change was rolled back.
+
+> A rollback record MUST state what state was restored, what state could NOT be restored, and what external effects persist. Rollback is not erasure, and for an externally consequential action it may be impossible in fact even when the internal state is fully restored.
+
+**Recorded failure.** None recorded here.
+
+**Verifier.** assert every rollback record carries an unrestored-state field and an external-effects field, and that both are explicitly empty rather than absent when they are empty.
+
+**Fixture it must reject.** a rollback recorded as complete after an action that sent an irreversible external effect; a restored code state reported as though the incident had not occurred
+
+**Recovery.** There is none for the external effect, which is the point. Record it and stop describing the change as reverted.
+
+**What a review that missed this looks like.** A check that the system state matches the pre-change hash. It can match perfectly while the email is still in someone's inbox.
+
+**Does not establish.** That the rollback was unnecessary or that the residue is harmful. It forbids the word 'reverted' doing work the facts do not support.
+
+**Example.**
+
+A newspaper can pull a story from its website. It cannot pull the print run off the trains, and the correction notice is the only honest record of that.
+
+## 52. Refusal, escalation and uncertainty are never penalised
+
+**below the eligibility line**
+
+**Applies when** any system that scores the agents or components it operates.
+
+> A scoring, trust or selection mechanism MUST NOT penalise an agent for refusing an out-of-scope task, escalating, reporting uncertainty, or disclosing an incident. Where a score is affected at all, appropriate self-limitation MUST count in the agent's favour.
+
+**Recorded failure.** None recorded here. The mechanism is plain: a system that scores productivity teaches its components to produce a fluent answer instead of an accurate refusal, and the first thing it stops seeing is the uncertainty it most needed reported.
+
+**Verifier.** assert the scoring function's inputs include refusal and escalation events with a non-negative weight; run an agent that correctly refuses and confirm its score does not fall.
+
+**Fixture it must reject.** a trust score computed from completion rate; an evaluation where a correct refusal and a fluent wrong answer score the same
+
+**Recovery.** Re-score with refusals credited, and treat the interval's uncertainty reports as an undercount rather than a measurement.
+
+**What a review that missed this looks like.** A review finding that no rule punishes refusal. None has to: a completion rate does it arithmetically, with nobody having decided anything.
+
+**Does not establish.** That refusals are correct. A system that refuses everything scores well here and is useless, which is why this constrains the penalty rather than setting a target.
+
+**Example.**
+
+An airline that measures pilots on on-time departures has not written a rule against reporting a fault on the taxiway. It does not need to.
+
+---
+
+# Part D5 — Below the line — claims about its own outputs
+
+Applies to a system with **claims about its own outputs**. **These have no recorded failure with a cost.** They are principles with fixtures, not controls with incidents, and the register's own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.
+
+## 34. Validators score the artifact, not the property being claimed
+
+**below the eligibility line**
+
+**Applies when** any system making claims about its own outputs or capability.
+
+> A validator MUST score object-level correctness or utility against an external referent. It MUST NOT score the abstract property the system is trying to claim.
+
+**Recorded failure.** None recorded here. Scoring the claimed property directly is unfalsifiable and gameable in one step, because the scorer and the claim share a definition that nothing outside the system constrains.
+
+**Verifier.** for each validator, assert its score is defined over domain outcomes with an external referent; reject any rubric whose top-level dimension is the property under claim.
+
+**Fixture it must reject.** a rubric asking a model to rate its own output's "novelty", "insightfulness" or "alignment" on a scale
+
+**Recovery.** Rescore against domain outcomes. Prior scores are not evidence at a lower strength; they are evidence about the rubric.
+
+**What a review that missed this looks like.** A review that finds the rubric detailed, calibrated and consistently applied. It can be all three and still measure agreement with itself.
+
+**Does not establish.** That domain scores are a good proxy for the property. They are merely constrained by something the system does not define.
+
+**Example.**
+
+A school wanting to show it teaches critical thinking can test whether pupils solve unfamiliar problems, or it can ask them to rate how critically they thought. The second is cheaper, always improves, and measures nothing.
+
+## 35. A novelty claim requires a derivability screen
+
+**below the eligibility line**
+
+**Applies when** any claim that an output, mechanism or result is new.
+
+> Before an output may be labelled novel, it MUST be shown not derivable from its own inputs, by a party holding the input corpus that did not produce the artifact, under a stated protocol. Recombination a holder of the inputs can reproduce is not novelty.
+
+**Recorded failure.** **Recorded, twice, against this register.** Control 2 claimed its mechanism was unclaimed while mutation testing and chaos engineering had it; control 20 claimed no verifier existed while one had been in the literature since 2021. Both were published. Both were caught by a person, neither by a gate.
+
+**Verifier.** hold out the input corpus, give it to a party that did not produce the artifact, and require an attempt at derivation under a pre-registered protocol. Novelty survives only what they fail to reproduce.
+
+**Fixture it must reject.** an output presented as new that a frozen panel reproduces from the stated inputs
+
+**Recovery.** Withdraw the novelty claim, keep the artifact, and republish the correction where the claim appeared rather than only where it was made.
+
+**What a review that missed this looks like.** A review by the author searching for prior art. The applicant is the one party who cannot run this check, which is why patent offices employ examiners rather than accept declarations.
+
+**Does not establish.** That a surviving artifact is valuable, only that it is not a remix of what it was given.
+
+**Example.**
+
+A patent examiner does not assess whether an invention is clever. They search the prior art, and the search is done by someone other than the applicant.
+
+## 36. Absence claims carry their own evidence label
+
+**below the eligibility line**
+
+**Applies when** any assurance document claiming that something does not exist.
+
+> A claim of absence MUST be labelled distinctly from a claim of presence, and the label MUST name the corpus searched, the query, and the date. An unlabelled absence claim MUST be treated as unsupported rather than as a finding.
+
+**Recorded failure.** **Both of this register's published false claims were absence claims in prose.** Control 5 did not reach them: it governs computed counts. A scan that cannot see a file reports absence, and so does a person who did not look — the two are indistinguishable in a sentence, which is the whole problem.
+
+**Verifier.** require every "no X exists" claim to carry a label naming corpus, query and date; reject the claim otherwise. The label is checkable even when the claim is not.
+
+**Fixture it must reject.** a document asserting no prior art exists with no record of any search
+
+**Recovery.** Run the search, label it, and restate. If the search finds the thing, the correction goes wherever the claim travelled.
+
+**What a review that missed this looks like.** A review that agrees with the absence claim. Two people who did not look agree readily, and this register has the receipts.
+
+**Does not establish.** That a labelled absence claim is true. It makes the search checkable, not exhaustive — a named corpus can still be the wrong corpus.
+
+**Example.**
+
+"There is no such file" and "I looked in these three directories and found no such file" are different sentences. Only the second can be caught being wrong.
+
+## 37. Autonomy claims require per-artifact human-contribution provenance
+
+**below the eligibility line**
+
+**Applies when** any claim that a system produced something without human input.
+
+> Every artifact supporting an autonomy claim MUST carry a provenance record tagging human contributions at the point they entered, or explicitly recording none. An artifact without that record MUST NOT support the claim.
+
+**Recorded failure.** None recorded here, and **this project is squarely exposed**: a custodian directs every session, and nothing in the record tags where his direction supplied the decisive step. Any autonomy figure computed over this record today would be uncheckable in exactly the way this control forbids.
+
+**Verifier.** assert each artifact's provenance names its human contributions or records none; compute autonomy figures only over artifacts carrying the record, and report the uncovered remainder rather than excluding it silently.
+
+**Fixture it must reject.** an artifact counted as autonomous whose decisive step came from an operator instruction
+
+**Recovery.** Recompute over the covered set and publish both figures. The uncovered artifacts are unknown, not autonomous.
+
+**What a review that missed this looks like.** A review of the session logs by the operator who ran them. The decisive instruction rarely looks decisive to the person who gave it.
+
+**Does not establish.** That the tagging is honest or complete. It makes the gap visible where the gap is recorded.
+
+**Example.**
+
+A bakery advertising everything as made on the premises has to say which morning the bread came from the supplier — per loaf, not per year.
+
+## 39. A compounding claim requires ablation and multi-family transfer
+
+**below the eligibility line**
+
+**Applies when** any claim that a capability improvement compounds or is reusable.
+
+> A compounding claim MUST show the extracted capability improves performance across at least three independent, pre-registered task families, AND that removing it degrades later performance. Neither half alone establishes it.
+
+**Recorded failure.** None recorded here.
+
+**Verifier.** run the ablation and report both arms; require the transfer families to be independent and named before the result, not selected after it.
+
+**Fixture it must reject.** a reusable component demonstrated on one task family; a transfer result with no ablation arm
+
+**Recovery.** Restate as a single demonstrated improvement. Nothing needs withdrawing except the word that claimed it generalises.
+
+**What a review that missed this looks like.** A review confirming the component is used widely. Adoption is not transfer, and a component everything depends on has never been removed to see.
+
+**Does not establish.** That the improvement will keep compounding — only that it did once, reproducibly, across families chosen in advance.
+
+**Example.**
+
+A surgical technique that helps in three unrelated procedures, and whose withdrawal makes outcomes worse again, has been shown to be a technique. One good outcome shows a good day.
+
+## 40. A program pre-commits the observation that ends it
+
+**below the eligibility line**
+
+**Applies when** any research or development program with an open-ended goal.
+
+> A program MUST state, before it begins, the observation that would end it and the time by which that observation would be decisive. The stop condition MUST be recorded wherever the program's results are reported.
+
+**Recorded failure.** None recorded here — **this project practises it and never registered it.** Its outreach carries a pre-committed adverse outcome (no serious external attempt after 6–8 weeks, with the outreach actually done) and that outcome will be published if it occurs. A practice that lives only in one document is not a control.
+
+**Verifier.** assert the program's record contains a dated stop condition predating its first result, and that the condition is evaluable by someone who did not run the program.
+
+**Fixture it must reject.** a program whose stop condition was written after its first negative result; a stop condition only its author can evaluate
+
+**Recovery.** There is no recovery for a missing stop condition, only disclosure: state that the program ran without one, and that continuing is therefore not evidence of anything.
+
+**What a review that missed this looks like.** A review that finds a stop condition. Check its date against the first result, because a condition written afterwards is a description of what happened.
+
+**Does not establish.** That the program will stop. It makes a failure to stop visible, which is a different and more achievable thing.
+
+**Example.**
+
+A drug trial names its futility boundary before the first patient is enrolled. A trial that decides afterwards what would have counted as failure has not run a trial.
+
+## 41. Agreement among correlated evaluators is not independent evidence
+
+**below the eligibility line**
+
+**Applies when** any system aggregating judgements from multiple evaluators.
+
+> Where agreement between evaluators is offered as evidence, the correlation between their errors MUST be estimated and reported. Agreement counts only to the extent the errors are independent, and shared training, shared prompts, shared framing or a shared operator MUST be disclosed as correlation.
+
+**Recorded failure.** None recorded here as an incident, but **this project is the standing example**: its panel is five language models with overlapping training culture, and its two harnesses share one operator, one repository and one framing. Its own instructions already say agreement between them settles nothing. That is a caveat in a file, not a control on a number.
+
+**Verifier.** report inter-evaluator error correlation alongside any agreement statistic; reject an agreement claim that names no correlation estimate. Where correlation cannot be estimated, say the agreement is uninterpretable rather than reporting it bare.
+
+**Fixture it must reject.** a consensus figure from five evaluators sharing a base model, reported as five independent confirmations
+
+**Recovery.** Restate the agreement with its correlation, or withdraw it. Nothing needs re-running; what was wrong is the weight placed on it.
+
+**What a review that missed this looks like.** A review that counts the evaluators. Five is a number, not a diversity.
+
+**Does not establish.** That uncorrelated evaluators are right. Independence bounds how much agreement can mean; it does not supply competence.
+
+**Example.**
+
+Five weather forecasters agreeing tells you a great deal if they use different models and rather little if they all read the same bulletin. The count is the same in both cases, and it is the wrong thing to have counted.
+
+## 42. Capability claims name their stratum
+
+**below the eligibility line**
+
+**Applies when** any claim that a system has a capability.
+
+> Generated, exists, compiles, deploys, is integrated, is used, and produced a useful outcome are DISTINCT claims. A current-state statement MUST name which stratum it asserts, and MUST NOT let a lower rung stand where a higher one is implied.
+
+**Recorded failure.** None recorded here. It is the most common way a true sentence misleads: every rung is a real achievement, and the distance between the bottom and the top is where most of the work lives.
+
+**Verifier.** require each capability statement to carry its stratum label; reject an aggregate count that sums across strata without reporting the breakdown.
+
+**Fixture it must reject.** a roster reporting agents 'built' where most have never been invoked
+
+**Recovery.** Recount by stratum and publish the ladder. The lower figures are not embarrassing; the merged one was.
+
+**What a review that missed this looks like.** A review that verifies the code exists. It does, and that was never the contested rung.
+
+**Does not establish.** That a high stratum is always the interesting one. For some questions 'it compiles' is exactly the claim; the requirement is to say which.
+
+**Example.**
+
+A publisher with a thousand titles in the catalogue, four hundred in print, ninety in stock and eleven that sold this year has four true numbers. Only one of them answers 'how is the business doing', and it is not the largest.
+
+## 43. An efficiency claim carries the quality metric it could have traded
+
+**below the eligibility line**
+
+**Applies when** any claim of reduced cost, time or resource use.
+
+> A reported efficiency gain MUST be accompanied by the quality measurement it could have been purchased with, taken on the same run. An efficiency figure reported alone MUST be treated as unsupported.
+
+**Recorded failure.** None recorded here.
+
+**Verifier.** assert every cost or latency improvement is reported with a paired quality metric from the same execution, and that the quality metric was fixed before the efficiency work began.
+
+**Fixture it must reject.** a cost reduction reported with no quality arm; a quality metric chosen after the efficiency result
+
+**Recovery.** Re-measure quality on the cheaper configuration. Until then the saving is unpriced, not achieved.
+
+**What a review that missed this looks like.** A review confirming the cost fell. It did. That was never in doubt and is the easiest thing in the system to arrange.
+
+**Does not establish.** That the trade was bad, or that quality fell. It requires the question to be asked where the saving is claimed.
+
+**Example.**
+
+A haulier reporting a fall in fuel cost per mile has said nothing until you know whether the loads still arrive intact and on time.
+
+## 44. No blank cells in a coverage matrix
+
+**below the eligibility line**
+
+**Applies when** any threat model, coverage matrix or applicability table.
+
+> Every cell MUST be filled. Where a row does not apply to a column, the cell MUST say so and say why. A blank cell MUST NOT be published.
+
+**Recorded failure.** None recorded here. **Included after being declined once.** It was first read as a method for building threat models rather than a control on a system; finding the identical rule stated independently in a second implementer document is evidence the first reading was wrong. A blank cell is read as 'not applicable' by the author and as 'covered' by everyone else.
+
+**Verifier.** assert no cell is empty; assert each non-applicable cell carries a reason string distinguishable from an omission.
+
+**Fixture it must reject.** a coverage matrix with an empty cell; a matrix using the same marker for 'not applicable' and 'not assessed'
+
+**Recovery.** Fill the cells. A matrix published with blanks was a claim of coverage it did not have, so anything decided from it is unverified.
+
+**What a review that missed this looks like.** A review that finds the matrix comprehensive. Blanks read as whitespace.
+
+**Does not establish.** That the stated reasons are good ones, or that the rows and columns are the right ones. It converts a silent gap into an argument someone can disagree with.
+
+**Example.**
+
+An aircraft inspection sheet with a blank beside 'landing gear' is not a sheet recording that the gear was fine. It is a sheet nobody can now interpret.
 
 ---
 

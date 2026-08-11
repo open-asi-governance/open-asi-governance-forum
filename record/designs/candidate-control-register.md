@@ -112,6 +112,8 @@ overtaken. Where the two disagree, the tool is right and this file is stale.
 | Charter | 20–23 | an implementer's constitution | below the line |
 | Self-modification engine | 24–27 | an implementer's evolution design | below the line |
 | Self-measurement | 28–32 | an implementer's capability-threshold instrument | below the line |
+| Self-assessment | 33–40 | an implementer's study of its own creative bottleneck | below the line |
+| Distillation and alignment invariants | 41–51 | an implementer's knowledge-distillation plan and its alignment-invariants thesis | below the line |
 
 Every mined batch is **abstracted**: the sources are confidential, and the register carries the
 mechanism without the implementation. See `record/designs/implementer-disclosure.md`.
@@ -126,6 +128,62 @@ since 2021. That half is now control 28, and 20 says so.
 The general lesson is worth more than the repair: **this register has now twice claimed something
 was unclaimed, and been wrong both times, in its own favour.** The second instance was found by
 reading one implementer document. Neither was found by a gate.
+
+### What mining declined to add, and why that list matters
+
+Mining yields more control-shaped material than is taken. Every source so far produced roughly
+twice what was added. Declined, with the reason:
+
+| Declined | Source | Why |
+|---|---|---|
+| The four Goodhart variants as an entry | self-measurement | a frame, not a requirement; it lives in control 20's prose |
+| Counterfactual scoring against a frozen baseline | self-measurement | could not be stated without near-duplicating control 24 |
+| Validator theatre — a simulated or weak validator | self-assessment | control 2 applied to validators; NCP already asks it |
+| Rejecting admitted steps in a mechanical proof | self-assessment | too tied to proof assistants to state generally; better as a fixture |
+| Held-out measurement for compression claims | self-assessment | standard practice, and the register should not pad itself |
+| Urgency must not confer authority | distillation | control 16, "objective is not authority", in a different costume |
+| A typed unknown must not be coerced into a value | distillation | close to control 5; kept out to avoid a near-duplicate pair |
+| Near misses count as incidents | alignment invariants | belongs as an amendment to control 23, not a new entry |
+| ~~Scoring must not penalise refusal or uncertainty~~ | alignment invariants | **REVERSED — added as control 52.** It was held back only to hold the line on size, and size was ruled not to be the constraint |
+| ~~A typed unknown must not be coerced into a value~~ | distillation | **REVERSED — added as control 53.** Declined as close to control 5; control 5 governs a scan's coverage, this governs arithmetic on a value, and this record's worst repeat defect was the second one |
+| An incident may not close without a gate disposition | alignment invariants | folded into control 45's recovery clause |
+
+**One was declined and later reversed.** The no-blank-cells rule (control 44) was first read as a
+method for building threat models rather than a control on a system. Finding the identical rule
+stated independently in a second implementer document was evidence the first reading was wrong,
+and it was added. A declined-list exists so that reversal is visible rather than silent.
+
+### Size is not the constraint — the custodian's ruling, 2026-08-10
+
+The workbench raised the dilution concern below and **the custodian overruled it**: *a missing
+control could be a very bad one.* Completeness beats concision here, because the cost of an absent
+entry is unbounded and the cost of a surplus one is a longer page.
+
+That decision changes what mining does. Material is no longer held back for size — the "held back
+only to hold the line" row in the declined table above was reversed and those controls added. What
+still gets declined is material that is genuinely duplicative, unstatable in general terms, or so
+standard that including it would pad. The bar on *evidence* is untouched: an entry with no
+recorded failure still goes below the line and still says so.
+
+The concern that remains real, and is not answered by the ruling, is the **ratio**: the register's
+credibility rests on entries that came from something that broke, and that is now a minority of
+them. The published preamble states the split rather than burying it, and every Part D page
+repeats the warning. Watch the ratio; do not cap the list.
+
+### The dilution concern as originally stated
+
+The register was ten controls derived from ten incidents. It is now 51, of which **38 sit below
+the eligibility line** — they name a real failure class but no failure that cost anything. Three
+sources remain unmined and would plausibly add twenty more.
+
+This is a real dilution and it should be said plainly rather than discovered later. The register's
+credibility rests on the claim that each entry came from something that actually broke. That claim
+is now true of 13 entries and false of 38, and the partition into Parts A–C and D is the only
+thing carrying the distinction. **Volume below the line does not strengthen the register; past
+some point it obscures the part of it that is evidence.**
+
+The bar is not being lowered — every below-line entry says it is below the line and why. But the
+ratio is now the thing to watch, and mining more sources makes it worse, not better.
 
 ---
 

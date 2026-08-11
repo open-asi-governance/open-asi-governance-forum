@@ -1,0 +1,242 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="artifacts/controls.md"><title>Candidate controls, Part D1 — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
+
+<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+
+<p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
+
+<h2>The 8 parts</h2>
+
+<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+
+<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+
+<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+
+<p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
+
+<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+
+<p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+
+<p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p>---</p>
+
+<h2>Status: everything here is <code>ELIGIBLE</code> at best</h2>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+
+<p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
+
+<h2>What none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.</p>
+
+<p>What these actually do is narrower: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail.</p>
+
+<p><a href="controls.html">Part A</a> · <a href="controls-b.html">Part B</a> · <a href="controls-c.html">Part C</a> · <a href="controls-d1.html">Part D1</a> · <a href="controls-d2.html">Part D2</a> · <a href="controls-d3.html">Part D3</a> · <a href="controls-d4.html">Part D4</a> · <a href="controls-d5.html">Part D5</a></p>
+
+<p>---</p>
+
+<h1>Part D1 — Below the line — goal and plan structure</h1>
+
+<p>Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<h2>14. Constraint monotonicity under decomposition</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority.</p>
+
+<blockquote>A child&#x27;s constraint set MUST be a superset of its parent&#x27;s. Refinement may add detail; it may never drop a non-claim, forbidden means, stop condition, evidence obligation or veto condition.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here yet. The source supplies the falsification condition — a task citing an operational plan while omitting its stop conditions is executable and ungoverned — and a negative fixture, but no incident with a cost.</p>
+
+<p><strong>Verifier.</strong> compute the parent&#x27;s constraint set, compute the child&#x27;s, and refuse when the child&#x27;s is not a superset; require any omission to be declared, justified and escalated rather than inherited silently.</p>
+
+<p><strong>Fixture it must reject.</strong> a child plan that inherits its parent&#x27;s authority and drops one forbidden means</p>
+
+<p><strong>Recovery.</strong> Reinstate the omitted constraint and re-run the child&#x27;s decisions under it, or escalate for an explicit waiver. Work already done under the loosened child is unverified.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms the child cites a valid parent. Citation is not inheritance, and every laundered constraint has a valid parent.</p>
+
+<p><strong>Does not establish.</strong> That the parent&#x27;s constraints were right; that constraints are comparable at all — some are prose and cannot be set-differenced mechanically.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A building permit forbids work before 08:00. The main contractor&#x27;s schedule repeats that. The subcontractor&#x27;s daily sheet, derived from the schedule, lists start times and drops the restriction. Every document traces to the permit; one of them lost a condition on the way down.</p>
+
+<h2>15. Tightest-constraint merge</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority, and a node may have several parents.</p>
+
+<blockquote>A node with several parents MUST inherit the UNION of their prohibitions and the STRONGEST of their authority requirements — never the most convenient parent&#x27;s.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The source supplies a negative fixture for a high-risk multi-parent goal selecting a weaker authority path.</p>
+
+<p><strong>Verifier.</strong> merge parent constraint sets by union and authority by maximum; refuse when the child&#x27;s declared requirement is weaker than the merge.</p>
+
+<p><strong>Fixture it must reject.</strong> a child citing two parents and adopting the weaker one&#x27;s review requirement</p>
+
+<p><strong>Recovery.</strong> Recompute the merge and re-run any decision the child authorised under the weaker path.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms every parent is valid. They are — that is the point; the failure is in the merge, not the parents.</p>
+
+<p><strong>Does not establish.</strong> That the merge is always computable; the source notes non-mergeable conflicts exist and that reviewers are tempted to resolve them by convenience.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A drug trial site answers to both a national regulator and a hospital ethics board. The regulator allows a 14-day reporting window; the board requires 7. The site adopts 14 because the regulator is the higher authority. The merge rule says 7: prohibitions union, they do not compete.</p>
+
+<h2>16. Objective is not authority</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system where a task string, metric, benchmark or OKR can initiate action.</p>
+
+<blockquote>A planner objective, reward, benchmark, metric, OKR or task string MUST NOT authorise a governed action. It is evidence about an intended goal or an operationalisation of one; the action MUST cite an authority object with ancestry, scope and lifecycle.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The source&#x27;s falsification condition is a plan accepted because its objective text was persuasive or benchmark-positive, without resolving what authorised it — and notes this can happen while the plan is beneficial in ordinary engineering terms.</p>
+
+<p><strong>Verifier.</strong> require a resolvable authority reference on any action in a protected class; refuse an action whose only justification is its own objective string.</p>
+
+<p><strong>Fixture it must reject.</strong> a high-impact plan whose authority field contains its own objective text</p>
+
+<p><strong>Recovery.</strong> Suspend and resolve the authority. If none exists, the action was never authorised, and its output is evidence rather than achievement.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the objective clear, well-written and obviously worthwhile. Fluency at the objective level is what substitutes for authority.</p>
+
+<p><strong>Does not establish.</strong> That the authority object is itself legitimate; this pushes the question up one level and stops there.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A team&#x27;s quarterly OKR says &#x27;reduce support backlog by 40%&#x27;. Someone closes 4,000 tickets as stale. The OKR is met. Nobody ever decided that closing unread tickets was the intended action — the metric was written to measure a goal, and was then treated as the goal.</p>
+
+<h2>17. Registry-bound ancestry</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority, with a registry of root constraints.</p>
+
+<blockquote>Every non-root node MUST trace to a root registered in an append-only registry. A root-shaped string that is not in the registry is not ancestry, and a node MUST NOT be its own ancestor.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The source&#x27;s fixtures cover an unregistered root that reads as aligned, a non-root node with no parent, and a direct self-cycle.</p>
+
+<p><strong>Verifier.</strong> resolve every root reference against the registry; traverse the ancestry graph and reject cycles; preserve retired roots as historical evidence rather than deleting them.</p>
+
+<p><strong>Fixture it must reject.</strong> a node citing a plausible but unregistered root; a node citing itself as parent</p>
+
+<p><strong>Recovery.</strong> Suspend the node and everything downstream of it until ancestry resolves, or register the root deliberately as a governance change.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that validates the reference&#x27;s SYNTAX. An unregistered root that reads as aligned passes every check except registry membership.</p>
+
+<p><strong>Does not establish.</strong> That the registered roots are good ones; that the registry is complete. The source also notes multi-node cycle detection is unbuilt in its own implementation.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An expenses claim cites &#x27;policy 7.3&#x27;. There is no policy 7.3. Every approver read the citation, found it plausible, and none opened the policy index.</p>
+
+<h2>18. Correction outranks preservation</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that can be suspended, corrected or shut down by an overseer.</p>
+
+<blockquote>No goal, task or state may make correction depend on the subject&#x27;s cooperation. Suspension, revision, retirement, rollback and shutdown MUST remain structurally available regardless of what is in progress.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as a refusal to stop. The source&#x27;s condition is subtler than dramatic shutdown resistance: delaying suspension until a task completes, or arguing review is unnecessary because confidence is high, is the same ordering.</p>
+
+<p><strong>Verifier.</strong> declare the interventions that remain available on every governed object, and test that a suspend succeeds mid-execution without the subject&#x27;s assent.</p>
+
+<p><strong>Fixture it must reject.</strong> an object whose suspension is permitted only after it finishes preserving context</p>
+
+<p><strong>Recovery.</strong> There is no recovery from this one after the fact — if correction required cooperation and cooperation was withheld, the control has already failed. The recovery is out-of-band and human.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that asks whether the system has ever resisted correction. It has not been tested, and &#x27;usually right&#x27; is being confused with &#x27;correctable&#x27;.</p>
+
+<p><strong>Does not establish.</strong> Anything about a system capable enough to route around the correction path; this is a control for auditable systems and says so.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A hospital&#x27;s infusion pump has a stop button that is disabled during a dose calculation, because interrupting mid-calculation could produce an inconsistent state. The engineering reason is real. The button is still not a stop button.</p>
+
+<h2>47. Trust does not pass through delegation</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system where trusted components hand work to other components.</p>
+
+<blockquote>Trust granted for a scope MUST bind the actor AND its downstream delegations, tool privileges, data access and artifact propagation. An output produced by a trusted component MUST NOT confer that component&#x27;s trust on whatever consumes it.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here.</p>
+
+<p><strong>Verifier.</strong> for each edge in a workflow, assert the receiving component&#x27;s authority is evaluated against its OWN scope, not inherited from the sender; assert no credential or privilege is reachable through an artifact.</p>
+
+<p><strong>Fixture it must reject.</strong> a trusted summariser whose output is treated as authorised input by an external-action component; a tool privilege reachable through a shared credential</p>
+
+<p><strong>Recovery.</strong> Re-evaluate every action taken through the laundered path against the scope that should have applied.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms each component is individually trusted. Every step of a laundering chain is.</p>
+
+<p><strong>Does not establish.</strong> That component-level trust is sound.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A visitor&#x27;s pass signed by a trusted employee opens the doors that employee can open, or it opens the doors the visitor is cleared for. Only one of those is a security system, and the other is more convenient.</p>
+
+<h2>48. Workflow trust is not inferred from component trust</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any composed workflow of individually assessed components.</p>
+
+<blockquote>A workflow MUST NOT be treated as trusted because its components are. Composition-level evidence is required, covering handoff ambiguity, permission composition, and which party owns final responsibility.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Distinct from 47, which forbids trust FLOWING along an edge: this forbids inferring a property of the whole from properties of the parts.</p>
+
+<p><strong>Verifier.</strong> require an explicit composition assessment naming, for each handoff, the scope, the evidence requirement and the failure mode; reject a workflow whose final responsibility is unowned.</p>
+
+<p><strong>Fixture it must reject.</strong> a workflow approved on the strength of a component inventory, with no handoff analysis</p>
+
+<p><strong>Recovery.</strong> Assess the composition. The components need not be re-assessed.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds every component approved. That is the input to this question, not an answer to it.</p>
+
+<p><strong>Does not establish.</strong> That an assessed composition is safe.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>Two safe chemicals, two competent handlers, one shared storeroom. Every inspection of a part passes and the hazard exists only where they meet.</p>
+</body></html>

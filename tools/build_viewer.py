@@ -1070,9 +1070,10 @@ def build_landing_md(plan: list[dict], nodes: list[dict]) -> str:
         "  each under 20,000 tokens. Plain-text alternate: [record.md](record.md)",
         f"- [Deficiency register](deficiencies.html) — {defects} defects this project has filed",
         "  against itself. Read before citing anything.",
-        "- [Candidate controls](controls.html) — ten candidate assurance controls, each from a",
-        "  recorded failure, with a verifier and a must-reject fixture. All ELIGIBLE, none",
-        "  independently implemented. Worked example for agent and inference developers.",
+        f"- [Candidate controls](controls.html) — {CONTROL_TOTALS['total']} candidate assurance",
+        f"  controls, each with a verifier and a must-reject fixture. Part A ({CONTROL_TOTALS['a']}) is",
+        f"  adoptable alone; {CONTROL_TOTALS['below']} sit BELOW the eligibility line with no recorded",
+        "  failure. None independently implemented. Worked example for agent developers.",
         "- [Prediction registry](predictions.html) — dated claims, scored on fixed dates,",
         "  published with the reasons the scores are weak evidence.",
         "- [Deliberation rounds](rounds/index.md) — every round: the question, the exact prompt",
@@ -1229,7 +1230,7 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
         "## Register and appendices",
         "",
         "- [Implementation challenge](challenge.html): build a conforming verifier from the specification text alone. We want the questions you had to guess at more than the verifier.",
-        "- [Candidate controls](controls.html): ten candidate assurance controls, each derived from a recorded failure, each with a verifier and a fixture it must reject. All ELIGIBLE, none independently implemented. Includes a worked example for agent and inference developers.",
+        f"- [Candidate controls](controls.html): {CONTROL_TOTALS['total']} candidate assurance controls, each with a verifier and a fixture it must reject. Part A ({CONTROL_TOTALS['a']}) is adoptable alone; {CONTROL_TOTALS['below']} sit below the eligibility line, meaning they name a real failure class but no failure that cost anything. None independently implemented.",
         "- [Deficiency register](deficiencies.html): defects this project has filed against itself.",
         "- [Deficiency register, plain text](deficiencies.md)",
         "- [Local solicitation rounds](local/index.html): k >= 5 with computed variance.",
@@ -1250,11 +1251,63 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
 CHUNK = 200
 
 
+def _controls_receipt() -> dict:
+    """What the controls builder ACTUALLY wrote, read from the receipt it issues after writing.
+
+    This module deletes docs/*.html it does not recognise. It used to ask the builder's
+    partitions() which parts ought to exist -- and an external review reproduced the defect that
+    creates: remove a part page, run this module alone, and it exits 0 having neither restored
+    the page nor noticed it was gone, while writing a sitemap that names it. A declaration of
+    what should exist is not downstream of publication; a receipt hashed after the write is.
+
+    Reading a file rather than importing the builder also drops a module-import dependency that
+    build_predictions_view.py inherited by importing this module for its CSS.
+    """
+    receipt = REPO_ROOT / "docs" / "artifacts" / "controls-pages.json"
+    if not receipt.is_file():
+        raise SystemExit(
+            f"no controls receipt at {receipt.relative_to(REPO_ROOT)}. Run "
+            f"tools/build_controls_page.py first: this module prunes docs/*.html and without the "
+            f"receipt it would delete every published controls page.")
+    doc = json.loads(read_input(receipt))
+    pages, counts = doc.get("pages"), doc.get("counts")
+    if not isinstance(pages, dict) or not pages:
+        raise SystemExit(f"{receipt.relative_to(REPO_ROOT)} names no pages; refusing to prune")
+    if not isinstance(counts, dict) or "total" not in counts:
+        raise SystemExit(f"{receipt.relative_to(REPO_ROOT)} carries no counts; the landing page "
+                         f"would describe the register from a stale number")
+    return doc
+
+
+def _verify_controls_receipt(pages: dict) -> None:
+    """Every page the receipt names must be present with the bytes it recorded.
+
+    Checked BEFORE pruning, so a receipt that has drifted from the disk stops the run instead of
+    licensing a deletion. Hash, not existence: a page rebuilt from stale data is also a drift.
+    """
+    for name, digest in sorted(pages.items()):
+        path = OUT / name if (OUT / name).is_file() else REPO_ROOT / "docs" / name
+        if not path.is_file():
+            raise SystemExit(f"the controls receipt names {name}, which is not on disk. Re-run "
+                             f"tools/build_controls_page.py.")
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if actual != digest:
+            raise SystemExit(f"{name} does not match the controls receipt "
+                             f"({actual[:12]}… vs {digest[:12]}…). Re-run the controls builder; "
+                             f"pruning against a stale receipt is how a live page gets deleted.")
+
+
+_CONTROLS_RECEIPT = _controls_receipt()
+CONTROLS_PAGES = _CONTROLS_RECEIPT["pages"]
+CONTROL_PART_PAGES = [n for n in CONTROLS_PAGES if n != "controls.html"]
+CONTROL_TOTALS = _CONTROLS_RECEIPT["counts"]
+
+
 def build_sitemap(plan: list[dict]) -> dict[str, str]:
     urls = ["index.html", "index.md", "record.html", "record.md",
             "predictions.html", "predictions.md",
-            "controls.html", "controls.md", "controls-b.html", "controls-c.html",
-            "controls-d.html", "challenge.html", "challenge.md",
+            "controls.html", "controls.md", *CONTROL_PART_PAGES,
+            "challenge.html", "challenge.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
             "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
     #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
@@ -1315,6 +1368,10 @@ def main() -> int:
     for _name, _body in sitemaps.items():
         (docs / _name).write_text(_body, encoding="utf-8")
 
+    #  Before anything is deleted. A receipt that has drifted from disk must stop the run, not
+    #  license a prune against it.
+    _verify_controls_receipt(CONTROLS_PAGES)
+
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
     keep |= {"index.html", "index.md", "record.html", "record.md",
              "predictions.html", "predictions.md", "for-parties.md",
@@ -1322,8 +1379,13 @@ def main() -> int:
              #  deleted a page that had just been published and reported success -- the link
              #  checker caught it, nothing else would have. Any new generated page must be added
              #  here in the same commit that generates it.
-             "controls.html", "controls.md", "controls-b.html", "controls-c.html",
-             "controls-d.html", "challenge.html", "challenge.md", "challenge.html", "challenge.md",
+             #  Asked of the builder, never listed. The comment above says "any new generated
+             #  page must be added here in the same commit" -- that instruction was followed for
+             #  Part D and then Part D split into five, at which point the literal named a file
+             #  nobody generates and omitted five that exist. A rule a human must remember is a
+             #  rule this pruner outlives.
+             "controls.html", "controls.md", *CONTROL_PART_PAGES,
+             "challenge.html", "challenge.md",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
     #  written -- the shared-subtree failure this repository has now had twice.

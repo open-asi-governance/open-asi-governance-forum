@@ -17,9 +17,10 @@ itself a party to this record.
   each under 20,000 tokens. Plain-text alternate: [record.md](record.md)
 - [Deficiency register](deficiencies.html) — 57 defects this project has filed
   against itself. Read before citing anything.
-- [Candidate controls](controls.html) — ten candidate assurance controls, each from a
-  recorded failure, with a verifier and a must-reject fixture. All ELIGIBLE, none
-  independently implemented. Worked example for agent and inference developers.
+- [Candidate controls](controls.html) — 53 candidate assurance
+  controls, each with a verifier and a must-reject fixture. Part A (8) is
+  adoptable alone; 40 sit BELOW the eligibility line with no recorded
+  failure. None independently implemented. Worked example for agent developers.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,
   published with the reasons the scores are weak evidence.
 - [Deliberation rounds](rounds/index.md) — every round: the question, the exact prompt

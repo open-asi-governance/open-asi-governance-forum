@@ -639,7 +639,35 @@ print(json.dumps(out))
 
         print("\nthe published site must not understate the record")
         c = nxt()
-        run(c, "tools/rebuild.py")
+        #  READ THE EXIT CODE. This was `run(c, "tools/rebuild.py")` with the result discarded,
+        #  and every case below then inspected whatever files happened to be present. The temp
+        #  checkout is seeded from the working tree INCLUDING generated docs/, so a builder
+        #  changed to write nothing would leave the seeded pages in place and the whole block
+        #  would report green. An external review found this; it is the repository's dominant
+        #  failure -- a check not causally downstream of what it certifies -- inside the suite
+        #  written to catch it.
+        _rebuild = run(c, "tools/rebuild.py")
+        case("the site rebuilds", _rebuild.returncode == 0,
+             (_rebuild.stderr or _rebuild.stdout)[-400:] if _rebuild.returncode else "")
+
+        #  And the rebuild must have WRITTEN the controls pages, not merely left the seeded ones
+        #  alone. Delete them first, rebuild, and require them back with the receipt's bytes.
+        _docs = c / "docs"
+        for _stale in sorted(_docs.glob("controls*.html")):
+            _stale.unlink()
+        _again = run(c, "tools/rebuild.py")
+        case("...and a rebuild republishes the controls pages after they are deleted",
+             _again.returncode == 0 and (_docs / "controls.html").is_file(),
+             (_again.stderr or _again.stdout)[-400:] if _again.returncode else "")
+        _receipt_path = _docs / "artifacts" / "controls-pages.json"
+        case("...and issues a receipt naming every page it wrote", _receipt_path.is_file())
+        _receipt = json.loads(_receipt_path.read_text(encoding="utf-8")) \
+            if _receipt_path.is_file() else {"pages": {}}
+        case("...whose recorded hashes match the bytes on disk",
+             bool(_receipt.get("pages")) and all(
+                 (_docs / _n).is_file() and
+                 hashlib.sha256((_docs / _n).read_bytes()).hexdigest() == _h
+                 for _n, _h in _receipt["pages"].items()))
         # index.html is now the TABLE OF CONTENTS, not the record. The record lives on
         # per-round pages, so assertions about contributions read the record pages and
         # assertions about routing read the index. Conflating them is how the previous
@@ -731,8 +759,22 @@ print(json.dumps(out))
         whole = (c / "docs/artifacts/controls.md")
         case("Part A of the candidate controls is published", controls.is_file())
         case("...and is linked from the landing page", 'href="controls.html"' in index)
-        case("...and every other part is published",
-             all((c / f"docs/controls-{k}.html").is_file() for k in ("b", "c", "d")))
+        #  Parts are asked of the builder, not listed. Part D outgrew a page and split into D1…Dn
+        #  by subject; a literal ("b", "c", "d") would have gone on passing against a file the
+        #  builder had stopped producing, which is this record's dominant failure wearing a
+        #  different hat -- a green check not downstream of what it certifies.
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location(
+            "_bcp_parts", c / "tools" / "build_controls_page.py")
+        _bcp = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_bcp)
+        _parts = [k for k, _t, _b, _i in _bcp.partitions() if k != "A"]
+        case(f"...and every other part is published ({len(_parts)}: {', '.join(_parts)})",
+             bool(_parts) and
+             all((c / f"docs/controls-{k.lower()}.html").is_file() for k in _parts))
+        case("...and no part page is orphaned by the split",
+             not [p for p in (c / "docs").glob("controls-*.html")
+                  if p.name not in {f"controls-{k.lower()}.html" for k in _parts}])
         case("...and the whole register is downloadable for hashing", whole.is_file())
         case("...and controls.md indexes the parts and the download",
              (c / "docs/controls.md").is_file() and
@@ -742,10 +784,10 @@ print(json.dumps(out))
              whole.read_text(encoding="utf-8").index("ELIGIBLE") <
              whole.read_text(encoding="utf-8").index("Protected control plane"))
         case("...and every part states that no control establishes alignment of a more "
-             "capable system",
+             f"capable system (across {len(_parts) + 1} parts)",
              all("more capable than its operators" in
                  (c / f"docs/controls{sfx}.html").read_text(encoding="utf-8")
-                 for sfx in ("", "-b", "-c", "-d")))
+                 for sfx in [""] + [f"-{k.lower()}" for k in _parts]))
 
         challenge = (c / "docs/challenge.html")
         case("the implementation challenge is published", challenge.is_file())

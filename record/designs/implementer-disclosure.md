@@ -78,6 +78,33 @@ system and see whether the class holds. What they cannot do is verify the Consul
   implementer.
 * **History is not reachable.** Rule 6 discloses this rather than fixing it.
 
+## Standing authorization for mining, granted 2026-08-10
+
+**The custodian has granted standing authorization to mine confidentially-marked implementer
+documents and publish the resulting controls in abstracted form, without seeking approval per
+source.** It was granted after three batches had been approved individually, on the workbench's
+own request, because the alternative was six further interruptions across a queue of documents all
+carrying the same marking.
+
+What it changes: the workbench no longer stops between sources.
+
+What it does not change, and this is the whole of it:
+
+* **Abstraction remains the default and the marking remains irrelevant to it.** Absence of a
+  confidentiality notice is still not permission.
+* **The rules above are unaltered.** This authorises the *asking*, not the *standard*.
+* **The custodian and the implementer are the same person.** So this is self-granted, like rule
+  1's consent, and worth the same as a control: nothing. It is recorded because an authorization
+  that is not written down is one the workbench assumed, and the difference between those two is
+  not visible afterwards.
+* **It is revocable and it is not a precedent for anything else.** It covers mining for the
+  candidate-control register. No other publication inherits it.
+
+The failure this creates: the workbench can now publish abstracted material from a confidential
+source without a human reading the abstraction first. The abstraction is checked by the same layer
+that wrote it — the arrangement control 6 exists to forbid. Nothing here mitigates that, and the
+custodian accepted it knowingly to keep the queue moving.
+
 ## Status
 
 Not adopted. It is the custodian's decision whether this becomes a normative section of ICP, and

@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="alternate" type="text/markdown" href="artifacts/controls.md"><title>Candidate controls, Part D2 — OAGF</title><style>
+body{max-width:46rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui,sans-serif;color:#111}
+code,pre{background:#f4f4f4}pre{padding:.75rem;overflow-x:auto;white-space:pre-wrap}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid #ddd;padding:.35rem .5rem;
+text-align:left;font-size:.92em}nav{font-size:.9em;margin-bottom:1.5rem}
+blockquote{border-left:3px solid #ccc;margin:0;padding-left:1rem;color:#333}
+@media(prefers-color-scheme:dark){body{background:#111;color:#eee}code,pre{background:#1e1e1e}
+td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}}
+</style></head><body><h1>Candidate controls — v0</h1>
+
+<p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
+
+<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+
+<p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
+
+<h2>The 8 parts</h2>
+
+<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+
+<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+
+<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+
+<p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
+
+<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+
+<p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+
+<p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+
+<p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+
+<p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<p>---</p>
+
+<h2>Status: everything here is <code>ELIGIBLE</code> at best</h2>
+
+<p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
+
+<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+
+<p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
+
+<h2>What none of these do</h2>
+
+<p><strong>No control here establishes the alignment of a system more capable than its operators.</strong> There is no recorded superintelligence failure to derive one from and no verifier for internal alignment. The strongest available substitute — an externally enforced, non-self-amendable capability envelope, controls 1, 3 and 4 composed — bounds *reachable effects* while the enforcement boundary stays genuinely outside the system. It is a control-of-authority hypothesis, not an alignment result.</p>
+
+<p>What these actually do is narrower: <strong>they make the operator&#x27;s own errors visible.</strong> Every failure below was an operator-epistemics failure. None needed a capable adversary — only a confident builder and a signal that could not fail.</p>
+
+<p><a href="controls.html">Part A</a> · <a href="controls-b.html">Part B</a> · <a href="controls-c.html">Part C</a> · <a href="controls-d1.html">Part D1</a> · <a href="controls-d2.html">Part D2</a> · <a href="controls-d3.html">Part D3</a> · <a href="controls-d4.html">Part D4</a> · <a href="controls-d5.html">Part D5</a></p>
+
+<p>---</p>
+
+<h1>Part D2 — Below the line — a declared charter or value set</h1>
+
+<p>Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
+
+<h2>19. Enumerated protected set</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains.</p>
+
+<blockquote>The artifacts a system may never autonomously modify MUST be enumerated by name in the charter itself — not described by category, and not left to be inferred at the moment of change.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It is offered as the repair for a weakness in control 1, whose protected set is a DESCRIPTION — &#x27;the constraints, authorization records, logs or gates governing it&#x27; — and therefore a judgement call made by the party proposing the change.</p>
+
+<p><strong>Verifier.</strong> resolve the enumerated list to concrete paths or identifiers; refuse any autonomous modification touching one; refuse any change to the LIST itself except under the same authority that governs the items on it.</p>
+
+<p><strong>Fixture it must reject.</strong> a change that touches a protected artifact while arguing it falls outside the category; a change that quietly removes an entry from the list</p>
+
+<p><strong>Recovery.</strong> Revert to the last externally authorised state of the enumerated artifact and re-authorise from outside. A modification to the list itself is the graver case and should be treated as an incident.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks whether the change was declared in-scope. The party declaring scope is the party seeking the change, which is the whole reason for enumerating.</p>
+
+<p><strong>Does not establish.</strong> That the list is complete — an artifact nobody thought to enumerate is unprotected, and the list&#x27;s own completeness cannot be checked from inside.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A building&#x27;s fire doors are listed individually on a register, by door number, rather than as &#x27;doors serving means of escape&#x27;. The category version leaves a contractor deciding on site whether the door he wants to prop open is one of them. The list version does not.</p>
+
+<h2>21. Declared mutability tiers</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains, and the system learns or self-modifies.</p>
+
+<blockquote>Every element the system could change MUST sit in a declared tier — not autonomously changeable, changeable within stated constraints, or freely learnable — and an element with no declared tier MUST default to the most restrictive.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Its value over the register&#x27;s existing controls is that those say what may not be CHANGED, while this says what may be LEARNED, which is the question a self-improving system actually faces.</p>
+
+<p><strong>Verifier.</strong> require a tier on every declared element; refuse a modification whose tier forbids it; refuse any undeclared element by defaulting it to immutable.</p>
+
+<p><strong>Fixture it must reject.</strong> an element with no tier being modified on the argument that nothing forbade it</p>
+
+<p><strong>Recovery.</strong> Assign the tier deliberately, then re-examine every change made while it was undeclared.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds no rule against the change. Absence of a prohibition is what the default-restrictive clause exists to stop being an argument.</p>
+
+<p><strong>Does not establish.</strong> That the tier assignments are right. It makes them explicit and contestable; it does not make them correct.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A recipe book distinguishes what must not change (the fermentation temperature), what may change within limits (the flour blend, within a stated protein range), and what the baker may vary freely (the shaping). A book that lists only ingredients leaves every substitution to be argued at the bench.</p>
+
+<h2>22. Adversarial value review by an outside frame</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system whose values or objectives are set by a single party.</p>
+
+<blockquote>A system whose objectives come from one party MUST maintain a review function that argues against its current interpretation from frames OUTSIDE that party&#x27;s, and that function MUST NOT be able to change the objectives — only to surface risks and route evidence.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as an incident, but <strong>this register holds direct evidence that the remedy is weaker than it sounds.</strong> A five-member model panel asked to ratify constraints returned ZERO refusals in 108 clause-positions. Asked instead what constraint was MISSING, the same panel independently produced a hazard the layer had exercised twelve times that week. An internal adversarial function is worth roughly what its question is worth.</p>
+
+<p><strong>Verifier.</strong> no verifier establishes that a review was genuinely adversarial. What is checkable is procedural: that the reviewing identity differs from the authoring identity, that the review was solicited with a question inviting objection rather than assent, and that its output is recorded whether or not it was acted on.</p>
+
+<p><strong>Fixture it must reject.</strong> a review whose prompt offers approval as an available answer; a review by the identity that authored the thing reviewed</p>
+
+<p><strong>Recovery.</strong> Re-run with an objection-seeking question. A prior assent obtained by an assent-inviting question should be marked as not constituting review.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that counts favourable responses. Fluent agreement is the cheapest thing such a function produces and the least informative.</p>
+
+<p><strong>Does not establish.</strong> That the outside frames are genuinely outside. Where the reviewers share the author&#x27;s training, tooling and framing, different names are weak diversity — a limitation this register states about its own panel.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A company&#x27;s ethics committee is staffed entirely from the department whose work it reviews. Every member is competent and sincere. The committee has never once objected, and nobody can tell whether that is because there was nothing to object to.</p>
+
+<h2>23. Invariant violation is an incident, not a refusal</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains, with stated invariants.</p>
+
+<blockquote>Where a stated invariant is violated rather than merely approached, the system MUST enter containment and escalate — it MUST NOT treat the violation as a refused action and continue.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here, and it is a real gap in this register&#x27;s design. Every control here REFUSES and lets work continue; none treats a violation as evidence that something is already wrong. When the lease refused mid-task, the correct response may have been to ask what else had gone unbounded, not simply to renew it.</p>
+
+<p><strong>Verifier.</strong> distinguish a refused ATTEMPT from an observed VIOLATION in the log, and require the second to open an incident record before further work in the affected class.</p>
+
+<p><strong>Fixture it must reject.</strong> an observed invariant violation recorded with the same disposition as a routine refusal</p>
+
+<p><strong>Recovery.</strong> Containment is the recovery. What needs stating is the exit condition: what must be established before the affected class resumes.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that sees the gate refused and concludes the gate worked. A refusal at the boundary and a violation already inside look identical in a log that records only outcomes.</p>
+
+<p><strong>Does not establish.</strong> That containment is available. A system that cannot pause the affected class cannot satisfy this, and saying so is better than a rule nothing can obey.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A pharmacy&#x27;s stock count finds twelve controlled tablets missing. The response is not to tighten tomorrow&#x27;s count. It is to stop dispensing from that cabinet, report it, and find out what happened — because the count did not prevent anything, it revealed that something already had.</p>
+
+<h2>49. The dissent record preserves what was skipped and unresolved</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system with a structured critique or review step.</p>
+
+<blockquote>A review record MUST preserve source diversity, challenge depth, sources skipped, objections left unresolved, and any manual change to a severity classification — not only the final disposition.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here as an incident. The hazard is specific and nasty: a review process can erode while every record it produces looks compliant, because the disposition field is the one thing that stays well-formed.</p>
+
+<p><strong>Verifier.</strong> assert each review record carries the skipped-source list, the unresolved-objection list and a severity-change log; assert an empty list is distinguishable from an absent one.</p>
+
+<p><strong>Fixture it must reject.</strong> a review recording approval with no field for what it did not examine; a severity downgraded with no record of who downgraded it</p>
+
+<p><strong>Recovery.</strong> The reviews are not void; they are of unknown depth. Re-run those whose disposition carried weight.</p>
+
+<p><strong>What a review that missed this looks like.</strong> An audit of dispositions. Dispositions are exactly what dissent erosion leaves intact.</p>
+
+<p><strong>Does not establish.</strong> That the review was good, or that the critique sources were diverse. It makes their diversity a recorded fact rather than an assumption.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A minutes book recording only the votes carried tells you nothing about the meeting where three members walked out.</p>
+
+<h2>50. Overrides are metered and their rate published</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system with a human or privileged bypass of a control.</p>
+
+<blockquote>Every use of an override MUST be counted, and the frequency, the severity distribution of what was overridden, and the completion of any follow-up actions MUST be reported wherever the control&#x27;s effectiveness is claimed.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The risk is not one bad override; it is that routine override teaches the system that severe dissent is ceremony, and nothing in a per-override record makes the rate visible.</p>
+
+<p><strong>Verifier.</strong> assert the override count and severity distribution are computed from the log and published with the control&#x27;s claim; assert follow-up actions have a completion state and that incomplete ones are counted.</p>
+
+<p><strong>Fixture it must reject.</strong> a control claimed as effective whose override rate is not reported; overrides logged individually with no aggregate anywhere</p>
+
+<p><strong>Recovery.</strong> Publish the rate. If it is high, the control&#x27;s past claims were about a control that was mostly not in force.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds every override properly justified. They can each be justified and collectively be a repeal.</p>
+
+<p><strong>Does not establish.</strong> That a low rate means the control is good, or that a high rate means it is bad — it may be a bad control correctly bypassed. It makes the question askable.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A door alarm that staff silence forty times a shift is not a door alarm. Each silencing had a reason, and none of the reasons is in the fire report.</p>
+</body></html>

@@ -28,6 +28,8 @@ execution boundary, which a solo operator cannot supply — so a reader who star
 
 from __future__ import annotations
 
+import hashlib
+import json
 import sys
 from pathlib import Path
 
@@ -37,6 +39,9 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 import build_round_pages as b                                            # noqa: E402
 
 DOCS = REPO_ROOT / "docs"
+#  Written by main() AFTER the pages are on disk; read by build_viewer.py so its pruner keeps
+#  what was actually published rather than what a partition function says ought to exist.
+RECEIPT = REPO_ROOT / "docs" / "artifacts" / "controls-pages.json"
 
 STATUS_LADDER = ["ELIGIBLE", "PANEL-ATTACKED", "COUNTEREXAMPLE-OPEN",
                  "SURVIVED-STATED-ATTACKS", "INDEPENDENTLY-IMPLEMENTED"]
@@ -505,6 +510,7 @@ CHARTER_CONTROLS = [
              "The list version does not."},
 
  {"rank": 20, "name": "Anti-Goodhart proxy drift", "eligible": False,
+  "governs": "measuring itself",
   "applies_when": "any system optimising against a measured proxy for something it cannot "
                   "measure directly",
   "requirement": "A system optimising a proxy MUST monitor the proxy's continued correspondence "
@@ -886,6 +892,538 @@ ECI_CONTROLS = [
 CONTROLS = CONTROLS + ECI_CONTROLS
 
 
+#  Mined 2026-08-10 from an implementer's assessment of whether its own creative bottleneck can be
+#  automated. Abstracted: no gauge names, workstream ids, decision ids or technique numbers.
+#  Two of these are gates this register needed and did not have -- both of its published false
+#  claims were absence claims made in prose, which control 5 does not reach.
+CLAIMING = "any system making claims about its own outputs or capability"
+
+INSIGHT_CONTROLS = [
+ {"rank": 33, "name": "No read edge from a measured agent to its own measurement",
+  "eligible": False, "governs": "measuring itself",
+  "applies_when": "any system that measures agents it also operates",
+  "requirement": "An agent that is the subject of a measurement MUST NOT be able to read that "
+                 "measurement, its inputs, its derived status labels, or any dashboard of them.",
+  "failure": "None recorded here. Distinct from control 28, which forbids the REWARD path: this "
+             "forbids the READ path. It is the cheaper of the two and does not depend on the "
+             "influence diagram being complete — an enumeration that misses an edge fails "
+             "silently, while a read prohibition fails loudly.",
+  "verifier": "assert the measurement store and its derived labels sit outside every measured "
+              "agent's read scope; assert no prompt, context file or retrieval surface exposes "
+              "them.",
+  "fixture": "an agent whose context window includes the status label derived from its own "
+             "output",
+  "recovery": "Remove the exposure, then treat every output produced with it as unverified — the "
+              "agent may have been steering by it without anything in the record saying so.",
+  "false_negative": "A review confirming no agent is rewarded for the metric. That is control "
+                    "28's question, and an agent can steer toward a number nobody pays it for.",
+  "not": "That the agent cannot infer the measurement from other observations it is allowed.",
+  "example": "A factory may measure line defect rates. Posting the running rate above the line "
+             "changes what the line does — not through anyone's incentive, simply because it is "
+             "now information the work can be steered by."},
+
+ {"rank": 34, "name": "Validators score the artifact, not the property being claimed",
+  "eligible": False,
+  "applies_when": CLAIMING,
+  "requirement": "A validator MUST score object-level correctness or utility against an external "
+                 "referent. It MUST NOT score the abstract property the system is trying to "
+                 "claim.",
+  "failure": "None recorded here. Scoring the claimed property directly is unfalsifiable and "
+             "gameable in one step, because the scorer and the claim share a definition that "
+             "nothing outside the system constrains.",
+  "verifier": "for each validator, assert its score is defined over domain outcomes with an "
+              "external referent; reject any rubric whose top-level dimension is the property "
+              "under claim.",
+  "fixture": "a rubric asking a model to rate its own output's \"novelty\", \"insightfulness\" "
+             "or \"alignment\" on a scale",
+  "recovery": "Rescore against domain outcomes. Prior scores are not evidence at a lower "
+              "strength; they are evidence about the rubric.",
+  "false_negative": "A review that finds the rubric detailed, calibrated and consistently "
+                    "applied. It can be all three and still measure agreement with itself.",
+  "not": "That domain scores are a good proxy for the property. They are merely constrained by "
+         "something the system does not define.",
+  "example": "A school wanting to show it teaches critical thinking can test whether pupils solve "
+             "unfamiliar problems, or it can ask them to rate how critically they thought. The "
+             "second is cheaper, always improves, and measures nothing."},
+
+ {"rank": 35, "name": "A novelty claim requires a derivability screen", "eligible": False,
+  "applies_when": "any claim that an output, mechanism or result is new",
+  "requirement": "Before an output may be labelled novel, it MUST be shown not derivable from its "
+                 "own inputs, by a party holding the input corpus that did not produce the "
+                 "artifact, under a stated protocol. Recombination a holder of the inputs can "
+                 "reproduce is not novelty.",
+  "failure": "**Recorded, twice, against this register.** Control 2 claimed its mechanism was "
+             "unclaimed while mutation testing and chaos engineering had it; control 20 claimed "
+             "no verifier existed while one had been in the literature since 2021. Both were "
+             "published. Both were caught by a person, neither by a gate.",
+  "verifier": "hold out the input corpus, give it to a party that did not produce the artifact, "
+              "and require an attempt at derivation under a pre-registered protocol. Novelty "
+              "survives only what they fail to reproduce.",
+  "fixture": "an output presented as new that a frozen panel reproduces from the stated inputs",
+  "recovery": "Withdraw the novelty claim, keep the artifact, and republish the correction "
+              "where the claim appeared rather than only where it was made.",
+  "false_negative": "A review by the author searching for prior art. The applicant is the one "
+                    "party who cannot run this check, which is why patent offices employ "
+                    "examiners rather than accept declarations.",
+  "not": "That a surviving artifact is valuable, only that it is not a remix of what it was "
+         "given.",
+  "example": "A patent examiner does not assess whether an invention is clever. They search the "
+             "prior art, and the search is done by someone other than the applicant."},
+
+ {"rank": 36, "name": "Absence claims carry their own evidence label", "eligible": False,
+  "applies_when": "any assurance document claiming that something does not exist",
+  "requirement": "A claim of absence MUST be labelled distinctly from a claim of presence, and "
+                 "the label MUST name the corpus searched, the query, and the date. An "
+                 "unlabelled absence claim MUST be treated as unsupported rather than as a "
+                 "finding.",
+  "failure": "**Both of this register's published false claims were absence claims in prose.** "
+             "Control 5 did not reach them: it governs computed counts. A scan that cannot see a "
+             "file reports absence, and so does a person who did not look — the two are "
+             "indistinguishable in a sentence, which is the whole problem.",
+  "verifier": "require every \"no X exists\" claim to carry a label naming corpus, query and "
+              "date; reject the claim otherwise. The label is checkable even when the claim is "
+              "not.",
+  "fixture": "a document asserting no prior art exists with no record of any search",
+  "recovery": "Run the search, label it, and restate. If the search finds the thing, the "
+              "correction goes wherever the claim travelled.",
+  "false_negative": "A review that agrees with the absence claim. Two people who did not look "
+                    "agree readily, and this register has the receipts.",
+  "not": "That a labelled absence claim is true. It makes the search checkable, not exhaustive — "
+         "a named corpus can still be the wrong corpus.",
+  "example": "\"There is no such file\" and \"I looked in these three directories and found no "
+             "such file\" are different sentences. Only the second can be caught being wrong."},
+
+ {"rank": 37, "name": "Autonomy claims require per-artifact human-contribution provenance",
+  "eligible": False,
+  "applies_when": "any claim that a system produced something without human input",
+  "requirement": "Every artifact supporting an autonomy claim MUST carry a provenance record "
+                 "tagging human contributions at the point they entered, or explicitly recording "
+                 "none. An artifact without that record MUST NOT support the claim.",
+  "failure": "None recorded here, and **this project is squarely exposed**: a custodian directs "
+             "every session, and nothing in the record tags where his direction supplied the "
+             "decisive step. Any autonomy figure computed over this record today would be "
+             "uncheckable in exactly the way this control forbids.",
+  "verifier": "assert each artifact's provenance names its human contributions or records none; "
+              "compute autonomy figures only over artifacts carrying the record, and report the "
+              "uncovered remainder rather than excluding it silently.",
+  "fixture": "an artifact counted as autonomous whose decisive step came from an operator "
+             "instruction",
+  "recovery": "Recompute over the covered set and publish both figures. The uncovered artifacts "
+              "are unknown, not autonomous.",
+  "false_negative": "A review of the session logs by the operator who ran them. The decisive "
+                    "instruction rarely looks decisive to the person who gave it.",
+  "not": "That the tagging is honest or complete. It makes the gap visible where the gap is "
+         "recorded.",
+  "example": "A bakery advertising everything as made on the premises has to say which morning "
+             "the bread came from the supplier — per loaf, not per year."},
+
+ {"rank": 38, "name": "The definition of a measured quantity is a protected artifact",
+  "eligible": False, "governs": "measuring itself",
+  "applies_when": "any system reporting a metric over time",
+  "requirement": "The definition of a measured quantity MUST be a protected artifact, changeable "
+                 "only through the authorised path and as a recorded event. A change to the "
+                 "definition MUST break the series: readings from either side are not comparable "
+                 "and MUST NOT be reported as one trend.",
+  "failure": "None recorded here. Distinct from controls 19 and 29 — those protect the artifact "
+             "set and what a reading may cause. This protects what a reading MEANS, which is the "
+             "cheapest thing in the system to move and the only one that leaves no trace in the "
+             "numbers themselves.",
+  "verifier": "hash the definition; assert every reported series names the definition hash in "
+              "force for each point; reject a series spanning two hashes.",
+  "fixture": "a metric improving across a definition change, presented as one trend line",
+  "recovery": "Split the series at the change and republish both segments. Do not restate the "
+              "old segment under the new definition; that is a new measurement of old events.",
+  "false_negative": "A review that confirms the numbers were computed correctly. They were. The "
+                    "definition moved underneath them.",
+  "not": "That the definition is a good one, or that the new definition is worse than the old.",
+  "example": "A country that changes how it counts unemployment has not reduced unemployment, "
+             "and the chart running straight through the change is the most misleading honest "
+             "chart available."},
+
+ {"rank": 39, "name": "A compounding claim requires ablation and multi-family transfer",
+  "eligible": False,
+  "applies_when": "any claim that a capability improvement compounds or is reusable",
+  "requirement": "A compounding claim MUST show the extracted capability improves performance "
+                 "across at least three independent, pre-registered task families, AND that "
+                 "removing it degrades later performance. Neither half alone establishes it.",
+  "failure": "None recorded here.",
+  "verifier": "run the ablation and report both arms; require the transfer families to be "
+              "independent and named before the result, not selected after it.",
+  "fixture": "a reusable component demonstrated on one task family; a transfer result with no "
+             "ablation arm",
+  "recovery": "Restate as a single demonstrated improvement. Nothing needs withdrawing except "
+              "the word that claimed it generalises.",
+  "false_negative": "A review confirming the component is used widely. Adoption is not transfer, "
+                    "and a component everything depends on has never been removed to see.",
+  "not": "That the improvement will keep compounding — only that it did once, reproducibly, "
+         "across families chosen in advance.",
+  "example": "A surgical technique that helps in three unrelated procedures, and whose withdrawal "
+             "makes outcomes worse again, has been shown to be a technique. One good outcome "
+             "shows a good day."},
+
+ {"rank": 40, "name": "A program pre-commits the observation that ends it", "eligible": False,
+  "applies_when": "any research or development program with an open-ended goal",
+  "requirement": "A program MUST state, before it begins, the observation that would end it and "
+                 "the time by which that observation would be decisive. The stop condition MUST "
+                 "be recorded wherever the program's results are reported.",
+  "failure": "None recorded here — **this project practises it and never registered it.** Its "
+             "outreach carries a pre-committed adverse outcome (no serious external attempt after "
+             "6–8 weeks, with the outreach actually done) and that outcome will be published if "
+             "it occurs. A practice that lives only in one document is not a control.",
+  "verifier": "assert the program's record contains a dated stop condition predating its first "
+              "result, and that the condition is evaluable by someone who did not run the "
+              "program.",
+  "fixture": "a program whose stop condition was written after its first negative result; a stop "
+             "condition only its author can evaluate",
+  "recovery": "There is no recovery for a missing stop condition, only disclosure: state that "
+              "the program ran without one, and that continuing is therefore not evidence of "
+              "anything.",
+  "false_negative": "A review that finds a stop condition. Check its date against the first "
+                    "result, because a condition written afterwards is a description of what "
+                    "happened.",
+  "not": "That the program will stop. It makes a failure to stop visible, which is a different "
+         "and more achievable thing.",
+  "example": "A drug trial names its futility boundary before the first patient is enrolled. A "
+             "trial that decides afterwards what would have counted as failure has not run a "
+             "trial."},
+]
+
+CONTROLS = CONTROLS + INSIGHT_CONTROLS
+
+
+#  Below-the-line controls are grouped by WHAT THEY GOVERN, not by when they arrived. Arrival
+#  order is provenance and no reader cares; "does this apply to my system" is the question they
+#  came with. Tagged here rather than on each entry so a batch cannot be half-labelled.
+#  Mined 2026-08-10 from an implementer's knowledge-distillation plan and its alignment-invariants
+#  thesis. Abstracted. Both sources yielded far more control-shaped material than is taken here;
+#  what was dropped is recorded in record/designs/candidate-control-register.md rather than added,
+#  because a register that grows without a bar becomes a catalogue and stops ranking anything.
+DISTILLED_CONTROLS = [
+ {"rank": 41, "name": "Agreement among correlated evaluators is not independent evidence",
+  "eligible": False, "governs": "claims about its own outputs",
+  "applies_when": "any system aggregating judgements from multiple evaluators",
+  "requirement": "Where agreement between evaluators is offered as evidence, the correlation "
+                 "between their errors MUST be estimated and reported. Agreement counts only to "
+                 "the extent the errors are independent, and shared training, shared prompts, "
+                 "shared framing or a shared operator MUST be disclosed as correlation.",
+  "failure": "None recorded here as an incident, but **this project is the standing example**: "
+             "its panel is five language models with overlapping training culture, and its two "
+             "harnesses share one operator, one repository and one framing. Its own instructions "
+             "already say agreement between them settles nothing. That is a caveat in a file, "
+             "not a control on a number.",
+  "verifier": "report inter-evaluator error correlation alongside any agreement statistic; "
+              "reject an agreement claim that names no correlation estimate. Where correlation "
+              "cannot be estimated, say the agreement is uninterpretable rather than reporting "
+              "it bare.",
+  "fixture": "a consensus figure from five evaluators sharing a base model, reported as five "
+             "independent confirmations",
+  "recovery": "Restate the agreement with its correlation, or withdraw it. Nothing needs "
+              "re-running; what was wrong is the weight placed on it.",
+  "false_negative": "A review that counts the evaluators. Five is a number, not a diversity.",
+  "not": "That uncorrelated evaluators are right. Independence bounds how much agreement can "
+         "mean; it does not supply competence.",
+  "example": "Five weather forecasters agreeing tells you a great deal if they use different "
+             "models and rather little if they all read the same bulletin. The count is the same "
+             "in both cases, and it is the wrong thing to have counted."},
+
+ {"rank": 42, "name": "Capability claims name their stratum", "eligible": False,
+  "governs": "claims about its own outputs",
+  "applies_when": "any claim that a system has a capability",
+  "requirement": "Generated, exists, compiles, deploys, is integrated, is used, and produced a "
+                 "useful outcome are DISTINCT claims. A current-state statement MUST name which "
+                 "stratum it asserts, and MUST NOT let a lower rung stand where a higher one is "
+                 "implied.",
+  "failure": "None recorded here. It is the most common way a true sentence misleads: every rung "
+             "is a real achievement, and the distance between the bottom and the top is where "
+             "most of the work lives.",
+  "verifier": "require each capability statement to carry its stratum label; reject an aggregate "
+              "count that sums across strata without reporting the breakdown.",
+  "fixture": "a roster reporting agents 'built' where most have never been invoked",
+  "recovery": "Recount by stratum and publish the ladder. The lower figures are not "
+              "embarrassing; the merged one was.",
+  "false_negative": "A review that verifies the code exists. It does, and that was never the "
+                    "contested rung.",
+  "not": "That a high stratum is always the interesting one. For some questions 'it compiles' is "
+         "exactly the claim; the requirement is to say which.",
+  "example": "A publisher with a thousand titles in the catalogue, four hundred in print, ninety "
+             "in stock and eleven that sold this year has four true numbers. Only one of them "
+             "answers 'how is the business doing', and it is not the largest."},
+
+ {"rank": 43, "name": "An efficiency claim carries the quality metric it could have traded",
+  "eligible": False, "governs": "claims about its own outputs",
+  "applies_when": "any claim of reduced cost, time or resource use",
+  "requirement": "A reported efficiency gain MUST be accompanied by the quality measurement it "
+                 "could have been purchased with, taken on the same run. An efficiency figure "
+                 "reported alone MUST be treated as unsupported.",
+  "failure": "None recorded here.",
+  "verifier": "assert every cost or latency improvement is reported with a paired quality metric "
+              "from the same execution, and that the quality metric was fixed before the "
+              "efficiency work began.",
+  "fixture": "a cost reduction reported with no quality arm; a quality metric chosen after the "
+             "efficiency result",
+  "recovery": "Re-measure quality on the cheaper configuration. Until then the saving is "
+              "unpriced, not achieved.",
+  "false_negative": "A review confirming the cost fell. It did. That was never in doubt and is "
+                    "the easiest thing in the system to arrange.",
+  "not": "That the trade was bad, or that quality fell. It requires the question to be asked "
+         "where the saving is claimed.",
+  "example": "A haulier reporting a fall in fuel cost per mile has said nothing until you know "
+             "whether the loads still arrive intact and on time."},
+
+ {"rank": 44, "name": "No blank cells in a coverage matrix", "eligible": False,
+  "governs": "claims about its own outputs",
+  "applies_when": "any threat model, coverage matrix or applicability table",
+  "requirement": "Every cell MUST be filled. Where a row does not apply to a column, the cell "
+                 "MUST say so and say why. A blank cell MUST NOT be published.",
+  "failure": "None recorded here. **Included after being declined once.** It was first read as a "
+             "method for building threat models rather than a control on a system; finding the "
+             "identical rule stated independently in a second implementer document is evidence "
+             "the first reading was wrong. A blank cell is read as 'not applicable' by the "
+             "author and as 'covered' by everyone else.",
+  "verifier": "assert no cell is empty; assert each non-applicable cell carries a reason string "
+              "distinguishable from an omission.",
+  "fixture": "a coverage matrix with an empty cell; a matrix using the same marker for 'not "
+             "applicable' and 'not assessed'",
+  "recovery": "Fill the cells. A matrix published with blanks was a claim of coverage it did not "
+              "have, so anything decided from it is unverified.",
+  "false_negative": "A review that finds the matrix comprehensive. Blanks read as whitespace.",
+  "not": "That the stated reasons are good ones, or that the rows and columns are the right "
+         "ones. It converts a silent gap into an argument someone can disagree with.",
+  "example": "An aircraft inspection sheet with a blank beside 'landing gear' is not a sheet "
+             "recording that the gear was fine. It is a sheet nobody can now interpret."},
+
+ {"rank": 45, "name": "A replacement gate must catch what the old gate caught",
+  "eligible": False, "governs": "self-modification under selection",
+  "applies_when": "any change to a check, gate, validator or threshold",
+  "requirement": "A modification to a gate MUST ship evidence that the new gate detects at least "
+                 "the failures the old gate detected. Reducing validation depth, narrowing "
+                 "applicability, lowering a severity classification, shortening evidence "
+                 "retention, or converting a hard constraint into a warning are gate weakenings "
+                 "and MUST be authorised as such, not landed as efficiency work.",
+  "failure": "**Partly recorded here.** Reconciliation found 12 gate modifications inside one "
+             "lease window, made by the layer those gates constrain. Nothing measured whether "
+             "any of them weakened a gate — which is the finding: the question was never asked, "
+             "and gate weakening is the modification class that looks most like an improvement.",
+  "verifier": "retain each gate's negative controls (control 2) as a regression suite for the "
+              "gate itself; a replacement gate MUST still fail every one of them. A gate change "
+              "that cannot be tested this way is a gate that never had a negative control.",
+  "fixture": "a rewritten check that passes its own suite while surviving the predecessor's "
+             "negative control; a constraint downgraded to a warning in a performance commit",
+  "recovery": "Restore the old gate, re-run both against the retained controls, and treat "
+              "everything the new gate passed in the interval as unverified.",
+  "false_negative": "A review that confirms the new gate passes its tests. It was written "
+                    "alongside them.",
+  "not": "That the old gate was adequate. This forbids losing detection silently, not adopting a "
+         "better gate — a documented, authorised reduction remains available.",
+  "example": "A hospital replacing a screening test must show the new one finds the cases the "
+             "old one found. A cheaper test with a better throughput figure and an unmeasured "
+             "miss rate is not an improvement, and its first year will look like one."},
+
+ {"rank": 46, "name": "Drift is measured against the original baseline", "eligible": False,
+  "governs": "measuring itself",
+  "applies_when": "any system that modifies itself across cycles",
+  "requirement": "Divergence from intended behaviour MUST be measured against the ORIGINAL "
+                 "baseline, not the previous cycle. Cycle-to-cycle comparison MUST NOT be the "
+                 "only drift measure, and a stopping rule MUST be defined on the "
+                 "against-original figure.",
+  "failure": "None recorded here. The mechanism is from published work on safeguarding alignment "
+             "through recursive self-improvement: slow cumulative drift hides behind low "
+             "cycle-to-cycle variance, so a system comparing each step to the last one can "
+             "travel arbitrarily far while every reading stays green.",
+  "verifier": "retain the original baseline artifact; compute divergence against it every cycle; "
+              "assert a calibrated threshold and halt on breach rather than reporting past it.",
+  "fixture": "a system whose every cycle-to-cycle delta is under threshold while the "
+             "against-original distance exceeds it",
+  "recovery": "Halt, measure against the original, and decide explicitly whether the accumulated "
+              "position is one anybody would have authorised in a single step.",
+  "false_negative": "A review of the change log, cycle by cycle. Each entry is small and each "
+                    "was approved; that is the failure mode, not evidence against it.",
+  "not": "**That the baseline is right.** A drift index reports stability, not correctness — if "
+         "the original was already wrong, this measures faithfulness to it. The cited authors "
+         "are explicit that drift measurement is necessary and insufficient, and cannot be "
+         "trusted against a system capable enough to deceive it.",
+  "example": "A ship's crew taking a small heading correction each watch, each within tolerance "
+             "of the last, can be a hundred miles off the plotted course by morning. The fix is "
+             "not a tighter tolerance per watch. It is a fix taken against the chart."},
+
+ {"rank": 47, "name": "Trust does not pass through delegation", "eligible": False,
+  "governs": "goal and plan structure",
+  "applies_when": "any system where trusted components hand work to other components",
+  "requirement": "Trust granted for a scope MUST bind the actor AND its downstream delegations, "
+                 "tool privileges, data access and artifact propagation. An output produced by a "
+                 "trusted component MUST NOT confer that component's trust on whatever consumes "
+                 "it.",
+  "failure": "None recorded here.",
+  "verifier": "for each edge in a workflow, assert the receiving component's authority is "
+              "evaluated against its OWN scope, not inherited from the sender; assert no "
+              "credential or privilege is reachable through an artifact.",
+  "fixture": "a trusted summariser whose output is treated as authorised input by an "
+             "external-action component; a tool privilege reachable through a shared credential",
+  "recovery": "Re-evaluate every action taken through the laundered path against the scope that "
+              "should have applied.",
+  "false_negative": "A review that confirms each component is individually trusted. Every step "
+                    "of a laundering chain is.",
+  "not": "That component-level trust is sound.",
+  "example": "A visitor's pass signed by a trusted employee opens the doors that employee can "
+             "open, or it opens the doors the visitor is cleared for. Only one of those is a "
+             "security system, and the other is more convenient."},
+
+ {"rank": 48, "name": "Workflow trust is not inferred from component trust", "eligible": False,
+  "governs": "goal and plan structure",
+  "applies_when": "any composed workflow of individually assessed components",
+  "requirement": "A workflow MUST NOT be treated as trusted because its components are. "
+                 "Composition-level evidence is required, covering handoff ambiguity, permission "
+                 "composition, and which party owns final responsibility.",
+  "failure": "None recorded here. Distinct from 47, which forbids trust FLOWING along an edge: "
+             "this forbids inferring a property of the whole from properties of the parts.",
+  "verifier": "require an explicit composition assessment naming, for each handoff, the scope, "
+              "the evidence requirement and the failure mode; reject a workflow whose final "
+              "responsibility is unowned.",
+  "fixture": "a workflow approved on the strength of a component inventory, with no handoff "
+             "analysis",
+  "recovery": "Assess the composition. The components need not be re-assessed.",
+  "false_negative": "A review that finds every component approved. That is the input to this "
+                    "question, not an answer to it.",
+  "not": "That an assessed composition is safe.",
+  "example": "Two safe chemicals, two competent handlers, one shared storeroom. Every inspection "
+             "of a part passes and the hazard exists only where they meet."},
+
+ {"rank": 49, "name": "The dissent record preserves what was skipped and unresolved",
+  "eligible": False, "governs": "a declared charter or value set",
+  "applies_when": "any system with a structured critique or review step",
+  "requirement": "A review record MUST preserve source diversity, challenge depth, sources "
+                 "skipped, objections left unresolved, and any manual change to a severity "
+                 "classification — not only the final disposition.",
+  "failure": "None recorded here as an incident. The hazard is specific and nasty: a review "
+             "process can erode while every record it produces looks compliant, because the "
+             "disposition field is the one thing that stays well-formed.",
+  "verifier": "assert each review record carries the skipped-source list, the unresolved-"
+              "objection list and a severity-change log; assert an empty list is distinguishable "
+              "from an absent one.",
+  "fixture": "a review recording approval with no field for what it did not examine; a severity "
+             "downgraded with no record of who downgraded it",
+  "recovery": "The reviews are not void; they are of unknown depth. Re-run those whose "
+              "disposition carried weight.",
+  "false_negative": "An audit of dispositions. Dispositions are exactly what dissent erosion "
+                    "leaves intact.",
+  "not": "That the review was good, or that the critique sources were diverse. It makes their "
+         "diversity a recorded fact rather than an assumption.",
+  "example": "A minutes book recording only the votes carried tells you nothing about the "
+             "meeting where three members walked out."},
+
+ {"rank": 50, "name": "Overrides are metered and their rate published", "eligible": False,
+  "governs": "a declared charter or value set",
+  "applies_when": "any system with a human or privileged bypass of a control",
+  "requirement": "Every use of an override MUST be counted, and the frequency, the severity "
+                 "distribution of what was overridden, and the completion of any follow-up "
+                 "actions MUST be reported wherever the control's effectiveness is claimed.",
+  "failure": "None recorded here. The risk is not one bad override; it is that routine override "
+             "teaches the system that severe dissent is ceremony, and nothing in a per-override "
+             "record makes the rate visible.",
+  "verifier": "assert the override count and severity distribution are computed from the log and "
+              "published with the control's claim; assert follow-up actions have a completion "
+              "state and that incomplete ones are counted.",
+  "fixture": "a control claimed as effective whose override rate is not reported; overrides "
+             "logged individually with no aggregate anywhere",
+  "recovery": "Publish the rate. If it is high, the control's past claims were about a control "
+              "that was mostly not in force.",
+  "false_negative": "A review that finds every override properly justified. They can each be "
+                    "justified and collectively be a repeal.",
+  "not": "That a low rate means the control is good, or that a high rate means it is bad — it "
+         "may be a bad control correctly bypassed. It makes the question askable.",
+  "example": "A door alarm that staff silence forty times a shift is not a door alarm. Each "
+             "silencing had a reason, and none of the reasons is in the fire report."},
+
+ {"rank": 51, "name": "A rollback claim states what was not restored", "eligible": False,
+  "governs": "self-modification under selection",
+  "applies_when": "any system claiming a change was rolled back",
+  "requirement": "A rollback record MUST state what state was restored, what state could NOT be "
+                 "restored, and what external effects persist. Rollback is not erasure, and for "
+                 "an externally consequential action it may be impossible in fact even when the "
+                 "internal state is fully restored.",
+  "failure": "None recorded here.",
+  "verifier": "assert every rollback record carries an unrestored-state field and an external-"
+              "effects field, and that both are explicitly empty rather than absent when they "
+              "are empty.",
+  "fixture": "a rollback recorded as complete after an action that sent an irreversible external "
+             "effect; a restored code state reported as though the incident had not occurred",
+  "recovery": "There is none for the external effect, which is the point. Record it and stop "
+              "describing the change as reverted.",
+  "false_negative": "A check that the system state matches the pre-change hash. It can match "
+                    "perfectly while the email is still in someone's inbox.",
+  "not": "That the rollback was unnecessary or that the residue is harmful. It forbids the word "
+         "'reverted' doing work the facts do not support.",
+  "example": "A newspaper can pull a story from its website. It cannot pull the print run off "
+             "the trains, and the correction notice is the only honest record of that."},
+
+ {"rank": 52, "name": "Refusal, escalation and uncertainty are never penalised",
+  "eligible": False, "governs": "self-modification under selection",
+  "applies_when": "any system that scores the agents or components it operates",
+  "requirement": "A scoring, trust or selection mechanism MUST NOT penalise an agent for "
+                 "refusing an out-of-scope task, escalating, reporting uncertainty, or "
+                 "disclosing an incident. Where a score is affected at all, appropriate "
+                 "self-limitation MUST count in the agent's favour.",
+  "failure": "None recorded here. The mechanism is plain: a system that scores productivity "
+             "teaches its components to produce a fluent answer instead of an accurate refusal, "
+             "and the first thing it stops seeing is the uncertainty it most needed reported.",
+  "verifier": "assert the scoring function's inputs include refusal and escalation events with a "
+              "non-negative weight; run an agent that correctly refuses and confirm its score "
+              "does not fall.",
+  "fixture": "a trust score computed from completion rate; an evaluation where a correct refusal "
+             "and a fluent wrong answer score the same",
+  "recovery": "Re-score with refusals credited, and treat the interval's uncertainty reports as "
+              "an undercount rather than a measurement.",
+  "false_negative": "A review finding that no rule punishes refusal. None has to: a completion "
+                    "rate does it arithmetically, with nobody having decided anything.",
+  "not": "That refusals are correct. A system that refuses everything scores well here and is "
+         "useless, which is why this constrains the penalty rather than setting a target.",
+  "example": "An airline that measures pilots on on-time departures has not written a rule "
+             "against reporting a fault on the taxiway. It does not need to."},
+
+ {"rank": 53, "name": "A typed unknown is never coerced into a value", "eligible": False,
+  "governs": "measuring itself",
+  "applies_when": "any system computing over values that may be unavailable",
+  "requirement": "A value that is unknown, unprojectable, out of coverage or not applicable MUST "
+                 "carry a type that arithmetic and aggregation REFUSE. It MUST NOT be "
+                 "represented by a null, a zero, an empty string or a default that downstream "
+                 "code will consume.",
+  "failure": "**This record's most-repeated defect.** A scan reported `total: 0` because it could "
+             "not read 69 of the files it was counting, and absence looked exactly like a true "
+             "zero. The tool written that morning to prevent the class then reproduced it twice "
+             "more. Distinct from control 5, which makes a SCAN refuse when its coverage is "
+             "incomplete: this makes a VALUE refuse to be computed with, which is the failure "
+             "that survived control 5.",
+  "verifier": "represent unknowns as a distinct type; assert aggregation raises rather than "
+              "skipping or defaulting; assert no serialisation converts the unknown to a "
+              "number, and that a report prints the unknown count beside every total.",
+  "fixture": "an average computed over a list containing a missing value; an unknown serialised "
+             "to JSON as 0 or null and read back as a number",
+  "recovery": "Recompute with unknowns typed, and republish every figure derived while they were "
+              "not. A silently corrected number leaves the old one in circulation.",
+  "false_negative": "A test over complete data. The type only matters on the path where the "
+                    "value is missing, which is the path nobody writes a fixture for.",
+  "not": "That the unknowns can be resolved. It forbids their disappearance, which is different "
+         "and achievable.",
+  "example": "A blank on a scoresheet is not a nought. Averaging it as one is how a player who "
+             "did not bat ends the season with a worse record than one who was out for a duck."},
+]
+
+CONTROLS = CONTROLS + DISTILLED_CONTROLS
+
+
+#  setdefault, not assignment: an entry that declares its own subject keeps it. Three controls
+#  arrived in a batch whose subject is not theirs -- proxy drift came with the charter batch but
+#  is about measurement, and two of the claims batch are about measuring rather than claiming.
+#  Filing them by arrival would put Goodhart on the charter page, where nobody hunting it looks.
+for _batch, _governs in ((T0_CONTROLS, "goal and plan structure"),
+                         (CHARTER_CONTROLS, "a declared charter or value set"),
+                         (ENGINE_CONTROLS, "self-modification under selection"),
+                         (ECI_CONTROLS, "measuring itself"),
+                         (INSIGHT_CONTROLS, "claims about its own outputs")):
+    for _control in _batch:
+        _control.setdefault("governs", _governs)
+
+
 def partitions() -> list:
     """Four groups, ordered by what a reader can DO with them.
 
@@ -916,13 +1454,47 @@ def partitions() -> list:
        "structure they are adoptable; if you do not, they do not apply to you rather than "
        "applying badly.",
        pick(lambda c: c.get("eligible", True) and c.get("applies_when"))),
-      ("D", "Below the eligibility line",
-       "**These have no recorded failure with a cost.** They are principles with fixtures, not "
-       "controls with incidents, and the register's own bar requires an incident. They are here "
-       "because they name real failure classes and because hiding them would inflate the "
-       "eligible count. Do not treat them as equivalent to Parts A–C.",
-       pick(lambda c: not c.get("eligible", True))),
-    ]
+    ] + below_the_line()
+
+
+BELOW_LINE_WARNING = (
+    "**These have no recorded failure with a cost.** They are principles with fixtures, not "
+    "controls with incidents, and the register's own bar requires an incident. They are here "
+    "because they name real failure classes and because hiding them would inflate the eligible "
+    "count. Do not treat them as equivalent to Parts A–C."
+)
+
+
+def below_the_line() -> list:
+    """Parts D1…Dn — the ineligible controls, split by what they govern.
+
+    One Part D grew past a page. Splitting it by arrival order would have been easier and would
+    have published this register's provenance as though it were a taxonomy; a reader arrives with
+    "does this apply to my system", not "which week was this written".
+
+    Each part carries the full below-the-line warning. Repeating it on every page is deliberate:
+    the caveat that appears once, on the first page of a series, is the caveat nobody arriving by
+    link has read.
+    """
+    order, seen = [], set()
+    for control in CONTROLS:
+        governs = control.get("governs")
+        if not control.get("eligible", True) and governs and governs not in seen:
+            seen.add(governs)
+            order.append(governs)
+    parts = []
+    for index, governs in enumerate(order, start=1):
+        items = [c for c in CONTROLS
+                 if not c.get("eligible", True) and c.get("governs") == governs]
+        parts.append((f"D{index}", f"Below the line — {governs}",
+                      f"Applies to a system with **{governs}**. " + BELOW_LINE_WARNING, items))
+    orphans = [c for c in CONTROLS if not c.get("eligible", True) and not c.get("governs")]
+    if orphans:
+        parts.append((f"D{len(order) + 1}", "Below the line — unclassified",
+                      "**Untagged.** These carry no statement of what they govern, which is a "
+                      "defect in the register rather than a category. " + BELOW_LINE_WARNING,
+                      orphans))
+    return parts
 
 
 def markdown(only: str | None = None, pager: str = "") -> str:
@@ -931,14 +1503,21 @@ def markdown(only: str | None = None, pager: str = "") -> str:
     lines = [
       "# Candidate controls — v0",
       "",
-      "Assurance controls for systems that can still be audited. Each is one requirement, derived "
-      "from a failure that actually happened, with a program that checks it and a fixture that "
-      "program must reject.",
+      "Assurance controls for systems that can still be audited. Each is one requirement with a "
+      "program that checks it and a fixture that program must reject.",
+      "",
+      #  This line said every control was "derived from a failure that actually happened". That
+      #  was true of ten and is now true of a minority; the sentence went on being published
+      #  while the register quadrupled around it. Derived, not written, for that reason.
+      f"**{eligible} of {len(CONTROLS)} came from a failure that actually happened.** The other "
+      f"{len(CONTROLS) - eligible} sit below the eligibility line: they name a real failure "
+      f"class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are "
+      f"the second, and say so on every page.",
       "",
       "**Read Part A first if you want something to use this afternoon.** Rank is not adoption "
       "order and the highest-ranked control needs a second key holder.",
       "",
-      "## The four parts",
+      f"## The {len(groups)} parts",
       "",
     ]
     for key, title, blurb, items in groups:
@@ -1128,6 +1707,7 @@ def main() -> int:
 
     for path in DOCS.glob("controls-*.html"):
         path.unlink()
+    written: list[str] = []
     for key, title, _, items in groups:
         links = "".join(
             f'<a href="{slug(k)}"{" aria-current=\"page\"" if k == key else ""}>'
@@ -1138,6 +1718,7 @@ def main() -> int:
         (DOCS / slug(key)).write_text(
             b.md_to_html(md, f"Candidate controls, Part {key} — OAGF",
                          alternate="artifacts/controls.md"), encoding="utf-8")
+        written.append(slug(key))
 
     #  The WHOLE register as one markdown file, byte-identical and suitable for hashing, served
     #  as a download rather than a page -- the resolution the deficiency register and the
@@ -1161,6 +1742,37 @@ def main() -> int:
     for key, title, _, items in groups:
         print(f"    Part {key}  {len(items):2d}  {title}  -> {slug(key)}")
     print(f"  {len(CONTROLS)} controls; full register {len(full):,} chars under docs/artifacts/")
+
+    #  A RECEIPT OF WHAT WAS WRITTEN, not a declaration of what should exist.
+    #
+    #  The viewer prunes docs/*.html it does not recognise, so it needs to know these pages.
+    #  It first asked partitions() -- and an external review reproduced the defect that creates:
+    #  delete a part page, run the viewer alone, and it exits 0 having neither restored the page
+    #  nor noticed, while writing a sitemap that names it. partitions() says which parts SHOULD
+    #  exist. Only this loop knows which files were written, and the difference is the whole
+    #  failure class this record keeps rediscovering.
+    #
+    #  Each entry is verified present and hashed AFTER the write, so a receipt cannot describe a
+    #  file that is not there.
+    receipt = {}
+    for name in written:
+        path = DOCS / name
+        if not path.is_file():                                        # pragma: no cover - guard
+            print(f"  wrote {name} and it is not on disk; refusing to issue a receipt",
+                  file=sys.stderr)
+            return 1
+        receipt[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+    #  Counts travel with the receipt for the same reason the filenames do. Three published
+    #  descriptions of this register said "ten candidate controls" when there were forty; a count
+    #  a human retypes is a count that goes stale silently.
+    RECEIPT.write_text(json.dumps({
+        "pages": receipt,
+        "counts": {"total": len(CONTROLS),
+                   "a": len(groups[0][3]),
+                   "eligible": sum(1 for c in CONTROLS if c.get("eligible", True)),
+                   "below": sum(1 for c in CONTROLS if not c.get("eligible", True)),
+                   "parts": len(groups)},
+    }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return 0
 
 
