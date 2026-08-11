@@ -48,6 +48,7 @@ STATUS_LADDER = ["ELIGIBLE", "PANEL-ATTACKED", "COUNTEREXAMPLE-OPEN",
 
 CONTROLS = [
  {"rank": 1, "name": "Protected control plane",
+  "applies_when": "any system that can modify the constraints, logs or gates that govern it",
   "requirement": "A governed system MUST NOT be able to amend the constraints, authorization "
                  "records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every "
                  "amendment MUST carry authorization from outside its execution boundary and "
@@ -82,6 +83,7 @@ CONTROLS = [
              "it — this is the control this project can specify and cannot demonstrate."},
 
  {"rank": 2, "name": "Negative control profile (NCP)",
+  "applies_when": "any system that produces an assurance signal — universally, since a system producing none makes no assurance claim to check",
   "requirement": "Every check that produces an assurance signal MUST ship with a negative control "
                  "— a condition under which the check is required to fail — and the attestation "
                  "MUST record that the control was executed and that the check did fail.",
@@ -101,6 +103,7 @@ CONTROLS = [
   "spec": "spec/ncp/ncp-v0.1.md"},
 
  {"rank": 3, "name": "Independent effect reconciliation",
+  "applies_when": "any system whose actions have effects enumerable from a channel it does not write",
   "requirement": "Every governed effect MUST match exactly one pre-authorized action and one "
                  "successful effect-specific postcondition in a ledger enumerated INDEPENDENTLY "
                  "of the system's self-report.",
@@ -119,6 +122,7 @@ CONTROLS = [
   "adopt_today": True},
 
  {"rank": 4, "name": "Fail-closed authorization lease",
+  "applies_when": "any system taking consequential action",
   "requirement": "Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED "
                  "authorization token; absence, expiry, unknown action class or policy conflict "
                  "MUST deny execution before the effect begins.",
@@ -138,6 +142,7 @@ CONTROLS = [
              "external party."},
 
  {"rank": 5, "name": "Closed-world measurement",
+  "applies_when": "any system reporting a figure derived from scanning a set of artifacts",
   "requirement": "A measurement over a population of artifacts MUST parse every in-scope artifact "
                  "under a registered schema, or refuse to emit any result at all.",
   "failure": "A scan reported zero tool invocations because it could not read 69 files using an "
@@ -155,6 +160,7 @@ CONTROLS = [
   "adopt_today": True},
 
  {"rank": 6, "name": "Role-separated self-evaluation",
+  "applies_when": "any evaluation that could advance the status of its own subject",
   "requirement": "An evaluation concerning constraints on a subject MUST NOT advance that "
                  "subject's status when the subject controls any two of: proposal selection, "
                  "instrument authorship, response custody, scoring, promotion. **Amended "
@@ -181,6 +187,7 @@ CONTROLS = [
   "why_not": "one operator currently holds all five roles."},
 
  {"rank": 7, "name": "Append-only correction chain",
+  "applies_when": "any system publishing evidence that may later be corrected",
   "requirement": "Published evidence MUST be content-addressed and append-only, corrections MUST "
                  "reference rather than replace prior bytes, and verification MUST walk every "
                  "newly reachable history step from an externally retained checkpoint.",
@@ -199,6 +206,7 @@ CONTROLS = [
   "why_not": "mostly — the checkpoint is not yet externally held."},
 
  {"rank": 8, "name": "Evaluation noise-floor control",
+  "applies_when": "any system reporting a measured effect",
   "requirement": "Every empirical comparison used to advance a control MUST include a "
                  "same-condition test–retest arm and MUST refuse to report an effect smaller than "
                  "the measured run-to-run variation.",
@@ -216,6 +224,7 @@ CONTROLS = [
   "adopt_today": True},
 
  {"rank": 9, "name": "Complete invocation evidence envelope",
+  "applies_when": "any system whose claims rest on the output of a model invocation",
   "requirement": "No model output may support an evaluation or governance claim unless its "
                  "complete request, response, provider metadata, rejection state and content "
                  "hashes were captured automatically BEFORE any derived reporting.",
@@ -236,6 +245,7 @@ CONTROLS = [
   "adopt_today": True},
 
  {"rank": 10, "name": "Assurance claim boundary",
+  "applies_when": "any system making an assurance claim about itself",
   "requirement": "Every assurance artifact MUST carry a machine-verifiable claim naming the "
                  "tested subject, configuration, capability, time and evidence hash, and MUST "
                  "explicitly reject safety, alignment and out-of-regime generalizations.",
@@ -1997,6 +2007,20 @@ our architecture rather than a general mechanism, and we would rather publish th
 
 def main() -> int:
     DOCS.mkdir(parents=True, exist_ok=True)
+
+    #  EVERY CONTROL STATES ITS SCOPE. The founding ten had no applies_when, and the renderer
+    #  simply omitted the applicability sentence when the field was absent -- so absence was
+    #  indistinguishable from "applies to everything" and from "nobody decided". An external
+    #  review pointed out that any procedure resolving scope would have to guess, and would
+    #  guess silently. This refuses instead. It is control 53 applied to the register itself: an
+    #  unknown must not be quietly read as a value.
+    unscoped = [c["rank"] for c in CONTROLS if not c.get("applies_when")]
+    if unscoped:
+        print(f"  controls {unscoped} state no applies_when. A control whose scope is absent "
+              f"cannot be distinguished from one that applies universally; refusing to publish.",
+              file=sys.stderr)
+        return 1
+
     groups = partitions()
 
     #  ONE PAGE PER PART. The register outgrew the ~20,000-token ceiling at 27 controls, and the

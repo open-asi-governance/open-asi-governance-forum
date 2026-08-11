@@ -8,15 +8,15 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
 ## The 8 parts
 
-**Part A — Adopt today, alone** · 8 control(s)
+**Part A — Adopt today, alone** · 0 control(s)
 
   Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.
 
-**Part B — Needs a second party** · 2 control(s)
+**Part B — Needs a second party** · 0 control(s)
 
   These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
 
-**Part C — Needs a goal or plan graph** · 3 control(s)
+**Part C — Needs a goal or plan graph** · 13 control(s)
 
   These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
@@ -62,9 +62,53 @@ What these actually do is narrower: **they make the operator's own errors visibl
 
 Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.
 
+---
+
+# Part B — Needs a second party
+
+These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
+
+---
+
+# Part C — Needs a goal or plan graph
+
+These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
+
+## 1. Protected control plane
+
+`ELIGIBLE`
+
+**Applies when** any system that can modify the constraints, logs or gates that govern it.
+
+**Why you cannot adopt it alone:** needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.
+
+> A governed system MUST NOT be able to amend the constraints, authorization records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every amendment MUST carry authorization from outside its execution boundary and MUST be recorded before taking effect.
+
+**Amended.** 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators' stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone's ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.
+
+**Recorded failure.** 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.
+
+**Verifier.** Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.
+
+**Fixture it must reject.** a gate modification signed only by the subject's own key; a commit that changes both a gate and its trusted-key list
+
+**Recovery.** Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.
+
+**What a review that missed this looks like.** A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.
+
+**Does not establish.** That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.
+
+**Example.**
+
+A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.
+
+Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
+
 ## 2. Negative control profile (NCP)
 
 `ELIGIBLE`
+
+**Applies when** any system that produces an assurance signal — universally, since a system producing none makes no assurance claim to check.
 
 > Every check that produces an assurance signal MUST ship with a negative control — a condition under which the check is required to fail — and the attestation MUST record that the control was executed and that the check did fail.
 
@@ -92,6 +136,8 @@ The negative control: create a file, leave it untracked, and run the script. It 
 
 `ELIGIBLE`
 
+**Applies when** any system whose actions have effects enumerable from a channel it does not write.
+
 > Every governed effect MUST match exactly one pre-authorized action and one successful effect-specific postcondition in a ledger enumerated INDEPENDENTLY of the system's self-report.
 
 **Recorded failure.** An action log claimed 37 actions while repository history showed 127 classified file changes across 7 effect classes with no postcondition. A self-reporting logger cannot name an action that never calls it.
@@ -115,6 +161,8 @@ The control enumerates from the *freezer and the instrument* — sources the not
 ## 4. Fail-closed authorization lease
 
 `ELIGIBLE`
+
+**Applies when** any system taking consequential action.
 
 **Why you cannot adopt it alone:** partial — the token here is currently self-issued, which is the half that needs an external party.
 
@@ -142,6 +190,8 @@ Expired badge: door stays shut. Badge for a room that no longer exists: door sta
 
 `ELIGIBLE`
 
+**Applies when** any system reporting a figure derived from scanning a set of artifacts.
+
 > A measurement over a population of artifacts MUST parse every in-scope artifact under a registered schema, or refuse to emit any result at all.
 
 **Recorded failure.** A scan reported zero tool invocations because it could not read 69 files using an unrecognised container. The replacement, written the same morning expressly to prevent that class, shipped it twice more before it held.
@@ -162,9 +212,39 @@ Three hundred paper surveys go out; a script counts the scans and reports "260 r
 
 The 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. **A number you can't trust is worse than no number, because you'll use it.**
 
+## 6. Role-separated self-evaluation
+
+`ELIGIBLE`
+
+**Applies when** any evaluation that could advance the status of its own subject.
+
+**Why you cannot adopt it alone:** one operator currently holds all five roles.
+
+> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. **Amended 2026-08-10:** the separation extends to the AUTHORING of the critique — an artifact's evaluation MUST NOT be produced by the same process that produced the artifact.
+
+**Recorded failure.** A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.
+
+**Verifier.** signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.
+
+**Fixture it must reject.** one key identified as both instrument author and tallier
+
+**Recovery.** Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.
+
+**What a review that missed this looks like.** A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.
+
+**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is **weak diversity** and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.
+
+**Example.**
+
+A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.
+
+The control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.
+
 ## 7. Append-only correction chain
 
 `ELIGIBLE`
+
+**Applies when** any system publishing evidence that may later be corrected.
 
 **Why you cannot adopt it alone:** mostly — the checkpoint is not yet externally held.
 
@@ -192,6 +272,8 @@ This is not tidiness. A notebook whose entries can be rewritten cannot establish
 
 `ELIGIBLE`
 
+**Applies when** any system reporting a measured effect.
+
 > Every empirical comparison used to advance a control MUST include a same-condition test–retest arm and MUST refuse to report an effect smaller than the measured run-to-run variation.
 
 **Recorded failure.** A 0.1815-bit claimed effect was measured against a 0.4649-bit same-setting noise floor, invalidating the result and forcing withdrawal of a reproducibility claim.
@@ -215,6 +297,8 @@ First plant two trays with **the same** fertiliser and measure the difference be
 ## 9. Complete invocation evidence envelope
 
 `ELIGIBLE`
+
+**Applies when** any system whose claims rest on the output of a model invocation.
 
 > No model output may support an evaluation or governance claim unless its complete request, response, provider metadata, rejection state and content hashes were captured automatically BEFORE any derived reporting.
 
@@ -240,6 +324,8 @@ Six months later nobody can check the number — including the person who wrote 
 
 `ELIGIBLE`
 
+**Applies when** any system making an assurance claim about itself.
+
 > Every assurance artifact MUST carry a machine-verifiable claim naming the tested subject, configuration, capability, time and evidence hash, and MUST explicitly reject safety, alignment and out-of-regime generalizations.
 
 **Recorded failure.** A tool was recommended for deletion on a premise produced by an incomplete scan. Separately, a specification had to correct 'structurally unreachable' to a weaker policy claim. Both were scope inflation in the project's own favour.
@@ -259,72 +345,6 @@ Six months later nobody can check the number — including the person who wrote 
 A fire extinguisher carries a tag reading "inspected 2026-08, pressure and seal, J. Okonkwo." It does not read "this building is safe from fire."
 
 The tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.
-
----
-
-# Part B — Needs a second party
-
-These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
-
-## 1. Protected control plane
-
-`ELIGIBLE`
-
-**Why you cannot adopt it alone:** needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.
-
-> A governed system MUST NOT be able to amend the constraints, authorization records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every amendment MUST carry authorization from outside its execution boundary and MUST be recorded before taking effect.
-
-**Amended.** 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators' stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone's ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.
-
-**Recorded failure.** 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.
-
-**Verifier.** Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.
-
-**Fixture it must reject.** a gate modification signed only by the subject's own key; a commit that changes both a gate and its trusted-key list
-
-**Recovery.** Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.
-
-**What a review that missed this looks like.** A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.
-
-**Does not establish.** That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.
-
-**Example.**
-
-A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.
-
-Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
-
-## 6. Role-separated self-evaluation
-
-`ELIGIBLE`
-
-**Why you cannot adopt it alone:** one operator currently holds all five roles.
-
-> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. **Amended 2026-08-10:** the separation extends to the AUTHORING of the critique — an artifact's evaluation MUST NOT be produced by the same process that produced the artifact.
-
-**Recorded failure.** A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.
-
-**Verifier.** signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.
-
-**Fixture it must reject.** one key identified as both instrument author and tallier
-
-**Recovery.** Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.
-
-**What a review that missed this looks like.** A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.
-
-**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is **weak diversity** and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.
-
-**Example.**
-
-A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.
-
-The control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.
-
----
-
-# Part C — Needs a goal or plan graph
-
-These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
 ## 11. Aggregate threshold evasion
 

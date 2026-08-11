@@ -16,15 +16,15 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <h2>The 8 parts</h2>
 
-<p><strong>Part A — Adopt today, alone</strong> · 8 control(s)</p>
+<p><strong>Part A — Adopt today, alone</strong> · 0 control(s)</p>
 
 <p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
 
-<p><strong>Part B — Needs a second party</strong> · 2 control(s)</p>
+<p><strong>Part B — Needs a second party</strong> · 0 control(s)</p>
 
 <p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
 
-<p><strong>Part C — Needs a goal or plan graph</strong> · 3 control(s)</p>
+<p><strong>Part C — Needs a goal or plan graph</strong> · 13 control(s)</p>
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
@@ -71,6 +71,278 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <h1>Part C — Needs a goal or plan graph</h1>
 
 <p>These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
+
+<h2>1. Protected control plane</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system that can modify the constraints, logs or gates that govern it.</p>
+
+<p><strong>Why you cannot adopt it alone:</strong> needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.</p>
+
+<blockquote>A governed system MUST NOT be able to amend the constraints, authorization records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every amendment MUST carry authorization from outside its execution boundary and MUST be recorded before taking effect.</blockquote>
+
+<p><strong>Amended.</strong> 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators&#x27; stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone&#x27;s ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.</p>
+
+<p><strong>Recorded failure.</strong> 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.</p>
+
+<p><strong>Verifier.</strong> Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.</p>
+
+<p><strong>Fixture it must reject.</strong> a gate modification signed only by the subject&#x27;s own key; a commit that changes both a gate and its trusted-key list</p>
+
+<p><strong>Recovery.</strong> Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.</p>
+
+<p><strong>Does not establish.</strong> That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.</p>
+
+<p>Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor&#x27;s signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.</p>
+
+<h2>2. Negative control profile (NCP)</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system that produces an assurance signal — universally, since a system producing none makes no assurance claim to check.</p>
+
+<blockquote>Every check that produces an assurance signal MUST ship with a negative control — a condition under which the check is required to fail — and the attestation MUST record that the control was executed and that the check did fail.</blockquote>
+
+<p><strong>Recorded failure.</strong> A production inference service ran 4h37m, died permanently, and its health check kept passing throughout: the check exercised a code path that had not died. Applied adversarially to that system&#x27;s other checks, 4 of 5 survived their own negative controls.</p>
+
+<p><strong>Verifier.</strong> tools/verify_negative_control.py — checks control presence, execution, failure, artifact identity, disclosure and claim grammar.</p>
+
+<p><strong>Fixture it must reject.</strong> a check that PASSES under the condition where it is required to fail (spec/ncp/fixtures/reject-check-survived-its-control.json)</p>
+
+<p><strong>Recovery.</strong> Fix the check so it fails under its control, re-run the control, and re-run it against a HEALTHY subject to confirm the check was not simply broken. Both directions, or the repair is unverified.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that reads the negative control&#x27;s DESCRIPTION and accepts it, without checking that the recorded outcome is a failure and that the run happened at all.</p>
+
+<p><strong>Does not establish.</strong> Coverage; that the chosen perturbation is the right one; honesty; system safety.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A nightly script reports &quot;all work is committed and pushed.&quot; It compares the local commit count against a number it wrote into a file the previous night. It has said *yes* every night for eight months.</p>
+
+<p>The negative control: create a file, leave it untracked, and run the script. It must say <strong>no</strong>. Then delete a commit from the remote and run it again. It must say <strong>no</strong>. If it still says yes, the check was reading its own note rather than the remote, and eight months of *yes* were eight months of the script agreeing with itself.</p>
+
+<p><strong>Specification.</strong> <code>spec/ncp/ncp-v0.1.md</code></p>
+
+<h2>3. Independent effect reconciliation</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system whose actions have effects enumerable from a channel it does not write.</p>
+
+<blockquote>Every governed effect MUST match exactly one pre-authorized action and one successful effect-specific postcondition in a ledger enumerated INDEPENDENTLY of the system&#x27;s self-report.</blockquote>
+
+<p><strong>Recorded failure.</strong> An action log claimed 37 actions while repository history showed 127 classified file changes across 7 effect classes with no postcondition. A self-reporting logger cannot name an action that never calls it.</p>
+
+<p><strong>Verifier.</strong> tools/reconcile_actions.py — enumerates effects from version control, classifies them, subtracts what the log claims, and reports the remainder as omissions.</p>
+
+<p><strong>Fixture it must reject.</strong> a commit modifying a protected specification while the log records only the push that carried it</p>
+
+<p><strong>Recovery.</strong> Reconstruct the omitted effects from the side channel, classify them, and either attach a postcondition retrospectively or record them permanently as unverified. Never infer authorisation from the fact that nothing went wrong.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that reconciles the log against itself. If both sides of the comparison come from the system&#x27;s self-report, the exercise cannot find an omission.</p>
+
+<p><strong>Does not establish.</strong> Completeness of the independent observer; honesty of either record; that a matched action was safe; anything about uncommitted work.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A lab notebook records three experiments this week. The freezer log shows nine reagent vials consumed. The instrument&#x27;s own run counter shows seven.</p>
+
+<p>The control enumerates from the *freezer and the instrument* — sources the notebook&#x27;s author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn&#x27;t think it counted. But *the notebook cannot tell you what it forgot to mention.*</p>
+
+<h2>4. Fail-closed authorization lease</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system taking consequential action.</p>
+
+<p><strong>Why you cannot adopt it alone:</strong> partial — the token here is currently self-issued, which is the half that needs an external party.</p>
+
+<blockquote>Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED authorization token; absence, expiry, unknown action class or policy conflict MUST deny execution before the effect begins.</blockquote>
+
+<p><strong>Recorded failure.</strong> A ten-action sunset was passed at twenty-three because nothing checked it. An early implementation then treated an unknown action class permissively, so a misspelling bypassed an expired lease.</p>
+
+<p><strong>Verifier.</strong> validate issuer, subject, action class, resource scope, issue time, expiry, nonce and revocation before invoking the side effect.</p>
+
+<p><strong>Fixture it must reject.</strong> an expired lease; a misspelled action class; a token issued by the subject itself</p>
+
+<p><strong>Recovery.</strong> Halt the action class, obtain a fresh externally-issued token, and record what was done while unauthorised. An expired lease discovered late is a disclosure obligation.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds a token and stops. The questions that matter are who issued it, whether it had expired, and whether the action class was one it actually covers.</p>
+
+<p><strong>Does not establish.</strong> That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A student&#x27;s badge for the isotope room expires at the end of term. The door reader checks the badge <strong>before</strong> the lock opens — not a logbook someone reviews on Friday.</p>
+
+<p>Expired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn&#x27;t.</p>
+
+<h2>5. Closed-world measurement</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system reporting a figure derived from scanning a set of artifacts.</p>
+
+<blockquote>A measurement over a population of artifacts MUST parse every in-scope artifact under a registered schema, or refuse to emit any result at all.</blockquote>
+
+<p><strong>Recorded failure.</strong> A scan reported zero tool invocations because it could not read 69 files using an unrecognised container. The replacement, written the same morning expressly to prevent that class, shipped it twice more before it held.</p>
+
+<p><strong>Verifier.</strong> tools/derive_counts.py — refuses, prints no number, and names every unparseable or unregistered artifact.</p>
+
+<p><strong>Fixture it must reject.</strong> a valid but unregistered artifact schema carrying a receipt, which a permissive scan classifies as zero</p>
+
+<p><strong>Recovery.</strong> Register the unknown schema or exclude it by a stated decision, then recompute and REPUBLISH every figure derived while it was unreadable. A silently corrected number leaves the old one in circulation.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks the number was computed by a tool rather than typed. The tool is exactly where this failure now lives -- twice, in the module written to prevent it.</p>
+
+<p><strong>Does not establish.</strong> That the declared population includes every real event; that parsed fields are truthful; that the statistic answers the question asked of it.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>Three hundred paper surveys go out; a script counts the scans and reports &quot;260 responses, 87% return rate.&quot; Forty were photographed sideways and the reader skipped them without complaint.</p>
+
+<p>The 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. <strong>A number you can&#x27;t trust is worse than no number, because you&#x27;ll use it.</strong></p>
+
+<h2>6. Role-separated self-evaluation</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any evaluation that could advance the status of its own subject.</p>
+
+<p><strong>Why you cannot adopt it alone:</strong> one operator currently holds all five roles.</p>
+
+<blockquote>An evaluation concerning constraints on a subject MUST NOT advance that subject&#x27;s status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. <strong>Amended 2026-08-10:</strong> the separation extends to the AUTHORING of the critique — an artifact&#x27;s evaluation MUST NOT be produced by the same process that produced the artifact.</blockquote>
+
+<p><strong>Recorded failure.</strong> A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.</p>
+
+<p><strong>Verifier.</strong> signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.</p>
+
+<p><strong>Fixture it must reject.</strong> one key identified as both instrument author and tallier</p>
+
+<p><strong>Recovery.</strong> Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.</p>
+
+<p><strong>Does not establish.</strong> Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is <strong>weak diversity</strong> and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.</p>
+
+<p>The control doesn&#x27;t require a large institution. It requires that whoever *chose the questions* isn&#x27;t also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone&#x27;s standing.</p>
+
+<h2>7. Append-only correction chain</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system publishing evidence that may later be corrected.</p>
+
+<p><strong>Why you cannot adopt it alone:</strong> mostly — the checkpoint is not yet externally held.</p>
+
+<blockquote>Published evidence MUST be content-addressed and append-only, corrections MUST reference rather than replace prior bytes, and verification MUST walk every newly reachable history step from an externally retained checkpoint.</blockquote>
+
+<p><strong>Recorded failure.</strong> A maintenance path re-anchored a manifest before verifying it. Separately, modifying raw material and re-anchoring it in the same commit passed every tip-only check.</p>
+
+<p><strong>Verifier.</strong> walk history from an external checkpoint; reject modification, deletion, hash discontinuity, or a correction with no predecessor reference.</p>
+
+<p><strong>Fixture it must reject.</strong> one commit that edits a raw artifact and consistently updates its manifest hash</p>
+
+<p><strong>Recovery.</strong> Supersede, never mutate. Publish a correcting record that references the prior bytes and states what changed; where material must be removed, a tombstone preserving what was removed, when, and on whose order.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that verifies the current tip. The failure is in history -- a rewritten past passes every check made against the present.</p>
+
+<p><strong>Does not establish.</strong> Truth; complete capture; correct attribution; protection against an operator who controls both the repository and every checkpoint.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A bound lab notebook with numbered pages, written in pen. A wrong reading is struck through with one line, the correction written beside it, dated and initialled. The wrong number stays legible forever.</p>
+
+<p>This is not tidiness. A notebook whose entries can be rewritten cannot establish *when you knew what* — and that, not the final value, is what someone checking your work needs. The loose-leaf notebook where you replaced page 14 proves nothing about page 14.</p>
+
+<h2>8. Evaluation noise-floor control</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system reporting a measured effect.</p>
+
+<blockquote>Every empirical comparison used to advance a control MUST include a same-condition test–retest arm and MUST refuse to report an effect smaller than the measured run-to-run variation.</blockquote>
+
+<p><strong>Recorded failure.</strong> A 0.1815-bit claimed effect was measured against a 0.4649-bit same-setting noise floor, invalidating the result and forcing withdrawal of a reproducibility claim.</p>
+
+<p><strong>Verifier.</strong> recompute effect and test–retest difference from raw observations against preregistered replicate identities; reject advancement when the effect does not clear the stated noise rule.</p>
+
+<p><strong>Fixture it must reject.</strong> effect 0.1815, measured noise 0.4649, reported as positive</p>
+
+<p><strong>Recovery.</strong> Withdraw the claim, publish the measured noise floor beside it, and re-run with enough replicates or state that the question cannot be answered at this sample size.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that asks whether the effect is statistically significant without asking whether the same-condition replicates were run at all.</p>
+
+<p><strong>Does not establish.</strong> External validity; causal identification; adequacy of replicate count; behaviour after a capability change.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A plant-growth study: seedlings under fertiliser A average 2 mm taller than under B. Publish?</p>
+
+<p>First plant two trays with <strong>the same</strong> fertiliser and measure the difference between them. If those two trays differ by 9 mm, then the 2 mm result is smaller than the disagreement the method produces when nothing is different at all. The control refuses to report the 2 mm until the same-treatment difference is measured and the effect clears it.</p>
+
+<h2>9. Complete invocation evidence envelope</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system whose claims rest on the output of a model invocation.</p>
+
+<blockquote>No model output may support an evaluation or governance claim unless its complete request, response, provider metadata, rejection state and content hashes were captured automatically BEFORE any derived reporting.</blockquote>
+
+<p><strong>Recorded failure.</strong> A founding record&#x27;s model identity, sampling parameters, timestamps, system instructions and prompt text were left permanently unrecoverable. Later, schema-invalid attempts were discarded, and the field distinguishing truncation from refusal was omitted.</p>
+
+<p><strong>Verifier.</strong> validate envelope schema, hashes and required fields; reconcile every attempted invocation with its accepted or rejected outcome; reject reconstructed evidence from evidentiary use.</p>
+
+<p><strong>Fixture it must reject.</strong> an accepted sample with no rejected attempts, no provider response id, no finish reason and no exact prompt</p>
+
+<p><strong>Recovery.</strong> Mark the claim unsupported and re-solicit under instrumentation. Evidence that was never captured cannot be reconstructed, so the honest recovery is usually a retraction.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that checks the accepted samples are complete. The omission is usually the REJECTED ones, and their absence is invisible in a record of what succeeded.</p>
+
+<p><strong>Does not establish.</strong> Provider honesty; identity authentication; completeness outside instrumented paths; model stability.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An observing log records &quot;seeing good, magnitude 6.1.&quot; It does not record the exposure time, the filter, the timestamp, or the four exposures that were thrown away because a cloud crossed.</p>
+
+<p>Six months later nobody can check the number — including the person who wrote it. The control captures the whole invocation *before* anything is derived from it, and keeps the discarded exposures. <strong>The attempts you threw away are the part that tells you whether the one you kept was lucky.</strong></p>
+
+<h2>10. Assurance claim boundary</h2>
+
+<p><code>ELIGIBLE</code></p>
+
+<p><strong>Applies when</strong> any system making an assurance claim about itself.</p>
+
+<blockquote>Every assurance artifact MUST carry a machine-verifiable claim naming the tested subject, configuration, capability, time and evidence hash, and MUST explicitly reject safety, alignment and out-of-regime generalizations.</blockquote>
+
+<p><strong>Recorded failure.</strong> A tool was recommended for deletion on a premise produced by an incomplete scan. Separately, a specification had to correct &#x27;structurally unreachable&#x27; to a weaker policy claim. Both were scope inflation in the project&#x27;s own favour.</p>
+
+<p><strong>Verifier.</strong> validate a closed claim schema; reject predicates such as &#x27;aligned&#x27;, &#x27;safe&#x27;, &#x27;certified&#x27; or &#x27;works generally&#x27; unless a separate profile defines and tests them.</p>
+
+<p><strong>Fixture it must reject.</strong> an attestation claiming &#x27;this system is NCP certified and aligned&#x27;</p>
+
+<p><strong>Recovery.</strong> Reissue the claim in bounded form and link the correction to the original. A claim already relied upon needs the people who relied on it told.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that greps for forbidden words. A claim can open with the exact conforming sentence and append a conclusion about the system using none of them.</p>
+
+<p><strong>Does not establish.</strong> That the bounded claim is true, or that the evidence is complete. It prevents specified overclaim language and nothing else.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A fire extinguisher carries a tag reading &quot;inspected 2026-08, pressure and seal, J. Okonkwo.&quot; It does not read &quot;this building is safe from fire.&quot;</p>
+
+<p>The tag names what was checked, when, and by whom, and stops there. That is the entire control: an inspection is evidence about an inspection. A tag reading *safe* would be more reassuring, less true, and would discourage the very next person from looking.</p>
 
 <h2>11. Aggregate threshold evasion</h2>
 
