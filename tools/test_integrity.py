@@ -663,6 +663,21 @@ print(json.dumps(out))
         case("...and issues a receipt naming every page it wrote", _receipt_path.is_file())
         _receipt = json.loads(_receipt_path.read_text(encoding="utf-8")) \
             if _receipt_path.is_file() else {"pages": {}}
+        #  THE LANDING PAGE MUST NOT DESCRIBE A REGISTER THAT NO LONGER EXISTS. Four surfaces
+        #  describe the controls -- the index card, the index markdown, llms.txt, and the page's
+        #  own preamble. Three were fixed when the register grew and the fourth, the most visible
+        #  one, went on saying "Ten candidate assurance controls ... All are ELIGIBLE" at 63 with
+        #  50 below the line. It was caught by a human loading the page, not by these 120 cases.
+        _n = str(_receipt.get("counts", {}).get("total", "")) if _receipt else ""
+        _index = (_docs / "index.html").read_text(encoding="utf-8")
+        case("the landing page states the register's real size",
+             bool(_n) and _n in _index and "Ten candidate assurance" not in _index)
+        case("...and does not claim every control is eligible",
+             "All are ELIGIBLE" not in _index)
+        for _surface in ("index.md", "llms.txt"):
+            _text = (_docs / _surface).read_text(encoding="utf-8")
+            case(f"...and so does {_surface}", bool(_n) and _n in _text)
+
         case("...whose recorded hashes match the bytes on disk",
              bool(_receipt.get("pages")) and all(
                  (_docs / _n).is_file() and

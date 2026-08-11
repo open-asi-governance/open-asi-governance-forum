@@ -1014,10 +1014,11 @@ tooling. Read this before citing anything here.</p></div>
 meant. What we most want back is the list of questions you had to guess at — that is the
 evidence about whether the specification is any good.</p></div>
 <div class="card"><h3><a href="controls.html">Candidate controls</a></h3>
-<p>Ten candidate assurance controls, each derived from a recorded failure with a cost, each with a
-verifier and a fixture it must reject. All are ELIGIBLE and none independently implemented — the
-page says what that is worth. Includes a worked example for someone building agents or inference
-systems.</p></div>
+<p>{CONTROL_TOTALS['total']} candidate assurance controls, each with a verifier and a fixture it
+must reject. Part A ({CONTROL_TOTALS['a']}) is adoptable alone and every control in it came from a
+failure with a cost; {CONTROL_TOTALS['below']} sit <strong>below the eligibility line</strong> —
+they name a real failure class but no incident. None independently implemented. Includes a worked
+example for someone building agents or inference systems.</p></div>
 <div class="card"><h3><a href="predictions.html">Prediction registry</a></h3>
 <p>Dated claims about this project, scored on fixed dates — published with the reasons the scores
 are weak evidence.</p></div>
