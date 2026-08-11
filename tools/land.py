@@ -78,6 +78,16 @@ GATES = (
     #  Run by CI at .github/workflows step "Integrity regression suite". Slow, and worth it.
     ("integrity", ["python3", "tools/test_integrity.py"]),
     ("quotations", ["python3", "tools/check_quotations.py"]),
+    #  NAMED `prose-triage`, NOT `claim-validity`, and the name is load-bearing. An external
+    #  review predicted the worst failure mode of this gate before it existed: "land.py was
+    #  green, therefore there were no unsupported claims." A green result here means detected
+    #  candidates in CHANGED prose each received a disposition. Recall is UNKNOWN, and the tool
+    #  prints that on every success so the sentence above cannot be written honestly.
+    ("prose-triage", ["python3", "tools/check_claims.py"]),
+    #  Control 44 turned on this repository: the self-application table must have a determination
+    #  for every control in the register. It checks COMPLETENESS, not correctness -- the party
+    #  that wrote the determinations is the party they describe.
+    ("self-application", ["python3", "tools/self_application.py", "--check"]),
     ("context-pins", ["python3", "tools/check_executive_context.py"]),
     ("lease", ["python3", "tools/executive_lease.py"]),
 )

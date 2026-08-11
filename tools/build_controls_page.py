@@ -966,10 +966,20 @@ INSIGHT_CONTROLS = [
 
  {"rank": 35, "name": "A novelty claim requires a derivability screen", "eligible": False,
   "applies_when": "any claim that an output, mechanism or result is new",
-  "requirement": "Before an output may be labelled novel, it MUST be shown not derivable from its "
-                 "own inputs, by a party holding the input corpus that did not produce the "
-                 "artifact, under a stated protocol. Recombination a holder of the inputs can "
-                 "reproduce is not novelty.",
+  "requirement": "Before an output may be labelled novel, TWO separate things MUST be "
+                 "established, and conflating them is a defect. **(a) Input "
+                 "non-derivation:** a party holding the input corpus that did not produce "
+                 "the artifact failed to reproduce it under a stated protocol. **(b) Prior-art "
+                 "search:** a named EXTERNAL corpus was searched, with the queries, the tool "
+                 "and version, the date, the results and the excluded surfaces recorded. "
+                 "Neither alone licenses the word.",
+  "amended": "2026-08-10, on an external review that found a SPECIFICATION DEFECT in the "
+             "original wording. It required only non-derivability from the artifact's own "
+             "INPUTS -- but both of this register's false novelty claims concerned prior art "
+             "OUTSIDE those inputs. If mutation testing is absent from the corpus you hand "
+             "the checker, the checker fails to derive it and the false claim passes. The "
+             "control as first written would not have caught the incidents it was written "
+             "from.",
   "failure": "**Recorded, twice, against this register.** Control 2 claimed its mechanism was "
              "unclaimed while mutation testing and chaos engineering had it; control 20 claimed "
              "no verifier existed while one had been in the literature since 2021. Both were "
