@@ -80,9 +80,17 @@ def main() -> int:
         print("    stars: QUERY FAILED or control empty — reporting nothing rather than zero")
         unknown.append("stars")
     else:
-        n = mine.get("stargazers_count", 0)
-        print(f"    stars: {n}   (control {CONTROL_REPO}: {ctrl['stargazers_count']} — works)")
-        arrivals += n
+        #  NO DEFAULT. `.get("stargazers_count", 0)` would report zero stars when the field is
+        #  ABSENT, which is the absence-as-zero defect this whole tool exists to avoid -- found
+        #  by C53a in scan_own_code.py, in code written the same day, hours after fixing the
+        #  neighbouring branch for claiming absence it had not checked.
+        n = mine.get("stargazers_count")
+        if n is None:
+            print("    stars: FIELD ABSENT from the repo object — unknown, not zero")
+            unknown.append("stars")
+        else:
+            print(f"    stars: {n}   (control {CONTROL_REPO}: {ctrl['stargazers_count']} — works)")
+            arrivals += n
 
     print()
     views = api(f"repos/{REPO}/traffic/views") or {}

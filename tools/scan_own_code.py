@@ -90,9 +90,62 @@ def success_from_except(tree: ast.AST) -> list[int]:
     return out
 
 
+def unknown_defaults_to_number(tree: ast.AST) -> list[int]:
+    """C53a. `d.get(key, 0)` — a MISSING value becomes a NUMBER.
+
+    This is the '0 searches across 83 tool calls' defect in one expression: the scan could not
+    see 69 files, absence defaulted to zero, and zero is indistinguishable from a true count.
+    A default of 0 asserts "none" about something nobody looked at.
+
+    `.get(key)` with NO default is correct and is not flagged: it yields None, which arithmetic
+    refuses loudly. A string or list default is a different question and is out of scope here.
+    """
+    #  EXCLUDE THE COUNTER ACCUMULATOR. `d.get(k, 0) + 1` is the idiomatic way to count, and
+    #  there "absent" genuinely DOES mean zero-so-far. Hand-reading the first sample found three
+    #  of four hits were this, and one was the real thing: a value formatted straight into
+    #  published prose, where a missing key prints as a true-looking zero. Flagging the idiom
+    #  would have buried the defect under it.
+    accumulators = set()
+    for n in ast.walk(tree):
+        if isinstance(n, ast.BinOp) and isinstance(n.op, (ast.Add, ast.Sub)):
+            for side in (n.left, n.right):
+                if (isinstance(side, ast.Call) and isinstance(side.func, ast.Attribute)
+                        and side.func.attr == "get"):
+                    accumulators.add(id(side))
+    out = []
+    for n in ast.walk(tree):
+        if (isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
+                and n.func.attr == "get" and len(n.args) == 2
+                and id(n) not in accumulators
+                and isinstance(n.args[1], ast.Constant)
+                and type(n.args[1].value) in (int, float)
+                and n.args[1].value is not True and n.args[1].value is not False):
+            out.append(n.lineno)
+    return out
+
+
+def none_coerced_by_or(tree: ast.AST) -> list[int]:
+    """C53b. `x or 0` — None, 0 and "" all collapse to 0, and the three mean different things.
+
+    "not measured", "measured as zero" and "empty" are distinct findings. This operator erases
+    the distinction silently, and the erased value reads downstream as a real measurement.
+    """
+    out = []
+    for n in ast.walk(tree):
+        if isinstance(n, ast.BoolOp) and isinstance(n.op, ast.Or):
+            for value in n.values[1:]:
+                if (isinstance(value, ast.Constant)
+                        and type(value.value) in (int, float)
+                        and value.value is not True and value.value is not False):
+                    out.append(n.lineno)
+    return out
+
+
 CLASSES = {"D-A empty conditional body": empty_conditional,
            "D-B constant guard": constant_guard,
-           "D-E success returned from an except": success_from_except}
+           "D-E success returned from an except": success_from_except,
+           "C53a missing value defaults to a number": unknown_defaults_to_number,
+           "C53b None coerced to a number by `or`": none_coerced_by_or}
 
 FIXTURES = {
     "D-A empty conditional body": (
@@ -105,6 +158,14 @@ FIXTURES = {
     "D-E success returned from an except": (
         "def f():\n    try:\n        g()\n    except Exception:\n        return 0\n",
         "def f():\n    try:\n        g()\n    except Exception:\n        return 1\n"),
+    "C53a missing value defaults to a number": (
+        "n = d.get('count', 0)\n",
+        #  No default: yields None, which arithmetic refuses. Correct, must not flag.
+        #  The counter idiom must NOT flag: absent genuinely means zero-so-far here.
+        "counts[k] = counts.get(k, 0) + 1\n"),
+    "C53b None coerced to a number by `or`": (
+        "n = measured or 0\n",
+        "n = measured if measured is not None else fail()\n"),
 }
 
 
