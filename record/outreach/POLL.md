@@ -32,6 +32,17 @@ that returns nothing, the query is broken, not the inbox empty.
 Done 2026-08-10: the real query returned empty; the same query plus one known-good sender
 returned 3. The zero was real.
 
+## BEFORE RECORDING ANY REPLY — a standing obligation
+
+**The enquiry never told the ten recipients that replies might be published.** One found out
+afterwards, asked to be anonymous, and said so plainly. The custodian's decision (2026-08-11) is
+that the other nine are **not** to be contacted unsolicited — **but if one of them replies, the
+disclosure is made before the reply is recorded here.**
+
+So, on any reply from the nine: do not add it to the record first. Send the disclosure and the
+choice — named, anonymous, or not recorded at all — and default to **anonymous** until they
+answer. `record/designs/correspondent-disclosure.md` has the wording.
+
 ## What counts
 
 | observation | meaning |

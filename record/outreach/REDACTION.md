@@ -100,3 +100,37 @@ it is recorded so it can be disagreed with.
 | further occurrences in transcripts | 18 |
 | **still recoverable from git history** | **all of them** |
 | of the ten, asked what they would prefer | **1** |
+
+---
+
+## Custodian's decisions, 2026-08-11
+
+**1. The nine are not to be told, unless a reply suggests it.**
+
+No unsolicited message goes to the nine who have not replied. Writing to someone who never
+answered, to tell them their name *was* published and now is not, is another uninvited contact and
+creates concern where there was none.
+
+**The trigger, which is the operative part:** if any of the nine replies, the disclosure is made
+**before their reply is recorded here**, not after — the rule in
+`record/designs/correspondent-disclosure.md`, applied to a correspondence already in flight. It is
+carried in `record/outreach/POLL.md` so the session that finds the reply is the session that reads
+the obligation.
+
+**2. Git history is not to be rewritten.**
+
+The names stay recoverable from history and from one commit message. Removing them requires a
+force-push that would break the manifest and anchor chain — the mechanism that makes this record's
+central claim checkable — and that cost is not paid for a redaction the working tree has already
+made.
+
+### What these decisions do not change
+
+* **Nine people's names and addresses were published without their knowledge**, and remain in the
+  history. Both decisions are about what to do *now*; neither makes that not have happened.
+* The redactions in the working tree stand.
+* `correspondent-disclosure.md` binds every **new** outbound message regardless.
+
+Recorded because a decision not to act is still a decision, and the alternative is a future session
+finding an unasked obligation and re-litigating it from scratch.
+
