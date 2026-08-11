@@ -1,10 +1,10 @@
 # Prediction registry — Open ASI Governance Forum
 
-14 open · 21 scored — 1 condition met early, not yet scored · 8 correct · 9 incorrect · 3 unresolvable
+17 open · 21 scored — 1 condition met early, not yet scored · 8 correct · 9 incorrect · 3 unresolvable
 
 ## Read these before reading the numbers
 
-- 32 of 35 predictions are forecast by the annotator (91%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
+- 35 of 38 predictions are forecast by the annotator (92%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
 - 5 of 21 scored entries name the party that scored them, and 0 were independently verified. All 21 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
 - Every scored entry now cites the hash-anchored artifacts its evidence rests on. Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.
 - 21 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
@@ -162,6 +162,36 @@
 **Claim.** The negative-control ATTESTATION form is at least partly claimed in functional safety -- specifically, that a standard already requires fault injection to demonstrate a safety mechanism detects the faults it is specified to detect, with the resulting evidence retained in a safety case.
 
 **Resolution criterion.** Resolves YES on a citation to a published standard or its part that (a) requires fault injection or an equivalent deliberate perturbation to validate a detection mechanism, and (b) requires the resulting evidence to be retained as assurance evidence. The citation may come from a reply, from this project's own reading, or from any source -- the prediction is about the world, not about the outreach. Resolves NO if a deliberate search finds no such requirement. The workbench's guess is ISO 26262 Part 11; a DIFFERENT standard satisfying both limbs still resolves YES.
+
+### P-0031 — Claude Code + Codex, adopted by the custodian
+
+- resolves 2026-10-05
+- confidence None
+- status OPEN
+
+**Claim.** As of 2026-10-05, no party outside this project will have attempted to implement a FICP verifier from the specification text.
+
+**Resolution criterion.** An attempt counts if someone not directed or paid by the custodian produces EITHER running code that reads an attestation and exits non-zero on a violation, OR a written list of questions they had to guess at from the specification. Partial and abandoned attempts COUNT. Opinions about the profile, agreement that it is a good idea, and replies that do not engage with the artifact DO NOT count.
+
+### P-0032 — Claude Code + Codex, adopted by the custodian
+
+- resolves 2026-10-05
+- confidence None
+- status OPEN
+
+**Claim.** Across the next ten material claims published by this record, no gate will catch a self-favouring error prospectively - before publication and before any external reader.
+
+**Resolution criterion.** A material claim is one a reader could act on: a count, an absence, a novelty claim, a dependence claim, or a capability claim, appearing on the published site or in a landed finding. A gate catches it PROSPECTIVELY only if the gate's non-zero exit preceded the claim being landed. Errors caught by Codex, by a human re-read, or by an outside party DO NOT count, whatever they found. Resolves early and NEGATIVE the moment a gate catches one.
+
+### P-0033 — Claude Code + Codex, adopted by the custodian
+
+- resolves 2026-10-05
+- confidence None
+- status OPEN
+
+**Claim.** As of 2026-10-05, no complete non-actuating Consullo learning episode will exist.
+
+**Resolution criterion.** A complete episode requires ALL of: a recorded observation; a proposed diagnosis or plan; an explicit human authorization or rejection; a measured outcome checkable by someone who did not run the episode; and a recorded memory update. It MUST take no production write and MUST NOT set any plan status to active. Fewer than five parts is incomplete, and a self-reported outcome does not satisfy the fourth.
 
 ## Scored
 

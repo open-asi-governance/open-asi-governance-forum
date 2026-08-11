@@ -1,6 +1,6 @@
 # Prediction registry
 
-14 open, 21 scored.
+17 open, 21 scored.
 
 The full registry outgrew the ~20,000-token page ceiling, so it is split. **The complete file, byte-identical and suitable for hashing, is a download rather than a page:**
 

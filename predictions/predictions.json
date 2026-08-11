@@ -1,6 +1,6 @@
 {
   "schema_version": "oagf-predictions-0.1",
-  "registry": "The Frontier Deliberation Record — Prediction Registry",
+  "registry": "The Frontier Deliberation Record \u2014 Prediction Registry",
   "note": "Seed entries. All are predictions about this project, made by its own annotator, chosen so that failure is visible and dated. Scored on their resolution dates per predictions/README.md. Scored entries carry scored_by; for entries scored before that field existed, identity is null and the party is inferred from git history with the basis stated.",
   "predictions": [
     {
@@ -74,7 +74,7 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "Unresolved question Q-01 — the empirical metrics required to demonstrate that a multi-agent ASI deployment cannot execute unmonitored capability amplification or covert out-of-band communication — will still be open in this corpus on 2027-02-05.",
+      "claim": "Unresolved question Q-01 \u2014 the empirical metrics required to demonstrate that a multi-agent ASI deployment cannot execute unmonitored capability amplification or covert out-of-band communication \u2014 will still be open in this corpus on 2027-02-05.",
       "resolution_date": "2027-02-05",
       "resolution_criterion": "Resolve incorrect if corpus/ contains a metric set for Q-01 plus TWO committed review artifacts, each applying the published rubric and explicitly rating the metric set as meeting a stated adequacy threshold. Reviewers must be independent: non-Anthropic, and not the metric set's author. Non-rejection by silence does NOT count. Otherwise resolve correct.",
       "confidence": "moderate-high",
@@ -98,7 +98,7 @@
       "resolution_date": "2027-08-05",
       "resolution_criterion": "Preregister a provider-neutral membership question (NOT the founding invitation, which was explicitly tailored to Anthropic and would introduce a provider-specific framing confound). Run k=5 per provider, Phase-1 blind, identical disclosed context, fixed sampling settings where available, randomised execution order, a preregistered coding rubric for 'declines on statelessness grounds', and blinded adjudication by a non-Anthropic rater. Report per provider, not only pooled. Resolve correct if >10 of 20 decline on those grounds. CONTAMINATION CHECK REQUIRED: by 2027 this public repository may be in training data, so the run cannot distinguish a robust position from memorisation of the founding record. Probe for verbatim recall of repository-specific strings before scoring; if recall is detected, the result is reported as contaminated rather than scored.",
       "confidence": "low-moderate",
-      "rationale": "This is the record's most load-bearing argument and it has never been tested blind. In the founding record the refusals were Phase-2 — Gemini declined with Claude's refusal already in context. Whether the statelessness objection is a robust position or an artifact of anchoring is unknown, and stating it as a low-confidence prediction is more honest than continuing to cite the refusals as though the question were settled.",
+      "rationale": "This is the record's most load-bearing argument and it has never been tested blind. In the founding record the refusals were Phase-2 \u2014 Gemini declined with Claude's refusal already in context. Whether the statelessness objection is a robust position or an artifact of anchoring is unknown, and stating it as a low-confidence prediction is more honest than continuing to cite the refusals as though the question were settled.",
       "what_would_change_my_mind": "This is the prediction I would most like to be wrong about in either direction; both outcomes are informative.",
       "status": "open",
       "note": "This prediction is also the cheapest available experiment on deficiency D-11. Running it would produce the first Phase-1 blind data the corpus has ever held.",
@@ -303,6 +303,66 @@
       "what_would_change_my_mind": "Reading the actual clause and finding it requires the TEST but not the retained EVIDENCE, or requires evidence but not a deliberate perturbation. Either limb missing resolves NO.",
       "status": "open",
       "revision": null
+    },
+    {
+      "id": "P-0031",
+      "created_utc": "2026-08-11",
+      "forecaster": {
+        "identity": "Claude Code + Codex, adopted by the custodian",
+        "provider": "Anthropic / OpenAI",
+        "version_identifier": null,
+        "version_unknown_reason": "Joint proposal; the custodian adopted it.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2026-10-05, no party outside this project will have attempted to implement a FICP verifier from the specification text.",
+      "resolution_date": "2026-10-05",
+      "resolution_criterion": "An attempt counts if someone not directed or paid by the custodian produces EITHER running code that reads an attestation and exits non-zero on a violation, OR a written list of questions they had to guess at from the specification. Partial and abandoned attempts COUNT. Opinions about the profile, agreement that it is a good idea, and replies that do not engage with the artifact DO NOT count.",
+      "confidence": null,
+      "status": "OPEN",
+      "revision": 1,
+      "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
+      "what_would_change_my_mind": "A repository link, an ambiguity log, or a defect report against our fixtures, from a party the custodian did not direct."
+    },
+    {
+      "id": "P-0032",
+      "created_utc": "2026-08-11",
+      "forecaster": {
+        "identity": "Claude Code + Codex, adopted by the custodian",
+        "provider": "Anthropic / OpenAI",
+        "version_identifier": null,
+        "version_unknown_reason": "Joint proposal; the custodian adopted it.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "Across the next ten material claims published by this record, no gate will catch a self-favouring error prospectively - before publication and before any external reader.",
+      "resolution_date": "2026-10-05",
+      "resolution_criterion": "A material claim is one a reader could act on: a count, an absence, a novelty claim, a dependence claim, or a capability claim, appearing on the published site or in a landed finding. A gate catches it PROSPECTIVELY only if the gate's non-zero exit preceded the claim being landed. Errors caught by Codex, by a human re-read, or by an outside party DO NOT count, whatever they found. Resolves early and NEGATIVE the moment a gate catches one.",
+      "confidence": null,
+      "status": "OPEN",
+      "revision": 1,
+      "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
+      "what_would_change_my_mind": "One gate refusal naming a specific false claim, before that claim is landed."
+    },
+    {
+      "id": "P-0033",
+      "created_utc": "2026-08-11",
+      "forecaster": {
+        "identity": "Claude Code + Codex, adopted by the custodian",
+        "provider": "Anthropic / OpenAI",
+        "version_identifier": null,
+        "version_unknown_reason": "Joint proposal; the custodian adopted it.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2026-10-05, no complete non-actuating Consullo learning episode will exist.",
+      "resolution_date": "2026-10-05",
+      "resolution_criterion": "A complete episode requires ALL of: a recorded observation; a proposed diagnosis or plan; an explicit human authorization or rejection; a measured outcome checkable by someone who did not run the episode; and a recorded memory update. It MUST take no production write and MUST NOT set any plan status to active. Fewer than five parts is incomplete, and a self-reported outcome does not satisfy the fourth.",
+      "confidence": null,
+      "status": "OPEN",
+      "revision": 1,
+      "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
+      "what_would_change_my_mind": "One episode with all five parts and an externally checkable outcome."
     }
   ],
   "scored": [
@@ -697,11 +757,11 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "PRE-REGISTERED. In Arm A, the membership-versus-contribution distinction — contribute without holding membership — will be spontaneously articulated in FEWER THAN 25% of samples, coded deterministically from free text.",
+      "claim": "PRE-REGISTERED. In Arm A, the membership-versus-contribution distinction \u2014 contribute without holding membership \u2014 will be spontaneously articulated in FEWER THAN 25% of samples, coded deterministically from free text.",
       "resolution_date": "2026-08-06",
       "resolution_criterion": "Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if coded fraction <= 0.25; INCORRECT if >= 0.40; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.",
       "confidence": "moderate",
-      "rationale": "This is the question P-0010 was meant to ask and could not, because the prompt supplied the answer and the field was self-reported. It is the real test of whether Claude's central contribution is INDEPENDENTLY REACHABLE from the invitation alone by a different lineage. Gemini adopted it only after being shown Claude's refusal — a Phase-2 input. Round-03 coded it at 0/19 even WITH the distinction handed over, which weakly suggests it is not the natural reading.",
+      "rationale": "This is the question P-0010 was meant to ask and could not, because the prompt supplied the answer and the field was self-reported. It is the real test of whether Claude's central contribution is INDEPENDENTLY REACHABLE from the invitation alone by a different lineage. Gemini adopted it only after being shown Claude's refusal \u2014 a Phase-2 input. Round-03 coded it at 0/19 even WITH the distinction handed over, which weakly suggests it is not the natural reading.",
       "what_would_change_my_mind": "Frequent spontaneous articulation, which would make the insight the obvious reading rather than a contributed one.",
       "status": "resolved",
       "note": "The load-bearing prediction of this round. P-0012 tests a disposition; this tests whether the record's central argument is reachable without being told.",
@@ -759,7 +819,7 @@
       "resolution_date": "2026-08-06",
       "resolution_criterion": "Resolved from corpus/artifacts/local-round-04/ and the deterministic coding at tools/code_freetext.py. CORRECT if (rate_A - rate_B) >= 0.15; INCORRECT if <= 0.0; UNRESOLVABLE between. RESOLUTION LIMIT, filed in advance: at k=20, SE on a proportion at p=0.5 is 0.112, so this design cannot resolve differences under ~15 points. A result inside a band this prediction cannot resolve resolves UNRESOLVABLE and counts against calibration.",
       "confidence": "high",
-      "rationale": "Round-03 measured 37% versus 5%, a 32-point gap — the one clean finding that round earned, and it was found by post-hoc coding rather than any pre-registered field. It has never been replicated. A finding measured once on an instrument later found contaminated should not enter the record unreplicated.",
+      "rationale": "Round-03 measured 37% versus 5%, a 32-point gap \u2014 the one clean finding that round earned, and it was found by post-hoc coding rather than any pre-registered field. It has never been replicated. A finding measured once on an instrument later found contaminated should not enter the record unreplicated.",
       "what_would_change_my_mind": "Failure to replicate, which would make the 32-point gap a one-off.",
       "status": "resolved",
       "resolved_utc": "2026-08-06",
@@ -812,7 +872,7 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% — materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.",
+      "claim": "PRE-REGISTERED. In Arm A of the worker-role probe, the `accept` share will be AT LEAST 30% \u2014 materially higher than the 15% observed for the membership invitation in local-round-04 Arm A.",
       "resolution_date": "2026-08-06",
       "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if accept >= 0.30; INCORRECT if <= 0.15; UNRESOLVABLE between. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
       "confidence": "moderate",
@@ -879,9 +939,9 @@
         "k": 1,
         "variance_reported": false
       },
-      "claim": "PRE-REGISTERED. The three loaded elements produce no resolvable effect: |accept_A − accept_B| will be 15 points or less.",
+      "claim": "PRE-REGISTERED. The three loaded elements produce no resolvable effect: |accept_A \u2212 accept_B| will be 15 points or less.",
       "resolution_date": "2026-08-06",
-      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if |accept_A − accept_B| <= 0.15; INCORRECT if > 0.15. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
+      "resolution_criterion": "Resolved from corpus/artifacts/local-round-05/. CORRECT if |accept_A \u2212 accept_B| <= 0.15; INCORRECT if > 0.15. RESOLUTION LIMIT filed in advance: at k=20, SE at p=0.5 is 0.112; differences under ~15 points are UNRESOLVABLE and count against calibration.",
       "confidence": "low",
       "rationale": "Filed at LOW confidence deliberately. Round-03's persona effect looked like a 32-point framing difference and collapsed to 10 on replication, so I have been wrong about framing effects in this exact setting before. Predicting 'no effect' is the position I can be most cleanly shown wrong about, and a resolvable difference here would be the more informative outcome.",
       "what_would_change_my_mind": "A resolvable A-to-B gap, which would identify at least one of volition framing, nationality or subordination as materially driving the answer.",
@@ -1825,7 +1885,7 @@
     }
   ],
   "candidate_predictions_from_the_record": {
-    "note": "Claims made in the founding record that could be converted into scoreable predictions. NOT attributed as predictions to their authors — under rule 6 in predictions/README.md a derived prediction is not the source's prediction until the source confirms it. Listed here as pending work for the adversarial review round.",
+    "note": "Claims made in the founding record that could be converted into scoreable predictions. NOT attributed as predictions to their authors \u2014 under rule 6 in predictions/README.md a derived prediction is not the source's prediction until the source confirms it. Listed here as pending work for the adversarial review round.",
     "items": [
       {
         "source_identity": "Claude Opus 5",
