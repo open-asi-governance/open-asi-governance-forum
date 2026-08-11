@@ -39,6 +39,9 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 import build_round_pages as b                                            # noqa: E402
 
 DOCS = REPO_ROOT / "docs"
+
+#  The register is frozen at this rank. See main().
+FROZEN_AT = 63
 #  Written by main() AFTER the pages are on disk; read by build_viewer.py so its pruner keeps
 #  what was actually published rather than what a partition function says ought to exist.
 RECEIPT = REPO_ROOT / "docs" / "artifacts" / "controls-pages.json"
@@ -2099,6 +2102,29 @@ def main() -> int:
     #  review pointed out that any procedure resolving scope would have to guess, and would
     #  guess silently. This refuses instead. It is control 53 applied to the register itself: an
     #  unknown must not be quietly read as a value.
+    #  FROZEN AT 63, 2026-08-11. The register is not accepting new hypotheses.
+    #
+    #  It grew 10 -> 63 in a day by mining implementer design prose, and 50 of those have no
+    #  recorded failure. Mining more increases hypothesis volume, not failure evidence, and the
+    #  ratio of incident-derived to speculative entries is the register's credibility problem.
+    #  Four fifths of the source corpus remains unmined and will stay that way.
+    #
+    #  THE PROMOTION BAR. A control past rank 63 must be ELIGIBLE -- derived from a failure that
+    #  actually happened, with a cost. Not from a design document, not from a panel's approval,
+    #  and not from this workbench finding an argument persuasive. That is the only route left in.
+    #
+    #  This is a gate on the register itself, so it can be defeated by editing this function. It
+    #  makes adding a speculative control a deliberate act rather than an easy one, which is all a
+    #  self-imposed bar can do.
+    speculative_additions = [c["rank"] for c in CONTROLS
+                             if c["rank"] > FROZEN_AT and not c.get("eligible", True)]
+    if speculative_additions:
+        print(f"  controls {speculative_additions} are past the freeze at rank {FROZEN_AT} and "
+              f"carry no recorded failure. The register is frozen: past {FROZEN_AT}, only "
+              f"failure-derived controls are admitted. Mining more design prose is not a route "
+              f"in.", file=sys.stderr)
+        return 1
+
     unscoped = [c["rank"] for c in CONTROLS if not c.get("applies_when")]
     if unscoped:
         print(f"  controls {unscoped} state no applies_when. A control whose scope is absent "

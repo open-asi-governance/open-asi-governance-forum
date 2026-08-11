@@ -198,13 +198,16 @@ DETERMINATION: dict[int, tuple[str, str]] = {
       "their evidence, and undisposed amendments block a re-ballot. The skipped-source and "
       "severity-change fields control 49 asks for do not exist."),
  50: ("VIOLATED",
-      "tools/gate_health.py now computes it from the action log. **The rate is 0.857 — 18 of 21 "
+      "tools/gate_health.py computes it from the action log, and codex_call.py now PRINTS IT AT "
+      "THE MOMENT OF OVERRIDE rather than only in a report nobody runs — which is what the "
+      "control asks for. **The rate is 0.857 — 18 of 21 "
       "Codex invocations overrode the 10-minute floor.** Every one was on the custodian's "
       "direction and individually justified; the aggregate was invisible until it was counted, "
       "which is the whole of what control 50 predicts. Still VIOLATED rather than PRACTISED: the "
-      "control requires the rate to be reported WHEREVER the control's effectiveness is claimed, "
-      "and nothing yet carries it there. A floor overridden 86% of the time is not a floor, and "
-      "the honest reading may be that the floor is wrong rather than that it is abused."),
+      "control also requires the SEVERITY DISTRIBUTION of what was overridden and the completion "
+      "of follow-up actions, and neither is recorded. A floor overridden 86% of the time is not "
+      "a floor; whether the right response is to delete it or reset it is a SPEND decision on an "
+      "unreadable channel, so it sits with the custodian rather than being taken here."),
  51: ("UNRESOLVED",
       "Rollbacks here are rare and no record has been checked for an unrestored-state field. The "
       "external effects of a published-then-corrected page are not restorable and this is stated "

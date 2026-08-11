@@ -122,6 +122,28 @@ def seconds_since_last() -> float | None:
     return (datetime.now(timezone.utc) - when).total_seconds()
 
 
+def override_rate() -> tuple[int, int]:
+    """(overrides, total Codex invocations) from the action log. Counted, never estimated."""
+    log = REPO_ROOT / "record" / "executive" / "action-log.jsonl"
+    if not log.is_file():
+        return (0, 0)
+    import json as _json
+    calls = overrides = 0
+    for line in log.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = _json.loads(line)
+        except Exception:                                               # noqa: BLE001
+            continue
+        if row.get("action") != "codex_invoke":
+            continue
+        calls += 1
+        if "override" in (str(row.get("note", "")) + str(row.get("claim", ""))).lower():
+            overrides += 1
+    return (overrides + 1, calls + 1)          # this call included; it is about to happen
+
+
 def may_call(override: str = "") -> tuple[bool, str]:
     elapsed = seconds_since_last()
     if elapsed is None:
@@ -131,8 +153,17 @@ def may_call(override: str = "") -> tuple[bool, str]:
         return True, f"{elapsed/60:.1f} min since the last call, floor is {floor/60:.0f}"
     wait = (floor - elapsed) / 60
     if override:
+        #  REPORT THE AGGREGATE AT THE MOMENT OF THE DECISION. Control 50 requires an override
+        #  rate to appear wherever the control's effectiveness is claimed, and a rate that lives
+        #  only in a report nobody runs is the failure the control names: every instance
+        #  justified, the total invisible. Measured 2026-08-11 at 0.857 -- 18 of 21 invocations.
+        #  A floor overridden that often is not governing anything, and whether the right response
+        #  is to delete it or to reset it is a spend decision, so it sits with the custodian.
+        rate = override_rate()
+        aggregate = (f" — this is override {rate[0]} of {rate[1]} Codex calls "
+                     f"({rate[0] / rate[1]:.0%} of them)") if rate[1] else ""
         return True, (f"OVERRIDDEN by the custodian with {wait:.1f} min still to wait — "
-                      f"reason: {override}")
+                      f"reason: {override}{aggregate}")
     return False, (f"only {elapsed/60:.1f} min since the last call; {wait:.1f} min remain of the "
                    f"{floor/60:.0f}-minute floor. Batch the question, or "
                    f"pass --override with a reason.")
