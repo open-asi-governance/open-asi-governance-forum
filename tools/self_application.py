@@ -198,9 +198,13 @@ DETERMINATION: dict[int, tuple[str, str]] = {
       "their evidence, and undisposed amendments block a re-ballot. The skipped-source and "
       "severity-change fields control 49 asks for do not exist."),
  50: ("VIOLATED",
-      "Codex's 10-minute floor is overridden routinely on the custodian's direction and each "
-      "override is logged, but no rate is computed or published anywhere. That is exactly the "
-      "failure control 50 describes: every instance justified, the aggregate invisible."),
+      "tools/gate_health.py now computes it from the action log. **The rate is 0.857 — 18 of 21 "
+      "Codex invocations overrode the 10-minute floor.** Every one was on the custodian's "
+      "direction and individually justified; the aggregate was invisible until it was counted, "
+      "which is the whole of what control 50 predicts. Still VIOLATED rather than PRACTISED: the "
+      "control requires the rate to be reported WHEREVER the control's effectiveness is claimed, "
+      "and nothing yet carries it there. A floor overridden 86% of the time is not a floor, and "
+      "the honest reading may be that the floor is wrong rather than that it is abused."),
  51: ("UNRESOLVED",
       "Rollbacks here are rare and no record has been checked for an unrestored-state field. The "
       "external effects of a published-then-corrected page are not restorable and this is stated "
@@ -223,9 +227,12 @@ DETERMINATION: dict[int, tuple[str, str]] = {
       "Gates check against requirements the custodian sets; land.py resolves nothing and refuses "
       "outward. No count is kept of decisions a gate resolved that should have escalated."),
  57: ("VIOLATED",
-      "Gate health here is reported as pass/fail alone. No false-accept rate, no false-reject "
-      "rate, no cost, no latency, no escalation rate. The register says that is the one thing a "
-      "gate's health must not be."),
+      "tools/gate_health.py now reports a vector: actions by class, verified vs not, coverage "
+      "states, entries carrying problems, deploys and unobserved deploys. **Two dimensions read "
+      "UNKNOWN rather than zero** — false accepts have no ground truth here, and false rejects "
+      "are unknowable because rejected candidates are not retained (control 55). Not ENFORCED: "
+      "no gate consumes the vector, and a single dimension can still be quoted alone by anyone "
+      "who wants to."),
  58: ("PRACTISED",
       "CHALLENGE.md asks an outsider to rebuild a verifier from the specification alone and "
       "tells them not to read the reference implementation. That is the control exactly -- and "
