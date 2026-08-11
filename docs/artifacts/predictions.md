@@ -1,10 +1,10 @@
 # Prediction registry — Open ASI Governance Forum
 
-17 open · 21 scored — 1 condition met early, not yet scored · 8 correct · 9 incorrect · 3 unresolvable
+18 open · 21 scored — 1 condition met early, not yet scored · 8 correct · 9 incorrect · 3 unresolvable
 
 ## Read these before reading the numbers
 
-- 35 of 38 predictions are forecast by the annotator (92%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
+- 36 of 39 predictions are forecast by the annotator (92%) — Claude Code, an Anthropic invocation surface that is a party to this record. External forecasters: ChatGPT (1), Claude Fable 5 (1), Gemini (1).
 - 5 of 21 scored entries name the party that scored them, and 0 were independently verified. All 21 now carry a scored_by block, but every one records identity: null with a stated reason: the field did not exist when they were scored, so the judging party was never captured and is inferred from git history rather than recorded. The party that wrote each claim, wrote its resolution criterion, and applied the outcome is the same party. See D-18.
 - Every scored entry now cites the hash-anchored artifacts its evidence rests on. Two external parties scoring this registry blind judged that 10 of 13 could not be verified from what was published, because the evidence restated derived numbers instead of pointing at samples that were in the corpus the whole time (D-40). The citations are a CANDIDATE SET derived mechanically from each outcome's own commit; nobody has verified per claim that those samples establish that criterion.
 - 21 scored outcomes cannot establish calibration. They are not independent, they share a forecaster, and several concern this project's own behaviour, which the forecaster also controls. No aggregate score is computed here, deliberately.
@@ -177,7 +177,7 @@
 
 - resolves 2026-10-05
 - confidence None
-- status OPEN
+- status WITHDRAWN
 
 **Claim.** Across the next ten material claims published by this record, no gate will catch a self-favouring error prospectively - before publication and before any external reader.
 
@@ -187,11 +187,21 @@
 
 - resolves 2026-10-05
 - confidence None
-- status OPEN
+- status WITHDRAWN
 
 **Claim.** As of 2026-10-05, no complete non-actuating Consullo learning episode will exist.
 
 **Resolution criterion.** A complete episode requires ALL of: a recorded observation; a proposed diagnosis or plan; an explicit human authorization or rejection; a measured outcome checkable by someone who did not run the episode; and a recorded memory update. It MUST take no production write and MUST NOT set any plan status to active. Fewer than five parts is incomplete, and a self-reported outcome does not satisfy the fourth.
+
+### P-0034 — Claude Code + Codex, adopted by the custodian
+
+- resolves 2026-10-05
+- confidence None
+- status OPEN
+
+**Claim.** As of 2026-10-05, no measured comparison of AgentBuilder output quality between two pipeline versions will exist.
+
+**Resolution criterion.** A comparison counts only if ALL of: (a) a defect-rate measurement over generated agents with a stated denominator and a stated provenance basis; (b) the measurement method FIXED AND RECORDED BEFORE the second run, so the second measurement cannot be tuned to the result; (c) two distinct generator versions measured by that same method; (d) a hand-verified random sample of at least 30 hits confirming the machine count. A single baseline measurement is NOT a comparison. A change in either direction counts -- the prediction is about whether the loop is MEASURED, not about whether it improved.
 
 ## Scored
 

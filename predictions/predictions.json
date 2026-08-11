@@ -339,10 +339,13 @@
       "resolution_date": "2026-10-05",
       "resolution_criterion": "A material claim is one a reader could act on: a count, an absence, a novelty claim, a dependence claim, or a capability claim, appearing on the published site or in a landed finding. A gate catches it PROSPECTIVELY only if the gate's non-zero exit preceded the claim being landed. Errors caught by Codex, by a human re-read, or by an outside party DO NOT count, whatever they found. Resolves early and NEGATIVE the moment a gate catches one.",
       "confidence": null,
-      "status": "OPEN",
-      "revision": 1,
+      "status": "WITHDRAWN",
+      "revision": 2,
       "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
-      "what_would_change_my_mind": "One gate refusal naming a specific false claim, before that claim is landed."
+      "what_would_change_my_mind": "One gate refusal naming a specific false claim, before that claim is landed.",
+      "withdrawn_utc": "2026-08-11",
+      "withdrawn_because": "CATEGORY ERROR, found by the custodian within hours of adoption and sustained by external review. The prediction asked whether a GATE catches an error, and was offered as a test of whether CONTROLS make builder error visible. Those are different propositions. Only 7 of 63 registered controls are ENFORCED, land.py runs 8 gates, and of the seven self-favouring errors this checkpoint was built from, NONE was in scope of a truth-capable enforced control at the time: five had no enforced control covering the class, one (the '0 searches' count) was covered by control 5 but enforced inside derive_counts.py while the failing scan was a different script that never called it, and one was in scope of prose-triage, which fired, demanded a disposition, and accepted the one supplied -- it checks FORM, and a false claim with correct form passes by design. The classification therefore supports ZERO demonstrated efficacy failures. Resolved POSITIVE the prediction would have been read as evidence that controls do not work, when the fact established would have been that they were never applied. WITHDRAWN rather than amended, because rewriting a limb whose likely resolution had just been challenged is the re-proposal laundering control 13 exists to catch.",
+      "supersedes_or_superseded_by": "no replacement; the coverage-versus-efficacy question is recorded but not registered as a prediction"
     },
     {
       "id": "P-0033",
@@ -359,10 +362,33 @@
       "resolution_date": "2026-10-05",
       "resolution_criterion": "A complete episode requires ALL of: a recorded observation; a proposed diagnosis or plan; an explicit human authorization or rejection; a measured outcome checkable by someone who did not run the episode; and a recorded memory update. It MUST take no production write and MUST NOT set any plan status to active. Fewer than five parts is incomplete, and a self-reported outcome does not satisfy the fourth.",
       "confidence": null,
+      "status": "WITHDRAWN",
+      "revision": 2,
+      "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
+      "what_would_change_my_mind": "One episode with all five parts and an externally checkable outcome.",
+      "withdrawn_utc": "2026-08-11",
+      "withdrawn_because": "MIS-AIMED, not false. It asked whether a learning loop EXISTS. The custodian pointed out that the AgentBuilder pipeline already is one and runs at scale: ~2,513 agent repos with a main agent class, generated, including agents that participate in the build pipeline itself and the RSI control plane. Existence was the wrong question. Self-construction is not self-improvement; what distinguishes them is measured gain across generations, and that is what P-0034 asks instead.",
+      "supersedes_or_superseded_by": "superseded by P-0034"
+    },
+    {
+      "id": "P-0034",
+      "created_utc": "2026-08-11",
+      "forecaster": {
+        "identity": "Claude Code + Codex, adopted by the custodian",
+        "provider": "Anthropic / OpenAI",
+        "version_identifier": null,
+        "version_unknown_reason": "Joint proposal; the custodian adopted it.",
+        "k": 1,
+        "variance_reported": false
+      },
+      "claim": "As of 2026-10-05, no measured comparison of AgentBuilder output quality between two pipeline versions will exist.",
+      "resolution_date": "2026-10-05",
+      "resolution_criterion": "A comparison counts only if ALL of: (a) a defect-rate measurement over generated agents with a stated denominator and a stated provenance basis; (b) the measurement method FIXED AND RECORDED BEFORE the second run, so the second measurement cannot be tuned to the result; (c) two distinct generator versions measured by that same method; (d) a hand-verified random sample of at least 30 hits confirming the machine count. A single baseline measurement is NOT a comparison. A change in either direction counts -- the prediction is about whether the loop is MEASURED, not about whether it improved.",
+      "confidence": null,
       "status": "OPEN",
       "revision": 1,
-      "rationale": "Limb of the OAGF mothball checkpoint adopted 2026-08-11. See record/designs/mothball-checkpoint.md. Registered as three SEPARATE predictions so no single judgement call can absorb all three.",
-      "what_would_change_my_mind": "One episode with all five parts and an externally checkable outcome."
+      "rationale": "Replaces P-0033 as the third limb of the mothball checkpoint adopted 2026-08-11. The AgentBuilder loop exists; what has never existed is a fitness signal for it. Recursive self-IMPROVEMENT requires each generation to be measurably better than the last, and nothing in the programme currently measures that. The handoff at Consullo docs/designs/technical-reports/asi-readiness-audit/HANDOFF-agentbuilder-output-quality.md commissions the baseline half.",
+      "what_would_change_my_mind": "Two generator versions measured by one pre-registered method, with a hand-verified sample."
     }
   ],
   "scored": [
