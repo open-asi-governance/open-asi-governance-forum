@@ -59,7 +59,8 @@ The number 908 is load-bearing elsewhere. See Episode C.
 The tool prints an accurate diagnosis of its own total failure and then **reports success to its
 caller.** Any script of the form `if tool; then publish; fi` treats both as a clean run. This is
 this record's own dominant failure — a green signal not causally downstream of what it certifies —
-reproduced in an unrelated codebase, and it is the same shape as the `$?`-from-the-wrong-command
+reproduced in a different subsystem of the same implementer, and it is the same shape as the
+`$?`-from-the-wrong-command
 and `tail -2`-of-a-failing-suite defects in this project's own history.
 
 ## Episode C — control 42, capability claims name their stratum
@@ -110,9 +111,14 @@ not-applicable row with a plausible reason, and nothing would ever have looked a
 
 * Three of four challenged controls were **ESCAPED** by a mechanism that produces a published
   number, on the first attempt, in an afternoon.
-* The failures are the **same class** already recorded here against this project's own tooling.
-  Two independent codebases, same shape. That is the second data point for a claim previously
-  resting on one.
+* The failures are the **same class** already recorded here against this project's own
+  tooling. **CORRECTED BEFORE PUBLICATION: a draft of this said "two independent
+  codebases". That was false, and false in this project's favour.** The earlier
+  four-of-five result and this pilot are the SAME implementer — serving-stack health checks
+  then a hierarchy analysis tool. What is shown is that the class crosses unrelated
+  SUBSYSTEMS of one codebase, which is exactly what the earlier finding claimed and no
+  more. **A second implementer remains the datum this record does not have**, and it is the
+  same gap as `INDEPENDENTLY-IMPLEMENTED`.
 * An applicability declaration that would have passed unchallenged **was defeated by a single
   witness**, which is the specific thing a self-assessment cannot do.
 

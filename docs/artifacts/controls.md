@@ -50,9 +50,23 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
 `INDEPENDENTLY-IMPLEMENTED` is the rung that would make any of this authoritative, and it is the one **no amount of review by us or by any panel of models can supply.** It requires a stranger to build a conforming verifier from the specification text alone. That is what [the implementation challenge](challenge.html) asks for.
 
+## Why complying with these is worth your time
+
+The caution on this page is about what a *claim* of compliance is worth. It is not hedging about the controls themselves. **We think a system that satisfies these is better than one that does not, and we would rather you adopted them and never told us.**
+
+**The 13 above the line are not speculative.** Each came from something that actually broke, at cost: a health check that returned 200 for hours after the service it monitored had permanently died; a test runner that printed *all suites passed* while exiting non-zero; a scan that reported a total of zero because it could not read most of the files it was counting, and reported it three times. Every one was written by a competent person who believed the check worked. **These controls are what those failures cost, written down so the next system does not have to buy them again.**
+
+**The failure class generalises, and that is measured rather than asserted.** Applied adversarially to one implementer's production checks, four of five survived the exact condition they existed to detect. Challenged again in an unrelated SUBSYSTEM of that same codebase, three of four challenged mechanisms did the same — one silently dropped 258 records from a published figure because a single field named something absent, and exited reporting success. **Two unrelated subsystems, same shape, each found in an afternoon.** Both belong to the same implementer, so that is one confirmation holding across parts of a codebase that share nothing — not two independent ones. We expect it is roughly what most check suites return the first time anyone asks, and we would like to be told if it is not.
+
+**They are cheap and they are separable.** Each is one requirement with a verifier and a fixture — not a framework, not a maturity model, not a thing to join. There is no adoption step, no registration, and no benefit to us if you use them. **Take one and ignore the other 62.** Control 2 alone is an afternoon, and it is where we would start, because it is the cheapest way to find out which of your existing checks cannot fail.
+
+**The 50 below the line are worth reading even though they are unproven.** They have no incident behind them and are marked as hypotheses wherever they appear — but each names a real way systems go wrong, and **a hazard you have never named is one you cannot notice.** Reading them costs an hour. Treating them as requirements would be treating our guesses as your evidence.
+
+**The asymmetry is the argument.** Complying costs hours. Not complying costs a number you will act on that is not true, found at a time you do not choose. None of this makes a system safe, and this page says so at length below — but **knowing which of your checks are decorative is strictly better than not knowing**, and it is available to you today without anyone's permission, including ours.
+
 ## Why there is no guidance on applying these to your system
 
-You will look for a procedure — a checklist, a scoring rubric, a way to work out which controls apply to you and report how you did. **There is deliberately none, and the omission is the considered position rather than work not yet done.**
+Given all that, you will reasonably look for a procedure — a checklist, a scoring rubric, a way to work out which controls apply to you and report how you did. **There is deliberately none, and the omission is the considered position rather than work not yet done.**
 
 A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 13 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.
 
