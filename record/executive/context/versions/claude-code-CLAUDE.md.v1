@@ -12,27 +12,6 @@ plausible branches after failure. Mark a problem or experiment failure `EXHAUSTE
 known justified branch is terminal and no evidence-supported, affordable variation remains. A model's
 diagnosis is a hypothesis to test, never causal proof.
 
-## Agent Integration Campaign — Read the Plan First
-
-Before doing any work on Consullo agent integration, the agent hierarchy, `checkIn`/`healthCheck`
-traversal, or agent generation for hierarchy repair, **read the control document**:
-
-`/home/reed/git/consullo-asi-friendship/docs/integration-campaign.md`
-
-It carries the goal, acceptance criteria A1–A6, the established facts, the ordered steps with their
-individual acceptance tests, a "what is not evidence" section, and the reusable gotchas. It is
-written so a fresh session can resume from it alone.
-
-This pointer lives here, in the workspace-root file, deliberately. The plan sits in an agent
-repository, and that repository's own `CLAUDE.md` loads only when work happens to touch that
-directory — so after a context compaction or in a new session the plan would otherwise be invisible.
-Re-open it after compaction rather than working from conversational memory; conversational memory is
-what the campaign's own evidence rules say not to trust.
-
-Companion records, same repository: `docs/supervised-seed-ai-integration-handoff-2026-08-10.md`
-(authority, evidence rules, wave plan) and `docs/ws4-design-review-2026-08-10.md` (findings plus the
-refutation addendum).
-
 ## TensorRT-LLM Defect Campaign — Standing Objective
 
 The goal is to **find TensorRT-LLM defects, diagnose them to root cause, and land complete upstream
