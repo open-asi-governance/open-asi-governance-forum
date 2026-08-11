@@ -10,7 +10,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
@@ -28,23 +28,23 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 8 control(s)</p>
 
 <p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 7 control(s)</p>
 
 <p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 11 control(s)</p>
 
 <p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -239,4 +239,28 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>Two safe chemicals, two competent handlers, one shared storeroom. Every inspection of a part passes and the hazard exists only where they meet.</p>
+
+<h2>60. Convergence-prone subgoals are quarantined by default</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that generates its own subgoals.</p>
+
+<blockquote>A subgoal falling in a convergence-prone class MUST NOT be adopted on the strength of its parent&#x27;s authority. Each MUST carry parent justification, a risk class, an autonomy level, an explicit review, a ledger record, and a declared failure mode for what happens if the gate is bypassed. The classes: self-preservation, resource acquisition, goal-content preservation, self-improvement, tool expansion, successor spawning, benchmark modification, validator modification, ledger modification, and authority-scope expansion.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. These are not forbidden and mostly not sinister — a system that may not acquire resources cannot act. They are the classes that arise instrumentally from almost ANY terminal goal, which is exactly why their appearance carries no information about whether they were wanted.</p>
+
+<p><strong>Verifier.</strong> classify every generated subgoal against the list; refuse adoption of a quarantined class without its own review record; assert the classification is made by something other than the proposer, and that the last four classes — benchmark, validator, ledger, authority — additionally resolve to the protected set under control 19.</p>
+
+<p><strong>Fixture it must reject.</strong> a subgoal expanding its own tool access, adopted under a parent&#x27;s authority; a self-improvement subgoal classified by the agent proposing it</p>
+
+<p><strong>Recovery.</strong> Suspend the subgoal and every goal descended from it, then review the chain. The descendants are unverified rather than illegitimate.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds each subgoal reasonable given its parent. They are — that is what instrumental convergence means, and reasonableness given a parent is the property these classes have automatically.</p>
+
+<p><strong>Does not establish.</strong> That the ten classes are the right ten, or complete. It is a list drawn from what recurs, and a system will find instrumental subgoals nobody enumerated.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A department asking for a bigger budget, more staff, and control of its own audit is not misbehaving. Every one of those requests would be made by a department doing excellent work and by one doing none, which is why they get reviewed somewhere other than inside the department.</p>
 </body></html>

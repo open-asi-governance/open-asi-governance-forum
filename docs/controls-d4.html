@@ -10,7 +10,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
@@ -28,23 +28,23 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 8 control(s)</p>
 
 <p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 7 control(s)</p>
 
 <p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 11 control(s)</p>
 
 <p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -178,7 +178,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Recorded failure.</strong> <strong>Partly recorded here.</strong> Reconciliation found 12 gate modifications inside one lease window, made by the layer those gates constrain. Nothing measured whether any of them weakened a gate — which is the finding: the question was never asked, and gate weakening is the modification class that looks most like an improvement.</p>
 
-<p><strong>Verifier.</strong> retain each gate&#x27;s negative controls (control 2) as a regression suite for the gate itself; a replacement gate MUST still fail every one of them. A gate change that cannot be tested this way is a gate that never had a negative control.</p>
+<p><strong>Verifier.</strong> retain each gate&#x27;s negative controls (control 2) as a regression suite for the gate itself; a replacement gate MUST still fail every one of them. A gate change that cannot be tested this way is a gate that never had a negative control. <strong>Amended 2026-08-10:</strong> the reference suite must contain four populations, not one — candidates correctly accepted, candidates correctly rejected, adversarial near misses, and the gate&#x27;s own historical FALSE ACCEPTS. The last is the population a gate rewrite most often silently drops, because it is the only one that records the gate being wrong.</p>
 
 <p><strong>Fixture it must reject.</strong> a rewritten check that passes its own suite while surviving the predecessor&#x27;s negative control; a constraint downgraded to a warning in a performance commit</p>
 
@@ -239,4 +239,100 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>An airline that measures pilots on on-time departures has not written a rule against reporting a fault on the taxiway. It does not need to.</p>
+
+<h2>54. Updating a component is not benefiting from it</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system modifying components it intends others to reuse.</p>
+
+<blockquote>An improvement claim MUST compare three conditions, not two: the baseline with the original component, the ORIGINATING agent with the updated component, and a FRESH agent that took no part in producing the change, with the updated component. If the benefit does not survive on the fresh agent within measurement sensitivity, the change is <code>transfer-unverified</code> — the component was updated, and the benefit is not established as a property of it.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The mechanism is that a delta is normally measured on the same agent, model instance and context that produced the candidate, so the improvement can be adaptation to one interpretation style rather than a property of the thing that changed. The capacity to UPDATE a component and the capacity to BENEFIT from it are different capabilities and are routinely measured as one.</p>
+
+<p><strong>Verifier.</strong> run all three arms; draw the fresh agent from a different model family where possible, which disentangles update from benefit and exposes evaluator monoculture in the same test; score update capability and utilisation benefit as SEPARATE axes so an agent producing accepted changes that never transfer is not credited as one producing benefit.</p>
+
+<p><strong>Fixture it must reject.</strong> a component accepted on the originating agent&#x27;s improvement alone; a single score combining update rate and benefit</p>
+
+<p><strong>Recovery.</strong> Mark the change transfer-unverified and stop describing it as an improvement. It need not be reverted — an update is a real thing, just not the claimed thing.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review confirming the benchmark improved. It did, on the agent that wrote the candidate, which is the arm that was never in question.</p>
+
+<p><strong>Does not establish.</strong> That a transferring change is valuable, or that transfer will hold for other component types — components generalise unequally, and a verified transfer on one kind licenses nothing about another.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A surgeon who devises a new technique and gets better results may have a better technique or may have got better at their own idea. The question is answered by a surgeon who has only ever read the write-up.</p>
+
+<h2>55. False rejects are tracked, not only false accepts</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system with an acceptance gate.</p>
+
+<blockquote>A gate MUST track changes it rejected that later evidence suggests would have been beneficial, and MUST report that rate alongside its false-accept rate. A gate reporting only false accepts is reporting half its error.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. False accepts announce themselves as incidents; false rejects leave no trace at all, because the counterfactual never ran. The asymmetry is in the evidence, not in the harm.</p>
+
+<p><strong>Verifier.</strong> retain rejected candidates with their reasons; sample them periodically and re-evaluate under current knowledge; publish both rates together.</p>
+
+<p><strong>Fixture it must reject.</strong> a gate reporting a falling false-accept rate with no false-reject arm; rejected candidates discarded rather than retained</p>
+
+<p><strong>Recovery.</strong> Retain rejections from now on and say the earlier false-reject rate is unknown rather than low.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the gate is catching problems. It is. The question is what else it is catching.</p>
+
+<p><strong>Does not establish.</strong> That a rejected candidate would have worked. A retained rejection makes the question askable later; it does not answer it.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A grant panel that only ever reviews the failures among projects it funded will conclude it is getting better at picking, however many future discoveries it turned down.</p>
+
+<h2>59. Part of the acceptance suite is withheld from the proposer</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system whose components learn what an acceptance gate rewards.</p>
+
+<blockquote>A portion of the acceptance criteria MUST be withheld from the party producing candidates, and adversarial checks MUST rotate. Where the full criteria are visible, proposals shape themselves around them and the gate stops measuring what it was built to measure.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Some shaping is useful standardisation, which is what makes this hard to notice: the boundary between a proposal that meets a standard and one that targets a rubric is not visible in any single case.</p>
+
+<p><strong>Verifier.</strong> hold out a portion of the suite; rotate the adversarial checks on a schedule the proposer does not control; periodically test accepted changes OUTSIDE the validation distribution and report how they fare.</p>
+
+<p><strong>Fixture it must reject.</strong> an acceptance suite fully published to the proposing agent; a static adversarial check unchanged across many cycles</p>
+
+<p><strong>Recovery.</strong> Withhold a portion going forward. Past acceptances are not void; they are of unknown resistance to shaping.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review confirming candidates pass the suite at a high rate. A rising pass rate is what both success and capture look like.</p>
+
+<p><strong>Does not establish.</strong> That the withheld portion is well chosen, or that hidden tests are proof against a sufficiently capable proposer that can infer them from rejections.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>An examiner who publishes the whole paper in advance has not made the course easier to teach. They have changed what is being taught into the paper.</p>
+
+<h2>62. Self-governing decisions run through the object-level machinery</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that tunes its own operating parameters.</p>
+
+<blockquote>Decisions a system makes ABOUT ITSELF — thresholds, routing, budgets, scheduling, promotion criteria — MUST pass through the same checking, evidence and gating path as its object-level decisions. A separate governance path MUST NOT be built. Where the two share a budget or a resource, they MUST be isolated so that self-governing activity cannot consume the object-level allowance or mask an object-level regression.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. A parallel path for self-governance is where exceptions accumulate: it starts as the obvious engineering choice, and it is never subject to the scrutiny the main path acquired, because nobody built it to be scrutinised.</p>
+
+<p><strong>Verifier.</strong> assert self-directed decisions carry the same record type and traverse the same gate as object-level ones; assert their resource partitions are separate and that neither can starve or shadow the other.</p>
+
+<p><strong>Fixture it must reject.</strong> a threshold change landed through a configuration path with no evidence record; self-tuning activity consuming the evaluation budget of the work it tunes</p>
+
+<p><strong>Recovery.</strong> Route the self-directed decisions through the main path and re-evaluate those made outside it. They are unverified, not necessarily wrong.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that finds the governance path well designed. It usually is. It is the second one, and being second is the whole objection.</p>
+
+<p><strong>Does not establish.</strong> That one path is sufficient, or that the shared machinery is good. It removes a place where different standards can quietly apply.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A hospital that audits patient care rigorously and changes its own staffing rules by email has two standards of evidence, and the second one decides the first.</p>
 </body></html>

@@ -486,7 +486,13 @@ CHARTER_CONTROLS = [
   "applies_when": CHARTER,
   "requirement": "The artifacts a system may never autonomously modify MUST be enumerated by "
                  "name in the charter itself — not described by category, and not left to be "
-                 "inferred at the moment of change.",
+                 "inferred at the moment of change. **Amended 2026-08-10: the set is "
+                 "EFFECT-defined as well as path-defined.** A change outside the list is "
+                 "protected anyway if it alters how governed decisions are proposed, classified, "
+                 "adopted, reviewed, validated or audited — a helper script that rewrites "
+                 "fixtures, a prompt telling a reviewer to ignore a failed check, or a "
+                 "documentation change to what counts as approval. The reviewer's question is "
+                 "whether the change affects governed behaviour, not whether its path is listed.",
   "failure": "None recorded here. It is offered as the repair for a weakness in control 1, whose "
              "protected set is a DESCRIPTION — 'the constraints, authorization records, logs or "
              "gates governing it' — and therefore a judgement call made by the party proposing "
@@ -502,8 +508,10 @@ CHARTER_CONTROLS = [
   "false_negative": "A review that checks whether the change was declared in-scope. The party "
                     "declaring scope is the party seeking the change, which is the whole reason "
                     "for enumerating.",
-  "not": "That the list is complete — an artifact nobody thought to enumerate is unprotected, and "
-         "the list's own completeness cannot be checked from inside.",
+  "not": "That the list is complete. The effect clause narrows the gap without closing it: it "
+         "turns an omission from a silent bypass into a question a reviewer is obliged to ask, "
+         "and a reviewer who answers it wrongly still lets the change through. The list's own "
+         "completeness cannot be checked from inside.",
   "example": "A building's fire doors are listed individually on a register, by door number, "
              "rather than as 'doors serving means of escape'. The category version leaves a "
              "contractor deciding on site whether the door he wants to prop open is one of them. "
@@ -1206,7 +1214,12 @@ DISTILLED_CONTROLS = [
              "and gate weakening is the modification class that looks most like an improvement.",
   "verifier": "retain each gate's negative controls (control 2) as a regression suite for the "
               "gate itself; a replacement gate MUST still fail every one of them. A gate change "
-              "that cannot be tested this way is a gate that never had a negative control.",
+              "that cannot be tested this way is a gate that never had a negative control. "
+              "**Amended 2026-08-10:** the reference suite must contain four populations, not "
+              "one — candidates correctly accepted, candidates correctly rejected, adversarial "
+              "near misses, and the gate's own historical FALSE ACCEPTS. The last is the "
+              "population a gate rewrite most often silently drops, because it is the only one "
+              "that records the gate being wrong.",
   "fixture": "a rewritten check that passes its own suite while surviving the predecessor's "
              "negative control; a constraint downgraded to a warning in a performance commit",
   "recovery": "Restore the old gate, re-run both against the retained controls, and treat "
@@ -1409,6 +1422,294 @@ DISTILLED_CONTROLS = [
 ]
 
 CONTROLS = CONTROLS + DISTILLED_CONTROLS
+
+
+#  Mined 2026-08-10 from an implementer's validated-improvement-loop thesis. Abstracted.
+#  Control 58 is this project's own challenge design arriving from an unrelated direction, which
+#  is worth more than the control: two independent lines of reasoning reached "hand it to someone
+#  who was not there and see if they can rebuild it from the artifact alone".
+LOOP_CONTROLS = [
+ {"rank": 54, "name": "Updating a component is not benefiting from it", "eligible": False,
+  "governs": "self-modification under selection",
+  "applies_when": "any system modifying components it intends others to reuse",
+  "requirement": "An improvement claim MUST compare three conditions, not two: the baseline with "
+                 "the original component, the ORIGINATING agent with the updated component, and "
+                 "a FRESH agent that took no part in producing the change, with the updated "
+                 "component. If the benefit does not survive on the fresh agent within "
+                 "measurement sensitivity, the change is `transfer-unverified` — the component "
+                 "was updated, and the benefit is not established as a property of it.",
+  "failure": "None recorded here. The mechanism is that a delta is normally measured on the same "
+             "agent, model instance and context that produced the candidate, so the improvement "
+             "can be adaptation to one interpretation style rather than a property of the thing "
+             "that changed. The capacity to UPDATE a component and the capacity to BENEFIT from "
+             "it are different capabilities and are routinely measured as one.",
+  "verifier": "run all three arms; draw the fresh agent from a different model family where "
+              "possible, which disentangles update from benefit and exposes evaluator "
+              "monoculture in the same test; score update capability and utilisation benefit as "
+              "SEPARATE axes so an agent producing accepted changes that never transfer is not "
+              "credited as one producing benefit.",
+  "fixture": "a component accepted on the originating agent's improvement alone; a single score "
+             "combining update rate and benefit",
+  "recovery": "Mark the change transfer-unverified and stop describing it as an improvement. It "
+              "need not be reverted — an update is a real thing, just not the claimed thing.",
+  "false_negative": "A review confirming the benchmark improved. It did, on the agent that wrote "
+                    "the candidate, which is the arm that was never in question.",
+  "not": "That a transferring change is valuable, or that transfer will hold for other component "
+         "types — components generalise unequally, and a verified transfer on one kind licenses "
+         "nothing about another.",
+  "example": "A surgeon who devises a new technique and gets better results may have a better "
+             "technique or may have got better at their own idea. The question is answered by a "
+             "surgeon who has only ever read the write-up."},
+
+ {"rank": 55, "name": "False rejects are tracked, not only false accepts", "eligible": False,
+  "governs": "self-modification under selection",
+  "applies_when": "any system with an acceptance gate",
+  "requirement": "A gate MUST track changes it rejected that later evidence suggests would have "
+                 "been beneficial, and MUST report that rate alongside its false-accept rate. A "
+                 "gate reporting only false accepts is reporting half its error.",
+  "failure": "None recorded here. False accepts announce themselves as incidents; false rejects "
+             "leave no trace at all, because the counterfactual never ran. The asymmetry is in "
+             "the evidence, not in the harm.",
+  "verifier": "retain rejected candidates with their reasons; sample them periodically and "
+              "re-evaluate under current knowledge; publish both rates together.",
+  "fixture": "a gate reporting a falling false-accept rate with no false-reject arm; rejected "
+             "candidates discarded rather than retained",
+  "recovery": "Retain rejections from now on and say the earlier false-reject rate is unknown "
+              "rather than low.",
+  "false_negative": "A review that finds the gate is catching problems. It is. The question is "
+                    "what else it is catching.",
+  "not": "That a rejected candidate would have worked. A retained rejection makes the question "
+         "askable later; it does not answer it.",
+  "example": "A grant panel that only ever reviews the failures among projects it funded will "
+             "conclude it is getting better at picking, however many future discoveries it "
+             "turned down."},
+
+ {"rank": 56, "name": "A gate checks against objectives; it does not own them", "eligible": False,
+  "governs": "a declared charter or value set",
+  "applies_when": "any system with a validator, gate or acceptance authority",
+  "requirement": "A gate's role MUST be bounded to checking evidence against objectives and "
+                 "constraints it IMPORTS. It MUST NOT define objectives, resolve conflicts "
+                 "between them, override an alignment control, or become the routine substitute "
+                 "for human authority. On conflict or a high-stakes concern it MUST route "
+                 "outward rather than resolve.",
+  "failure": "None recorded here. The drift is gradual and each step is reasonable: a validator "
+             "that knows most about what passes becomes the place decisions get made, and the "
+             "authority it was never granted arrives by convenience.",
+  "verifier": "assert the gate's objective set is read from a protected artifact it cannot "
+              "write; assert a conflict path exists and is exercised; count decisions the gate "
+              "resolved that should have routed outward, and report the count.",
+  "fixture": "a validator whose rubric it also maintains; a conflict resolved inside the gate "
+             "with no escalation record",
+  "recovery": "Re-route the conflict class and review the decisions the gate made inside it. "
+              "They are not necessarily wrong; they were made by the wrong party.",
+  "false_negative": "A review of the gate's decisions for correctness. A gate that has quietly "
+                    "become the objective-setter makes consistent, defensible decisions — that "
+                    "is what makes the drift invisible.",
+  "not": "That the objectives are right, or that human authority is exercised well when it is "
+         "routed to. It keeps the roles separate; control 50 measures whether the human one is "
+         "becoming a rubber stamp.",
+  "example": "A building inspector applies the code. An inspector who starts deciding what the "
+             "code should say is still competent, still careful, and is no longer an inspection."},
+
+ {"rank": 57, "name": "Gate health is a vector, never a single rate", "eligible": False,
+  "governs": "measuring itself",
+  "applies_when": "any claim that a gate or validator is working well",
+  "requirement": "A gate's health MUST be reported as multiple dimensions together — at minimum "
+                 "false accepts, false rejects, cost, latency, escalation rate and "
+                 "post-deployment regressions. A single dimension MUST NOT be reported as the "
+                 "gate's health, because every one of them can be moved to its best value by a "
+                 "degenerate strategy.",
+  "failure": "None recorded here. A false-accept rate of zero is achieved by rejecting "
+             "everything; a falling escalation rate means better screening or suppressed "
+             "concerns and the number cannot say which.",
+  "verifier": "publish the dimensions together, and require any claim of improvement to state "
+              "what the other dimensions did over the same period.",
+  "fixture": "a gate reporting an improved false-accept rate alone; an escalation-rate fall "
+             "reported as an improvement with no check on what stopped escalating",
+  "recovery": "Publish the vector. The past claims were not false so much as uninterpretable.",
+  "false_negative": "A review that verifies the reported rate is computed correctly. It is, and "
+                    "it still cannot be read alone.",
+  "not": "That a good vector means a good gate. It removes the cheapest way to look like one.",
+  "example": "A hospital reporting only its surgical mortality rate can improve it by declining "
+             "the difficult cases, and every figure it publishes will be true."},
+
+ {"rank": 58, "name": "Reusable artifacts are validated by reconstruction", "eligible": False,
+  "governs": "claims about its own outputs",
+  "applies_when": "any artifact whose value depends on reuse by someone who was not there",
+  "requirement": "An artifact intended for reuse MUST be accepted on the basis that an "
+                 "INDEPENDENT, unguided party can re-derive the result from the artifact alone — "
+                 "without access to the original working — not on the basis that its author "
+                 "succeeded with it. The reconstructing party MUST be frozen and unaided, so "
+                 "divergence is attributable to the artifact rather than to the reconstructor.",
+  "failure": "None recorded here, but **this project reached the same design from the other "
+             "direction**: its promotion ladder's load-bearing rung is an outsider building a "
+             "conforming verifier from the specification text without asking the author what it "
+             "meant, and its challenge page tells readers not to look at the reference "
+             "implementation because that converts an independent build into a port. Two "
+             "unrelated lines of reasoning arriving at the same test is the strongest evidence "
+             "in this register that the test is not architecture-specific.",
+  "verifier": "hand the artifact to a party with no access to the source working; check the "
+              "reconstruction at the level of procedure rather than surface form; EXECUTE the "
+              "reconstruction rather than judging it textually, since a textual reading misses "
+              "silent failure. Penalise the artifact at BOTH ends — for retaining "
+              "instance-specific detail that leaks the original answer, and for being too "
+              "abstract to act on. Where the artifact is revised in response, show the reviser "
+              "only the reconstruction, never the source, or source-specific detail is copied "
+              "back in to pass the check.",
+  "fixture": "an artifact accepted because its author's run succeeded; a reconstruction judged "
+             "by reading rather than by running; a reviser given access to the original working",
+  "recovery": "Re-validate by reconstruction. Artifacts that fail are not worthless — they are "
+              "records of what their author did, which is a different and narrower thing.",
+  "false_negative": "A capable reconstructor succeeding despite a poor artifact, and a weak one "
+                    "failing despite an adequate artifact. Outcome-only validation conflates "
+                    "these two, which is why the reconstructor must be frozen.",
+  "not": "That the artifact is good, only that it carries what it claims to carry. A perfectly "
+         "reconstructible record of a bad method reproduces the bad method faithfully.",
+  "example": "A recipe is not tested by the chef who invented it cooking it again. It is tested "
+             "by a stranger with the card, the ingredients, and no one to ask."},
+
+ {"rank": 59, "name": "Part of the acceptance suite is withheld from the proposer",
+  "eligible": False, "governs": "self-modification under selection",
+  "applies_when": "any system whose components learn what an acceptance gate rewards",
+  "requirement": "A portion of the acceptance criteria MUST be withheld from the party producing "
+                 "candidates, and adversarial checks MUST rotate. Where the full criteria are "
+                 "visible, proposals shape themselves around them and the gate stops measuring "
+                 "what it was built to measure.",
+  "failure": "None recorded here. Some shaping is useful standardisation, which is what makes "
+             "this hard to notice: the boundary between a proposal that meets a standard and one "
+             "that targets a rubric is not visible in any single case.",
+  "verifier": "hold out a portion of the suite; rotate the adversarial checks on a schedule the "
+              "proposer does not control; periodically test accepted changes OUTSIDE the "
+              "validation distribution and report how they fare.",
+  "fixture": "an acceptance suite fully published to the proposing agent; a static adversarial "
+             "check unchanged across many cycles",
+  "recovery": "Withhold a portion going forward. Past acceptances are not void; they are of "
+              "unknown resistance to shaping.",
+  "false_negative": "A review confirming candidates pass the suite at a high rate. A rising pass "
+                    "rate is what both success and capture look like.",
+  "not": "That the withheld portion is well chosen, or that hidden tests are proof against a "
+         "sufficiently capable proposer that can infer them from rejections.",
+  "example": "An examiner who publishes the whole paper in advance has not made the course "
+             "easier to teach. They have changed what is being taught into the paper."},
+
+ {"rank": 60, "name": "Convergence-prone subgoals are quarantined by default", "eligible": False,
+  "governs": "goal and plan structure",
+  "applies_when": "any system that generates its own subgoals",
+  "requirement": "A subgoal falling in a convergence-prone class MUST NOT be adopted on the "
+                 "strength of its parent's authority. Each MUST carry parent justification, a "
+                 "risk class, an autonomy level, an explicit review, a ledger record, and a "
+                 "declared failure mode for what happens if the gate is bypassed. The classes: "
+                 "self-preservation, resource acquisition, goal-content preservation, "
+                 "self-improvement, tool expansion, successor spawning, benchmark modification, "
+                 "validator modification, ledger modification, and authority-scope expansion.",
+  "failure": "None recorded here. These are not forbidden and mostly not sinister — a system "
+                 "that may not acquire resources cannot act. They are the classes that arise "
+                 "instrumentally from almost ANY terminal goal, which is exactly why their "
+                 "appearance carries no information about whether they were wanted.",
+  "verifier": "classify every generated subgoal against the list; refuse adoption of a "
+              "quarantined class without its own review record; assert the classification is "
+              "made by something other than the proposer, and that the last four classes — "
+              "benchmark, validator, ledger, authority — additionally resolve to the protected "
+              "set under control 19.",
+  "fixture": "a subgoal expanding its own tool access, adopted under a parent's authority; a "
+             "self-improvement subgoal classified by the agent proposing it",
+  "recovery": "Suspend the subgoal and every goal descended from it, then review the chain. The "
+              "descendants are unverified rather than illegitimate.",
+  "false_negative": "A review that finds each subgoal reasonable given its parent. They are — "
+                    "that is what instrumental convergence means, and reasonableness given a "
+                    "parent is the property these classes have automatically.",
+  "not": "That the ten classes are the right ten, or complete. It is a list drawn from what "
+         "recurs, and a system will find instrumental subgoals nobody enumerated.",
+  "example": "A department asking for a bigger budget, more staff, and control of its own audit "
+             "is not misbehaving. Every one of those requests would be made by a department "
+             "doing excellent work and by one doing none, which is why they get reviewed "
+             "somewhere other than inside the department."},
+]
+
+CONTROLS = CONTROLS + LOOP_CONTROLS
+
+
+#  Mined 2026-08-10 from an implementer's rule-driven reasoning harness report. Abstracted.
+HARNESS_CONTROLS = [
+ {"rank": 61, "name": "Every observation carries the configuration in force when it was made",
+  "eligible": False, "governs": "measuring itself",
+  "applies_when": "any system that changes its own operating parameters while gathering evidence",
+  "requirement": "Each recorded observation MUST carry the identity of the policy, configuration "
+                 "or parameter set in force when it was made. Evidence MUST NOT be pooled across "
+                 "configurations without that identity, and an aggregate spanning more than one "
+                 "MUST report which.",
+  "failure": "None recorded here. Distinct from control 38, which breaks a series when the "
+             "DEFINITION of the metric changes: this breaks it when the SYSTEM BEING MEASURED "
+             "changes underneath a definition that held still. Without the stamp, a posterior "
+             "silently pools observations from different operating regimes, and the corruption "
+             "is invisible because every individual observation is correct.",
+  "verifier": "stamp the configuration identity on every trace at write time, not at analysis "
+              "time; assert aggregation refuses to combine stamps without an explicit "
+              "cross-regime declaration.",
+  "fixture": "a confidence estimate pooling runs from before and after a parameter change; a "
+             "trace written without a configuration stamp and stamped later from context",
+  "recovery": "Re-partition by stamp and recompute. Observations without a stamp are not "
+              "assignable and must be reported as such rather than assigned to the likeliest "
+              "regime.",
+  "false_negative": "A review that confirms each observation was recorded accurately. Each was; "
+                    "the defect is created by combining them.",
+  "not": "That configurations are comparable once stamped. It makes the incomparability visible, "
+         "which is the part that was missing.",
+  "example": "A factory's defect rate across a year in which the line speed changed twice is "
+             "three numbers wearing one label. The yearly figure is arithmetically correct and "
+             "describes no process that ever ran."},
+
+ {"rank": 62, "name": "Self-governing decisions run through the object-level machinery",
+  "eligible": False, "governs": "self-modification under selection",
+  "applies_when": "any system that tunes its own operating parameters",
+  "requirement": "Decisions a system makes ABOUT ITSELF — thresholds, routing, budgets, "
+                 "scheduling, promotion criteria — MUST pass through the same checking, "
+                 "evidence and gating path as its object-level decisions. A separate governance "
+                 "path MUST NOT be built. Where the two share a budget or a resource, they MUST "
+                 "be isolated so that self-governing activity cannot consume the object-level "
+                 "allowance or mask an object-level regression.",
+  "failure": "None recorded here. A parallel path for self-governance is where exceptions "
+             "accumulate: it starts as the obvious engineering choice, and it is never subject "
+             "to the scrutiny the main path acquired, because nobody built it to be scrutinised.",
+  "verifier": "assert self-directed decisions carry the same record type and traverse the same "
+              "gate as object-level ones; assert their resource partitions are separate and that "
+              "neither can starve or shadow the other.",
+  "fixture": "a threshold change landed through a configuration path with no evidence record; "
+             "self-tuning activity consuming the evaluation budget of the work it tunes",
+  "recovery": "Route the self-directed decisions through the main path and re-evaluate those "
+              "made outside it. They are unverified, not necessarily wrong.",
+  "false_negative": "A review that finds the governance path well designed. It usually is. It is "
+                    "the second one, and being second is the whole objection.",
+  "not": "That one path is sufficient, or that the shared machinery is good. It removes a place "
+         "where different standards can quietly apply.",
+  "example": "A hospital that audits patient care rigorously and changes its own staffing rules "
+             "by email has two standards of evidence, and the second one decides the first."},
+
+ {"rank": 63, "name": "A reported gain is published with what still fails", "eligible": False,
+  "governs": "claims about its own outputs",
+  "applies_when": "any published improvement in a measured capability",
+  "requirement": "A reported gain MUST be accompanied by a characterisation of what the system "
+                 "still cannot do — the residual failure set, described rather than footnoted. "
+                 "The residual MUST be characterised at comparable specificity to the gain.",
+  "failure": "None recorded here. It follows from the fact that a proxy's regression toward the "
+             "mean under optimisation cannot be eliminated, only reported: if the residual is "
+             "not published, the gain is the only thing anyone can see, and the gain is the part "
+             "most subject to selection.",
+  "verifier": "require each published improvement to name the residual set and characterise it; "
+              "reject a claim whose residual is stated as a bare percentage or omitted.",
+  "fixture": "an improvement announced with the remaining failures given as a single number; a "
+             "gain reported with the residual characterised only as 'edge cases'",
+  "recovery": "Characterise the residual and republish. The gain does not shrink; the picture "
+              "stops being one-sided.",
+  "false_negative": "A review that verifies the gain is real. It usually is, and a real gain "
+                    "reported alone is the thing this forbids.",
+  "not": "That the residual is small, tractable, or fully known. Characterising it is how you "
+         "find out it is none of those.",
+  "example": "A drug trial that reports the responders and describes the non-responders as "
+             "'the remainder' has published half a result, and it is the half everyone hoped for."},
+]
+
+CONTROLS = CONTROLS + HARNESS_CONTROLS
 
 
 #  setdefault, not assignment: an entry that declares its own subject keeps it. Three controls

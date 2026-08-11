@@ -10,7 +10,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
@@ -28,23 +28,23 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 8 control(s)</p>
 
 <p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 7 control(s)</p>
 
 <p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 11 control(s)</p>
 
 <p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -311,4 +311,52 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>An aircraft inspection sheet with a blank beside &#x27;landing gear&#x27; is not a sheet recording that the gear was fine. It is a sheet nobody can now interpret.</p>
+
+<h2>58. Reusable artifacts are validated by reconstruction</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any artifact whose value depends on reuse by someone who was not there.</p>
+
+<blockquote>An artifact intended for reuse MUST be accepted on the basis that an INDEPENDENT, unguided party can re-derive the result from the artifact alone — without access to the original working — not on the basis that its author succeeded with it. The reconstructing party MUST be frozen and unaided, so divergence is attributable to the artifact rather than to the reconstructor.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here, but <strong>this project reached the same design from the other direction</strong>: its promotion ladder&#x27;s load-bearing rung is an outsider building a conforming verifier from the specification text without asking the author what it meant, and its challenge page tells readers not to look at the reference implementation because that converts an independent build into a port. Two unrelated lines of reasoning arriving at the same test is the strongest evidence in this register that the test is not architecture-specific.</p>
+
+<p><strong>Verifier.</strong> hand the artifact to a party with no access to the source working; check the reconstruction at the level of procedure rather than surface form; EXECUTE the reconstruction rather than judging it textually, since a textual reading misses silent failure. Penalise the artifact at BOTH ends — for retaining instance-specific detail that leaks the original answer, and for being too abstract to act on. Where the artifact is revised in response, show the reviser only the reconstruction, never the source, or source-specific detail is copied back in to pass the check.</p>
+
+<p><strong>Fixture it must reject.</strong> an artifact accepted because its author&#x27;s run succeeded; a reconstruction judged by reading rather than by running; a reviser given access to the original working</p>
+
+<p><strong>Recovery.</strong> Re-validate by reconstruction. Artifacts that fail are not worthless — they are records of what their author did, which is a different and narrower thing.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A capable reconstructor succeeding despite a poor artifact, and a weak one failing despite an adequate artifact. Outcome-only validation conflates these two, which is why the reconstructor must be frozen.</p>
+
+<p><strong>Does not establish.</strong> That the artifact is good, only that it carries what it claims to carry. A perfectly reconstructible record of a bad method reproduces the bad method faithfully.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A recipe is not tested by the chef who invented it cooking it again. It is tested by a stranger with the card, the ingredients, and no one to ask.</p>
+
+<h2>63. A reported gain is published with what still fails</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any published improvement in a measured capability.</p>
+
+<blockquote>A reported gain MUST be accompanied by a characterisation of what the system still cannot do — the residual failure set, described rather than footnoted. The residual MUST be characterised at comparable specificity to the gain.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. It follows from the fact that a proxy&#x27;s regression toward the mean under optimisation cannot be eliminated, only reported: if the residual is not published, the gain is the only thing anyone can see, and the gain is the part most subject to selection.</p>
+
+<p><strong>Verifier.</strong> require each published improvement to name the residual set and characterise it; reject a claim whose residual is stated as a bare percentage or omitted.</p>
+
+<p><strong>Fixture it must reject.</strong> an improvement announced with the remaining failures given as a single number; a gain reported with the residual characterised only as &#x27;edge cases&#x27;</p>
+
+<p><strong>Recovery.</strong> Characterise the residual and republish. The gain does not shrink; the picture stops being one-sided.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that verifies the gain is real. It usually is, and a real gain reported alone is the thing this forbids.</p>
+
+<p><strong>Does not establish.</strong> That the residual is small, tractable, or fully known. Characterising it is how you find out it is none of those.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A drug trial that reports the responders and describes the non-responders as &#x27;the remainder&#x27; has published half a result, and it is the half everyone hoped for.</p>
 </body></html>

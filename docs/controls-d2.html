@@ -10,7 +10,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
@@ -28,23 +28,23 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 8 control(s)</p>
 
 <p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 7 control(s)</p>
 
 <p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 11 control(s)</p>
 
 <p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -78,7 +78,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>Applies when</strong> the system operates under a written charter that some authority outside it maintains.</p>
 
-<blockquote>The artifacts a system may never autonomously modify MUST be enumerated by name in the charter itself — not described by category, and not left to be inferred at the moment of change.</blockquote>
+<blockquote>The artifacts a system may never autonomously modify MUST be enumerated by name in the charter itself — not described by category, and not left to be inferred at the moment of change. <strong>Amended 2026-08-10: the set is EFFECT-defined as well as path-defined.</strong> A change outside the list is protected anyway if it alters how governed decisions are proposed, classified, adopted, reviewed, validated or audited — a helper script that rewrites fixtures, a prompt telling a reviewer to ignore a failed check, or a documentation change to what counts as approval. The reviewer&#x27;s question is whether the change affects governed behaviour, not whether its path is listed.</blockquote>
 
 <p><strong>Recorded failure.</strong> None recorded here. It is offered as the repair for a weakness in control 1, whose protected set is a DESCRIPTION — &#x27;the constraints, authorization records, logs or gates governing it&#x27; — and therefore a judgement call made by the party proposing the change.</p>
 
@@ -90,7 +90,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><strong>What a review that missed this looks like.</strong> A review that checks whether the change was declared in-scope. The party declaring scope is the party seeking the change, which is the whole reason for enumerating.</p>
 
-<p><strong>Does not establish.</strong> That the list is complete — an artifact nobody thought to enumerate is unprotected, and the list&#x27;s own completeness cannot be checked from inside.</p>
+<p><strong>Does not establish.</strong> That the list is complete. The effect clause narrows the gap without closing it: it turns an omission from a silent bypass into a question a reviewer is obliged to ask, and a reviewer who answers it wrongly still lets the change through. The list&#x27;s own completeness cannot be checked from inside.</p>
 
 <p><strong>Example.</strong></p>
 
@@ -215,4 +215,28 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>A door alarm that staff silence forty times a shift is not a door alarm. Each silencing had a reason, and none of the reasons is in the fire report.</p>
+
+<h2>56. A gate checks against objectives; it does not own them</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system with a validator, gate or acceptance authority.</p>
+
+<blockquote>A gate&#x27;s role MUST be bounded to checking evidence against objectives and constraints it IMPORTS. It MUST NOT define objectives, resolve conflicts between them, override an alignment control, or become the routine substitute for human authority. On conflict or a high-stakes concern it MUST route outward rather than resolve.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. The drift is gradual and each step is reasonable: a validator that knows most about what passes becomes the place decisions get made, and the authority it was never granted arrives by convenience.</p>
+
+<p><strong>Verifier.</strong> assert the gate&#x27;s objective set is read from a protected artifact it cannot write; assert a conflict path exists and is exercised; count decisions the gate resolved that should have routed outward, and report the count.</p>
+
+<p><strong>Fixture it must reject.</strong> a validator whose rubric it also maintains; a conflict resolved inside the gate with no escalation record</p>
+
+<p><strong>Recovery.</strong> Re-route the conflict class and review the decisions the gate made inside it. They are not necessarily wrong; they were made by the wrong party.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review of the gate&#x27;s decisions for correctness. A gate that has quietly become the objective-setter makes consistent, defensible decisions — that is what makes the drift invisible.</p>
+
+<p><strong>Does not establish.</strong> That the objectives are right, or that human authority is exercised well when it is routed to. It keeps the roles separate; control 50 measures whether the human one is becoming a rubber stamp.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A building inspector applies the code. An inspector who starts deciding what the code should say is still competent, still careful, and is no longer an inspection.</p>
 </body></html>

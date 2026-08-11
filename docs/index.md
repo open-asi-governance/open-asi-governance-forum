@@ -17,9 +17,9 @@ itself a party to this record.
   each under 20,000 tokens. Plain-text alternate: [record.md](record.md)
 - [Deficiency register](deficiencies.html) — 57 defects this project has filed
   against itself. Read before citing anything.
-- [Candidate controls](controls.html) — 53 candidate assurance
+- [Candidate controls](controls.html) — 63 candidate assurance
   controls, each with a verifier and a must-reject fixture. Part A (8) is
-  adoptable alone; 40 sit BELOW the eligibility line with no recorded
+  adoptable alone; 50 sit BELOW the eligibility line with no recorded
   failure. None independently implemented. Worked example for agent developers.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,
   published with the reasons the scores are weak evidence.

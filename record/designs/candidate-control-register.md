@@ -113,7 +113,25 @@ overtaken. Where the two disagree, the tool is right and this file is stale.
 | Self-modification engine | 24–27 | an implementer's evolution design | below the line |
 | Self-measurement | 28–32 | an implementer's capability-threshold instrument | below the line |
 | Self-assessment | 33–40 | an implementer's study of its own creative bottleneck | below the line |
-| Distillation and alignment invariants | 41–51 | an implementer's knowledge-distillation plan and its alignment-invariants thesis | below the line |
+| Distillation and alignment invariants | 41–53 | an implementer's knowledge-distillation plan and its alignment-invariants thesis | below the line |
+| Validated improvement loop | 54–59 | an implementer's improvement-loop thesis | below the line |
+| Goal quarantine | 60 | an implementer's goal-architecture thesis, remaining formal models | below the line |
+| Reasoning harness | 61–63 | an implementer's rule-driven reasoning harness report | below the line |
+
+Amendments made in the same pass: **19** gains an effect-defined protected set (a path list is
+evadable by anything that changes governed behaviour without appearing on it); **45** gains the
+four populations its reference suite must contain, the load-bearing one being the gate's own
+historical false accepts, which a rewrite drops most easily because it is the only population
+recording the gate being wrong.
+
+**Control 58 is this project's own challenge design, reached from an unrelated direction.** An
+implementer's improvement loop concluded that a reusable artifact should be accepted when an
+independent, unguided party can re-derive the result from the artifact alone; this record's
+promotion ladder had already made "build a conforming verifier from the specification without
+asking the author" its load-bearing rung, and its challenge page tells readers not to look at the
+reference implementation because that turns an independent build into a port. Two unrelated lines
+of reasoning arriving at the same test is the strongest evidence in this register that the test is
+not architecture-specific — and it is evidence of a kind no amount of panel review supplies.
 
 Every mined batch is **abstracted**: the sources are confidential, and the register carries the
 mechanism without the implementation. See `record/designs/implementer-disclosure.md`.

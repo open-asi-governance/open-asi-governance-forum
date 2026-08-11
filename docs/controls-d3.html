@@ -10,7 +10,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 53 came from a failure that actually happened.</strong> The other 40 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
@@ -28,23 +28,23 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
-<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 7 control(s)</p>
+<p><strong>Part D1 — Below the line — goal and plan structure</strong> · 8 control(s)</p>
 
 <p>  Applies to a system with <strong>goal and plan structure</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 6 control(s)</p>
+<p><strong>Part D2 — Below the line — a declared charter or value set</strong> · 7 control(s)</p>
 
 <p>  Applies to a system with <strong>a declared charter or value set</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D3 — Below the line — measuring itself</strong> · 10 control(s)</p>
+<p><strong>Part D3 — Below the line — measuring itself</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>measuring itself</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 7 control(s)</p>
+<p><strong>Part D4 — Below the line — self-modification under selection</strong> · 11 control(s)</p>
 
 <p>  Applies to a system with <strong>self-modification under selection</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
-<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 10 control(s)</p>
+<p><strong>Part D5 — Below the line — claims about its own outputs</strong> · 12 control(s)</p>
 
 <p>  Applies to a system with <strong>claims about its own outputs</strong>. <strong>These have no recorded failure with a cost.</strong> They are principles with fixtures, not controls with incidents, and the register&#x27;s own bar requires an incident. They are here because they name real failure classes and because hiding them would inflate the eligible count. Do not treat them as equivalent to Parts A–C.</p>
 
@@ -315,4 +315,52 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 <p><strong>Example.</strong></p>
 
 <p>A blank on a scoresheet is not a nought. Averaging it as one is how a player who did not bat ends the season with a worse record than one who was out for a duck.</p>
+
+<h2>57. Gate health is a vector, never a single rate</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any claim that a gate or validator is working well.</p>
+
+<blockquote>A gate&#x27;s health MUST be reported as multiple dimensions together — at minimum false accepts, false rejects, cost, latency, escalation rate and post-deployment regressions. A single dimension MUST NOT be reported as the gate&#x27;s health, because every one of them can be moved to its best value by a degenerate strategy.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. A false-accept rate of zero is achieved by rejecting everything; a falling escalation rate means better screening or suppressed concerns and the number cannot say which.</p>
+
+<p><strong>Verifier.</strong> publish the dimensions together, and require any claim of improvement to state what the other dimensions did over the same period.</p>
+
+<p><strong>Fixture it must reject.</strong> a gate reporting an improved false-accept rate alone; an escalation-rate fall reported as an improvement with no check on what stopped escalating</p>
+
+<p><strong>Recovery.</strong> Publish the vector. The past claims were not false so much as uninterpretable.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that verifies the reported rate is computed correctly. It is, and it still cannot be read alone.</p>
+
+<p><strong>Does not establish.</strong> That a good vector means a good gate. It removes the cheapest way to look like one.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A hospital reporting only its surgical mortality rate can improve it by declining the difficult cases, and every figure it publishes will be true.</p>
+
+<h2>61. Every observation carries the configuration in force when it was made</h2>
+
+<p><strong>below the eligibility line</strong></p>
+
+<p><strong>Applies when</strong> any system that changes its own operating parameters while gathering evidence.</p>
+
+<blockquote>Each recorded observation MUST carry the identity of the policy, configuration or parameter set in force when it was made. Evidence MUST NOT be pooled across configurations without that identity, and an aggregate spanning more than one MUST report which.</blockquote>
+
+<p><strong>Recorded failure.</strong> None recorded here. Distinct from control 38, which breaks a series when the DEFINITION of the metric changes: this breaks it when the SYSTEM BEING MEASURED changes underneath a definition that held still. Without the stamp, a posterior silently pools observations from different operating regimes, and the corruption is invisible because every individual observation is correct.</p>
+
+<p><strong>Verifier.</strong> stamp the configuration identity on every trace at write time, not at analysis time; assert aggregation refuses to combine stamps without an explicit cross-regime declaration.</p>
+
+<p><strong>Fixture it must reject.</strong> a confidence estimate pooling runs from before and after a parameter change; a trace written without a configuration stamp and stamped later from context</p>
+
+<p><strong>Recovery.</strong> Re-partition by stamp and recompute. Observations without a stamp are not assignable and must be reported as such rather than assigned to the likeliest regime.</p>
+
+<p><strong>What a review that missed this looks like.</strong> A review that confirms each observation was recorded accurately. Each was; the defect is created by combining them.</p>
+
+<p><strong>Does not establish.</strong> That configurations are comparable once stamped. It makes the incomparability visible, which is the part that was missing.</p>
+
+<p><strong>Example.</strong></p>
+
+<p>A factory&#x27;s defect rate across a year in which the line speed changed twice is three numbers wearing one label. The yearly figure is arithmetically correct and describes no process that ever ran.</p>
 </body></html>
