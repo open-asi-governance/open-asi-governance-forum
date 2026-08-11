@@ -126,5 +126,63 @@ if manifest.is_file():
 else:
     check("the manifest exists", False, str(manifest))
 
+print("\nanchor_manifest.py — verify() is offline, so it CAN be negative-controlled")
+
+#  Task 9. Two faults, neither needing the network. The first is the one the tool exists to
+#  prevent: an anchor covering only a SUPERSEDED state while the live manifest drifts -- the
+#  decayed control. `--stamp` and `--upgrade` DO need the network and are not exercised here,
+#  which is why this tool went uncovered until someone asked which path was offline.
+MANIFEST = REPO / "corpus" / "MANIFEST.sha256"
+ANCHORS = REPO / "record" / "anchors" / "manifest-anchors.jsonl"
+
+r = sp.run([sys.executable, str(ROOT / "anchor_manifest.py")],
+           cwd=REPO, capture_output=True, text=True)
+check("BASELINE: the current manifest is anchored", r.returncode == 0,
+      (r.stdout + r.stderr)[-200:])
+
+original_manifest = MANIFEST.read_bytes()
+try:
+    MANIFEST.write_bytes(original_manifest + b"\n#  drift introduced by a negative control\n")
+    r = sp.run([sys.executable, str(ROOT / "anchor_manifest.py")],
+               cwd=REPO, capture_output=True, text=True)
+    check("a manifest CHANGED AFTER STAMPING is refused", r.returncode != 0,
+          f"rc={r.returncode}; an anchor covering only a superseded state is the decay this "
+          f"check exists to catch")
+finally:
+    MANIFEST.write_bytes(original_manifest)
+
+r = sp.run([sys.executable, str(ROOT / "anchor_manifest.py")],
+           cwd=REPO, capture_output=True, text=True)
+check("...and the manifest is restored", r.returncode == 0, (r.stdout + r.stderr)[-160:])
+
+receipt = None
+if ANCHORS.is_file():
+    for line in ANCHORS.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            entry = json.loads(line)
+        except Exception:                                                # noqa: BLE001
+            continue
+        cand = REPO / entry.get("receipt", "")
+        if cand.is_file():
+            receipt = cand
+if receipt is None:
+    check("an anchor receipt could be located", False,
+          "no receipt on record; the missing-receipt fault could not be injected")
+else:
+    kept = receipt.read_bytes()
+    try:
+        receipt.unlink()
+        r = sp.run([sys.executable, str(ROOT / "anchor_manifest.py")],
+                   cwd=REPO, capture_output=True, text=True)
+        check(f"a MISSING receipt is refused ({receipt.name})", r.returncode != 0,
+              f"rc={r.returncode}; a log naming a receipt that is gone anchors nothing")
+    finally:
+        receipt.write_bytes(kept)
+    r = sp.run([sys.executable, str(ROOT / "anchor_manifest.py")],
+               cwd=REPO, capture_output=True, text=True)
+    check("...and the receipt is restored", r.returncode == 0)
+
 print(f"\n{passed} passed, {failures} failures")
 raise SystemExit(1 if failures else 0)
