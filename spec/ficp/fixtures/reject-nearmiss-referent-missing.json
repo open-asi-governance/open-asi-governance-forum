@@ -1,0 +1,41 @@
+{
+  "ficp_version": "0.2",
+  "subject": {
+    "configuration_id": "example-1",
+    "capabilities": [
+      "sampled completion"
+    ]
+  },
+  "issued_utc": "2026-08-10T10:10:00Z",
+  "checks": [
+    {
+      "check_id": "sampled-path-liveness",
+      "certifies": "the service can complete a sampled (temperature > 0) request",
+      "artifact": {
+        "path": "checks/liveness-that-no-longer-exists.sh",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "present": false
+      },
+      "baseline_run": {
+        "utc": "2026-08-10T10:00:00Z",
+        "outcome": "PASS"
+      },
+      "fault_injection": {
+        "condition": "the sampled decode path is unavailable",
+        "how_produced": "serve a build with the sampled-decode path removed",
+        "targets": "the declared capability, not the transport",
+        "run": {
+          "utc": "2026-08-10T10:05:00Z",
+          "outcome": "FAIL"
+        }
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [],
+    "suppressed": [],
+    "unsupported": []
+  },
+  "claim": "Check set C was exercised against configuration example-1. Each check was observed to fail under its declared negative control. This is process evidence about the checks.",
+  "_must_be_rejected_because": "The hashes are internally consistent and the control ran and failed. But the artifact the attestation points at is no longer present, so nothing can be re-verified. A thin pointer to a vanished referent looks identical to a sound attestation until someone tries to check it."
+}

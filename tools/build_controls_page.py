@@ -82,7 +82,7 @@ CONTROLS = [
   "why_not": "needs a second key holder. A solo operator holding every credential cannot satisfy "
              "it — this is the control this project can specify and cannot demonstrate."},
 
- {"rank": 2, "name": "Negative control profile (NCP)",
+ {"rank": 2, "name": "Fault-injection check profile (FICP)",
   "applies_when": "any system that produces an assurance signal — universally, since a system producing none makes no assurance claim to check",
   "requirement": "Every check that produces an assurance signal MUST ship with a negative control "
                  "— a condition under which the check is required to fail — and the attestation "

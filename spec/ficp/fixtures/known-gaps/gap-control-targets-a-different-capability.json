@@ -1,0 +1,40 @@
+{
+  "ficp_version": "0.2",
+  "subject": {
+    "configuration_id": "example-1",
+    "capabilities": [
+      "sampled completion"
+    ]
+  },
+  "issued_utc": "2026-08-10T10:10:00Z",
+  "checks": [
+    {
+      "check_id": "sampled-path-liveness",
+      "certifies": "the service can complete a sampled (temperature > 0) request",
+      "artifact": {
+        "path": "checks/liveness.sh",
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "baseline_run": {
+        "utc": "2026-08-10T10:00:00Z",
+        "outcome": "PASS"
+      },
+      "fault_injection": {
+        "condition": "the embedding endpoint is unavailable",
+        "how_produced": "serve a build with the embedding model unloaded",
+        "targets": "the declared capability, not the transport",
+        "run": {
+          "utc": "2026-08-10T10:05:00Z",
+          "outcome": "FAIL"
+        }
+      }
+    }
+  ],
+  "undisclosed_nothing": {
+    "skipped": [],
+    "suppressed": [],
+    "unsupported": []
+  },
+  "claim": "Check set C was exercised against configuration example-1. Each check was observed to fail under its declared negative control. This is process evidence about the checks.",
+  "_should_be_rejected_but_is_not": "The control perturbs a CAPABILITY, not the transport, so N5's test passes -- but it perturbs a DIFFERENT capability than the one the check certifies. Breaking embeddings tells you nothing about sampled completion. Judging relevance requires understanding what the check does, which no keyword test can supply. This is N5's stated weakness and the profile says so: it is a declared field a human must judge."
+}

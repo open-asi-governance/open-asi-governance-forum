@@ -1,5 +1,17 @@
 # Negative Control Profile (NCP) — v0.1
 
+> **SUPERSEDED 2026-08-11 — and the name was wrong.** This profile is now the
+> **[Fault-Injection Check Profile (FICP) v0.2](../ficp/ficp-v0.2.md)**. A *negative* control
+> checks for a response in the *absence* of the target; what this document requires — a
+> deliberately introduced fault the check must detect — is analogous to a *positive* control. The
+> new name says *fault injection* because this profile perturbs the subject rather than supplying
+> control material.
+>
+> **This document is frozen, not deleted.** v0.1 attestations remain valid forever and
+> `tools/verify_fault_injection.py` still accepts them. See
+> [MIGRATION.md](../ficp/MIGRATION.md). The rename establishes no novelty, correctness or
+> validation, and does not mean this page ever used the right term.
+
 **Level claimed: 0 (practice note).** Nothing here has been implemented by an independent party,
 so under `spec/icp/icp-v0.1.md` §4 it cannot be higher. It will reach Level 1 when it has a
 recorded failure of its own; Level 2 only when someone outside this project builds a conforming

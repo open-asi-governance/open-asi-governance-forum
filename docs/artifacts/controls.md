@@ -128,7 +128,7 @@ A small lab keeps a grant-compliance checklist in a shared folder every student 
 
 Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
 
-## 2. Negative control profile (NCP)
+## 2. Fault-injection check profile (FICP)
 
 `ELIGIBLE`
 

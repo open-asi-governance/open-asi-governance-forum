@@ -189,6 +189,25 @@ def preflight(target_branch: str) -> list[str]:
         #  for a detached HEAD left that exact path open, in the tool whose docstring cites it.
         problems.append(f"on branch {branch!r} but asked to push {target_branch!r}; "
                         f"committing here and pushing there is how three commits were lost")
+    #  CAN WE ACTUALLY PUSH? Checked BEFORE committing, because on 2026-08-11 this tool committed
+    #  twice with GH_TOKEN_OAGF unset, failed at the push, and left the commits local while the
+    #  harness reported the background task complete with exit 0. A commit that cannot be pushed
+    #  is not "landed", and discovering that after the commit is the wrong order. Shell state does
+    #  not persist between tool invocations here, so an env var present a minute ago proves
+    #  nothing about this process.
+    #  `git push --dry-run`, NOT `git ls-remote`. The first version of this check used ls-remote
+    #  and passed with no credentials at all, because this repository is PUBLIC and anonymous
+    #  read succeeds. It tested reachability while claiming to test push capability -- a green
+    #  signal not downstream of what it certifies, written inside the fix for that exact class.
+    #  A dry-run push exercises the credential helper and fails the way a real push would.
+    code, dry = run(["git", "push", "--dry-run", "origin", f"HEAD:{target_branch}"])
+    if code != 0:
+        problems.append(
+            f"a dry-run push to origin/{target_branch} failed, so a real one would too and the "
+            f"commit would be stranded: {dry.strip().splitlines()[-1][:160] if dry.strip() else 'no output'}. "
+            f"If the credential helper needs a token, source it in the SAME command as this one; "
+            f"the environment does not carry between tool invocations.")
+
     code, status = run(["git", "status", "--porcelain"])
     unmerged = [ln for ln in status.splitlines() if ln[:2] in
                 ("UU", "AA", "DD", "AU", "UA", "DU", "UD")]
