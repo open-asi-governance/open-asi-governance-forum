@@ -79,6 +79,12 @@ STEPS = [
     ("render corpus index", ["tools/render_markdown.py", "corpus/artifacts/segments.json", "corpus/index.md"]),
     #  Before the viewer, which owns the sitemap and llms.txt and needs this route.
     ("publish the candidate control register", ["tools/build_controls_page.py"]),
+    #  KEPT CURRENT BY THE BUILD, not by remembering. The table names code files and tests, and
+    #  a renamed or deleted path silently turns a compliance row into a lie -- which is the
+    #  failure mode of every hand-maintained matrix. Regenerating here means the file, the page
+    #  and the repository cannot disagree, and --write refuses before writing anything if a
+    #  named path is gone.
+    ("publish the control-application table", ["tools/control_application.py", "--write"]),
     ("publish the implementation challenge", ["tools/build_challenge_page.py"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added

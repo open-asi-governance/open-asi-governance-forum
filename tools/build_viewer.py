@@ -1013,6 +1013,11 @@ tooling. Read this before citing anything here.</p></div>
 <p>Build a conforming verifier from the specification text alone, without asking us what it
 meant. What we most want back is the list of questions you had to guess at — that is the
 evidence about whether the specification is any good.</p></div>
+<div class="card"><h3><a href="control-application.html">Applying the controls to our own code</a></h3>
+<p>One row per candidate control: whether the code work it implies is finished here, and which
+files were changed and tested — or why the control governs no code in this repository. A tick
+means the CODE WORK is done, never that the control is satisfied, and every ticked row carries
+what no code could supply.</p></div>
 <div class="card"><h3><a href="controls.html">Candidate controls</a></h3>
 <p>{CONTROL_TOTALS['total']} candidate assurance controls, each with a verifier and a fixture it
 must reject. Part A ({CONTROL_TOTALS['a']}) is adoptable alone and every control in it came from a
@@ -1231,6 +1236,7 @@ def build_llms_txt(plan: list[dict], nodes: list[dict]) -> str:
         "## Register and appendices",
         "",
         "- [Implementation challenge](challenge.html): build a conforming verifier from the specification text alone. We want the questions you had to guess at more than the verifier.",
+        "- [Control application](control-application.html): per control, whether the code work it implies is finished in THIS repository, which files were changed and tested, and what no code could supply.",
         f"- [Candidate controls](controls.html): {CONTROL_TOTALS['total']} candidate assurance controls, each with a verifier and a fixture it must reject. Part A ({CONTROL_TOTALS['a']}) is adoptable alone; {CONTROL_TOTALS['below']} sit below the eligibility line, meaning they name a real failure class but no failure that cost anything. None independently implemented.",
         "- [Deficiency register](deficiencies.html): defects this project has filed against itself.",
         "- [Deficiency register, plain text](deficiencies.md)",
@@ -1309,6 +1315,7 @@ def build_sitemap(plan: list[dict]) -> dict[str, str]:
             "predictions.html", "predictions.md",
             "controls.html", "controls.md", *CONTROL_PART_PAGES,
             "challenge.html", "challenge.md",
+            "control-application.html", "artifacts/control-application.md",
             "deficiencies.html", "artifacts/deficiencies.md", "llms.txt",
             "for-parties.md", "local/index.html", "rounds/index.html", "rounds/index.md"]
     #  build_round_pages.py publishes these and this component owns the sitemap, so the routes
@@ -1387,6 +1394,12 @@ def main() -> int:
              #  rule this pruner outlives.
              "controls.html", "controls.md", *CONTROL_PART_PAGES,
              "challenge.html", "challenge.md",
+             #  The .md sibling is NOT written at top level -- the hashable copy lives at
+             #  docs/artifacts/. Keeping a literal for a file nobody produces is harmless only
+             #  because this pruner looks at top-level files, and this comment is here because
+             #  the list two lines up carries the same warning about literals and it was still
+             #  got wrong within a day of reading it.
+             "control-application.html",
              "llms.txt", "sitemap.xml", ".nojekyll"}
     #  The chunks too. Without them the pruner would delete every sitemap-N.xml it had just
     #  written -- the shared-subtree failure this repository has now had twice.

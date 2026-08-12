@@ -25,8 +25,19 @@ import re
 import shutil
 import subprocess
 import sys
+import importlib.util
 import tempfile
 from pathlib import Path
+
+def _controls_module():
+    """The register, loaded from its source, so rank literals live in exactly one place."""
+    root = __import__("pathlib").Path(__file__).resolve().parent
+    spec = importlib.util.spec_from_file_location("_bcp", root / "build_controls_page.py")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["_bcp"] = module
+    spec.loader.exec_module(module)
+    return module
+
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -703,6 +714,12 @@ print(json.dumps(out))
                     #  a page of contributions. It gets its own cases below, per this
                     #  predicate's own rule that generated views are tested separately.
                     and not f.stem.startswith("controls")
+                    #  control-application.html is a generated view of how the register applies
+                    #  to this repository's code -- not a page of contributions. It does NOT
+                    #  match startswith("controls"), so publishing it failed reachability and
+                    #  the markdown-alternate case while every other gate stayed green. Excluded
+                    #  here and given its own cases below, per this predicate's own rule.
+                    and not f.stem.startswith("control-application")
                     and not f.stem.startswith("challenge"))
 
         index = (c / "docs/index.html").read_text(encoding="utf-8")
@@ -805,6 +822,48 @@ print(json.dumps(out))
                  for sfx in [""] + [f"-{k.lower()}" for k in _parts]))
 
         challenge = (c / "docs/challenge.html")
+        #  The control-application view: one row per control, whether its code work is done
+        #  here, and which files. Its own cases, because a generated view is not a record page.
+        app = (c / "docs/control-application.html")
+        app_md = (c / "docs/artifacts/control-application.md")
+        case("the control-application table is published", app.is_file())
+        case("...and is linked from the landing page", 'href="control-application.html"' in index)
+        case("...and is downloadable for hashing", app_md.is_file())
+        #  BYTE-IDENTICAL, not merely present. Two copies of a compliance table that could
+        #  disagree are worse than one, and "the file exists" is what a check says when it has
+        #  stopped asking the question it was written for.
+        durable = (c / "record/controls/control-application.md")
+        case("...and the download is byte-identical to the durable record",
+             durable.is_file() and app_md.is_file()
+             and durable.read_bytes() == app_md.read_bytes())
+        if app.is_file():
+            app_text = app.read_text(encoding="utf-8")
+            #  THE LOAD-BEARING ONES. A per-control checkbox table is read as a compliance
+            #  claim unless it says otherwise on the page itself, and the page is what an
+            #  implementer sees -- not the tool's docstring.
+            case("...and states on the page that a tick is not compliance",
+                 "would not mean the control is satisfied" in app_text)
+            case("...and names the table that answers the compliance question instead",
+                 "self_application.py" in app_text)
+            #  Reworded when the model split declaration from substantiation. The page must
+            #  say the tick is DECLARED and not computed -- the earlier page said the opposite,
+            #  and that sentence was the defect, not a phrasing choice.
+            case("...and says the tick is declared by a human, not computed",
+                 "declared" in app_text.lower() and "human judgement" in app_text.lower())
+            case("...and says a substantiated row names paths that exist",
+                 "every named path is on disk" in app_text)
+            case("...and publishes what it does not establish",
+                 "does not establish" in app_text)
+            #  Asserted against the RENDERED cells, not the markdown pipe syntax. The first
+            #  version looked for "| 7 |", which is what the source file contains and what the
+            #  published page does not -- a check that would have passed on the file nobody
+            #  reads while the page a reader sees went unverified.
+            #  RANKS DERIVED FROM THE REGISTER, not a literal range. range(1, 64) encodes
+            #  "there are 63 controls" in a second place, and the register is frozen at 63
+            #  today and will not be forever.
+            case("...and every control in the register has a row",
+                 all(f"<td>{c['rank']}</td>" in app_text for c in _controls_module().CONTROLS))
+
         case("the implementation challenge is published", challenge.is_file())
         case("...and is linked from the landing page", 'href="challenge.html"' in index)
         case("...and has a markdown alternate", (c / "docs/challenge.md").is_file())

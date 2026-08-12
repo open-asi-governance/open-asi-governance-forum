@@ -89,6 +89,11 @@ GATES = (
     #  for every control in the register. It checks COMPLETENESS, not correctness -- the party
     #  that wrote the determinations is the party they describe.
     ("self-application", ["python3", "tools/self_application.py", "--check"]),
+    #  The control-application table names code files and tests per control. A row pointing at a
+    #  deleted or renamed file is a compliance claim about something that is not there, so this
+    #  refuses rather than letting the table decay into decoration. It checks SUBSTANTIATION --
+    #  that every row can be backed -- not that any control is satisfied.
+    ("control-application", ["python3", "tools/control_application.py", "--check"]),
     ("context-pins", ["python3", "tools/check_executive_context.py"]),
     ("lease", ["python3", "tools/executive_lease.py"]),
 )

@@ -61,6 +61,18 @@ SCANNED = (".md",)
 #  built to avoid.
 SKIP_PARTS = ("corpus/", "docs/", "record/claims/", "spec/claims/fixtures/", "third-party/",
               "record/executive/codex-transcripts/")
+#
+#  `record/controls/` WAS SKIPPED HERE ON 2026-08-12 AND THE SKIP WAS WRONG. The generated
+#  control-application table tripped this gate on every regeneration, content-keyed dispositions
+#  would go stale each time a number moved, and exempting the directory made that stop. Codex
+#  refused it on two grounds and the second is the one that matters: scanning the file finds 16
+#  undispositioned spans, and several are not generator churn but FALSE CLAIMS -- "no refused
+#  proposal has yet been re-proposed" and "no rollback mechanism exists", both contradicted by
+#  this repository's own self-application table. The exemption would have published them.
+#
+#  Kept as a comment rather than deleted, because the reasoning that produced it was plausible
+#  and someone will produce it again: the artifact was new, it was mine, and the exemption made
+#  my own work pass. Churn in a disposition is review pressure, not a defect.
 
 #  Narrow dispositions. A general "acknowledged" bucket is a snooze button; these each say
 #  something specific about WHY the span is not an unsupported claim.
