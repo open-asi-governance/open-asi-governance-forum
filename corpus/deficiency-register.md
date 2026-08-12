@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 65** classifications have been read by a human against the prose.
+**0 of 67** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,8 +24,8 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 38 |
-| an external reviewer | 15 |
+| the annotator | 39 |
+| an external reviewer | 16 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 25 |
+| required, not implemented | 27 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**166 affected-object rows across 65 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**171 affected-object rows across 67 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -1040,4 +1040,33 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | record/executive/COMPACTION-NOTE-2026-08-12.md <br><sub>The false claim is retained in the tense it was written in, with the correction attached beneath it. Corrections attach; they do not edit.</sub> | repairable by supersession | verified |
 | commit 8d2e19d — its message <br><sub>A pushed commit message cannot be corrected without rewriting history, which the custodian ruled against on 2026-08-11 ('do not rewrite history', 90e7095). The correction therefore attaches in the record rather than in the message, and this entry is the pointer between them. land.py itself is NOT listed as an affected object: it was not defective, and saying so is the finding.</sub> | not repairable | impossible |
+
+### D-66 — The reconciliation tool reported PERFECT agreement from an input that resolved to nothing
+
+[Full entry](deficiencies.md#d-66--the-reconciliation-tool-reported-perfect-agreement-from-an-input-that-resolved-to-nothing)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `running a negative control that had been passing for two days and observing what the tool did, while waiting on a design review for the harness that would have caught it`
+- **Prospective control:** required, not implemented — The harness this record keeps naming and has not built: a refusal fixture that observes the tool's EFFECTS rather than its output, and a rule that a refusal arm may not be a disjunction. Both D-62 and this entry would have been caught by the second half alone, which is the cheaper one.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/reconcile_actions.py <br><sub>The boundary is parsed here rather than delegated to git, which accepts an unparseable date silently and exits 0; git() raises instead of returning the empty string on failure; log timestamps are compared as timezone-aware instants rather than as strings; and Unreconcilable makes main() print no figure at all rather than a partial one beside a warning.</sub> | repairable by supersession | verified |
+| tools/tests/test_gate_negative_controls.py <br><sub>The arm was a DISJUNCT and passed on its weaker limb in every run, asserting a refusal that had never once occurred. Rewritten as three conjunctive checks: it refuses, it prints no reconciliation figure, and it names the input as unresolved.</sub> | repairable by supersession | verified |
+| the control-1 figure of 12 gate modifications <br><sub>Not shown to be wrong — it was computed from a real granted_utc rather than from garbage — and not re-verified either. The lease defining that window has since been superseded twice, so the boundary would have to be reconstructed. The tool logs no invocations, so there is no record of what boundary it was ever given.</sub> | only if missing evidence is recovered | not started |
+
+### D-67 — A landing the lease had already refused still contacted the remote
+
+[Full entry](deficiencies.md#d-67--a-landing-the-lease-had-already-refused-still-contacted-the-remote)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `Codex's design review of the effect-boundary harness, noting in passing that land.py continues to git push --dry-run while accumulating refusal reasons; reproduced here against a fixture lease at max_actions 0`
+- **Prospective control:** required, not implemented — The effect-boundary harness, whose design review produced this finding. Codex's ranking of non-filesystem effects puts network and remote state first: run the refusal with network denied, credentials removed and canary executables on PATH, trace descendant connection attempts, and report UNAVAILABLE rather than passed when containment is not available. Not built.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/land.py <br><sub>preflight() now treats the lease as a precondition: the local checks still run and report, the external probe is withheld, and the refusal states that it was withheld rather than silently skipping it.</sub> | repairable by supersession | verified |
+| tools/tests/test_deploy_obligations.py <br><sub>New fixture asserting over the COMMANDS ATTEMPTED rather than over output or files, because the effect leaves no filesystem trace. Verified by restoring the accumulate-and-continue shape and watching two of its four checks fail.</sub> | repairable by supersession | verified |
 

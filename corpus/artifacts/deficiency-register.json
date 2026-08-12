@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "a1b70a8ace366615443277c715b62468503d58c734845c9534c0b269205088d8"
+    "sha256": "4e76b722834a734c33be5c627f93be8e09e9926178a3033d1d6623ff0f6b6f3f"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2647,7 +2647,7 @@
     {
       "id": "D-65",
       "title": "A defect in the landing tool was published as reproduced, and had never been run",
-      "section_sha256": "90a5b5962555e89a368e4ce62ffab53cb786721639d55a6d3eba33d081cbfec0",
+      "section_sha256": "74b609ec6f39ded733548c035956384c7dcbdcc4276af8190c3d77e4c2600214",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2676,6 +2676,80 @@
       "human_review": {
         "status": "not_reviewed",
         "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-66",
+      "title": "The reconciliation tool reported PERFECT agreement from an input that resolved to nothing",
+      "section_sha256": "78356454bbc6742d3d0fd838be59912d5dee48e6425dc7b4563bb4cacbfbd132",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "running a negative control that had been passing for two days and observing what the tool did, while waiting on a design review for the harness that would have caught it",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/reconcile_actions.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The boundary is parsed here rather than delegated to git, which accepts an unparseable date silently and exits 0; git() raises instead of returning the empty string on failure; log timestamps are compared as timezone-aware instants rather than as strings; and Unreconcilable makes main() print no figure at all rather than a partial one beside a warning."
+        },
+        {
+          "object": "tools/tests/test_gate_negative_controls.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The arm was a DISJUNCT and passed on its weaker limb in every run, asserting a refusal that had never once occurred. Rewritten as three conjunctive checks: it refuses, it prints no reconciliation figure, and it names the input as unresolved."
+        },
+        {
+          "object": "the control-1 figure of 12 gate modifications",
+          "repairability": "affected_object_repairable_only_if_missing_evidence_recovered",
+          "remediation_state": "remediation_not_started",
+          "note": "Not shown to be wrong — it was computed from a real granted_utc rather than from garbage — and not re-verified either. The lease defining that window has since been superseded twice, so the boundary would have to be reconstructed. The tool logs no invocations, so there is no record of what boundary it was ever given."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "The harness this record keeps naming and has not built: a refusal fixture that observes the tool's EFFECTS rather than its output, and a rule that a refusal arm may not be a disjunction. Both D-62 and this entry would have been caught by the second half alone, which is the cheaper one."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-67",
+      "title": "A landing the lease had already refused still contacted the remote",
+      "section_sha256": "306cab70a6d2920af476b185ff77467b16d75e15d8ac70711aa496dcca4df4c5",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-12",
+        "where": "Codex's design review of the effect-boundary harness, noting in passing that land.py continues to git push --dry-run while accumulating refusal reasons; reproduced here against a fixture lease at max_actions 0",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/land.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "preflight() now treats the lease as a precondition: the local checks still run and report, the external probe is withheld, and the refusal states that it was withheld rather than silently skipping it."
+        },
+        {
+          "object": "tools/tests/test_deploy_obligations.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "New fixture asserting over the COMMANDS ATTEMPTED rather than over output or files, because the effect leaves no filesystem trace. Verified by restoring the accumulate-and-continue shape and watching two of its four checks fail."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "The effect-boundary harness, whose design review produced this finding. Codex's ranking of non-filesystem effects puts network and remote state first: run the refusal with network denied, credentials removed and canary executables on PATH, trace descendant connection attempts, and report UNAVAILABLE rather than passed when containment is not available. Not built."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Found by an external reviewer; the repair and its fixture are the subject's own."
       }
     }
   ]

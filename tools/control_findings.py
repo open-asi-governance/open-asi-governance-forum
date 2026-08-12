@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 44.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 47.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,31 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C64 effect boundary",
+  "A landing the lease had ALREADY REFUSED still ran `git push --dry-run origin HEAD:main` — an "
+  "authenticated network operation on a denied path, inside the tool that implements this "
+  "control's other instances. Every effect check this project has written would have passed it: "
+  "a dry-run push changes nothing in the working tree. Found by Codex while reviewing the DESIGN "
+  "of a harness for this class, before any of it was written.",
+  "external", "D-67; tools/land.py preflight(); tools/tests/test_deploy_obligations.py"),
+
+ ("C53 typed unknown",
+  "reconcile_actions.py reported 0 commits, 0 logged actions and 0 unexplained effects — PERFECT "
+  "reconciliation, at exit 0 — from an unparseable --since. Three failures lined up: `git log "
+  "--since=<garbage>` exits 0 and matches nothing, git() returned '' on any non-zero exit, and "
+  "the log filter compared timestamps as strings so every real entry sorted below 'zzqx-...'. "
+  "This is the tool that produced control 1's published figure. Its own negative control was a "
+  "DISJUNCT and passed on its weaker limb in every run.",
+  "negative-control", "D-66; tools/reconcile_actions.py; tools/tests/test_gate_negative_controls.py"),
+
+ ("C2 negative control",
+  "The assertion that the cohort pruner 'only ever walks its own subtree' was carried entirely by "
+  "a docstring: `\"OUT.glob\" in prune.__doc__ or prune.__doc__.count(\"docs/cohorts\") >= 1`, "
+  "and the first limb is FALSE, so a pruner that deleted the whole docs tree would have passed "
+  "provided its prose still named the right directory. Replaced with a behavioural case against a "
+  "temporary tree, verified by making the pruner over-reach and watching it fail.",
+  "reading", "tools/tests/test_cohort_pages.py"),
 
  ("C4 fail-closed lease",
   "The control found its own implementation failing open. Beyond the count defect, the reported "

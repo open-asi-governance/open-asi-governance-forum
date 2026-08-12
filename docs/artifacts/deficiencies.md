@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **65 entries** (D-01 … D-65).
+**Status:** open — **67 entries** (D-01 … D-67).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2702,3 +2702,101 @@ claim, and the reason a reader can tell what the workbench believed at the time.
 against this layer's interest, not for it: it alleged a defect in its own tooling that turned out
 not to exist. It is a reliability failure rather than a self-favouring one, which makes it a
 different fault from the three counting errors of 2026-08-10 and is recorded as such.
+
+
+### D-66 — The reconciliation tool reported PERFECT agreement from an input that resolved to nothing
+
+*Filed 2026-08-12, found by running a negative control that had been passing for two days and
+watching what it actually did.*
+
+`tools/reconcile_actions.py` compares what the repository shows against what the action log
+claims. It produced the figure behind **control 1** — *"12 modifications to the gates were made in
+one lease window by the layer those gates constrain"* — which is cited in the control's own
+`failure` field and has been published to ten outreach recipients.
+
+Given an unresolvable `--since`, it reported **0 commits, 0 logged actions, 0 unexplained
+effects, and exited 0**. That is not a degraded answer. It is the most favourable answer the tool
+can produce — perfect reconciliation, nothing unaccounted for — and it came from an input that
+named no point in time at all.
+
+Three independent failures had to line up, and each is a shape this record has filed before:
+
+* **`git log --since=<garbage>` exits ZERO and matches nothing.** git accepts an unparseable date
+  silently. So validating the boundary by handing it to git and reading the exit status cannot
+  work — the check has to happen before the value reaches anything that would rather report zero.
+* **`git()` returned `""` on any non-zero exit.** A failed command and an empty result were the
+  same value. This is D-64's `spent = 0` in a different file, written by the same layer.
+* **The log filter compared timestamps as STRINGS.** `e.get("utc", "") >= since` put every real
+  ISO timestamp below a `since` of `"zzqx-…"`, so the log side contributed nothing — and the tool
+  called two empty sides agreement. The identical lexical-comparison defect was fixed in
+  `executive_lease.py` the same morning, four hours earlier, after Codex fed it a row stamped
+  `"zzzz"`.
+
+**The negative control that existed for this passed on every run.** It read:
+
+    check("reconcile_actions refuses an unresolvable revision rather than reporting zero",
+          r.returncode != 0 or "0 unexplained" not in r.stdout)
+
+A disjunct passes on its weaker limb. The tool never exited non-zero, so the first limb never
+held; the phrase `"0 unexplained"` is not in the output in **any** run, so the second limb always
+did. The arm asserted a refusal that had never once happened, and would have gone on passing
+after the tool was deleted. It is the same shape as D-62 — an assertion satisfied by something
+other than the behaviour it names — written by the same author on the same day, in the batch whose
+entire subject was control 2.
+
+**Repaired.** The boundary is parsed here rather than delegated to git; `git()` raises rather than
+returning the empty string; log timestamps are compared as timezone-aware instants; and
+`Unreconcilable` makes `main()` print no figure at all rather than a partial one with a warning,
+because a partial reconciliation printed beside a warning is how "0 unexplained" would be quoted.
+The fixture is now three conjunctive checks: it refuses, it prints no reconciliation figure, and
+it says the input did not resolve.
+
+**What this does not establish.** That the published control-1 figure of 12 is wrong. It was
+computed from a real `granted_utc`, not from garbage, and re-running the repaired tool over that
+window is the check that would settle it — not done here, because the lease that defines that
+window has since been superseded twice and the boundary would have to be reconstructed. Nor does
+it establish that no other caller passed an unresolvable boundary: the tool logs no invocations,
+so there is no record of what it was ever asked.
+
+
+### D-67 — A landing the lease had already refused still contacted the remote
+
+*Filed 2026-08-12. Found by Codex, in passing, while reviewing the DESIGN of a harness built to
+catch this class — before a line of that harness was written.*
+
+`tools/land.py`'s `preflight()` accumulates every refusal reason and returns them together, so an
+operator sees all of them in one round trip rather than one per run. That is a good property and
+it had one consequence nobody had followed: after `lease.require("commit")` and
+`lease.require("push")` both refused, execution continued to
+
+    git push --dry-run origin HEAD:main
+
+which is an **authenticated network operation against the remote**, performed on a path the
+authorization lease had already denied. Reproduced against a fixture lease at `max_actions: 0`:
+two lease refusals recorded, and the dry-run push attempted anyway.
+
+**Why this matters more than its size.** It is control 64 — *a refusal is proved at the effect
+boundary, not by the refusal signal* — violated inside `land.py`, which is the tool that
+implements the control's other instances. The refusal signal was correct. The refusal was
+reported. And the tool acted after it.
+
+**Every effect check this project has written would have passed it.** The harness under design at
+the time compares filesystem state before and after; a dry-run push changes **nothing in the
+working tree**. Codex's ranking of what lives outside the tree puts network and remote state
+first, above git administrative state and files under `/tmp`, precisely because a filesystem
+snapshot is blind to it and because the same shape on a paid channel spends money on a denied
+path. This repository has two such channels.
+
+**Repaired.** The lease is now treated as a precondition of the rest of preflight rather than one
+problem among several: the local checks still run and still report, because withholding the other
+diagnostics would turn one refusal into several round trips, but the external probe is withheld
+and the refusal **says so** rather than silently skipping it. The fixture asserts over the
+COMMANDS ATTEMPTED, and it fails when the accumulate-and-continue shape is restored — verified by
+restoring it.
+
+**What this does not establish.** That no other denial path in this repository performs an
+external effect. Only `land.py`'s preflight was examined, by hand, after being told where to look;
+the systematic version is the harness this was found while designing, which does not exist. It
+also does not establish that the dry-run push had any effect on the remote — it is a probe, and
+whether GitHub records it is not observable from here. The claim is about acting after a refusal,
+not about damage.

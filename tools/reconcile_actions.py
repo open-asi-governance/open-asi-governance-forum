@@ -52,6 +52,7 @@ import json
 import subprocess
 import sys
 from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -78,9 +79,45 @@ LOGGED_TO_EFFECT = {"push": "commits", "test": None, "codex_invoke": None,
                     "codex_return_captured": None}
 
 
+class Unreconcilable(RuntimeError):
+    """The reconciliation cannot be performed, so no figure may be reported.
+
+    D-66. Everything below used to fail toward the most favourable answer available: git failing
+    was indistinguishable from git returning nothing, and an unparseable `--since` produced
+    "0 commits, 0 logged, 0 unexplained" — PERFECT RECONCILIATION — at exit 0. This is the same
+    shape as D-64 in the lease, in the tool that produced the evidence for control 1.
+    """
+
+
 def git(*args) -> str:
+    """Raises rather than returning "" on failure. An empty result and a failed command are
+    different facts, and this function used to render both as the empty string."""
     proc = subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True)
-    return proc.stdout if proc.returncode == 0 else ""
+    if proc.returncode != 0:
+        raise Unreconcilable(
+            f"git {' '.join(args)} exited {proc.returncode}: "
+            f"{(proc.stderr or '').strip()[:200] or '(no stderr)'}. An unreadable repository is "
+            f"not an empty one.")
+    return proc.stdout
+
+
+def instant(since: str) -> datetime:
+    """Parse the boundary OURSELVES, because git will not.
+
+    `git log --since=zzqx-not-a-revision` exits **0** and returns nothing: an unparseable date is
+    silently accepted and matches no commit. So validating by handing it to git and checking the
+    status cannot work — the check has to happen here, before the value reaches anything that
+    would rather report zero than complain.
+    """
+    text = (since or "").strip()
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise Unreconcilable(
+            f"--since {since!r} is not a parseable instant ({exc}). git accepts it silently and "
+            f"matches nothing, which reads as a clean reconciliation. See D-66.") from exc
+    #  A bare date is the form the CLI documents, and midnight UTC is what it has always meant.
+    return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
 
 
 def commits_since(since: str) -> list[str]:
@@ -101,6 +138,8 @@ def classify(path: str) -> str | None:
 
 
 def reconcile(since: str) -> dict:
+    #  FIRST. Everything after this reads better with a boundary that resolves to nothing.
+    boundary = instant(since)
     commits = commits_since(since)
     effects: Counter = Counter()
     per_effect_commits: dict[str, set] = {}
@@ -111,7 +150,21 @@ def reconcile(since: str) -> dict:
                 effects[name] += 1
                 per_effect_commits.setdefault(name, set()).add(commit[:12])
 
-    logged = [e for e in ex.read_log() if e.get("utc", "") >= since]
+    #  Compared as INSTANTS. The string comparison this replaces put every real timestamp below
+    #  a `since` of "zzqx-...", so the log contributed nothing and the tool called that agreement.
+    logged = []
+    for entry in ex.read_log():
+        stamp = entry.get("utc")
+        try:
+            when = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+        except (ValueError, TypeError) as exc:
+            raise Unreconcilable(
+                f"an action-log entry is stamped {stamp!r}, which does not parse ({exc}), so it "
+                f"cannot be placed inside or outside the window") from exc
+        if when.tzinfo is None:
+            raise Unreconcilable(f"an action-log entry is stamped {stamp!r} with no timezone")
+        if when >= boundary:
+            logged.append(entry)
     by_action = Counter(e.get("action") for e in logged)
     by_coverage = Counter(e.get("coverage") or "(untyped, pre-dates typing)" for e in logged)
 
@@ -155,7 +208,13 @@ def main() -> int:
     args = parser.parse_args()
 
     since = args.since or (lease.current() or {}).get("granted_utc") or "2026-08-09"
-    result = reconcile(since)
+    try:
+        result = reconcile(since)
+    except Unreconcilable as why:
+        #  REFUSE, and print no figure. A partial reconciliation printed with a warning is how
+        #  "0 unexplained" got published from an input that resolved to nothing.
+        print(f"REFUSED: {why}", file=sys.stderr)
+        return 2
     if args.json:
         print(json.dumps(result, indent=2))
         return 0

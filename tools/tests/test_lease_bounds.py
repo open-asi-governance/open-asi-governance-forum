@@ -292,8 +292,13 @@ def test_cli_exit_status_follows_the_composite() -> None:
           (proc.returncode == 0) == bool(st["live"]))
     check("the CLI prints the count state, which it never used to mention",
           "count:" in proc.stdout)
-    check("the CLI names the unit of max_actions",
-          "rows appended" in proc.stdout or st["count"]["state"] != lease.COUNTED)
+    #  NOT a disjunct. The first version read `"rows appended" in proc.stdout or state !=
+    #  COUNTED`, which passes whenever the count is unavailable — an escape hatch across two
+    #  DIFFERENT outcomes, written this morning inside the fix for that exact class. The
+    #  precondition is asserted instead, so the case fails loudly if it stops applying.
+    check(f"PRECONDITION: the live count is available ({st['count'].get('state')}), so the "
+          f"unit must be printed", st["count"]["state"] == lease.COUNTED)
+    check("the CLI names the unit of max_actions", "rows appended" in proc.stdout)
 
 
 def test_there_is_no_ambient_count_source() -> None:

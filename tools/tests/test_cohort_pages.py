@@ -170,8 +170,33 @@ fx8.cleanup()
 print("\nthe two publishers do not delete each other's artifacts")
 check("the cohort publisher writes to its own subtree, not docs/rounds/",
       c.OUT.name == "cohorts" and c.OUT != b.OUT)
-check("the cohort pruner only ever walks its own subtree",
-      "OUT.glob" in c.prune.__doc__ or c.prune.__doc__.count("docs/cohorts") >= 1)
+#  THIS WAS A PROSE CHECK, and it was carried entirely by its weaker limb. It read
+#  `"OUT.glob" in c.prune.__doc__ or c.prune.__doc__.count("docs/cohorts") >= 1` — and the
+#  docstring does NOT contain "OUT.glob", so the whole assertion rested on the phrase
+#  "Owns ONLY docs/cohorts/" appearing in prose. A pruner that walked the entire docs tree would
+#  have passed it, provided its docstring still named the right directory. That is the
+#  mention-is-not-an-exercise defect this repository already fixed in control_coverage.py, in a
+#  test guarding a function that DELETES PUBLISHED PAGES — the failure the sandbox twelve lines
+#  below exists to prevent, asserted for the other pruner by reading its prose.
+#
+#  Behaviour, against a tree the test owns.
+prune_box = Path(tempfile.mkdtemp())
+mine, theirs = prune_box / "cohorts", prune_box / "rounds"
+mine.mkdir(); theirs.mkdir()
+(mine / "keep.html").write_text("keep")
+(mine / "stale.html").write_text("stale")
+(theirs / "someone-elses.html").write_text("not yours")
+_saved_out = c.OUT
+try:
+    c.OUT = mine
+    removed = c.prune({"keep"})
+    check("the cohort pruner removes what it no longer produces", removed == ["stale.html"])
+    check("...keeps what it does", (mine / "keep.html").exists())
+    check("the cohort pruner does not touch a sibling directory",
+          (theirs / "someone-elses.html").exists())
+finally:
+    c.OUT = _saved_out
+shutil.rmtree(prune_box, ignore_errors=True)
 check("the round pruner takes an explicit ownership list for shared directories",
       "owned_prefixes" in b.prune.__code__.co_varnames)
 

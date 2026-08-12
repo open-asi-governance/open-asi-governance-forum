@@ -443,10 +443,23 @@ check("...and it printed no cost either", "$" not in r.stdout)
 r = run("record_spend.py", "--report")
 check("BASELINE: the spend report still runs", r.returncode == 0, (r.stderr or r.stdout)[-160:])
 
+#  THIS ARM WAS VACUOUS, in the same shape that caused D-62 and by the same author on the same
+#  day: `r.returncode != 0 OR "0 unexplained" not in r.stdout`. A disjunct passes on its weaker
+#  limb, and the weaker limb held — the tool exited 0, reported "0 commits", and the phrase it
+#  looked for was never in the output in any run. So the arm asserted a refusal that had never
+#  once happened, and the real behaviour was worse than the one it was written to catch:
+#  `git log --since=<garbage>` exits 0 and matches nothing, the log filter compared timestamps as
+#  STRINGS so every real entry sorted below "zzqx-...", and the tool that produced control 1's
+#  evidence reported PERFECT RECONCILIATION from an input that resolved to nothing. See D-66.
 r = run("reconcile_actions.py", "--since", "zzqx-not-a-revision")
-check("reconcile_actions refuses an unresolvable revision rather than reporting zero",
-      r.returncode != 0 or "0 unexplained" not in r.stdout,
+check("reconcile_actions REFUSES an unresolvable revision", r.returncode != 0,
       f"rc={r.returncode}; stdout={r.stdout[:160]!r}")
+check("...and prints no reconciliation figure at all",
+      "unexplained" not in r.stdout and "commits)" not in r.stdout,
+      f"stdout={r.stdout[:200]!r}")
+check("...and says the input did not resolve, rather than reporting agreement",
+      "not a parseable instant" in (r.stdout + r.stderr),
+      (r.stdout + r.stderr)[-200:])
 
 r = run("reconcile_actions.py")
 check("BASELINE: reconciliation runs against the current lease", r.returncode == 0,

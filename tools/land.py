@@ -180,6 +180,16 @@ def preflight(target_branch: str) -> list[str]:
             lease.require(action_class)
         except (lease.LeaseRefused, lease.UnknownActionClass) as refused:
             problems.append(f"lease ({action_class}): {refused}")
+    #  THE LEASE IS A PRECONDITION OF THE REST, not one problem among several. D-67: this
+    #  function accumulated refusals and kept going, so a landing REFUSED BY THE LEASE still ran
+    #  `git push --dry-run origin HEAD:main` — an authenticated network operation against the
+    #  remote, on a denied path, inside the tool that enforces control 64. Codex found it while
+    #  reviewing a harness designed to catch exactly this class, and observed that a filesystem
+    #  snapshot would never have seen it: nothing in the working tree changes.
+    #
+    #  The LOCAL checks below still run and still report, because refusing to say what else is
+    #  wrong turns one refusal into several round trips. Only the external probe is withheld.
+    leased = not problems
     code, branch = run(["git", "branch", "--show-current"])
     branch = branch.strip()
     if not branch:
@@ -201,6 +211,12 @@ def preflight(target_branch: str) -> list[str]:
     #  read succeeds. It tested reachability while claiming to test push capability -- a green
     #  signal not downstream of what it certifies, written inside the fix for that exact class.
     #  A dry-run push exercises the credential helper and fails the way a real push would.
+    if not leased:
+        problems.append(
+            "the remote push capability was NOT probed, because the lease refused first. A "
+            "dry-run push is an authenticated network operation, and performing one after an "
+            "authorization refusal is the effect-boundary failure this repository filed D-67 for.")
+        return problems
     code, dry = run(["git", "push", "--dry-run", "origin", f"HEAD:{target_branch}"])
     if code != 0:
         problems.append(

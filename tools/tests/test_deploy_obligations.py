@@ -524,5 +524,58 @@ try:
 finally:
     land.lease.require, land.obligations.blocking = saved_require, saved_blocking
 
+
+# ---------------------------------------------------------------------------
+#  D-67. A refused landing must not touch the remote.
+# ---------------------------------------------------------------------------
+
+def test_a_lease_refusal_stops_before_the_network() -> None:
+    """The effect a filesystem snapshot would never see.
+
+    `preflight()` accumulated refusal reasons and kept going, so a landing the lease had ALREADY
+    REFUSED still ran `git push --dry-run origin HEAD:main` — an authenticated network operation
+    against the remote, on a denied path, inside the tool that enforces control 64. Nothing in
+    the working tree changes when that happens, which is why every effect check this project has
+    written would have passed it. Codex found it while reviewing a harness designed for exactly
+    this class.
+
+    The assertion is over the COMMANDS ATTEMPTED, because that is where the effect is.
+    """
+    import json as _json, tempfile as _tf
+    from pathlib import Path as _Path
+    land = load("land")
+    lease_mod = land.lease
+    box = _Path(_tf.mkdtemp()) / "leases.jsonl"
+    box.write_text(_json.dumps({
+        "lease_id": "fixture-exhausted", "granted_utc": "2026-01-01T00:00:00Z",
+        "expires_utc": "2099-01-01T00:00:00Z", "granted_by": "fixture",
+        "evidence": "fixture", "max_actions": 0, "note": "", "supersedes": None,
+        "authority": "fixture"}) + "\n", encoding="utf-8")
+
+    saved_leases, saved_run = lease_mod.LEASES, land.run
+    attempted: list[list[str]] = []
+    try:
+        lease_mod.LEASES = box
+        def traced(cmd):
+            attempted.append(list(cmd))
+            return saved_run(cmd)
+        land.run = traced
+        problems = land.preflight("main")
+    finally:
+        lease_mod.LEASES, land.run = saved_leases, saved_run
+
+    check("the fixture lease does refuse, so the case is live",
+          any(p.startswith("lease") for p in problems), problems[:1])
+    check("NO remote operation is attempted after an authorization refusal",
+          not any("push" in part for cmd in attempted for part in cmd),
+          f"attempted: {attempted}")
+    check("...and the refusal SAYS the probe was withheld, rather than silently skipping it",
+          any("NOT probed" in p for p in problems), problems)
+    check("...while the local diagnostics still run, so one refusal is not several round trips",
+          any("git" in cmd[0] for cmd in attempted), f"attempted: {attempted}")
+
+
+test_a_lease_refusal_stops_before_the_network()
+
 print(f"\n{passed} passed, {FAILED} failed")
 raise SystemExit(1 if FAILED else 0)
