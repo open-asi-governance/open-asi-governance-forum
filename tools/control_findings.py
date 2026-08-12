@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 48.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 51.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,31 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C2 negative control",
+  "The measure of control 2 counted PROSE as evidence of coverage. Its self-hosted-fixture path "
+  "grepped each tool's whole source text, so a control's register text, that text rendered into "
+  "a page, a comment quoting it, and control_coverage.py's OWN DOCSTRING describing the "
+  "heuristic all scored as covered. The measure counted itself. Two obvious repairs each failed "
+  "differently: an AST shape produced a false negative on a tool that imports its fixture "
+  "runner, and running the flag proved nothing because three page-builders exit 0 on "
+  "--fixtures while ignoring it.",
+  "external", "D-68; tools/control_coverage.py SELF_HOSTED"),
+
+ ("C2 negative control",
+  "build_manifest.py and validate_provenance.py — the two tools that guard the corpus's central "
+  "integrity claim, both run by land.py's first gate — had no case they must fail. Six now, "
+  "asserted at the effect boundary: a modified anchored artifact, a rewritten manifest lineage, "
+  "a missing artifact, an unreadable target, an unparseable artifact and a wrong source hash "
+  "each refuse AND leave a fresh copy of the repository byte-identical.",
+  "reading", "tools/tests/test_corpus_integrity_refusals.py"),
+
+ ("C53 typed unknown",
+  "validate_provenance.py raised a TRACEBACK out of main() on a target it could not read: only "
+  "the JSON parse failure was caught, so an absent file crashed instead of being reported. A "
+  "crash and a refusal look different to an operator and only one of them is the control "
+  "working. Now a typed UNREADABLE failure that exits 1 with the file named.",
+  "reading", "tools/validate_provenance.py; tools/tests/test_corpus_integrity_refusals.py"),
 
  ("C64 effect boundary",
   "The harness this row said did not exist now does, and its first three conversions all pass at "

@@ -411,7 +411,20 @@ def check_identity_counts(document: dict, report: Report) -> None:
 def validate_file(path: Path) -> Report:
     report = Report()
     try:
-        document = json.loads(path.read_text(encoding="utf-8"))
+        text = path.read_text(encoding="utf-8")
+    except OSError as error:
+        #  A file that cannot be READ used to escape as a traceback out of main(), because only
+        #  the PARSE failure was caught. `validate_provenance.py --help` crashed on exactly this
+        #  path. A crash and a refusal look different to an operator and only one of them is the
+        #  control working — the same distinction D-67 turned on — so an unreadable target is now
+        #  a typed failure that makes the run exit 1 with the file named.
+        report.error("UNREADABLE", f"{path}: {error}")
+        return report
+    except UnicodeDecodeError as error:
+        report.error("UNREADABLE", f"{path}: not UTF-8 text ({error})")
+        return report
+    try:
+        document = json.loads(text)
     except json.JSONDecodeError as error:
         report.error("PARSE", f"{path}: {error}")
         return report

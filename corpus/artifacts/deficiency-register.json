@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "4e76b722834a734c33be5c627f93be8e09e9926178a3033d1d6623ff0f6b6f3f"
+    "sha256": "bfd24d24fd9466c2c2a29b1b374325147c8f95b9e8a8f684c2945bc024959c34"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2721,7 +2721,7 @@
     {
       "id": "D-67",
       "title": "A landing the lease had already refused still contacted the remote",
-      "section_sha256": "306cab70a6d2920af476b185ff77467b16d75e15d8ac70711aa496dcca4df4c5",
+      "section_sha256": "b04d1f1c7587425ea8ce5927c0691b15584a88f614aa36da9586c133d7e7a454",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2749,7 +2749,41 @@
       },
       "human_review": {
         "status": "not_reviewed",
-        "note": "Found by an external reviewer; the repair and its fixture are the subject's own."
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-68",
+      "title": "The control-2 coverage measure counted its own docstring as evidence of coverage",
+      "section_sha256": "c2f9a4e28e52b64eacd9f0d1b89ea6c589b52c62330ecc52e4951bce293bc48b",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-12",
+        "where": "Codex, asked whether control_coverage.py --check was fit to be wired into land.py as a ratchet; it identified the lexical detector as wrong at that moment rather than merely fragile, and each false positive was reproduced here",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/control_coverage.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "self_hosted_fixtures() replaced by a four-entry SELF_HOSTED declaration, labelled as an assertion rather than presented as a measurement. build_viewer.py and test_integrity.py returned to NONE and the published rate fell 57% -> 54%. NOT repaired: the other path, a 600-character proximity heuristic between a tool's name and a refusal assertion in a test, still carries eighteen determinations and is inference rather than evidence."
+        },
+        {
+          "object": "the published control-2 coverage rate",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Recomputed and republished at the lower figure. The number is derived at render time by the tool, never transcribed, so the correction propagates rather than needing to be found in prose."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Codex's sequence, of which one step is done: explicit tool -> suite -> negative-case declarations replacing the proximity heuristic; then a baseline recording every tool's status with a detector_contract_version, so a detector correction is distinguishable from a coverage regression; then a gate named `negative-control-ratchet` whose green means only that no coverage was lost and no new debt entered. He refused three things by name: baselining the current determinations, wiring the current --check, and calling any of it a coverage gate."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "The defect is in the measure this project publishes about itself."
       }
     }
   ]

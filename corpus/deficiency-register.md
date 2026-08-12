@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 67** classifications have been read by a human against the prose.
+**0 of 68** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -25,7 +25,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Where | Entries |
 |---|---|
 | the annotator | 39 |
-| an external reviewer | 16 |
+| an external reviewer | 17 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 27 |
+| required, not implemented | 28 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**171 affected-object rows across 67 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**173 affected-object rows across 68 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -1069,4 +1069,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/land.py <br><sub>preflight() now treats the lease as a precondition: the local checks still run and report, the external probe is withheld, and the refusal states that it was withheld rather than silently skipping it.</sub> | repairable by supersession | verified |
 | tools/tests/test_deploy_obligations.py <br><sub>New fixture asserting over the COMMANDS ATTEMPTED rather than over output or files, because the effect leaves no filesystem trace. Verified by restoring the accumulate-and-continue shape and watching two of its four checks fail.</sub> | repairable by supersession | verified |
+
+### D-68 — The control-2 coverage measure counted its own docstring as evidence of coverage
+
+[Full entry](deficiencies.md#d-68--the-control-2-coverage-measure-counted-its-own-docstring-as-evidence-of-coverage)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `Codex, asked whether control_coverage.py --check was fit to be wired into land.py as a ratchet; it identified the lexical detector as wrong at that moment rather than merely fragile, and each false positive was reproduced here`
+- **Prospective control:** required, not implemented — Codex's sequence, of which one step is done: explicit tool -> suite -> negative-case declarations replacing the proximity heuristic; then a baseline recording every tool's status with a detector_contract_version, so a detector correction is distinguishable from a coverage regression; then a gate named `negative-control-ratchet` whose green means only that no coverage was lost and no new debt entered. He refused three things by name: baselining the current determinations, wiring the current --check, and calling any of it a coverage gate.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/control_coverage.py <br><sub>self_hosted_fixtures() replaced by a four-entry SELF_HOSTED declaration, labelled as an assertion rather than presented as a measurement. build_viewer.py and test_integrity.py returned to NONE and the published rate fell 57% -> 54%. NOT repaired: the other path, a 600-character proximity heuristic between a tool's name and a refusal assertion in a test, still carries eighteen determinations and is inference rather than evidence.</sub> | partly repairable | partly applied |
+| the published control-2 coverage rate <br><sub>Recomputed and republished at the lower figure. The number is derived at render time by the tool, never transcribed, so the correction propagates rather than needing to be found in prose.</sub> | repairable by supersession | verified |
 

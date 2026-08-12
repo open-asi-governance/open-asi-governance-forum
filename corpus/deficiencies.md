@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **67 entries** (D-01 … D-67).
+**Status:** open — **68 entries** (D-01 … D-68).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2800,3 +2800,60 @@ the systematic version is the harness this was found while designing, which does
 also does not establish that the dry-run push had any effect on the remote — it is a probe, and
 whether GitHub records it is not observable from here. The claim is about acting after a refusal,
 not about damage.
+
+
+### D-68 — The control-2 coverage measure counted its own docstring as evidence of coverage
+
+*Filed 2026-08-12. Found by Codex, asked whether the measure was fit to become a landing gate.
+The answer was no, and the reason was not that it might drift: it was wrong at the moment of
+asking.*
+
+`control_coverage.py` reports what fraction of this repository's tools have a case they must
+fail. One of its two paths, `self_hosted_fixtures()`, decided that a tool ships its own must-fail
+cases by searching **the whole of its source text** — prose included — for `--fixtures`,
+`must reject`, `must_flag` and similar. Eight tools scored covered by that path. **Five of them
+matched on prose:**
+
+| tool | what actually matched |
+|---|---|
+| `build_controls_page.py` | a control's register text, *"a fixture it must reject"* |
+| `build_viewer.py` | that same register text, rendered into a page |
+| `test_integrity.py` | a comment quoting it |
+| `control_coverage.py` | **its own docstring, describing this very heuristic** |
+
+The measure counted itself as covered on the strength of a paragraph explaining how it measures
+coverage. It is the mention-is-not-an-exercise defect, in the file whose neighbouring docstring
+records having fixed that same defect **twice** — once when a test's module docstring named a
+tool it never exercised, and once when a comment saying a tool CANNOT have a negative control was
+read as evidence that it does.
+
+**Two obvious repairs were tried and each failed differently**, which is why the fix is a hand
+declaration rather than a better detector:
+
+* **An AST shape** — look for `add_argument("--fixtures")` or a `run_fixtures` definition —
+  produced a FALSE NEGATIVE on `verify_negative_control.py`, which genuinely has the mode and
+  imports `run_fixtures` from a shared core.
+* **Running the flag and checking the exit status** — `build_controls_page.py`, `build_viewer.py`
+  and `test_integrity.py` all **exit 0 on `--fixtures` while ignoring it entirely** and doing
+  their ordinary work. A zero exit is not evidence of a fixtures mode. Only `control_coverage.py`
+  itself rejected the unknown flag, which is the one result that surprised me.
+
+**Repaired** by replacing the grep with `SELF_HOSTED`, four entries, each a human's assertion with
+a place to look, labelled as an assertion rather than presented as a measurement. `build_viewer.py`
+and `test_integrity.py` returned to `NONE`, where they belong. **The published rate fell from 57%
+to 54%**, which is the correct direction for that news.
+
+**The gate stays unwired, and this is why.** `control_coverage.py --check` has sat outside
+`land.py` for two days marked "semantics need settling". Codex's ruling: build a non-regression
+ratchet, but *"do not baseline or gate the current detector"* — a baseline stamped from
+determinations that are known-wrong gives temporal force to the errors. Eighteen of the remaining
+determinations still rest on a 600-character proximity heuristic between a tool's name and a
+refusal assertion in a test, which is inference, not evidence. His sequence is: explicit evidence
+declarations first, then the ratchet, then the gate. One of three steps is done.
+
+**What this does not establish.** That the corrected figure is right — the proximity path is
+untouched and is the larger half. That any of the 35 tools scored `NONE` is actually unprotected;
+some may have refusal cases the heuristic cannot see, which is the same blindness pointing the
+other way. And it does not establish that the measure has been wrong the whole time it has been
+published: the register text that produced three of the five matches was itself added on
+2026-08-11, so the false positives are days old rather than the age of the tool.

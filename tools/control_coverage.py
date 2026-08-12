@@ -67,18 +67,47 @@ def tool_files() -> list[pathlib.Path]:
     return sorted(p for p in TOOLS.glob("*.py") if p.name != "__init__.py")
 
 
-def self_hosted_fixtures(path: pathlib.Path) -> bool:
-    """Does the tool SHIP its own must-fail cases?
+#  DECLARED, NOT INFERRED. What this replaces was a regex over the tool's whole source text for
+#  `--fixtures`, `must reject` and friends — and on 2026-08-12 Codex showed it was wrong RIGHT
+#  THEN, not merely fragile. Five of the eight tools it scored on this path matched on PROSE:
+#
+#    build_controls_page.py   a control's register text, "a fixture it must reject"
+#    build_viewer.py          that same register text rendered into a page
+#    test_integrity.py        a comment quoting it
+#    control_coverage.py      ITS OWN DOCSTRING, describing this very heuristic
+#
+#  The measure counted itself as covered on the strength of a paragraph explaining how it
+#  measures coverage. That is the mention-is-not-an-exercise defect, in the file whose docstring
+#  records having fixed that defect twice already. See D-68.
+#
+#  Two obvious repairs were tried and each failed differently, which is why this is a hand
+#  declaration and not a cleverer detector:
+#
+#    an AST shape — look for `add_argument("--fixtures")` or a `run_fixtures` def — produced a
+#    FALSE NEGATIVE on verify_negative_control.py, which imports run_fixtures from a shared core.
+#
+#    running the flag and checking exit 0 — build_controls_page.py, build_viewer.py and
+#    test_integrity.py all EXIT 0 on `--fixtures` while ignoring it entirely and doing their
+#    ordinary work, so a zero exit is not evidence of a fixtures mode. Only control_coverage.py
+#    rejected the unknown flag.
+#
+#  So each entry is a human's assertion with a place to look, and it is labelled as an assertion
+#  in the output rather than presented as a measurement.
+SELF_HOSTED = {
+    "verify_fault_injection.py": "ships 14 must-reject fixtures; `--fixtures` runs them and "
+                                 "prints whether each was rejected",
+    "verify_negative_control.py": "`--fixtures` runs the same must-reject/must-accept cases "
+                                  "through run_fixtures(), imported from the shared core",
+    "check_claims.py": "`--fixtures` runs spec/claims/fixtures/*.json, each labelled clean or "
+                       "flagged, so a detector that stopped detecting fails",
+    "scan_own_code.py": "`--fixtures` runs one must-flag case per detector (D-A, D-B, D-E, "
+                        "C53a, C53b, D-F)",
+}
 
-    Added after validation: verify_fault_injection.py carries FOURTEEN must-reject fixtures and a
-    --fixtures mode, and the first version of this measure scored it NONE because it only looked
-    in tools/tests/ and because the test still references the pre-rename alias. A negative control
-    that ships with the tool is a better negative control, not an absent one. Measuring only one
-    location produced a false NONE on the repository's flagship verifier.
-    """
-    text = path.read_text(encoding="utf-8", errors="replace")
-    return bool(re.search(r"--fixtures|must[_ ]be[_ ]rejected|must[_ ]reject|MUST be rejected|"
-                          r"must_flag|run_fixtures", text))
+
+def self_hosted_fixtures(path: pathlib.Path) -> bool:
+    """Does the tool ship its own must-fail cases? DECLARED above, never inferred from text."""
+    return path.name in SELF_HOSTED
 
 
 def executable_text(text: str) -> str:
