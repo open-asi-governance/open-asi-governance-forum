@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **62 entries** (D-01 … D-62).
+**Status:** open — **63 entries** (D-01 … D-63).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2491,3 +2491,70 @@ its author expected rather than to observe what the tool did.
 
 **What this does not establish.** That no other tool writes to this ledger without validating
 what it writes. Only `record_spend.py` was examined, because it was the one the fixture invoked.
+
+### D-63 — The register told implementers the adoptable set was empty and that every eligible control needed an HTN planner
+
+*Filed 2026-08-12, found by adding a control and watching where it landed. The published pages
+had said this since 2026-08-11 and every gate was green throughout.*
+
+`tools/build_controls_page.py` partitions the register by what a reader can DO with each control:
+**Part A** adopt today alone, **Part B** needs a second party, **Part C** needs a goal or plan
+graph. The predicates for A and B each ended with `and not c.get("applies_when")` — because
+`applies_when` was originally the marker that a control presupposed plan structure, and only Part
+C controls carried one.
+
+Commit `904b7b4` then added a publish gate requiring **every** control to state an
+`applies_when`, on the sound ground that *"a control whose scope is absent cannot be
+distinguished from one that applies universally"*. That gate made the trailing clause universally
+false. **Parts A and B emptied, and all fourteen eligible controls fell into Part C.**
+
+So the register's own front door told an implementer:
+
+* **Part A — Adopt today, alone: 0 controls.** Published beside the sentence *"Part A is
+  adoptable alone and every control in it came from a failure with a cost"*, describing an empty
+  set as though it had members.
+* **Part C: fourteen controls**, under the heading that they *"presuppose that your system
+  decomposes work into a rooted graph with typed parent edges and per-node authority — the shape
+  of HTN planners, BDI agents, goal-stack architectures"*. That is false of nine of them,
+  including **FICP**, the profile this project sent to ten outreach recipients, which
+  presupposes nothing of the sort.
+
+**The correction is derived, not invented.** `adopt_today` already carried the distinction:
+`True` adopt alone, `False` needs a second party, absent needs the plan structure. Removing the
+dead clause and reading that field restores Part A to nine, Part B to two — controls 1 and 6,
+which genuinely need a second key holder — and Part C to three, of which control 12's own scope
+line reads *"the system decomposes goals or plans into a rooted graph with typed parent edges and
+per-node authority"*. The partition and the blurb now agree.
+
+**Corrected within the hour, 2026-08-12.** The paragraph above claimed the first repair made
+"the partition and the blurb now agree". It did not, and the claim was made without checking each
+member against the sentence at the top of its part. Reading `adopt_today` was better than reading
+the presence of `applies_when` and still wrong: it is a two-valued field carrying a three-valued
+ontology, so controls **11** and **13** sat in "needs a goal or plan graph" purely because the
+field was absent — control 11 applies to any splittable set of actions, control 13 wherever a
+refused proposal can be re-offered, and neither presupposes a graph. Worse in the other
+direction, control **4** requires a *non-self-issued* token and sat under "adopt alone".
+
+Prerequisites are now declared fields — `requires_second_party`, `requires_goal_graph` — and the
+partition reads them. **Part A 10, Part B 3, Part C 1**, and Part A's title is now "Adopt today,
+without a second party" because "alone" overstated it: control 7 needs a checkpoint retained
+outside your own storage, which a solo operator can obtain but which is not nothing.
+
+**Why nothing caught it, either time.** The publish gate checks that every control states a
+scope; nothing checked that the partition a control lands in matches what the page says about
+that partition. A
+count of zero in Part A was published as a number, and a number is not a claim any of the prose
+checks read. The integrity suite asserts Part A *is published* and that it *is linked* — both
+true of an empty page.
+
+`tools/test_integrity.py` now asserts it: no Part A member carries a prerequisite, Part B and C
+members carry theirs, no part is empty while its page describes members, and every eligible
+control is placed in exactly one part.
+
+**Recorded because it is the register's own control 45 turned on the register.** A gate was added
+and it silently changed what a neighbouring rule meant, with no evidence retained that the old
+behaviour survived. The register carries that control and the register is where it was violated.
+
+**What this does not establish.** How long an implementer read it that way, or whether any did.
+Two unique human visitors are recorded in the period, against 195 unique cloners, and neither
+number distinguishes a reader from a scraper.

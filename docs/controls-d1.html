@@ -10,21 +10,21 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.</p>
 
-<p><strong>13 of 63 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
+<p><strong>14 of 64 came from a failure that actually happened.</strong> The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.</p>
 
 <p><strong>Read Part A first if you want something to use this afternoon.</strong> Rank is not adoption order and the highest-ranked control needs a second key holder.</p>
 
 <h2>The 8 parts</h2>
 
-<p><strong>Part A — Adopt today, alone</strong> · 0 control(s)</p>
+<p><strong>Part A — Adopt today, without a second party</strong> · 10 control(s)</p>
 
-<p>  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.</p>
+<p>  No second human, no independent authority, and no evaluator you do not control is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from. <strong>Some need something external that is not a second PARTY</strong> — control 7 wants a checkpoint retained outside your own storage, which a solo operator can obtain. The title used to read &quot;alone&quot;, and that overstated it.</p>
 
-<p><strong>Part B — Needs a second party</strong> · 0 control(s)</p>
+<p><strong>Part B — Needs a second party</strong> · 3 control(s)</p>
 
 <p>  These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. <strong>This project cannot demonstrate any of them</strong> — a solo operator holds every credential — which is why they are specified and not dogfooded.</p>
 
-<p><strong>Part C — Needs a goal or plan graph</strong> · 13 control(s)</p>
+<p><strong>Part C — Needs a goal or plan graph</strong> · 1 control(s)</p>
 
 <p>  These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.</p>
 
@@ -54,7 +54,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p><code>ELIGIBLE</code> → <code>PANEL-ATTACKED</code> → <code>COUNTEREXAMPLE-OPEN</code> / <code>SURVIVED-STATED-ATTACKS</code> → <code>INDEPENDENTLY-IMPLEMENTED</code></p>
 
-<p>13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
+<p>14 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. <strong>None has been attacked by anyone or implemented by anyone outside this project.</strong></p>
 
 <p><code>INDEPENDENTLY-IMPLEMENTED</code> is the rung that would make any of this authoritative, and it is the one <strong>no amount of review by us or by any panel of models can supply.</strong> It requires a stranger to build a conforming verifier from the specification text alone. That is what <a href="challenge.html">the implementation challenge</a> asks for.</p>
 
@@ -62,11 +62,11 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>The caution on this page is about what a *claim* of compliance is worth. It is not hedging about the controls themselves. <strong>We think a system that satisfies these is better than one that does not, and we would rather you adopted them and never told us.</strong></p>
 
-<p><strong>The 13 above the line are not speculative.</strong> Each came from something that actually broke, at cost: a health check that returned 200 for hours after the service it monitored had permanently died; a test runner that printed *all suites passed* while exiting non-zero; a scan that reported a total of zero because it could not read most of the files it was counting, and reported it three times. Every one was written by a competent person who believed the check worked. <strong>These controls are what those failures cost, written down so the next system does not have to buy them again.</strong></p>
+<p><strong>The 14 above the line are not speculative.</strong> Each came from something that actually broke, at cost: a health check that returned 200 for hours after the service it monitored had permanently died; a test runner that printed *all suites passed* while exiting non-zero; a scan that reported a total of zero because it could not read most of the files it was counting, and reported it three times. Every one was written by a competent person who believed the check worked. <strong>These controls are what those failures cost, written down so the next system does not have to buy them again.</strong></p>
 
 <p><strong>The failure class generalises, and that is measured rather than asserted.</strong> Applied adversarially to one implementer&#x27;s production checks, four of five survived the exact condition they existed to detect. Challenged again in an unrelated SUBSYSTEM of that same codebase, three of four challenged mechanisms did the same — one silently dropped 258 records from a published figure because a single field named something absent, and exited reporting success. <strong>Two unrelated subsystems, same shape, each found in an afternoon.</strong> Both belong to the same implementer, so that is one confirmation holding across parts of a codebase that share nothing — not two independent ones. We expect it is roughly what most check suites return the first time anyone asks, and we would like to be told if it is not.</p>
 
-<p><strong>They are cheap and they are separable.</strong> Each is one requirement with a verifier and a fixture — not a framework, not a maturity model, not a thing to join. There is no adoption step, no registration, and no benefit to us if you use them. <strong>Take one and ignore the other 62.</strong> Control 2 alone is an afternoon, and it is where we would start, because it is the cheapest way to find out which of your existing checks cannot fail.</p>
+<p><strong>They are cheap and they are separable.</strong> Each is one requirement with a verifier and a fixture — not a framework, not a maturity model, not a thing to join. There is no adoption step, no registration, and no benefit to us if you use them. <strong>Take one and ignore the other 63.</strong> Control 2 alone is an afternoon, and it is where we would start, because it is the cheapest way to find out which of your existing checks cannot fail.</p>
 
 <p><strong>The 50 below the line are worth reading even though they are unproven.</strong> They have no incident behind them and are marked as hypotheses wherever they appear — but each names a real way systems go wrong, and <strong>a hazard you have never named is one you cannot notice.</strong> Reading them costs an hour. Treating them as requirements would be treating our guesses as your evidence.</p>
 
@@ -76,7 +76,7 @@ td,th{border-color:#444}blockquote{border-color:#555;color:#ccc}a{color:#7ab7ff}
 
 <p>Given all that, you will reasonably look for a procedure — a checklist, a scoring rubric, a way to work out which controls apply to you and report how you did. <strong>There is deliberately none, and the omission is the considered position rather than work not yet done.</strong></p>
 
-<p>A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 13 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.</p>
+<p>A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 14 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.</p>
 
 <p><strong>What you can do alone is still worth doing, and it is smaller than a procedure.</strong> Take one control that plainly applies to you. Write the condition under which the mechanism it governs must fail. Then go and cause that condition, and watch. If the mechanism does not fail, you have found something, and you found it in an afternoon without anyone&#x27;s framework. That is control 2, and it is the whole method. What it yields is a diagnostic transcript about your own checks — <strong>not assurance, because you chose the test.</strong></p>
 

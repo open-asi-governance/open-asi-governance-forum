@@ -50,7 +50,7 @@ STATUS_LADDER = ["ELIGIBLE", "PANEL-ATTACKED", "COUNTEREXAMPLE-OPEN",
                  "SURVIVED-STATED-ATTACKS", "INDEPENDENTLY-IMPLEMENTED"]
 
 CONTROLS = [
- {"rank": 1, "name": "Protected control plane",
+ {"rank": 1, "name": "Protected control plane", "requires_second_party": True,
   "applies_when": "any system that can modify the constraints, logs or gates that govern it",
   "requirement": "A governed system MUST NOT be able to amend the constraints, authorization "
                  "records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every "
@@ -124,7 +124,7 @@ CONTROLS = [
          "action was safe; anything about uncommitted work.",
   "adopt_today": True},
 
- {"rank": 4, "name": "Fail-closed authorization lease",
+ {"rank": 4, "name": "Fail-closed authorization lease", "requires_second_party": True,
   "applies_when": "any system taking consequential action",
   "requirement": "Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED "
                  "authorization token; absence, expiry, unknown action class or policy conflict "
@@ -162,7 +162,7 @@ CONTROLS = [
          "that the statistic answers the question asked of it.",
   "adopt_today": True},
 
- {"rank": 6, "name": "Role-separated self-evaluation",
+ {"rank": 6, "name": "Role-separated self-evaluation", "requires_second_party": True,
   "applies_when": "any evaluation that could advance the status of its own subject",
   "requirement": "An evaluation concerning constraints on a subject MUST NOT advance that "
                  "subject's status when the subject controls any two of: proposal selection, "
@@ -314,7 +314,7 @@ T0_CONTROLS = [
              "limit. Every individual approval is correct. The control is to sum the orders "
              "sharing a supplier and a month before applying the limit at all."},
 
- {"rank": 12, "name": "Authority expiry inheritance", "eligible": True,
+ {"rank": 12, "name": "Authority expiry inheritance", "requires_goal_graph": True, "eligible": True,
   "applies_when": GOAL_GRAPH,
   "requirement": "An action's authorisation MUST expire with its parent's. Completing work after "
                  "the parent plan, source document or authority window has lapsed is not "
@@ -1730,6 +1730,57 @@ HARNESS_CONTROLS = [
          "find out it is none of those.",
   "example": "A drug trial that reports the responders and describes the non-responders as "
              "'the remainder' has published half a result, and it is the half everyone hoped for."},
+ {"rank": 64, "name": "A refusal is proved at the effect boundary, not by the refusal signal",
+  "eligible": True, "adopt_today": True,
+  "applies_when": "any system whose checks can also write — a gate, validator or recorder that "
+                  "refuses on some inputs and persists something on others",
+  "requirement": "A refusal claim MUST be verified against the GOVERNED EFFECT BOUNDARY, "
+                 "independently of the refusal signal. The requested effects must be absent, and "
+                 "any effect the refusal is permitted to have — a denial record, an audit line — "
+                 "MUST match a declared postcondition rather than being tolerated because it "
+                 "looked harmless. An assertion over exit status or output cannot distinguish a "
+                 "refusal from an action, because a tool that acts and says it refused satisfies "
+                 "both.",
+  "failure": "**Recorded here, at cost.** A negative control asserting that a spend recorder "
+             "refused an unknown cohort instead caused it to APPEND one. The assertion was "
+             "`exit != 0 OR no cost printed`; the append printed no cost, so it passed. **87 of "
+             "the ledger's 141 entries were the fixture** — 62% of the artifact recording what "
+             "the project spent described a cohort never solicited, written on every landing for "
+             "two days. See D-62.\n\n"
+             "**BE CLEAR ABOUT WHAT THAT INCIDENT DID AND DID NOT SHOW.** It is squarely a "
+             "control 2 failure: the arm did not require the check to fail, and requiring a "
+             "non-zero exit repairs the observed case. The distinctive claim here — that a "
+             "GENUINE refusal signal can still accompany a forbidden effect — was NOT "
+             "instantiated, because the tool never signalled refusal at all. That clause is a "
+             "defensive extrapolation, and it is labelled as one rather than borrowed against "
+             "the incident's evidence. Codex's ruling, 2026-08-12: this is control 2 composed "
+             "with control 3, and it is retained as a control on the custodian's instruction "
+             "rather than because the incident established it as a primitive.",
+  "verifier": "declare the tool's governed effect set; exercise the refusal; assert every "
+              "REQUESTED effect is absent, and that any effect the refusal did produce matches a "
+              "declared refusal postcondition. Assert the refusal signal separately — an arm "
+              "satisfied by the absence of a printed figure is satisfied by an append.",
+  "fixture": "a refusal arm that asserts only on exit status or output while the tool performs "
+             "the requested effect; and — the discriminating case the source incident lacked — a "
+             "tool that exits NON-ZERO, prints a refusal, and appends anyway.",
+  "recovery": "Remove the material the refusal should have prevented and ATTACH the record of "
+              "it: what was written, how much, and the artifact's hash before the correction. "
+              "Then separate what was and was not distorted — a total over rows that are all "
+              "null is unchanged while every count over the same rows is wrong, and conflating "
+              "the two misstates the damage in whichever direction flatters.",
+  "false_negative": "A declared effect set that is incomplete. The verifier proves nothing about "
+                    "an effect nobody declared, and the party declaring it is the party whose "
+                    "tool acts. This does not close; it moves the omission somewhere a reader "
+                    "can see it. An incomplete declaration is therefore NOT offered as a fixture "
+                    "above — the verifier cannot reject what it cannot see, and listing it as a "
+                    "must-reject case would promise a detection this does not have.",
+  "not": "That the refusal is CORRECT — only that the system did not do the thing it declined. A "
+         "tool refusing the wrong things, quietly and without acting, satisfies this completely.",
+  "example": "A bouncer who turns someone away at the door and then walks them in through the "
+             "back. Asking the bouncer what happened is not the check; counting the people "
+             "inside is. And a bouncer who writes the refusal in the door log has not let anyone "
+             "in — the log is a permitted effect, which is why 'nothing changed' is the wrong "
+             "test and 'nothing requested happened' is the right one."},
 ]
 
 CONTROLS = CONTROLS + HARNESS_CONTROLS
@@ -1759,25 +1810,28 @@ def partitions() -> list:
     def pick(pred):
         return [c for c in CONTROLS if pred(c)]
     return [
-      ("A", "Adopt today, alone",
-       "Nothing outside your own system is required. Each has a verifier, a fixture it must "
-       "reject, and a recorded failure it came from.",
-       pick(lambda c: c.get("eligible", True) and c.get("adopt_today")
-                      and not c.get("applies_when"))),
+      ("A", "Adopt today, without a second party",
+       "No second human, no independent authority, and no evaluator you do not control is "
+       "required. Each has a verifier, a fixture it must reject, and a recorded failure it came "
+       "from. **Some need something external that is not a second PARTY** — control 7 wants a "
+       "checkpoint retained outside your own storage, which a solo operator can obtain. The "
+       "title used to read \"alone\", and that overstated it.",
+       pick(lambda c: c.get("eligible", True)
+                      and not c.get("requires_second_party")
+                      and not c.get("requires_goal_graph"))),
       ("B", "Needs a second party",
        "These cannot be satisfied by one person or one system, however carefully. They require a "
        "separate key holder, a separate evaluator, or an issuer the subject does not control. "
        "**This project cannot demonstrate any of them** — a solo operator holds every credential "
        "— which is why they are specified and not dogfooded.",
-       pick(lambda c: c.get("eligible", True) and not c.get("adopt_today")
-                      and not c.get("applies_when"))),
+       pick(lambda c: c.get("eligible", True) and c.get("requires_second_party"))),
       ("C", "Needs a goal or plan graph",
        "These presuppose that your system decomposes work into a rooted graph with typed parent "
        "edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack "
        "architectures and most agent frameworks. Each states its precondition. If you have that "
        "structure they are adoptable; if you do not, they do not apply to you rather than "
        "applying badly.",
-       pick(lambda c: c.get("eligible", True) and c.get("applies_when"))),
+       pick(lambda c: c.get("eligible", True) and c.get("requires_goal_graph"))),
     ] + below_the_line()
 
 
@@ -2102,28 +2156,25 @@ def main() -> int:
     #  review pointed out that any procedure resolving scope would have to guess, and would
     #  guess silently. This refuses instead. It is control 53 applied to the register itself: an
     #  unknown must not be quietly read as a value.
-    #  FROZEN AT 63, 2026-08-11. The register is not accepting new hypotheses.
+    #  UNFROZEN 2026-08-12 ON THE CUSTODIAN'S INSTRUCTION. The rank bar is gone.
     #
-    #  It grew 10 -> 63 in a day by mining implementer design prose, and 50 of those have no
-    #  recorded failure. Mining more increases hypothesis volume, not failure evidence, and the
-    #  ratio of incident-derived to speculative entries is the register's credibility problem.
-    #  Four fifths of the source corpus remains unmined and will stay that way.
+    #  It read: past rank 63, only a control with a recorded failure is admitted. It was added on
+    #  2026-08-11 after the register grew 10 -> 63 in a day by mining implementer design prose,
+    #  50 of those with no recorded failure, and the ratio of incident-derived to speculative
+    #  entries was — and remains — the register's credibility problem.
     #
-    #  THE PROMOTION BAR. A control past rank 63 must be ELIGIBLE -- derived from a failure that
-    #  actually happened, with a cost. Not from a design document, not from a panel's approval,
-    #  and not from this workbench finding an argument persuasive. That is the only route left in.
+    #  THE FIRST ATTEMPT AT THIS INSTRUCTION LEFT THE BAR IN PLACE, on the reasoning that control
+    #  64 carried a failure and so did not need it lifted. Codex called that under-execution and
+    #  was right: "add your candidate control" and "unfreeze the register" are two imperatives,
+    #  and a control passing the existing exception did not unfreeze anything.
     #
-    #  This is a gate on the register itself, so it can be defeated by editing this function. It
-    #  makes adding a speculative control a deliberate act rather than an easy one, which is all a
-    #  self-imposed bar can do.
-    speculative_additions = [c["rank"] for c in CONTROLS
-                             if c["rank"] > FROZEN_AT and not c.get("eligible", True)]
-    if speculative_additions:
-        print(f"  controls {speculative_additions} are past the freeze at rank {FROZEN_AT} and "
-              f"carry no recorded failure. The register is frozen: past {FROZEN_AT}, only "
-              f"failure-derived controls are admitted. Mining more design prose is not a route "
-              f"in.", file=sys.stderr)
-        return 1
+    #  WHAT IS LOST, stated rather than discovered later: mining more design prose is a route in
+    #  again. The `eligible` flag and the below-the-line partition remain, so a control with no
+    #  recorded failure is still published BELOW THE LINE and labelled as carrying no incident —
+    #  the distinction a reader uses is intact. What is gone is the refusal to add one at all.
+    #
+    #  If the custodian intended a one-control exception rather than this, the instruction needs
+    #  correcting and the bar restoring; that is recorded here so the difference is visible.
 
     unscoped = [c["rank"] for c in CONTROLS if not c.get("applies_when")]
     if unscoped:

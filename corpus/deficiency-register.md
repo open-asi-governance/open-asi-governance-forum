@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 62** classifications have been read by a human against the prose.
+**0 of 63** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 36 |
+| the annotator | 37 |
 | an external reviewer | 14 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 22 |
+| required, not implemented | 23 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**157 affected-object rows across 62 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**159 affected-object rows across 63 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -995,4 +995,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | record/cycles/spend-ledger.json <br><sub>87 fabricated rows removed; the rows and the pre-correction hash are preserved in record/cycles/spend-ledger-correction-2026-08-12.md. No dollar or token total was distorted; every count of entries was.</sub> | repairable by supersession | verified |
 | tools/record_spend.py <br><sub>Refuses a cohort not in solicited_cohorts() before appending anything, under guard RS-01.</sub> | repairable by supersession | verified |
 | tools/tests/test_gate_negative_controls.py <br><sub>The arm required only that no cost was printed, which an append satisfies. It now requires a non-zero exit, names RS-01, and asserts the ledger is byte-identical afterwards.</sub> | repairable by supersession | verified |
+
+### D-63 — The register told implementers the adoptable set was empty and that every eligible control needed an HTN planner
+
+[Full entry](deficiencies.md#d-63--the-register-told-implementers-the-adoptable-set-was-empty-and-that-every-eligible-control-needed-an-htn-planner)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `adding control 64 and observing which partition it landed in; the published pages had carried it since 904b7b4`
+- **Prospective control:** required, not implemented — Nothing checks that a partition's membership matches what the page says about that partition. An empty part with a non-empty description, or a control whose stated scope contradicts its part's blurb, is publishable today.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/build_controls_page.py <br><sub>The partition reads adopt_today, which already carried the distinction, instead of the presence of applies_when, which a later gate made universally true. Part A 0 -> 9, Part B 0 -> 2, Part C 14 -> 3.</sub> | repairable by supersession | verified |
+| docs/controls.html <br><sub>Regenerated. It had published 'Part A (0) is adoptable alone and every control in it came from a failure with a cost'.</sub> | repairable by supersession | verified |
 

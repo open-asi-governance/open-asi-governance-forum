@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "df2a98f7f1f964306ecf3a3a0e576dfb1f1c2fdbae94a255b8340fde46dd316d"
+    "sha256": "858894c1de5aeffe18ceabb30ca0be619076c2eefbd2d86905a735a8c29f6f9b"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2521,7 +2521,7 @@
     {
       "id": "D-62",
       "title": "A negative control corrupted the spend ledger 87 times and passed while doing it",
-      "section_sha256": "e9d7e92a67fe63db8647b56b287de9fc5552a9fb1de21d720f5e7c0a19c556c0",
+      "section_sha256": "892a6fb78c704ec67f9d6e4928aa795021a1e7a5f8705602b0b9122c2d44bea6",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2552,6 +2552,40 @@
       "prospective_control": {
         "state": "prospective_control_required_not_implemented",
         "mechanism": "Nothing requires a negative control to observe the tool's SIDE EFFECTS rather than its output. A fixture that asserts on stdout alone cannot distinguish a refusal from an append. The general form is a fixture harness that snapshots every artifact a tool may write and requires the refusal arm to leave them unchanged."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-63",
+      "title": "The register told implementers the adoptable set was empty and that every eligible control needed an HTN planner",
+      "section_sha256": "ce4f8e49ba51cf4e9e625cffc752bcee1e6e1f795d27f9e0851419c2e24eca3f",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "adding control 64 and observing which partition it landed in; the published pages had carried it since 904b7b4",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/build_controls_page.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The partition reads adopt_today, which already carried the distinction, instead of the presence of applies_when, which a later gate made universally true. Part A 0 -> 9, Part B 0 -> 2, Part C 14 -> 3."
+        },
+        {
+          "object": "docs/controls.html",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Regenerated. It had published 'Part A (0) is adoptable alone and every control in it came from a failure with a cost'."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing checks that a partition's membership matches what the page says about that partition. An empty part with a non-empty description, or a control whose stated scope contradicts its part's blurb, is publishable today."
       },
       "human_review": {
         "status": "not_reviewed",

@@ -864,6 +864,34 @@ print(json.dumps(out))
             case("...and every control in the register has a row",
                  all(f"<td>{c['rank']}</td>" in app_text for c in _controls_module().CONTROLS))
 
+        #  A PART'S MEMBERS MUST SATISFY WHAT ITS PAGE SAYS ABOUT THEM. Nothing checked this,
+        #  and for a day the register published "Part A (0) is adoptable alone" beside fourteen
+        #  controls — FICP included — described as presupposing an HTN planner. The publish gate
+        #  asked whether every control states a scope; it never asked whether the part a control
+        #  landed in matched the sentence at the top of that part. See D-63.
+        _cm = _controls_module()
+        _parts = {k: items for k, _t, _b, items in _cm.partitions()}
+        case("Part A contains no control that needs a second party",
+             not [c["rank"] for c in _parts["A"] if c.get("requires_second_party")])
+        case("...and none that needs a goal or plan graph",
+             not [c["rank"] for c in _parts["A"] if c.get("requires_goal_graph")])
+        case("Part B contains only controls that need a second party",
+             all(c.get("requires_second_party") for c in _parts["B"]))
+        case("Part C contains only controls that need a goal or plan graph",
+             all(c.get("requires_goal_graph") for c in _parts["C"]))
+        #  AND NO PART MAY BE EMPTY WHILE ITS BLURB DESCRIBES MEMBERS. An empty set published
+        #  under "each has a verifier, a fixture it must reject, and a recorded failure it came
+        #  from" is a description of nobody.
+        for _k in ("A", "B", "C"):
+            case(f"Part {_k} is not empty while its page describes its members",
+                 len(_parts[_k]) > 0)
+        #  Every eligible control lands in exactly one of A, B, C — a control in none of them is
+        #  published nowhere a reader is directed to.
+        _eligible = [c["rank"] for c in _cm.CONTROLS if c.get("eligible", True)]
+        _placed = [c["rank"] for k in ("A", "B", "C") for c in _parts[k]]
+        case("every eligible control is placed in exactly one of A, B or C",
+             sorted(_placed) == sorted(_eligible) and len(set(_placed)) == len(_placed))
+
         case("the implementation challenge is published", challenge.is_file())
         case("...and is linked from the landing page", 'href="challenge.html"' in index)
         case("...and has a markdown alternate", (c / "docs/challenge.md").is_file())

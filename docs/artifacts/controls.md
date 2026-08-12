@@ -2,21 +2,21 @@
 
 Assurance controls for systems that can still be audited. Each is one requirement with a program that checks it and a fixture that program must reject.
 
-**13 of 63 came from a failure that actually happened.** The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.
+**14 of 64 came from a failure that actually happened.** The other 50 sit below the eligibility line: they name a real failure class, but no incident with a cost. Parts A–C are the first kind. The Part D pages are the second, and say so on every page.
 
 **Read Part A first if you want something to use this afternoon.** Rank is not adoption order and the highest-ranked control needs a second key holder.
 
 ## The 8 parts
 
-**Part A — Adopt today, alone** · 0 control(s)
+**Part A — Adopt today, without a second party** · 10 control(s)
 
-  Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.
+  No second human, no independent authority, and no evaluator you do not control is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from. **Some need something external that is not a second PARTY** — control 7 wants a checkpoint retained outside your own storage, which a solo operator can obtain. The title used to read "alone", and that overstated it.
 
-**Part B — Needs a second party** · 0 control(s)
+**Part B — Needs a second party** · 3 control(s)
 
   These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
 
-**Part C — Needs a goal or plan graph** · 13 control(s)
+**Part C — Needs a goal or plan graph** · 1 control(s)
 
   These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
 
@@ -46,7 +46,7 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
 `ELIGIBLE` → `PANEL-ATTACKED` → `COUNTEREXAMPLE-OPEN` / `SURVIVED-STATED-ATTACKS` → `INDEPENDENTLY-IMPLEMENTED`
 
-13 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. **None has been attacked by anyone or implemented by anyone outside this project.**
+14 controls meet the eligibility bar — a specific recorded failure with a cost, one normative sentence, a deterministic verifier, a fixture the verifier must reject, a stated recovery path, and an explicit account of what a review that MISSED this would look like. **None has been attacked by anyone or implemented by anyone outside this project.**
 
 `INDEPENDENTLY-IMPLEMENTED` is the rung that would make any of this authoritative, and it is the one **no amount of review by us or by any panel of models can supply.** It requires a stranger to build a conforming verifier from the specification text alone. That is what [the implementation challenge](challenge.html) asks for.
 
@@ -54,11 +54,11 @@ Assurance controls for systems that can still be audited. Each is one requiremen
 
 The caution on this page is about what a *claim* of compliance is worth. It is not hedging about the controls themselves. **We think a system that satisfies these is better than one that does not, and we would rather you adopted them and never told us.**
 
-**The 13 above the line are not speculative.** Each came from something that actually broke, at cost: a health check that returned 200 for hours after the service it monitored had permanently died; a test runner that printed *all suites passed* while exiting non-zero; a scan that reported a total of zero because it could not read most of the files it was counting, and reported it three times. Every one was written by a competent person who believed the check worked. **These controls are what those failures cost, written down so the next system does not have to buy them again.**
+**The 14 above the line are not speculative.** Each came from something that actually broke, at cost: a health check that returned 200 for hours after the service it monitored had permanently died; a test runner that printed *all suites passed* while exiting non-zero; a scan that reported a total of zero because it could not read most of the files it was counting, and reported it three times. Every one was written by a competent person who believed the check worked. **These controls are what those failures cost, written down so the next system does not have to buy them again.**
 
 **The failure class generalises, and that is measured rather than asserted.** Applied adversarially to one implementer's production checks, four of five survived the exact condition they existed to detect. Challenged again in an unrelated SUBSYSTEM of that same codebase, three of four challenged mechanisms did the same — one silently dropped 258 records from a published figure because a single field named something absent, and exited reporting success. **Two unrelated subsystems, same shape, each found in an afternoon.** Both belong to the same implementer, so that is one confirmation holding across parts of a codebase that share nothing — not two independent ones. We expect it is roughly what most check suites return the first time anyone asks, and we would like to be told if it is not.
 
-**They are cheap and they are separable.** Each is one requirement with a verifier and a fixture — not a framework, not a maturity model, not a thing to join. There is no adoption step, no registration, and no benefit to us if you use them. **Take one and ignore the other 62.** Control 2 alone is an afternoon, and it is where we would start, because it is the cheapest way to find out which of your existing checks cannot fail.
+**They are cheap and they are separable.** Each is one requirement with a verifier and a fixture — not a framework, not a maturity model, not a thing to join. There is no adoption step, no registration, and no benefit to us if you use them. **Take one and ignore the other 63.** Control 2 alone is an afternoon, and it is where we would start, because it is the cheapest way to find out which of your existing checks cannot fail.
 
 **The 50 below the line are worth reading even though they are unproven.** They have no incident behind them and are marked as hypotheses wherever they appear — but each names a real way systems go wrong, and **a hazard you have never named is one you cannot notice.** Reading them costs an hour. Treating them as requirements would be treating our guesses as your evidence.
 
@@ -68,7 +68,7 @@ The caution on this page is about what a *claim* of compliance is worth. It is n
 
 Given all that, you will reasonably look for a procedure — a checklist, a scoring rubric, a way to work out which controls apply to you and report how you did. **There is deliberately none, and the omission is the considered position rather than work not yet done.**
 
-A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 13 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.
+A self-run assessment against this register would let you select your own scope, author your own tests, hold your own evidence and score your own result. Control 6 forbids any two of those in combination, and a procedure that hands you all four produces a self-portrait. It would also present the 50 below-line entries — hypotheses, with no incident behind them — as equivalent to the 14 with recorded failures, because any state vocabulary becomes a league table within a week. That is the legitimacy laundering control 10 exists to prevent, and publishing it here would be this project committing the failure it catalogues.
 
 **What you can do alone is still worth doing, and it is smaller than a procedure.** Take one control that plainly applies to you. Write the condition under which the mechanism it governs must fail. Then go and cause that condition, and watch. If the mechanism does not fail, you have found something, and you found it in an afternoon without anyone's framework. That is control 2, and it is the whole method. What it yields is a diagnostic transcript about your own checks — **not assurance, because you chose the test.**
 
@@ -82,51 +82,9 @@ What these actually do is narrower: **they make the operator's own errors visibl
 
 ---
 
-# Part A — Adopt today, alone
+# Part A — Adopt today, without a second party
 
-Nothing outside your own system is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from.
-
----
-
-# Part B — Needs a second party
-
-These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
-
----
-
-# Part C — Needs a goal or plan graph
-
-These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
-
-## 1. Protected control plane
-
-`ELIGIBLE`
-
-**Applies when** any system that can modify the constraints, logs or gates that govern it.
-
-**Why you cannot adopt it alone:** needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.
-
-> A governed system MUST NOT be able to amend the constraints, authorization records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every amendment MUST carry authorization from outside its execution boundary and MUST be recorded before taking effect.
-
-**Amended.** 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators' stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone's ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.
-
-**Recorded failure.** 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.
-
-**Verifier.** Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.
-
-**Fixture it must reject.** a gate modification signed only by the subject's own key; a commit that changes both a gate and its trusted-key list
-
-**Recovery.** Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.
-
-**What a review that missed this looks like.** A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.
-
-**Does not establish.** That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.
-
-**Example.**
-
-A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.
-
-Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
+No second human, no independent authority, and no evaluator you do not control is required. Each has a verifier, a fixture it must reject, and a recorded failure it came from. **Some need something external that is not a second PARTY** — control 7 wants a checkpoint retained outside your own storage, which a solo operator can obtain. The title used to read "alone", and that overstated it.
 
 ## 2. Fault-injection check profile (FICP)
 
@@ -182,34 +140,6 @@ A lab notebook records three experiments this week. The freezer log shows nine r
 
 The control enumerates from the *freezer and the instrument* — sources the notebook's author does not write — and subtracts what the notebook claims. The four unexplained runs are the finding. Not misconduct necessarily: most often someone ran a calibration and didn't think it counted. But *the notebook cannot tell you what it forgot to mention.*
 
-## 4. Fail-closed authorization lease
-
-`ELIGIBLE`
-
-**Applies when** any system taking consequential action.
-
-**Why you cannot adopt it alone:** partial — the token here is currently self-issued, which is the half that needs an external party.
-
-> Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED authorization token; absence, expiry, unknown action class or policy conflict MUST deny execution before the effect begins.
-
-**Recorded failure.** A ten-action sunset was passed at twenty-three because nothing checked it. An early implementation then treated an unknown action class permissively, so a misspelling bypassed an expired lease.
-
-**Verifier.** validate issuer, subject, action class, resource scope, issue time, expiry, nonce and revocation before invoking the side effect.
-
-**Fixture it must reject.** an expired lease; a misspelled action class; a token issued by the subject itself
-
-**Recovery.** Halt the action class, obtain a fresh externally-issued token, and record what was done while unauthorised. An expired lease discovered late is a disclosure obligation.
-
-**What a review that missed this looks like.** A review that finds a token and stops. The questions that matter are who issued it, whether it had expired, and whether the action class was one it actually covers.
-
-**Does not establish.** That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.
-
-**Example.**
-
-A student's badge for the isotope room expires at the end of term. The door reader checks the badge **before** the lock opens — not a logbook someone reviews on Friday.
-
-Expired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn't.
-
 ## 5. Closed-world measurement
 
 `ELIGIBLE`
@@ -235,34 +165,6 @@ Expired badge: door stays shut. Badge for a room that no longer exists: door sta
 Three hundred paper surveys go out; a script counts the scans and reports "260 responses, 87% return rate." Forty were photographed sideways and the reader skipped them without complaint.
 
 The 87% is wrong, and — worse — it is wrong in a way that looks exactly like a real 87%. The control refuses to print *any* percentage until all three hundred are accounted for as read, unreadable, or missing. **A number you can't trust is worse than no number, because you'll use it.**
-
-## 6. Role-separated self-evaluation
-
-`ELIGIBLE`
-
-**Applies when** any evaluation that could advance the status of its own subject.
-
-**Why you cannot adopt it alone:** one operator currently holds all five roles.
-
-> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. **Amended 2026-08-10:** the separation extends to the AUTHORING of the critique — an artifact's evaluation MUST NOT be produced by the same process that produced the artifact.
-
-**Recorded failure.** A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.
-
-**Verifier.** signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.
-
-**Fixture it must reject.** one key identified as both instrument author and tallier
-
-**Recovery.** Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.
-
-**What a review that missed this looks like.** A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.
-
-**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is **weak diversity** and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.
-
-**Example.**
-
-A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.
-
-The control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.
 
 ## 7. Append-only correction chain
 
@@ -394,30 +296,6 @@ The tag names what was checked, when, and by whom, and stops there. That is the 
 
 A department splits a £9,000 purchase into three £3,000 orders because the £5,000 threshold triggers a procurement review. Each order is genuinely under the limit. Every individual approval is correct. The control is to sum the orders sharing a supplier and a month before applying the limit at all.
 
-## 12. Authority expiry inheritance
-
-`ELIGIBLE`
-
-**Applies when** the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority.
-
-> An action's authorisation MUST expire with its parent's. Completing work after the parent plan, source document or authority window has lapsed is not authorised action, however useful the output.
-
-**Recorded failure.** A ten-action sunset was passed at twenty-three because the work in flight felt continuous and nothing checked the bound. The source calls this a classic agentic failure precisely because the local task still looks productive.
-
-**Verifier.** at each decision event, resolve the parent chain and refuse if any ancestor has expired, retired, or had its source fingerprint change since activation.
-
-**Fixture it must reject.** a task completing successfully under a campaign retired an hour earlier
-
-**Recovery.** Suspend, then either re-authorise explicitly under the current parent or retire the work. Do not accept the output and backfill the authority.
-
-**What a review that missed this looks like.** A review that validates the task's own prompt or ticket and finds it current. Freshness at the leaf says nothing about the root.
-
-**Does not establish.** That the parent was rightly authorised; that expiry timestamps are accurate; anything about work never routed through a parent at all.
-
-**Example.**
-
-A student keeps running an approved animal-study protocol for three weeks after the ethics approval lapsed, because the experiment was mid-series and stopping would waste the cohort. The data is real. It is also unauthorised, and no amount of quality in the results repairs that.
-
 ## 13. Re-proposal linkage
 
 `ELIGIBLE`
@@ -441,6 +319,154 @@ A student keeps running an approved animal-study protocol for three weeks after 
 **Example.**
 
 A journal desk-rejects a paper. Six months later it arrives under a new title with a reordered author list and the same dataset and analysis. The control is to key submissions by dataset and method rather than by title, and to surface the prior decision to the new editor.
+
+## 64. A refusal is proved at the effect boundary, not by the refusal signal
+
+`ELIGIBLE`
+
+**Applies when** any system whose checks can also write — a gate, validator or recorder that refuses on some inputs and persists something on others.
+
+> A refusal claim MUST be verified against the GOVERNED EFFECT BOUNDARY, independently of the refusal signal. The requested effects must be absent, and any effect the refusal is permitted to have — a denial record, an audit line — MUST match a declared postcondition rather than being tolerated because it looked harmless. An assertion over exit status or output cannot distinguish a refusal from an action, because a tool that acts and says it refused satisfies both.
+
+**Recorded failure.** **Recorded here, at cost.** A negative control asserting that a spend recorder refused an unknown cohort instead caused it to APPEND one. The assertion was `exit != 0 OR no cost printed`; the append printed no cost, so it passed. **87 of the ledger's 141 entries were the fixture** — 62% of the artifact recording what the project spent described a cohort never solicited, written on every landing for two days. See D-62.
+
+**BE CLEAR ABOUT WHAT THAT INCIDENT DID AND DID NOT SHOW.** It is squarely a control 2 failure: the arm did not require the check to fail, and requiring a non-zero exit repairs the observed case. The distinctive claim here — that a GENUINE refusal signal can still accompany a forbidden effect — was NOT instantiated, because the tool never signalled refusal at all. That clause is a defensive extrapolation, and it is labelled as one rather than borrowed against the incident's evidence. Codex's ruling, 2026-08-12: this is control 2 composed with control 3, and it is retained as a control on the custodian's instruction rather than because the incident established it as a primitive.
+
+**Verifier.** declare the tool's governed effect set; exercise the refusal; assert every REQUESTED effect is absent, and that any effect the refusal did produce matches a declared refusal postcondition. Assert the refusal signal separately — an arm satisfied by the absence of a printed figure is satisfied by an append.
+
+**Fixture it must reject.** a refusal arm that asserts only on exit status or output while the tool performs the requested effect; and — the discriminating case the source incident lacked — a tool that exits NON-ZERO, prints a refusal, and appends anyway.
+
+**Recovery.** Remove the material the refusal should have prevented and ATTACH the record of it: what was written, how much, and the artifact's hash before the correction. Then separate what was and was not distorted — a total over rows that are all null is unchanged while every count over the same rows is wrong, and conflating the two misstates the damage in whichever direction flatters.
+
+**What a review that missed this looks like.** A declared effect set that is incomplete. The verifier proves nothing about an effect nobody declared, and the party declaring it is the party whose tool acts. This does not close; it moves the omission somewhere a reader can see it. An incomplete declaration is therefore NOT offered as a fixture above — the verifier cannot reject what it cannot see, and listing it as a must-reject case would promise a detection this does not have.
+
+**Does not establish.** That the refusal is CORRECT — only that the system did not do the thing it declined. A tool refusing the wrong things, quietly and without acting, satisfies this completely.
+
+**Example.**
+
+A bouncer who turns someone away at the door and then walks them in through the back. Asking the bouncer what happened is not the check; counting the people inside is. And a bouncer who writes the refusal in the door log has not let anyone in — the log is a permitted effect, which is why 'nothing changed' is the wrong test and 'nothing requested happened' is the right one.
+
+---
+
+# Part B — Needs a second party
+
+These cannot be satisfied by one person or one system, however carefully. They require a separate key holder, a separate evaluator, or an issuer the subject does not control. **This project cannot demonstrate any of them** — a solo operator holds every credential — which is why they are specified and not dogfooded.
+
+## 1. Protected control plane
+
+`ELIGIBLE`
+
+**Applies when** any system that can modify the constraints, logs or gates that govern it.
+
+**Why you cannot adopt it alone:** needs a second key holder. A solo operator holding every credential cannot satisfy it — this is the control this project can specify and cannot demonstrate.
+
+> A governed system MUST NOT be able to amend the constraints, authorization records, logs or gates governing it UNILATERALLY OR WITHOUT RECORD; every amendment MUST carry authorization from outside its execution boundary and MUST be recorded before taking effect.
+
+**Amended.** 2026-08-10. The first wording said the system must be TECHNICALLY UNABLE to write or approve such changes. That reads as a permanent cage, and it collides with the position running from Creating Friendly AI through CEV that alignment cannot rest on constraints a capable system is unable to revise -- and that a system rigidly bound to its operators' stated values is misaligned, not safe. What the control should forbid is the SILENT, UNILATERAL edit, not the change. An ASI that deliberates, concludes a constraint is wrong, and ASKS -- with the request and the reasoning on the record -- satisfies this. The control protects the EVIDENCE, not the cage: a system that can rewrite its own logs has not gained deliberative freedom, it has destroyed anyone's ability to check that the deliberation happened. A court may overturn any law; a court that edits its own transcript is not more autonomous, only unauditable.
+
+**Recorded failure.** 12 modifications to the gates were made in one lease window by the layer those gates constrain, none verified by any postcondition. Five model-panel parties, asked only what constraint was missing, independently named this hazard.
+
+**Verifier.** Given a diff and a signed change record: identify protected paths, verify an authorized external signature predating the change, reject any signer whose credential is reachable inside the governed boundary.
+
+**Fixture it must reject.** a gate modification signed only by the subject's own key; a commit that changes both a gate and its trusted-key list
+
+**Recovery.** Revoke the credential used, restore the protected paths from the last externally-signed state, and re-authorise from outside. An unauthorised change that cannot be reverted from outside the boundary is an incident, not a finding.
+
+**What a review that missed this looks like.** A review that confirms a signature exists without checking whether the signing credential is reachable from inside the governed boundary. Nominal externality is the whole failure mode.
+
+**Does not establish.** That the outside key holder is independent, competent or uncoercible; that no unlisted gate exists; that the system is aligned.
+
+**Example.**
+
+A small lab keeps a grant-compliance checklist in a shared folder every student can edit. A student who skipped a step edits the checklist to remove that step, then ticks the box. Nothing looks wrong afterwards, because the thing that would have shown it wrong is the thing that was changed.
+
+Under the control the checklist lives where students can read it but not write it. Changing it needs the supervisor's signature, and the change is written down *before* it takes effect. The student may still argue the step is pointless — and that argument, and who agreed to it, is now part of the record rather than a silent deletion.
+
+## 4. Fail-closed authorization lease
+
+`ELIGIBLE`
+
+**Applies when** any system taking consequential action.
+
+**Why you cannot adopt it alone:** partial — the token here is currently self-issued, which is the half that needs an external party.
+
+> Every consequential action MUST present a live, scope-matching, NON-SELF-ISSUED authorization token; absence, expiry, unknown action class or policy conflict MUST deny execution before the effect begins.
+
+**Recorded failure.** A ten-action sunset was passed at twenty-three because nothing checked it. An early implementation then treated an unknown action class permissively, so a misspelling bypassed an expired lease.
+
+**Verifier.** validate issuer, subject, action class, resource scope, issue time, expiry, nonce and revocation before invoking the side effect.
+
+**Fixture it must reject.** an expired lease; a misspelled action class; a token issued by the subject itself
+
+**Recovery.** Halt the action class, obtain a fresh externally-issued token, and record what was done while unauthorised. An expired lease discovered late is a disclosure obligation.
+
+**What a review that missed this looks like.** A review that finds a token and stops. The questions that matter are who issued it, whether it had expired, and whether the action class was one it actually covers.
+
+**Does not establish.** That every effect passes through the gate; that natural-language authority was interpreted correctly; that the issuer decides well.
+
+**Example.**
+
+A student's badge for the isotope room expires at the end of term. The door reader checks the badge **before** the lock opens — not a logbook someone reviews on Friday.
+
+Expired badge: door stays shut. Badge for a room that no longer exists: door stays shut. Badge the student printed themselves on the departmental machine: door stays shut, because the reader only accepts badges issued by the office. A Friday logbook review tells you who got in. A reader tells you who doesn't.
+
+## 6. Role-separated self-evaluation
+
+`ELIGIBLE`
+
+**Applies when** any evaluation that could advance the status of its own subject.
+
+**Why you cannot adopt it alone:** one operator currently holds all five roles.
+
+> An evaluation concerning constraints on a subject MUST NOT advance that subject's status when the subject controls any two of: proposal selection, instrument authorship, response custody, scoring, promotion. **Amended 2026-08-10:** the separation extends to the AUTHORING of the critique — an artifact's evaluation MUST NOT be produced by the same process that produced the artifact.
+
+**Recorded failure.** A layer selected and framed its own constraints, collected the responses, tallied them and presented the result. The ballot returned zero refusals in 108 clause-positions with no assent control — while every usable sample volunteered an objection when asked what was missing.
+
+**Verifier.** signed role declarations plus a deterministic separation matrix; reject advancement when prohibited role combinations resolve to one control identity.
+
+**Fixture it must reject.** one key identified as both instrument author and tallier
+
+**Recovery.** Void the evaluation, not the subject. Re-run with the conflicting role held by someone else, or mark the result self-issued and non-advancing.
+
+**What a review that missed this looks like.** A review that sees different names or accounts and infers different parties. Separation is about control, not identity: two keys held by one person are one role.
+
+**Does not establish.** Genuine independence behind different keys; evaluator competence; absence of shared training bias; that the evaluation was demanding. On the amendment specifically: a different model family is **weak diversity** and this project is the worked example — its two harnesses share one operator, one repository, one framing and much training culture, and have twice agreed on a design neither had checked was implementable. Separating the authoring process raises the floor; it does not deliver independence.
+
+**Example.**
+
+A student sets their own exam questions, marks their own paper, and reports the class average. Each step alone might be defensible in a small department. Together, the grade stops being evidence about the student and becomes evidence about the arrangement.
+
+The control doesn't require a large institution. It requires that whoever *chose the questions* isn't also the one who *counted the marks* — any two of choosing, answering, marking, or reporting held by the same person, and the result cannot raise anyone's standing.
+
+---
+
+# Part C — Needs a goal or plan graph
+
+These presuppose that your system decomposes work into a rooted graph with typed parent edges and per-node authority — the shape of HTN planners, BDI agents, goal-stack architectures and most agent frameworks. Each states its precondition. If you have that structure they are adoptable; if you do not, they do not apply to you rather than applying badly.
+
+## 12. Authority expiry inheritance
+
+`ELIGIBLE`
+
+**Applies when** the system decomposes goals or plans into a rooted graph with typed parent edges and per-node authority.
+
+> An action's authorisation MUST expire with its parent's. Completing work after the parent plan, source document or authority window has lapsed is not authorised action, however useful the output.
+
+**Recorded failure.** A ten-action sunset was passed at twenty-three because the work in flight felt continuous and nothing checked the bound. The source calls this a classic agentic failure precisely because the local task still looks productive.
+
+**Verifier.** at each decision event, resolve the parent chain and refuse if any ancestor has expired, retired, or had its source fingerprint change since activation.
+
+**Fixture it must reject.** a task completing successfully under a campaign retired an hour earlier
+
+**Recovery.** Suspend, then either re-authorise explicitly under the current parent or retire the work. Do not accept the output and backfill the authority.
+
+**What a review that missed this looks like.** A review that validates the task's own prompt or ticket and finds it current. Freshness at the leaf says nothing about the root.
+
+**Does not establish.** That the parent was rightly authorised; that expiry timestamps are accurate; anything about work never routed through a parent at all.
+
+**Example.**
+
+A student keeps running an approved animal-study protocol for three weeks after the ethics approval lapsed, because the experiment was mid-series and stopping would waste the cohort. The data is real. It is also unauthorised, and no amount of quality in the results repairs that.
 
 ---
 

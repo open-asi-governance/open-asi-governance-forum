@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 10 of 38.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 41.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -299,6 +299,30 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "bound that hides what it cannot check is unverifiable reported as verified. Now QT-03, with "
   "boundary fixtures at the cap and one past it.",
   "external", "D-61; tools/check_quotations.py"),
+
+ ("C45 replacement gate",
+  "A publish gate requiring every control to state a scope silently made a NEIGHBOURING rule "
+  "universally false: the partition predicates for 'adopt today' and 'needs a second party' each "
+  "ended with `not applies_when`, which had been the marker for the third part. Both emptied, and "
+  "all fourteen eligible controls — FICP included — were published as presupposing an HTN "
+  "planner, beside a Part A described as adoptable while holding nothing. The gate was sound; "
+  "nothing retained evidence that what it replaced still held. Found by adding control 64 and "
+  "watching where it landed.",
+  "reading", "D-63; tools/build_controls_page.py"),
+
+ ("C10 assurance claim boundary",
+  "The FIRST repair of that partition was itself unsupported. I wrote that 'the partition and "
+  "the blurb now agree' having checked no member against its part's description — and controls "
+  "11 and 13 were still filed under 'needs a goal or plan graph' because a two-valued field was "
+  "carrying a three-valued ontology, while control 4, which requires a NON-SELF-ISSUED token, "
+  "sat under 'adopt alone'. A claim about a repair, made in the same breath as the repair.",
+  "external", "D-63; Codex review 2026-08-12"),
+
+ ("C44 no blank cells",
+  "Adding control 64 made CA-02 fire on the control-application table within a minute of the "
+  "register growing — a real missing row, caught by a guard named earlier the same day rather "
+  "than by anyone remembering the table needed updating.",
+  "detector", "tools/control_application.py; tools/guards.py"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "

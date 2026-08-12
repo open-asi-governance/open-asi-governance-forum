@@ -257,6 +257,15 @@ DETERMINATION: dict[int, tuple[str, str]] = {
  62: ("ENFORCED",
       "There is one path. land.py runs the same gates for a change to the register, a change to "
       "a gate, and a change to itself; no separate governance route exists."),
+ 64: ("PRACTISED",
+      "Adopted the day it was derived, and only where the failure was. record_spend refuses an "
+      "unregistered cohort under RS-01, and that arm asserts the ledger byte-identical after the "
+      "refusal — the right local assertion here, since this tool has no permitted refusal-side "
+      "effect. NOT ENFORCED anywhere else: no harness requires a refusal arm to declare a "
+      "governed effect set, so every other refusing tool is tested the way the one that failed "
+      "was. And the control's distinctive clause — that a GENUINE refusal signal can accompany a "
+      "forbidden effect — has no instance here at all; D-62 was a tool that never signalled "
+      "refusal. PRACTISED is generous for a control with one half-instance."),
  63: ("PRACTISED",
       "Findings state what they do not establish at comparable length, and the register "
       "publishes its known gaps and its declined material. Not gated, and the residual is "

@@ -15,10 +15,10 @@ itself a party to this record.
 
 - [The record](record.html) — 94 contributions across 30 pages,
   each under 20,000 tokens. Plain-text alternate: [record.md](record.md)
-- [Deficiency register](deficiencies.html) — 62 defects this project has filed
+- [Deficiency register](deficiencies.html) — 63 defects this project has filed
   against itself. Read before citing anything.
-- [Candidate controls](controls.html) — 63 candidate assurance
-  controls, each with a verifier and a must-reject fixture. Part A (0) is
+- [Candidate controls](controls.html) — 64 candidate assurance
+  controls, each with a verifier and a must-reject fixture. Part A (10) is
   adoptable alone; 50 sit BELOW the eligibility line with no recorded
   failure. None independently implemented. Worked example for agent developers.
 - [Prediction registry](predictions.html) — dated claims, scored on fixed dates,

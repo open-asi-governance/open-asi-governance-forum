@@ -506,6 +506,24 @@ APPLICATION: dict[int, dict] = {
           tests=("tools/tests/test_executive_log.py",),
          gap="Several tools print what they do not establish. Nothing BINDS a published gain to a residual failure set, nothing rejects a residual stated as a bare percentage, and the ci"
              "ted test does not inspect the reporting tools for the property."),
+ 64: dict(scope=CODE,
+          files=("tools/record_spend.py", "tools/guards.py"),
+          tests=("tools/tests/test_gate_negative_controls.py",),
+          gap="Applied at exactly ONE site — the arm that caused the failure. record_spend.py "
+              "refuses an unregistered cohort under RS-01, and that arm requires a non-zero exit "
+              "AND asserts the spend ledger byte-identical afterwards. Whole-artifact identity "
+              "is the correct LOCAL assertion there because that tool has no permitted "
+              "refusal-side effect; it is NOT the control's general requirement, which is about "
+              "the governed effect boundary — a gate may legitimately write a denial record "
+              "while refusing. Nothing generalises any of it: no harness makes a refusing tool "
+              "declare its effect set, and no check requires a refusal arm to assert over that "
+              "set rather than over stdout. The control's own discriminating case — a tool that "
+              "exits non-zero, prints a refusal, and acts anyway — has no fixture and no "
+              "instance.",
+          residue="That a declared write set is a COMPLETE one. The party declaring what a tool "
+                  "may write is the party whose tool writes it, and a harness proves nothing "
+                  "about a file nobody listed. The control says so in its own false-negative "
+                  "clause; no code closes it."),
 }
 
 
