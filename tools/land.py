@@ -93,6 +93,11 @@ GATES = (
     #  deleted or renamed file is a compliance claim about something that is not there, so this
     #  refuses rather than letting the table decay into decoration. It checks SUBSTANTIATION --
     #  that every row can be backed -- not that any control is satisfied.
+    #  CONTROL 45, MECHANISED. A guard declared in the code and named by no fixture is where an
+    #  unreachable one hides -- three were found in one week, each by a human happening to look.
+    #  And a fixture naming a guard that no longer exists FAILS here, rather than passing because
+    #  a neighbouring guard fired, which is what control 45 forbids without evidence.
+    ("guard-identity", ["python3", "tools/guards.py", "--check"]),
     ("control-application", ["python3", "tools/control_application.py", "--check"]),
     ("context-pins", ["python3", "tools/check_executive_context.py"]),
     ("lease", ["python3", "tools/executive_lease.py"]),

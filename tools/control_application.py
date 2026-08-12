@@ -85,6 +85,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from guards import guard                                              # noqa: E402
 
 CODE = "code"
 NOT_CODE = "not_code"
@@ -377,12 +379,24 @@ APPLICATION: dict[int, dict] = {
                   "string was long enough. Control 44 asks for no silent blank cells and nothing "
                   "more; a second party is what would supply more."),
  45: dict(scope=CODE,
-          files=("tools/control_coverage.py", "tools/executive_log.py"),
-          tests=("tools/tests/test_deploy_check.py", "tools/tests/test_gate_negative_controls.py"),
-          gap="Applied by hand where a gate changed — the abbreviated-sha case was flipped on "
-              "2026-08-12 while the mismatch case it replaced was retained deliberately. "
-              "Nothing MECHANICALLY requires a modified gate to still fail its predecessor's "
-              "cases, so the next gate change depends on somebody remembering."),
+          files=("tools/guards.py", "tools/control_coverage.py", "tools/executive_log.py"),
+          tests=("tools/tests/test_guard_identity.py", "tools/tests/test_deploy_check.py",
+                 "tools/tests/test_no_blank_cells.py"),
+          gap="Guards carry codes, fixtures ask for them by name through an assertion that "
+              "RAISES, and the codes this repository has committed to keeping are recorded in "
+              "record/executive/guard-baseline.json. Removing a guard AND its fixture together "
+              "— the shape an actual rewrite takes — is refused unless the removal is recorded "
+              "with a ground, which makes weakening a governed event rather than a diff nobody "
+              "reads. THE FIRST VERSION HAD ONLY THE PRESENT-TIME HALF and Codex reproduced the "
+              "silent case: baseline clean, delete both, still clean. WHAT REMAINS: exactly ONE "
+              "tool is enrolled — eleven guards in control_application.py. Every other gate here "
+              "has anonymous refusals, so a rewrite of check_quotations.py or capture_gates.py "
+              "can still drop a check with its fixture passing on a neighbour. Enrolment should "
+              "follow gates as they are touched rather than becoming a count to hit, and the "
+              "mechanism cannot see a check that was never written.",
+          residue="That a driven guard is a CORRECT guard, and that a named expectation ever "
+                  "RAN. Static analysis registers a call inside a branch nobody takes; runtime "
+                  "receipts or coverage would be needed and neither exists here."),
  46: dict(scope=CODE,
           files=("tools/control_coverage.py", "tools/gate_health.py"),
           tests=("tools/tests/test_gate_negative_controls.py",),
@@ -554,19 +568,21 @@ def problems(all_rows: list[dict]) -> list[str]:
     #  describing something that no longer exists.
     known = {r["rank"] for r in all_rows}
     for orphan in sorted(set(APPLICATION) - known):
-        out.append(f"C{orphan}: this table has a row for a control the register does not "
-                   f"contain. A row outliving its control is a claim about nothing.")
+        out.append(guard("CA-01", f"C{orphan}: this table has a row for a control the register "
+                         f"does not contain. A row outliving its control is a claim about "
+                         f"nothing."))
     for r in all_rows:
         rank = r["rank"]
         if r["scope"] not in (CODE, NOT_CODE):
             #  Control 44: a blank cell and "does not apply" must not look alike.
-            out.append(f"C{rank}: no row. Every control needs one, including the ones with "
-                       f"nothing to say — a missing row and a '—' are different facts.")
+            out.append(guard("CA-02", f"C{rank}: no row. Every control needs one, including the ones "
+                             f"with nothing to say — a missing row and a '—' are different "
+                             f"facts."))
             continue
         if r["missing"]:
-            out.append(f"C{rank}: names {', '.join(r['missing'])}, which is not on disk. A "
-                       f"compliance row pointing at a deleted file is the failure mode of every "
-                       f"hand-maintained matrix.")
+            out.append(guard("CA-03", f"C{rank}: names {', '.join(r['missing'])}, which is not on "
+                             f"disk. A compliance row pointing at a deleted file is the failure "
+                             f"mode of every hand-maintained matrix."))
         if r["scope"] == NOT_CODE:
             #  NOT MERELY NON-EMPTY. This checked `if not reason` only, while this table's own
             #  C44 row claimed both published matrices reject "n/a", "not applicable" and
@@ -578,38 +594,42 @@ def problems(all_rows: list[dict]) -> list[str]:
             hollow = reason.lower().rstrip(".") in {
                 "", "n/a", "na", "none", "not applicable", "does not apply", "no", "-", "—"}
             if not reason:
-                out.append(f"C{rank}: marked '—' with no structural reason.")
+                out.append(guard("CA-04", f"C{rank}: marked '—' with no structural reason."))
             elif hollow or len(reason) < 40:
-                out.append(f"C{rank}: marked '—' with a reason that restates the mark instead "
-                           f"of giving a structure ({reason[:40]!r}). A cell filled with "
-                           f"'not applicable' is an omission wearing a label.")
+                out.append(guard("CA-05", f"C{rank}: marked '—' with a reason that restates the mark "
+                                 f"instead of giving a structure ({reason[:40]!r}). A cell "
+                                 f"filled with 'not applicable' is an omission wearing a "
+                                 f"label."))
             if r["files"] or r["tests"]:
-                out.append(f"C{rank}: marked '—' and yet names code. One of the two is wrong.")
+                out.append(guard("CA-06", f"C{rank}: marked '—' and yet names code. One of the two is "
+                                 f"wrong."))
             if determined.get(rank, ("",))[0] in ("ENFORCED",):
-                out.append(f"C{rank}: self_application says ENFORCED, which names a mechanism, "
-                           f"while this table says no code applies. They cannot both hold.")
+                out.append(guard("CA-07", f"C{rank}: self_application says ENFORCED, which names a "
+                                 f"mechanism, while this table says no code applies. They "
+                                 f"cannot both hold."))
         else:
             if not r["files"]:
-                out.append(f"C{rank}: scope is code and no file is named.")
+                out.append(guard("CA-08", f"C{rank}: scope is code and no file is named."))
             #  ON `declared`, NOT `complete`. `complete` already requires tests, so
             #  `complete and not tests` was UNREACHABLE — a dead guard that read as a live one.
             #  Its consequence was quiet: declaring a row finished while naming no test produced
             #  a ☐ and no objection, so the author's declaration was discarded in silence rather
             #  than refused. Found on 2026-08-12 by the C44 fixture written to exercise it.
             if r["declared"] and not r["tests"]:
-                out.append(f"C{rank}: declared complete and names no test. The declaration "
-                           f"cannot be substantiated, and downgrading it silently is how a "
-                           f"table stops disagreeing with the person filling it in.")
+                out.append(guard("CA-09", f"C{rank}: declared complete and names no test. The declaration "
+                                 f"cannot be substantiated, and downgrading it silently is how "
+                                 f"a table stops disagreeing with the person filling it in."))
             if r["gap"] and len(r["gap"]) < 30:
-                out.append(f"C{rank}: the gap is too short to name what remains.")
+                out.append(guard("CA-10", f"C{rank}: the gap is too short to name what remains."))
             if determined.get(rank, ("",))[0] == "NOT_APPLICABLE":
                 #  If the trigger cannot occur structurally, code cannot be compliance work for
                 #  it. Caught C30, where the capture tools were listed as compliance when they
                 #  are the REASON the trigger is absent — a real contradiction between the two
                 #  tables, found by writing the check rather than by rereading the rows.
-                out.append(f"C{rank}: self_application says NOT_APPLICABLE — the trigger cannot "
-                           f"occur here — while this table names code updated to comply with it. "
-                           f"Code cannot comply with a control that has no trigger.")
+                out.append(guard("CA-11", f"C{rank}: self_application says NOT_APPLICABLE — the trigger "
+                                 f"cannot occur here — while this table names code updated to "
+                                 f"comply with it. Code cannot comply with a control that has "
+                                 f"no trigger."))
     return out
 
 

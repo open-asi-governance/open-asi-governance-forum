@@ -18,9 +18,12 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 9 of 31 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 22 came from reading, from running the
-fault, or from an outsider. So the controls both caught things directly AND directed attention to
+**A detector fired for 10 of 32.** Those are the defect shapes that are mechanically
+recognisable; the rest came from reading, from running the fault, or from an outsider. Which
+controls they fall under, and whether detector is in fact the largest category, are computed by
+the tool rather than asserted here — this line has now been wrong twice in the same way. It said
+"every one of them control 53" until a second control acquired a detector, and it called detector
+"the largest single category" while `external` stood at twelve. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
 
 Those two numbers are CHECKED against the table below by `--check`, which refuses if they have
@@ -239,6 +242,17 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "a control-2 fixture.",
   "external", "D-60; tools/tests/test_closed_world.py"),
 
+ ("C2 negative control",
+  "Naming the eleven guards in control_application.py and requiring a fixture per guard "
+  "immediately found TWO that no fixture drove — the cross-check for a control self_application "
+  "records ENFORCED, and the too-short-gap check. Both turned out reachable, which is the point: "
+  "before this, nothing distinguished them from the unreachable guard found two batches earlier, "
+  "because a fixture observing 'some refusal happened' cannot tell a live guard from a dead one "
+  "beside it. Classified under control 2 rather than 45 on Codex's ruling: they demonstrate a "
+  "MISSING negative control, and become control 45 evidence only when a replacement is tested "
+  "against retained historical cases.",
+  "detector", "tools/guards.py; tools/tests/test_no_blank_cells.py"),
+
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "
   "the programme running it had no stop condition. Found by Codex, not by this workbench.",
@@ -318,9 +332,21 @@ def main() -> int:
         print(f"    {n:2d}  {how:17} {HOW[how]}")
     detector_n = by_how.get("detector", 0)
     total = len(FINDINGS)
-    print(f"\n  A DETECTOR FIRED FOR {detector_n} OF {total} — the largest single category, and")
-    print("  all of them control 53, whose defect shape is mechanically recognisable. The other")
-    print(f"  {total - detector_n} came from reading, from running the fault, or from someone outside.")
+    by_detector: dict[str, int] = {}
+    for control, _d, how, _e in FINDINGS:
+        if how == "detector":
+            by_detector[control] = by_detector.get(control, 0) + 1
+    spread = ", ".join(f"{c} ({n})" for c, n in
+                       sorted(by_detector.items(), key=lambda kv: -kv[1]))
+    largest = max(by_how.items(), key=lambda kv: kv[1])
+    rank_note = ("the largest single category" if largest[0] == "detector"
+                 else f"second to {largest[0]} ({largest[1]})")
+    print(f"\n  A DETECTOR FIRED FOR {detector_n} OF {total} — {rank_note}, "
+          f"across {len(by_detector)} control(s):")
+    print(f"    {spread}")
+    print("  These are the defect shapes that are mechanically recognisable. The other")
+    print(f"  {total - detector_n} came from reading, from running the fault, or from someone "
+          f"outside.")
     print("\n  An earlier version of this line said 'most were found by reading or by an")
     print("  outsider'. That was true only by summing three categories against one, and it read")
     print("  as a claim the numbers do not support. Corrected here rather than quietly.")

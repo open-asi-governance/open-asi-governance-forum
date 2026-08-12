@@ -118,8 +118,25 @@ ca = load("control_application")
 ORIGINAL_APPLICATION = copy.deepcopy(ca.APPLICATION)
 
 
+guards = load("guards")
+
+
 def failures() -> list[str]:
     return ca.problems(ca.rows())
+
+
+def fired(code: str) -> bool:
+    """Did THAT guard fire? Not 'did something fire' — the distinction all three defects fell
+    through. A neighbouring guard firing used to satisfy every assertion here.
+
+    Routed through `expect_guard`, which RAISES, because the registry counts only that form: a
+    predicate whose result can be discarded registered as an expectation while asserting nothing.
+    """
+    try:
+        guards.expect_guard(failures(), code)
+    except guards.GuardNotActivated:
+        return False
+    return True
 
 
 try:
@@ -130,7 +147,7 @@ try:
     ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
     ca.APPLICATION.pop(53)
     found = failures()
-    check("a control with NO row is refused", any("C53" in f for f in found), str(found[:2]))
+    check("a control with NO row is refused", fired("CA-02"), str(found[:2]))
     check("...and the refusal distinguishes a missing row from a '—'",
           any("missing row" in f or "no row" in f for f in found), str(found[:2]))
 
@@ -139,8 +156,7 @@ try:
     ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
     ca.APPLICATION[999] = dict(scope=ca.NOT_CODE, reason="A row for a control nobody registered.")
     found = failures()
-    check("a row for a control NOT in the register is refused",
-          any("C999" in f for f in found), str(found[:2]))
+    check("a row for a control NOT in the register is refused", fired("CA-01"), str(found[:2]))
 
     #  '—' WITH NO REASON. The cell says "does not apply" and says nothing else, which is the
     #  shape control 44 names: not applicable and omitted must not look alike.
@@ -149,7 +165,7 @@ try:
     found = failures()
     check("a '—' row with NO structural reason is refused", len(found) == 1, str(found))
     check("...and it is THAT guard, not another one firing for the same row",
-          found and "no structural reason" in found[0], str(found))
+          fired("CA-04"), str(found))
 
     #  THE SHAPE THE CONTROL IS ACTUALLY ABOUT, on this matrix. It was tested only against
     #  self_application, and control_application had no such check — while this table's own C44
@@ -162,8 +178,7 @@ try:
         ca.APPLICATION[53] = dict(scope=ca.NOT_CODE, reason=reason)
         found = failures()
         check(f"a '—' row whose reason is {label} is refused", len(found) == 1, str(found))
-        check(f"...and the refusal says it restates the mark rather than giving a structure",
-              found and "omission wearing a label" in found[0], str(found))
+        check("...and it is the reason-quality guard specifically", fired("CA-05"), str(found))
 
     #  '—' THAT NAMES CODE ANYWAY. Self-contradiction inside one cell.
     ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
@@ -171,8 +186,7 @@ try:
                                                         "repository for the following reason.",
                               files=("tools/land.py",))
     found = failures()
-    check("a '—' row that nonetheless names code is refused",
-          any("names code" in f for f in found), str(found))
+    check("a '—' row that nonetheless names code is refused", fired("CA-06"), str(found))
 
     #  A CODE ROW NAMING NOTHING. The cell claims the control governs code and lists none.
     ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
@@ -180,8 +194,7 @@ try:
                               gap="Something remains and this row names no file at all.")
     found = failures()
     check("a code row naming NO file is refused", len(found) == 1, str(found))
-    check("...and the refusal names the missing files, not something else about the row",
-          found and "no file is named" in found[0], str(found))
+    check("...and it is the names-no-file guard specifically", fired("CA-08"), str(found))
 
     #  A ROW POINTING AT A FILE THAT IS NOT THERE. The failure mode of every hand-maintained
     #  compliance matrix: the claim outlives the thing it claims about.
@@ -191,7 +204,7 @@ try:
                               declared_complete=True)
     found = failures()
     check("a row naming a file that is NOT ON DISK is refused",
-          any("zzqx_deleted_last_week" in f for f in found), str(found[:2]))
+          fired("CA-03") and any("zzqx_deleted_last_week" in f for f in found), str(found[:2]))
     check("...so a deleted file cannot leave a row quietly ticked",
           not ca.row(53, {"name": "x"})["complete"])
 
@@ -201,8 +214,7 @@ try:
                               declared_complete=True)
     found = failures()
     check("a row DECLARED complete with no test is refused", len(found) == 1, str(found))
-    check("...and the refusal is about the declaration, not the substantiation",
-          found and "declared complete" in found[0], str(found))
+    check("...and it is the declared-with-no-test guard specifically", fired("CA-09"), str(found))
 
     #  THE CROSS-CHECK. self_application says the trigger cannot occur; this table says code
     #  complies with it. Code cannot comply with a control that has no trigger.
@@ -213,7 +225,29 @@ try:
                                   "occur, which the two tables must not both assert.")
     found = failures()
     check("a row contradicting self_application's NOT_APPLICABLE is refused",
-          any("C11" in f and "NOT_APPLICABLE" in f for f in found), str(found[:2]))
+          fired("CA-11"), str(found[:2]))
+
+    #  THE OTHER DIRECTION OF THE CROSS-CHECK. self_application names a MECHANISM (ENFORCED) and
+    #  this table says the control governs no code — they cannot both hold. Written because
+    #  tools/guards.py reported CA-07 as declared and driven by nothing, which is precisely where
+    #  an unreachable guard hides.
+    enforced = next(r for r in ca.rows()
+                    if ca.determinations().get(r["rank"], ("",))[0] == "ENFORCED")
+    ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
+    ca.APPLICATION[enforced["rank"]] = dict(
+        scope=ca.NOT_CODE,
+        reason="Claiming no code governs a control that self_application says a mechanism "
+               "enforces, which the two tables must not both assert.")
+    found = failures()
+    check("a '—' row for a control self_application records ENFORCED is refused",
+          fired("CA-07"), str(found[:2]))
+
+    #  A GAP TOO SHORT TO NAME WHAT REMAINS. Same reason: CA-10 had no fixture.
+    ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
+    ca.APPLICATION[53] = dict(scope=ca.CODE, files=("tools/derive_counts.py",),
+                              tests=("tools/tests/test_derive_counts.py",), gap="Some work left.")
+    found = failures()
+    check("a gap too short to say what remains is refused", fired("CA-10"), str(found[:2]))
 
     ca.APPLICATION = copy.deepcopy(ORIGINAL_APPLICATION)
     check("...and every row substantiates again once restored", failures() == [])
