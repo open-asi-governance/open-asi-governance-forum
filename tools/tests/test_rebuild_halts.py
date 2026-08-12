@@ -19,6 +19,12 @@ first, and the note beside the fix says so.
 
 `test_integrity.py` gets its case here too, for the same reason: it is CI's own gate, 142
 assertions about the published record, and nothing had ever required it to fail.
+
+NO POSITIVE CONTROLS IN THIS FILE, deliberately, and this is the one place in the repository
+where that is the right call. Both tools are run FOR REAL by `land.py` and by CI on every push —
+`rebuild` and `integrity` are gates — so the happy path is demonstrated causally, by a different
+invocation than the one these cases drive. Duplicating it here cost a full rebuild plus a nested
+clone-and-rebuild per run, which took a CI run from about three minutes to over twenty.
 """
 from __future__ import annotations
 
@@ -47,21 +53,27 @@ def check(label: str, cond: bool, detail: str = "") -> None:
 print("\nrebuild.py — 'Nothing downstream was rebuilt' must be true, not consoling")
 
 
-def break_a_late_step(image: Path) -> None:
-    """Empty CHALLENGE.md. That fails `publish the implementation challenge`, which sits three
-    steps from the end — so the viewer, the prediction view, the capture page and the page-budget
-    check must all be skipped."""
-    (image / "CHALLENGE.md").write_text("# gone\n", encoding="utf-8")
+def break_the_first_step(image: Path) -> None:
+    """Modify an already-anchored raw artifact. That fails step ONE — `verify raw material
+    against the manifest` — so all twenty steps after it must be skipped.
+
+    Breaking a LATE step was the first version, and it was both weaker and slower: eighteen
+    steps ran before the failure, proving less about the halt and costing an almost-complete
+    rebuild on every CI run. Failing first proves more and costs almost nothing."""
+    path = image / "corpus" / "raw" / "activation-01" / "activation-01-claude-samples.json"
+    assert path.is_file(), ("the fixture assumes this anchored artifact exists; if it moved, "
+                            "this case would silently test the happy path")
+    path.write_bytes(path.read_bytes() + b"\n")
 
 
 verdict = refuses(argv=("python3", "tools/rebuild.py"), case="a step fails mid-sequence",
-                  setup=break_a_late_step, expect_exit=1, timeout=600,
+                  setup=break_the_first_step, expect_exit=1, timeout=600,
                   expected_effects={}, allow_network=True)
 
 check("the orchestrator exits non-zero when a step fails", verdict["exit"] == 1,
       verdict["output"].strip()[-200:])
 check("...and names the step that failed",
-      "FAILED at: publish the implementation challenge" in verdict["output"],
+      "FAILED at: verify raw material against the manifest" in verdict["output"],
       verdict["output"].strip()[-300:])
 check("...and says nothing downstream was rebuilt",
       "Nothing downstream was rebuilt" in verdict["output"])
@@ -74,27 +86,33 @@ check("...and says nothing downstream was rebuilt",
 #  pass on an empty change set whether or not the step ran — a vacuous assertion, and the first
 #  version of this file contained exactly that. Recorded rather than quietly replaced, because
 #  spotting it required noticing that a PASSING assertion was passing for the wrong reason.
-LATER_STEPS = ("build threaded viewer",
-               "check solicitation prompts against known defects",
-               "build the prediction registry view",
+#  A sample from across the remaining twenty, first to last.
+LATER_STEPS = ("validate provenance",
+               "build the deficiency register views",
+               "publish the candidate control register",
+               "publish the implementation challenge",
+               "build threaded viewer",
                "build capture page",
                "check every published page against the token budget")
 ran_after = [s for s in LATER_STEPS if s in verdict["output"]]
 check("no step AFTER the failure was started", ran_after == [], f"these ran: {ran_after}")
 check("...and the failing step itself was started, so the case is live",
-      "publish the implementation challenge" in verdict["output"])
+      "verify raw material against the manifest" in verdict["output"])
 check("the tree is unchanged too — a deterministic rebuild of a built repository writes nothing",
       verdict["changed"] == [], str(verdict["changed"])[:200])
 
 
-print("\nthe positive control — without it, a rebuild that always failed would score full marks")
-
-verdict = refuses(argv=("python3", "tools/rebuild.py"), case="a sound repository",
-                  setup=lambda image: None, expect_exit=0, timeout=600,
-                  expected_effects={}, allow_network=True)
-check("POSITIVE CONTROL: on a sound repository the rebuild COMPLETES", verdict["exit"] == 0,
-      verdict["output"].strip()[-200:])
-check("...and says so", "All artifacts rebuilt and verified" in verdict["output"])
+#  THE POSITIVE CONTROL FOR rebuild.py IS THE `rebuild` GATE ITSELF, and it is not duplicated
+#  here. `land.py` runs `tools/rebuild.py` as its first gate and CI runs the same steps, so every
+#  landing and every push already demonstrates that a sound repository rebuilds — causally, on
+#  the real tree, not on a copy. Re-running it inside the harness cost a full rebuild per suite
+#  execution and established nothing the gate does not.
+#
+#  That is a real trade and it is stated rather than assumed: the positive evidence now comes
+#  from a DIFFERENT invocation than the negative cases, so a change that broke the harness's
+#  ability to run rebuild.py at all would show up as this suite erroring rather than as a silent
+#  pass. Removed for COST, and the cost was not marginal — a CI run went from about three
+#  minutes to over twenty and had not finished when it was found.
 
 
 print("\ntest_integrity.py — CI's own gate, and nothing had required it to fail")
@@ -107,8 +125,14 @@ def unrebuildable_source(image: Path) -> None:
     It works against a clean clone and REBUILDS inside it, so a deleted output is regenerated
     before anything is asserted. That is the suite testing reproducibility rather than the state
     of a checkout, and the fixture had aimed at the wrong property. The discriminating break is
-    one the rebuild cannot repair."""
-    (image / "CHALLENGE.md").write_text("# gone\n", encoding="utf-8")
+    one the rebuild cannot repair.
+
+    The SAME break as the case above, deliberately: an anchored raw artifact with one byte added.
+    It fails the nested rebuild at its first step rather than its nineteenth, which is the
+    difference between this suite costing ninety seconds and costing two hundred."""
+    path = image / "corpus" / "raw" / "activation-01" / "activation-01-claude-samples.json"
+    assert path.is_file(), "the fixture assumes this anchored artifact exists"
+    path.write_bytes(path.read_bytes() + b"\n")
 
 
 verdict = refuses(argv=("python3", "tools/test_integrity.py"),
@@ -119,10 +143,10 @@ check("the integrity suite FAILS when the record cannot be rebuilt from its sour
 check("...and it fails loudly rather than by absence",
       "FAILED" in verdict["output"], verdict["output"].strip()[-200:])
 
-verdict = refuses(argv=("python3", "tools/test_integrity.py"), case="an intact record",
-                  setup=lambda image: None, expect_exit=0, expected_effects={}, timeout=600)
-check("POSITIVE CONTROL: on an intact record the integrity suite passes", verdict["exit"] == 0,
-      verdict["output"].strip()[-200:])
+#  Same reasoning, and more forcefully: `test_integrity.py` is run DIRECTLY by land.py's
+#  `integrity` gate and by CI's own step, on every landing and every push. Running it a third
+#  time inside a copy — where it clones and rebuilds again, nested — was the single most
+#  expensive thing in this repository's test suite.
 
 #  KEEP THE SUMMARY AND EXIT LAST. Tests appended after them do not get counted, and the file
 #  then reports a stale total that looks like a pass.

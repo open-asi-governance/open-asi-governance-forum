@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 69** classifications have been read by a human against the prose.
+**0 of 71** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 40 |
+| the annotator | 42 |
 | an external reviewer | 17 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 29 |
+| required, not implemented | 31 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**175 affected-object rows across 69 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**180 affected-object rows across 71 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -1097,4 +1097,33 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/build_viewer.py <br><sub>_verify_controls_receipt() moved above the first WRITE rather than merely above the first deletion. Verified by the case that found it: the refusal now leaves the image byte-identical.</sub> | repairable by supersession | verified |
 | tools/tests/test_publisher_refusals.py <br><sub>New. Five receipt-drift cases plus the bundle immutability refusal, each asserting the tool refused AND deleted nothing anywhere. Its own first version invented a bundle id and passed on the WRONG refusal (exit 2, unknown round, instead of the immutability refusal) — caught by asserting the exit code rather than only the message, which is D-66's lesson applied.</sub> | repairable by supersession | verified |
+
+### D-70 — Reconciliation observed the discharge and never wrote it down
+
+[Full entry](deficiencies.md#d-70--reconciliation-observed-the-discharge-and-never-wrote-it-down)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `a landing killed by a ten-minute harness ceiling mid-deploy-wait; the obligation it left would not clear, and --reconcile and --status disagreed about whether anything was blocking`
+- **Prospective control:** required, not implemented — Nothing checks that two commands reading one ledger agree. `--status` and `--reconcile` disagreed for hours and only a human comparing them noticed; a consistency case between the read-only and reconciling views would have caught it the first time either ran.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/deploy_obligations.py <br><sub>An observed SATISFIED state is now attested with the deploy profile's own fields rather than returning no reason. A write that fails KEEPS the obligation. Verified live: the outstanding push cleared and a later non-reconciling read agrees.</sub> | repairable by supersession | verified |
+| tools/tests/test_deploy_obligations.py <br><sub>Two cases: a reconciled discharge is written and a LATER non-reconciling read sees it, and an attestation that raises does not clear the obligation. The Sandbox now carries a log it owns, because the repair made reconciliation write — and a fixture reaching for the real executive log is how D-62 corrupted the spend ledger 87 times.</sub> | repairable by supersession | verified |
+
+### D-71 — A fixture wrote two real incidents against a fake commit, and blocked every landing
+
+[Full entry](deficiencies.md#d-71--a-fixture-wrote-two-real-incidents-against-a-fake-commit-and-blocked-every-landing)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `the landing carrying the D-70 repair was refused by the obligation ledger, citing two open incidents on a commit that does not exist; the shas were the fixture's`
+- **Prospective control:** required, not implemented — Run the suites themselves under tools/effect_boundary.py. It watches a whole namespace and fails on any change not declared, so a fixture writing outside its sandbox would be caught by construction rather than by a landing being blocked. The harness exists and the suites do not run inside it; that is the general form of this defect and of D-62.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/tests/test_deploy_obligations.py <br><sub>Both new cases now own every path the module writes to — log AND incidents — and each asserts afterwards that its own sandbox incidents directory is empty, so a write that escapes fails the case instead of passing it.</sub> | repairable by supersession | verified |
+| record/executive/incidents/ (two files against a fake sha) <br><sub>RESOLVED through the mechanism with a recovery artifact, not deleted. They were deleted first, and the ledger refused the next read with StateUnknown because the recovery artifact cited incidents that no longer existed — deleting an artifact another artifact cites is what this record's invariants forbid, and the refusal was the invariant holding against the party that wrote it. Restored from copies taken before resolution, which was only possible because resolution attaches rather than edits.</sub> | repairable by supersession | verified |
+| record/executive/action-log.jsonl (two rows) <br><sub>Two refused deploy attestations naming the fake commit, written by the first version of the D-70 fixture before it stubbed the attestation module. They stay: an append-only hash-chained log is not edited because a fixture put something in it. They are honest records of attestations that were attempted and refused, and the ledger's reconstruction of incidents from them was correct behaviour, not a malfunction.</sub> | not repairable | impossible |
 

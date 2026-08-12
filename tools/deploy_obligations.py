@@ -96,6 +96,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import pathlib
 import os
 import re
 import subprocess
@@ -548,6 +549,19 @@ def unreconciled_failures(rows: list[dict], incidents: dict[str, dict]) -> list[
     return out
 
 
+def _ex():
+    """executive_log, imported lazily and by path — the same lesson as D-64: a bare module import
+    resolves only if the CALLER happens to have tools/ on sys.path, and this module is loaded by
+    path from several places."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "_executive_log_for_obligations", pathlib.Path(__file__).resolve().parent
+        / "executive_log.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def blocking(reconcile: bool = False) -> tuple[list[str], dict]:
     """Everything that must stop an ordinary landing. An empty list means nothing does."""
     reasons: list[str] = []
@@ -601,7 +615,38 @@ def blocking(reconcile: bool = False) -> tuple[list[str], dict]:
         observation = observe(sha)
         detail.setdefault("observations", {})[sha] = observation
         if observation["state"] == SATISFIED:
-            continue                      # cleared by itself, which is the common case
+            #  ATTEST IT, rather than merely returning no reason. `continue` cleared the blocker
+            #  for THIS call and wrote nothing, so the push stayed outstanding forever: every
+            #  later `--status` reported BLOCKING on a commit that had demonstrably been served,
+            #  every landing re-queried the API for it, and — the part that matters for a record
+            #  whose thesis is that evidence lives in the record — the discharge existed only in
+            #  GitHub's live API and never here. Found when a harness timeout cut a landing off
+            #  mid-wait and the obligation would not clear afterwards. See D-70.
+            #
+            #  The claim shape is the one land.py files, so the two paths write the same fact and
+            #  `outstanding_pushes` cannot tell them apart. The note says which observed it.
+            try:
+                #  The profile's OWN fields, not a reshuffle of the observation. `observed:
+                #  True` is the one it checks first — "an unobserved deploy is not a successful
+                #  one" — and the first version of this call omitted it, so the attestation
+                #  refused and the obligation correctly stood. That refusal is the profile
+                #  working, and it is why the write is inside a try rather than assumed.
+                _ex().attest("deploy",
+                             {"observed": True,
+                              "conclusion": observation.get("conclusion"),
+                              "commit": sha,
+                              "deployed_sha": observation.get("served_sha"),
+                              "run_url": observation.get("run_url")},
+                             note="deploy observed at reconcile, after a landing did not live "
+                                  "to record it")
+                detail.setdefault("attested", []).append(sha)
+            except Exception as exc:                                    # noqa: BLE001
+                #  An attestation that will not write is not a discharge. Say so and keep the
+                #  obligation, rather than clearing a blocker on the strength of a failed write.
+                reasons.append(f"push {sha[:12]} WAS served, and the discharge could not be "
+                               f"recorded ({exc}). The obligation stands until the record "
+                               f"carries the evidence.")
+            continue
         if observation["state"] == INCIDENT:
             #  KEYED ON THE RUN. `{sha}:{conclusion}` was stable across different observations
             #  of the same commit, so once such an incident was resolved while its push stayed

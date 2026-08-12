@@ -84,14 +84,28 @@ class Sandbox:
         (base / "incidents").mkdir()
         log = base / "action-log.jsonl"
         log.write_text("".join(json.dumps(r) + "\n" for r in self.rows), encoding="utf-8")
-        self.saved = (ob.INCIDENTS, ob.LOG, ob.observe)
+        self.saved = (ob.INCIDENTS, ob.LOG, ob.observe, ob._ex)
         ob.INCIDENTS, ob.LOG = base / "incidents", log
         ob.observe = lambda sha: self.observations.get(
             sha, {"state": ob.PENDING, "commit": sha, "why": "stubbed: nothing known"})
+
+        #  D-70: reconciliation now ATTESTS an observed discharge instead of merely reporting
+        #  it, so the sandbox has to carry a log it can write to. Without this the module would
+        #  reach for the REAL executive log from inside a fixture — which is how D-62's negative
+        #  control corrupted the spend ledger 87 times — and every sandboxed case would fail on
+        #  a write it should never have attempted.
+        class _SandboxLog:
+            @staticmethod
+            def attest(action, claim, note=""):
+                with log.open("a", encoding="utf-8") as handle:
+                    handle.write(json.dumps({"action": action, "verified": True,
+                                             "claim": claim, "note": note}) + "\n")
+                return {}
+        ob._ex = lambda: _SandboxLog
         return base
 
     def __exit__(self, *exc):
-        ob.INCIDENTS, ob.LOG, ob.observe = self.saved
+        ob.INCIDENTS, ob.LOG, ob.observe, ob._ex = self.saved
         self.tmp.cleanup()
         return False
 
@@ -576,6 +590,132 @@ def test_a_lease_refusal_stops_before_the_network() -> None:
 
 
 test_a_lease_refusal_stops_before_the_network()
+
+
+# ---------------------------------------------------------------------------
+#  D-70. Reconciliation must RECORD the discharge it observes, not just report it.
+# ---------------------------------------------------------------------------
+
+def test_an_observed_discharge_is_written_to_the_record() -> None:
+    """`blocking(reconcile=True)` used to `continue` on a SATISFIED observation: it cleared the
+    blocker for that call and wrote nothing. So the push stayed outstanding forever — every later
+    `--status` reported BLOCKING on a commit that had demonstrably been served, and the discharge
+    existed only in GitHub's live API, never in this record. For a project whose thesis is that
+    evidence lives in the record, the second half is the serious one.
+
+    The fixture drives the real functions against a stub observation and a stub attestation, so
+    it tests the CONTROL FLOW that was wrong rather than the API that was not.
+    """
+    import json as _json, tempfile as _tf
+    from pathlib import Path as _Path
+
+    sha = "a" * 40
+    box = _Path(_tf.mkdtemp())
+    log = box / "action-log.jsonl"
+    log.write_text(_json.dumps({
+        "utc": "2026-08-12T00:00:00Z", "action": "push", "verified": True,
+        "claim": {"commit": sha, "target_ref": "main"}, "prev_sha256": "0" * 64}) + "\n",
+        encoding="utf-8")
+
+    written: list[tuple] = []
+
+    class _Stub:
+        @staticmethod
+        def attest(action, claim, note=""):
+            written.append((action, claim, note))
+            #  What a real attestation does: append a row the log reader will see.
+            with log.open("a", encoding="utf-8") as handle:
+                handle.write(_json.dumps({
+                    "utc": "2026-08-12T00:01:00Z", "action": action, "verified": True,
+                    "claim": claim, "prev_sha256": "0" * 64}) + "\n")
+            return {}
+
+    #  `ob.INCIDENTS` MUST BE STUBBED TOO, and the first version of this case did not do it.
+    #  `blocking()` runs a backstop that calls `open_or_find`, which writes to the module-level
+    #  incidents directory — so this fixture created two real incident files against the fake sha
+    #  `aaaa…` and BLOCKED EVERY LANDING until they were found and removed. In the commit whose
+    #  message says the Sandbox was fixed to stop exactly this. See D-71.
+    incidents = box / "incidents"
+    incidents.mkdir()
+    saved = (ob.log_rows, ob.observe, ob._ex, ob.load_incidents, ob.INCIDENTS, ob.LOG)
+    try:
+        ob.INCIDENTS, ob.LOG = incidents, log
+        ob.log_rows = lambda: [_json.loads(x) for x in
+                               log.read_text(encoding="utf-8").splitlines() if x.strip()]
+        ob.observe = lambda s: {"state": ob.SATISFIED, "commit": s, "served_sha": s,
+                                "conclusion": "success", "run_url": "https://example.invalid/1"}
+        ob._ex = lambda: _Stub
+        ob.load_incidents = lambda: {}
+
+        before, _ = ob.blocking(reconcile=False)
+        check("PRECONDITION: the push is outstanding before reconciliation",
+              any(sha[:12] in r for r in before), str(before))
+
+        reasons, detail = ob.blocking(reconcile=True)
+        check("reconciling an observed deploy clears the blocker", reasons == [], str(reasons))
+        check("...and ATTESTS it, rather than only reporting it",
+              detail.get("attested") == [sha], str(detail.get("attested")))
+        check("...with the field the deploy profile checks first",
+              written and written[0][1].get("observed") is True, str(written))
+        check("...naming both the pushed commit and the served sha",
+              written and written[0][1].get("commit") == sha
+              and written[0][1].get("deployed_sha") == sha, str(written))
+
+        after, _ = ob.blocking(reconcile=False)
+        check("THE POINT: the push is no longer outstanding on a LATER, non-reconciling read",
+              after == [], str(after))
+        #  THE ASSERTION THAT WOULD HAVE CAUGHT D-71 THE FIRST TIME.
+        check("...and the fixture wrote no incident outside its own sandbox",
+              sorted(p.name for p in incidents.glob("*.json")) == [],
+              str(sorted(p.name for p in incidents.glob("*.json"))))
+    finally:
+        (ob.log_rows, ob.observe, ob._ex, ob.load_incidents,
+         ob.INCIDENTS, ob.LOG) = saved
+
+
+def test_a_discharge_that_cannot_be_written_does_not_clear() -> None:
+    """A failed attestation is not a discharge. Clearing the blocker on the strength of a write
+    that did not happen would be the same trade D-62 made — signal without effect."""
+    import json as _json, tempfile as _tf
+    from pathlib import Path as _Path
+
+    sha = "b" * 40
+    log = _Path(_tf.mkdtemp()) / "action-log.jsonl"
+    log.write_text(_json.dumps({
+        "utc": "2026-08-12T00:00:00Z", "action": "push", "verified": True,
+        "claim": {"commit": sha, "target_ref": "main"}, "prev_sha256": "0" * 64}) + "\n",
+        encoding="utf-8")
+
+    class _Refusing:
+        @staticmethod
+        def attest(action, claim, note=""):
+            raise RuntimeError("the log is read-only")
+
+    incidents = log.parent / "incidents"
+    incidents.mkdir()
+    saved = (ob.log_rows, ob.observe, ob._ex, ob.load_incidents, ob.INCIDENTS, ob.LOG)
+    try:
+        ob.INCIDENTS, ob.LOG = incidents, log
+        ob.log_rows = lambda: [_json.loads(x) for x in
+                               log.read_text(encoding="utf-8").splitlines() if x.strip()]
+        ob.observe = lambda s: {"state": ob.SATISFIED, "commit": s, "served_sha": s,
+                                "conclusion": "success", "run_url": "u"}
+        ob._ex = lambda: _Refusing
+        ob.load_incidents = lambda: {}
+        reasons, detail = ob.blocking(reconcile=True)
+        check("a discharge that cannot be recorded does NOT clear the obligation",
+              any("could not be recorded" in r for r in reasons), str(reasons))
+        check("...and nothing is claimed as attested", not detail.get("attested"),
+              str(detail.get("attested")))
+        check("...and no incident was written outside the sandbox",
+              list(incidents.glob("*.json")) == [])
+    finally:
+        (ob.log_rows, ob.observe, ob._ex, ob.load_incidents,
+         ob.INCIDENTS, ob.LOG) = saved
+
+
+test_an_observed_discharge_is_written_to_the_record()
+test_a_discharge_that_cannot_be_written_does_not_clear()
 
 print(f"\n{passed} passed, {FAILED} failed")
 raise SystemExit(1 if FAILED else 0)

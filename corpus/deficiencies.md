@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **69 entries** (D-01 … D-69).
+**Status:** open — **71 entries** (D-01 … D-71).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2898,3 +2898,109 @@ path is rare and a subsequent successful run rewrites them. Nor that the other p
 clean: `build_capture_ui.py`, `build_challenge_page.py`, `build_local_rounds.py`,
 `build_predictions_view.py` and `rebuild.py` itself still have no case they must fail, and the
 same check has not been run against them.
+
+
+### D-70 — Reconciliation observed the discharge and never wrote it down
+
+*Filed 2026-08-12, found because a landing was cut off mid-wait and the obligation it left would
+not clear afterwards.*
+
+`deploy_obligations.py` is the machinery built for D-58, where six Pages deploys failed, each was
+attested honestly, and the next ordinary landing was permitted six times. A push now carries an
+OBLIGATION until something observes that the commit was served.
+
+`blocking(reconcile=True)` observed the deploy, found it `SATISFIED`, and did this:
+
+    if observation["state"] == SATISFIED:
+        continue                      # cleared by itself, which is the common case
+
+**It cleared the blocker for that call and wrote nothing.** So:
+
+* every later `--status` reported `BLOCKING push 3239cb0 has no record that it was served` on a
+  commit that had demonstrably been served — a standing false alarm on the operator-facing
+  surface, which is the same defect class as a false green, pointing the other way;
+* every landing re-queried the GitHub API for the same commit, indefinitely;
+* and — the half that matters for a record whose thesis is that evidence lives in the record —
+  **the discharge existed only in GitHub's live API and never here.** Retention of that API is
+  not this project's to promise.
+
+**How it surfaced.** A landing was killed by a ten-minute harness ceiling while waiting for the
+deploy. The commit and push completed; the deploy attestation did not. That is exactly the case
+the obligation ledger exists for, and it worked: the push was recorded as undischarged and
+ordinary landings were refused. What did not work was the clearing. `--reconcile` reported
+`nothing blocks an ordinary landing` and `--status`, run immediately after, still said BLOCKING.
+Two commands on one ledger disagreeing is what made it visible.
+
+**Repaired** by attesting the observation rather than returning no reason: reconciliation writes
+a `deploy` row with the same claim shape `land.py` files, so the two paths record the same fact
+and `outstanding_pushes` cannot tell them apart. The note says which one observed it.
+
+**The first version of the repair was refused by the attestation profile**, and correctly: it
+reshuffled the observation dict instead of building the profile's own fields, so `observed: True`
+was missing and `_check_deploy` said *"an unobserved deploy is not a successful one"*. That
+refusal is the profile doing its job, and it is why the write sits inside a `try` whose failure
+branch KEEPS the obligation — clearing a blocker on the strength of a write that did not happen
+would be D-62's trade exactly.
+
+**What this does not establish.** That no other observation in this ledger is reported without
+being recorded; only the SATISFIED path was examined. And it does not make the count of
+outstanding pushes trustworthy in general — the ledger is derived from a log this layer writes
+about itself, which the module's own documentation says at length.
+
+
+### D-71 — A fixture wrote two real incidents against a fake commit, and blocked every landing
+
+*Filed 2026-08-12, minutes after being introduced, by the mechanism it corrupted refusing the
+landing that carried it.*
+
+The repair for D-70 made `deploy_obligations.blocking()` WRITE — it now attests an observed
+discharge instead of silently returning no reason. Its two new fixtures stubbed the log, the
+observer and the attestation module. They did not stub `ob.INCIDENTS`.
+
+`blocking()` runs a backstop that calls `open_or_find`, which writes to the module-level
+incidents directory. So running the tests created **two real incident files in
+`record/executive/incidents/`, against the commit `aaaaaaaa…`** — the fixture's fake sha — and
+the ledger, correctly, then refused every ordinary landing on the strength of two open incidents
+about a commit that does not exist.
+
+**This is D-62's class, in the commit whose message says the sandbox was fixed to prevent it.**
+The same batch widened `Sandbox` to carry a log it owns, with a comment reading *"a fixture
+reaching for the real executive log is how D-62 corrupted the spend ledger 87 times"* — and the
+two cases written beside that comment reached for the real incidents directory instead. Fixing
+one path and not looking for its neighbours is the whole failure.
+
+**Contained, and the containment is the only reassuring part.** The files were never committed
+and never published: the ledger blocked the landing that would have carried them, which is the
+D-58 machinery working on the defect introduced by improving it.
+
+**The clean-up went wrong twice, and both are recorded because the second is the more instructive.**
+
+*First*, the incidents kept coming back after the fixture was fixed, and a bisect over the suites
+implicated five of them — a conclusion drawn from co-occurrence and wrong. The real cause was a
+background loop the workbench had started earlier to watch for the deploy, still running, calling
+`--reconcile` every twenty seconds. It was reacting to **two rows in the real action log**, left
+by the FIRST version of the D-70 repair before its fixture stubbed the attestation module: two
+refused `deploy` attestations naming the fake commit, recorded honestly with `verified: false`.
+The ledger was not malfunctioning; it was faithfully reconstructing incidents from evidence a
+fixture had put in the log. Killing the loop stopped the recurrence, and the poisoned rows stay
+where they are — an append-only log is not edited because its contents are embarrassing.
+
+*Second*, the two incidents were resolved through the mechanism, with a recovery artifact naming
+them — and then the incident files were deleted anyway. The ledger immediately refused with
+`the ledger cannot be interpreted: … resolves 2026-08-12-deploy-aaaaaaaaaaaa-2, which does not
+exist. State is UNKNOWN, which is not the same as clear, so work stops until a human looks.`
+**Deleting an artifact that another artifact cites is precisely what this record's invariants
+forbid**, and the refusal is the invariant holding against the party that wrote it. Both files
+were restored from copies taken before the resolution — which is possible only because resolution
+attaches rather than edits, so the copies were still byte-identical.
+
+**Repaired** by routing both cases through a sandbox that owns every path the module writes to,
+and by adding the assertion that would have caught it the first time: after each case, the
+sandbox's own incidents directory must be empty, so a write that escapes to the real one fails
+the case rather than passing it.
+
+**What this does not establish.** That no other fixture in this repository writes outside its
+sandbox. The check added here is local to these two cases; nothing scans the suites for module
+paths they mutate without owning, and the general version — a fixture that runs under the
+effect-boundary harness, which would have caught this class by construction — is the obvious
+next step and is not built. The harness exists; the suites do not run inside it.

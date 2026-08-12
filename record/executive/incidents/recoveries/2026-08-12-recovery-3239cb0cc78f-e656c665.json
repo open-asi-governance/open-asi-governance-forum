@@ -1,0 +1,24 @@
+{
+  "schema_version": "oagrc-deploy-recovery-0.1",
+  "artifact_type": "deploy_incident_recovery",
+  "id": "2026-08-12-recovery-3239cb0cc78f-e656c665",
+  "resolves": [
+    "2026-08-12-deploy-aaaaaaaaaaaa-2",
+    "2026-08-12-deploy-aaaaaaaaaaaa"
+  ],
+  "resolved_utc": "2026-08-12T22:10:47Z",
+  "resolving_commit": "3239cb0cc78fc75dc5baa02c826a2c0970cf71ad",
+  "evidence": {
+    "state": "SATISFIED",
+    "commit": "3239cb0cc78fc75dc5baa02c826a2c0970cf71ad",
+    "served_sha": "3239cb0cc78fc75dc5baa02c826a2c0970cf71ad",
+    "run_url": "https://github.com/open-asi-governance/open-asi-governance-forum/actions/runs/31643020581",
+    "conclusion": "success"
+  },
+  "contains_incident_commit": {
+    "2026-08-12-deploy-aaaaaaaaaaaa-2": null,
+    "2026-08-12-deploy-aaaaaaaaaaaa": null
+  },
+  "basis": "The Pages workflow for this commit concluded success and the github-pages deployment serves this exact commit. Both were observed, not assumed.",
+  "what_this_does_not_establish": "That the commits these incidents name were ever themselves served. Where contains_incident_commit is true, this commit publishes their CONTENT as a descendant; where it is false or null, not even that. One observed recovery dispositions these failure events; it does not retroactively deploy them."
+}

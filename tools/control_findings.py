@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 58.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 60.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,22 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C23 incident, not refusal",
+  "The obligation ledger observed a deploy, cleared the blocker, and WROTE NOTHING — so every "
+  "later --status reported BLOCKING on a commit demonstrably served, every landing re-queried "
+  "the API for it, and the discharge existed only in GitHub's live API rather than in the "
+  "record. Surfaced because --reconcile and --status disagreed about whether anything was "
+  "blocking, after a harness timeout cut a landing off mid-deploy-wait.",
+  "reading", "D-70; tools/deploy_obligations.py blocking()"),
+
+ ("C2 negative control",
+  "The repair's own first attempt was REFUSED by the deploy attestation profile — it reshuffled "
+  "the observation dict instead of building the profile's fields, so `observed: True` was "
+  "missing and the profile said 'an unobserved deploy is not a successful one'. The obligation "
+  "correctly stood. A profile refusing its own maintainer's malformed claim is the control "
+  "working, and it is why the write sits inside a try whose failure branch KEEPS the obligation.",
+  "negative-control", "D-70; tools/executive_log.py _check_deploy"),
 
  ("C2 negative control",
   "EVERY tool that a landing gate or the rebuild runs now has a case it must fail: 46 of 76, up "

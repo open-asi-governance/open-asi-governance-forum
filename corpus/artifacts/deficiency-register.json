@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "325a9fdac9a1f8881f9677a321e9a94d79c4a764e547ce9d1a5696ffd1f03679"
+    "sha256": "85474ba749bd05660615f058df04f8d180a26d67ed161601335e94bb36ef8e49"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2789,7 +2789,7 @@
     {
       "id": "D-69",
       "title": "The page builder rewrote four files, then refused",
-      "section_sha256": "3ec76f888b443678465d23715c83db4c52aa615a7caabdfc30868acf07699c2e",
+      "section_sha256": "ee335b518259fca33cdf62e28fbe9169dc3a6d3da4c34273f55c8c3693e355c4",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2817,7 +2817,81 @@
       },
       "human_review": {
         "status": "not_reviewed",
-        "note": "Found by the instrument, not by a reader, which is the first time that has happened here."
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-70",
+      "title": "Reconciliation observed the discharge and never wrote it down",
+      "section_sha256": "14c097ec20fef7bde6a6b1529e5a028375babb3013d2a6fb95448b71bb72d605",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "a landing killed by a ten-minute harness ceiling mid-deploy-wait; the obligation it left would not clear, and --reconcile and --status disagreed about whether anything was blocking",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/deploy_obligations.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "An observed SATISFIED state is now attested with the deploy profile's own fields rather than returning no reason. A write that fails KEEPS the obligation. Verified live: the outstanding push cleared and a later non-reconciling read agrees."
+        },
+        {
+          "object": "tools/tests/test_deploy_obligations.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Two cases: a reconciled discharge is written and a LATER non-reconciling read sees it, and an attestation that raises does not clear the obligation. The Sandbox now carries a log it owns, because the repair made reconciliation write — and a fixture reaching for the real executive log is how D-62 corrupted the spend ledger 87 times."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing checks that two commands reading one ledger agree. `--status` and `--reconcile` disagreed for hours and only a human comparing them noticed; a consistency case between the read-only and reconciling views would have caught it the first time either ran."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-71",
+      "title": "A fixture wrote two real incidents against a fake commit, and blocked every landing",
+      "section_sha256": "a7b3a10769176440dbe4b5fa66f4ec2fcb5fac0c0bebba457654de60529c4054",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "the landing carrying the D-70 repair was refused by the obligation ledger, citing two open incidents on a commit that does not exist; the shas were the fixture's",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/tests/test_deploy_obligations.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Both new cases now own every path the module writes to — log AND incidents — and each asserts afterwards that its own sandbox incidents directory is empty, so a write that escapes fails the case instead of passing it."
+        },
+        {
+          "object": "record/executive/incidents/ (two files against a fake sha)",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "RESOLVED through the mechanism with a recovery artifact, not deleted. They were deleted first, and the ledger refused the next read with StateUnknown because the recovery artifact cited incidents that no longer existed — deleting an artifact another artifact cites is what this record's invariants forbid, and the refusal was the invariant holding against the party that wrote it. Restored from copies taken before resolution, which was only possible because resolution attaches rather than edits."
+        },
+        {
+          "object": "record/executive/action-log.jsonl (two rows)",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "Two refused deploy attestations naming the fake commit, written by the first version of the D-70 fixture before it stubbed the attestation module. They stay: an append-only hash-chained log is not edited because a fixture put something in it. They are honest records of attestations that were attempted and refused, and the ledger's reconstruction of incidents from them was correct behaviour, not a malfunction."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Run the suites themselves under tools/effect_boundary.py. It watches a whole namespace and fails on any change not declared, so a fixture writing outside its sandbox would be caught by construction rather than by a landing being blocked. The harness exists and the suites do not run inside it; that is the general form of this defect and of D-62."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Introduced and found within the hour. The first diagnosis — a bisect implicating five suites — was wrong, drawn from co-occurrence with a background loop that was the actual cause."
       }
     }
   ]
