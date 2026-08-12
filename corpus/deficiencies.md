@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **59 entries** (D-01 … D-59).
+**Status:** open — **60 entries** (D-01 … D-60).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2350,3 +2350,54 @@ and `tools/tests/test_no_blank_cells.py` injects every shape on both matrices, w
 **Not remediated:** there is no closed-world inventory of published coverage matrices, so a
 fourth can be added tomorrow with nothing to notice it. The control-application row for control
 44 records that as its gap rather than claiming the control holds.
+
+### D-60 — The type built to enforce closed-world measurement did not enforce it, and both tools routed through it printed the counts it was withholding
+
+*Filed 2026-08-12. Found by external review reproducing four passing surveys that were nonsense,
+and by reading what the two routed tools actually printed before consulting the guard. Every gate
+was green and thirty suites passed.*
+
+Control 5 says a measurement over a population must parse every in-scope artifact or **refuse to
+emit any result at all**. That discipline lived inside `tools/derive_counts.py`, for one
+population, and the error it exists for had happened in a script that never called it. So the
+discipline was extracted into a type, `closed_world.Survey`, and two population-measuring tools
+were routed through it.
+
+**The type did not implement its own contract.** `seen(key)` discarded the key and `result()`
+checked only whether anything had been flagged unreadable or unregistered. Codex reproduced four
+surveys that returned a successful result:
+
+* one artifact seen, none counted;
+* ninety-nine counted with zero artifacts seen;
+* ninety-nine counted from one artifact;
+* an exclusion whose stated ground was ten spaces — the guard measured `len(decision)`.
+
+A type that accepts an incoherent walk is not a control; it is a shape with a docstring. Members
+now reach exactly one terminal state — accounted, excluded, unreadable or unregistered — a
+disposition for an undeclared key or a second disposition for the same key raises immediately,
+and a count with no accounted artifact behind it refuses.
+
+**Both integrations published the counts the guard was meant to withhold.** `scan_own_code.py`
+printed every per-class hit count and *then* called `result()`, with a comment saying those hits
+were not a result. A comment does not make a printed number a non-result. `control_coverage.py`
+printed HAS / NONE / NOT_APPLICABLE and a total before consulting the survey — the partial
+population counts the control protects, with the percentage merely the most quotable of them —
+and **`--check`, the path wired into landing, did not consult the survey at all.** Both now
+render nothing until the guard passes.
+
+`scan_own_code.py` also parsed every file once per detector while recording failures only during
+the first pass, so a file that became unreadable on a later pass was omitted silently: a coverage
+hole inside the coverage mechanism. It parses once now and retains the trees.
+
+**The test suite did not catch any of it**, and the reason is instructive. Its integration arms
+asserted the absence of the phrase `file(s) scanned` — a string removed in the same edit that
+introduced the leak. It forbade nothing while the real counts leaked past it, which is this
+record's dominant failure class: a green signal not causally downstream of what it certifies. The
+arms now name the tools' actual count labels.
+
+**Remediated and verified.** Forty-two cases in `tools/tests/test_closed_world.py`, including
+every incoherent-walk shape above, both tools' refusal on an injected unreadable file with no
+count of any kind surviving, and `--check` separately. **Not remediated:** routing is still
+per-tool and by hand, nothing detects a new tool that globs a directory and prints a count, and
+no type catches a population defined too narrowly — which is the half of the 2026-08-10 error
+that produced the published zero.

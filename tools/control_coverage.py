@@ -41,6 +41,8 @@ import re
 import sys
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+import closed_world                                                    # noqa: E402
 TOOLS = REPO_ROOT / "tools"
 TESTS = TOOLS / "tests"
 
@@ -219,6 +221,50 @@ def has_negative_control(stem: str) -> tuple[bool, str]:
     return (False, f"referenced by {referencing[0][0]} but no refusal is asserted near it")
 
 
+def survey_population() -> "closed_world.Survey":
+    """The walk, under control 5: a rate this cannot compute is not reported as a rate.
+
+    This tool publishes a PERCENTAGE over a population of files, which is exactly the shape
+    control 5 governs — and it read the tests by `read_text(errors="replace")` and parsed them
+    with `ast`, swallowing a SyntaxError into `pass`. A test file that would not parse simply
+    contributed nothing, and the percentage came out looking like a measurement.
+
+    That is not a hypothetical for this tool in particular. It has already been wrong in both
+    directions in one day: counting a tool named only in a comment, and missing one exercised
+    through a wrapper. A rate from an incomplete walk is the third way it could be wrong, and
+    the only one nobody would see.
+    """
+    survey = closed_world.Survey("tools with a negative control", scope="tools/*.py")
+    for path in tool_files():
+        survey.seen(path.name)
+        try:
+            ast.parse(path.read_text(encoding="utf-8"))
+        except (SyntaxError, UnicodeDecodeError, OSError) as error:
+            survey.unreadable(path.name, f"{type(error).__name__}: {error}")
+            continue
+        if path.name in NO_SIGNAL:
+            survey.excluded(path.name, NO_SIGNAL[path.name])
+            continue
+        ok, _why = has_negative_control(path.stem)
+        survey.accounted(path.name)
+        survey.count("has a negative control" if ok else "has none")
+    for t in sorted(TESTS.rglob("*.py")):
+        #  THE TESTS ARE IN SCOPE TOO. The verdict for every tool depends on reading them, so a
+        #  test this cannot parse makes every "NONE" unreliable, not just its own.
+        survey.seen(f"tests/{t.name}")
+        try:
+            ast.parse(t.read_text(encoding="utf-8"))
+        except (SyntaxError, UnicodeDecodeError, OSError) as error:
+            survey.unreadable(f"tests/{t.name}", f"{type(error).__name__}: {error}")
+            continue
+        #  A test is EVIDENCE, not a member of the measured denominator. It is in scope because
+        #  every tool's verdict depends on reading it — one unparseable test makes the whole NONE
+        #  set unreliable, not just its own — but it is accounted separately so it never inflates
+        #  the population the rate is computed over. Codex's distinction, 2026-08-12.
+        survey.accounted(f"tests/{t.name}")
+    return survey
+
+
 def rows() -> list[tuple[str, str, str]]:
     out = []
     for path in tool_files():
@@ -237,6 +283,20 @@ def main() -> int:
                         help="exit non-zero if any tool has no determination")
     args = parser.parse_args()
 
+    survey = survey_population()
+
+    #  CONTROL 5, BEFORE ANY NUMBER REACHES A READER. The first version consulted the survey
+    #  only just before the PERCENTAGE, having already printed HAS / NONE / NOT_APPLICABLE and a
+    #  total — which are the partial population counts the control protects, with the rate
+    #  merely the most quotable of them. And `--check` did not consult it at all, so the gate
+    #  passed on a population it could not fully read. Both found by Codex on 2026-08-12.
+    try:
+        survey.result()
+    except closed_world.IncompleteSurvey as refusal:
+        print(survey.report())
+        print(f"\n  NO COUNT AND NO RATE IS REPORTED: {refusal}", file=sys.stderr)
+        return 1
+
     data = rows()
     has = [r for r in data if r[1] == "HAS_NEGATIVE_CONTROL"]
     none = [r for r in data if r[1] == "NONE"]
@@ -249,7 +309,8 @@ def main() -> int:
             for r in undetermined:
                 print(f"  no determination for {r[0]}", file=sys.stderr)
             return 1
-        print(f"  every tool has a determination ({len(data)}).")
+        print(f"  every tool has a determination ({len(data)}), over a population that was "
+              f"fully read.")
         return 0
 
     print("  CONTROL 2 PER FILE — does each tool have a case it must fail?\n")

@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 59** classifications have been read by a human against the prose.
+**0 of 60** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -25,7 +25,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Where | Entries |
 |---|---|
 | the annotator | 35 |
-| an external reviewer | 12 |
+| an external reviewer | 13 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -37,12 +37,12 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | State | Entries |
 |---|---|
 | required, not implemented | 20 |
-| implemented, not validated | 32 |
+| implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**147 affected-object rows across 59 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**151 affected-object rows across 60 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -949,4 +949,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/control_application.py <br><sub>The unreachable guard now keys on the declaration rather than on completeness, and the reason-quality check the C44 row credited it with now exists. Both are exercised by injected faults.</sub> | repairable by supersession | verified |
 | tools/tests/test_no_blank_cells.py <br><sub>New. Injects every shape control 44 names on BOTH matrices, with baselines, and regression-tests that the page's own history paragraph survives whether or not any row is ticked.</sub> | repairable by supersession | verified |
 | record/findings/2026-08-08-search-capability-matrix.json <br><sub>A third published matrix that nothing checks; its first two rows omit a column the last two carry. Unremediated, and the reason control 44 is recorded as a gap rather than done.</sub> | partly repairable | not started |
+
+### D-60 — The type built to enforce closed-world measurement did not enforce it, and both tools routed through it printed the counts it was withholding
+
+[Full entry](deficiencies.md#d-60--the-type-built-to-enforce-closed-world-measurement-did-not-enforce-it-and-both-tools-routed-through-it-printed-the-counts-it-was-withholding)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `external review reproduced four passing surveys that were incoherent, and read what the two routed tools printed before consulting the guard`
+- **Prospective control:** implemented, not validated — Closed-world measurement as a type whose result is unreachable past an incomplete or incoherent walk. Routing remains per-tool and by hand; nothing detects a new tool that globs a directory and prints a count, and no type catches a population defined too narrowly.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/closed_world.py <br><sub>Per-key terminal states; misuse raises where it happens; counts with nothing accounted refuse; an exclusion ground is stripped before it is measured.</sub> | repairable by supersession | verified |
+| tools/scan_own_code.py <br><sub>Renders nothing until the guard passes, and parses once rather than once per detector.</sub> | repairable by supersession | verified |
+| tools/control_coverage.py <br><sub>Both the report path and --check consult the survey before any number is produced.</sub> | repairable by supersession | verified |
+| tools/tests/test_closed_world.py <br><sub>Its integration arms asserted the absence of a phrase removed in the same edit, so they forbade nothing. They now name the tools' actual count labels.</sub> | repairable by supersession | verified |
 

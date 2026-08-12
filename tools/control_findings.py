@@ -18,8 +18,8 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 9 of 29 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 20 came from reading, from running the
+**A detector fired for 9 of 31 — the largest single category, and every one of them control 53,
+whose defect shape is mechanically recognisable.** The other 22 came from reading, from running the
 fault, or from an outsider. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
 
@@ -222,6 +222,22 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "the last two carry — and nothing checks it. Enumerating the artifacts by hand and calling the "
   "set complete is the error control 19 names, committed while implementing control 44.",
   "external", "D-59; Codex review 2026-08-12"),
+
+ ("C5 closed-world",
+  "The TYPE built to enforce control 5 did not enforce it. seen() discarded the key and result() "
+  "checked only for unreadable artifacts, so four incoherent walks returned successful results — "
+  "including 99 counted with zero artifacts seen, and an exclusion whose stated ground was ten "
+  "spaces, because the guard measured len(). Both tools routed through it also PRINTED the "
+  "counts the guard was withholding, and control_coverage --check — the path wired into landing "
+  "— never consulted it.",
+  "external", "D-60; Codex review 2026-08-12"),
+
+ ("C2 negative control",
+  "The suite protecting the above asserted the absence of the phrase 'file(s) scanned' — a "
+  "string REMOVED in the same edit that introduced the leak. It forbade nothing while the real "
+  "counts leaked past it: a green signal not causally downstream of what it certifies, inside "
+  "a control-2 fixture.",
+  "external", "D-60; tools/tests/test_closed_world.py"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "

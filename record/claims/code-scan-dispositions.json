@@ -238,7 +238,7 @@
       "line_text": "matched = actual.get(identity, 0)",
       "class": "C53a",
       "disposition": "legitimate",
-      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero \u2014 a model asserted present that produced nothing \u2014 and says recording the absence is the point.",
+      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero — a model asserted present that produced nothing — and says recording the absence is the point.",
       "read": "individually"
     },
     "6adfeedcf207981b": {
@@ -246,7 +246,7 @@
       "line_text": "if actual.get(identity, 0) != 0:",
       "class": "C53a",
       "disposition": "legitimate",
-      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero \u2014 a model asserted present that produced nothing \u2014 and says recording the absence is the point.",
+      "why": "DOCUMENTED IN PLACE: the comment above states a deliberate zero — a model asserted present that produced nothing — and says recording the absence is the point.",
       "read": "individually"
     },
     "f7c786313da41adf": {
@@ -287,6 +287,30 @@
       "class": "D-E",
       "disposition": "legitimate",
       "why": "read individually 2026-08-11: this returns a TYPED UNKNOWN that the caller checks, which is control 53 done RIGHT rather than violated. git_optional is documented as 'legitimately may not exist'; land.py's _api says the caller must treat None as UNOBSERVED; watch_arrivals reports QUERY FAILED. The detector cannot see the caller, so it flags the correct pattern and the incorrect one alike.",
+      "read": "individually"
+    },
+    "9134af4bcd3550f6": {
+      "file": "tools/deploy_obligations.py",
+      "line_text": "return None",
+      "class": "D-E",
+      "disposition": "legitimate",
+      "why": "a typed unknown the caller handles. None from _api means the GitHub API could not be read; observe() turns it into a PENDING state with retriable=True, and no caller treats it as an answer. Control 53 done right.",
+      "read": "individually"
+    },
+    "bd8e1d54a2a90461": {
+      "file": "tools/build_register_view.py",
+      "line_text": "f\"**{review.get('reviewed_by_custodian', 0)} of {len(entries)}** classifications have been \"",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "a KNOWN zero, and it was 0 -> '?' -> 0 in one day. review is a Counter built over EVERY entry's status, so an absent bucket means no entry holds that status. The '?' sweep manufactured an unknown out of a fact and published '? of 58' where the truth is '0 of 58'. The genuine unknown is an entry MISSING the key, which raises three lines above.",
+      "read": "individually"
+    },
+    "f60f4d46ab3fe782": {
+      "file": "tools/control_findings.py",
+      "line_text": "detector_n = by_how.get(\"detector\", 0)",
+      "class": "C53a",
+      "disposition": "legitimate",
+      "why": "a known zero for the same reason: by_how is built over every finding, so an absent bucket is counted rather than unmeasured. If no finding came from a detector, zero is the true answer.",
       "read": "individually"
     }
   }

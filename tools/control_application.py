@@ -135,11 +135,27 @@ APPLICATION: dict[int, dict] = {
          gap="The lease checks action class, expiry and a max-actions count. It does not check token subject, resource scope, nonce or revocation, and the control names all four. Scope-m"
              "atching in particular is unimplemented — one lease authorises everything."),
  5: dict(scope=CODE,
-         files=("tools/derive_counts.py", "tools/validate_provenance.py"),
-         tests=("tools/tests/test_derive_counts.py",),
-         gap="Enforced inside derive_counts.py and NOT at the call sites. The '0 searches across "
-             "83 tool calls' error happened in a script that never called it, and nothing routes "
-             "population measurements through it. Routing is unbuilt."),
+         files=("tools/closed_world.py", "tools/derive_counts.py", "tools/scan_own_code.py",
+                "tools/control_coverage.py", "tools/validate_provenance.py"),
+         tests=("tools/tests/test_closed_world.py", "tools/tests/test_derive_counts.py"),
+         gap="The discipline is now a TYPE rather than one function's habit — closed_world.Survey "
+             "requires every declared member to reach exactly one terminal state and raises "
+             "otherwise, and TWO population-measuring tools render nothing until it passes, "
+             "proved by injecting an unreadable file and asserting their own count labels are "
+             "absent. Both the type and the routing FAILED their first review: the type returned "
+             "results for four incoherent walks, and both tools printed the counts the guard was "
+             "meant to withhold. See D-60. "
+             "WHAT REMAINS: routing is per-tool and by hand. Nothing detects a NEW tool that "
+             "globs a directory, counts, and prints — which is exactly how the original error "
+             "happened, in a script that never called the disciplined one. gate_health.py, "
+             "aggregate_captures.py, analyze_concurrence.py and the page builders all walk "
+             "populations and are unrouted. And no type catches a population defined too "
+             "NARROWLY: the 2026-08-10 error was partly that shape — the walk looked only where "
+             "`samples` lived — and Survey would have reported a complete walk over the wrong "
+             "set.",
+         residue="That the population is the right population. Survey makes an incomplete walk "
+                 "unreportable; whether the scope names everything in scope is a judgement, and "
+                 "the judgement is the half that produced the published zero."),
  6: dict(scope=NOT_CODE,
          reason="Role separation is a property of WHO acts, not of code. One operator holds "
                 "proposal selection, instrument authorship, execution and interpretation. No "

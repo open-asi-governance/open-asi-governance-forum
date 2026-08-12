@@ -40,6 +40,8 @@ import pathlib
 import sys
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+import closed_world                                                    # noqa: E402
 SCANNED = REPO_ROOT / "tools"
 
 
@@ -265,32 +267,61 @@ def main() -> int:
     if run_fixtures() != 0:
         return 1
     print()
-    files = unparsed = 0
+    #  CONTROL 5 THROUGH A TYPE, and NOTHING IS PRINTED UNTIL IT PASSES. The first version
+    #  surveyed the walk and then printed every hit count BEFORE calling result(), with a comment
+    #  saying those hits were not a result. A comment does not make a printed number a non-result.
+    #  Codex: "parse once, retain the trees, validate, then render only after result() succeeds."
+    #
+    #  PARSED ONCE, not once per detector. The first version parsed every file inside each class's
+    #  loop and recorded failures only during the FIRST pass, so a file that became unreadable on
+    #  a later pass was silently omitted — a coverage hole inside the coverage mechanism.
+    survey = closed_world.Survey("defect-class scan over this repository's own tools",
+                                 scope=str(SCANNED.relative_to(REPO_ROOT)) + "/**/*.py")
+    trees: dict[str, ast.AST] = {}
+    sources: dict[str, list[str]] = {}
+    for path in sorted(SCANNED.rglob("*.py")):
+        rel = str(path.relative_to(REPO_ROOT))
+        survey.seen(rel)
+        try:
+            text = path.read_text(encoding="utf-8")
+            trees[rel] = ast.parse(text)
+            sources[rel] = text.splitlines()
+        except Exception as error:                                       # noqa: BLE001
+            survey.unreadable(rel, f"{type(error).__name__}: {error}")
+            continue
+        survey.accounted(rel)
+
     disp = load_dispositions()
+    rendered: list[str] = []
     for label, fn in CLASSES.items():
         hits, dispositioned = [], 0
-        for path in sorted(SCANNED.rglob("*.py")):
-            try:
-                text = path.read_text(encoding="utf-8")
-                tree = ast.parse(text)
-            except Exception:                                            # noqa: BLE001
-                unparsed += 1
-                continue
-            source_lines = text.splitlines()
+        for rel, tree in trees.items():
+            lines = sources[rel]
             for n in fn(tree):
-                line_text = source_lines[n - 1] if n <= len(source_lines) else ""
-                if site_key(path.relative_to(REPO_ROOT), line_text) in disp:
+                line_text = lines[n - 1] if n <= len(lines) else ""
+                if site_key(pathlib.Path(rel), line_text) in disp:
                     dispositioned += 1
                     continue
-                hits.append(f"{path.relative_to(REPO_ROOT)}:{n}")
-        print(f"  {label}: {len(hits)} undispositioned"
-              f"{f', {dispositioned} dispositioned' if dispositioned else ''}")
-        for h in hits[:8]:
-            print(f"      {h}")
+                hits.append(f"{rel}:{n}")
+        survey.count(f"{label} — undispositioned", len(hits))
+        if dispositioned:
+            survey.count(f"{label} — dispositioned", dispositioned)
+        rendered.append(f"  {label}: {len(hits)} undispositioned"
+                        + (f", {dispositioned} dispositioned" if dispositioned else ""))
+        rendered += [f"      {h}" for h in hits[:8]]
         if len(hits) > 8:
-            print(f"      … {len(hits) - 8} more")
-    files = len(list(SCANNED.rglob("*.py")))
-    print(f"\n  {files} file(s) scanned, {unparsed} unparsed.")
+            rendered.append(f"      … {len(hits) - 8} more")
+
+    #  THE GUARD, BEFORE ANY OF IT REACHES A READER.
+    try:
+        survey.result()
+    except closed_world.IncompleteSurvey as refusal:
+        print(survey.report())
+        print(f"\n  REFUSED: {refusal}", file=sys.stderr)
+        return 1
+    print("\n".join(rendered))
+    print()
+    print(survey.report())
     print("  A HIT IS A CANDIDATE, NOT A DEFECT. On 2026-08-11 all six D-E hits were functions")
     print("  returning a typed unknown that the caller checks — correct, not broken.")
     print("  This is not a compliance check against the register. See the module docstring.")

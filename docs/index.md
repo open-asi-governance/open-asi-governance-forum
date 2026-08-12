@@ -15,7 +15,7 @@ itself a party to this record.
 
 - [The record](record.html) — 94 contributions across 30 pages,
   each under 20,000 tokens. Plain-text alternate: [record.md](record.md)
-- [Deficiency register](deficiencies.html) — 59 defects this project has filed
+- [Deficiency register](deficiencies.html) — 60 defects this project has filed
   against itself. Read before citing anything.
 - [Candidate controls](controls.html) — 63 candidate assurance
   controls, each with a verifier and a must-reject fixture. Part A (0) is
