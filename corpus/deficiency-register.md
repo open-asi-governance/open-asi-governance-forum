@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 58** classifications have been read by a human against the prose.
+**0 of 59** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -25,7 +25,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | Where | Entries |
 |---|---|
 | the annotator | 35 |
-| an external reviewer | 11 |
+| an external reviewer | 12 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 19 |
+| required, not implemented | 20 |
 | implemented, not validated | 32 |
 | validated | 7 |
 
 ### Affected objects
 
-**144 affected-object rows across 58 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**147 affected-object rows across 59 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -934,4 +934,19 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/land.py <br><sub>The gate-admission policy is a named, tested predicate admitting only zero. The control 23 interlock is applied: an undischarged deployment obligation refuses an ordinary landing, --no-deploy-check is unavailable while one is open, and a resolved incident id is not a skeleton key. NOT VERIFIED IN THE FIELD: 40 fixture cases pass, and no real deploy failure has yet been driven through the live path.</sub> | partly repairable | applied, not verified |
 | tools/gate_health.py <br><sub>Counted every non-success deploy as UNOBSERVED, collapsing 'nobody waited' with 'waited and it failed'. Now three states plus a consecutive-trailing-failure count, which reads 6.</sub> | repairable by supersession | verified |
 | tools/deploy_obligations.py <br><sub>New. The obligation ledger that supplies control 23's containment behaviour. Bootstrapped from the six historical failures rather than starting at its own installation. Not verified in the field.</sub> | repairable by supersession | applied, not verified |
+
+### D-59 — Two guards in the compliance matrices could never fire, and one of them was described on the published page as if it did
+
+[Full entry](deficiencies.md#d-59--two-guards-in-the-compliance-matrices-could-never-fire-and-one-of-them-was-described-on-the-published-page-as-if-it-did)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `the unreachable guard surfaced while writing the control-2 fixture for the tool containing it; the advertised-but-absent guard was found by external review injecting the exact inputs the published page claimed were refused`
+- **Prospective control:** required, not implemented — A closed-world inventory of published coverage matrices: an artifact type, a requirement that every such artifact registers, and a completeness validator run over the registry. Guarding two enumerated artifacts cannot make the control hold while a fourth can be added without notice — which is control 19's error committed while implementing control 44.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/control_application.py <br><sub>The unreachable guard now keys on the declaration rather than on completeness, and the reason-quality check the C44 row credited it with now exists. Both are exercised by injected faults.</sub> | repairable by supersession | verified |
+| tools/tests/test_no_blank_cells.py <br><sub>New. Injects every shape control 44 names on BOTH matrices, with baselines, and regression-tests that the page's own history paragraph survives whether or not any row is ticked.</sub> | repairable by supersession | verified |
+| record/findings/2026-08-08-search-capability-matrix.json <br><sub>A third published matrix that nothing checks; its first two rows omit a column the last two carry. Unremediated, and the reason control 44 is recorded as a gap rather than done.</sub> | partly repairable | not started |
 

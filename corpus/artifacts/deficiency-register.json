@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "03e2cf64346f691f26f0222822c0e63adc4a4d87ba4b3b1f36937a128252264b"
+    "sha256": "10a49027ec0d570af0c1d30de730430c49f3640944110e4e300b90d1daf1260d"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2343,7 +2343,7 @@
     {
       "id": "D-58",
       "title": "The context gate read \"not measurable here\" as \"measured and bad\", and silently stopped publishing for eight commits",
-      "section_sha256": "6cbee38abb7cca1efa8c0062d819a9c3eb0f5493aeb9aa6c007d65c39058dac2",
+      "section_sha256": "c56b87b263b674d70f3443ac8497de1e69d5a36eb84792c8039d8ff41dba0da9",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2386,6 +2386,46 @@
       "prospective_control": {
         "state": "prospective_control_implemented_not_validated",
         "mechanism": "An observed failed postcondition opens a durable incident that refuses the next ordinary landing until resolved against evidence. Implemented in tools/deploy_obligations.py and enforced in tools/land.py. It constrains the sanctioned path only; it does not constrain an operator who edits it."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-59",
+      "title": "Two guards in the compliance matrices could never fire, and one of them was described on the published page as if it did",
+      "section_sha256": "7c4f1395604314fdc5855507a1e8029750b2c5cb13e2887655bd233f8a532fa7",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-12",
+        "where": "the unreachable guard surfaced while writing the control-2 fixture for the tool containing it; the advertised-but-absent guard was found by external review injecting the exact inputs the published page claimed were refused",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/control_application.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The unreachable guard now keys on the declaration rather than on completeness, and the reason-quality check the C44 row credited it with now exists. Both are exercised by injected faults."
+        },
+        {
+          "object": "tools/tests/test_no_blank_cells.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "New. Injects every shape control 44 names on BOTH matrices, with baselines, and regression-tests that the page's own history paragraph survives whether or not any row is ticked."
+        },
+        {
+          "object": "record/findings/2026-08-08-search-capability-matrix.json",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_not_started",
+          "note": "A third published matrix that nothing checks; its first two rows omit a column the last two carry. Unremediated, and the reason control 44 is recorded as a gap rather than done."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A closed-world inventory of published coverage matrices: an artifact type, a requirement that every such artifact registers, and a completeness validator run over the registry. Guarding two enumerated artifacts cannot make the control hold while a fourth can be added without notice — which is control 19's error committed while implementing control 44."
       },
       "human_review": {
         "status": "not_reviewed",

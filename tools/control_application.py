@@ -341,10 +341,25 @@ APPLICATION: dict[int, dict] = {
  44: dict(scope=CODE,
           files=("tools/self_application.py", "tools/control_application.py",
                  "tools/control_findings.py"),
-          tests=("tools/tests/test_executive_log.py",),
-         gap="The completeness logic exists in this file and in self_application.py, and the cited test does not test it. There is no negative case for a missing row, a missing reason, o"
-             "r a reason indistinguishable from an omission — which is the whole of what the control"
-             " asks a verifier to catch."),
+          tests=("tools/tests/test_no_blank_cells.py",),
+          gap="TWO enumerated matrices are guarded — a missing row, a row for an unregistered "
+              "control, an invented state, and a cell filled with something indistinguishable "
+              "from an omission are all refused in both. That is not the control. **A third "
+              "matrix already exists and nothing checks it**: "
+              "record/findings/2026-08-08-search-capability-matrix.json, called the "
+              "'full four-endpoint matrix' by round_cycle.py, whose first two rows omit a column "
+              "the last two carry. Guarding two named artifacts cannot make the control hold "
+              "repository-wide while a fourth can be published tomorrow without registering. "
+              "What is missing is a closed-world inventory: an artifact type for published "
+              "coverage matrices, a requirement that every one registers, and a completeness "
+              "validator run over the registry. This row was TICKED until Codex found the third "
+              "matrix on 2026-08-12, which is the same 'enumerated by hand and therefore "
+              "complete' error control 19 is about.",
+          residue="That any filled cell is CORRECT. This repository has published a complete "
+                  "matrix that was wrong — three controls marked ENFORCED citing a file that did "
+                  "not exist, and the completeness check passed over it because the reason "
+                  "string was long enough. Control 44 asks for no silent blank cells and nothing "
+                  "more; a second party is what would supply more."),
  45: dict(scope=CODE,
           files=("tools/control_coverage.py", "tools/executive_log.py"),
           tests=("tools/tests/test_deploy_check.py", "tools/tests/test_gate_negative_controls.py"),
@@ -537,8 +552,21 @@ def problems(all_rows: list[dict]) -> list[str]:
                        f"compliance row pointing at a deleted file is the failure mode of every "
                        f"hand-maintained matrix.")
         if r["scope"] == NOT_CODE:
-            if not r["reason"]:
+            #  NOT MERELY NON-EMPTY. This checked `if not reason` only, while this table's own
+            #  C44 row claimed both published matrices reject "n/a", "not applicable" and
+            #  reasons too short to state a structure. Codex injected all three and got no
+            #  objection — the row was describing a check that existed in the other matrix and
+            #  not in this one. Control 44's whole point is that a filled cell can be an
+            #  omission wearing a label, and the claim was itself an instance.
+            reason = (r["reason"] or "").strip()
+            hollow = reason.lower().rstrip(".") in {
+                "", "n/a", "na", "none", "not applicable", "does not apply", "no", "-", "—"}
+            if not reason:
                 out.append(f"C{rank}: marked '—' with no structural reason.")
+            elif hollow or len(reason) < 40:
+                out.append(f"C{rank}: marked '—' with a reason that restates the mark instead "
+                           f"of giving a structure ({reason[:40]!r}). A cell filled with "
+                           f"'not applicable' is an omission wearing a label.")
             if r["files"] or r["tests"]:
                 out.append(f"C{rank}: marked '—' and yet names code. One of the two is wrong.")
             if determined.get(rank, ("",))[0] in ("ENFORCED",):
@@ -547,8 +575,15 @@ def problems(all_rows: list[dict]) -> list[str]:
         else:
             if not r["files"]:
                 out.append(f"C{rank}: scope is code and no file is named.")
-            if r["complete"] and not r["tests"]:
-                out.append(f"C{rank}: ticked with no test.")
+            #  ON `declared`, NOT `complete`. `complete` already requires tests, so
+            #  `complete and not tests` was UNREACHABLE — a dead guard that read as a live one.
+            #  Its consequence was quiet: declaring a row finished while naming no test produced
+            #  a ☐ and no objection, so the author's declaration was discarded in silence rather
+            #  than refused. Found on 2026-08-12 by the C44 fixture written to exercise it.
+            if r["declared"] and not r["tests"]:
+                out.append(f"C{rank}: declared complete and names no test. The declaration "
+                           f"cannot be substantiated, and downgrading it silently is how a "
+                           f"table stops disagreeing with the person filling it in.")
             if r["gap"] and len(r["gap"]) < 30:
                 out.append(f"C{rank}: the gap is too short to name what remains.")
             if determined.get(rank, ("",))[0] == "NOT_APPLICABLE":
@@ -612,23 +647,29 @@ def markdown(all_rows: list[dict]) -> str:
         f"**{len(na)}** govern no code here and say why.",
         "",
     ]
-    if ticked == 0:
-        lines += [
-            "**Nothing is ticked, and that is the finding.** An earlier draft of this table "
-            "ticked fourteen rows. External review went through them against the *registered "
-            "control text* rather than against what had been built, and none survived. The "
-            "recurring defect has a name: **a missing machine-testable requirement was being "
-            "classified as \"not closable in code\"**. Control 4 was ticked with a note about "
-            "the custodian being the only party present, while the lease it names checks "
-            "neither token subject, resource scope, nonce nor revocation — four requirements in "
-            "the control's own text, all unimplemented. Controls 18, 23 and 62 admitted the "
-            "missing work in their own notes and stayed ticked anyway.",
-            "",
-            f"{substantiated} of the {len(code_rows)} code-governing rows are **substantiated** "
-            f"— they name code and tests that exist. None is **declared finished**. Those are "
-            f"different facts and the table now keeps them apart.",
-            "",
-        ]
+    #  THE HISTORY IS UNCONDITIONAL. It was inside `if ticked == 0`, so the moment the first
+    #  row was ticked the warning vanished — exactly when a reader most needs it, because a
+    #  table showing progress invites more trust than one showing none. What was conditional on
+    #  the count is now only the first sentence.
+    lines += [
+        ("**Nothing is ticked, and that is the finding.**" if ticked == 0 else
+         f"**{ticked} of these rows {'is' if ticked == 1 else 'are'} ticked, and the history of "
+         f"this table is the reason to read a tick narrowly.**")
+        + " An earlier draft ticked **fourteen** rows. External review went through them "
+        "against the *registered control text* rather than against what had been built, and "
+        "**none survived**. The recurring defect has a name: a missing machine-testable "
+        "requirement was being classified as \"not closable in code\". Control 4 was ticked with "
+        "a note about the custodian being the only party present, while the lease it names "
+        "checks neither token subject, resource scope, nonce nor revocation — four requirements "
+        "in the control's own text, all unimplemented. Controls 18, 23 and 62 admitted the "
+        "missing work in their own notes and stayed ticked anyway.",
+        "",
+        f"{substantiated} of the {len(code_rows)} code-governing rows are **substantiated** — "
+        f"they name code and tests that exist. {ticked} "
+        f"{'is' if ticked == 1 else 'are'} **declared finished**. Those are different facts and "
+        f"the table keeps them apart.",
+        "",
+    ]
     lines += [
         "## What the checkbox means",
         "",

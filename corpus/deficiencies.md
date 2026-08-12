@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **58 entries** (D-01 … D-58).
+**Status:** open — **59 entries** (D-01 … D-59).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2303,3 +2303,50 @@ custodian can edit the tool, the action log, the workflow and the repository set
 every credential involved; it prevents inattentive repetition, not intent. Calling it governance
 would be the theatre this project exists to object to. `--remediating` records what a landing
 claims to fix and cannot establish that it does.
+
+### D-59 — Two guards in the compliance matrices could never fire, and one of them was described on the published page as if it did
+
+*Filed 2026-08-12. The first was found by writing the control-2 fixture for the tool that
+contains it; the second by external review injecting the exact inputs the page claimed were
+refused. Neither was found by reading the code, and both had been green on every landing.*
+
+`tools/control_application.py` publishes a per-control table of what this repository's code does
+about each registered control, and gates every landing on `--check`. Two of its guards were
+inert.
+
+**The unreachable one.** `problems()` contained:
+
+> `if r["complete"] and not r["tests"]:`
+> `    out.append(f"C{rank}: ticked with no test.")`
+
+`complete` is *defined* as requiring non-empty tests, so the conjunction is unsatisfiable. The
+consequence was quiet rather than loud: declaring a row finished while naming no test produced a
+`☐` and **no objection at all**, so the author's declaration was discarded in silence. A table
+whose purpose is to disagree with the person filling it in had stopped disagreeing on that path.
+
+**The one that was advertised.** The same file's C44 row stated that both published matrices
+reject a cell filled with something indistinguishable from an omission — `"n/a"`, `"not
+applicable"`, a reason too short to state a structure. That was true of
+`tools/self_application.py` and **false of `control_application.py` itself**, which checked only
+`if not reason`. Codex injected all three variants and each produced no objection. The claim was
+an instance of the very defect control 44 names: a cell filled with a label instead of a
+structure, published as though the check behind it existed.
+
+**Why the fixtures found them and reading did not.** Both guards read correctly in isolation.
+The first is wrong only in relation to a definition three functions away; the second is wrong
+only in relation to a sentence in a different data structure in the same file. Control 2 asks
+for a condition under which the check MUST fail, and producing that condition is what made the
+difference — twice, in the same afternoon, in the tool that reports on control coverage.
+
+**A third finding rides along.** Control 44 was marked done on the strength of two guarded
+matrices. `record/findings/2026-08-08-search-capability-matrix.json` — called the "full
+four-endpoint matrix" by `tools/round_cycle.py` — is a third, whose first two rows omit a column
+the last two carry, and nothing checks it. Enumerating the artifacts by hand and calling the set
+complete is the error control 19 exists to name, committed while implementing control 44.
+
+**Remediated in part.** The unreachable guard now keys on the declaration rather than on
+completeness; `control_application.py` gained the reason-quality check it had been credited with;
+and `tools/tests/test_no_blank_cells.py` injects every shape on both matrices, with baselines.
+**Not remediated:** there is no closed-world inventory of published coverage matrices, so a
+fourth can be added tomorrow with nothing to notice it. The control-application row for control
+44 records that as its gap rather than claiming the control holds.

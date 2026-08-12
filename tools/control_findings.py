@@ -18,8 +18,8 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 9 of 27 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 18 came from reading, from running the
+**A detector fired for 9 of 29 — the largest single category, and every one of them control 53,
+whose defect shape is mechanically recognisable.** The other 20 came from reading, from running the
 fault, or from an outsider. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
 
@@ -206,6 +206,22 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "constant and drives it through a wrapper. Removing the first error exposed the second. Suites "
   "now DECLARE what they cover, and a declaration without a refusal assertion does not count.",
   "external", "D-58 neighbourhood; tools/tests/test_gate_refusals.py"),
+
+ ("C2 negative control",
+  "Two guards in control_application.py could never fire. `complete and not tests` was "
+  "UNREACHABLE because complete is defined to require tests, so declaring a row finished with no "
+  "test was discarded in SILENCE rather than refused. And the C44 row stated that both published "
+  "matrices reject 'n/a' and 'not applicable' — true of self_application.py, false of "
+  "control_application.py, which checked only for emptiness. The claim was itself the defect "
+  "control 44 names: a cell filled with a label instead of a structure.",
+  "negative-control", "D-59; tools/tests/test_no_blank_cells.py"),
+
+ ("C19 protected set",
+  "Control 44 was marked done on the strength of two guarded matrices. A THIRD already exists — "
+  "record/findings/2026-08-08-search-capability-matrix.json, whose first two rows omit a column "
+  "the last two carry — and nothing checks it. Enumerating the artifacts by hand and calling the "
+  "set complete is the error control 19 names, committed while implementing control 44.",
+  "external", "D-59; Codex review 2026-08-12"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "
