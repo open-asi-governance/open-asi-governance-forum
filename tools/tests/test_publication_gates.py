@@ -23,6 +23,12 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
+#  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool
+#  named here must exist and this file must assert a refusal, or the scan fails —
+#  a declaration is a claim, not a substitute for the case.
+COVERS = ("check_page_budget.py",
+          "capture_gates.py")
+
 passed = FAILED = 0
 
 

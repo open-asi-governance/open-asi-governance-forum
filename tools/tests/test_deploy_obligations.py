@@ -35,6 +35,12 @@ import sys
 import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+#  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool
+#  named here must exist and this file must assert a refusal, or the scan fails —
+#  a declaration is a claim, not a substitute for the case.
+COVERS = ("deploy_obligations.py",
+          "land.py")
+
 passed = FAILED = 0
 
 

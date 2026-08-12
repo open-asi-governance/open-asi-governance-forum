@@ -18,8 +18,8 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 10 of 26 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 16 came from reading, from running the
+**A detector fired for 9 of 27 — the largest single category, and every one of them control 53,
+whose defect shape is mechanically recognisable.** The other 18 came from reading, from running the
 fault, or from an outsider. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
 
@@ -88,8 +88,14 @@ FINDINGS: list[tuple[str, str, str, str]] = [
 
  ("C53 typed unknown",
   "build_register_view.py published '0 of N classifications reviewed' on a missing key; "
-  "build_round_pages.py published 'Fetched 0 page(s)'. Both now print '?'.",
-  "detector", "42fda21"),
+  "build_round_pages.py published 'Fetched 0 page(s)'. Both now print '?'. **CORRECTED "
+  "2026-08-12: the build_register_view half of this was applied in the WRONG DIRECTION.** The "
+  "value came from a Counter built over every entry, so an absent bucket is a known zero, not a "
+  "missing measurement — the change published '? of 58' where the truth is '0 of 58', "
+  "manufacturing an unknown out of a fact. The genuine unknown is an entry missing the KEY, "
+  "which raises, and is now the case the test asserts. Found by Codex reviewing the test written "
+  "to protect the original repair.",
+  "external", "42fda21; corrected in tools/build_register_view.py"),
 
  ("C53 typed unknown",
   "solicit_tools.py printed tools=0 on a missing tool_calls key — the '0 searches across 83 tool "
@@ -191,6 +197,15 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "second overwrote the first and the incidents it had closed silently REOPENED — a correction "
   "editing a correction, in the tool whose rule is that corrections attach.",
   "external", "D-58; Codex re-review 2026-08-12"),
+
+ ("C2 negative control",
+  "control_coverage.py, which MEASURES control 2, had both errors at once. It counted tools "
+  "named only in a COMMENT — a note recording that arm_acceptance.py cannot have a negative "
+  "control was itself reported as that tool's coverage — and it missed check_executive_context.py, "
+  "which has fifteen fixture-driven refusal cases, because the suite binds the tool name to a "
+  "constant and drives it through a wrapper. Removing the first error exposed the second. Suites "
+  "now DECLARE what they cover, and a declaration without a refusal assertion does not count.",
+  "external", "D-58 neighbourhood; tools/tests/test_gate_refusals.py"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "

@@ -111,10 +111,18 @@ APPLICATION: dict[int, dict] = {
                 "tools/control_coverage.py", "tools/scan_own_code.py"),
          tests=("tools/tests/test_fault_injection.py",
                 "tools/tests/test_gate_negative_controls.py",
-                "tools/tests/test_publication_gates.py", "tools/tests/test_chain_guards.py"),
-         gap="control_coverage.py reports the tools that still have no case they must fail. "
-             "Roughly half of them do not. Until that reaches every gate-like tool and every "
-             "number-producer, the control's own requirement is unmet in this codebase."),
+                "tools/tests/test_publication_gates.py", "tools/tests/test_chain_guards.py",
+                "tools/tests/test_gate_refusals.py"),
+         gap="Run tools/control_coverage.py for the current list and the current rate — the "
+             "number is deliberately not transcribed here, because a figure typed beside the "
+             "tool that computes it is this record's most frequent defect. What remains, in "
+             "leverage order: arm_acceptance.py, which gates whether a tool-using arm's first "
+             "sample counts and CANNOT have a negative control as written — its checks are "
+             "computed inline in main() from a live subprocess, so there is no pure function to "
+             "feed a fixture to, and extracting them is the next piece of work. Then the "
+             "remaining number-producers, then the page builders. Coverage above the floor is "
+             "not measured at all: control 2 asks that a check be observed to fail once, and "
+             "nothing here establishes that any of these controls is demanding."),
  3: dict(scope=CODE,
          files=("tools/reconcile_actions.py", "tools/executive_log.py", "tools/land.py"),
          tests=("tools/tests/test_reconcile.py", "tools/tests/test_executive_log.py"),

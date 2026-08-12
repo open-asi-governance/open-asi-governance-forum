@@ -120,7 +120,14 @@ def render_markdown(doc: dict) -> str:
         "one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was "
         "classified. **It never verifies meaning**, and a deterministic rule that claimed to would "
         "be D-25 over again.\n\n",
-        f"**{review.get('reviewed_by_custodian', '?')} of {len(entries)}** classifications have been "
+        #  0, NOT '?'. `review` is a Counter built by iterating EVERY entry's status, so an
+        #  absent bucket means no entry has that status — a known zero, not a missing
+        #  measurement. A C53 sweep changed this to '?' and published "? of 58" where the truth
+        #  is "0 of 58": control 53 applied in the wrong direction, manufacturing an unknown out
+        #  of a fact. Found by Codex on 2026-08-12 while reviewing the test written to protect
+        #  the original repair. The genuine unknown is the KEY being absent, which raises three
+        #  lines above and is what test_gate_refusals.py asserts.
+        f"**{review.get('reviewed_by_custodian', 0)} of {len(entries)}** classifications have been "
         "read by a human against the prose.\n\n",
         "On attribution: this project cannot observe who first *privately noticed* a defect, so it "
         "records where one was first *written down*, with an evidence class. A question that "
@@ -433,7 +440,17 @@ those terms.</p>
 
 def main() -> int:
     if not ARTIFACT.is_file():
-        print(f"missing {ARTIFACT.relative_to(REPO_ROOT)}")
+        #  NOT a bare `.relative_to(REPO_ROOT)`, which raises ValueError for a path outside the
+        #  repo. NARROWLY STATED: in production ARTIFACT is constructed under REPO_ROOT, so this
+        #  was a TESTABILITY defect rather than a live crash — the refusal branch could not be
+        #  exercised by repointing the constant, which is how a fault gets injected here. An
+        #  earlier version of this comment called it a live refusal-path crash, which overstated
+        #  it; Codex narrowed it on 2026-08-12.
+        try:
+            shown = ARTIFACT.relative_to(REPO_ROOT)
+        except ValueError:
+            shown = ARTIFACT
+        print(f"missing {shown}")
         return 1
     doc = load()
 

@@ -66,6 +66,13 @@ print("\nthe live attestation's verdict matches its own recorded outcomes")
 #  verdict goes red when the world improves; what is worth pinning is that the verifier's answer
 #  and the attestation's recorded outcomes cannot disagree.
 import json                                                             # noqa: E402
+
+#  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool
+#  named here must exist and this file must assert a refusal, or the scan fails —
+#  a declaration is a claim, not a substitute for the case.
+COVERS = ("verify_fault_injection.py",
+          "verify_negative_control.py")
+
 att = ROOT.parent / "record" / "attestations" / "ncp-2026-08-10-consullo.json"
 code, problems = v.verify(att)
 doc = json.loads(att.read_text())
