@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 60** classifications have been read by a human against the prose.
+**0 of 62** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,8 +24,8 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 35 |
-| an external reviewer | 13 |
+| the annotator | 36 |
+| an external reviewer | 14 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 20 |
+| required, not implemented | 22 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**151 affected-object rows across 60 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**157 affected-object rows across 62 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -965,4 +965,34 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 | tools/scan_own_code.py <br><sub>Renders nothing until the guard passes, and parses once rather than once per detector.</sub> | repairable by supersession | verified |
 | tools/control_coverage.py <br><sub>Both the report path and --check consult the survey before any number is produced.</sub> | repairable by supersession | verified |
 | tools/tests/test_closed_world.py <br><sub>Its integration arms asserted the absence of a phrase removed in the same edit, so they forbade nothing. They now name the tools' actual count labels.</sub> | repairable by supersession | verified |
+
+### D-61 — The gate against fabricated party quotations could not see a quotation that wraps, so it checked none
+
+[Full entry](deficiencies.md#d-61--the-gate-against-fabricated-party-quotations-could-not-see-a-quotation-that-wraps-so-it-checked-none)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `reading check_quotations.py while enrolling it in the guard registry; measured 235 candidates, 1 attributed, 0 checked across the 98 files it scans`
+- **Prospective control:** required, not implemented — Nothing establishes that a negative control injects the fault in the form that OCCURS rather than the form that was imagined. A fixture corpus drawn from the record's real shapes — wrapped prose, parenthetical provenance, blockquotes — would be the mechanism; reading the gate is not one.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/check_quotations.py <br><sub>Patterns admit a single newline and refuse a blank line. 350 candidates and 4 attributions after the repair; the verbatim party amendment in the pinned instructions is checked for the first time. A literal `if True:` wrapping the whole loop was also removed.</sub> | repairable by supersession | verified |
+| tools/tests/test_gate_negative_controls.py <br><sub>Its fabricated-quotation fixtures were single-line, so they exercised the only shape the gate could see. Wrapped arms added and the single-line arms retained per control 45; a paragraph-break arm bounds the new pattern.</sub> | repairable by supersession | verified |
+| tools/scan_own_code.py <br><sub>D-B matched a name bound to a bool and not a bool literal, so `if True:` was invisible on the real file and on a direct fixture. The literal is now the must-flag fixture.</sub> | repairable by supersession | verified |
+
+### D-62 — A negative control corrupted the spend ledger 87 times and passed while doing it
+
+[Full entry](deficiencies.md#d-62--a-negative-control-corrupted-the-spend-ledger-87-times-and-passed-while-doing-it)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `external review read what the fixture did to the artifact rather than what it asserted; 87 of 141 ledger entries were the fixture`
+- **Prospective control:** required, not implemented — Nothing requires a negative control to observe the tool's SIDE EFFECTS rather than its output. A fixture that asserts on stdout alone cannot distinguish a refusal from an append. The general form is a fixture harness that snapshots every artifact a tool may write and requires the refusal arm to leave them unchanged.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/cycles/spend-ledger.json <br><sub>87 fabricated rows removed; the rows and the pre-correction hash are preserved in record/cycles/spend-ledger-correction-2026-08-12.md. No dollar or token total was distorted; every count of entries was.</sub> | repairable by supersession | verified |
+| tools/record_spend.py <br><sub>Refuses a cohort not in solicited_cohorts() before appending anything, under guard RS-01.</sub> | repairable by supersession | verified |
+| tools/tests/test_gate_negative_controls.py <br><sub>The arm required only that no cost was printed, which an append satisfies. It now requires a non-zero exit, names RS-01, and asserts the ledger is byte-identical afterwards.</sub> | repairable by supersession | verified |
 

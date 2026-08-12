@@ -58,6 +58,8 @@ import unicodedata
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from guards import guard                                              # noqa: E402
 #  Verified against the WHOLE corpus, not just raw/. The review bundles quote annotation
 #  artifacts verbatim -- real committed material that simply is not a party utterance -- and
 #  failing 32 times on those would have made this unusable. Both D-53 fabrications appear
@@ -105,9 +107,41 @@ EXEMPT_MARKERS = [
     "did not say", "misattribut",
 ]
 
+#  A QUOTATION MAY WRAP. Both patterns forbade a newline — `[^"\n]` — so any quotation spanning
+#  more than one line was INVISIBLE to this gate. In wrapped markdown at ~98 columns, a quotation
+#  of forty characters or more usually wraps, and every design document here is wrapped markdown.
+#
+#  That is not a corner case, it is the case: D-53 was a fabricated party quotation IN A DESIGN
+#  DOCUMENT, and this gate was built to catch the next one. It could not have. Measured on
+#  2026-08-12 over the 98 files it scans: 235 quotation candidates, ONE attributed to a party,
+#  and that one exempted by a CORRECTION marker — so **zero quotations checked, every run**, by a
+#  gate that runs on every landing.
+#
+#  THE NEGATIVE CONTROL PASSED THROUGHOUT, and that is the part worth keeping. The planted
+#  fixture was written as a single-line quotation, so it exercised the only shape the gate could
+#  see. The fault was injected in the form that works and never in the form that occurs.
+#
+#  WRAPPED LINES ARE ALLOWED — any number of them — and a BLANK line is not, because a quotation
+#  does not span a paragraph break and an unclosed quote would otherwise swallow the rest of the
+#  document. An earlier version of this comment said "a single newline is allowed", which
+#  understated what the pattern does: it admits an arbitrarily long wrapped run and stops at a
+#  paragraph break. What it therefore CANNOT see is a legitimate multi-paragraph quotation.
+#  `normalise()` already folds whitespace, so a wrapped quotation compares against the corpus
+#  exactly as a single-line one does.
+#  THE CAP REFUSES; IT DOES NOT SKIP. A quotation longer than MAX_LENGTH is not checkable here —
+#  the cap exists so an unclosed quote mark cannot swallow a document — and "not checkable" must
+#  not look like "checked". Codex found four candidates at 5,350 characters that the cap made
+#  INVISIBLE, which is control 53's shape inside a bound: an unverifiable quotation reported as
+#  nothing at all. An over-length ATTRIBUTED quotation now raises QT-03.
+MAX_LENGTH = 4000
+_INNER = r'(?:[^%s\n]|\n(?!\s*\n))'
 QUOTE_PATTERNS = [
-    re.compile(r'"([^"\n]{%d,})"' % MIN_LENGTH),
-    re.compile(r'“([^”\n]{%d,})”' % MIN_LENGTH),
+    re.compile(r'"(%s{%d,%d})"' % (_INNER % '"', MIN_LENGTH, MAX_LENGTH)),
+    re.compile(r'“(%s{%d,%d})”' % (_INNER % '”', MIN_LENGTH, MAX_LENGTH)),
+]
+OVERSIZE_PATTERNS = [
+    re.compile(r'"(%s{%d,})"' % (_INNER % '"', MAX_LENGTH + 1)),
+    re.compile(r'“(%s{%d,})”' % (_INNER % '”', MAX_LENGTH + 1)),
 ]
 
 
@@ -241,12 +275,13 @@ def main() -> int:
 
     corpus = load_corpus()
     if not corpus:
-        print("REFUSED: corpus/ is empty or unreadable; a check that cannot fail is not a "
-              "check.", file=sys.stderr)
+        print(guard("QT-01", "REFUSED: corpus/ is empty or unreadable; a check that cannot "
+                             "fail is not a check."), file=sys.stderr)
         return 2
 
     checked = 0
     unverified: list[tuple[Path, int, str, str]] = []
+    oversize: list[tuple[Path, int, int]] = []
 
     for path in files_to_check():
         text = strip_fenced(path.read_text(encoding="utf-8"))
@@ -259,33 +294,47 @@ def main() -> int:
         candidates = [(m.start(), m.group(1))
                       for pattern in QUOTE_PATTERNS for m in pattern.finditer(text)]
         candidates += list(blockquotes(text))
+        for pattern in OVERSIZE_PATTERNS:
+            for m in pattern.finditer(text):
+                if attributed_party(text[:m.start()]):
+                    oversize.append((path, sum(1 for off in offsets if off <= m.start()),
+                                     len(m.group(1))))
 
-        if True:
-            for start, quotation in candidates:
-                before = text[:start]
-                party = attributed_party(before)
-                if not party:
-                    continue
-                context = before[-ATTRIBUTION_WINDOW:] + quotation
-                if any(marker.lower() in context.lower() for marker in EXEMPT_MARKERS):
-                    continue
+        for start, quotation in candidates:
+            before = text[:start]
+            party = attributed_party(before)
+            if not party:
+                continue
+            context = before[-ATTRIBUTION_WINDOW:] + quotation
+            if any(marker.lower() in context.lower() for marker in EXEMPT_MARKERS):
+                continue
 
-                #  A template placeholder is not a quotation of anything.
-                if "{" in quotation and "}" in quotation:
-                    continue
-                checked += 1
-                missing = [f for f in fragments(quotation) if normalise(f) not in corpus]
-                if missing:
-                    line_no = sum(1 for off in offsets if off <= start)
-                    unverified.append((path, line_no, party, missing[0]))
-                elif args.list:
-                    rel = path.relative_to(REPO_ROOT)
-                    print(f"  ok   {rel}  [{party}]  {quotation[:70]}…")
+            #  A template placeholder is not a quotation of anything.
+            if "{" in quotation and "}" in quotation:
+                continue
+            checked += 1
+            missing = [f for f in fragments(quotation) if normalise(f) not in corpus]
+            if missing:
+                line_no = sum(1 for off in offsets if off <= start)
+                unverified.append((path, line_no, party, missing[0]))
+            elif args.list:
+                rel = path.relative_to(REPO_ROOT)
+                print(f"  ok   {rel}  [{party}]  {quotation[:70]}…")
 
     rel = lambda p: p.relative_to(REPO_ROOT)                              # noqa: E731
+    if oversize:
+        print(guard("QT-03", f"\nFAILED — {len(oversize)} attributed quotation(s) exceed "
+                             f"{MAX_LENGTH} characters and cannot be verified here"),
+              file=sys.stderr)
+        for path, line_no, size in oversize:
+            print(f"  {rel(path)}:{line_no}  {size:,} characters", file=sys.stderr)
+        print("\n  The cap exists so an unclosed quote mark cannot swallow a document. An "
+              "attributed quotation past it is UNVERIFIABLE, which is not the same as verified: "
+              "shorten it, split it, or check it another way.", file=sys.stderr)
+        return 1
     if unverified:
-        print(f"\n\033[31mFAILED — {len(unverified)} attributed quotation(s) do not appear in "
-              f"corpus/\033[0m", file=sys.stderr)
+        print(guard("QT-02", f"\nFAILED — {len(unverified)} attributed quotation(s) do not "
+                             f"appear in corpus/"), file=sys.stderr)
         for path, line_no, party, missing in unverified:
             print(f"\n  {rel(path)}:{line_no}", file=sys.stderr)
             print(f"    attributed to: {party}", file=sys.stderr)

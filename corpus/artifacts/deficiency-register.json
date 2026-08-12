@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "03bb63281a18eb42e5f533351bf0fc37f1e1f91519ef8e9c5c362f37dad111ea"
+    "sha256": "df2a98f7f1f964306ecf3a3a0e576dfb1f1c2fdbae94a255b8340fde46dd316d"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2435,7 +2435,7 @@
     {
       "id": "D-60",
       "title": "The type built to enforce closed-world measurement did not enforce it, and both tools routed through it printed the counts it was withholding",
-      "section_sha256": "5b86d3cb5154e5d378a32bd1d336cb808e547490180a8938b85dc44ce03e918f",
+      "section_sha256": "7ce6c87e496208abe723e75320c74e01d49c8cbf5e9472f71bc0e1bb1a511471",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2472,6 +2472,86 @@
       "prospective_control": {
         "state": "prospective_control_implemented_not_validated",
         "mechanism": "Closed-world measurement as a type whose result is unreachable past an incomplete or incoherent walk. Routing remains per-tool and by hand; nothing detects a new tool that globs a directory and prints a count, and no type catches a population defined too narrowly."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-61",
+      "title": "The gate against fabricated party quotations could not see a quotation that wraps, so it checked none",
+      "section_sha256": "4d6ef8eb70f0cf62be5eb48eb523c45cd6f6ea02919c0a80084f12983d553ee9",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "reading check_quotations.py while enrolling it in the guard registry; measured 235 candidates, 1 attributed, 0 checked across the 98 files it scans",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/check_quotations.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Patterns admit a single newline and refuse a blank line. 350 candidates and 4 attributions after the repair; the verbatim party amendment in the pinned instructions is checked for the first time. A literal `if True:` wrapping the whole loop was also removed."
+        },
+        {
+          "object": "tools/tests/test_gate_negative_controls.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Its fabricated-quotation fixtures were single-line, so they exercised the only shape the gate could see. Wrapped arms added and the single-line arms retained per control 45; a paragraph-break arm bounds the new pattern."
+        },
+        {
+          "object": "tools/scan_own_code.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "D-B matched a name bound to a bool and not a bool literal, so `if True:` was invisible on the real file and on a direct fixture. The literal is now the must-flag fixture."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing establishes that a negative control injects the fault in the form that OCCURS rather than the form that was imagined. A fixture corpus drawn from the record's real shapes — wrapped prose, parenthetical provenance, blockquotes — would be the mechanism; reading the gate is not one."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-62",
+      "title": "A negative control corrupted the spend ledger 87 times and passed while doing it",
+      "section_sha256": "e9d7e92a67fe63db8647b56b287de9fc5552a9fb1de21d720f5e7c0a19c556c0",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-12",
+        "where": "external review read what the fixture did to the artifact rather than what it asserted; 87 of 141 ledger entries were the fixture",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/cycles/spend-ledger.json",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "87 fabricated rows removed; the rows and the pre-correction hash are preserved in record/cycles/spend-ledger-correction-2026-08-12.md. No dollar or token total was distorted; every count of entries was."
+        },
+        {
+          "object": "tools/record_spend.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Refuses a cohort not in solicited_cohorts() before appending anything, under guard RS-01."
+        },
+        {
+          "object": "tools/tests/test_gate_negative_controls.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The arm required only that no cost was printed, which an append satisfies. It now requires a non-zero exit, names RS-01, and asserts the ledger is byte-identical afterwards."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing requires a negative control to observe the tool's SIDE EFFECTS rather than its output. A fixture that asserts on stdout alone cannot distinguish a refusal from an append. The general form is a fixture harness that snapshots every artifact a tool may write and requires the refusal arm to leave them unchanged."
       },
       "human_review": {
         "status": "not_reviewed",

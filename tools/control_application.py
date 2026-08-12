@@ -379,19 +379,20 @@ APPLICATION: dict[int, dict] = {
                   "string was long enough. Control 44 asks for no silent blank cells and nothing "
                   "more; a second party is what would supply more."),
  45: dict(scope=CODE,
-          files=("tools/guards.py", "tools/control_coverage.py", "tools/executive_log.py"),
+          files=("tools/guards.py", "tools/control_coverage.py", "tools/executive_log.py",
+                 "tools/check_quotations.py"),
           tests=("tools/tests/test_guard_identity.py", "tools/tests/test_deploy_check.py",
-                 "tools/tests/test_no_blank_cells.py"),
+                 "tools/tests/test_no_blank_cells.py",
+                 "tools/tests/test_gate_negative_controls.py"),
           gap="Guards carry codes, fixtures ask for them by name through an assertion that "
-              "RAISES, and the codes this repository has committed to keeping are recorded in "
-              "record/executive/guard-baseline.json. Removing a guard AND its fixture together "
-              "— the shape an actual rewrite takes — is refused unless the removal is recorded "
-              "with a ground, which makes weakening a governed event rather than a diff nobody "
-              "reads. THE FIRST VERSION HAD ONLY THE PRESENT-TIME HALF and Codex reproduced the "
-              "silent case: baseline clean, delete both, still clean. WHAT REMAINS: exactly ONE "
-              "tool is enrolled — eleven guards in control_application.py. Every other gate here "
-              "has anonymous refusals, so a rewrite of check_quotations.py or capture_gates.py "
-              "can still drop a check with its fixture passing on a neighbour. Enrolment should "
+              "RAISES, and record/executive/guard-baseline.json holds the codes this repository "
+              "has committed to keeping — so removing a guard AND its fixture together, the "
+              "shape an actual rewrite takes, is refused unless recorded with a ground. TWO "
+              "gates are enrolled, thirteen guards. Enrolling the second was the point and it "
+              "found the abstraction's limit: expect_guard() assumes an in-process list of "
+              "refusal strings, and check_quotations.py refuses by PRINTING and exiting, so its "
+              "fixture adapts the output rather than the model adapting to the gate. WHAT "
+              "REMAINS: every other gate here still has anonymous refusals. Enrolment should "
               "follow gates as they are touched rather than becoming a count to hit, and the "
               "mechanism cannot see a check that was never written.",
           residue="That a driven guard is a CORRECT guard, and that a named expectation ever "

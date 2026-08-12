@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **60 entries** (D-01 … D-60).
+**Status:** open — **62 entries** (D-01 … D-62).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2401,3 +2401,93 @@ count of any kind surviving, and `--check` separately. **Not remediated:** routi
 per-tool and by hand, nothing detects a new tool that globs a directory and prints a count, and
 no type catches a population defined too narrowly — which is the half of the 2026-08-10 error
 that produced the published zero.
+
+### D-61 — The gate against fabricated party quotations could not see a quotation that wraps, so it checked none
+
+*Filed 2026-08-12, found while enrolling the gate in the guard registry — by reading it, not by
+any mechanism. It had been green on every landing since it was built.*
+
+`tools/check_quotations.py` exists because of **D-53**: two design documents attributed words to
+a party that the party never said. It runs on every landing. Its two quotation patterns were:
+
+> `re.compile(r'"([^"\n]{40,})"')`
+> `re.compile(r'“([^”\n]{40,})”')`
+
+**Both forbid a newline.** Every design document in this record is wrapped markdown at roughly
+ninety-eight columns, so a quotation of forty characters or more usually spans a line break — and
+a spanning quotation was not a candidate at all. The gate could not have caught D-53's own shape:
+a fabricated quotation of any substance wraps.
+
+**Measured over the 98 files it scans**, before the repair: 235 quotation candidates, **one**
+attributed to a party, and that one exempted by a `CORRECTION` marker. **Zero quotations checked,
+every run.** The record's own verbatim party amendment — the tombstone clause adopted from
+claude's ratification-02 sample, quoted in the pinned governing instructions — was among the
+invisible ones.
+
+**The negative control passed throughout, and that is the part worth keeping.** It was written on
+2026-08-11 and it plants its fabricated sentence **on a single line**, so it exercised the only
+shape the gate could see. The fault was injected in the form that works and never in the form
+that occurs. Control 2 asks for a condition under which a check must fail; this was one, and it
+was still the wrong one — *a negative control tests the fault you thought of.*
+
+**Remediated.** The patterns admit a single newline and refuse a blank line, so an unclosed quote
+cannot swallow a document; `normalise()` already folded whitespace, so a wrapped quotation
+compares against the corpus exactly as a one-line one does. After the repair the same 98 files
+yield 350 candidates and four attributions, and the amendment in the pinned instructions is
+checked for the first time. The single-line arms are RETAINED alongside the new wrapped ones,
+which is control 45: a repair must still catch what the old gate caught.
+
+**Two smaller findings rode along, both from reading the same file.** A literal `if True:`
+wrapped the entire quotation loop — dead scaffolding in a gate that runs on every landing — and
+`scan_own_code.py`'s D-B detector reported nothing, on the real file *and* on a direct fixture,
+because it matched a name bound to a bool and not a bool itself. Both are fixed, and D-B now
+carries the literal case as its must-flag fixture.
+
+**What this does not establish.** That the gate now has useful recall. It attributes a quotation
+only when a party name is followed by a speech verb within 240 characters, and this record's
+commonest citation form is a parenthetical provenance — `(claude, ratification-02 sample 2,
+verbatim)` — with no verb at all. Four attributions out of 350 candidates is not evidence of a
+healthy detector; it is one order of magnitude better than zero.
+
+### D-62 — A negative control corrupted the spend ledger 87 times and passed while doing it
+
+*Filed 2026-08-12. Found by external review reading what the test actually did to the artifact,
+not by any check. 62% of the ledger's entries were this fixture, written on every landing since
+the arm was added.*
+
+`tools/tests/test_gate_negative_controls.py` carried an arm asserting that `record_spend.py`
+refuses an unknown cohort rather than emitting a cost. It ran the tool against
+`no-such-cohort-zzqx` and asserted:
+
+> `r.returncode != 0 or not emitted_cost`
+
+`record_spend.py` did not validate the cohort. It **appended a zero-unit row** for the invented
+name and exited 0 — and because no dollar figure was printed, the second disjunct held and the
+arm passed. So the test proved nothing, and wrote a fabricated row into the spend ledger every
+time it ran, which is every landing.
+
+**87 of the ledger's 141 entries.** The ledger is the artifact recording what this project spent,
+and a majority of its rows described a cohort that was never solicited.
+
+**What was and was not distorted.** Every removed row carried `worst_case_usd: null`,
+`actual_usd: null` and zero tokens, so no dollar or token total was affected — a sum over the
+ledger was correct throughout. What was affected is any COUNT of entries, any statement about how
+many cohorts have recorded spend, and the ledger's standing as a record of anything. The removed
+rows and the pre-correction hash are preserved at
+`record/cycles/spend-ledger-correction-2026-08-12.md`; corrections attach rather than erase.
+
+**The assertion is the defect, not the tool.** "It printed no cost" was never evidence that it
+wrote nothing, and the arm had no way to see its own side effect. A negative control that cannot
+observe what the tool did to the record can pass on an append. Three repairs, all needed:
+`record_spend.py` refuses a cohort not in `solicited_cohorts()` before appending (guard `RS-01`);
+the arm requires a **non-zero exit** rather than the absence of a printed figure; and the arm
+asserts the ledger is **byte-identical** afterwards.
+
+**This is the second time in two days that a fixture's own shape was the defect.** D-61's
+quotation fixture planted its fabrication on a single line, the only shape that gate could see.
+This one injected a fault the tool accepted and called the acceptance a refusal. Both passed
+continuously. The common failure is that a negative control was written to confirm the behaviour
+its author expected rather than to observe what the tool did.
+
+**What this does not establish.** That no other tool writes to this ledger without validating
+what it writes. Only `record_spend.py` was examined, because it was the one the fixture invoked.

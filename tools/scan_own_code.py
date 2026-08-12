@@ -52,7 +52,7 @@ def empty_conditional(tree: ast.AST) -> list[int]:
 
 
 def constant_guard(tree: ast.AST) -> list[int]:
-    """D-B. A name bound to a bool literal and later used as a bare condition."""
+    """D-B. A condition that is constant — a bool literal, or a name bound once to one."""
     #  ONLY names assigned exactly ONCE, to a bool literal. The first version kept the last
     #  literal assignment and ignored reassignment, so it flagged `in_table` -- an ordinary
     #  mutable state flag set True and False in different branches. Two false positives, on a
@@ -68,8 +68,17 @@ def constant_guard(tree: ast.AST) -> list[int]:
               if len(nodes) == 1 and isinstance(nodes[0], ast.Assign)
               and isinstance(nodes[0].value, ast.Constant)
               and isinstance(nodes[0].value.value, bool)}
-    return [n.lineno for n in ast.walk(tree)
-            if isinstance(n, ast.If) and isinstance(n.test, ast.Name) and n.test.id in consts]
+    #  A LITERAL TEST TOO, not only a name bound to one. `if True:` was sitting in
+    #  check_quotations.py — a gate that runs on every landing — wrapping its entire quotation
+    #  loop, and this detector reported nothing, on the real file AND on a direct fixture. It
+    #  matched `x = True; if x:` and not the shape one step simpler. Found on 2026-08-12 by
+    #  reading a gate while enrolling it in the guard registry, which is not a mechanism.
+    out = [n.lineno for n in ast.walk(tree)
+           if isinstance(n, ast.If) and isinstance(n.test, ast.Name) and n.test.id in consts]
+    out += [n.lineno for n in ast.walk(tree)
+            if isinstance(n, ast.If) and isinstance(n.test, ast.Constant)
+            and isinstance(n.test.value, bool)]
+    return sorted(out)
 
 
 def success_from_except(tree: ast.AST) -> list[int]:
@@ -195,7 +204,9 @@ FIXTURES = {
         "if x:\n    pass\n",
         "if x:\n    do_something()\n"),
     "D-B constant guard": (
-        "allowed = True\nif allowed:\n    keep()\n",
+        #  BOTH POSITIVE ARMS. Replacing the bound-name case with the literal would have left the
+        #  older behaviour unprotected — control 45 applied to a detector rather than a gate.
+        "allowed = True\nif allowed:\n    keep()\nif True:\n    keep()\n",
         #  A reassigned state flag must NOT flag. This is the case the first version got wrong.
         "flag = False\nfor x in y:\n    if x:\n        flag = True\nif flag:\n    keep()\n"),
     "D-E success returned from an except": (

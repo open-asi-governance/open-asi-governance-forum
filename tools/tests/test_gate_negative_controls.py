@@ -65,6 +65,26 @@ def run(tool: str, *args: str) -> sp.CompletedProcess:
                   cwd=REPO, capture_output=True, text=True)
 
 
+guards = load_guards = None  # bound below, after load() is defined
+
+
+def fired_in(output: str, code: str) -> bool:
+    """Ask for a guard by name in a tool's PRINTED output.
+
+    THE ABSTRACTION NEEDED ADAPTING HERE, which is what enrolling a second gate was for.
+    `expect_guard(problems, code)` assumes an in-process list of refusal strings, and
+    `control_application.py` returns exactly that. `check_quotations.py` is a different shape: it
+    REFUSES BY PRINTING and exiting, so its fixture has to split the output into lines first.
+    The wrapper still delegates to `expect_guard`, which is what the registry requires and what
+    keeps the assertion raising rather than returning a discardable boolean.
+    """
+    try:
+        guards.expect_guard(output.splitlines(), code)
+    except guards.GuardNotActivated:
+        return False
+    return True
+
+
 def load(name: str):
     """Import a tool as a module, to test a predicate rather than a subprocess exit code."""
     spec = importlib.util.spec_from_file_location(name, ROOT / f"{name}.py")
@@ -73,6 +93,8 @@ def load(name: str):
     spec.loader.exec_module(module)
     return module
 
+
+guards = load("guards")
 
 print("\ncheck_executive_context.py — four states, and the exit code must distinguish them")
 
@@ -290,13 +312,133 @@ for label, body in (
 r = run("check_quotations.py")
 check("...and the tree is clean again after removing it", r.returncode == 0)
 
+#  THE SHAPE THE FABRICATION ACTUALLY TAKES. Both arms above plant the quotation on ONE LINE,
+#  and both patterns forbade a newline — so this gate could see only single-line quotations while
+#  every design document here is wrapped markdown at ~98 columns. D-53 was a fabricated party
+#  quotation IN A DESIGN DOCUMENT; a fabrication of any substance wraps; the gate could not have
+#  caught the next one.
+#
+#  Measured before the repair: 235 candidates across 98 files, ONE attributed to a party, that
+#  one exempted — zero quotations checked, every run, for months. The negative control passed the
+#  whole time because the fault was injected in the form that works and never in the form that
+#  occurs. Control 45: the single-line arms above are KEPT, because a repair must still catch
+#  what the old gate caught.
+WRAPPED = ("Zzqx invented sentence that runs on long enough to wrap the way\n"
+           "prose actually wraps in this record, appearing in no raw sample.")
+#  THE BLOCKQUOTE ARM DOES NOT TEST THE REPAIRED REGEX. It carries no quote delimiters, so it
+#  exercises the pre-existing blockquotes() path — kept as a regression for that path, and NOT
+#  counted as coverage of the pattern change. The curly arm is what covers the second pattern,
+#  which had none: Codex found the new regex exercised only for straight quotes.
+for label, body in (
+        ("inline, wrapped, straight quotes", f'The claude party wrote: "{WRAPPED}"\n'),
+        ("inline, wrapped, CURLY quotes",
+         'The claude party wrote: \u201c' + WRAPPED + '\u201d\n'),
+        ("blockquote, wrapped — the blockquote path, not the pattern",
+         "The claude party wrote:\n\n> " + WRAPPED.replace("\n", "\n> ") + "\n")):
+    try:
+        scratch.write_text(f"# temporary, deleted by the test that wrote it\n\n{body}",
+                           encoding="utf-8")
+        r = run("check_quotations.py")
+        check(f"a FABRICATED quotation that WRAPS is refused ({label})", r.returncode != 0,
+              f"rc={r.returncode}; a gate blind to wrapped quotations is blind to the defect it "
+              f"was built for")
+        check(f"...and it is QT-02 that fired ({label})",
+              fired_in(r.stdout + r.stderr, "QT-02"), (r.stdout + r.stderr)[-200:])
+    finally:
+        scratch.unlink(missing_ok=True)
+
+#  AND A QUOTATION MUST NOT SWALLOW A PARAGRAPH BREAK. Allowing newlines without bounding them
+#  would let one unclosed quote mark consume the rest of a document and match anything.
+try:
+    scratch.write_text('# temporary\n\nThe claude party wrote: "an unclosed quotation mark that '
+                       'must not swallow\n\nthe entire rest of this document as one quotation."\n',
+                       encoding="utf-8")
+    r = run("check_quotations.py")
+    check("a quote spanning a BLANK LINE is not treated as one quotation", r.returncode == 0,
+          (r.stdout + r.stderr)[-200:])
+finally:
+    scratch.unlink(missing_ok=True)
+
+#  QT-03 — BOUNDARY FIXTURES at the cap. An over-length attributed quotation was INVISIBLE, not
+#  refused, and Codex found four real candidates at 5,350 characters sitting past it. 4,000 must
+#  still be checked and 4,001 must refuse, or the bound is a silent exclusion.
+quotations_mod = load("check_quotations")
+CAP = quotations_mod.MAX_LENGTH
+for label, size, must_refuse in (("at the cap", CAP, False), ("one past it", CAP + 1, True)):
+    body = "z" * size
+    try:
+        scratch.write_text(f"# temporary\n\nThe claude party wrote: \"{body}\"\n",
+                           encoding="utf-8")
+        r = run("check_quotations.py")
+        out = r.stdout + r.stderr
+        if must_refuse:
+            check(f"an attributed quotation {label} is REFUSED, not skipped", r.returncode != 0,
+                  f"rc={r.returncode}; a bound that hides a quotation is a silent exclusion")
+            check(f"...and it is QT-03 that fired ({label})", fired_in(out, "QT-03"), out[-200:])
+        else:
+            #  At the cap it is a normal candidate, so it is CHECKED — and being invented, it
+            #  must fail as an unverified quotation rather than pass or be skipped.
+            check(f"an attributed quotation {label} is still checked", r.returncode != 0,
+                  f"rc={r.returncode}")
+            check(f"...and it is QT-02, not the oversize guard ({label})",
+                  fired_in(out, "QT-02"), out[-200:])
+    finally:
+        scratch.unlink(missing_ok=True)
+
+r = run("check_quotations.py")
+check("...and the tree is clean again after the boundary fixtures", r.returncode == 0)
+
+#  QT-01 — the corpus itself unreadable. Its message says "a check that cannot fail is not a
+#  check", which is control 2 stated inline and never once exercised.
+quotations = load("check_quotations")
+real_corpus = quotations.load_corpus
+try:
+    quotations.load_corpus = lambda: ""
+    import contextlib
+    import io
+    out = io.StringIO()
+    saved_argv = sys.argv
+    try:
+        sys.argv = ["check_quotations.py"]
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(out):
+            code = quotations.main()
+    finally:
+        sys.argv = saved_argv
+    check("an EMPTY corpus is refused rather than passing every quotation", code == 2,
+          f"rc={code}; with no corpus every quotation is unverifiable, not verified")
+    check("...and it is QT-01 that fired", fired_in(out.getvalue(), "QT-01"),
+          out.getvalue()[-200:])
+finally:
+    quotations.load_corpus = real_corpus
+
 print("\nrecord_spend.py / reconcile_actions.py — they must refuse rather than emit a number")
 
+#  THIS ARM CORRUPTED THE LEDGER 87 TIMES, and passed while doing it.
+#
+#  `record_spend.py` did not validate the cohort: it APPENDED a zero-unit row for
+#  `no-such-cohort-zzqx` and exited 0. The assertion was `returncode != 0 or not emitted_cost`,
+#  and because no dollar figure was printed the second disjunct held — so an append passed as a
+#  refusal. 87 of the ledger's 141 entries were this fixture, written on every landing, and the
+#  correction is at record/cycles/spend-ledger-correction-2026-08-12.md. See D-62.
+#
+#  Three things changed, and all three are needed. The tool refuses (RS-01). The arm requires a
+#  NON-ZERO EXIT rather than the absence of a printed cost. And the ledger is asserted
+#  BYTE-IDENTICAL afterwards — because "it printed no cost" was never evidence that it wrote
+#  nothing, and a test that cannot see its own side effects is not testing a refusal.
+spend = load("record_spend")
+LEDGER = spend.LEDGER if hasattr(spend, "LEDGER") else None
+ledger_path = REPO / "record" / "cycles" / "spend-ledger.json"
+before_bytes = ledger_path.read_bytes()
+
 r = run("record_spend.py", "--cohort", "no-such-cohort-zzqx")
-emitted_cost = "$" in r.stdout
-check("record_spend refuses an unknown cohort rather than printing a cost",
-      r.returncode != 0 or not emitted_cost,
+check("record_spend REFUSES an unknown cohort", r.returncode != 0,
       f"rc={r.returncode}; stdout={r.stdout[:160]!r}")
+check("...and it is RS-01 that fired", fired_in(r.stdout + r.stderr, "RS-01"),
+      (r.stdout + r.stderr)[-200:])
+check("...and the ledger is BYTE-IDENTICAL afterwards",
+      ledger_path.read_bytes() == before_bytes,
+      "a refusal that appends is not a refusal, and this arm could not see the difference")
+check("...and it printed no cost either", "$" not in r.stdout)
 
 r = run("record_spend.py", "--report")
 check("BASELINE: the spend report still runs", r.returncode == 0, (r.stderr or r.stdout)[-160:])

@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 10 of 33.** Those are the defect shapes that are mechanically
+**A detector fired for 10 of 38.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -260,6 +260,45 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "it ran alone, which is what made it a landmine rather than a bug: green depended on nothing "
   "else running. Renamed out of the glob while staying inside the population it must disturb.",
   "reading", "tools/tests/test_closed_world.py; land8 run 2026-08-12"),
+
+ ("C2 negative control",
+  "check_quotations.py — the gate built for D-53, a fabricated party quotation — could not see a "
+  "quotation that WRAPS, because both its patterns forbade a newline. Every design document here "
+  "is wrapped markdown, so a fabrication of any substance was invisible. Measured over its 98 "
+  "files: 235 candidates, ONE attributed, that one exempted — zero checked, every run. Its "
+  "negative control passed throughout because the planted fixture was written on a single line: "
+  "the fault was injected in the form that works and never in the form that occurs.",
+  "reading", "D-61; tools/check_quotations.py"),
+
+ ("C2 negative control",
+  "scan_own_code.py's D-B detector matched a NAME bound to a bool and not a bool literal, so an "
+  "`if True:` wrapping the entire quotation loop of a gate that runs on every landing was "
+  "reported by nothing — not on the real file, and not on a direct fixture either. The literal "
+  "is now the must-flag case.",
+  "reading", "D-61; tools/scan_own_code.py"),
+
+ ("C45 replacement gate",
+  "Enrolling a SECOND gate found where the abstraction does not fit. expect_guard(problems, code) "
+  "assumes an in-process list of refusal strings; check_quotations.py refuses by PRINTING and "
+  "exiting, so its fixture has to split output into lines before asking. The wrapper still "
+  "delegates, which the registry requires — but the model is shaped around one gate's return "
+  "convention and the second gate had to be adapted to it rather than the reverse.",
+  "reading", "tools/tests/test_gate_negative_controls.py"),
+
+ ("C2 negative control",
+  "The arm asserting record_spend.py refuses an unknown cohort instead APPENDED one — the tool "
+  "did not validate the cohort, and the assertion was 'exit non-zero OR no cost printed', so an "
+  "append satisfied it. 87 of the spend ledger's 141 entries were this fixture, written on every "
+  "landing. A negative control that cannot observe the tool's SIDE EFFECTS can pass on the "
+  "opposite of a refusal.",
+  "external", "D-62; record/cycles/spend-ledger-correction-2026-08-12.md"),
+
+ ("C53 typed unknown",
+  "check_quotations.py's length cap made an over-long attributed quotation INVISIBLE rather than "
+  "refusing it — four real candidates at 5,350 characters sat past it reported as nothing. A "
+  "bound that hides what it cannot check is unverifiable reported as verified. Now QT-03, with "
+  "boundary fixtures at the cap and one past it.",
+  "external", "D-61; tools/check_quotations.py"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "

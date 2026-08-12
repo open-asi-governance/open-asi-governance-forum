@@ -45,6 +45,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "tools"))
+from guards import guard                                              # noqa: E402
 RAW = REPO_ROOT / "corpus" / "raw"
 LEDGER = REPO_ROOT / "record" / "cycles" / "spend-ledger.json"
 RATES = REPO_ROOT / "record" / "cycles" / "model-rates.json"
@@ -183,6 +185,19 @@ def main() -> int:
             print("\n  An artifact that claims to record spend and does not record it looks "
                   "exactly\n  like a project that spent nothing. Run --backfill.")
         return 1 if missing else 0
+
+    #  REFUSE A COHORT THAT DOES NOT EXIST, before anything is appended. This accepted any
+    #  string and wrote a zero-unit row for it — so the negative control written to prove it
+    #  refuses an unknown cohort instead APPENDED ONE, every time it ran. 87 of the ledger's 141
+    #  entries were that fixture. A test corrupting the artifact it exists to protect is worse
+    #  than the absent check it was covering for. Found by Codex, 2026-08-12; see D-62.
+    if args.cohort and args.cohort not in solicited_cohorts():
+        print(guard("RS-01",
+                    f"REFUSED: {args.cohort!r} is not a solicited cohort. Nothing is appended. "
+                    f"The ledger records what was SPENT, and a row for a cohort that was never "
+                    f"solicited is not a zero — it is a fabrication with a zero in it."),
+              file=sys.stderr)
+        return 2
 
     targets = [args.cohort] if args.cohort else \
         [c for c in solicited_cohorts() if c not in recorded_cohorts()]
