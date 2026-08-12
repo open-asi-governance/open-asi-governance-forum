@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 20 |
-| implemented, not validated | 31 |
+| required, not implemented | 19 |
+| implemented, not validated | 32 |
 | validated | 7 |
 
 ### Affected objects
 
-**143 affected-object rows across 58 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**144 affected-object rows across 58 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -924,13 +924,14 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 - **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
   - where: `checking whether the previous landing's Pages deploy had actually happened, after landing a handoff document. No gate reported it; land.py's own deploy attestations had recorded six consecutive failures and none had been read.`
-- **Prospective control:** required, not implemented — An observed failed postcondition must open a durable incident that constrains the next action in its class, rather than being attested and passed over. External review placed this under the register's control 23 rather than a new control. Until it exists, nothing prevents a repeat: the attestations were correct and unread.
+- **Prospective control:** implemented, not validated — An observed failed postcondition opens a durable incident that refuses the next ordinary landing until resolved against evidence. Implemented in tools/deploy_obligations.py and enforced in tools/land.py. It constrains the sanctioned path only; it does not constrain an operator who edits it.
 - **Human review:** not_reviewed
 
 | Affected object | Repairable? | Remediation |
 |---|---|---|
-| tools/check_executive_context.py <br><sub>Four states with the exit code carrying them, precedence 2>1>3>0, and each pin declaring its locator kind. Verified by fixture cases asserting every exact code, including the CI shape that previously failed.</sub> | repairable by supersession | verified |
+| tools/check_executive_context.py <br><sub>Four states with the exit code carrying them, precedence 2>1>3>0, and each pin declaring its locator kind. Verified in the field: the CI run for db80307 reported exit 3 with oagf-CLAUDE.md measured repo-relative and the two operator paths UNAVAILABLE, which is the shape that previously failed.</sub> | repairable by supersession | verified |
 | tools/tests/test_gate_negative_controls.py <br><sub>Its first version asserted returncode == 0 as a baseline that only one machine satisfies, and != 0 as drift, which exit 3 would now also satisfy. Rebuilt on injected pins directories asserting exact codes.</sub> | repairable by supersession | verified |
-| tools/land.py <br><sub>The gate-admission policy is now a named, tested predicate admitting only zero. The SECOND finding is not repaired here: land.py observed six deploy failures, attested them honestly, and permitted the next ordinary landing each time. The control 23 interlock is outstanding.</sub> | partly repairable | partly applied |
+| tools/land.py <br><sub>The gate-admission policy is a named, tested predicate admitting only zero. The control 23 interlock is applied: an undischarged deployment obligation refuses an ordinary landing, --no-deploy-check is unavailable while one is open, and a resolved incident id is not a skeleton key. NOT VERIFIED IN THE FIELD: 40 fixture cases pass, and no real deploy failure has yet been driven through the live path.</sub> | partly repairable | applied, not verified |
 | tools/gate_health.py <br><sub>Counted every non-success deploy as UNOBSERVED, collapsing 'nobody waited' with 'waited and it failed'. Now three states plus a consecutive-trailing-failure count, which reads 6.</sub> | repairable by supersession | verified |
+| tools/deploy_obligations.py <br><sub>New. The obligation ledger that supplies control 23's containment behaviour. Bootstrapped from the six historical failures rather than starting at its own installation. Not verified in the field.</sub> | repairable by supersession | applied, not verified |
 

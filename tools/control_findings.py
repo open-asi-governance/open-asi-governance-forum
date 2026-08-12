@@ -18,8 +18,8 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 9 of 22 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 13 came from reading, from running the
+**A detector fired for 10 of 26 — the largest single category, and every one of them control 53,
+whose defect shape is mechanically recognisable.** The other 16 came from reading, from running the
 fault, or from an outsider. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
 
@@ -160,6 +160,37 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "transition from an observed violation to work being constrained; Codex placed it under "
   "control 23 rather than a new control, and declined the new control this workbench wanted.",
   "reading", "D-58; record/executive/action-log.jsonl"),
+
+ ("C23 observed violation opens an incident",
+  "Building the interlock exposed a further gap: the reconciler first examined only the most "
+  "recent push, so a failure followed by another landing was invisible to it. That is the "
+  "historical sequence exactly — failure, land again, failure — so the backstop would have "
+  "walked past all six of the events it was written for. Caught by the crash-transition fixture, "
+  "not by reading.",
+  "negative-control", "D-58; tools/tests/test_deploy_obligations.py"),
+
+ ("C2 negative control",
+  "The interlock's own validation had four defects the review reproduced: a recovery file "
+  "containing {\"garbage\": true} closed an incident, so 'only evidence closes an incident' was "
+  "false while that sentence sat in the docstring; incidents keyed on the commit made a "
+  "second failure of a resolved commit invisible; land.py kept an unpinned second observer; and "
+  "executive_log compared shas by PREFIX, so a one-character deployed_sha matched.",
+  "external", "D-58; Codex implementation review 2026-08-12"),
+
+ ("C53 typed unknown",
+  "Running the new ledger against the real action log found it counting a push attestation with "
+  "verified:false as an obligation — a 2026-08-09 probe using an all-zero sha. It would have "
+  "blocked every landing forever on a commit that does not exist. The docstring had said "
+  "'every VERIFIED push' from the first draft; the code had not.",
+  "detector", "D-58; tools/deploy_obligations.py"),
+
+ ("C23 observed violation opens an incident",
+  "A second review round found two state-machine defects every green gate had passed: discharge "
+  "was computed from unordered sets, so a deploy that happened BEFORE a push could discharge it; "
+  "and two recoveries on the same day against the same head wrote the same filename, so the "
+  "second overwrote the first and the incidents it had closed silently REOPENED — a correction "
+  "editing a correction, in the tool whose rule is that corrections attach.",
+  "external", "D-58; Codex re-review 2026-08-12"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "

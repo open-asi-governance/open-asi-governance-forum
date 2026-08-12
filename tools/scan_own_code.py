@@ -143,11 +143,50 @@ def none_coerced_by_or(tree: ast.AST) -> list[int]:
     return out
 
 
+def eager_diagnostic_message(tree: ast.AST) -> list[int]:
+    """D-F. A guard's failure message indexes state that may only exist on the failing branch.
+
+    `_require(ident not in seen, f"... {seen[ident]}")` — Python evaluates the argument BEFORE
+    the call, so the message is built even when the condition HOLDS, and the passing case raises
+    KeyError. This happened on 2026-08-12 inside validation code written to make failures
+    legible, and it took down the tool's own success path.
+
+    NARROW ON PURPOSE, and the first version was not. It also matched `check`, the test helper
+    every suite in this repository uses, and reported **314 hits** — almost all of them a test
+    passing an f-string detail that happens to index a dict. A detector at that signal-to-noise
+    is not read, and an unread detector is worse than none because it looks like coverage. So it
+    matches only the guard names that RAISE, where the message is built for a branch that may
+    never be taken.
+
+    Codex checked every current call site while approving this and found no second instance, so
+    its recall on this repository today is one — a reason to keep it, not a reason to claim it
+    works.
+
+    THE REAL FIX IS LAZINESS, not detection: an explicit `if`, or a callable message. This flags
+    the shape so it is noticed, and cannot tell whether a given subscript is safe.
+    """
+    guards = ("_require", "require_that", "ensure")
+    out = []
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call) and len(node.args) >= 2):
+            continue
+        name = (node.func.id if isinstance(node.func, ast.Name)
+                else node.func.attr if isinstance(node.func, ast.Attribute) else "")
+        if name not in guards:
+            continue
+        for message in node.args[1:]:
+            if any(isinstance(sub, ast.Subscript) for sub in ast.walk(message)):
+                out.append(node.lineno)
+                break
+    return out
+
+
 CLASSES = {"D-A empty conditional body": empty_conditional,
            "D-B constant guard": constant_guard,
            "D-E success returned from an except": success_from_except,
            "C53a missing value defaults to a number": unknown_defaults_to_number,
-           "C53b None coerced to a number by `or`": none_coerced_by_or}
+           "C53b None coerced to a number by `or`": none_coerced_by_or,
+           "D-F eager guard message indexing state": eager_diagnostic_message}
 
 FIXTURES = {
     "D-A empty conditional body": (
@@ -168,6 +207,11 @@ FIXTURES = {
     "C53b None coerced to a number by `or`": (
         "n = measured or 0\n",
         "n = measured if measured is not None else fail()\n"),
+    "D-F eager guard message indexing state": (
+        "_require(k not in seen, f'{k} twice, first at {seen[k]}')\n",
+        #  A message that indexes nothing is the ordinary case and must NOT flag, or the
+        #  detector would condemn every guard that formats a value.
+        "_require(k not in seen, f'{k} appears twice')\n"),
 }
 
 

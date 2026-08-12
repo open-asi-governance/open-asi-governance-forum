@@ -1,0 +1,32 @@
+{
+  "schema_version": "oagrc-deploy-recovery-0.1",
+  "artifact_type": "deploy_incident_recovery",
+  "id": "2026-08-12-recovery-db80307ee18e-ffd0875a",
+  "resolves": [
+    "2026-08-12-deploy-6bdbbc9ef967",
+    "2026-08-12-deploy-c48fd82f8b8e",
+    "2026-08-12-deploy-f111be4834ec",
+    "2026-08-12-deploy-42fda21a05c7",
+    "2026-08-12-deploy-9067f6a5943f",
+    "2026-08-12-deploy-86557256368f"
+  ],
+  "resolved_utc": "2026-08-12T01:37:31Z",
+  "resolving_commit": "db80307ee18edffe6c5286c2abb1bff087802ec5",
+  "evidence": {
+    "state": "SATISFIED",
+    "commit": "db80307ee18edffe6c5286c2abb1bff087802ec5",
+    "served_sha": "db80307ee18edffe6c5286c2abb1bff087802ec5",
+    "run_url": "https://github.com/open-asi-governance/open-asi-governance-forum/actions/runs/31551629590",
+    "conclusion": "success"
+  },
+  "contains_incident_commit": {
+    "2026-08-12-deploy-6bdbbc9ef967": true,
+    "2026-08-12-deploy-c48fd82f8b8e": true,
+    "2026-08-12-deploy-f111be4834ec": true,
+    "2026-08-12-deploy-42fda21a05c7": true,
+    "2026-08-12-deploy-9067f6a5943f": true,
+    "2026-08-12-deploy-86557256368f": true
+  },
+  "basis": "The Pages workflow for this commit concluded success and the github-pages deployment serves this exact commit. Both were observed, not assumed.",
+  "what_this_does_not_establish": "That the commits these incidents name were ever themselves served. Where contains_incident_commit is true, this commit publishes their CONTENT as a descendant; where it is false or null, not even that. One observed recovery dispositions these failure events; it does not retroactively deploy them."
+}

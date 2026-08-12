@@ -2220,4 +2220,86 @@ The negative control was rebuilt on injected fixtures asserting exact exit codes
 first version asserted `!= 0` for the drift arm — which exit 3 would now satisfy — and injected
 its fault by editing the operator's real governing file.
 
-The second part, the failed-deploy interlock, is recorded separately as it lands.
+**The second part, the interlock**, is `tools/deploy_obligations.py`. External review reshaped
+it before it was written: not an alarm that fires on failure, but an **obligation** that a
+verified push creates and that something must later discharge. The push entry is written to the
+action log *before* the risky deploy wait, so an interrupted process cannot hide anything — the
+obligation is already recorded and the next preflight reconciles it. Three states: observed
+success with the served SHA equal to the commit is SATISFIED; observed failure or a served
+mismatch is an INCIDENT; anything unobservable stays PENDING. **Pending is not a violation and it
+still blocks**, because the postcondition is undischarged either way; an interrupted-but-
+successful wait clears itself at the next preflight for the cost of two API reads, which is what
+keeps the interlock sharp rather than something to route around. This repository's one other floor is
+overridden 88% of the time, and that number was the argument for few sharp interlocks over many
+soft ones.
+
+An incident closes only against evidence: a commit — HEAD by default, though another may be
+named and is checked the same way — whose Pages run succeeded and which the deployment is
+actually serving, compared by full 40-character SHA. The closure is a separate artifact under
+`incidents/recoveries/` and the incident file is never edited, because corrections attach and do
+not edit. **One recovery artifact may close several incidents**, since one observed recovery is
+one fact; writing the same evidence into six files would have made six closures out of it.
+There is no acknowledgement path and no force. A successful remediation closes nothing by itself:
+an automatic close would mean nobody ever has to look, which is how six correct attestations were
+passed over.
+
+Both artifact kinds are **schema-validated on every read**, and that is not decoration. In the
+first implementation a recovery file containing `{"garbage": true}` closed an incident, because
+the loader attached any truthy JSON — so "only evidence closes an incident" was false while that
+sentence sat in the module's own docstring. External review reproduced it.
+
+The ledger was **bootstrapped from the six historical failures** rather than starting at its own
+installation, which would have begun by omitting the very events it exists for. Their single
+recovery artifact records what it does and does not establish: the commit that restored
+publication contains all six of theirs, so it published their content — it does **not** establish
+that those six exact commits were ever served, and `contains_incident_commit` is recorded per
+incident from `git merge-base` rather than assumed.
+
+Building it surfaced four further defects, none of them by reading:
+
+* The reconciler first examined only the most recent push, so a failure followed by another
+  landing was invisible to it — precisely the historical sequence, six times over. A crash-
+  transition fixture caught it.
+* Incidents were keyed on the **commit**, so a commit that failed, was resolved, and failed again
+  was treated as already accounted for and the ledger reported no blockers. Identity is now the
+  attestation that observed the failure. External review reproduced it.
+* `land.py` kept its own GitHub query, unpinned to the Pages workflow, the push event or the
+  branch — so a conclusion from an unrelated workflow could have opened an incident. There is now
+  one observer. Relatedly, `executive_log._check_deploy` compared shas by **prefix**, so a
+  one-character `deployed_sha` matched a commit beginning with that character; it now requires
+  two full 40-character shas and refuses an abbreviation as itself suspicious.
+* The interlock reconciled — which writes incident files — **before** the lease was checked,
+  because the lease was a gate and gates run later. Reordered.
+
+A second review round, after those were fixed, reproduced two more — both state-machine defects
+that every green gate had passed over:
+
+* **Discharge was not causally ordered.** Pending obligations were computed by putting every push
+  in one set and every served commit in another and asking about ancestry. So a deployment that
+  happened *before* a push could discharge it: `push A`, `deploy B` (B descends from A),
+  `push A again` reported nothing outstanding. The walk is now single-pass in log order and a
+  deploy only discharges obligations opened before it. The frontier reduction still happens, but
+  last, because it is only sound after causal discharge.
+* **A recovery artifact could overwrite an earlier one.** Recoveries were named by date and the
+  first twelve characters of the resolving commit, so two resolutions on the same day against the
+  same head wrote the same path — the second replaced the first and every incident the first had
+  closed silently REOPENED. A correction editing a correction, in the tool whose stated rule is
+  that corrections attach. Recovery ids now include a digest of the exact set resolved, the file
+  is created exclusively rather than written, and the filename/id agreement the docstring already
+  claimed for both artifact kinds is now actually checked for recoveries as well as incidents.
+
+And running it against the real action log immediately found another: it counted a push
+attestation with `verified: false` as an obligation. The log holds exactly one, a deliberate
+probe of the push profile from 2026-08-09 using an all-zero sha, and it would have blocked every
+landing forever on a commit that does not exist. The docstring had said "every **verified** push
+owes a deployment" from the start; the code had not.
+
+`land.py`'s deploy wait was cut from 900 to 540 seconds. The harness driving it kills a call at
+600, so the 15-minute wait could never complete in one, and two landings were truncated mid-wait
+and wrote no attestation at all. Waiting longer was never the fix; making the wait resumable was.
+
+**What the interlock is not.** It constrains the sanctioned landing path and nothing else. The
+custodian can edit the tool, the action log, the workflow and the repository settings, and holds
+every credential involved; it prevents inattentive repetition, not intent. Calling it governance
+would be the theatre this project exists to object to. `--remediating` records what a landing
+claims to fix and cannot establish that it does.

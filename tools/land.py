@@ -58,6 +58,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 
+import deploy_obligations as obligations                                # noqa: E402
 import executive_lease as lease                                          # noqa: E402
 import executive_log as ex                                              # noqa: E402
 
@@ -101,7 +102,12 @@ GOVERNED = ("corpus/MANIFEST.sha256", "record/anchors/manifest-anchors.jsonl",
 
 
 REPO_SLUG = "open-asi-governance/open-asi-governance-forum"
-DEPLOY_TIMEOUT_S = 900
+#  540, NOT 900. The harness that drives this tool kills a call at 10 minutes, so a 15-minute
+#  wait could never complete inside one: two landings were cut off mid-wait and wrote no deploy
+#  attestation at all, which is half of D-58. The wait is now shorter than the ceiling, and what
+#  it no longer covers is recovered rather than lost -- the push entry is an OBLIGATION, and the
+#  next preflight reconciles it. Waiting longer was never the fix; making the wait resumable was.
+DEPLOY_TIMEOUT_S = 540
 DEPLOY_POLL_S = 20
 
 
@@ -120,48 +126,33 @@ def _api(path: str) -> dict | list | None:
 
 
 def wait_for_deploy(sha: str) -> dict:
-    """Wait for the Pages workflow on `sha`, and confirm the SERVED site is that commit.
+    """Poll the PINNED observer until the Pages run for `sha` completes, then report.
 
-    Push verification establishes that the commit reached the remote. It establishes nothing
-    about whether anyone can see it: on 2026-08-10 a push verified cleanly, the workflow FAILED,
-    the site kept serving the previous build, and a page was reported to the custodian as
-    published while it 404'd.
+    ONE OBSERVER, NOT TWO. This function used to run its own query --
+    `/actions/runs?head_sha=...&per_page=1` -- which is not restricted to the Pages workflow, the
+    push event or the target branch, and would happily take a conclusion from some unrelated
+    workflow and open an incident from it. The ledger's `observe()` is pinned to all three, and
+    keeping a second subtly different verifier beside it is how the two drift apart.
 
     UNOBSERVED IS NOT SUCCESS. Every path that cannot look -- no token, API error, still running
     at the deadline -- returns observed=False, and the attestation profile refuses it. A check
     that passes when it cannot see is the exact defect it exists to catch.
     """
-    if not os.environ.get("GITHUB_TOKEN"):
-        return {"observed": False, "why": "no GITHUB_TOKEN in the environment", "commit": sha}
     deadline = time.time() + DEPLOY_TIMEOUT_S
-    conclusion = status = None
-    while time.time() < deadline:
-        runs = _api(f"/actions/runs?head_sha={sha}&per_page=1")
-        if runs is None:
-            return {"observed": False, "why": "the workflow API could not be read",
-                    "commit": sha}
-        items = runs.get("workflow_runs") or []
-        if items:
-            status, conclusion = items[0].get("status"), items[0].get("conclusion")
-            if status == "completed":
-                break
+    result = obligations.observe(sha)
+    while (result["state"] == obligations.PENDING and result.get("retriable")
+           and time.time() < deadline):
         time.sleep(DEPLOY_POLL_S)
-    else:
-        return {"observed": False, "commit": sha, "status": status,
-                "why": f"still {status or 'unstarted'} after {DEPLOY_TIMEOUT_S}s -- not a "
-                       f"failure, and not a success either"}
-
-    #  The workflow concluding is not the site serving it. Ask what is actually deployed.
-    deployments = _api("/deployments?environment=github-pages&per_page=1")
-    deployed = (deployments[0].get("sha") if isinstance(deployments, list) and deployments
-                else None)
-    if deployed is None and conclusion == "success":
-        return {"observed": False, "commit": sha, "conclusion": conclusion,
-                "why": "the workflow succeeded but the deployment API could not be read, so what "
-                       "is actually served is unknown"}
-    return {"observed": True, "commit": sha, "conclusion": conclusion,
-            "deployed_sha": deployed,
-            "run_url": f"https://github.com/{REPO_SLUG}/actions/runs/{items[0].get('id')}"}
+        result = obligations.observe(sha)
+    if result["state"] == obligations.SATISFIED:
+        return {"observed": True, "commit": sha, "conclusion": "success",
+                "deployed_sha": result.get("served_sha"), "run_url": result.get("run_url")}
+    if result["state"] == obligations.INCIDENT:
+        return {"observed": True, "commit": sha, "conclusion": result.get("conclusion", "failure"),
+                "deployed_sha": result.get("served_sha"), "run_url": result.get("run_url"),
+                "why": result.get("why")}
+    return {"observed": False, "commit": sha, "why": result.get("why", "not observed"),
+            "run_url": result.get("run_url")}
 
 
 def run(cmd: list[str]) -> tuple[int, str]:
@@ -250,6 +241,69 @@ def gates() -> tuple[bool, list[tuple[str, int, str]]]:
     return all(admitted(name, code) for name, code, _ in results), results
 
 
+def interlock(check_only: bool, remediating: str, no_deploy_check: bool) -> list[str]:
+    """CONTROL 23: an observed violation must constrain the next action in its class.
+
+    Returns the refusal lines, or an empty list to proceed. **A function, not an inline block**,
+    for the same reason `admitted` is one: a policy that exists only as control flow inside
+    `main` cannot be tested without performing the very action it governs.
+
+    D-58. This tool observed six consecutive Pages deploy failures, attested every one of them
+    honestly, and then permitted the next ordinary landing six times. Eight commits went
+    unpublished for three and a half hours while every gate stayed green. The logging was never
+    the failure; there was no transition from "observed violation" to "work is now constrained".
+
+    DIAGNOSTIC PATHS STAY OPEN. `--check-only`, and the ledger's own status and resolve commands,
+    work while blocked. An interlock that also prevents looking at itself turns an incident into
+    an outage, and the operator's next move would be to disable it.
+    """
+    if check_only:
+        return []
+
+    #  THE LEASE COMES FIRST. Reconciliation is not read-only -- it materialises incident files
+    #  when it observes a failure -- and this repository requires the lease to be checked before
+    #  a governed write. Codex caught the ordering: the lease was a GATE, and gates run after
+    #  this point, so reconciliation could have written under an expired lease.
+    try:
+        lease.require("governed_write")
+    except Exception as exc:                                            # noqa: BLE001
+        return [f"REFUSED  {exc}"]
+
+    blockers, _detail = obligations.blocking(reconcile=True)
+
+    if remediating:
+        try:
+            incidents = obligations.load_incidents()
+        except obligations.StateUnknown as exc:
+            return [f"REFUSED  {exc}"]
+        still_open = {d["_id"] for d in obligations.open_incidents(incidents)}
+        if remediating not in incidents:
+            return [f"REFUSED  no incident {remediating}"]
+        if remediating not in still_open:
+            #  A resolved incident would otherwise be a permanent skeleton key: name any old
+            #  closed id and the interlock never applies again.
+            return [f"REFUSED  incident {remediating} is already resolved, so naming it does "
+                    f"not license a landing"]
+        if no_deploy_check:
+            return ["REFUSED  --no-deploy-check is unavailable while remediating. Not observing "
+                    "the result is how the obligation went undischarged in the first place."]
+        return []
+
+    if not blockers:
+        return []
+    if no_deploy_check:
+        #  The one flag that could turn the interlock off from the inside.
+        return ["REFUSED  --no-deploy-check is unavailable while a deployment obligation is "
+                "undischarged. Skipping the observation is what left it undischarged."]
+    return [f"REFUSED  {reason}" for reason in blockers] + [
+        "",
+        "An ordinary landing is refused while a deployment obligation is undischarged.",
+        "To land the FIX for it, name the incident:",
+        "    python3 tools/land.py -F msg.txt --remediating <incident-id>",
+        "To see the ledger:  python3 tools/deploy_obligations.py --status",
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
     parser.add_argument("-m", "--message", help="commit message")
@@ -259,8 +313,20 @@ def main() -> int:
     parser.add_argument("--note", default="", help="note recorded on the attestations")
     parser.add_argument("--no-deploy-check", action="store_true",
                         help="skip waiting for the Pages deploy. The run then says so explicitly "
-                             "rather than implying the site is current.")
+                             "rather than implying the site is current. UNAVAILABLE while a "
+                             "deployment obligation is undischarged.")
+    parser.add_argument("--remediating", metavar="INCIDENT_ID", default="",
+                        help="land as a REMEDIATION of an open deploy incident. Required while "
+                             "one is open; recorded on the attestation. The link says what this "
+                             "landing claims to fix, not that it does.")
     args = parser.parse_args()
+
+    refusal = interlock(check_only=args.check_only, remediating=args.remediating,
+                        no_deploy_check=args.no_deploy_check)
+    if refusal:
+        for line in refusal:
+            print(f"  {line}", file=sys.stderr)
+        return 2
 
     problems = preflight(args.branch)
     if problems:
@@ -306,11 +372,15 @@ def main() -> int:
     #  status -- a push can exit 0 having carried nothing, which is how an unchanged main was
     #  reported as a successful push three times.
     suite_code = dict((n, c) for n, c, _ in results)["tests"]
+    note = args.note or "landed by land.py"
+    if args.remediating:
+        #  Permanent in the log: this landing CLAIMED to remedy that incident. Whether it did is
+        #  not something any tool here can establish, and the wording says so.
+        note = f"{note} | remediating {args.remediating} (claimed, not verified)"
     ex.attest("test", {"suite": "tools/tests/run_all.py", "exit_status": suite_code,
-                       "status_from": "direct"}, note=args.note or "landed by land.py")
+                       "status_from": "direct"}, note=note)
     try:
-        ex.attest("push", {"target_ref": args.branch, "commit": sha},
-                  note=args.note or "landed by land.py")
+        ex.attest("push", {"target_ref": args.branch, "commit": sha}, note=note)
     except ex.AttestationFailed as failed:
         print(f"  ATTESTATION FAILED: {failed}", file=sys.stderr)
         return 1
@@ -329,10 +399,26 @@ def main() -> int:
         print(f"\n  \033[31mDEPLOY NOT CONFIRMED\033[0m — {failed}", file=sys.stderr)
         if result.get("run_url"):
             print(f"  {result['run_url']}", file=sys.stderr)
+        #  NO SECOND CODE PATH. `ex.attest` writes the row BEFORE it raises, so the failure
+        #  is already in the log; reconciling here opens the incident through exactly the same
+        #  function the next preflight would use. An earlier version created the incident inline
+        #  and had to invent an attestation identity to do it, which is how a duplicate identity
+        #  scheme gets born.
+        reasons, _ = obligations.blocking(reconcile=False)
+        for reason in reasons:
+            print(f"  {reason}", file=sys.stderr)
+        print("  The NEXT ordinary landing is refused until this is resolved.", file=sys.stderr)
         print("  The commit is pushed and cannot be unpushed. What is NOT established is that "
               "the site serves it.\n  Do not tell anyone a page is live.", file=sys.stderr)
         return 3
     print(f"  deployed {(result.get('deployed_sha') or '')[:12]} — the site serves this commit")
+    if args.remediating:
+        #  RECOVERED IS NOT RESOLVED. The deploy working again says publication is healthy now;
+        #  it does not say the earlier violation was ever looked at. Closing automatically here
+        #  would mean nobody has to — which is how six correct attestations were passed over.
+        print(f"\n  {args.remediating} is now RECOVERED, and still OPEN. Ordinary landing stays "
+              f"refused until it is resolved with evidence:")
+        print(f"      python3 tools/deploy_obligations.py --resolve {args.remediating}")
     return 0
 
 

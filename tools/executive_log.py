@@ -214,6 +214,9 @@ def _check_merge(claim: dict) -> list[str]:
     return problems
 
 
+_FULL_SHA = __import__("re").compile(r"\A[0-9a-f]{40}\Z")
+
+
 def _check_deploy(claim: dict) -> list:
     """A deploy claim holds only if the SERVED site is the commit that was pushed.
 
@@ -236,7 +239,17 @@ def _check_deploy(claim: dict) -> list:
     want, got = claim.get("commit"), claim.get("deployed_sha")
     if not want or not got:
         problems.append("the claim does not name both the pushed commit and the deployed sha")
-    elif not (want.startswith(got) or got.startswith(want)):
+    #  FULL EQUALITY, NOT PREFIX. This accepted `want.startswith(got) or got.startswith(want)`
+    #  until 2026-08-12, which meant a one-character deployed_sha matched almost any commit and
+    #  a 12-character one matched by luck of the draw. Both API sources return full 40-character
+    #  shas, so an abbreviation here means something in between transformed it — which is a
+    #  reason to refuse, not a shape to accommodate. Codex found it while checking whether this
+    #  file's neighbour could honestly claim "full SHA equality throughout". It could not.
+    elif not (_FULL_SHA.match(want) and _FULL_SHA.match(got)):
+        problems.append(f"an abbreviated sha in the claim ({want[:12]} vs {got[:12]}); both "
+                        f"sources return full 40-character shas, so an abbreviation means "
+                        f"something transformed it and the comparison cannot be trusted")
+    elif want != got:
         problems.append(f"the site is serving {got[:12]}, not the commit that was pushed "
                         f"({want[:12]})")
     return problems

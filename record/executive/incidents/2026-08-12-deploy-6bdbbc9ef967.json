@@ -1,0 +1,18 @@
+{
+  "schema_version": "oagrc-deploy-incident-0.2",
+  "artifact_type": "deploy_incident",
+  "id": "2026-08-12-deploy-6bdbbc9ef967",
+  "opened_utc": "2026-08-12T01:37:30Z",
+  "commit": "6bdbbc9ef96719a5e7192b52987e91ad6baf109b",
+  "source_attestation": "60f21388133e491f",
+  "observation": {
+    "state": "INCIDENT",
+    "commit": "6bdbbc9ef96719a5e7192b52987e91ad6baf109b",
+    "conclusion": "failure",
+    "served_sha": "c7fe8615ca0c083d32efb653f6bbab7b034291d8",
+    "why": "reconstructed from the action-log attestation written at the time"
+  },
+  "follows": null,
+  "note": "Reconstructed from the attestation land.py wrote when it happened. This incident was observed and recorded correctly at the time and no mechanism read it — which is D-58, and the reason this ledger exists. It is materialised rather than skipped so the ledger does not begin by omitting the failures that caused it.",
+  "what_this_does_not_establish": "That the cause is known, that the site is broken for readers, or that any later commit is affected. It records one observed violation of one postcondition."
+}

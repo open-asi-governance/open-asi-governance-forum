@@ -53,15 +53,29 @@ check("...and the message names both shas",
       bad and "aaaaaaaaaaaa" in bad[0] and "bbbbbbbbbbbb" in bad[0])
 check("a claim missing either sha is refused",
       ex._check_deploy({"observed": True, "conclusion": "success", "commit": "a" * 40}) != [])
-check("an abbreviated sha still matches its full form",
-      ex._check_deploy({**OK, "deployed_sha": "a" * 12}) == [])
+#  FLIPPED 2026-08-12. This case used to require that an abbreviated sha be ACCEPTED, and the
+#  acceptance was implemented as a prefix test -- so `deployed_sha: "a"` matched a commit of
+#  forty a's, and any 12-character prefix matched by luck. Both API sources return full shas, so
+#  an abbreviation arriving here means something transformed it in between.
+#  CONTROL 45: the replacement must still catch what the old one caught, and the b*40 case above
+#  is retained unchanged for exactly that reason.
+check("an ABBREVIATED sha is refused rather than prefix-matched",
+      ex._check_deploy({**OK, "deployed_sha": "a" * 12}) != [])
+check("...and the refusal explains why an abbreviation is itself the problem",
+      "abbreviated" in ex._check_deploy({**OK, "deployed_sha": "a" * 12})[0])
+check("a one-character sha does not match a commit of the same letter",
+      ex._check_deploy({**OK, "deployed_sha": "a"}) != [])
 
 print("\nthe waiter cannot report success without a token")
 saved = land.os.environ.pop("GITHUB_TOKEN", None)
 try:
     r = land.wait_for_deploy("a" * 40)
     check("no token yields observed=False", r.get("observed") is False)
-    check("...and says why", "GITHUB_TOKEN" in r.get("why", ""))
+    #  The wording moved when the waiter stopped keeping its own GitHub query and started
+    #  polling the ledger's pinned observer. What must survive is that it SAYS why, not the
+    #  exact sentence -- but "says why" has to mean something, so it must name the credential.
+    check("...and says why, naming the missing credential",
+          "token" in r.get("why", "").lower())
 finally:
     if saved is not None:
         land.os.environ["GITHUB_TOKEN"] = saved
