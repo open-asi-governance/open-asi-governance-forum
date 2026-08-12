@@ -85,6 +85,10 @@ STEPS = [
     #  and the repository cannot disagree, and --write refuses before writing anything if a
     #  named path is gone.
     ("publish the control-application table", ["tools/control_application.py", "--write"]),
+    #  MUST run before the viewer, which owns the pruner: a page the rebuild does not
+    #  produce is a page the pruner deletes, and the landing page then links to nothing.
+    ("publish the software-implementation view",
+     ["tools/software_implementations.py", "--write"]),
     ("publish the implementation challenge", ["tools/build_challenge_page.py"]),
     ("build threaded viewer", ["tools/build_viewer.py"]),
     # Added 2026-08-06. The T-13 design already claimed this: "deterministic, added

@@ -720,6 +720,10 @@ print(json.dumps(out))
                     #  the markdown-alternate case while every other gate stayed green. Excluded
                     #  here and given its own cases below, per this predicate's own rule.
                     and not f.stem.startswith("control-application")
+                    #  Same shape, one day later: software-implementations.html is a
+                    #  generated companion VIEW over the register, not a page of
+                    #  contributions. Its own cases are below.
+                    and not f.stem.startswith("software-implementations")
                     and not f.stem.startswith("challenge"))
 
         index = (c / "docs/index.html").read_text(encoding="utf-8")
