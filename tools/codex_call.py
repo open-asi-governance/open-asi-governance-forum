@@ -45,6 +45,23 @@ source of truth that could disagree with the log, and the log is what an auditor
 attempt does not reset the clock, and the call is logged BEFORE it runs, so a crashed invocation
 is not an unrecorded one.
 
+THE FLOOR IS CURRENTLY HELD BY THE CUSTODIAN, NOT BY THIS TOOL
+---------------------------------------------------------------
+Since 2026-08-12 there is **no wall-clock gate**, standing, on the custodian's instruction: he
+monitors weekly Claude Code and Codex usage directly. `RATE_LIMITING_HELD_BY` records that, and
+clearing it restores the floor and everything below.
+
+Receipts and transcripts are unaffected — every invocation still writes both. That is what makes
+the monitoring possible; it is not itself a limit, and this tool cannot see whether the
+monitoring happens. **The control is real and it is outside this record.**
+
+The removal has a cost worth naming: on 2026-08-12 Codex found seven real defects across three
+review rounds, every one of them past eight green gates and 63 passing tests. A floor on Codex is
+a floor on that, which is the argument for removing it and also the reason the spend it consumes
+is worth watching.
+
+Everything below describes the floor as it behaves when restored.
+
 The floor does NOT apply to work the custodian just asked for
 --------------------------------------------------------------
 Owner, 2026-08-10: *"Ignore Codex rate limits when acting on my immediate direction. You then
@@ -148,22 +165,30 @@ def may_call(override: str = "") -> tuple[bool, str]:
     elapsed = seconds_since_last()
     if elapsed is None:
         return True, "no previous Codex call recorded"
-    #  FLOOR REMOVED 2026-08-11 ON THE CUSTODIAN'S INSTRUCTION. It is not deleted into nothing:
-    #  the control is TRANSFERRED to him, and it EXPIRES. He is monitoring Claude Code and Codex
-    #  usage directly for the seven-day window ending MONDAY 2026-08-17.
+    #  THE FLOOR IS HELD BY THE CUSTODIAN, NOT BY THIS TOOL. It is not deleted into nothing: the
+    #  control is TRANSFERRED to a named holder who monitors weekly Claude Code and Codex usage.
+    #
+    #  It was removed 2026-08-11 with a stated seven-day window, and this file refused to let that
+    #  window expire silently -- an authority quietly outliving its stated bound is control 12's
+    #  failure mode. On 2026-08-12 the custodian removed the window deliberately: "remove the
+    #  codex floor because i will monitor the weekly usage." A stated decision to make something
+    #  standing and a bound that lapsed unnoticed are different facts, and only the first is this.
     #
     #  The floor was a wall-clock proxy for a spend channel the policy records as UNREADABLE, and
     #  it was overridden on 18 of 21 invocations -- 86%. A control bypassed nine times in ten is a
     #  receipt, not a control, and continuing to describe it as one was the failure.
     #
-    #  AFTER 2026-08-17 THERE IS NO CODEX SPEND CONTROL unless the custodian replaces it. That is
-    #  stated here rather than left to be discovered, because an authority that quietly outlives
-    #  its stated window is control 12's failure mode and this file would otherwise be where it
-    #  happened.
-    if MONITORED_BY_CUSTODIAN_UNTIL:
-        return True, (f"no floor: rate limiting is held by the custodian directly until "
-                      f"{MONITORED_BY_CUSTODIAN_UNTIL}. Invocation receipts and transcripts are "
-                      f"still written; only the wall-clock gate is gone.")
+    #  WHAT THIS TOOL CAN AND CANNOT SAY. It can say that every invocation is recorded: a receipt
+    #  in the action log and a full transcript on disk, both still written. It CANNOT say the
+    #  monitoring is happening -- this record holds no reading, no cadence and no threshold from
+    #  it, and cannot distinguish a channel watched weekly from one nobody looks at. The control
+    #  is real and it is outside the record. Saying so is the whole of what this layer can do
+    #  about it, and claiming otherwise would be the theatre the project objects to.
+    if RATE_LIMITING_HELD_BY:
+        return True, (f"no floor in code: rate limiting for this channel is held by the "
+                      f"{RATE_LIMITING_HELD_BY}, standing, by monitoring weekly usage. Every "
+                      f"invocation still writes a receipt and a transcript — which is what "
+                      f"makes the monitoring possible, and is not itself a limit.")
     floor = min_seconds()
     if elapsed >= floor:
         return True, f"{elapsed/60:.1f} min since the last call, floor is {floor/60:.0f}"
@@ -185,8 +210,9 @@ def may_call(override: str = "") -> tuple[bool, str]:
                    f"pass --override with a reason.")
 
 
-#  Set to a date while the custodian holds rate limiting himself; empty restores the floor.
-MONITORED_BY_CUSTODIAN_UNTIL = "2026-08-17"
+#  WHO HOLDS RATE LIMITING FOR THIS CHANNEL. Empty restores the wall-clock floor, and that path
+#  is still tested -- a transfer that could not be reversed would not be a transfer.
+RATE_LIMITING_HELD_BY = "custodian"
 
 TRANSCRIPTS = REPO_ROOT / "record" / "executive" / "codex-transcripts"
 

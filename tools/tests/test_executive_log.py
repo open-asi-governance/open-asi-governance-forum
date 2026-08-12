@@ -189,18 +189,34 @@ check("...with NO floor invented for it",
       _spend["channels"]["claude_subscription"]["floor"]["value"] is None)
 check("...and says why inventing one would be wrong",
       "indistinguishable" in _spend["channels"]["claude_subscription"]["floor"]["provenance"])
-#  The Codex floor was REMOVED 2026-08-11 on the custodian's instruction; he holds rate limiting
-#  directly until 2026-08-17. The policy must say who holds it and WHEN IT EXPIRES, because an
-#  authority that outlives its stated window is control 12's failure mode.
+#  The Codex floor is HELD BY THE CUSTODIAN, standing, since 2026-08-12. It was removed on
+#  2026-08-11 with a stated seven-day window and this suite required that window to be named so
+#  it could not lapse unnoticed -- control 12's failure mode. The window was then removed
+#  DELIBERATELY, which is a different fact, and what must now be checked is different too: that
+#  the record names a HOLDER, and that it does not pretend the transfer is verifiable from here.
 _codex_floor = _spend["channels"]["codex_subscription"]["floor"]
 check("the Codex floor records that the custodian holds it, not a tool",
       "custodian" in _codex_floor["kind"])
-check("...and names the date it expires",
-      _codex_floor.get("expires") == "2026-08-17")
-check("...and states plainly that nothing replaces it after that",
-      "no Codex spend control" in _codex_floor.get("what_happens_then", ""))
+check("...and names the holder explicitly rather than leaving it to prose",
+      _codex_floor.get("held_by") == "custodian")
+check("...and records that it is standing rather than windowed",
+      _codex_floor.get("standing") is True)
+check("...and carries BOTH instructions, so the windowed one is not overwritten by the standing "
+      "one", "2026-08-11" in _codex_floor["provenance"]
+      and "2026-08-12" in _codex_floor["provenance"])
+#  THE LOAD-BEARING ONE. A control moved outside the record must say it cannot be seen from
+#  inside it, or "held by the custodian" reads as enforcement that nobody can check.
+_cannot = " ".join(_codex_floor.get("what_this_does_not_establish", []))
+check("...and states that this record holds NO artifact of the monitoring",
+      "no artifact of it" in _cannot)
+check("...and that nothing here bounds the spend, only its unrecordedness",
+      "Nothing here bounds it" in _cannot)
+check("...and names what removing the floor costs, rather than only what it gained",
+      "most productive defect-finding" in _cannot)
 check("...and records the override rate that justified removing it",
       "86%" in _codex_floor.get("why_removed", ""))
+check("no expiry is claimed, because a standing arrangement with a date would be a third thing",
+      "expires" not in _codex_floor)
 check("the policy admits the log undercounts the calls actually made",
       any("23 of the 25" in s for s in _spend["what_this_does_not_establish"]))
 _real_policy = cc.policy
@@ -219,25 +235,26 @@ _ago(0.5)
 _allowed, _why = cc.may_call()
 check("a call 30 seconds ago is ALLOWED while the custodian holds rate limiting",
       _allowed is True)
-check("...and the explanation says who holds it and until when",
-      "custodian" in _why and "2026-08-17" in _why)
+check("...and the explanation names who holds it", "custodian" in _why)
+check("...and says the receipts are not themselves a limit, so a reader cannot mistake them "
+      "for one", "not itself a limit" in _why)
 
-#  AND THE FLOOR MUST COME BACK when the window is cleared. Without this the removal is
-#  indistinguishable from a deletion, and a temporary transfer that cannot be reversed is not
-#  temporary. This is control 45 applied to the change: the replacement must still catch what the
-#  predecessor caught, once its stated window ends.
-_held = cc.MONITORED_BY_CUSTODIAN_UNTIL
-cc.MONITORED_BY_CUSTODIAN_UNTIL = ""
+#  AND THE FLOOR MUST COME BACK when the holder is cleared. Without this the removal is
+#  indistinguishable from a DELETION, and a transfer that cannot be reversed is not a transfer.
+#  This is control 45 applied to the change: the machinery must still catch what it caught, and
+#  the custodian must be able to hand rate limiting back to the tool by editing one string.
+_held = cc.RATE_LIMITING_HELD_BY
+cc.RATE_LIMITING_HELD_BY = ""
 _ago(0.5);  check("with the window cleared, a call 30 seconds ago is refused again",
                   cc.may_call()[0] is False)
 _ago(9.5);  check("...and 9.5 minutes ago is still refused", cc.may_call()[0] is False)
 _ago(10.5); check("...and 10.5 minutes ago is allowed", cc.may_call()[0] is True)
-cc.MONITORED_BY_CUSTODIAN_UNTIL = _held
-#  The override path is only reachable when a floor exists, so these run with the custodian's
-#  window cleared. They are kept rather than deleted: the floor returns on 2026-08-17 unless it is
-#  replaced, and a suite that stopped testing the override would leave that return unverified.
-_held2 = cc.MONITORED_BY_CUSTODIAN_UNTIL
-cc.MONITORED_BY_CUSTODIAN_UNTIL = ""
+cc.RATE_LIMITING_HELD_BY = _held
+#  The override path is only reachable when a floor exists, so these run with the holder cleared.
+#  They are kept rather than deleted: the floor is one string away from returning, and a suite
+#  that stopped testing the override would leave that return unverified on the day it is needed.
+_held2 = cc.RATE_LIMITING_HELD_BY
+cc.RATE_LIMITING_HELD_BY = ""
 _ago(1)
 allowed, why = cc.may_call(override="custodian said so")
 check("an override is honoured", allowed is True)
@@ -248,7 +265,7 @@ check("...and the running override RATE is shown at the point of override",
 _, why_refused = cc.may_call()
 check("a refusal says how long remains", "min remain" in why_refused)
 check("...and offers batching before the override", "Batch the question" in why_refused)
-cc.MONITORED_BY_CUSTODIAN_UNTIL = _held2
+cc.RATE_LIMITING_HELD_BY = _held2
 src = open(REPO_ROOT / "tools/codex_call.py").read()
 #  WHITESPACE-NORMALISED. A prose assertion that breaks when a docstring rewraps is a test of the
 #  line breaks, not of the claim; it once failed on "a second\nsource of truth".

@@ -16,7 +16,7 @@
     "claude_subscription": {
       "what": "prepaid monthly; funds Claude Code, i.e. the executive's own operation",
       "readable": true,
-      "how_read": "OAuth GET api.anthropic.com/api/oauth/usage \u2014 executive_log.quota_now()",
+      "how_read": "OAuth GET api.anthropic.com/api/oauth/usage — executive_log.quota_now()",
       "enforced_by": null,
       "floor": {
         "kind": "percent of the seven-day window remaining",
@@ -28,20 +28,25 @@
       "what": "prepaid monthly; funds Codex review",
       "readable": false,
       "how_read": "CDP-only (authenticated Chrome on :9222); SET ASIDE 2026-08-09",
-      "enforced_by": "NOTHING IN CODE from 2026-08-11 to 2026-08-17. The custodian is monitoring Claude Code and Codex usage directly for that seven-day window and instructed the wall-clock floor be removed. tools/codex_call.py still writes invocation receipts and persists every transcript; only the gate is gone.",
+      "enforced_by": "NOTHING IN CODE, standing. The custodian holds rate limiting for this channel directly, by monitoring weekly Claude Code and Codex usage. tools/codex_call.py still writes an invocation receipt for every call and persists every transcript; only the wall-clock gate is gone. Setting codex_call.RATE_LIMITING_HELD_BY to an empty string restores the floor.",
       "floor": {
         "kind": "held by the custodian, not by a tool",
-        "value": "none in code until 2026-08-17",
-        "provenance": "custodian, 2026-08-11: 'Remove the Codex floor because I will monitor Claude Code and Codex usage for the 7-day period ending Monday August 17.'",
-        "why_removed": "The floor was a wall-clock PROXY for this channel, which this policy records as unreadable. It was overridden on 18 of 21 invocations (86%). A control bypassed nine times in ten is a receipt, not a control.",
-        "expires": "2026-08-17",
-        "what_happens_then": "NOTHING, unless the custodian replaces it. After that date there is no Codex spend control of any kind. An authority that quietly outlives its stated window is control 12's failure mode; this is the notice that it would be one."
+        "value": "none in code",
+        "held_by": "custodian",
+        "standing": true,
+        "provenance": "custodian, 2026-08-11: 'Remove the Codex floor because I will monitor Claude Code and Codex usage for the 7-day period ending Monday August 17.' Made STANDING 2026-08-12: 'remove the codex floor because i will monitor the weekly usage.' The first instruction carried a stated window and this record refused to let it outlive that window silently; the second removes the window deliberately, which is a different fact and is recorded as one.",
+        "why_removed": "The floor was a wall-clock PROXY for a channel this policy records as unreadable. It was overridden on 18 of 21 invocations (86%). A control bypassed nine times in ten is a receipt, not a control.",
+        "what_this_does_not_establish": [
+          "That any monitoring is happening. This record holds no artifact of it — no reading, no cadence, no threshold — and cannot distinguish a channel watched weekly from one nobody looks at. The control is real and it is OUTSIDE the record.",
+          "That the executive's Codex spend is bounded. Nothing here bounds it. What is bounded is the executive's ability to spend it UNRECORDED: every invocation writes a receipt and a transcript, so the custodian's monitoring has something to monitor.",
+          "That removing it was cheap. Codex review is the single most productive defect-finding mechanism this project has — on 2026-08-12 it found seven real defects across three rounds, every one past eight green gates. A floor on it is a floor on that."
+        ]
       },
       "rate_limit": {
         "min_seconds_between_calls": 600,
         "provenance": "UNMEASURED. The custodian said 'at least 10 minutes'; the custodian also holds the measurement of how fast Codex actually exhausts the weekly window, which is what the spacing should be derived from. Until that measurement is recorded here, 600 is a floor honoured, not a rate justified.",
         "derived_from_measurement": false,
-        "exemption": "Does not apply to work the custodian has just directed. Owner 2026-08-10: 'Ignore Codex rate limits when acting on my immediate direction.' Use --override with the direction as the reason, so the exemption is logged."
+        "exemption": "Moot while the floor is held by the custodian. Retained because the machinery returns if RATE_LIMITING_HELD_BY is cleared. Owner 2026-08-10: 'Ignore Codex rate limits when acting on my immediate direction.' Use --override with the direction as the reason."
       }
     }
   },
