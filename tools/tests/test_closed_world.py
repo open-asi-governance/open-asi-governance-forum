@@ -29,6 +29,12 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 REPO = ROOT.parent
 
+#  THE PROBE IS NOT NAMED `test_*.py`, and that is not cosmetic. It was, and
+#  tools/tests/run_all.py globs `test_*.py` at import — so a CONCURRENT suite run picked the
+#  probe up as a suite of its own and failed on a file the creating test had already deleted.
+#  Two landings overlapped on 2026-08-12 and that is exactly what happened. control_coverage.py
+#  globs `*.py` in this directory, so the probe is still in the population it must disturb.
+#
 #  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool named here must
 #  exist and this file must assert a refusal, or the scan fails — a declaration is a claim, not
 #  a substitute for the case.
@@ -196,7 +202,7 @@ BROKEN = "def broken(:\n"
 for tool, probe, leaks in (
         ("scan_own_code.py", ROOT / "zzqx_unparseable_probe.py",
          ("undispositioned", "dispositioned")),
-        ("control_coverage.py", ROOT / "tests" / "test_zzqx_unparseable_probe.py",
+        ("control_coverage.py", ROOT / "tests" / "zzqx_unparseable_probe.py",
          ("HAS_NEGATIVE_CONTROL", "NOT_APPLICABLE", "total", "% of tools"))):
     #  BASELINE FIRST. A tool that refuses whatever happens is broken, not strict.
     r = run(tool)
@@ -224,7 +230,7 @@ for tool, probe, leaks in (
 #  THE GATE PATH, SEPARATELY. `--check` did not consult the survey at all, so it passed on a
 #  population it could not fully read — the gate wired into landing, blind to the thing the
 #  normal path had just started refusing.
-probe = ROOT / "tests" / "test_zzqx_unparseable_probe.py"
+probe = ROOT / "tests" / "zzqx_unparseable_probe.py"
 r = run("control_coverage.py", "--check")
 check("BASELINE: control_coverage.py --check passes on a clean tree", r.returncode == 0,
       (r.stdout + r.stderr)[-200:])

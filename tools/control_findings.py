@@ -18,18 +18,18 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 10 of 32.** Those are the defect shapes that are mechanically
-recognisable; the rest came from reading, from running the fault, or from an outsider. Which
-controls they fall under, and whether detector is in fact the largest category, are computed by
-the tool rather than asserted here — this line has now been wrong twice in the same way. It said
-"every one of them control 53" until a second control acquired a detector, and it called detector
-"the largest single category" while `external` stood at twelve. So the controls both caught things directly AND directed attention to
-the right code, and the split matters more than either number alone.
+**A detector fired for 10 of 33.** Those are the defect shapes that are mechanically
+recognisable; the rest came from reading, from running the fault, or from an outsider. So the
+controls both caught defects directly AND directed attention to the right code, and the split
+matters more than either number alone.
 
-Those two numbers are CHECKED against the table below by `--check`, which refuses if they have
-drifted apart. A count transcribed into prose beside the data it describes is this record's most
-frequent defect: three published figures were wrong on 2026-08-10 in exactly this way, and a
-docstring is not exempt for being a comment.
+Which controls the detector findings fall under, and whether detector is in fact the largest
+category, are COMPUTED by the tool rather than stated here — this sentence has been wrong twice
+in the same way. It said "every one of them control 53" until a second control acquired a
+detector, and then called detector "the largest single category" while `external` stood at
+twelve. The two numbers above are checked against the table by `--check`, which refuses if they
+drift apart. A count transcribed into prose beside the data that produces it is this record's
+most frequent defect, and a docstring is not exempt for being a comment.
 
 WHAT THIS DOES NOT ESTABLISH. That the controls work in general; that these defects would have
 caused harm; that the count is complete. It is a count of defects found in one small codebase by
@@ -252,6 +252,14 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "MISSING negative control, and become control 45 evidence only when a replacement is tested "
   "against retained historical cases.",
   "detector", "tools/guards.py; tools/tests/test_no_blank_cells.py"),
+
+ ("C2 negative control",
+  "The control-5 fixture wrote its unreadable-file probe as tools/tests/test_zzqx_probe.py, and "
+  "run_all.py globs test_*.py at import — so a CONCURRENT suite run enumerated the probe as a "
+  "suite and failed on a file the creating test had already deleted. The suite passed every time "
+  "it ran alone, which is what made it a landmine rather than a bug: green depended on nothing "
+  "else running. Renamed out of the glob while staying inside the population it must disturb.",
+  "reading", "tools/tests/test_closed_world.py; land8 run 2026-08-12"),
 
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "
