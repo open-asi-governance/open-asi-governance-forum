@@ -240,9 +240,20 @@ def call(prompt: str, purpose: str, override: str = "") -> tuple[int, str]:
     #  expired lease is not a slow-down to wait out; it is the sunset, and there is no override.
     try:
         lease.require("codex_invoke")
-    except lease.LeaseExpired as expired:
-        ex.log_action("codex_invoke", {"purpose": purpose, "coverage": "refused_before_action"},
-                      verified=False, problems=[str(expired)], note="refused by the lease")
+    #  LeaseRefused, not LeaseExpired. Catching the calendar-bound name only meant a refusal on
+    #  the action bound — or on unreadable evidence — escaped as a traceback instead of being
+    #  attested as a refusal. D-64.
+    except lease.LeaseRefused as expired:
+        #  The refusal must survive an UNLOGGABLE log. When the lease refuses BECAUSE the action
+        #  log is malformed, logging the refusal rereads that same file — so the handler raised
+        #  JSONDecodeError and the promised attested refusal never happened. Codex reproduced it.
+        #  Refusing loudly without a receipt beats crashing; the failure to log is printed.
+        try:
+            ex.log_action("codex_invoke",
+                          {"purpose": purpose, "coverage": "refused_before_action"},
+                          verified=False, problems=[str(expired)], note="refused by the lease")
+        except Exception as unloggable:                                 # noqa: BLE001
+            print(f"  (the refusal could not be logged: {unloggable})", file=sys.stderr)
         print(f"  REFUSED: {expired}", file=sys.stderr)
         return 3, ""
     allowed, why = may_call(override)

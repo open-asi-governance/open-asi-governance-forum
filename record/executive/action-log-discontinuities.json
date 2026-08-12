@@ -1,0 +1,51 @@
+{
+  "what_this_is": "Authorised breaks in the executive action log's hash chain. The lease verifies the chain before it believes the action count; an unrecorded break refuses. This file is the ONLY route past that, and it is not a waiver: each entry pins the exact break by position and by BOTH hashes -- the one stored on the breaking row and the one its predecessor now computes to. Edit any of those rows again and the pin stops matching, so the lease refuses again. What is excused is one argued edit, never 'edits at this position'.",
+  "why_not_simply_refuse": "Because refusing outright would have converted a redaction the custodian was obliged to make into a total work stoppage, and the operator's next move under a stoppage is to disable the check. Same reasoning as the corpus tombstone rule: the bytes may go, the record of their going may not.",
+  "what_this_does_not_establish": "That the four rows say what they said before. The chain proves only that nothing else moved; the content of a redacted note is gone, by design, and this file cannot recover it. It also does not make the count trustworthy in general -- the log is written by the layer the count constrains, and D-64 says so at length.",
+  "discontinuities": [
+    {
+      "utc": "2026-08-11T12:40:08Z",
+      "action": "push",
+      "stored_prev_sha256": "bc3abd276f5566fa8f499cb183625c6691916b3abf88134309ce157f6a680a7b",
+      "computed_prev_sha256": "daf542019b91572533e4752a9bbfaaaa6db7dd2507dfa5b25ebe5395c22b52e9",
+      "line": 138,
+      "reason": "The 2026-08-11 redaction. A correspondent asked for his name to be removed; the custodian agreed and the name appeared in the `note` field of the four action rows immediately preceding these breaks. Removing it changed those rows' bytes, so every following row's prev_sha256 stopped matching. The break is a CONSEQUENCE of an obligatory removal, not of a rewritten history: no action was added, removed or reordered, and REDACTION.md records the same four rows under 'record/executive/action-log.jsonl (invocation purposes) | 4'.",
+      "authority": "custodian (Stephen Reed), 2026-08-11 \u2014 'redact all ten outreach recipients, not just the one who complained' (63a051d, ae72dfc)",
+      "recorded_utc": "2026-08-12T13:15:12Z",
+      "recorded_under_lease": "trial-04"
+    },
+    {
+      "utc": "2026-08-11T12:41:56Z",
+      "action": "test",
+      "stored_prev_sha256": "019534785854009b779b9d201936f5adbc831fc40d217b3027ac564a545692ac",
+      "computed_prev_sha256": "5dd9638ab373fcc7a5181db4a5d819810ba4b0b1cfe55e33d8a7cd1095217b5a",
+      "line": 139,
+      "reason": "The 2026-08-11 redaction. A correspondent asked for his name to be removed; the custodian agreed and the name appeared in the `note` field of the four action rows immediately preceding these breaks. Removing it changed those rows' bytes, so every following row's prev_sha256 stopped matching. The break is a CONSEQUENCE of an obligatory removal, not of a rewritten history: no action was added, removed or reordered, and REDACTION.md records the same four rows under 'record/executive/action-log.jsonl (invocation purposes) | 4'.",
+      "authority": "custodian (Stephen Reed), 2026-08-11 \u2014 'redact all ten outreach recipients, not just the one who complained' (63a051d, ae72dfc)",
+      "recorded_utc": "2026-08-12T13:15:12Z",
+      "recorded_under_lease": "trial-04"
+    },
+    {
+      "utc": "2026-08-11T12:54:31Z",
+      "action": "codex_return_captured",
+      "stored_prev_sha256": "82f3c3582d84a71ac319e588b07fdd77f8f5a485ea9da4ce7da3be211c0f7a90",
+      "computed_prev_sha256": "82de9f16a6342a3f5b7b56543a022a0d0f54ec3fbd4c052855d5b797b81c058f",
+      "line": 145,
+      "reason": "The 2026-08-11 redaction. A correspondent asked for his name to be removed; the custodian agreed and the name appeared in the `note` field of the four action rows immediately preceding these breaks. Removing it changed those rows' bytes, so every following row's prev_sha256 stopped matching. The break is a CONSEQUENCE of an obligatory removal, not of a rewritten history: no action was added, removed or reordered, and REDACTION.md records the same four rows under 'record/executive/action-log.jsonl (invocation purposes) | 4'.",
+      "authority": "custodian (Stephen Reed), 2026-08-11 \u2014 'redact all ten outreach recipients, not just the one who complained' (63a051d, ae72dfc)",
+      "recorded_utc": "2026-08-12T13:15:12Z",
+      "recorded_under_lease": "trial-04"
+    },
+    {
+      "utc": "2026-08-11T13:01:05Z",
+      "action": "test",
+      "stored_prev_sha256": "e4271c1904a35c62a392a9f88d23e48e5e9a3a9a5f97e25b8f83102ac8d6f98d",
+      "computed_prev_sha256": "5d44e8ff83ab11f27f0c3ceeb6a8710a6a28837ea797b1d10f87bd8a696aa6b7",
+      "line": 146,
+      "reason": "The 2026-08-11 redaction. A correspondent asked for his name to be removed; the custodian agreed and the name appeared in the `note` field of the four action rows immediately preceding these breaks. Removing it changed those rows' bytes, so every following row's prev_sha256 stopped matching. The break is a CONSEQUENCE of an obligatory removal, not of a rewritten history: no action was added, removed or reordered, and REDACTION.md records the same four rows under 'record/executive/action-log.jsonl (invocation purposes) | 4'.",
+      "authority": "custodian (Stephen Reed), 2026-08-11 \u2014 'redact all ten outreach recipients, not just the one who complained' (63a051d, ae72dfc)",
+      "recorded_utc": "2026-08-12T13:15:12Z",
+      "recorded_under_lease": "trial-04"
+    }
+  ]
+}

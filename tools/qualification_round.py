@@ -519,7 +519,14 @@ def main() -> int:
     k_by_party = next(iter(specs.values()))["k_by_party"]
 
     if not args.score_only:
-        lease.require("round")
+        try:
+            lease.require("round")
+        except (lease.LeaseRefused, lease.UnknownActionClass) as refused:
+            #  This used to propagate as a traceback. A governed stop and a crash
+            #  look different to an operator, and only one of them is the control
+            #  working. Codex, reviewing D-64.
+            print(f"REFUSED: {refused}", file=sys.stderr)
+            return 6
         already = [p for p in instrument_identity(prompt_sha)
                    if f"/{args.cohort}/" not in f"/{p}"
                    and not p.startswith(f"record/solicitations/{args.cohort}")

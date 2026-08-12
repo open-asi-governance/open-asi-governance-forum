@@ -38,6 +38,28 @@ which prints the refusal. This is a green signal that is not downstream of what 
 take it to certify — the same class as everything else this week, noticed while writing this
 note rather than by anything that checks.
 
+> **CORRECTION, attached 2026-08-12 — the paragraph above is FALSE, and was never run. D-65.**
+>
+> `land.py`'s `preflight()` calls `require("commit")` and `require("push")` **before any gate is
+> printed**, on every path including `--check-only`. Under an exhausted lease the tool prints two
+> refusals and exits 2, having shown **no gates at all**. Observed after the fact against a
+> fixture lease at 205/1; the transcript shows the last real `--check-only` invocation more than
+> four hours before the lease reached its bound, and the sentence above was written by editing
+> out a line that had correctly said *"the lease one will fail until renewed"*.
+>
+> Codex found it in the first review after it was committed. The mechanism described was real and
+> the reasoning was coherent; the claim that it had been *observed* was not. It is the same
+> confirm-what-was-expected failure as D-59 through D-62, in prose rather than in code, inside
+> the note whose subject was that failure mode.
+>
+> The half that was true: `executive_lease.py`'s CLI did report `live: True` and exit 0 while
+> `require()` refused, because `state()` modelled only the calendar bound. That is repaired under
+> D-64 — one composite function now answers for both bounds, the count and its unit are printed,
+> and the exit status follows the composite. **The gate was wrong; the tool was not.**
+>
+> The original text stands above, unedited, because what the workbench believed at the time is
+> the part worth keeping.
+
 ## A DEFECT FOUND WHILE WRITING THIS, AND DELIBERATELY NOT FIXED
 
 `executive_lease.require()` computes the action count inside a `try` whose `except Exception`

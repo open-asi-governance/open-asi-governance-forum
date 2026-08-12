@@ -132,10 +132,24 @@ APPLICATION: dict[int, dict] = {
              "specific postcondition per governed effect; what exists reconciles the classes that ha"
              "ppen to have profiles."),
  4: dict(scope=CODE,
-         files=("tools/executive_lease.py", "tools/land.py"),
-         tests=("tools/tests/test_executive_log.py",),
-         gap="The lease checks action class, expiry and a max-actions count. It does not check token subject, resource scope, nonce or revocation, and the control names all four. Scope-m"
-             "atching in particular is unimplemented — one lease authorises everything."),
+         files=("tools/executive_lease.py", "tools/land.py", "tools/codex_call.py",
+                "record/executive/action-log-discontinuities.json"),
+         tests=("tools/tests/test_executive_log.py", "tools/tests/test_lease_bounds.py"),
+         gap="**The lease failed OPEN inside itself until 2026-08-12.** Its action count sat in a "
+             "bare `except Exception: spent = 0`, so an unreadable log — including the ordinary "
+             "case of the module being loaded by path — granted an exhausted lease unlimited "
+             "actions. Reproduced against the live spent lease; see D-64. The count is now a "
+             "typed observation that refuses when it cannot be read, the chain is verified "
+             "against pinned, recorded discontinuities before the count is believed, and ten "
+             "refusal fixtures assert at the effect boundary that the governed write does not "
+             "happen. "
+             "*Remaining:* the count is still derived from a log this layer writes about itself, "
+             "so under-logging shrinks it, one authorised action can append several rows, and two "
+             "callers at cap-1 can both be admitted; a pre-action reservation ledger is designed "
+             "and not built. The unit is rows, not the action classes require() authorises — 200 "
+             "rows of five kinds ended trial-03 — and that is left as-is deliberately, because "
+             "trial-04 was granted over the row unit. Scope-matching, token subject, nonce and "
+             "revocation remain unimplemented: one lease still authorises everything."),
  5: dict(scope=CODE,
          files=("tools/closed_world.py", "tools/derive_counts.py", "tools/scan_own_code.py",
                 "tools/control_coverage.py", "tools/validate_provenance.py"),
@@ -449,13 +463,20 @@ APPLICATION: dict[int, dict] = {
                  "tools/build_round_pages.py", "tools/solicit_tools.py",
                  "tools/watch_arrivals.py", "tools/gate_health.py",
                  "tools/check_executive_context.py", "tools/deploy_obligations.py",
-                 "tools/scan_own_code.py"),
+                 "tools/scan_own_code.py", "tools/executive_lease.py"),
           tests=("tools/tests/test_derive_counts.py", "tools/tests/test_deploy_obligations.py",
-                 "tools/tests/test_gate_negative_controls.py"),
+                 "tools/tests/test_gate_negative_controls.py",
+                 "tools/tests/test_lease_bounds.py"),
           gap="47 sites were swept on 2026-08-11 — 14 fixed, 36 dispositioned, none outstanding "
               "— and unknowns are still ordinary Python values rather than a TYPE that "
               "aggregation refuses. A new `d.get(k, 0)` is caught by scan_own_code.py only "
-              "because a detector looks for it, not because the language refuses it."),
+              "because a detector looks for it, not because the language refuses it. "
+              "**The sweep missed the worst site**, because it looked for absence-as-zero in "
+              "tools that COUNT and this one was a tool that REFUSES: executive_lease.require() "
+              "coerced an unreadable action count to 0 and granted the action. Fixed under D-64 "
+              "with four typed count states of which only one carries a number, and a refusal "
+              "worded so that 'cannot be read' is not reported as 'exhausted' — the same "
+              "coercion one level up, in the error message."),
  54: dict(scope=NOT_CODE,
           reason="Structural: no component of this system is updated by an agent and then "
                  "reused by it. The three-arm comparison has no arms to run."),
@@ -507,19 +528,25 @@ APPLICATION: dict[int, dict] = {
          gap="Several tools print what they do not establish. Nothing BINDS a published gain to a residual failure set, nothing rejects a residual stated as a bare percentage, and the ci"
              "ted test does not inspect the reporting tools for the property."),
  64: dict(scope=CODE,
-          files=("tools/record_spend.py", "tools/guards.py"),
-          tests=("tools/tests/test_gate_negative_controls.py",),
-          gap="Applied at exactly ONE site — the arm that caused the failure. record_spend.py "
-              "refuses an unregistered cohort under RS-01, and that arm requires a non-zero exit "
-              "AND asserts the spend ledger byte-identical afterwards. Whole-artifact identity "
-              "is the correct LOCAL assertion there because that tool has no permitted "
-              "refusal-side effect; it is NOT the control's general requirement, which is about "
-              "the governed effect boundary — a gate may legitimately write a denial record "
-              "while refusing. Nothing generalises any of it: no harness makes a refusing tool "
+          files=("tools/record_spend.py", "tools/guards.py", "tools/executive_lease.py"),
+          tests=("tools/tests/test_gate_negative_controls.py",
+                 "tools/tests/test_lease_bounds.py"),
+          gap="TWO sites now, and the second is the better instance. record_spend.py refuses an "
+              "unregistered cohort under RS-01, and that arm requires a non-zero exit AND asserts "
+              "the spend ledger byte-identical afterwards; whole-artifact identity is the correct "
+              "LOCAL assertion there because that tool has no permitted refusal-side effect. "
+              "test_lease_bounds.py goes further, though not as far as its first write-up claimed: "
+              "each of its ten refusal fixtures calls a `governed_effect()` that would write a "
+              "sentinel file if admitted, and asserts the sentinel is ABSENT — so a lease that "
+              "raised the right exception and let the write happen would fail, which "
+              "`pytest.raises` alone cannot detect. It carries a positive control, because a "
+              "lease that refused everything would otherwise score ten out of ten. "
+              "**Codex's correction, kept:** absence of that sentinel mostly proves ordinary Python sequencing — a raised exception prevents the next statement — and does "
+              "NOT exercise a real caller's catches, its refusal logging, or its subprocess and filesystem effects. "
+              "*Remaining:* still nothing GENERALISES it — no harness makes a refusing tool "
               "declare its effect set, and no check requires a refusal arm to assert over that "
-              "set rather than over stdout. The control's own discriminating case — a tool that "
-              "exits non-zero, prints a refusal, and acts anyway — has no fixture and no "
-              "instance.",
+              "set rather than over stdout. Both instances were hand-written by the author of "
+              "the tool being tested.",
           residue="That a declared write set is a COMPLETE one. The party declaring what a tool "
                   "may write is the party whose tool writes it, and a harness proves nothing "
                   "about a file nobody listed. The control says so in its own false-negative "

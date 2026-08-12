@@ -330,16 +330,37 @@ def test_unknown_class_raises_rather_than_permitting(tmp):
 
 
 def test_max_actions_is_enforced_not_merely_recorded(tmp):
-    """A secondary bound nobody reads is the ten-action sunset again."""
+    """A secondary bound nobody reads is the ten-action sunset again.
+
+    REWRITTEN 2026-08-12. The previous version was vacuous in two independent ways and passed
+    under both outcomes: its success branch called `check(..., True)` when `require()` did NOT
+    refuse, and it counted against the REAL action log, so what it asserted depended on how much
+    ambient history the repository happened to hold that day. Codex found it while reviewing the
+    D-64 fix — a test written to confirm the behaviour its author expected rather than to observe
+    what the tool did, which is the seventh instance of that shape this week.
+
+    The effect-boundary version of this lives in tools/tests/test_lease_bounds.py. What is kept
+    here is the narrow claim this file is about: the bound is READ, not merely recorded.
+    """
     lease.LEASES = tmp
     if tmp.exists():
         tmp.unlink()
+    log = Path(tempfile.mkdtemp()) / "action-log.jsonl"
+    #  Dated INSIDE the epoch. grant() stamps granted_utc as now, so a row dated in the past is
+    #  correctly not counted — the first version of this fixture used 2026-06-01 and measured an
+    #  empty epoch while claiming to measure a full one.
+    row = {"utc": "2099-01-01T00:00:00Z", "action": "test", "prev_sha256": "0" * 64}
+    log.write_text(json.dumps(row) + "\n", encoding="utf-8")
     lease.grant("cap", "2099-01-01T00:00:00Z", "test", "evidence", max_actions=1)
     try:
-        lease.require("round")
-        check("max_actions blocks once the log passes the cap", True)
-    except lease.LeaseExpired as expired:
-        check("max_actions blocks once the log passes the cap", "max_actions" in str(expired))
+        lease.require("round", log_path=log)
+        check("max_actions blocks once the log reaches the cap", False)
+    except lease.LeaseBoundReached as reached:
+        check("max_actions blocks once the log reaches the cap", "max_actions" in str(reached))
+    #  The other half, without which the above passes on a lease that refuses everything.
+    lease.grant("roomy", "2099-01-01T00:00:00Z", "test", "evidence", max_actions=99)
+    check("and admits while the count is under it",
+          lease.require("round", log_path=log)["live"] is True)
 
 
 def test_no_lease_at_all_is_unauthorised(tmp):
@@ -371,8 +392,30 @@ def test_there_is_no_force_flag():
     names = [n for n in dir(lease) if any(w in n.lower() for w in ("force", "override", "waive",
                                                                   "bypass", "skip"))]
     check(f"the lease exposes no waiver callable (found {names})", names == [])
-    params = list(inspect.signature(lease.require).parameters)
-    check("require() takes only the action class", params == ["action_class"])
+    sig = inspect.signature(lease.require)
+    positional = [n for n, prm in sig.parameters.items()
+                  if prm.kind is not prm.KEYWORD_ONLY]
+    check("require() takes only the action class positionally", positional == ["action_class"])
+
+    #  D-64 added a keyword-only `log_path` so fixtures can point the count at a log they
+    #  control. Freezing the signature would have been the easy assertion and the wrong one:
+    #  what matters is not that the parameter EXISTS but that no production caller passes it,
+    #  because passing an empty file is authorisation. So the control moved to the effect —
+    #  grep every caller. (The first repair used an ambient module global instead, and Codex
+    #  authorised an exhausted lease through it within minutes.)
+    keyword_only = [n for n, prm in sig.parameters.items() if prm.kind is prm.KEYWORD_ONLY]
+    check("...and only `log_path` beyond it, keyword-only",
+          keyword_only == ["log_path"])
+    callers = []
+    for path in sorted((REPO_ROOT / "tools").rglob("*.py")):
+        #  The module itself threads log_path from require() to count_state; that is plumbing,
+        #  not a bypass. Everything else in tools/ is a caller.
+        if path.parent.name == "tests" or path.name == "executive_lease.py":
+            continue
+        body = path.read_text(encoding="utf-8", errors="replace")
+        if "log_path=" in body and "require(" in body:
+            callers.append(path.name)
+    check(f"no production caller passes log_path (found {callers})", callers == [])
 
 
 import pathlib, tempfile as _tf                                             # noqa: E402

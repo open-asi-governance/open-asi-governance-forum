@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "858894c1de5aeffe18ceabb30ca0be619076c2eefbd2d86905a735a8c29f6f9b"
+    "sha256": "a1b70a8ace366615443277c715b62468503d58c734845c9534c0b269205088d8"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2561,7 +2561,7 @@
     {
       "id": "D-63",
       "title": "The register told implementers the adoptable set was empty and that every eligible control needed an HTN planner",
-      "section_sha256": "ce4f8e49ba51cf4e9e625cffc752bcee1e6e1f795d27f9e0851419c2e24eca3f",
+      "section_sha256": "de468a8d5b3f710943a1b655acd0336f98bb955aa2c020ad9e047c4206d0d8c1",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_repository_annotator_invocation",
@@ -2574,7 +2574,7 @@
           "object": "tools/build_controls_page.py",
           "repairability": "affected_object_fully_repairable_by_supersession",
           "remediation_state": "remediation_verified",
-          "note": "The partition reads adopt_today, which already carried the distinction, instead of the presence of applies_when, which a later gate made universally true. Part A 0 -> 9, Part B 0 -> 2, Part C 14 -> 3."
+          "note": "The partition now reads declared prerequisite fields (requires_second_party, requires_goal_graph) instead of the presence of applies_when, which a later gate made universally true. The first repair read adopt_today and still misfiled 11, 13 and 4 (Part A 9, B 2, C 3); the corrected partition is **Part A 10, Part B 3, Part C 1**."
         },
         {
           "object": "docs/controls.html",
@@ -2586,6 +2586,92 @@
       "prospective_control": {
         "state": "prospective_control_required_not_implemented",
         "mechanism": "Nothing checks that a partition's membership matches what the page says about that partition. An empty part with a non-empty description, or a control whose stated scope contradicts its part's blurb, is publishable today."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-64",
+      "title": "The lease's own action bound failed open on an unreadable count, and counts a unit that is not the one it authorises",
+      "section_sha256": "55cec05c1aa0f40cd05b1b414d31bc157f491c5bfcdb535c5730aea03d66217a",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "writing a compaction note under the refusal it describes; reproduced against the live spent lease trial-03, and the unit mismatch found by Codex in the design review of the repair",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/executive_lease.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "FAIL-OPEN CONTAINMENT VERIFIED; ACTION-BUDGET SEMANTICS UNRESOLVED, and the split is deliberate. Verified: the bare `except Exception: spent = 0` is gone; the count is a typed observation of which only COUNTED carries a number; UNAVAILABLE raises LeaseEvidenceUnavailable, which is not a subclass of LeaseExpired; executive_log is located relative to this file; `if cap:` became `cap is not None`, so a cap of 0 bounds instead of disabling; timestamps are parsed as timezone-aware instants rather than compared as strings; require() and the CLI read one composite. Unresolved: the count is still of LOG ROWS written after the fact by the layer it constrains, so under-logging shrinks it, one authorised action can append several rows, and two callers at cap-1 can both be admitted. Codex's first review of the repair reproduced four further ways past the chain check and one fail-open of my own making — see the other objects."
+        },
+        {
+          "object": "record/executive/action-log-discontinuities.json",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "New, and IT IS NOT YET A TOMBSTONE — Codex's words, and correct. A hash chain detects an unrecomputed interior edit and nothing else: he reproduced COUNTED against a rewritten final row, a fully re-chained history, a truncated file and a stale register entry. The repair adds an EXTERNAL checkpoint — the working log must begin with exactly the bytes git committed at HEAD, so truncation, a tail edit, a deleted suffix and a full rechain all refuse — plus mandatory reason and authority fields, so a break excused by four hash values alone is not excused at all. Six fixtures replay his counterexamples. What remains open: a row appended since the last commit is not covered by the anchor, and the register lives in the repository it protects."
+        },
+        {
+          "object": "tools/tests/test_executive_log.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "test_max_actions_is_enforced_not_merely_recorded was vacuous twice over — it counted against the real action log, and its success branch passed when require() did NOT refuse. Rewritten against an isolated log with both branches asserted."
+        },
+        {
+          "object": "tools/codex_call.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Caught LeaseExpired by name, so a refusal on the action bound or on unreadable evidence would have escaped as a traceback instead of an attested refusal. Now catches LeaseRefused."
+        },
+        {
+          "object": "tools/tests/test_lease_bounds.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "Codex on the first version: absence of the sentinel 'mostly proves ordinary Python sequencing — a raised exception prevents the next statement'. True. It does not exercise a real caller's catches, its refusal logging, or its subprocess and filesystem effects. Widened to 48 checks including the six anchor counterexamples, a module loaded by path with tools/ off sys.path, three unusable timestamps, and a stale register entry; still not a real caller's effect boundary, which is task #20 and a prospective control rather than a claim made here."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "A pre-action RESERVATION ledger. The count is still derived from a log this layer writes after the fact, so under-logging shrinks it, one authorised action can append several rows, and two callers at cap-1 can both be admitted. Designed in the Codex review of 2026-08-12; not built, because trial-04 was granted over the row unit and redefining that unit under a live grant would change the size of a permission the custodian gave."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Filed by the layer the lease constrains, about the lease that constrains it."
+      }
+    },
+    {
+      "id": "D-65",
+      "title": "A defect in the landing tool was published as reproduced, and had never been run",
+      "section_sha256": "90a5b5962555e89a368e4ce62ffab53cb786721639d55a6d3eba33d081cbfec0",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_external_adversarial_reviewer",
+        "date_utc": "2026-08-12",
+        "where": "Codex's design review of the D-64 repair, reconciling the reported symptom against the live land.py; confirmed by re-reading the session transcript for the invocation that was never made",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "record/executive/COMPACTION-NOTE-2026-08-12.md",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "The false claim is retained in the tense it was written in, with the correction attached beneath it. Corrections attach; they do not edit."
+        },
+        {
+          "object": "commit 8d2e19d — its message",
+          "repairability": "affected_object_not_repairable",
+          "remediation_state": "remediation_impossible_for_affected_object",
+          "note": "A pushed commit message cannot be corrected without rewriting history, which the custodian ruled against on 2026-08-11 ('do not rewrite history', 90e7095). The correction therefore attaches in the record rather than in the message, and this entry is the pointer between them. land.py itself is NOT listed as an affected object: it was not defective, and saying so is the finding."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing distinguishes a claim this record REPORTS AS OBSERVED from one derived by reading code. The prose gates check attribution of quotations (D-53) and dispositions of absence claims; neither asks whether a stated reproduction was ever run. A candidate control: a reproduction claim must cite the invocation that produced it."
       },
       "human_review": {
         "status": "not_reviewed",

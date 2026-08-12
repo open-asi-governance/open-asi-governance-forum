@@ -348,12 +348,29 @@ def main() -> int:
     if not entries:
         print("no executive actions logged")
         return 0
+    #  THE SAME REGISTER THE LEASE READS. This loop used to answer independently, so on
+    #  2026-08-12 it reported four broken links and exited 1 while executive_lease reported the
+    #  same four as authorised and counted normally. Two verifiers disagreeing about record
+    #  integrity is the split-answer shape D-64 was filed for; there is now one register and two
+    #  readers of it.
+    try:
+        import executive_lease as _lease
+        pinned = {(a.get("utc"), a.get("action"), a.get("stored_prev_sha256"),
+                   a.get("computed_prev_sha256")) for a in _lease.authorised_discontinuities()}
+    except Exception as exc:                                             # noqa: BLE001
+        print(f"  discontinuity register unreadable ({exc}); every break counts as unrecorded")
+        pinned = set()
     prev = "0" * 64
-    broken = 0
+    broken = authorised = 0
     for e in entries:
         if e["prev_sha256"] != prev:
-            print(f"  CHAIN BROKEN at {e['utc']} {e['action']}")
-            broken += 1
+            key = (e["utc"], e.get("action"), e.get("prev_sha256"), prev)
+            if key in pinned:
+                authorised += 1
+                print(f"  chain discontinuity at {e['utc']} {e['action']} — RECORDED and pinned")
+            else:
+                print(f"  CHAIN BROKEN at {e['utc']} {e['action']}")
+                broken += 1
         prev = hashlib.sha256(json.dumps(e, sort_keys=True,
                                          separators=(",", ":")).encode()).hexdigest()
         q = e.get("quota") or {}
@@ -362,7 +379,8 @@ def main() -> int:
         print(f"  {e['utc']}  {e['action']:8} {mark:8} 5h={fh}%  {e.get('note','')[:44]}")
     n = len(entries)
     refused = sum(1 for e in entries if e.get("verified") is False)
-    print(f"\n{n} action(s), {refused} refused, {broken} chain break(s)")
+    print(f"\n{n} action(s), {refused} refused, {broken} unrecorded chain break(s), "
+          f"{authorised} recorded discontinuity(ies)")
     print(f"trial target is 10 actions — {'COMPLETE' if n >= 10 else f'{10-n} remaining'}")
     return 1 if broken else 0
 

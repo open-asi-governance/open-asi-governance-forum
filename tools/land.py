@@ -178,7 +178,7 @@ def preflight(target_branch: str) -> list[str]:
     for action_class in ("commit", "push"):
         try:
             lease.require(action_class)
-        except (lease.LeaseExpired, lease.UnknownActionClass) as refused:
+        except (lease.LeaseRefused, lease.UnknownActionClass) as refused:
             problems.append(f"lease ({action_class}): {refused}")
     code, branch = run(["git", "branch", "--show-current"])
     branch = branch.strip()

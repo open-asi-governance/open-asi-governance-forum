@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 41.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 44.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -66,6 +66,30 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "record_spend.py treated a missing token count as a real zero and priced a model with no "
   "published rate at nothing. Both UNDERSTATE SPEND in the ledger this project is funded from.",
   "detector", "42fda21; tools/scan_own_code.py C53a/C53b"),
+
+ ("C53 typed unknown",
+  "executive_lease.require() coerced an UNREADABLE action count to 0 and granted the action. Any "
+  "error reading the log — including the ordinary case of a caller loading the module by path, so "
+  "that `import executive_log` did not resolve — handed an exhausted lease unlimited actions. "
+  "Reproduced against the live spent lease: refused one way, 'granted, 200 remaining' the other. "
+  "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
+  "COUNT, and this is a tool that REFUSES.",
+  "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C4 fail-closed lease",
+  "The control found its own implementation failing open. Beyond the count defect, the reported "
+  "bound was not the enforced one: `state()` modelled only the calendar bound while `require()` "
+  "modelled both, so the CLI printed `live: True` and exited 0 throughout the twenty-three "
+  "refusals that ended trial-03 — and land.py's `lease` gate reads nothing but that exit code.",
+  "reading", "D-64; tools/executive_lease.py authorization_state()"),
+
+ ("C64 effect boundary",
+  "The lease's own negative control asserted the refusal SIGNAL and never the effect. "
+  "test_max_actions_is_enforced_not_merely_recorded passed whether or not the cap blocked — its "
+  "success branch called check(..., True) when require() did NOT refuse — and it counted against "
+  "the REAL action log, so what it asserted depended on ambient repository history. Found by "
+  "Codex while reviewing the D-64 repair.",
+  "external", "D-64; tools/tests/test_executive_log.py; tools/tests/test_lease_bounds.py"),
 
  ("C53 typed unknown",
   "round_cycle.ledger_spent_today defaulted a missing worst_case_usd to 0.0. That figure gates "

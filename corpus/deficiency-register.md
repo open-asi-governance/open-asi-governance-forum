@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 63** classifications have been read by a human against the prose.
+**0 of 65** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,8 +24,8 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 37 |
-| an external reviewer | 14 |
+| the annotator | 38 |
+| an external reviewer | 15 |
 | a designated review round | 8 |
 | human operator | 3 |
 | another contributor | 1 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 23 |
+| required, not implemented | 25 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**159 affected-object rows across 63 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**166 affected-object rows across 65 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -1007,6 +1007,37 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Affected object | Repairable? | Remediation |
 |---|---|---|
-| tools/build_controls_page.py <br><sub>The partition reads adopt_today, which already carried the distinction, instead of the presence of applies_when, which a later gate made universally true. Part A 0 -> 9, Part B 0 -> 2, Part C 14 -> 3.</sub> | repairable by supersession | verified |
+| tools/build_controls_page.py <br><sub>The partition now reads declared prerequisite fields (requires_second_party, requires_goal_graph) instead of the presence of applies_when, which a later gate made universally true. The first repair read adopt_today and still misfiled 11, 13 and 4 (Part A 9, B 2, C 3); the corrected partition is **Part A 10, Part B 3, Part C 1**.</sub> | repairable by supersession | verified |
 | docs/controls.html <br><sub>Regenerated. It had published 'Part A (0) is adoptable alone and every control in it came from a failure with a cost'.</sub> | repairable by supersession | verified |
+
+### D-64 — The lease's own action bound failed open on an unreadable count, and counts a unit that is not the one it authorises
+
+[Full entry](deficiencies.md#d-64--the-leases-own-action-bound-failed-open-on-an-unreadable-count-and-counts-a-unit-that-is-not-the-one-it-authorises)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `writing a compaction note under the refusal it describes; reproduced against the live spent lease trial-03, and the unit mismatch found by Codex in the design review of the repair`
+- **Prospective control:** required, not implemented — A pre-action RESERVATION ledger. The count is still derived from a log this layer writes after the fact, so under-logging shrinks it, one authorised action can append several rows, and two callers at cap-1 can both be admitted. Designed in the Codex review of 2026-08-12; not built, because trial-04 was granted over the row unit and redefining that unit under a live grant would change the size of a permission the custodian gave.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/executive_lease.py <br><sub>FAIL-OPEN CONTAINMENT VERIFIED; ACTION-BUDGET SEMANTICS UNRESOLVED, and the split is deliberate. Verified: the bare `except Exception: spent = 0` is gone; the count is a typed observation of which only COUNTED carries a number; UNAVAILABLE raises LeaseEvidenceUnavailable, which is not a subclass of LeaseExpired; executive_log is located relative to this file; `if cap:` became `cap is not None`, so a cap of 0 bounds instead of disabling; timestamps are parsed as timezone-aware instants rather than compared as strings; require() and the CLI read one composite. Unresolved: the count is still of LOG ROWS written after the fact by the layer it constrains, so under-logging shrinks it, one authorised action can append several rows, and two callers at cap-1 can both be admitted. Codex's first review of the repair reproduced four further ways past the chain check and one fail-open of my own making — see the other objects.</sub> | repairable by supersession | partly applied |
+| record/executive/action-log-discontinuities.json <br><sub>New, and IT IS NOT YET A TOMBSTONE — Codex's words, and correct. A hash chain detects an unrecomputed interior edit and nothing else: he reproduced COUNTED against a rewritten final row, a fully re-chained history, a truncated file and a stale register entry. The repair adds an EXTERNAL checkpoint — the working log must begin with exactly the bytes git committed at HEAD, so truncation, a tail edit, a deleted suffix and a full rechain all refuse — plus mandatory reason and authority fields, so a break excused by four hash values alone is not excused at all. Six fixtures replay his counterexamples. What remains open: a row appended since the last commit is not covered by the anchor, and the register lives in the repository it protects.</sub> | repairable by supersession | partly applied |
+| tools/tests/test_executive_log.py <br><sub>test_max_actions_is_enforced_not_merely_recorded was vacuous twice over — it counted against the real action log, and its success branch passed when require() did NOT refuse. Rewritten against an isolated log with both branches asserted.</sub> | repairable by supersession | verified |
+| tools/codex_call.py <br><sub>Caught LeaseExpired by name, so a refusal on the action bound or on unreadable evidence would have escaped as a traceback instead of an attested refusal. Now catches LeaseRefused.</sub> | repairable by supersession | verified |
+| tools/tests/test_lease_bounds.py <br><sub>Codex on the first version: absence of the sentinel 'mostly proves ordinary Python sequencing — a raised exception prevents the next statement'. True. It does not exercise a real caller's catches, its refusal logging, or its subprocess and filesystem effects. Widened to 48 checks including the six anchor counterexamples, a module loaded by path with tools/ off sys.path, three unusable timestamps, and a stale register entry; still not a real caller's effect boundary, which is task #20 and a prospective control rather than a claim made here.</sub> | partly repairable | partly applied |
+
+### D-65 — A defect in the landing tool was published as reproduced, and had never been run
+
+[Full entry](deficiencies.md#d-65--a-defect-in-the-landing-tool-was-published-as-reproduced-and-had-never-been-run)
+
+- **First articulated:** an external reviewer, 2026-08-12 · evidence: *preserved artifact*
+  - where: `Codex's design review of the D-64 repair, reconciling the reported symptom against the live land.py; confirmed by re-reading the session transcript for the invocation that was never made`
+- **Prospective control:** required, not implemented — Nothing distinguishes a claim this record REPORTS AS OBSERVED from one derived by reading code. The prose gates check attribution of quotations (D-53) and dispositions of absence claims; neither asks whether a stated reproduction was ever run. A candidate control: a reproduction claim must cite the invocation that produced it.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| record/executive/COMPACTION-NOTE-2026-08-12.md <br><sub>The false claim is retained in the tense it was written in, with the correction attached beneath it. Corrections attach; they do not edit.</sub> | repairable by supersession | verified |
+| commit 8d2e19d — its message <br><sub>A pushed commit message cannot be corrected without rewriting history, which the custodian ruled against on 2026-08-11 ('do not rewrite history', 90e7095). The correction therefore attaches in the record rather than in the message, and this entry is the pointer between them. land.py itself is NOT listed as an affected object: it was not defective, and saying so is the finding.</sub> | not repairable | impossible |
 
