@@ -18,10 +18,15 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 9 of 20 — the largest single category, and every one of them control 53,
-whose defect shape is mechanically recognisable.** The other 11 came from reading, from running the
+**A detector fired for 9 of 22 — the largest single category, and every one of them control 53,
+whose defect shape is mechanically recognisable.** The other 13 came from reading, from running the
 fault, or from an outsider. So the controls both caught things directly AND directed attention to
 the right code, and the split matters more than either number alone.
+
+Those two numbers are CHECKED against the table below by `--check`, which refuses if they have
+drifted apart. A count transcribed into prose beside the data it describes is this record's most
+frequent defect: three published figures were wrong on 2026-08-10 in exactly this way, and a
+docstring is not exempt for being a comment.
 
 WHAT THIS DOES NOT ESTABLISH. That the controls work in general; that these defects would have
 caused harm; that the count is complete. It is a count of defects found in one small codebase by
@@ -32,6 +37,7 @@ not validity evidence about the controls (control 31).
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 
 #  (control, defect, how found, evidence)
@@ -139,6 +145,22 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "made by the party proposing the change. Amended to be effect-defined as well as path-defined.",
   "reading", "d1b281b"),
 
+ ("C2 negative control",
+  "check_executive_context.py treated an absent live file as DRIFT. Two of its three pinned "
+  "files are absolute paths under the operator's home directory, so in CI — and in any "
+  "implementer's clone — it reported a dimension it could not measure as one it had measured "
+  "and found bad. Giving the gate its first negative control is what ran it in CI at all, and "
+  "the failure skipped the deploy job for EIGHT consecutive commits.",
+  "negative-control", "D-58; tools/tests/test_gate_negative_controls.py"),
+
+ ("C23 observed violation opens an incident",
+  "land.py attested six consecutive Pages deploy FAILURES — verified:false, "
+  "conclusion:failure, deployed_sha still the old commit — and eight ordinary landings "
+  "proceeded anyway. The instrument was not blind and nothing read it. No control covered the "
+  "transition from an observed violation to work being constrained; Codex placed it under "
+  "control 23 rather than a new control, and declined the new control this workbench wanted.",
+  "reading", "D-58; record/executive/action-log.jsonl"),
+
  ("C40 pre-committed stop",
   "The register contained control 40 — a program pre-commits the observation that ends it — and "
   "the programme running it had no stop condition. Found by Codex, not by this workbench.",
@@ -160,7 +182,33 @@ def problems() -> list[str]:
             out.append(f"{control}: no evidence path. A finding without one is an assertion.")
         if len(defect) < 40:
             out.append(f"{control}: defect description too short to be checkable")
+    out.extend(docstring_drift())
     return out
+
+
+def docstring_drift() -> list[str]:
+    """The prose above states two counts. Refuse if the table no longer supports them.
+
+    This is the same defect as every published figure this record has had to correct: a number
+    transcribed once, beside data that later moved. Adding two findings to the table below would
+    silently falsify the summary paragraph, and nothing would have objected.
+    """
+    total = len(FINDINGS)
+    detector = sum(1 for _c, _d, how, _e in FINDINGS if how == "detector")
+    doc = __doc__ or ""
+    problems = []
+    claimed = re.search(r"A detector fired for (\d+) of (\d+)", doc)
+    if not claimed:
+        problems.append("the summary sentence naming the detector split is gone; either restore "
+                        "it or remove this check, but do not leave the check pointing at nothing")
+    elif (int(claimed.group(1)), int(claimed.group(2))) != (detector, total):
+        problems.append(f"the docstring says a detector fired for {claimed.group(1)} of "
+                        f"{claimed.group(2)}; the table says {detector} of {total}")
+    other = re.search(r"other (\d+) came from", doc)
+    if other and int(other.group(1)) != total - detector:
+        problems.append(f"the docstring says {other.group(1)} came from elsewhere; "
+                        f"the table says {total - detector}")
+    return problems
 
 
 def main() -> int:

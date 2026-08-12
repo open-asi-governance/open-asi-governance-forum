@@ -138,6 +138,48 @@ jobs:
         # Gate logic, lifecycle, and python-vs-node parity. Never ran in CI before.
         run: python3 tools/tests/run_all.py
 
+      - name: Executive context pins — repository-local dimensions
+        # THE POLICY LIVES HERE, VISIBLY, and not inside the checker.
+        #
+        # tools/check_executive_context.py compares three pinned governing files
+        # against their committed copies. Two of the three are absolute paths under
+        # the operator's home directory and are not present in any other checkout.
+        # Until 2026-08-12 the checker read that absence as DRIFT, and because the
+        # portable suite above had just started running it, the verify job failed
+        # and the deploy job was skipped for EIGHT consecutive commits while every
+        # local gate stayed green. "Not measurable here" was being published as
+        # "measured and bad".
+        #
+        # It now reports a state and the exit code carries it:
+        #
+        #   0  every declared dimension checked and matched
+        #   1  a checked dimension CONTRADICTED its pin  -> fail here
+        #   2  the checker's configuration is broken     -> fail here
+        #   3  no contradiction, coverage incomplete     -> ACCEPTED here, explicitly
+        #
+        # CI admits 3 because the operator-local files genuinely cannot be examined
+        # on a runner. tools/land.py admits ONLY 0, so incomplete coverage cannot be
+        # quietly accepted on the one machine where the check is meaningful.
+        #
+        # A green mark on this step does NOT mean "executive context verified". It
+        # means: the repository-local pins are consistent, and the operator-live
+        # comparison was unavailable here.
+        shell: bash
+        run: |
+          set +e
+          python3 tools/check_executive_context.py
+          code=$?
+          set -e
+          case "$code" in
+            0) echo "Every pinned dimension was checkable here and matched." ;;
+            3) echo "::notice::Repository-local context pins are consistent; the"\
+                    "operator-live comparison was unavailable on this runner."
+               echo "Exit 3 is INCOMPLETE COVERAGE, not a pass. Admitted here by policy." ;;
+            *) echo "::error::check_executive_context.py exited $code"\
+                    "(1 = a pin was contradicted, 2 = the checker is broken)."
+               exit "$code" ;;
+          esac
+
       - if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
       - if: github.event_name != 'pull_request'

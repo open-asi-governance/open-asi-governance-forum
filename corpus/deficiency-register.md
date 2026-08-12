@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**? of 57** classifications have been read by a human against the prose.
+**? of 58** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 34 |
+| the annotator | 35 |
 | an external reviewer | 11 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 19 |
+| required, not implemented | 20 |
 | implemented, not validated | 31 |
 | validated | 7 |
 
 ### Affected objects
 
-**139 affected-object rows across 57 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**143 affected-object rows across 58 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -917,4 +917,20 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/agenda_ratification.py <br><sub>The cursor now advances after a failed ratification. Not verified in the field: no ratification cycle has been run.</sub> | repairable by supersession | applied, not verified |
 | record/decisions/2026-08-08-adopt-singleton-ratification.json <br><sub>Silent on cursor progression, which is why the contradiction was invisible to a review of the instrument against the decision. Amended, not edited.</sub> | partly repairable | applied, not verified |
+
+### D-58 — The context gate read "not measurable here" as "measured and bad", and silently stopped publishing for eight commits
+
+[Full entry](deficiencies.md#d-58--the-context-gate-read-not-measurable-here-as-measured-and-bad-and-silently-stopped-publishing-for-eight-commits)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `checking whether the previous landing's Pages deploy had actually happened, after landing a handoff document. No gate reported it; land.py's own deploy attestations had recorded six consecutive failures and none had been read.`
+- **Prospective control:** required, not implemented — An observed failed postcondition must open a durable incident that constrains the next action in its class, rather than being attested and passed over. External review placed this under the register's control 23 rather than a new control. Until it exists, nothing prevents a repeat: the attestations were correct and unread.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/check_executive_context.py <br><sub>Four states with the exit code carrying them, precedence 2>1>3>0, and each pin declaring its locator kind. Verified by fixture cases asserting every exact code, including the CI shape that previously failed.</sub> | repairable by supersession | verified |
+| tools/tests/test_gate_negative_controls.py <br><sub>Its first version asserted returncode == 0 as a baseline that only one machine satisfies, and != 0 as drift, which exit 3 would now also satisfy. Rebuilt on injected pins directories asserting exact codes.</sub> | repairable by supersession | verified |
+| tools/land.py <br><sub>The gate-admission policy is now a named, tested predicate admitting only zero. The SECOND finding is not repaired here: land.py observed six deploy failures, attested them honestly, and permitted the next ordinary landing each time. The control 23 interlock is outstanding.</sub> | partly repairable | partly applied |
+| tools/gate_health.py <br><sub>Counted every non-success deploy as UNOBSERVED, collapsing 'nobody waited' with 'waited and it failed'. Now three states plus a consecutive-trailing-failure count, which reads 6.</sub> | repairable by supersession | verified |
 

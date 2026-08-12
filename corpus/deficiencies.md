@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **57 entries** (D-01 … D-57).
+**Status:** open — **58 entries** (D-01 … D-58).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2164,3 +2164,60 @@ the cursor.
 **The general defect.** Three artifacts each self-consistent and jointly contradictory, with no
 check that reads across them. Nothing in this repository verifies that an instrument's stated
 rule is executable under the guards the same repository enforces.
+
+### D-58 — The context gate read "not measurable here" as "measured and bad", and silently stopped publishing for eight commits
+
+*Filed 2026-08-12. Found by checking whether the last landing's deploy had actually happened,
+after landing a handoff document. Not found by any gate — every gate was green for all eight.*
+
+`tools/check_executive_context.py` compares three pinned governing files against copies committed
+in the record. Two of the three are absolute paths under the operator's home directory
+(`/home/reed/git/CLAUDE.md`, `/home/reed/.codex/AGENTS.md`). The tool had two outcomes and a
+comment explaining the choice:
+
+> `#  ABSENT IS NOT CLEAN. A governing file that has vanished means the harness is`
+> `#  running under instructions this record cannot see at all.`
+
+That is right on the operator's workbench and false in every other environment. In CI, in an
+implementer's clone, on a reviewer's laptop, those files were never going to exist. **The tool
+reported an unmeasurable dimension as a detected failure** — control 53's defect running in the
+fail direction rather than the usual pass direction. Both destroy the distinction between
+"measured" and "not measurable", and the register had only ever described one of them.
+
+**How it became visible, which is the uncomfortable part.** On 2026-08-11 this workbench gave the
+tool its first negative control (control 2), and that test ran the tool in CI for the first time.
+It exited non-zero, the `verify` job failed, the `deploy` job was skipped, and every commit from
+`6bdbbc9` to `d486c6f` was pushed and none was published. **Applying control 2 to a gate that had
+never failed is what broke publication** — the latent defect was always there, and the first
+mechanical exercise of it converted a silent environment-dependence into a hard stop. That is the
+control working, and it is also a caution: a check that has never been observed to fail may be
+holding an assumption that only one machine satisfies.
+
+**The second finding is worse than the first.** `tools/land.py` observed every one of those
+failures and attested them honestly — **six** consecutive action-log entries reading
+`verified: false`, `conclusion: "failure"`, and a `deployed_sha` still pointing at the last
+successful commit. (Six attestations for eight unpublished commits: the last two landings were
+interrupted during their deploy wait and wrote none, which is its own hole — an interrupted wait
+leaves no record either way.) **The instrument was not blind. Nothing read it.** Eight ordinary landings
+proceeded, each one after a written record that the previous one had not published. No control
+covered the transition from *an observed violation* to *work is now constrained*; control 50
+meters overrides and control 57 reports gate health as a vector, and neither of them stops the
+next landing. External review placed it under control 23 — an observed invariant violation must
+open an incident and prevent further work in the affected class — rather than as a new control,
+and declined the new control this workbench was inclined to write.
+
+**Remediated in two parts.** The tool now reports four states with the exit code carrying them:
+0 verified, 1 contradicted, 2 the checker's own configuration is broken, 3 no contradiction and
+coverage incomplete. Precedence is 2, 1, 3, 0, so a contradiction is never downgraded because
+something else was unavailable. Each pin declares its locator **kind** — `repo_relative` or
+`absolute_operator_path` — rather than the checker inferring the environment from how many paths
+happen to resolve, an earlier design that would have downgraded a real alarm if the operator's
+files all vanished at once. `oagf-CLAUDE.md` was repository-relative all along and the absolute
+path had hidden from CI a dimension CI can measure in every clone. `land.py` admits only exit 0;
+the workflow admits 3 explicitly, in the workflow file, where a reader can see the policy.
+
+The negative control was rebuilt on injected fixtures asserting exact exit codes, because its
+first version asserted `!= 0` for the drift arm — which exit 3 would now satisfy — and injected
+its fault by editing the operator's real governing file.
+
+The second part, the failed-deploy interlock, is recorded separately as it lands.

@@ -12,7 +12,10 @@
   ],
   "pins": {
     "claude-code-CLAUDE.md": {
-      "live_path": "/home/reed/git/CLAUDE.md",
+      "live_source": {
+        "kind": "absolute_operator_path",
+        "path": "/home/reed/git/CLAUDE.md"
+      },
       "sha256": "c67cbf8bcb29b94a45482d75cc1530287e1cc50b25c040c18f652c6775c9e6e5",
       "bytes": 5364,
       "superseded": [
@@ -28,12 +31,18 @@
       "version": 2
     },
     "codex-AGENTS.md": {
-      "live_path": "/home/reed/.codex/AGENTS.md",
+      "live_source": {
+        "kind": "absolute_operator_path",
+        "path": "/home/reed/.codex/AGENTS.md"
+      },
       "sha256": "668d9822adf727ccd8708c27f99a777f76763a11887c699780d5c787fde22d4e",
       "bytes": 13668
     },
     "oagf-CLAUDE.md": {
-      "live_path": "/home/reed/git/open-asi-governance-forum/CLAUDE.md",
+      "live_source": {
+        "kind": "repo_relative",
+        "path": "CLAUDE.md"
+      },
       "sha256": "75495374b9b77058375f1da05a0d9bee6ef33cc293620f2c9ebc9bef379075ed",
       "bytes": 10645,
       "superseded": [
@@ -74,5 +83,6 @@
     }
   },
   "scope_note": "/home/reed/git/AGENTS.md is a SYMLINK to /home/reed/git/CLAUDE.md, so both harnesses load identical workspace text and one pin covers both. The first version of this file said the governing instructions were 'one in the parent workspace directory, one in the harness's home config' -- it had missed the workspace AGENTS.md entirely. Harmless because of the symlink, wrong as a claim.",
-  "isolation": "open-asi-governance-forum/CLAUDE.md now carries OAGF-specific instructions, with AGENTS.md symlinked to it on the workspace convention. It is IN this repository, tracked, manifest-eligible and readable by any party that fetches -- which the two external files are not. It does not REPLACE the workspace file: Claude Code and Codex load instructions from the working directory upward, so the TensorRT-LLM standing objective still applies unless a session is started with this repository as its working directory, or that objective is moved to the project it concerns. That move is the custodian's to make."
+  "isolation": "open-asi-governance-forum/CLAUDE.md now carries OAGF-specific instructions, with AGENTS.md symlinked to it on the workspace convention. It is IN this repository, tracked, manifest-eligible and readable by any party that fetches -- which the two external files are not. It does not REPLACE the workspace file: Claude Code and Codex load instructions from the working directory upward, so the TensorRT-LLM standing objective still applies unless a session is started with this repository as its working directory, or that objective is moved to the project it concerns. That move is the custodian's to make.",
+  "locator_kinds": "Each pin declares the KIND of its live source, because the meaning of an absent file depends entirely on it. repo_relative: resolved against this checkout, checkable in every clone, and absence means the checkout is incomplete. absolute_operator_path: an external file on the operator's workbench, whose absence elsewhere is UNKNOWN COVERAGE and not drift. Until 2026-08-12 every pin carried a bare absolute live_path and the checker read absence as failure, which broke publication for eight commits. oagf-CLAUDE.md was repository-relative all along and the absolute path hid that."
 }

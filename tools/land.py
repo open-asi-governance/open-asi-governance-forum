@@ -222,12 +222,32 @@ def preflight(target_branch: str) -> list[str]:
     return problems
 
 
+def admitted(name: str, code: int) -> bool:
+    """Which exit states this caller accepts from a gate. **Only zero, from every one of them.**
+
+    Named rather than inlined into an `all(...)` because it is a POLICY and a policy that exists
+    only as an expression cannot be tested, cited, or argued with.
+
+    It matters most for `context-pins`. Since 2026-08-12 `check_executive_context.py` has four
+    states, and exit 3 means *no contradiction found, and coverage was incomplete* — a live
+    governing file that could not be examined in this environment. CI admits 3, declared in the
+    workflow, because two of the three pinned files are absolute paths on the operator's machine
+    and a runner genuinely cannot see them.
+
+    **This caller must not.** Landing happens on the workbench that holds those files, which is
+    the one place the comparison is meaningful; admitting 3 here would let the operator's
+    governing instructions drift out of the record unnoticed, which is the entire hazard the pin
+    exists for. So the rule stays: every gate, exactly zero.
+    """
+    return code == 0
+
+
 def gates() -> tuple[bool, list[tuple[str, int, str]]]:
     results = []
     for name, cmd in GATES:
         code, output = run(cmd)
         results.append((name, code, output))
-    return all(code == 0 for _, code, _ in results), results
+    return all(admitted(name, code) for name, code, _ in results), results
 
 
 def main() -> int:

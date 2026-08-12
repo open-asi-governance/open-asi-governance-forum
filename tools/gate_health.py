@@ -64,7 +64,30 @@ def gates(entries: list[dict]) -> dict:
     coverage = collections.Counter(str(r.get("coverage")) for r in entries)
     problems = [r for r in entries if r.get("problems") not in (None, "[]", [], "")]
     deploys = [r for r in entries if r.get("action") == "deploy"]
-    unobserved = [r for r in deploys if str(r.get("verified")).lower() != "true"]
+
+    #  THREE DEPLOY STATES, NOT TWO. Until 2026-08-12 everything that was not `verified: true`
+    #  was counted as `deploys_UNOBSERVED`, which put two opposite facts in one bucket: a deploy
+    #  nobody waited for, and a deploy that WAS waited for and came back FAILED. Codex found it
+    #  the same day, in the tool whose entire purpose is refusing to collapse states — and it
+    #  mattered, because five observed failures were sitting in that bucket reading as "not
+    #  looked at" while the site had been stale for three and a half hours.
+    def observed(row: dict) -> bool:
+        claim = row.get("claim")
+        return isinstance(claim, dict) and claim.get("observed") is True
+
+    succeeded = [r for r in deploys if str(r.get("verified")).lower() == "true"]
+    failed = [r for r in deploys if str(r.get("verified")).lower() != "true" and observed(r)]
+    unobserved = [r for r in deploys if str(r.get("verified")).lower() != "true"
+                  and not observed(r)]
+
+    #  Consecutive trailing failures. A single failure is an incident; a run of them is the
+    #  pattern that says nobody is reading the attestation at all.
+    trailing = 0
+    for row in reversed(deploys):
+        if str(row.get("verified")).lower() == "true":
+            break
+        trailing += 1
+
     return {
         "actions_logged": len(entries),
         "by_action": dict(by_action.most_common()),
@@ -73,7 +96,10 @@ def gates(entries: list[dict]) -> dict:
         "coverage_states": dict(coverage),
         "entries_carrying_problems": len(problems),
         "deploys": len(deploys),
+        "deploys_SUCCEEDED": len(succeeded),
+        "deploys_OBSERVED_FAILURE": len(failed),
         "deploys_UNOBSERVED": len(unobserved),
+        "consecutive_trailing_non_success": trailing,
         "false_accept_rate": "UNKNOWN — no ground truth for a gate that passed wrongly",
         "false_reject_rate": "UNKNOWN — rejected candidates are not retained (control 55)",
     }

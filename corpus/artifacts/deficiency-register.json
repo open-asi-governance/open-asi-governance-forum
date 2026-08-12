@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "8ac29a81d311ed16a0ca0b8e01475955afa65736cf47968a82e546660a5e99e2"
+    "sha256": "4787f81043e5afa462bc2ed01943a95626b046641b171b7debfec1819978be80"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2309,7 +2309,7 @@
     {
       "id": "D-57",
       "title": "The ratification cursor's no-advance rule made the second cycle unrunnable, and its stated reason was backwards",
-      "section_sha256": "72b49266e268355659d548dca6fd30367f95040c194da0a06054428d62c505bc",
+      "section_sha256": "4206f3000007e0d5534de4d3502a8ad42f564a21c85cc4c1d47b297075365907",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2334,6 +2334,52 @@
       "prospective_control": {
         "state": "prospective_control_required_not_implemented",
         "mechanism": "A check that an instrument's stated rule is executable under the guards this repository enforces. Three artifacts were each self-consistent and jointly contradictory, and nothing reads across them."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-58",
+      "title": "The context gate read \"not measurable here\" as \"measured and bad\", and silently stopped publishing for eight commits",
+      "section_sha256": "57568981b4ed6febd1753fe1f3e9661a694e881265208cd868bc117a92fcec30",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "checking whether the previous landing's Pages deploy had actually happened, after landing a handoff document. No gate reported it; land.py's own deploy attestations had recorded six consecutive failures and none had been read.",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/check_executive_context.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Four states with the exit code carrying them, precedence 2>1>3>0, and each pin declaring its locator kind. Verified by fixture cases asserting every exact code, including the CI shape that previously failed."
+        },
+        {
+          "object": "tools/tests/test_gate_negative_controls.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Its first version asserted returncode == 0 as a baseline that only one machine satisfies, and != 0 as drift, which exit 3 would now also satisfy. Rebuilt on injected pins directories asserting exact codes."
+        },
+        {
+          "object": "tools/land.py",
+          "repairability": "affected_object_partially_repairable_by_supersession",
+          "remediation_state": "remediation_partially_applied",
+          "note": "The gate-admission policy is now a named, tested predicate admitting only zero. The SECOND finding is not repaired here: land.py observed six deploy failures, attested them honestly, and permitted the next ordinary landing each time. The control 23 interlock is outstanding."
+        },
+        {
+          "object": "tools/gate_health.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "Counted every non-success deploy as UNOBSERVED, collapsing 'nobody waited' with 'waited and it failed'. Now three states plus a consecutive-trailing-failure count, which reads 6."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "An observed failed postcondition must open a durable incident that constrains the next action in its class, rather than being attested and passed over. External review placed this under the register's control 23 rather than a new control. Until it exists, nothing prevents a repeat: the attestations were correct and unread."
       },
       "human_review": {
         "status": "not_reviewed",
