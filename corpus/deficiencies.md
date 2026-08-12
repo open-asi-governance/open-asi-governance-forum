@@ -1,6 +1,6 @@
 # Deficiency Register — Founding Record (OAGRC-2026-08-04/05)
 
-**Status:** open — **68 entries** (D-01 … D-68).
+**Status:** open — **69 entries** (D-01 … D-69).
 
 *This count was wrong until 2026-08-06. It read "24 entries" while the document held 28 headings,
 and `README.md` and the published site said 21. Three artifacts of this repository stated three
@@ -2857,3 +2857,44 @@ some may have refusal cases the heuristic cannot see, which is the same blindnes
 other way. And it does not establish that the measure has been wrong the whole time it has been
 published: the register text that produced three of the five matches was itself added on
 2026-08-11, so the false positives are days old rather than the age of the tool.
+
+
+### D-69 — The page builder rewrote four files, then refused
+
+*Filed 2026-08-12. Found by the negative controls being written FOR that builder, on the first
+run of the case, rather than by anyone reading it.*
+
+`build_viewer.py` publishes the record's pages and **prunes `docs/`**. It decides what to delete
+from a receipt written by `build_controls_page.py`, and it carries four guards against a receipt
+that has drifted from the disk — because pruning against a stale receipt is how a live page gets
+deleted. That is not hypothetical: an earlier test called a pruner directly and deleted **189
+published pages**, then asserted that pruning is safe.
+
+Those four guards had no case they must fail. Giving them one, through the effect-boundary
+harness, immediately produced this:
+
+    ✗ the receipt names a page that is not on disk — refuses, and DELETES NOTHING
+        UNDECLARED EFFECT on docs/sitemap-1.xml (file -> file)
+        UNDECLARED EFFECT on docs/sitemap-2.xml … -3 … -4
+
+**The refusal was correct and it was not clean.** `build_sitemap()` ran and wrote four files
+BEFORE `_verify_controls_receipt()` was called. The comment above that call said *"Before
+anything is deleted"* — true, and insufficient. A refusal that performs part of its work first is
+a partial effect on a denied path, which is control 64's subject, and the run leaves the sitemaps
+describing a publication that did not happen.
+
+**Repaired** by moving the verification above the first write rather than merely above the first
+deletion, and the comment now says *before any byte is written*.
+
+**Why it is filed rather than quietly fixed.** It is the third instance this week of the same
+shape — D-62 wrote 87 ledger rows while asserting refusal, D-67 made a network call after the
+lease refused — and the three together are the argument for the harness rather than for another
+hand-written assertion. Each was invisible to the check that preceded it: D-62's arm watched
+stdout, D-67's would have watched the filesystem and seen nothing, and this one was under a tool
+whose own tests were about what it PUBLISHES rather than what it does when it declines to.
+
+**What this does not establish.** That the sitemaps were ever wrong in production — the refusal
+path is rare and a subsequent successful run rewrites them. Nor that the other publishers are
+clean: `build_capture_ui.py`, `build_challenge_page.py`, `build_local_rounds.py`,
+`build_predictions_view.py` and `rebuild.py` itself still have no case they must fail, and the
+same check has not been run against them.

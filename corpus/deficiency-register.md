@@ -12,7 +12,7 @@ It records, per entry, where the defect was **first substantively articulated in
 
 It does **not** establish that any of those judgements is correct. They were made by the annotator, which is a party to the record. `tools/check_register.py` verifies structure, one-to-one coverage, vocabulary, and that each entry's prose has not changed since it was classified. **It never verifies meaning**, and a deterministic rule that claimed to would be D-25 over again.
 
-**0 of 68** classifications have been read by a human against the prose.
+**0 of 69** classifications have been read by a human against the prose.
 
 On attribution: this project cannot observe who first *privately noticed* a defect, so it records where one was first *written down*, with an evidence class. A question that prompted an investigation is recorded as a **trigger**, not as the finding.
 
@@ -24,7 +24,7 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | Where | Entries |
 |---|---|
-| the annotator | 39 |
+| the annotator | 40 |
 | an external reviewer | 17 |
 | a designated review round | 8 |
 | human operator | 3 |
@@ -36,13 +36,13 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 
 | State | Entries |
 |---|---|
-| required, not implemented | 28 |
+| required, not implemented | 29 |
 | implemented, not validated | 33 |
 | validated | 7 |
 
 ### Affected objects
 
-**173 affected-object rows across 68 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
+**175 affected-object rows across 69 entries.** Repairability is recorded per object because it is not a property of a deficiency: D-09's raw transcript is not repairable while its `segments.json` annotation was corrected, and a single yes/no is false for one of them whichever way it is written.
 
 ---
 
@@ -1083,4 +1083,18 @@ On attribution: this project cannot observe who first *privately noticed* a defe
 |---|---|---|
 | tools/control_coverage.py <br><sub>self_hosted_fixtures() replaced by a four-entry SELF_HOSTED declaration, labelled as an assertion rather than presented as a measurement. build_viewer.py and test_integrity.py returned to NONE and the published rate fell 57% -> 54%. NOT repaired: the other path, a 600-character proximity heuristic between a tool's name and a refusal assertion in a test, still carries eighteen determinations and is inference rather than evidence.</sub> | partly repairable | partly applied |
 | the published control-2 coverage rate <br><sub>Recomputed and republished at the lower figure. The number is derived at render time by the tool, never transcribed, so the correction propagates rather than needing to be found in prose.</sub> | repairable by supersession | verified |
+
+### D-69 — The page builder rewrote four files, then refused
+
+[Full entry](deficiencies.md#d-69--the-page-builder-rewrote-four-files-then-refused)
+
+- **First articulated:** the annotator, 2026-08-12 · evidence: *preserved artifact*
+  - where: `the first run of a negative control written for build_viewer.py's receipt guards; the harness reported four undeclared effects on a path that had correctly refused`
+- **Prospective control:** required, not implemented — Nothing requires a tool to complete its checks before its first write. The ordering is a convention held by comments, and this one's comment was accurate about deletion while the defect was about writing. A rule that a refusal path must be reachable before any output is opened would be mechanical; it does not exist.
+- **Human review:** not_reviewed
+
+| Affected object | Repairable? | Remediation |
+|---|---|---|
+| tools/build_viewer.py <br><sub>_verify_controls_receipt() moved above the first WRITE rather than merely above the first deletion. Verified by the case that found it: the refusal now leaves the image byte-identical.</sub> | repairable by supersession | verified |
+| tools/tests/test_publisher_refusals.py <br><sub>New. Five receipt-drift cases plus the bundle immutability refusal, each asserting the tool refused AND deleted nothing anywhere. Its own first version invented a bundle id and passed on the WRONG refusal (exit 2, unknown round, instead of the immutability refusal) — caught by asserting the exit code rather than only the message, which is D-66's lesson applied.</sub> | repairable by supersession | verified |
 

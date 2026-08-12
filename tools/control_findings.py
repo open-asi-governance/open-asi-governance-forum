@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 53.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 55.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,22 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C64 effect boundary",
+  "build_viewer.py — which PRUNES docs/ — rewrote four sitemap files and THEN refused, on a "
+  "receipt that had drifted from disk. The refusal was correct and it was not clean: "
+  "build_sitemap() ran before _verify_controls_receipt(), whose own comment said 'before "
+  "anything is deleted' — true, and insufficient. Found on the FIRST RUN of the negative control "
+  "being written for those guards, by the instrument rather than by a reader.",
+  "negative-control", "D-69; tools/build_viewer.py; tools/tests/test_publisher_refusals.py"),
+
+ ("C2 negative control",
+  "The four guards standing between build_viewer.py's pruner and a live published page had no "
+  "case they must fail — in the tool whose predecessor deleted 189 published pages. Five now: a "
+  "missing receipt, a receipt naming no pages, one carrying no counts, one naming a page not on "
+  "disk, and one whose hash has drifted. Plus build_bundle.py's immutability refusal, and a "
+  "second case proving the first cannot pass on the WRONG refusal.",
+  "reading", "tools/tests/test_publisher_refusals.py"),
 
  ("C2 negative control",
   "21 of 41 coverage determinations rested on a 600-character proximity heuristic between a "

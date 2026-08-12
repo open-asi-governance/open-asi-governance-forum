@@ -1377,15 +1377,19 @@ def main() -> int:
     # build_register_view.py and `index.html` is written below; deleting another
     # tool's output because this one does not recognise it would be worse than the
     # orphan.
+    #  BEFORE ANY BYTE IS WRITTEN, not merely before anything is deleted. The comment below used
+    #  to say "before anything is deleted", and it was true and insufficient: the sitemaps were
+    #  written first, so a run that refused on a drifted receipt had ALREADY rewritten four files.
+    #  A refusal that performs part of its work first is a partial effect on a denied path —
+    #  control 64's subject — and it was found by giving this tool the negative controls it had
+    #  never had, in tools/tests/test_publisher_refusals.py, rather than by anyone reading it.
+    _verify_controls_receipt(CONTROLS_PAGES)
+
     #  BEFORE the keep-set, which needs their names: the pruner would otherwise delete every
     #  sitemap-N.xml on the same run that wrote them.
     sitemaps = build_sitemap(plan)
     for _name, _body in sitemaps.items():
         (docs / _name).write_text(_body, encoding="utf-8")
-
-    #  Before anything is deleted. A receipt that has drifted from disk must stop the run, not
-    #  license a prune against it.
-    _verify_controls_receipt(CONTROLS_PAGES)
 
     keep = {f"{page['slug']}.html" for page in plan} | {f"{page['slug']}.md" for page in plan}
     keep |= {"index.html", "index.md", "record.html", "record.md",

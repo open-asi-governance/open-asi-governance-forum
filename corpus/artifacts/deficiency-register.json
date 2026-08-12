@@ -9,7 +9,7 @@
   },
   "source": {
     "path": "corpus/deficiencies.md",
-    "sha256": "bfd24d24fd9466c2c2a29b1b374325147c8f95b9e8a8f684c2945bc024959c34"
+    "sha256": "325a9fdac9a1f8881f9677a321e9a94d79c4a764e547ce9d1a5696ffd1f03679"
   },
   "vocabulary_note": "Repairability is recorded PER AFFECTED OBJECT, not per deficiency, because it is not a property of a deficiency. D-09 is the proof: the raw transcript's merged identities are not repairable while the segments.json annotation was corrected, and a single yes/no is false for one of them whichever way it is written. The register's own prose table collapsed these and misstated entries as a result. Finding state, per-object repairability, remediation state and prospective control are four independent axes; 'forward requirement only', 'annotation only', 'standing caveat' and 'yes, cheaply' were never competing values of one variable. Attribution records the FIRST PRESERVED SUBSTANTIVE ARTICULATION, with an evidence class, because this project cannot observe who first privately noticed a defect. A question that prompted an investigation is recorded as a trigger, not as the finding.",
   "entries": [
@@ -2755,7 +2755,7 @@
     {
       "id": "D-68",
       "title": "The control-2 coverage measure counted its own docstring as evidence of coverage",
-      "section_sha256": "c2f9a4e28e52b64eacd9f0d1b89ea6c589b52c62330ecc52e4951bce293bc48b",
+      "section_sha256": "780aed610b0c69eb4d4602315bb66a79b2ef4418db398bb536230f7f208389c8",
       "finding_state": "finding_active",
       "first_articulation": {
         "actor_context": "actor_external_adversarial_reviewer",
@@ -2783,7 +2783,41 @@
       },
       "human_review": {
         "status": "not_reviewed",
-        "note": "The defect is in the measure this project publishes about itself."
+        "note": "Prose changed after the previous stamp; any earlier review of it is stale."
+      }
+    },
+    {
+      "id": "D-69",
+      "title": "The page builder rewrote four files, then refused",
+      "section_sha256": "3ec76f888b443678465d23715c83db4c52aa615a7caabdfc30868acf07699c2e",
+      "finding_state": "finding_active",
+      "first_articulation": {
+        "actor_context": "actor_repository_annotator_invocation",
+        "date_utc": "2026-08-12",
+        "where": "the first run of a negative control written for build_viewer.py's receipt guards; the harness reported four undeclared effects on a path that had correctly refused",
+        "evidence_class": "origin_supported_by_preserved_artifact"
+      },
+      "affected_objects": [
+        {
+          "object": "tools/build_viewer.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "_verify_controls_receipt() moved above the first WRITE rather than merely above the first deletion. Verified by the case that found it: the refusal now leaves the image byte-identical."
+        },
+        {
+          "object": "tools/tests/test_publisher_refusals.py",
+          "repairability": "affected_object_fully_repairable_by_supersession",
+          "remediation_state": "remediation_verified",
+          "note": "New. Five receipt-drift cases plus the bundle immutability refusal, each asserting the tool refused AND deleted nothing anywhere. Its own first version invented a bundle id and passed on the WRONG refusal (exit 2, unknown round, instead of the immutability refusal) — caught by asserting the exit code rather than only the message, which is D-66's lesson applied."
+        }
+      ],
+      "prospective_control": {
+        "state": "prospective_control_required_not_implemented",
+        "mechanism": "Nothing requires a tool to complete its checks before its first write. The ordering is a convention held by comments, and this one's comment was accurate about deletion while the defect was about writing. A rule that a refusal path must be reachable before any output is opened would be mechanical; it does not exist."
+      },
+      "human_review": {
+        "status": "not_reviewed",
+        "note": "Found by the instrument, not by a reader, which is the first time that has happened here."
       }
     }
   ]
