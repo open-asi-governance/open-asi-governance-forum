@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 55.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 58.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,30 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C2 negative control",
+  "EVERY tool that a landing gate or the rebuild runs now has a case it must fail: 46 of 76, up "
+  "from a 41 that included five false positives. The last two needed a decision rather than a "
+  "fixture. rebuild.py's claim — 'Nothing downstream was rebuilt' — is now checked over the step "
+  "labels it prints, because the rebuild is deterministic and a successful run of a built "
+  "repository changes nothing, so a filesystem assertion would have passed whether or not the "
+  "steps ran. That vacuous version was written first and caught.",
+  "reading", "tools/tests/test_rebuild_halts.py; tools/tests/test_builder_refusals.py"),
+
+ ("C2 negative control",
+  "test_integrity.py — CI's own gate, 142 assertions — PASSED with docs/controls.html deleted. "
+  "Correctly: it works against a clean clone and rebuilds inside it, so a deleted output is "
+  "regenerated before anything is asserted. The suite tests reproducibility, not the state of a "
+  "checkout, and the first fixture had aimed at the wrong property. Its discriminating break is "
+  "a source the rebuild cannot repair.",
+  "negative-control", "tools/tests/test_rebuild_halts.py"),
+
+ ("C2 negative control",
+  "build_challenge_page.py had NO refusal path: 28 lines that read CHALLENGE.md and wrote two "
+  "pages. An emptied source would have published a stub at the address the record tells "
+  "implementers to open an issue from, and an absent one would have produced a traceback. "
+  "'No judgement' is not 'no failure mode'.",
+  "reading", "tools/build_challenge_page.py"),
 
  ("C64 effect boundary",
   "build_viewer.py — which PRUNES docs/ — rewrote four sitemap files and THEN refused, on a "
