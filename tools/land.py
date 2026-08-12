@@ -99,6 +99,14 @@ GATES = (
     #  a neighbouring guard fired, which is what control 45 forbids without evidence.
     ("guard-identity", ["python3", "tools/guards.py", "--check"]),
     ("control-application", ["python3", "tools/control_application.py", "--check"]),
+    #  NON-REGRESSION ONLY, and the name says so. It took three days and D-68 to get here: the
+    #  measure underneath was counting prose as evidence and 21 of 41 determinations rested on a
+    #  600-character proximity heuristic, so wiring the check in earlier would have given a
+    #  landing gate's authority to numbers that were wrong. Codex refused four things by name,
+    #  and "a gate called coverage" was one of them. Green here means nothing was LOST and no new
+    #  debt entered; it prints the remaining debt beside every success so a stagnant number
+    #  cannot look like a healthy one.
+    ("negative-control-ratchet", ["python3", "tools/control_coverage.py", "--check"]),
     ("context-pins", ["python3", "tools/check_executive_context.py"]),
     ("lease", ["python3", "tools/executive_lease.py"]),
 )

@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 51.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 53.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,21 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C2 negative control",
+  "21 of 41 coverage determinations rested on a 600-character proximity heuristic between a "
+  "tool's name and a refusal assertion. Read by hand, four were false: one matched a shutil.copy "
+  "list of file names, one matched prose inside a check LABEL about a different component, two "
+  "matched assertions about something else entirely. The heuristic is removed and every "
+  "determination is now a declaration; the published rate fell 54% to 49% as a result.",
+  "reading", "D-68; tools/control_coverage.py; the COVERS declarations in eleven suites"),
+
+ ("C2 negative control",
+  "The ratchet's own fixture caught an inconsistency in the ratchet: the branch handling a "
+  "VANISHED tool accepted any truthy ground, so the word 'because' excused it, while the "
+  "neighbouring branch required 40 characters. Two branches of one rule disagreeing about what "
+  "counts as a reason.",
+  "negative-control", "tools/tests/test_coverage_ratchet.py"),
 
  ("C2 negative control",
   "The measure of control 2 counted PROSE as evidence of coverage. Its self-hosted-fixture path "

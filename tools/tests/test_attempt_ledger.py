@@ -14,6 +14,13 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT / "tools"))
 import attempt_ledger as al                                              # noqa: E402
 
+#  COVERS — what this suite REQUIRES TO REFUSE, declared rather than inferred. The
+#  proximity heuristic that used to guess this counted a shutil.copy list and a comment
+#  as coverage; see D-68. A declaration is a claim someone made after reading the file,
+#  and it cannot rot silently: a declared tool that does not exist fails the scan, and a
+#  suite with no refusal assertion is refused the credit anyway.
+COVERS = ("attempt_ledger.py",)
+
 PASSED = FAILED = 0
 def check(label, cond):
     global PASSED, FAILED

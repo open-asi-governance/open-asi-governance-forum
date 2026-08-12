@@ -22,7 +22,7 @@ import derive_counts as dc                                               # noqa:
 #  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool
 #  named here must exist and this file must assert a refusal, or the scan fails —
 #  a declaration is a claim, not a substitute for the case.
-COVERS = ("derive_counts.py")
+COVERS = ("derive_counts.py",)
 
 
 PASSED = FAILED = 0

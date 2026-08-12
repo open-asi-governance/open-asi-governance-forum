@@ -30,6 +30,13 @@ sys.path.insert(0, str(REPO_ROOT / "tools"))
 import build_cohort_pages as c                                            # noqa: E402
 import build_round_pages as b                                             # noqa: E402
 
+#  COVERS — what this suite REQUIRES TO REFUSE, declared rather than inferred. The
+#  proximity heuristic that used to guess this counted a shutil.copy list and a comment
+#  as coverage; see D-68. A declaration is a claim someone made after reading the file,
+#  and it cannot rot silently: a declared tool that does not exist fails the scan, and a
+#  suite with no refusal assertion is refused the credit anyway.
+COVERS = ("build_cohort_pages.py", "build_round_pages.py")
+
 PASSED = FAILED = 0
 
 

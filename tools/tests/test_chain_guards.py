@@ -25,7 +25,7 @@ import tempfile
 #  What this suite drives to a REFUSAL, read by tools/control_coverage.py. A tool
 #  named here must exist and this file must assert a refusal, or the scan fails —
 #  a declaration is a claim, not a substitute for the case.
-COVERS = ("anchor_manifest.py")
+COVERS = ("anchor_manifest.py", "check_raw_append_only.py")
 
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent

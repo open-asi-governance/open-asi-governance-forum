@@ -33,6 +33,7 @@ a demanding fixture and still be broken everywhere the fixture does not look.
 from __future__ import annotations
 
 import argparse
+import json
 import ast
 import io
 import tokenize
@@ -225,29 +226,25 @@ def has_negative_control(stem: str) -> tuple[bool, str]:
                 return (True, f"{t.name} declares it in COVERS and asserts a refusal")
             return (False, f"{t.name} declares it in COVERS but asserts no refusal")
 
-    referencing = []
-    for t in sorted(TESTS.rglob("*.py")):
-        text = t.read_text(encoding="utf-8", errors="replace")
-        #  STRIP THE MODULE DOCSTRING. test_chain_guards.py named anchor_manifest.py in its
-        #  prose and never exercised it, and this measure counted that as coverage -- a test's
-        #  own docstring gaming the measure of that test, accidentally, within minutes of both
-        #  being written. A mention is not an exercise.
-        #
-        #  Via ast, not a regex: the first attempt anchored at string start and every suite here
-        #  begins with a shebang, so it stripped nothing and the false pass survived the fix.
-        text = resolve_aliases(executable_text(text))
-        if stem in text:
-            referencing.append((t.name, text))
-    if not referencing:
-        return (False, "no test references it")
-    for name, text in referencing:
-        #  Only the portion of the test that mentions this tool, so a refusal assertion about a
-        #  DIFFERENT tool in the same file is not counted. Crude window, deliberately narrow.
-        for m in re.finditer(re.escape(stem), text):
-            window = text[max(0, m.start() - 600): m.end() + 600]
-            if REFUSAL.search(window):
-                return (True, f"{name} asserts a refusal near a reference to it")
-    return (False, f"referenced by {referencing[0][0]} but no refusal is asserted near it")
+    #  THE PROXIMITY FALLBACK IS GONE. It scored a tool covered when a refusal assertion sat
+    #  within 600 characters of the tool's NAME anywhere in a test's executable text — inference,
+    #  not evidence, and it carried 21 of 41 determinations. Codex, asked whether this measure was
+    #  fit to become a landing gate: it is wrong NOW, not merely fragile, and a baseline stamped
+    #  from its output would give temporal force to the errors. See D-68.
+    #
+    #  Each of the 21 was read by hand. Seventeen were genuine and are now DECLARED in the suite
+    #  that exercises them. Four were not, and they fall to NONE where they belong:
+    #
+    #    agenda_selectors.py      matched prose inside a check LABEL about a different component
+    #    build_controls_page.py   matched an assertion unrelated to it
+    #    ingest_capture.py        matched a `shutil.copy` list of file names
+    #    round_cycle.py           matched an assertion about party_key
+    #
+    #  A tool with a real refusal case and no declaration now reads NONE. That is a false
+    #  negative, and it is the direction to be wrong in: it under-reports coverage instead of
+    #  claiming coverage nobody wrote. The remedy is one line in the suite that already tests it.
+    return (False, f"no suite DECLARES it in COVERS. If a test does require it to refuse, say so "
+                   f"there; proximity to the tool's name is no longer read as evidence (D-68)")
 
 
 def survey_population() -> "closed_world.Survey":
@@ -294,6 +291,109 @@ def survey_population() -> "closed_world.Survey":
     return survey
 
 
+#  Bumped whenever the RULE changes, never when a determination changes. A baseline that
+#  records this can distinguish "the measure was corrected" from "a tool lost its coverage",
+#  which are opposite events that look identical in a diff of the numbers.
+DETECTOR_CONTRACT_VERSION = 2
+
+BASELINE = REPO_ROOT / "record" / "executive" / "coverage-baseline.json"
+
+
+def baseline() -> dict:
+    if not BASELINE.is_file():
+        return {"detector_contract_version": None, "determinations": {},
+                "authorised_regressions": {}}
+    return json.loads(BASELINE.read_text(encoding="utf-8"))
+
+
+def ratchet(current: list[tuple[str, str, str]]) -> list[str]:
+    """NON-REGRESSION ONLY. It says nothing about whether coverage is adequate.
+
+    Codex's ruling, and the name he insisted on: a gate called "coverage" whose green means only
+    that nothing was lost would be a green signal not downstream of what a reader takes it to
+    certify, which is this repository's dominant failure class. So the gate is
+    `negative-control-ratchet`, and its success line says how much legacy debt remains.
+
+    Three transitions, and only one of them is forbidden:
+
+        NONE -> HAS            allowed, and the baseline must be restamped to lock it in
+        a NEW tool -> NONE     forbidden; new debt does not enter
+        HAS -> NONE            forbidden
+
+    `authorised_regressions` exists and is deliberately narrow. Codex refused an ordinary
+    HAS -> NONE exemption: a tool that still emits an assurance signal and has lost its negative
+    control is a regression, not an exception. The only grounds are that the tool is GONE, or
+    that its assurance signal is gone and it has become NOT_APPLICABLE with a reason.
+    """
+    committed = baseline()
+    if not committed["determinations"]:
+        return ["no baseline has been stamped; run --stamp deliberately, having read it"]
+
+    out = []
+    if committed.get("detector_contract_version") != DETECTOR_CONTRACT_VERSION:
+        #  A measurement correction and a coverage regression look identical in a diff of the
+        #  numbers. The version makes them different events.
+        out.append(
+            f"the baseline was stamped under detector contract "
+            f"v{committed.get('detector_contract_version')} and this is v"
+            f"{DETECTOR_CONTRACT_VERSION}. A determination that moved may be a corrected "
+            f"MEASUREMENT rather than a lost negative control, and the two must not be "
+            f"confused. Re-read the diff, then --stamp.")
+        return out
+
+    now = {name: status for name, status, _why in current}
+    was = committed["determinations"]
+    excused = committed.get("authorised_regressions") or {}
+
+    for name, old_status in sorted(was.items()):
+        new_status = now.get(name)
+        if new_status is None:
+            #  THE SAME GROUND FLOOR AS THE OTHER BRANCH. The first version accepted any truthy
+            #  value here, so the word "because" excused a vanished tool while a 40-character
+            #  minimum guarded the neighbouring case — caught by this ratchet's own fixture,
+            #  which is the only reason the two branches now agree.
+            ground = excused.get(name)
+            if not ground or len(str(ground)) < 40:
+                out.append(f"{name} was in the baseline ({old_status}) and is GONE. If the tool "
+                           f"was withdrawn, record it under authorised_regressions with a ground "
+                           f"that says who withdrew it and why.")
+            continue
+        if old_status == "HAS_NEGATIVE_CONTROL" and new_status != "HAS_NEGATIVE_CONTROL":
+            ground = excused.get(name)
+            if not ground or len(str(ground)) < 40:
+                out.append(f"{name} HAD a negative control and now reads {new_status}. A tool "
+                           f"that still emits an assurance signal and has lost its case-it-must-"
+                           f"fail is a regression, not an exception.")
+    for name, status in sorted(now.items()):
+        if name not in was and status == "NONE":
+            out.append(f"{name} is NEW and arrives with no negative control. New debt does not "
+                       f"enter; give it a case it must fail, or record why it needs none.")
+    return out
+
+
+def stamp() -> int:
+    doc = baseline()
+    current = {name: status for name, status, _ in rows()}
+    gained = sorted(n for n, s in current.items()
+                    if s == "HAS_NEGATIVE_CONTROL"
+                    and doc["determinations"].get(n) != "HAS_NEGATIVE_CONTROL")
+    doc["detector_contract_version"] = DETECTOR_CONTRACT_VERSION
+    doc["determinations"] = dict(sorted(current.items()))
+    doc.setdefault("authorised_regressions", {})
+    doc["what_this_is"] = (
+        "The determinations this repository commits to not losing. It is a RATCHET and not a "
+        "target: a number that may not fall is also a number nobody has to raise, and the "
+        "success line says how much legacy debt remains so that stagnation is visible rather "
+        "than merely permitted.")
+    BASELINE.parent.mkdir(parents=True, exist_ok=True)
+    BASELINE.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    covered = sum(1 for s in current.values() if s == "HAS_NEGATIVE_CONTROL")
+    print(f"  baseline holds {len(current)} determination(s), {covered} covered, under detector "
+          f"contract v{DETECTOR_CONTRACT_VERSION}"
+          + (f"; newly locked in: {', '.join(gained)}" if gained else ""))
+    return 0
+
+
 def rows() -> list[tuple[str, str, str]]:
     out = []
     for path in tool_files():
@@ -309,7 +409,9 @@ def rows() -> list[tuple[str, str, str]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
     parser.add_argument("--check", action="store_true",
-                        help="exit non-zero if any tool has no determination")
+                        help="NON-REGRESSION ONLY: refuse a lost negative control or new debt")
+    parser.add_argument("--stamp", action="store_true",
+                        help="commit the current determinations as the baseline")
     args = parser.parse_args()
 
     survey = survey_population()
@@ -326,6 +428,9 @@ def main() -> int:
         print(f"\n  NO COUNT AND NO RATE IS REPORTED: {refusal}", file=sys.stderr)
         return 1
 
+    if args.stamp:
+        return stamp()
+
     data = rows()
     has = [r for r in data if r[1] == "HAS_NEGATIVE_CONTROL"]
     none = [r for r in data if r[1] == "NONE"]
@@ -338,8 +443,21 @@ def main() -> int:
             for r in undetermined:
                 print(f"  no determination for {r[0]}", file=sys.stderr)
             return 1
-        print(f"  every tool has a determination ({len(data)}), over a population that was "
-              f"fully read.")
+        regressions = ratchet(data)
+        if regressions:
+            for line in regressions:
+                print(f"  REFUSED  {line}", file=sys.stderr)
+            return 1
+        covered = sum(1 for _n, s, _w in data if s == "HAS_NEGATIVE_CONTROL")
+        debt = sum(1 for _n, s, _w in data if s == "NONE")
+        #  THE SUCCESS LINE SAYS WHAT IT MEANS. Codex: do not describe this green as "control
+        #  coverage passed". It is non-regression, and the remaining debt is printed beside it so
+        #  a stagnant number is visible on every landing rather than merely permitted.
+        print(f"  NON-REGRESSION ONLY — {covered} tool(s) hold a declared negative control and "
+              f"{debt} legacy tool(s) still have none.")
+        print(f"  This does not say the coverage is adequate, that any case is demanding, or "
+              f"that the {debt} are unprotected — only that nothing was lost and no new debt "
+              f"entered. Detector contract v{DETECTOR_CONTRACT_VERSION}.")
         return 0
 
     print("  CONTROL 2 PER FILE — does each tool have a case it must fail?\n")
@@ -351,11 +469,12 @@ def main() -> int:
     pct = len(has) / (len(has) + len(none)) if (has or none) else 0
     print(f"\n    {pct:.0%} of tools with an assurance signal have a negative control.\n")
     print("  WITHOUT ONE:")
-    for name, _s, why in none[:20]:
+    #  EVERY ONE, not the first twenty. Truncating the debt list is how a stagnant number stops
+    #  looking stagnant; Codex named the 20-item cap while ruling on the ratchet.
+    for name, _s, why in none:
         print(f"    {name:34} {why}")
-    if len(none) > 20:
-        print(f"    … {len(none) - 20} more")
-    print("\n  A pass means SOME test asserts a refusal near a reference to the tool. It does not")
+    print("\n  A pass means a suite DECLARES the tool in COVERS and asserts a refusal, or the")
+    print("  tool ships its own must-fail fixtures. It does not")
     print("  mean the control is demanding, that it targets the capability rather than the")
     print("  transport, or that the tool is correct. Control 2 raises the floor from 'never")
     print("  observed to fail' to 'observed to fail at least once'. This measures that floor and")
