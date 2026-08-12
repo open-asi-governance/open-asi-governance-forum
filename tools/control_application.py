@@ -528,10 +528,12 @@ APPLICATION: dict[int, dict] = {
          gap="Several tools print what they do not establish. Nothing BINDS a published gain to a residual failure set, nothing rejects a residual stated as a bare percentage, and the ci"
              "ted test does not inspect the reporting tools for the property."),
  64: dict(scope=CODE,
-          files=("tools/record_spend.py", "tools/guards.py", "tools/executive_lease.py"),
+          files=("tools/record_spend.py", "tools/guards.py", "tools/executive_lease.py",
+                 "tools/effect_boundary.py", "tools/land.py"),
           tests=("tools/tests/test_gate_negative_controls.py",
-                 "tools/tests/test_lease_bounds.py"),
-          gap="TWO sites now, and the second is the better instance. record_spend.py refuses an "
+                 "tools/tests/test_lease_bounds.py",
+                 "tools/tests/test_effect_boundary.py"),
+          gap="THREE sites, and the third is a harness rather than a hand-written arm. record_spend.py refuses an "
               "unregistered cohort under RS-01, and that arm requires a non-zero exit AND asserts "
               "the spend ledger byte-identical afterwards; whole-artifact identity is the correct "
               "LOCAL assertion there because that tool has no permitted refusal-side effect. "
@@ -543,10 +545,26 @@ APPLICATION: dict[int, dict] = {
               "lease that refused everything would otherwise score ten out of ten. "
               "**Codex's correction, kept:** absence of that sentinel mostly proves ordinary Python sequencing — a raised exception prevents the next statement — and does "
               "NOT exercise a real caller's catches, its refusal logging, or its subprocess and filesystem effects. "
-              "*Remaining:* still nothing GENERALISES it — no harness makes a refusing tool "
-              "declare its effect set, and no check requires a refusal arm to assert over that "
-              "set rather than over stdout. Both instances were hand-written by the author of "
-              "the tool being tested.",
+              "**tools/effect_boundary.py now generalises it**, which this row said nothing "
+              "did. A case runs the tool as a real subprocess in a FRESH COPY of the repository "
+              "with a private HOME and TMPDIR, snapshots the whole namespace including `.git`, "
+              "and fails on any persistent change not named in `expected_effects` — so the "
+              "declaration is a permission rather than a search list, and an unlisted write is "
+              "caught BECAUSE it was unlisted. A named effect is a postcondition, not a licence: "
+              "truncating a file whose append was permitted fails. It also watches what a "
+              "snapshot cannot see, which is where D-67 lived: canary executables first on PATH, "
+              "and strace over `connect` for non-loopback attempts. Its own suite plants eight "
+              "offenders that refuse correctly and then misbehave once each, and all eight fail. "
+              "Three real conversions: record_spend (D-62), a lease-refused landing (D-67), and "
+              "codex_call at the money boundary. "
+              "*Remaining:* transient effects are invisible — a file created and deleted between "
+              "snapshots leaves no trace. `unshare -rn` is not permitted for this user, so there "
+              "is NO network namespace and the network claim rests entirely on the trace; "
+              "without strace a case reports UNAVAILABLE rather than passing. The host "
+              "filesystem outside the image is neither observed nor prevented. And the party "
+              "declaring what a tool may write is still the party whose tool writes it — the "
+              "discretion moved from what to observe to what to permit, which is narrower, not "
+              "gone.",
           residue="That a declared write set is a COMPLETE one. The party declaring what a tool "
                   "may write is the party whose tool writes it, and a harness proves nothing "
                   "about a file nobody listed. The control says so in its own false-negative "

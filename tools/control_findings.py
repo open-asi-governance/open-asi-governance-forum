@@ -18,7 +18,7 @@ detection this project did not achieve. The values:
     reading       a human read the code while implementing the control and saw it
     external      someone outside this workbench found it
 
-**A detector fired for 11 of 47.** Those are the defect shapes that are mechanically
+**A detector fired for 11 of 48.** Those are the defect shapes that are mechanically
 recognisable; the rest came from reading, from running the fault, or from an outsider. So the
 controls both caught defects directly AND directed attention to the right code, and the split
 matters more than either number alone.
@@ -75,6 +75,15 @@ FINDINGS: list[tuple[str, str, str, str]] = [
   "The 2026-08-11 sweep of 47 sites missed it because it looked for absence-as-zero in tools that "
   "COUNT, and this is a tool that REFUSES.",
   "reading", "D-64; tools/executive_lease.py; tools/tests/test_lease_bounds.py"),
+
+ ("C64 effect boundary",
+  "The harness this row said did not exist now does, and its first three conversions all pass at "
+  "the effect boundary: record_spend refuses an unregistered cohort and changes nothing anywhere "
+  "(D-62), a lease-refused landing changes nothing and contacts nobody (D-67), and a refused "
+  "Codex call writes exactly its one receipt and never reaches for the binary. Eight synthetic "
+  "offenders that refuse CORRECTLY and then misbehave once each are all caught, including the "
+  "two a filesystem comparison cannot see.",
+  "negative-control", "tools/effect_boundary.py; tools/tests/test_effect_boundary.py"),
 
  ("C64 effect boundary",
   "A landing the lease had ALREADY REFUSED still ran `git push --dry-run origin HEAD:main` — an "
